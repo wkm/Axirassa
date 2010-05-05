@@ -1,0 +1,8 @@
+
+development:
+   adapter: mysql
+   encoding: utf8
+   database: axir_devel
+   username: axir_devel
+   password: forsat92888
+   
