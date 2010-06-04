@@ -1,6 +1,6 @@
 
 development:
-   host: beastie.wri.wolfram.com
+   host: 127.0.0.1
    adapter: mysql
    encoding: utf8
    database: axir_devel
