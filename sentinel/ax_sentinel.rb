@@ -67,7 +67,7 @@ module AX
 			Ncurses.doupdate
 			
 			begin	
-				$wHeader.mvprintw(0, 15, Time.new.strftime('%Y-%b-%d %a %I:%M:%S%p'))
+				$wHeader.mvprintw(0, 15, Time.new.strftime('(%Y-%b-%d %a %I:%M:%S%p)'))
 				
 				
 				
