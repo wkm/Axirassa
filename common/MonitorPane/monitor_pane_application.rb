@@ -40,13 +40,6 @@ class MonitorPaneApplication
 
     begin
       container.render
-      
-
-#      Ncurses.stdscr.attron(Ncurses::A_BOLD)
-#      Ncurses.stdscr.mvprintw(0, 1, 'ax_sentinel')
-#
-#      Ncurses.stdscr.attroff(Ncurses::A_BOLD)
-#      Ncurses.stdscr.mvprintw(0, 13, Time.new.strftime('(%Y-%b-%d %a %I:%M:%S%p)'))
     end while((@key = Ncurses.stdscr.getch) != ?q)
 
   ensure
