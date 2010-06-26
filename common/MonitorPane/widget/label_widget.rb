@@ -5,13 +5,14 @@
 # Copyright Zanoccio LLC.  All rights reserved.
 #
 
-class LabelWidget < AbstractWidget
+require 'widget/text_widget'
+
+class LabelWidget < TextWidget
   attr_accessor :style
-  attr_accessor :text
   attr_accessor :padding
 
   def initialize(text, style=nil)
-    @text = text
+    @originaltext = text
     @style = style
 
     self.padding = 1
@@ -20,15 +21,12 @@ class LabelWidget < AbstractWidget
   def padding=(sz)
     @padding = sz
     @paddingtxt = ' '*sz
-  end
-
-  def width
-    @text.length + (2 * @padding)
+    self.text = @paddingtxt + @originaltext + @paddingtxt
   end
 
   def render(y,x)
     Ncurses.stdscr.attron(Ncurses::A_BOLD | Ncurses::COLOR_PAIR(1))
-    Ncurses.stdscr.mvprintw(y, x, @paddingtxt + @text + @paddingtxt)
+    super(y, x)
     Ncurses.stdscr.attroff(Ncurses::A_BOLD | Ncurses::COLOR_PAIR(1))
   end
 end

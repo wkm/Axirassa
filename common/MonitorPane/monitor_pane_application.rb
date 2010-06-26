@@ -32,6 +32,8 @@ class MonitorPaneApplication
     container = WidgetContainer.new(
       0, 0,
       ColumnWidget.new(
+        TextWidget.new('hi'),
+        TextWidget.new('helloooooo'),
         DynamicLabelWidget.new do
           'ax_sentinel ' + Time.new.strftime('(%Y-%b-%d %a %I:%M:%S%p)')
         end
