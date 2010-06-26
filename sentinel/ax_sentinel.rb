@@ -29,7 +29,7 @@ module AX
 	  $messages = [
 	  	Pinger::Message.new(1230, LA_1, HTTP, STORE, 'zanoccio.com'),
 	  	Pinger::Message.new(1231, LA_1, HTTP, STORE, 'google.com'),
-	  	Pinger::Message.new(1232, LA_1, HTTP, STORE, 'wolfram.com')
+	  	Pinger::Message.new(1232, LA_1, HTTP, STORE, 'axirassa.com')
 	  ]
 	  
 	  begin
