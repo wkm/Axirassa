@@ -9,6 +9,7 @@ require 'widget/row_widget'
 require 'widget/column_widget'
 require 'widget/label_widget'
 require 'widget/dynamic_label_widget'
+require 'widget/grid_widget'
 
 class MonitorPaneApplication
   include Singleton
@@ -31,12 +32,11 @@ class MonitorPaneApplication
 
     container = WidgetContainer.new(
       0, 0,
-      ColumnWidget.new(
-        TextWidget.new('hi'),
-        TextWidget.new('helloooooo'),
-        DynamicLabelWidget.new do
-          'ax_sentinel ' + Time.new.strftime('(%Y-%b-%d %a %I:%M:%S%p)')
-        end
+      GridWidget.new(
+        [
+          [LabelWidget.new('value'), TextWidget.new('12')],
+          [LabelWidget.new('summation'), TextWidget.new('13123123')]
+        ]
       )
     )
 
