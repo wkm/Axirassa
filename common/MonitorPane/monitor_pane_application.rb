@@ -6,6 +6,7 @@ require 'singleton'
 
 require 'widget/widget_container'
 require 'widget/row_widget'
+require 'widget/column_widget'
 require 'widget/label_widget'
 require 'widget/dynamic_label_widget'
 
@@ -30,7 +31,7 @@ class MonitorPaneApplication
 
     container = WidgetContainer.new(
       0, 1,
-      RowWidget.new(
+      ColumnWidget.new(
         LabelWidget.new('ax_sentinel'),
         DynamicLabelWidget.new do
           Time.new.strftime('(%Y-%b-%d %a %I:%M:%S%p)')
