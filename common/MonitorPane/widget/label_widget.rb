@@ -14,10 +14,21 @@ class LabelWidget < AbstractWidget
     @text = text
     @style = style
 
-    @padding = 1
+    self.padding = 1
   end
 
-  def get_width
+  def padding=(sz)
+    @padding = sz
+    @paddingtxt = ' '*sz
+  end
+
+  def width
     @text.length + (2 * @padding)
+  end
+
+  def render(y,x)
+    Ncurses.stdscr.attron(Ncurses::A_BOLD | Ncurses::COLOR_PAIR(1))
+    Ncurses.stdscr.mvprintw(y, x, @paddingtxt + @text + @paddingtxt)
+    Ncurses.stdscr.attroff(Ncurses::A_BOLD | Ncurses::COLOR_PAIR(1))
   end
 end

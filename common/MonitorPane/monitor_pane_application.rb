@@ -1,8 +1,15 @@
+#!/usr/bin/env ruby
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 
+require 'rubygems'
 require 'ncurses'
 require 'singleton'
+
+require 'widget/widget_container'
+require 'widget/row_widget'
+require 'widget/label_widget'
+require 'widget/dynamic_label_widget'
 
 class MonitorPaneApplication
   include Singleton
@@ -23,12 +30,25 @@ class MonitorPaneApplication
     set_colors
 
 
-    begin
-      Ncurses.stdscr.attron(Ncurses::A_BOLD)
-      Ncurses.stdscr.mvprintw(0, 1, 'ax_god')
+    container = WidgetContainer.new(
+      0, 1,
+      RowWidget.new(
+        LabelWidget.new('ax_sentinel'),
+        DynamicLabelWidget.new do
+          Time.new.strftime('(%Y-%b-%d %a %I:%M:%S%p)')
+        end
+      )
+    )
 
-      Ncurses.stdscr.attroff(Ncurses::A_BOLD)
-      Ncurses.stdscr.mvprintw(0, 9, Time.new.strftime('(%Y-%b-%d %a %I:%M:%S%p)'))
+    begin
+      container.render
+      
+
+#      Ncurses.stdscr.attron(Ncurses::A_BOLD)
+#      Ncurses.stdscr.mvprintw(0, 1, 'ax_sentinel')
+#
+#      Ncurses.stdscr.attroff(Ncurses::A_BOLD)
+#      Ncurses.stdscr.mvprintw(0, 13, Time.new.strftime('(%Y-%b-%d %a %I:%M:%S%p)'))
     end while((@key = Ncurses.stdscr.getch) != ?q)
 
   ensure

@@ -6,4 +6,7 @@ class AbstractWidget
   def width
     return 0
   end
+
+  def render(y,x)
+  end
 end
