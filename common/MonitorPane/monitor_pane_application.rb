@@ -29,15 +29,17 @@ class MonitorPaneApplication
 
     set_colors
 
+    grid = GridWidget.new(
+      [
+        [LabelWidget.new('value'), TextWidget.new('12')],
+        [LabelWidget.new('summation'), TextWidget.new('13123123')]
+      ]
+    )
+    grid.alignment = [:left, :right]
 
     container = WidgetContainer.new(
       0, 0,
-      GridWidget.new(
-        [
-          [LabelWidget.new('value'), TextWidget.new('12')],
-          [LabelWidget.new('summation'), TextWidget.new('13123123')]
-        ]
-      )
+      grid
     )
 
     begin
