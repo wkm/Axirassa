@@ -3,24 +3,30 @@
 
 require 'MonitorPane/widget/abstract_widget'
 
-# displays widgets in a column
-class ColumnWidget < AbstractWidget
-  attr_reader :widgets
+module MonitorPane
+  module Widget
 
-  def initialize(*widgets)
-    @widgets = []
-    add_widgets(*widgets)
-  end
+    # displays widgets in a column
+    class ColumnWidget < AbstractWidget
+      attr_reader :widgets
 
-  def add_widgets(*widgets)
-    @widgets = @widgets + widgets
-  end
+      def initialize(*widgets)
+        @widgets = []
+        add_widgets(*widgets)
+      end
 
-  def render(y,x)
-    currenty = y
-    @widgets.each do |widget|
-      widget.render(currenty,x)
-      currenty += widget.height
+      def add_widgets(*widgets)
+        @widgets = @widgets + widgets
+      end
+
+      def render(y,x)
+        currenty = y
+        @widgets.each do |widget|
+          widget.render(currenty,x)
+          currenty += widget.height
+        end
+      end
     end
+
   end
 end

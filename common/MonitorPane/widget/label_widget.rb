@@ -7,26 +7,32 @@
 
 require 'MonitorPane/widget/text_widget'
 
-class LabelWidget < TextWidget
-  attr_accessor :style
-  attr_accessor :padding
+module MonitorPane
+  module Widget
 
-  def initialize(text, style=nil)
-    @originaltext = text
-    @style = style
+    class LabelWidget < TextWidget
+      attr_accessor :style
+      attr_accessor :padding
 
-    self.padding = 1
-  end
+      def initialize(text, style=nil)
+        @originaltext = text
+        @style = style
 
-  def padding=(sz)
-    @padding = sz
-    @paddingtxt = ' '*sz
-    self.text = @paddingtxt + @originaltext + @paddingtxt
-  end
+        self.padding = 1
+      end
 
-  def render(y,x)
-    Ncurses.stdscr.attron(Ncurses::A_BOLD | Ncurses::COLOR_PAIR(1))
-    super(y, x)
-    Ncurses.stdscr.attroff(Ncurses::A_BOLD | Ncurses::COLOR_PAIR(1))
+      def padding=(sz)
+        @padding = sz
+        @paddingtxt = ' '*sz
+        self.text = @paddingtxt + @originaltext + @paddingtxt
+      end
+
+      def render(y,x)
+        Ncurses.stdscr.attron(Ncurses::A_BOLD | Ncurses::COLOR_PAIR(1))
+        super(y, x)
+        Ncurses.stdscr.attroff(Ncurses::A_BOLD | Ncurses::COLOR_PAIR(1))
+      end
+    end
+
   end
 end

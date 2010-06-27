@@ -3,14 +3,20 @@
 
 require 'MonitorPane/widget/label_widget'
 
-class DynamicLabelWidget < LabelWidget
-  def initialize(&textfn)
-    super('');
-    @textfn = textfn
-  end
+module MonitorPane
+  module Widget
 
-  def render(y,x)
-    @text = @textfn.call
-    super(y,x)
+    class DynamicLabelWidget < LabelWidget
+      def initialize(&textfn)
+        super('');
+        @textfn = textfn
+      end
+
+      def render(y,x)
+        @text = @textfn.call
+        super(y,x)
+      end
+    end
+
   end
 end
