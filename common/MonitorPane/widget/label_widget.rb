@@ -5,7 +5,7 @@
 # Copyright Zanoccio LLC.  All rights reserved.
 #
 
-require 'widget/text_widget'
+require 'MonitorPane/widget/text_widget'
 
 class LabelWidget < TextWidget
   attr_accessor :style

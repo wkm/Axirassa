@@ -1,8 +1,7 @@
 # Copyright 2010 - Zanoccio LLC. Axirassa Project.
 # All Rights Reserved.
 
-require 'widget/abstract_widget'
-require 'pp'
+require 'MonitorPane/widget/abstract_widget'
 
 # draws a group of widgets in a grid
 class GridWidget < AbstractWidget

@@ -1,6 +1,8 @@
 # Copyright 2010 - Zanoccio LLC. Axirassa Project.
 # All Rights Reserved.
 
+require 'MonitorPane/widget/abstract_widget'
+
 class TextWidget < AbstractWidget
   attr_accessor :text
 

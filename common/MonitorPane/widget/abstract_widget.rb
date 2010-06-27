@@ -1,3 +1,6 @@
+# Copyright 2010 - Zanoccio LLC. Axirassa Project.
+# All Rights Reserved.
+
 class AbstractWidget
   def height
     return 1

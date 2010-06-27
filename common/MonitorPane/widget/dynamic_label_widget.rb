@@ -1,4 +1,7 @@
-require 'widget/label_widget'
+# Copyright 2010 - Zanoccio LLC. Axirassa Project.
+# All Rights Reserved.
+
+require 'MonitorPane/widget/label_widget'
 
 class DynamicLabelWidget < LabelWidget
   def initialize(&textfn)

@@ -1,7 +1,7 @@
 # Copyright 2010 - Zanoccio LLC. Axirassa Project.
 # All Rights Reserved.
 
-require 'widget/abstract_widget'
+require 'MonitorPane/widget/abstract_widget'
 
 # displays widgets in a column
 class ColumnWidget < AbstractWidget

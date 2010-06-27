@@ -4,15 +4,34 @@ require 'rubygems'
 require 'ncurses'
 require 'singleton'
 
-require 'widget/widget_container'
-require 'widget/row_widget'
-require 'widget/column_widget'
-require 'widget/label_widget'
-require 'widget/dynamic_label_widget'
-require 'widget/grid_widget'
+require 'MonitorPane/widget/widget_container'
+require 'MonitorPane/widget/row_widget'
+require 'MonitorPane/widget/column_widget'
+require 'MonitorPane/widget/label_widget'
+require 'MonitorPane/widget/dynamic_label_widget'
+require 'MonitorPane/widget/grid_widget'
 
 class MonitorPaneApplication
   include Singleton
+
+  def initialization
+    grid = GridWidget.new(
+      [
+        [LabelWidget.new('value'), TextWidget.new('12')],
+        [LabelWidget.new('summation'), TextWidget.new('13123123')]
+      ]
+    )
+    grid.alignment = [:left, :right]
+
+    @container = WidgetContainer.new(
+      0, 0,
+      grid
+    )
+  end
+
+  def live_loop
+    @container.render
+  end
 
   def run
     Ncurses.initscr
@@ -29,21 +48,10 @@ class MonitorPaneApplication
 
     set_colors
 
-    grid = GridWidget.new(
-      [
-        [LabelWidget.new('value'), TextWidget.new('12')],
-        [LabelWidget.new('summation'), TextWidget.new('13123123')]
-      ]
-    )
-    grid.alignment = [:left, :right]
-
-    container = WidgetContainer.new(
-      0, 0,
-      grid
-    )
+    initialization
 
     begin
-      container.render
+      live_loop
     end while((@key = Ncurses.stdscr.getch) != ?q)
 
   ensure
@@ -61,7 +69,5 @@ class MonitorPaneApplication
   end
 end
 
-if $0 == __FILE__
-  $app = MonitorPaneApplication.instance
-  $app.run
-end
+$app = MonitorPaneApplication.instance
+$app.run

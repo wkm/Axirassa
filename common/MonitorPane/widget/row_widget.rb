@@ -1,4 +1,7 @@
-require 'widget/abstract_widget'
+# Copyright 2010 - Zanoccio LLC. Axirassa Project.
+# All Rights Reserved.
+
+require 'MonitorPane/widget/abstract_widget'
 
 class RowWidget < AbstractWidget
   attr_reader :widgets
