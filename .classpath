@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="lib/mina-core-1.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/mina-filter-ssl-1.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-3.2.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-4.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
