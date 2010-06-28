@@ -28,7 +28,6 @@ import org.apache.http.protocol.RequestContent;
 import org.apache.http.protocol.RequestExpectContinue;
 import org.apache.http.protocol.RequestTargetHost;
 import org.apache.http.protocol.RequestUserAgent;
-import org.apache.http.util.EntityUtils;
 import org.apache.qpid.AMQException;
 import org.apache.qpid.url.URLSyntaxException;
 
@@ -41,6 +40,9 @@ public class HTTPPinger extends AbstractPinger {
 
 	public void run() throws URLSyntaxException, AMQException, JMSException, NamingException, IOException,
 	        HttpException {
+
+		System.out.println("Starting");
+
 		HttpParams params = new BasicHttpParams();
 		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
 		HttpProtocolParams.setContentCharset(params, "UTF-8");
@@ -54,6 +56,7 @@ public class HTTPPinger extends AbstractPinger {
 		httpproc.addInterceptor(new RequestUserAgent());
 		httpproc.addInterceptor(new RequestExpectContinue());
 
+		System.out.println("Executing");
 		HttpRequestExecutor httpexecutor = new HttpRequestExecutor();
 
 		HttpContext context = new BasicHttpContext();
@@ -62,31 +65,35 @@ public class HTTPPinger extends AbstractPinger {
 		DefaultHttpClientConnection conn = new DefaultHttpClientConnection();
 		ConnectionReuseStrategy connStrategy = new DefaultConnectionReuseStrategy();
 
+		System.out.println("Continuing");
+
 		context.setAttribute(ExecutionContext.HTTP_CONNECTION, conn);
 		context.setAttribute(ExecutionContext.HTTP_TARGET_HOST, host);
 
 		try {
 
-			String[] targets = { "/" };
+			String[] targets = { "/", "/CSS/main.css" };
 			for (String target : targets) {
 				if (!conn.isOpen()) {
+					System.out.println("Opening a socket");
 					Socket socket = new Socket(host.getHostName(), host.getPort());
 					conn.bind(socket, params);
+					System.out.println("\t... done.");
 				}
 
 				BasicHttpRequest request = new BasicHttpRequest("GET", target);
+				System.out.println("++++++++++++");
 				System.out.println("Request URI: " + request.getRequestLine().getUri());
 
 				request.setParams(params);
 				httpexecutor.preProcess(request, httpproc, context);
 
+				System.out.println("Executing...");
 				HttpResponse response = httpexecutor.execute(request, conn, context);
 				response.setParams(params);
 				httpexecutor.postProcess(response, httpproc, context);
 
-				System.out.println("<< Response: " + response.getStatusLine());
-				System.out.println(EntityUtils.toString(response.getEntity()));
-				System.out.println("================");
+				System.out.println("Response: " + response.getStatusLine());
 
 				if (!connStrategy.keepAlive(response, context)) {
 					conn.close();
