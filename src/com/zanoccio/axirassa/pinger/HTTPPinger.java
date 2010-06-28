@@ -1,27 +1,35 @@
+
 package com.zanoccio.axirassa.pinger;
 
 import java.io.IOException;
-import java.util.Properties;
+import java.net.Socket;
 
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
-import javax.jms.Destination;
 import javax.jms.JMSException;
-import javax.jms.MapMessage;
-import javax.jms.MessageConsumer;
-import javax.jms.MessageProducer;
-import javax.jms.Session;
-import javax.jms.TextMessage;
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.apache.http.ConnectionReuseStrategy;
+import org.apache.http.HttpException;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
+import org.apache.http.impl.DefaultConnectionReuseStrategy;
+import org.apache.http.impl.DefaultHttpClientConnection;
+import org.apache.http.message.BasicHttpRequest;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.BasicHttpProcessor;
+import org.apache.http.protocol.ExecutionContext;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.protocol.HttpRequestExecutor;
+import org.apache.http.protocol.RequestConnControl;
+import org.apache.http.protocol.RequestContent;
+import org.apache.http.protocol.RequestExpectContinue;
+import org.apache.http.protocol.RequestTargetHost;
+import org.apache.http.protocol.RequestUserAgent;
+import org.apache.http.util.EntityUtils;
 import org.apache.qpid.AMQException;
-import org.apache.qpid.client.AMQAnyDestination;
-import org.apache.qpid.client.AMQConnection;
-import org.apache.qpid.jms.ConnectionListener;
-import org.apache.qpid.url.BindingURL;
-import org.apache.qpid.url.BindingURLParser;
 import org.apache.qpid.url.URLSyntaxException;
 
 /**
@@ -31,34 +39,70 @@ import org.apache.qpid.url.URLSyntaxException;
  */
 public class HTTPPinger extends AbstractPinger {
 
-	public void run() throws URLSyntaxException, AMQException, JMSException, NamingException, IOException {
-		Properties properties = new Properties();
-		properties.load(this.getClass().getResourceAsStream("HTTPPinger.properties"));
-		Context context = new InitialContext(properties);
-		
-		ConnectionFactory connectionFactory = (ConnectionFactory) context.lookup("qpidConnectionfactory");
-		Connection connection = connectionFactory.createConnection();
-		connection.start();
-		
-		Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-		Destination queue = (Destination) context.lookup("topicExchange");
-		
-		MessageProducer producer = session.createProducer(queue);
-		MessageConsumer consumer = session.createConsumer(queue);
-		
-		TextMessage msg = session.createTextMessage("Hi There");
-		producer.send(msg);
-		
-		msg = (TextMessage) consumer.receive();
-		System.out.println("Received: "+msg.getText());
-		
-		connection.close();
-		context.close();
+	public void run() throws URLSyntaxException, AMQException, JMSException, NamingException, IOException,
+	        HttpException {
+		HttpParams params = new BasicHttpParams();
+		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
+		HttpProtocolParams.setContentCharset(params, "UTF-8");
+		HttpProtocolParams.setUserAgent(params, "ax_pinger/0.2");
+		HttpProtocolParams.setUseExpectContinue(params, true);
+
+		BasicHttpProcessor httpproc = new BasicHttpProcessor();
+		httpproc.addInterceptor(new RequestContent());
+		httpproc.addInterceptor(new RequestTargetHost());
+		httpproc.addInterceptor(new RequestConnControl());
+		httpproc.addInterceptor(new RequestUserAgent());
+		httpproc.addInterceptor(new RequestExpectContinue());
+
+		HttpRequestExecutor httpexecutor = new HttpRequestExecutor();
+
+		HttpContext context = new BasicHttpContext();
+		HttpHost host = new HttpHost("zanoccio.com", 80);
+
+		DefaultHttpClientConnection conn = new DefaultHttpClientConnection();
+		ConnectionReuseStrategy connStrategy = new DefaultConnectionReuseStrategy();
+
+		context.setAttribute(ExecutionContext.HTTP_CONNECTION, conn);
+		context.setAttribute(ExecutionContext.HTTP_TARGET_HOST, host);
+
+		try {
+
+			String[] targets = { "/" };
+			for (String target : targets) {
+				if (!conn.isOpen()) {
+					Socket socket = new Socket(host.getHostName(), host.getPort());
+					conn.bind(socket, params);
+				}
+
+				BasicHttpRequest request = new BasicHttpRequest("GET", target);
+				System.out.println("Request URI: " + request.getRequestLine().getUri());
+
+				request.setParams(params);
+				httpexecutor.preProcess(request, httpproc, context);
+
+				HttpResponse response = httpexecutor.execute(request, conn, context);
+				response.setParams(params);
+				httpexecutor.postProcess(response, httpproc, context);
+
+				System.out.println("<< Response: " + response.getStatusLine());
+				System.out.println(EntityUtils.toString(response.getEntity()));
+				System.out.println("================");
+
+				if (!connStrategy.keepAlive(response, context)) {
+					conn.close();
+				} else {
+					System.out.println("Connection kept alive...");
+				}
+			}
+
+		} finally {
+			conn.close();
+		}
 	}
-	
-	
-	
-	public static void main(String[] args) throws URLSyntaxException, AMQException, JMSException, NamingException, IOException {
+
+
+	public static void main(String[] args) throws URLSyntaxException, AMQException, JMSException, NamingException,
+	        IOException, HttpException {
 		HTTPPinger pinger = new HTTPPinger();
 		pinger.run();
 	}
