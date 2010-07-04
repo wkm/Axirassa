@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-6-sun-1.6.0.20"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="lib/qpid-client-0.6.jar"/>
 	<classpathentry kind="lib" path="lib/qpid-common-0.6.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.4.0.jar"/>
@@ -11,5 +17,5 @@
 	<classpathentry kind="lib" path="lib/mina-filter-ssl-1.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-3.2.jar"/>
 	<classpathentry kind="lib" path="lib/httpcore-4.0.1.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="build/classes"/>
 </classpath>
