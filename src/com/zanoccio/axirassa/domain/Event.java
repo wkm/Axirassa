@@ -1,3 +1,4 @@
+
 package com.zanoccio.axirassa.domain;
 
 import java.util.Date;
@@ -8,28 +9,35 @@ public class Event {
 	private String title;
 	private Date date;
 
+
 	public Event() {
 	}
+
 
 	public Long getID() {
 		return this.id;
 	}
 
-	public void setId(Long id) {
+
+	public void setID(Long id) {
 		this.id = id;
 	}
+
 
 	public Date getDate() {
 		return date;
 	}
 
+
 	public void setDate(Date date) {
 		this.date = date;
 	}
 
+
 	public String getTitle() {
 		return title;
 	}
+
 
 	public void setTitle(String title) {
 		this.title = title;

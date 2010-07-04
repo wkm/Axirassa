@@ -5,7 +5,7 @@
 
 <hibernate-mapping package="com.zanoccio.axirassa.domain">
 	<class name="Event" table="EVENTS">
-		<id name="id" column="EVENT_ID">
+		<id name="ID" column="EVENT_ID">
 			<generator class="native"/>
 		</id>
 		<property name="date" type="timestamp" column="EVENT_DATE"/>
