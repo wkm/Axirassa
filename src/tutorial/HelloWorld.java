@@ -3,11 +3,12 @@ package tutorial;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class HelloWorld extends ActionSupport {
-	public static final String MESSAGE = "Struts is up and running ...";
+	private static final long serialVersionUID = -1622339482769630569L;
+	public static final String MESSAGE = "HelloWorld.message";
 
 	@Override
 	public String execute() throws Exception {
-		setMessage(MESSAGE);
+		setMessage(getText(MESSAGE));
 		return SUCCESS;
 	}
 

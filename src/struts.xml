@@ -7,5 +7,12 @@
 		<action name="HelloWorld" class="tutorial.HelloWorld">
 			<result>/HelloWorld.jsp</result>
 		</action>
+		<action name="Logon_*" method="{1}" class="tutorial.Logon">
+			<result type="redirectAction">Menu</result>
+			<result name="input">/Logon.jsp</result>
+		</action>
+		<action name="*" class="tutorial.TutorialSupport">
+			<result>/{1}.jsp</result>
+		</action>
 	</package>
 </struts>
