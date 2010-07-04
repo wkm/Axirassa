@@ -8,22 +8,21 @@ import javax.jms.Message;
 
 public class PingerMessage implements Message {
 
-	@Override
 	public void acknowledge() throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void clearBody() throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void clearProperties() throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -162,121 +161,121 @@ public class PingerMessage implements Message {
 	public void setBooleanProperty(String arg0, boolean arg1)
 			throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setByteProperty(String arg0, byte arg1) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setDoubleProperty(String arg0, double arg1) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setFloatProperty(String arg0, float arg1) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setIntProperty(String arg0, int arg1) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setJMSCorrelationID(String arg0) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setJMSCorrelationIDAsBytes(byte[] arg0) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setJMSDeliveryMode(int arg0) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setJMSDestination(Destination arg0) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setJMSExpiration(long arg0) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setJMSMessageID(String arg0) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setJMSPriority(int arg0) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setJMSRedelivered(boolean arg0) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setJMSReplyTo(Destination arg0) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setJMSTimestamp(long arg0) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setJMSType(String arg0) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setLongProperty(String arg0, long arg1) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setObjectProperty(String arg0, Object arg1) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setShortProperty(String arg0, short arg1) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setStringProperty(String arg0, String arg1) throws JMSException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
