@@ -1,2 +1,2 @@
-<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ include file="taglibs.jsp" %>
 <s:include value="Missing.jsp" />
