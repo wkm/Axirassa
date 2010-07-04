@@ -1,4 +1,4 @@
-package tutorial;
+package com.zanoccio.axirassa.webapp;
 
 import com.opensymphony.xwork2.ActionSupport;
 
