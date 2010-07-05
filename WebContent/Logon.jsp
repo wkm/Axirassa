@@ -4,6 +4,8 @@
 	<s:form action="Logon">
 		<s:textfield label="%{getText('username')}" name="username"/>
 		<s:textfield label="%{getText('password')}" name="password"/>
+		
+		<s:submit label="Login" />
 	</s:form>
 
 <%@ include file="inc/footer.jsp" %>

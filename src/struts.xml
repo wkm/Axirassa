@@ -4,10 +4,16 @@
 
 <struts>
 	<package name="com.zanoccio.axirassa.webapp" extends="struts-default">
-		<action name="Logon_*" method="{1}" class="com.zanoccio.axirassa.webapp.Logon">
+		<action name="Logon_*" method="{1}" class="com.zanoccio.axirassa.webapp.LogonAction">
 			<result type="redirectAction">Menu</result>
 			<result name="input">/Logon.jsp</result>
 		</action>
+		
+		<action name="Register_*" method="{1}" class="com.zanoccio.axirassa.webapp.RegisterAction">
+			<result type="redirectAction">Menu</result>
+			<result name="input">/Register.jsp</result>
+		</action>
+		
 		<action name="*" class="com.zanoccio.axirassa.webapp.WebappSupport">
 			<result>/{1}.jsp</result>
 		</action>

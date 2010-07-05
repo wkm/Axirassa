@@ -1,0 +1,34 @@
+1278262440022	Delete element
+1278262443690	Move files
+1278262459528	Move file
+1278262464042	Move 1 resources to 'axir'
+1278262990992	Delete element
+1278263070348	Delete element
+1278263092139	Delete element
+1278263094633	Delete element
+1278263096215	Delete element
+1278263100052	Delete element
+1278263141886	Delete element
+1278268478402	Move 'commons-collections-3.2.jar' to 'lib'
+1278268580315	Delete element
+1278277120664	Rename package 'com.zanoccio.axirassa.domain'
+1278280628135	Move 1 resources to 'domain'
+1278280640025	Move compilation unit
+1278287283714	Rename method 'getSignupdate'
+1278287293267	Rename method 'setSignupdate'
+1278287363401	Rename method 'getEvents'
+1278287374221	Rename method 'setEvents'
+1278287384869	Rename local variable 'events'
+1278287401370	Rename type 'UserLogon'
+1278287941912	Rename field 'logons'
+1278302567175	Rename type 'Logon'
+1278302648908	Encapsulate field 'username'
+1278302651643	Encapsulate field 'password'
+1278302653441	Encapsulate field 'confirmpassword'
+1278302655805	Encapsulate field 'email'
+1278302657717	Encapsulate field 'confirmemail'
+1278302918880	Delete element
+1278302935102	Encapsulate field 'id'
+1278303614124	Encapsulate field 'id'
+1278303688455	Encapsulate field 'ipaddress'
+1278303703765	Encapsulate field 'date'

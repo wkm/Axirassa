@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> 
 
 <hibernate-mapping package="com.zanoccio.axirassa.domain">
 	<class name="UserAccessEvent" table="UserAccessEvents">
@@ -9,8 +9,8 @@
 			<generator class="native"/>
 		</id>
 		
-		<property name="ipaddress"/>
-		<property name="date" type="timestamp" column="event_timestamp"/>
+		<property name="IPAddress"/>
+		<property name="Date" type="timestamp" column="event_timestamp"/>
 		
 	</class>
 </hibernate-mapping>

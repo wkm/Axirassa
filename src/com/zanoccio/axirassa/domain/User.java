@@ -7,19 +7,22 @@ import java.util.Set;
 
 public class User {
 
+	private Long id;
 	private String name;
 	private String username;
 	private String password;
 
 	private Date signupdate;
 	private String email;
-	private boolean confirmed;
-	private boolean active;
+	private Boolean confirmed;
+	private Boolean active;
 
 	private Set accessEvents = new HashSet();
 
 
 	public User() {
+		confirmed = false;
+		active = true;
 	}
 
 
@@ -71,6 +74,9 @@ public class User {
 
 
 	public void setUsername(String username) {
+		if (this.name == null)
+			this.name = username;
+
 		this.username = username;
 	}
 
@@ -104,12 +110,12 @@ public class User {
 	//
 	// Confirmed
 	//
-	public boolean isConfirmed() {
+	public Boolean isConfirmed() {
 		return confirmed;
 	}
 
 
-	public void setConfirmed(boolean confirmed) {
+	public void setConfirmed(Boolean confirmed) {
 		this.confirmed = confirmed;
 	}
 
@@ -117,13 +123,26 @@ public class User {
 	//
 	// Active
 	//
-	public boolean isActive() {
+	public Boolean isActive() {
 		return active;
 	}
 
 
-	public void setActive(boolean active) {
+	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+
+	//
+	// ID
+	//
+	public void setID(Long id) {
+		this.id = id;
+	}
+
+
+	public Long getID() {
+		return id;
 	}
 
 }

@@ -33,6 +33,7 @@
 
 		<!--  Mappings -->
         <mapping resource="com/zanoccio/axirassa/domain/User.hbm.xml"/>
+        <mapping resource="com/zanoccio/axirassa/domain/UserAccessEvent.hbm.xml"/>
     </session-factory>
 
 </hibernate-configuration> 

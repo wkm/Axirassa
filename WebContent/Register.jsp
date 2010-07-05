@@ -7,8 +7,10 @@
 	<s:textfield label="%{getText('password')}" name="password"/>
 	<s:textfield label="%{getText('confirmpassword')}" name="confirmpassword"/>
 	
-	<s:textfield label="%{getText('email')" name="email"/>
-	<s:textfield label="%{getText('confirmemail')" name="confirmemail"/>
+	<s:textfield label="%{getText('email')}" name="email"/>
+	<s:textfield label="%{getText('confirmemail')}" name="confirmemail"/>
+	
+	<s:submit label="Register"/>
 </s:form>
 
 <%@ include file="inc/footer.jsp" %>
