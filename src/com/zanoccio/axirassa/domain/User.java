@@ -34,6 +34,15 @@ public class User {
 	}
 
 
+	public static void main(String[] args) {
+		User u = new User();
+
+		u.setPassword("password123");
+
+		System.out.println("Password: " + u.getPassword());
+	}
+
+
 	//
 	// Logons
 	//
