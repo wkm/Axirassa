@@ -10,13 +10,15 @@
 		</id>
 		<property name="Name" not-null="true"/>
 		<property name="Username" not-null="true"/>
-		<property name="Password" not-null="true"/>
+		
+		<property name="Salt" not-null="true" length="16"/>
+		<property name="Password" not-null="true" length="64"/>
 		
 		<property name="Email" not-null="true"/>
 		<property name="Confirmed" not-null="true"/>
 		<property name="Active" not-null="true"/>
 		
-		<property name="SignUpDate" type="timestamp"/>
+		<property name="SignUpDate" type="timestamp" not-null="true"/>
 		
 		<set name="AccessEvents" cascade="all">
 			<key column="UserID" not-null="true" />

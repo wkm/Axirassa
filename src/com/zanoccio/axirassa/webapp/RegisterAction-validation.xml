@@ -19,4 +19,14 @@
 			<message key="emailmisformatted"/>
 		</field-validator>
 	</field>
+	
+	<!--  equality checks -->
+	<validator type="expression">
+		<param name="expression">email.equals(confirmemail)</param>
+		<message key="emailsnotsame"/>
+	</validator>
+	<validator type="expression">
+		<param name="expression">password.equals(confirmpassword)</param>
+		<message key="passwordnotsame"/>
+	</validator>
 </validators>

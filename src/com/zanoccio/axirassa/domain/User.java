@@ -1,9 +1,16 @@
 
 package com.zanoccio.axirassa.domain;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.xml.crypto.dsig.DigestMethod;
+
+import com.zanoccio.axirassa.util.RandomStringGenerator;
+import com.zanoccio.axirassa.webapp.exceptions.ExceptionInActionError;
 
 public class User {
 
@@ -11,6 +18,7 @@ public class User {
 	private String name;
 	private String username;
 	private String password;
+	private String salt;
 
 	private Date signupdate;
 	private String email;
@@ -53,6 +61,27 @@ public class User {
 
 
 	//
+	// Salt
+	//
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+
+	public String getSalt() {
+		return salt;
+	}
+
+
+	/**
+	 * @return a 16-byte random string
+	 */
+	private String createSalt() {
+		return RandomStringGenerator.getInstance().randomString(16);
+	}
+
+
+	//
 	// Password
 	//
 	public String getPassword() {
@@ -61,7 +90,16 @@ public class User {
 
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.salt = createSalt();
+		try {
+			MessageDigest msgdigest = MessageDigest.getInstance(DigestMethod.SHA256);
+			msgdigest.update(salt.getBytes());
+			msgdigest.update(password.getBytes());
+
+			this.password = new String(msgdigest.digest());
+		} catch (NoSuchAlgorithmException e) {
+			throw new ExceptionInActionError("When attempting to register user.", e);
+		}
 	}
 
 

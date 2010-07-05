@@ -9,8 +9,8 @@
 			<generator class="native"/>
 		</id>
 		
-		<property name="IPAddress"/>
-		<property name="Date" type="timestamp" column="event_timestamp"/>
+		<property name="IPAddress" not-null="true"/>
+		<property name="Date" type="timestamp" column="event_timestamp" not-null="true"/>
 		
 	</class>
 </hibernate-mapping>
