@@ -1,5 +1,4 @@
-nbproject/
-bin/
-.refactorings/
-build/
+/nbproject
+/bin
+/.refactorings
 /build

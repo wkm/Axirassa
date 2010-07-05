@@ -1,9 +1,0 @@
-1277653742315	Rename package 'monitorpane'
-1277653749761	Rename package 'axirassa.pinger'
-1277653756197	Rename package 'axirassa.messaging'
-1277687423458	Rename local variable 'conn'
-1277687563780	Rename local variable 'm'
-1277689555356	Rename resource 'messaging.jndi'
-1277689601217	Rename resource 'messaging.properties'
-1277697248472	Delete element
-1277703531761	Rename type 'ExtensibleConfiguration'
