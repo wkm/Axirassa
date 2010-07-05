@@ -2,15 +2,12 @@
 package com.zanoccio.axirassa.domain;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.xml.crypto.dsig.DigestMethod;
-
+import com.zanoccio.axirassa.util.MessageDigestProvider;
 import com.zanoccio.axirassa.util.RandomStringGenerator;
-import com.zanoccio.axirassa.webapp.exceptions.ExceptionInActionError;
 
 public class User {
 
@@ -31,15 +28,7 @@ public class User {
 	public User() {
 		confirmed = false;
 		active = true;
-	}
-
-
-	public static void main(String[] args) {
-		User u = new User();
-
-		u.setPassword("password123");
-
-		System.out.println("Password: " + u.getPassword());
+		signupdate = new Date();
 	}
 
 
@@ -100,15 +89,12 @@ public class User {
 
 	public void setPassword(String password) {
 		this.salt = createSalt();
-		try {
-			MessageDigest msgdigest = MessageDigest.getInstance(DigestMethod.SHA256);
-			msgdigest.update(salt.getBytes());
-			msgdigest.update(password.getBytes());
 
-			this.password = new String(msgdigest.digest());
-		} catch (NoSuchAlgorithmException e) {
-			throw new ExceptionInActionError("When attempting to register user.", e);
-		}
+		MessageDigest msgdigest = MessageDigestProvider.generate();
+		msgdigest.update(salt.getBytes());
+		msgdigest.update(password.getBytes());
+
+		this.password = new String(msgdigest.digest());
 	}
 
 
