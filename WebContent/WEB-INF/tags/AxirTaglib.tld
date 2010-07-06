@@ -5,8 +5,18 @@
 	<uri>AxirTaglib</uri>
 	
 	<tag>
+		<name>head</name>
+		<tag-class>com.zanoccio.axirassa.webapp.tags.HeadTag</tag-class>
+		<body-content>scriptless</body-content>
+	</tag>
+	<tag>
 		<name>header</name>
 		<tag-class>com.zanoccio.axirassa.webapp.tags.HeaderTag</tag-class>
 		<body-content>empty</body-content>
+	</tag>
+	<tag>
+		<name>content</name>
+		<tag-class>com.zanoccio.axirassa.webapp.tags.ContentTag</tag-class>
+		<body-content>scriptless</body-content>
 	</tag>
 </taglib>
