@@ -1,2 +1,5 @@
 <#include "macro/text_abstraction.ftl">
-<@textfieldabstraction "password" />
+<#include "macro/formcontrol.ftl">
+<@formcontrol>
+	<@textfieldabstraction "password" />
+</@formcontrol>
