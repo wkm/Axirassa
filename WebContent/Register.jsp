@@ -1,7 +1,10 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="ax" uri="AxirTaglib" %>
 <html>
 	<s:head/>
 	<body>
+		<ax:header/>
+	
 		<s:form method="post" action="Register">
 			<s:textfield label="%{getText('username')}" name="username"/>
 			
