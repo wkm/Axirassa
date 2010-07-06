@@ -3,13 +3,17 @@
     "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-	<package name="com.zanoccio.axirassa.webapp" extends="struts-default">
+	<constant name="struts.ui.theme" value="axirtheme" />
+	<constant name="struts.ui.templateDir" value="resources/template" />
+	
+	<package name="com.zanoccio.axirassa.webapp" extends="struts-default">	
 		<action name="Logon_*" method="{1}" class="com.zanoccio.axirassa.webapp.LogonAction">
 			<result type="redirectAction">Menu</result>
 			<result name="input">/Logon.jsp</result>
 		</action>
 		
 		<action name="Register_*" method="{1}" class="com.zanoccio.axirassa.webapp.RegisterAction">
+			<interceptor-ref name="jsonValidationWorkflowStack"/>
 			<result type="redirectAction">Menu</result>
 			<result name="input">/Register.jsp</result>
 		</action>
