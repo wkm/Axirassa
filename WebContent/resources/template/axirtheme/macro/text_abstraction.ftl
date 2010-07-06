@@ -1,13 +1,10 @@
+<#include "attr.ftl">
 <#macro textfieldabstraction type>
 	<#compress>
 		<input type="${type}"
 			name="${parameters.name?default("")?html}"
-			<#if parameters.get("size")??>
-				size="${parameters.get("size")?html}
-			</#if>
-			<#if parameters.title??>
-				title="${parameters.title?html}"
-			</#if>
+			<@attr "size" parameters.get("size") />
+			<@attr "title" parameters.title />
 		/>
 	</#compress>
 </#macro>
