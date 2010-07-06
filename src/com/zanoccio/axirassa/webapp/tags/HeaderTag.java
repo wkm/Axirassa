@@ -9,7 +9,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import com.zanoccio.axirassa.webapp.tags.exception.ExceptionInTagError;
 
-public class HeaderTag extends SimpleTagSupport implements AxirassaTag {
+public class HeaderTag extends SimpleTagSupport implements WebappTag {
 	@Override
 	public void doTag() {
 		JspContext pageContext = getJspContext();
