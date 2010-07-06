@@ -9,13 +9,13 @@
 	<package name="com.zanoccio.axirassa.webapp" extends="struts-default">	
 		<action name="Logon_*" method="{1}" class="com.zanoccio.axirassa.webapp.LogonAction">
 			<result type="redirectAction">Menu</result>
-			<result name="input">/Logon.jsp</result>
+			<result name="input">/User/Logon.jsp</result>
 		</action>
 		
 		<action name="Register_*" method="{1}" class="com.zanoccio.axirassa.webapp.RegisterAction">
 			<interceptor-ref name="jsonValidationWorkflowStack"/>
 			<result type="redirectAction">Menu</result>
-			<result name="input">/Register.jsp</result>
+			<result name="input">/User/Register.jsp</result>
 		</action>
 		
 		<action name="*" class="com.zanoccio.axirassa.webapp.WebappSupport">

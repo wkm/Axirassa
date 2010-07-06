@@ -21,7 +21,7 @@ public class HeadTag extends WebappTag {
 		StringBuffer buffer = writer.getBuffer();
 
 		buffer.append("<head>");
-		buffer.append("<link rel='stylesheet' type='text/css' href='CSS/main.css'/>");
+		buffer.append("<link rel='stylesheet' type='text/css' href='CSS/all.css'/>");
 		buffer.append("</head>");
 
 		body.invoke(writer);

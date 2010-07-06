@@ -1,5 +1,5 @@
-<%@ include file="taglibs.jsp" %>
-<%@ include file="inc/header.jsp" %>
+<%@ include file="/taglibs.jsp" %>
+<%@ include file="/inc/header.jsp" %>
 
 	<s:form action="Logon">
 		<s:textfield label="%{getText('username')}" name="username"/>
@@ -8,4 +8,4 @@
 		<s:submit label="Login" />
 	</s:form>
 
-<%@ include file="inc/footer.jsp" %>
+<%@ include file="/inc/footer.jsp" %>

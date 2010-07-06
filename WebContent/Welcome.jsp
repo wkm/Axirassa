@@ -1,10 +1,17 @@
-<%@ include file="taglibs.jsp" %>
-<%@ include file="inc/header.jsp" %>
+<%@ include file="/taglibs.jsp" %>
 	
-	<h3>Commands</h3>
-	<ul>
-		<li><a href="<s:url action="Register_input"/>">Register</a></li>
-		<li><a href="<s:url action="Logon_input"/>">Sign On</a></li>
-	</ul>
-	
-<%@ include file="inc/footer.jsp" %>
+<html>
+	<ax:head>
+		<s:head/>
+	</ax:head>
+	<body>
+		<ax:header/>
+		<ax:content>
+			<h3>Commands</h3>
+			<ul>
+				<li><a href="<s:url action="User/Register_input"/>">Register</a></li>
+				<li><a href="<s:url action="User/Logon_input"/>">Sign On</a></li>
+			</ul>
+		</ax:content>
+	</body>
+</html>
