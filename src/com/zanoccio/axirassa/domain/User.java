@@ -91,6 +91,7 @@ public class User {
 		this.salt = createSalt();
 
 		MessageDigest msgdigest = MessageDigestProvider.generate();
+		msgdigest.update(MessageDigestProvider.salt());
 		msgdigest.update(salt.getBytes());
 		msgdigest.update(password.getBytes());
 
