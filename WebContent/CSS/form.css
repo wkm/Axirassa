@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+
+input {
+	border: 1px solid #ddd;
+	border-bottom-color: #bbb;
+	
+	font-family: sans;
+	font-size: 13pt;
+}

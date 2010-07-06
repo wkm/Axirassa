@@ -1,18 +1,30 @@
 @CHARSET "UTF-8";
 
+@IMPORT url("form.css");
+
 body {
 	font-family: "Helvetica Neue", "Helvetica", sans-serif;
-	font-size: 16pt;
+	font-size: 13pt;
 	
 	margin: 0;
 	padding: 0;
+	background: #333;
 }
 
-.logo {
-	display: block;
-	margin-bottom: 1em;
-	padding: .5em 1em; 
-	background: #eee;
+#header {
+	margin-top: 2em;
+	margin-left: 1em;
+	font-size: 18pt;
+	font-weight: bold;
+	color: #d00;
+	
+	text-shadow: 0 1px 1px rgba(50,0,0,0.5);  
+}
+
+#subtitle {
+	color: #ccc;
+	font-size: 13pt;
+	font-weight: normal;
 }
 
 .errorMessage {
@@ -24,12 +36,18 @@ body {
 }
 
 #content {
-	margin-left: 1em;
+	margin: 1em 1em 0 1em;
+	border: 1px solid #aaa;
+	padding: 5px;
+	border-width: 1px 2px 2px 1px;
+	max-width: 35em;
+	background: #fff;
 }
 
-#copyright {
-	margin-top: 2em;
-	padding: 1px 5px;
-	border-top: 1px solid #ddd;
+#footer {
+	margin: 0;
+	margin-left: 1.8em;
+	padding-top: 4px;
 	font-size: 60%;
+	color: #eee;
 }
