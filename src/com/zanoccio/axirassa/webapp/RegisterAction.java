@@ -19,9 +19,6 @@ public class RegisterAction extends ActionSupport {
 
 	@Override
 	public String execute() {
-		if (!isValidated())
-			return INPUT;
-
 		// execute
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -37,10 +34,13 @@ public class RegisterAction extends ActionSupport {
 	}
 
 
-	private boolean isValidated() {
-		return (username != null && username.length() > 0)
-		        && (password != null && password.length() > 0 && password.equals(confirmpassword))
-		        && (email != null && email.length() > 0 && email.equals(confirmemail));
+	@Override
+	public void validate() {
+		// (username != null && username.length() > 0)
+		// && (password != null && password.length() > 0 &&
+		// password.equals(confirmpassword))
+		// && (email != null && email.length() > 0 &&
+		// email.equals(confirmemail));
 	}
 
 
