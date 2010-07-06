@@ -13,7 +13,7 @@ public class HeaderTag extends WebappTag {
 		JspWriter out = pageContext.getOut();
 
 		out.println("<div id='header'>");
-		out.println("<div id='title'>Axirassa Pinger</div>");
+		out.println("<div id='title'>axirassa | pinger</div>");
 		out.println("<div id='subtitle'>[technology prototype]</div>");
 		out.println("</div>");
 	}
