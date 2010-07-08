@@ -14,7 +14,7 @@ public class HeaderTag extends WebappTag {
 
 		out.println("<div id='header'>");
 		out.println("<div id='title'>axirassa | pinger</div>");
-		out.println("<div id='subtitle'>[technology prototype]</div>");
+		out.println("<div id='subtitle'>[ technology prototype ]</div>");
 		out.println("</div>");
 	}
 }

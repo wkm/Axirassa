@@ -1,1 +1,1 @@
-<!-- generic head template -->
+<title>Axirassa Pinger</title>
