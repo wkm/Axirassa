@@ -12,5 +12,5 @@
 		<@attr "style" parameters.cssStyle />
 		<@attr "title" parameters.title />
 		<@attr "accept-charset" parameters.acceptcharset />
-	><table>
+	><table class='form'>
 </#compress>

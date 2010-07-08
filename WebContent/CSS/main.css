@@ -6,23 +6,24 @@ body {
 	
 	margin: 0;
 	padding: 0;
-	background: #333;
+	background: #fff;
+	color: #223;
 }
 
 #header {
 	margin-top: 2em;
-	margin-left: 1em;
-	font-size: 18pt;
+	margin-left: 30px;
+	font-size: 24pt;
 	font-weight: bold;
-	color: #d00;
-	
+	color: rgb(163, 40, 10);
 	text-shadow: 0 1px 1px rgba(50,0,0,0.5);  
 }
 
 #subtitle {
-	color: #ccc;
+	color: #333;
 	font-size: 13pt;
 	font-weight: normal;
+	text-shadow: none;
 }
 
 .errorMessage {
@@ -34,18 +35,21 @@ body {
 }
 
 #content {
-	margin: 1em 1em 0 1em;
-	border: 1px solid #aaa;
-	padding: 5px;
-	border-width: 1px 2px 2px 1px;
+	margin: 2em;
+	margin-left: 30px;
+	margin-bottom: 0;
+	padding: 10px;
 	max-width: 35em;
-	background: #fff;
+	
+	border: 1px solid #eee;
+
+	background: #fafafa;
 }
 
 #footer {
 	margin: 0;
-	margin-left: 1.8em;
+	margin-left: 30px;
 	padding-top: 4px;
 	font-size: 60%;
-	color: #eee;
+	color: #666;
 }

@@ -1,19 +1,32 @@
 @CHARSET "UTF-8";
 
+.form {
+	border-spacing: 10px 0;
+	border-collapse: separate;
+}
+
 input {
+	font-family: sans;
+}
+
+.txtinput {
 	border: 1px solid #ddd;
 	border-bottom-color: #bbb;
 	
-	font-family: sans;
-	font-size: 13pt;
-	
 	width: 25em;
+	font-size: 13pt;
+	padding: 1px 2px;
+	
+	margin-bottom: .2em;
 }
 
-.submit {
-	border: default;
-}
-
-.forminput {
-	padding-left: 10px
+.errorMsg {
+	margin: 0 10px;
+	padding: 2px 5px;
+	background: rgb(247, 242, 137);
+	border: 1px solid rgb(232, 148, 0);
+	-moz-border-radius: 2px 2px 0 0;
+	-webkit-border-radius: 2px 2px 0 0;
+	border-bottom: rgb(247, 242, 137);
+	font-size: 70%;
 }

@@ -1,5 +1,14 @@
 <#include "attr.ftl">
 <#macro formcontrol>
+	<#assign hasFieldErrors = parameters.name?? && fieldErrors?? && fieldErrors[parameters.name]?? />
+	<#if hasFieldErrors>
+		<#list fieldErrors[parameters.name] as error>
+			<tr>
+				<td></td>
+				<td><div class='errorMsg'>${error?html}</div></td>
+			</tr>
+		</#list>
+	</#if>
 	<tr>
 		<td>
 			<#if parameters.label?? >
@@ -13,4 +22,5 @@
 		<td class='forminput'>
 			<#nested>
 		</td>
+	</tr>
 </#macro>
