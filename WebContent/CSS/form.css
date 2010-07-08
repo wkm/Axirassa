@@ -9,3 +9,11 @@ input {
 	
 	width: 25em;
 }
+
+.submit {
+	border: default;
+}
+
+.forminput {
+	padding-left: 10px
+}

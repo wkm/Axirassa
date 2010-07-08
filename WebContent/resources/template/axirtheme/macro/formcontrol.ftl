@@ -10,7 +10,7 @@
 				</label>
 			</#if>
 		</td>
-		<td>
+		<td class='forminput'>
 			<#nested>
 		</td>
 </#macro>
