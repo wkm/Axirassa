@@ -1,2 +1,5 @@
 <#include "macro/attr.ftl">
-<input type="submit" />
+<#include "macro/formcontrol.ftl">
+<@formcontrol>
+	<input class='submit' type="submit" />
+</@formcontrol>
