@@ -1,4 +1,5 @@
 @CHARSET "UTF-8";
 
+@IMPORT url("yui_reset.css");
 @IMPORT url("main.css");
 @IMPORT url("form.css");
