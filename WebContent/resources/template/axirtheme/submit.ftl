@@ -1,5 +1,5 @@
 <#include "macro/attr.ftl">
 <#include "macro/formcontrol.ftl">
-<@formcontrol>
+<@formcontrol ' submit'>
 	<input class='submit' type="submit" />
 </@formcontrol>

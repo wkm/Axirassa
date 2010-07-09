@@ -1,11 +1,11 @@
 <%@ include file="/taglibs.jsp" %>
 <html>
-	<ax:head>
+	<ax:head> 
 		<s:head/>
 	</ax:head>
 	<body>
 		<ax:header/>
-		<ax:content>
+		<ax:content title="Create Your Account">
 			<s:form method="post" action="Register">
 				<s:textfield label="%{getText('email')}" name="email"/>
 				<s:textfield label="%{getText('confirmemail')}" name="confirmemail"/>

@@ -11,6 +11,14 @@ import javax.servlet.jsp.tagext.JspFragment;
 
 public class ContentTag extends WebappTag {
 
+	private String title = "";
+
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
 	@Override
 	public void doTagExecute() throws IOException, JspException {
 		JspFragment body = getJspBody();
@@ -21,6 +29,7 @@ public class ContentTag extends WebappTag {
 		StringBuffer buffer = writer.getBuffer();
 
 		buffer.append("<div id='content'>");
+		buffer.append("<h1>").append(title).append("</h1>");
 		body.invoke(writer);
 		buffer.append("</div>");
 		buffer.append("<div id='footer'>");

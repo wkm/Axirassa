@@ -12,21 +12,26 @@
  <tag>
   <name>header</name>
   <tag-class>com.zanoccio.axirassa.webapp.tags.HeaderTag</tag-class>
-  <body-content>empty</body-content>
+  <body-content>scriptless</body-content>
  </tag>
  <tag>
   <name>content</name>
   <tag-class>com.zanoccio.axirassa.webapp.tags.ContentTag</tag-class>
   <body-content>scriptless</body-content>
+  <attribute>
+   <name>title</name>
+   <rtexprvalue>true</rtexprvalue>
+   <required>true</required>
+  </attribute>
  </tag>
  <tag>
   <name>separator</name>
   <tag-class>com.zanoccio.axirassa.webapp.tags.SeparatorTag</tag-class>
-  <body-content>scriptless</body-content>
+  <body-content>empty</body-content>
  </tag>
  <tag>
   <name>formseparator</name>
   <tag-class>com.zanoccio.axirassa.webapp.tags.FormSeparatorTag</tag-class>
-  <body-content>scriptless</body-content>
+  <body-content>empty</body-content>
  </tag>
 </taglib>

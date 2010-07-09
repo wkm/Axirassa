@@ -1,5 +1,5 @@
 <#include "attr.ftl">
-<#macro formcontrol>
+<#macro formcontrol otherclasses="">
 	<#assign hasFieldErrors = parameters.name?? && fieldErrors?? && fieldErrors[parameters.name]?? />
 	<#if hasFieldErrors>
 		<#list fieldErrors[parameters.name] as error>
@@ -19,7 +19,7 @@
 				</label>
 			</#if>
 		</td>
-		<td class='forminput'>
+		<td class='forminput${otherclasses}'>
 			<#nested>
 		</td>
 	</tr>
