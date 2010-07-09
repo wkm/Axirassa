@@ -23,3 +23,20 @@
 		</#list>
 	</#if>
 </#macro>
+
+<#macro attr_scripting>
+	<@attr "onclick" parameters.onclick />
+	<@attr "ondblclick" parameters.ondblclick />
+	<@attr "onmousedown" parameters.onmousedown />
+	<@attr "onmouseup" parameters.onmouseup />
+	<@attr "onmouseover" parameters.onmouseover />
+	<@attr "onmousemove" parameters.onmousemove />
+	<@attr "onmouseout" parameters.onmouseout />
+	<@attr "onfocus" parameters.onfocus />
+	<@attr "onblur" parameters.onblur />
+	<@attr "onkeypress" parameters.onkeypress />
+	<@attr "onkeydown" parameters.onkeydown />
+	<@attr "onkeyup" parameters.onkeyup />
+	<@attr "onselect" parameters.onselect />
+	<@attr "onchange" parameters.onchange />
+</#macro>
