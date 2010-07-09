@@ -19,6 +19,9 @@ public class RegisterAction extends ActionSupport {
 
 	@Override
 	public String execute() {
+
+		System.err.println("Executing...");
+
 		// execute
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
@@ -37,10 +40,10 @@ public class RegisterAction extends ActionSupport {
 	@Override
 	public void validate() {
 		if (email != null && !email.equals(confirmemail)) {
-			addFieldError("confirmemail", getText("doesntmatch"));
+			addFieldError("confirmemail", getText("emailnomatch"));
 		}
 		if (password != null && !password.equals(confirmpassword)) {
-			addFieldError("confirmpassword", getText("doesntmatch"));
+			addFieldError("confirmpassword", getText("passwordnomatch"));
 		}
 	}
 
