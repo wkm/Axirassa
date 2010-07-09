@@ -36,11 +36,12 @@ public class RegisterAction extends ActionSupport {
 
 	@Override
 	public void validate() {
-		// (username != null && username.length() > 0)
-		// && (password != null && password.length() > 0 &&
-		// password.equals(confirmpassword))
-		// && (email != null && email.length() > 0 &&
-		// email.equals(confirmemail));
+		if (email != null && !email.equals(confirmemail)) {
+			addFieldError("confirmemail", getText("doesntmatch"));
+		}
+		if (password != null && !password.equals(confirmpassword)) {
+			addFieldError("confirmpassword", getText("doesntmatch"));
+		}
 	}
 
 
