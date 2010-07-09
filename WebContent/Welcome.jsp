@@ -6,8 +6,7 @@
 	</ax:head>
 	<body>
 		<ax:header/>
-		<ax:content>
-			<h3>Commands</h3>
+		<ax:content title="Commands">
 			<ul>
 				<li><a href="<s:url action="User/Register_input"/>">Register</a></li>
 				<li><a href="<s:url action="User/Logon_input"/>">Sign On</a></li>

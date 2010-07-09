@@ -3,11 +3,6 @@
 "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
 
 <validators>
-	<field name="username">
-		<field-validator type="requiredstring">
-			<message key="requiredstring"/>
-		</field-validator>
-	</field>
 	<field name="password">
 		<field-validator type="requiredstring">
 			<message key="requiredstring"/>
@@ -18,22 +13,8 @@
 		<field-validator type="requiredstring">
 			<message key="requiredstring"/>
 		</field-validator>
-		<field-validator type="email">
+ 		<field-validator type="email">
 			<message key="emailmisformatted"/>
-		</field-validator>
-	</field>
-	
-	<!--  equality checks -->
-	<field name="confirmemail">
-		<field-validator type="expression">
-			<param name="expression">email.equals(confirmemail)</param>
-			<message key="emailsnotsame"/>
-		</field-validator>
-	</field>
-	<field name="confirmpassword">
-		<field-validator type="expression">
-			<param name="expression">password.equals(confirmpassword)</param>
-			<message key="passwordnotsame"/>
 		</field-validator>
 	</field>
 </validators>

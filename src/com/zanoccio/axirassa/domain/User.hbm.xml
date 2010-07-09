@@ -9,7 +9,6 @@
 			<generator class="native"/>
 		</id>
 		<property name="Name" not-null="true"/>
-		<property name="Username" not-null="true"/>
 		
 		<property name="Salt" not-null="true" length="16"/>
 		<property name="Password" not-null="true" length="64"/>

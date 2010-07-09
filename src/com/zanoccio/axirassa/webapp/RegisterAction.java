@@ -1,7 +1,7 @@
 
 package com.zanoccio.axirassa.webapp;
 
-import org.hibernate.classic.Session;
+import org.hibernate.Session;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.zanoccio.axirassa.domain.User;
@@ -10,7 +10,6 @@ import com.zanoccio.axirassa.util.HibernateUtil;
 public class RegisterAction extends ActionSupport {
 	private static final long serialVersionUID = -2620872177029113364L;
 
-	private String username;
 	private String password;
 	private String confirmpassword;
 	private String email;
@@ -27,9 +26,8 @@ public class RegisterAction extends ActionSupport {
 		session.beginTransaction();
 
 		User user = new User();
-		user.setUsername(username);
-		user.setPassword(password);
 		user.setEmail(email);
+		user.setPassword(password);
 		session.save(user);
 		session.getTransaction().commit();
 
@@ -37,26 +35,15 @@ public class RegisterAction extends ActionSupport {
 	}
 
 
-	@Override
-	public void validate() {
-		if (email != null && !email.equals(confirmemail)) {
-			addFieldError("confirmemail", getText("emailnomatch"));
-		}
-		if (password != null && !password.equals(confirmpassword)) {
-			addFieldError("confirmpassword", getText("passwordnomatch"));
-		}
-	}
-
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-
-	public String getUsername() {
-		return username;
-	}
-
+	// @Override
+	// public void validate() {
+	// if (email != null && !email.equals(confirmemail)) {
+	// addFieldError("confirmemail", getText("emailnomatch"));
+	// }
+	// if (password != null && !password.equals(confirmpassword)) {
+	// addFieldError("confirmpassword", getText("passwordnomatch"));
+	// }
+	// }
 
 	public void setPassword(String password) {
 		this.password = password;

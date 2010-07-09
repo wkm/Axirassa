@@ -5,7 +5,7 @@
 	</ax:head>
 	<body>
 		<ax:header/>
-		<ax:content>
+		<ax:content title="Logon">
 			<s:form action="Logon">
 				<s:textfield label="%{getText('username')}" name="username"/>
 				<s:password label="%{getText('password')}" name="password"/>

@@ -13,7 +13,6 @@ public class User {
 
 	private Long id;
 	private String name;
-	private String username;
 	private String password;
 	private String salt;
 
@@ -41,7 +40,7 @@ public class User {
 
 
 	public void setAccessEvents(Set logons) {
-		this.accessEvents = logons;
+		accessEvents = logons;
 	}
 
 
@@ -88,7 +87,7 @@ public class User {
 
 
 	public void setPassword(String password) {
-		this.salt = createSalt();
+		salt = createSalt();
 
 		MessageDigest msgdigest = MessageDigestProvider.generate();
 		msgdigest.update(MessageDigestProvider.salt());
@@ -96,22 +95,6 @@ public class User {
 		msgdigest.update(password.getBytes());
 
 		this.password = new String(msgdigest.digest());
-	}
-
-
-	//
-	// Username
-	//
-	public String getUsername() {
-		return username;
-	}
-
-
-	public void setUsername(String username) {
-		if (this.name == null)
-			this.name = username;
-
-		this.username = username;
 	}
 
 
@@ -137,6 +120,9 @@ public class User {
 
 
 	public void setEmail(String email) {
+		if (name == null)
+			name = email;
+
 		this.email = email;
 	}
 
