@@ -23,13 +23,22 @@ public class RegisterAction extends ActionSupport {
 
 		// execute
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+		System.out.println("Beginning transaction");
 		session.beginTransaction();
 
+		System.out.println("Creating user");
 		User user = new User();
 		user.setEmail(email);
 		user.setPassword(password);
+
+		System.out.println("Saving...");
 		session.save(user);
+
+		System.out.println("Committing...");
 		session.getTransaction().commit();
+
+		System.out.println("Finit.");
 
 		return SUCCESS;
 	}
