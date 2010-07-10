@@ -8,12 +8,16 @@
 		<id name="ID" column="UserID">
 			<generator class="native"/>
 		</id>
+		
+		<natural-id mutable="true">
+			<property name="Email" not-null="true"/>
+		</natural-id>
+		
 		<property name="Name" not-null="true"/>
 		
 		<property name="Salt" not-null="true" length="16"/>
 		<property name="Password" not-null="true" length="64"/>
 		
-		<property name="Email" not-null="true"/>
 		<property name="Confirmed" not-null="true"/>
 		<property name="Active" not-null="true"/>
 		

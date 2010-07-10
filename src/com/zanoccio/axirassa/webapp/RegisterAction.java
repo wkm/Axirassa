@@ -2,6 +2,7 @@
 package com.zanoccio.axirassa.webapp;
 
 import org.hibernate.Session;
+import org.hibernate.exception.ConstraintViolationException;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.zanoccio.axirassa.domain.User;
@@ -18,41 +19,53 @@ public class RegisterAction extends ActionSupport {
 
 	@Override
 	public String execute() {
-
-		System.err.println("Executing...");
-
 		// execute
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
-		System.out.println("Beginning transaction");
 		session.beginTransaction();
 
-		System.out.println("Creating user");
 		User user = new User();
 		user.setEmail(email);
 		user.setPassword(password);
 
-		System.out.println("Saving...");
-		session.save(user);
+		try {
+			session.save(user);
+		} catch (ConstraintViolationException e) {
+			errorEmailRegistered();
+			return INPUT;
+		}
 
-		System.out.println("Committing...");
 		session.getTransaction().commit();
-
-		System.out.println("Finit.");
 
 		return SUCCESS;
 	}
 
 
-	// @Override
-	// public void validate() {
-	// if (email != null && !email.equals(confirmemail)) {
-	// addFieldError("confirmemail", getText("emailnomatch"));
-	// }
-	// if (password != null && !password.equals(confirmpassword)) {
-	// addFieldError("confirmpassword", getText("passwordnomatch"));
-	// }
-	// }
+	private void errorEmailNotConfirmed() {
+		addFieldError("confirmemail", getText("emailnomatch"));
+	}
+
+
+	private void errorPasswordNotConfirmed() {
+		addFieldError("confirmpassword", getText("passwordnomatch"));
+	}
+
+
+	private void errorEmailRegistered() {
+		addFieldError("email", getText("emailtaken"));
+	}
+
+
+	@Override
+	public void validate() {
+		if (email != null && !email.equals(confirmemail))
+			errorEmailNotConfirmed();
+		if (password != null && !password.equals(confirmpassword))
+			errorPasswordNotConfirmed();
+		if (email != null && User.isEmailRegistered(email))
+			errorEmailRegistered();
+	}
+
 
 	public void setPassword(String password) {
 		this.password = password;
