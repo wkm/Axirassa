@@ -7,10 +7,10 @@
 		<ax:header/>
 		<ax:content title="Logon">
 			<s:form action="Logon">
-				<s:textfield label="%{getText('username')}" name="username"/>
+				<s:textfield label="%{getText('email')}" name="email"/>
 				<s:password label="%{getText('password')}" name="password"/>
 				
-				<s:submit label="Login" />
+				<s:submit/>
 			</s:form>
 		</ax:content>
 	</body>

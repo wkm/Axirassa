@@ -2,7 +2,6 @@
 package com.zanoccio.axirassa.webapp;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 
 public class LogonAction extends ActionSupport {
 
@@ -11,7 +10,7 @@ public class LogonAction extends ActionSupport {
 
 	@Override
 	public String execute() {
-		if (isInvalid(getUsername()))
+		if (isInvalid(getEmail()))
 			return INPUT;
 		if (isInvalid(getPassword()))
 			return INPUT;
@@ -28,18 +27,17 @@ public class LogonAction extends ActionSupport {
 	}
 
 
-	private String _username;
+	private String _email;
 	private String _password;
 
 
-	public String getUsername() {
-		return _username;
+	public String getEmail() {
+		return _email;
 	}
 
 
-	@RequiredFieldValidator(message = "you must provide a username")
-	public void setUsername(String username) {
-		_username = username;
+	public void setEmail(String username) {
+		_email = username;
 	}
 
 
@@ -48,7 +46,6 @@ public class LogonAction extends ActionSupport {
 	}
 
 
-	@RequiredFieldValidator(message = "you must provide a password")
 	public void setPassword(String password) {
 		_password = password;
 	}
