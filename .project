@@ -3,6 +3,7 @@
 	<name>axir</name>
 	<comment></comment>
 	<projects>
+		<project>axir</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
