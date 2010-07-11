@@ -5,3 +5,4 @@ syntax: regexp
 ^.refactorings$
 syntax: regexp
 ^src/main/webapp/WEB-INF/classes$
+^target$
