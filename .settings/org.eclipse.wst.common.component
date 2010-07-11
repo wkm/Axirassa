@@ -5,6 +5,6 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
         <property name="java-output-path" value="/axir/build/classes"/>
-        <property name="context-root" value="axir"/>
+        <property name="context-root" value="/axir"/>
     </wb-module>
 </project-modules>
