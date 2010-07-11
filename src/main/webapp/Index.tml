@@ -1,7 +1,7 @@
-<t:border t:pageTitle="Hello" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<html t:type="layout" t:pageTitle="Hello" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 	<h1>Actions</h1>
 	<ul>
 		<li><t:pagelink t:page="Register">register</t:pagelink></li>
 		<!-- <li><t:pagelink t:page="Login">log in</t:pagelink></li> -->
 	</ul>
-</t:border>
+</html>

@@ -1,10 +1,13 @@
-<t:border t:pageTitle="Register" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<html t:type="layout" t:pageTitle="Register" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 	<t:axform>
 		<t:form t:id="registerForm">
-			<t:axinput t:label="E-mail">
-				<t:textfield t:value="email"/>
-			</t:axinput>
+			<t:textfield t:id="email" t:label="E-mail" />
+			<t:textfield t:id="confirmemail" t:label="Confirm" />
+			
+			<t:passwordfield t:id="password" t:label="Password" />
+			<t:passwordfield t:id="confirmpassword" t:label="Confirm" />
+			
 			<input type="submit" value="Submit"/>
 		</t:form>
 	</t:axform>
-</t:border>
+</html>

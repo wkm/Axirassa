@@ -1,9 +1,11 @@
 
 package com.zanoccio.axirassa.webapp.components;
 
+import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.annotations.Parameter;
 
-public class Border {
+@IncludeStylesheet("context:/css/all.css")
+public class Layout {
 	@Parameter(required = true, defaultPrefix = "literal")
 	private String pageTitle;
 
