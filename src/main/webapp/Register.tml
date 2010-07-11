@@ -1,0 +1,10 @@
+<t:border t:pageTitle="Register" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+	<t:axform>
+		<t:form t:id="registerForm">
+			<t:axinput t:label="E-mail">
+				<t:textfield t:value="email"/>
+			</t:axinput>
+			<input type="submit" value="Submit"/>
+		</t:form>
+	</t:axform>
+</t:border>
