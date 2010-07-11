@@ -20,15 +20,12 @@ public class User {
 	 * @return true if the given username does not exist in the database
 	 */
 	public static boolean isEmailRegistered(String email) {
-		System.out.println("Beginning query");
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
 		Query query = session.createQuery("select user.Email from User as user where user.Email = ?");
 		query.setString(0, email);
 
-		System.out.println("Query: " + query.getQueryString());
-		System.out.println("Retrieving list");
 		List results = query.list();
 		session.getTransaction().commit();
 
