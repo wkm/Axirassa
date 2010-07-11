@@ -1,13 +1,7 @@
 <t:border t:pageTitle="Hello" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
-	<h1>axir Start Page</h1>
-	
-	<p> This is the start page for this application, a good place to start your modifications.
-	    Just to prove this is live: </p>
-	
-	<p> The current time is: ${currentTime}. </p>
-	
-	
-	<p>
-	    [<t:pagelink t:page="Index">refresh</t:pagelink>]
-	</p>
+	<h1>Actions</h1>
+	<ul>
+		<li><t:pagelink t:page="Register">register</t:pagelink></li>
+		<!-- <li><t:pagelink t:page="Login">log in</t:pagelink></li> -->
+	</ul>
 </t:border>
