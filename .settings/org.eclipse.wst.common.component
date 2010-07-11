@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-modules id="moduleCoreId" project-version="1.5.0">
     <wb-module deploy-name="axir">
-        <wb-resource deploy-path="/" source-path="/WebContent"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="java-output-path" value="/axir/build/classes"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+        <dependent-module archiveName="org.eclipse.jst.j2ee.componentcore.util.ClasspathDependencies.war" deploy-path="/WEB-INF/lib/" handle="org.eclipse.jst.j2ee.componentcore.util.ClasspathDependencies">
+            <dependency-type>consumes</dependency-type>
+        </dependent-module>
         <property name="context-root" value="axir"/>
+        <property name="java-output-path" value="/axir/build/classes"/>
     </wb-module>
 </project-modules>
