@@ -2,11 +2,12 @@
 package com.zanoccio.axirassa.webapp.components;
 
 import org.apache.tapestry5.ComponentResources;
+import org.apache.tapestry5.Field;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
-abstract public class AxAbstractTextInput {
+abstract public class AxAbstractTextInput implements Field {
 
 	@Inject
 	private ComponentResources resources;
