@@ -4,7 +4,7 @@ package com.zanoccio.axirassa.webapp.components;
 import org.apache.tapestry5.annotations.IncludeStylesheet;
 import org.apache.tapestry5.annotations.Parameter;
 
-@IncludeStylesheet("context:/css/all.css")
+@IncludeStylesheet({ "context:/css/main.css", "context:/css/form.css" })
 public class Layout {
 	@Parameter(required = true, defaultPrefix = "literal")
 	private String pageTitle;

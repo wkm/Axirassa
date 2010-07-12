@@ -1,5 +1,5 @@
 @CHARSET "UTF-8";
 
-@IMPORT url("yui_reset.css");
-@IMPORT url("main.css");
-@IMPORT url("form.css");
+@IMPORT url("${asset:context:/css/yui_reset.css}");
+@IMPORT url("${asset:context:/css/main.css}");
+@IMPORT url("${asset:context:/css/form.css}");
