@@ -5,6 +5,6 @@
 		</t:label>
 	</td>
 	<td class='forminput'>
-		<t:textfield t:label="${label}" t:value="text" t:id="txtfield"/>
+		<t:textfield class='txtinput' t:label="${label}" t:value="text" t:id="txtfield"/>
 	</td>
 </tr>
