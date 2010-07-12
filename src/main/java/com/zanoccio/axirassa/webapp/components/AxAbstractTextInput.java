@@ -32,6 +32,7 @@ abstract public class AxAbstractTextInput implements Field {
 	}
 
 
+	@Override
 	public String getLabel() {
 		if (label == null)
 			return resources.getId();

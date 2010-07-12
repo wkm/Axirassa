@@ -3,26 +3,16 @@ package com.zanoccio.axirassa.webapp.services;
 
 import java.io.IOException;
 
-import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.SymbolConstants;
-import org.apache.tapestry5.ValidationDecorator;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Local;
-import org.apache.tapestry5.json.JSONObject;
-import org.apache.tapestry5.services.Environment;
-import org.apache.tapestry5.services.MarkupRenderer;
-import org.apache.tapestry5.services.MarkupRendererFilter;
-import org.apache.tapestry5.services.PartialMarkupRenderer;
-import org.apache.tapestry5.services.PartialMarkupRendererFilter;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.RequestFilter;
 import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
 import org.slf4j.Logger;
-
-import com.zanoccio.axirassa.webapp.services.validation.CustomValidationDecorator;
 
 /**
  * This module is automatically included as part of the Tapestry IoC Registry,
@@ -124,36 +114,42 @@ public class AppModule {
 		configuration.add("Timing", filter);
 	}
 
-
-	public void contributeMarkupRenderer(final OrderedConfiguration<MarkupRendererFilter> configuration,
-	        final Environment environment) {
-		MarkupRendererFilter filter = new MarkupRendererFilter() {
-
-			@Override
-			public void renderMarkup(MarkupWriter writer, MarkupRenderer renderer) {
-				environment.push(ValidationDecorator.class, new CustomValidationDecorator(environment, writer));
-				renderer.renderMarkup(writer);
-				environment.pop(ValidationDecorator.class);
-
-			}
-		};
-
-		configuration.add("CustomValidationDecorator", filter, "after:DefaultValidationDecorator");
-	}
-
-
-	public void contributePartialMarkupRenderer(final OrderedConfiguration<PartialMarkupRendererFilter> configuration,
-	        final Environment environment) {
-		PartialMarkupRendererFilter filter = new PartialMarkupRendererFilter() {
-
-			@Override
-			public void renderMarkup(MarkupWriter writer, JSONObject reply, PartialMarkupRenderer renderer) {
-				environment.push(ValidationDecorator.class, new CustomValidationDecorator(environment, writer));
-				renderer.renderMarkup(writer, reply);
-				environment.pop(ValidationDecorator.class);
-			}
-		};
-
-		configuration.add("CustomValidationDecorator", filter, "after:DefaultValidationDecorator");
-	}
+	// public void contributeMarkupRenderer(final
+	// OrderedConfiguration<MarkupRendererFilter> configuration,
+	// final Environment environment) {
+	// MarkupRendererFilter filter = new MarkupRendererFilter() {
+	//
+	// @Override
+	// public void renderMarkup(MarkupWriter writer, MarkupRenderer renderer) {
+	// environment.push(ValidationDecorator.class, new
+	// CustomValidationDecorator(environment, writer));
+	// renderer.renderMarkup(writer);
+	// environment.pop(ValidationDecorator.class);
+	//
+	// }
+	// };
+	//
+	// configuration.add("CustomValidationDecorator", filter,
+	// "after:DefaultValidationDecorator");
+	// }
+	//
+	//
+	// public void contributePartialMarkupRenderer(final
+	// OrderedConfiguration<PartialMarkupRendererFilter> configuration,
+	// final Environment environment) {
+	// PartialMarkupRendererFilter filter = new PartialMarkupRendererFilter() {
+	//
+	// @Override
+	// public void renderMarkup(MarkupWriter writer, JSONObject reply,
+	// PartialMarkupRenderer renderer) {
+	// environment.push(ValidationDecorator.class, new
+	// CustomValidationDecorator(environment, writer));
+	// renderer.renderMarkup(writer, reply);
+	// environment.pop(ValidationDecorator.class);
+	// }
+	// };
+	//
+	// configuration.add("CustomValidationDecorator", filter,
+	// "after:DefaultValidationDecorator");
+	// }
 }

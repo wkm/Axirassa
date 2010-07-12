@@ -65,8 +65,9 @@ public class CustomValidationDecorator extends BaseValidationDecorator {
 
 
 	private boolean inError(final Field field) {
+		System.out.println("Checking for errir in field" + field.toString());
+
 		ValidationTracker tracker = environment.peekRequired(ValidationTracker.class);
 		return tracker.inError(field);
 	}
-
 }
