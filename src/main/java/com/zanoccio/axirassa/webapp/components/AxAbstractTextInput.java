@@ -2,18 +2,14 @@
 package com.zanoccio.axirassa.webapp.components;
 
 import org.apache.tapestry5.ComponentResources;
-import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
-abstract public class AxAbstractTextInput<T> {
+abstract public class AxAbstractTextInput {
 
 	@Inject
 	private ComponentResources resources;
-
-	@Component(publishParameters = "annotationProvider,clientId,disabled,nulls,translate,validate,value")
-	private T txtfield;
 
 	@Property
 	private String name;
