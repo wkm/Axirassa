@@ -3,8 +3,8 @@
 		<t:axtextfield t:id="email" t:name="E-mail" />
 		<t:axtextfield t:id="confirmemail" t:name="Confirm" />
 		
-		<t:passwordfield t:id="password" t:name="Password" />
-		<t:passwordfield t:id="confirmpassword" t:name="Confirm" />
+		<t:axpasswordfield t:id="password" t:name="Password" />
+		<t:axpasswordfield t:id="confirmpassword" t:name="Confirm" />
 		
 		<input type="submit" value="Submit"/>
 	</t:axform>
