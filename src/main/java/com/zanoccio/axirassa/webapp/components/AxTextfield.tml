@@ -1,8 +1,10 @@
 <tr xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<td>
-		Label
+		<t:label t:for="txtfield">
+			${name}
+		</t:label>
 	</td>
-	<td>
-		<t:textfield t:value="text" t:id="txtfield"/>
+	<td class='forminput'>
+		<t:textfield t:label="${label}" t:value="text" t:id="txtfield"/>
 	</td>
 </tr>
