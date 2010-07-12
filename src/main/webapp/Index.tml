@@ -2,6 +2,5 @@
 	<h1>Actions</h1>
 	<ul>
 		<li><t:pagelink t:page="Register">register</t:pagelink></li>
-		<!-- <li><t:pagelink t:page="Login">log in</t:pagelink></li> -->
 	</ul>
 </html>

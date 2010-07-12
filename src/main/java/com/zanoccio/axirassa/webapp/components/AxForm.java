@@ -1,6 +1,7 @@
 
 package com.zanoccio.axirassa.webapp.components;
 
-public class AxForm {
-	/* empty */
+import org.apache.tapestry5.corelib.components.Form;
+
+public class AxForm extends Form {
 }
