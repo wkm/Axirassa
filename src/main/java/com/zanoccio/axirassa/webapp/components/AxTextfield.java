@@ -1,21 +1,20 @@
 
 package com.zanoccio.axirassa.webapp.components;
 
-import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.annotations.CleanupRender;
-import org.apache.tapestry5.annotations.SetupRender;
+import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.annotations.SupportsInformalParameters;
 import org.apache.tapestry5.corelib.components.TextField;
 
-public class AxTextfield extends TextField {
+@SupportsInformalParameters
+public class AxTextfield {
+	@Component(publishParameters = "annotationProvider,clientId,disabled,label,nulls,translate,validate,value")
+	private TextField txtfield;
 
-	@SetupRender
-	void beforeRenderTemplate(MarkupWriter writer) {
-		writer.writeRaw("<td>");
-	}
+	@Property
+	private String text;
 
+	// @Property
+	// private String label;
 
-	@CleanupRender
-	void afterRenderTemplate(MarkupWriter writer) {
-		writer.writeRaw("</td>");
-	}
 }
