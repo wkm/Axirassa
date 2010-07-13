@@ -11,9 +11,8 @@ import org.apache.tapestry5.services.Environment;
 
 /**
  * 
- * Based on:
- * http://piraya-blog.blogspot.com/2009/06/creating-custom-validationdecorator
- * -for.html
+ * Based on: http://jumpstart.doublenegative.com.au/jumpstart/examples/input/
+ * novalidationbubbles1
  * 
  * @author wiktor
  * 
@@ -31,11 +30,17 @@ public class CustomValidationDecorator extends BaseValidationDecorator {
 
 	@Override
 	public void insideLabel(final Field field, final Element element) {
-		if (field != null) {
-			if (inError(field))
-				element.addClassName(CSSClassConstants.ERROR);
-			if (field.isRequired())
-				element.addClassName("required");
+		if (field == null)
+			return;
+
+		if (field.isRequired()) {
+			element.addClassName("required-label");
+			element.getContainer().addClassName("required-label-c");
+		}
+
+		if (inError(field)) {
+			element.addClassName("error-label");
+			element.getContainer().addClassName("error-label-c");
 		}
 	}
 
@@ -50,24 +55,29 @@ public class CustomValidationDecorator extends BaseValidationDecorator {
 
 	@Override
 	public void afterField(final Field field) {
-		if (field != null) {
-			ValidationTracker tracker = environment.peekRequired(ValidationTracker.class);
-			if (tracker.inError(field)) {
-				String error = tracker.getError(field);
-				if (error != null && error.length() > 0) {
-					markupwriter.element("span", "class", CSSClassConstants.ERROR);
-					markupwriter.write(error);
-					markupwriter.end();
-				}
-			}
+		if (field.isRequired()) {
+			getElement().addClassName("required-field");
+			getElement().getContainer().addClassName("required-field-c");
+		}
+
+		if (inError(field)) {
+			getElement().addClassName("error-field");
+			getElement().getContainer().addClassName("error-field-c");
 		}
 	}
 
 
 	private boolean inError(final Field field) {
-		System.out.println("Checking for errir in field" + field.toString());
+		return getTracker().inError(field);
+	}
 
-		ValidationTracker tracker = environment.peekRequired(ValidationTracker.class);
-		return tracker.inError(field);
+
+	private ValidationTracker getTracker() {
+		return environment.peekRequired(ValidationTracker.class);
+	}
+
+
+	private Element getElement() {
+		return markupwriter.getElement();
 	}
 }
