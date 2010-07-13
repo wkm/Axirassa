@@ -9,6 +9,7 @@
 			t:validate='required' />
 		<t:axpasswordfield t:id="confirmpassword" t:name="Confirm" 
 			t:validate='required'/>
+		<t:axerror for="confirmpassword" />
 		
 		<t:axsubmit value="Submit"/>
 	</t:axform>

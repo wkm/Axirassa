@@ -6,12 +6,14 @@ import org.apache.tapestry5.FormValidationControl;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.ValidationDecorator;
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.IncludeJavaScriptLibrary;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Environment;
 
 import com.zanoccio.axirassa.webapp.services.validation.CustomValidationDecorator;
 
+@IncludeJavaScriptLibrary({ "context:js/error.js" })
 public class AxForm implements FormValidationControl {
 
 	@Inject
