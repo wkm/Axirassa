@@ -59,6 +59,7 @@ Tapestry.FieldEventManager.addMethods( {
 	
 	removeDecorations: function() {
 		this.msg.update(null);
+		this.msg.hide();
 		
 		this.label.removeClassName("error-label");
 		this.labelContainer.removeClassName("error-label-c");
