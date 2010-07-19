@@ -18,12 +18,13 @@ Tapestry.FieldEventManager.addMethods( {
 		this.msg = $(msgId);
 		
 		if(!this.msg) {
-			this.msg = new Element('strong', {
+			this.msg = new Element('span', {
 				'id' : msgId,
-				'class' : 'msg'
+				'class' : 'errorMsg'
 			});
+			this.msg.hide();
 			this.fieldContainer.insert( {
-				bottom : this.msg
+				top : this.msg
 			});
 		}
 		
@@ -44,6 +45,7 @@ Tapestry.FieldEventManager.addMethods( {
 		$T(this.field.form).validationError = true;
 		
 		this.msg.update(message);
+		this.msg.show();
 		
 		this.label.addClassName("error-label");
 		this.labelContainer.addClassName("error-label-c");

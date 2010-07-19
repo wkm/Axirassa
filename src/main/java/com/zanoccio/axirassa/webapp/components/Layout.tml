@@ -5,7 +5,7 @@
 	</head>
 	<body>
 		<div id='header'>
-			<div id='title'>axirassa | pinger</div>
+			<div id='title'><span class='ax'>axirassa</span><span class='sep'>.</span><span class='p'>pinger</span></div>
 			<div id='subtitle'>[ technology prototype ]</div>
         </div>
         <div id ="content">

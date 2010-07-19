@@ -14,9 +14,26 @@ body {
 	margin-top: .6em;
 	margin-left: 30px;
 	font-size: 24pt;
-	font-weight: bold;
+	
 	color: rgb(163, 40, 10);
-	text-shadow: 0 1px 1px rgba(50,0,0,0.5);  
+	text-shadow: 0 1px 1px rgba(50,0,0,0.2);  
+}
+
+.p {
+	color: #000;
+	font-weight: bold;
+	text-shadow: none;
+	
+	font-size: 140%;
+}
+
+.ax {
+	font-variant: small-caps;
+}
+
+.sep {
+	color: #666;
+	text-shadow: none;
 }
 
 #subtitle {
