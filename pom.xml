@@ -24,6 +24,34 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+        	<groupId>org.hornetq</groupId>
+        	<artifactId>hornetq-jms-client</artifactId>
+        	<version>2.0.0.GA</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.hornetq</groupId>
+        	<artifactId>hornetq-core</artifactId>
+        	<version>2.0.0.GA</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.hornetq</groupId>
+        	<artifactId>hornetq-transports</artifactId>
+        	<version>2.0.0.GA</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.hornetq</groupId>
+        	<artifactId>hornetq-logging</artifactId>
+        	<version>2.0.0.GA</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
     </dependencies>
     <build>
         <finalName>axir</finalName>
@@ -88,6 +116,16 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
             <id>OpenQA_Release</id>
             <name>OpenQA Release Repository</name>
             <url>http://archiva.openqa.org/repository/releases/</url>
+        </repository>
+        <repository>
+        	<id>apache</id>
+        	<name>Apache</name>
+        	<url>http://ftp.cica.es/mirrors/maven2</url>
+        </repository>
+        <repository>
+        	<id>jboss-nexus</id>
+        	<name>JBoss</name>
+        	<url>https://repository.jboss.org/nexus/content/groups/public/</url>
         </repository>
     </repositories>
 
