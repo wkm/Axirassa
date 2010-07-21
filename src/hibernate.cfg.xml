@@ -32,8 +32,8 @@
 
 
 		<!--  Mappings -->
-        <mapping resource="com/zanoccio/axirassa/domain/User.hbm.xml"/>
-        <mapping resource="com/zanoccio/axirassa/domain/UserAccessEvent.hbm.xml"/>
+		<mapping class="com.zanoccio.axirassa.domain.User"/>
+		<mapping class="com.zanoccio.axirassa.domain.UserAccessEvent"/>
     </session-factory>
 
 </hibernate-configuration> 
