@@ -3,34 +3,58 @@ package com.zanoccio.axirassa.webapp.services;
 
 import java.io.IOException;
 
-import org.apache.tapestry5.services.ApplicationStateManager;
+import org.apache.tapestry5.services.ComponentEventRequestParameters;
+import org.apache.tapestry5.services.ComponentRequestFilter;
+import org.apache.tapestry5.services.ComponentRequestHandler;
 import org.apache.tapestry5.services.ComponentSource;
-import org.apache.tapestry5.services.Dispatcher;
 import org.apache.tapestry5.services.PageRenderLinkSource;
-import org.apache.tapestry5.services.Request;
+import org.apache.tapestry5.services.PageRenderRequestParameters;
 import org.apache.tapestry5.services.Response;
-import org.slf4j.Logger;
 
-public class PageProtectionFilter implements Dispatcher {
-	private final static String LOGIN_PAGE = "/login";
-
-	private final PageRenderLinkSource _pagerenderlinksoure;
-	private final ComponentSource _componentsource;
-	private final Response _response;
-	private final ApplicationStateManager _statemanager;
-	private final Logger _logger;
+public class PageProtectionFilter implements ComponentRequestFilter {
+	private final PageRenderLinkSource renderlinksource;
+	private final ComponentSource componentsource;
+	private final Response response;
+	private final AuthenticationService authservice;
 
 
-	public PageProtectionFilter(PageRenderLinkSource pagerenderlinksource, ComponentSource componentsource,
-	        Response response, ApplicationStateManager asm, Logger logger) {
-
+	public PageProtectionFilter(PageRenderLinkSource renderlinksource, ComponentSource componentsource,
+	        Response response, AuthenticationService authservice) {
+		this.renderlinksource = renderlinksource;
+		this.componentsource = componentsource;
+		this.response = response;
+		this.authservice = authservice;
 	}
 
 
-	@Override
-	public boolean dispatch(Request request, Response response) throws IOException {
-		// TODO Auto-generated method stub
+	public void handleComponentEvent(ComponentEventRequestParameters parameters, ComponentRequestHandler handler)
+	        throws IOException {
+		if (dispatchedToLoginPage(parameters.getActivePageName())) { return; }
+
+		handler.handleComponentEvent(parameters);
+	}
+
+
+	public void handlePageRender(PageRenderRequestParameters parameters, ComponentRequestHandler handler)
+	        throws IOException {
+		if (dispatchedToLoginPage(parameters.getLogicalPageName())) { return; }
+
+		handler.handlePageRender(parameters);
+	}
+
+
+	private boolean dispatchedToLoginPage(String pagename) {
+		// if (authservice.isLoggedIn())
 		return false;
-	}
 
+		// Component page = componentsource.getPage(pagename);
+		//
+		// if (page.getClass().isAnnotationPresent(PublicPage.class)) { return
+		// false; }
+		//
+		// Link link = renderlinksource.createPageRenderLink("Login");
+		// response.sendRedirect(link);
+		//
+		// return true;
+	}
 }
