@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		
+		<!-- Database Connection -->
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://localhost/axir_devel</property>
+		<property name="connection.user">root</property>
+		<property name="connection.password"></property>
+		
+		<property name="dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+		
+		
+		<!-- Session Management -->
+		<property name="current_session_context_class">thread</property>
+		
+		<!-- Cache -->
+		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+		
+		<!-- Debugging -->
+		<property name="show_sql">true</property>
+		<property name="hbm2ddl.auto">create-drop</property>
+		
+		
+		<!-- Mappings -->
+		<mapping resource="com/zanoccio/axirassa/domain/User.hbm.xml"/>
+		<mapping resource="com/zanoccio/axirassa/domain/UserAccessEvent.hbm.xml"/>
+		
+	</session-factory>
+</hibernate-configuration>
