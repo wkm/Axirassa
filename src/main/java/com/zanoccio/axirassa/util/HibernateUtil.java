@@ -1,11 +1,12 @@
 
 package com.zanoccio.axirassa.util;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
 public class HibernateUtil {
-	private static final SessionFactory sessionfactory = buildSessionFactory();
+	private static SessionFactory sessionfactory = buildSessionFactory();
 
 
 	private static SessionFactory buildSessionFactory() {
@@ -20,5 +21,15 @@ public class HibernateUtil {
 
 	public static SessionFactory getSessionFactory() {
 		return sessionfactory;
+	}
+
+
+	public static void setSessionFactory(SessionFactory buildSessionFactory) {
+		sessionfactory = buildSessionFactory;
+	}
+
+
+	public static Session getSession() {
+		return sessionfactory.openSession();
 	}
 }

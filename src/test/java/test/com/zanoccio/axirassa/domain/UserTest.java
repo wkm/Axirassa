@@ -1,7 +1,7 @@
 
 package test.com.zanoccio.axirassa.domain;
 
-import org.testng.annotations.Test;
+import org.junit.Test;
 
 import com.zanoccio.axirassa.domain.User;
 

@@ -1,13 +1,12 @@
 
 package com.zanoccio.axirassa.domain;
 
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,10 +18,15 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.classic.Session;
 
 import com.zanoccio.axirassa.util.HibernateUtil;
+import com.zanoccio.axirassa.util.MessageDigestProvider;
+import com.zanoccio.axirassa.util.RandomStringGenerator;
 
 @Entity
 @Table(name = "Users")
-public class User {
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 1375674968928774909L;
+
 
 	//
 	// Static
@@ -69,9 +73,9 @@ public class User {
 
 	private Boolean active;
 
-	@Embedded
-	private Set accessevents;
 
+	// @Embedded
+	// private Set accessevents;
 
 	// ID
 	public Long getId() {
