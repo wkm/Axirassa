@@ -10,7 +10,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.junit.Test;
 
-import com.zanoccio.axirassa.domain.User;
+import com.zanoccio.axirassa.domain.UserModel;
 import com.zanoccio.axirassa.domain.exception.NoSaltException;
 import com.zanoccio.axirassa.util.HibernateUtil;
 import com.zanoccio.axirassa.util.SchemaTest;
@@ -18,21 +18,21 @@ import com.zanoccio.axirassa.util.SchemaTest;
 public class UserTest extends SchemaTest {
 	@Test
 	public void userPassword() throws NoSaltException {
-		User user = new User();
-		user.setEMail("foo@mail.com");
-		user.setSalt("tweedledee");
-		user.createPassword("blah");
-		addEntity(user);
+		UserModel usermodel = new UserModel();
+		usermodel.setEMail("foo@mail.com");
+		usermodel.setSalt("tweedledee");
+		usermodel.createPassword("blah");
+		addEntity(usermodel);
 
-		assertTrue(user.matchPassword("blah"));
-		assertFalse(user.matchPassword("tweedle"));
+		assertTrue(usermodel.matchPassword("blah"));
+		assertFalse(usermodel.matchPassword("tweedle"));
 
 		Session session = HibernateUtil.getSession();
 		session.beginTransaction();
 
-		Query query = session.createQuery("from User");
+		Query query = session.createQuery("from UserModel");
 		List results = query.list();
-		User storeduser = (User) results.get(0);
+		UserModel storeduser = (UserModel) results.get(0);
 		session.getTransaction().commit();
 
 		assertTrue(storeduser.matchPassword("blah"));

@@ -26,7 +26,7 @@ import com.zanoccio.axirassa.util.RandomStringGenerator;
 
 @Entity
 @Table(name = "Users")
-public class User implements Serializable {
+public class UserModel implements Serializable {
 
 	private static final long serialVersionUID = 1375674968928774909L;
 
@@ -39,7 +39,7 @@ public class User implements Serializable {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
-		Query query = session.createQuery("select user.Email from User as user where user.Email = ?");
+		Query query = session.createQuery("select user.Email from UserModel as user where user.Email = ?");
 		query.setString(0, email);
 
 		List results = query.list();
@@ -126,7 +126,7 @@ public class User implements Serializable {
 
 
 	/**
-	 * Sets the password for this User by salting and encrypting it
+	 * Sets the password for this UserModel by salting and encrypting it
 	 * 
 	 * @param password
 	 * @throws NoSaltException
