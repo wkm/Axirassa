@@ -47,13 +47,8 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         </dependency>
         <dependency>
         	<groupId>org.hibernate</groupId>
-        	<artifactId>hibernate</artifactId>
-        	<version>3.2.6.ga</version>
-        </dependency>
-        <dependency>
-        	<groupId>org.hibernate</groupId>
         	<artifactId>hibernate-annotations</artifactId>
-        	<version>3.4.0.GA</version>
+        	<version>3.5.1-Final</version>
         </dependency>
         <dependency>
         	<groupId>org.jmock</groupId>
@@ -72,7 +67,7 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         <dependency>
         	<groupId>org.hibernate</groupId>
         	<artifactId>hibernate-validator</artifactId>
-        	<version>3.0.0.GA</version>
+        	<version>4.0.2.GA</version>
         </dependency>
         <dependency>
         	<groupId>org.hsqldb</groupId>
@@ -90,13 +85,10 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         </dependency>
         <dependency>
         	<groupId>org.hibernate</groupId>
-        	<artifactId>hibernate-entitymanager</artifactId>
-        	<version>3.4.0.GA</version>
-        </dependency>
-        <dependency>
-        	<groupId>org.hibernate</groupId>
-        	<artifactId>hibernate-commons-annotations</artifactId>
-        	<version>3.1.0.GA</version>
+        	<artifactId>hibernate-core</artifactId>
+        	<version>3.5.1-Final</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
         </dependency>
     </dependencies>
     <developers>
@@ -167,6 +159,10 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
  repository at ibiblio.     -->
 
         <repository>
+        	<id>JBoss Repo</id>
+        	<url>http://repository.jboss.com/maven2</url>
+        </repository>
+                <repository>
             <id>tapestry-snapshots</id>
             <url>http://tapestry.formos.com/maven-snapshot-repository/</url>
         </repository>
@@ -184,11 +180,6 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         	<id>apache</id>
         	<name>Apache</name>
         	<url>http://ftp.cica.es/mirrors/maven2</url>
-        </repository>
-        <repository>
-        	<id>jboss-nexus</id>
-        	<name>JBoss</name>
-        	<url>https://repository.jboss.org/nexus/content/groups/public/</url>
         </repository>
     </repositories>
 
