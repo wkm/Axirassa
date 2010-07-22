@@ -1,12 +1,19 @@
 
 package com.zanoccio.axirassa.util;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.junit.Test;
 
 import com.zanoccio.axirassa.domain.User;
+import com.zanoccio.axirassa.domain.exception.NoSaltException;
 
 public class SchemaTest {
 	static {
@@ -36,10 +43,26 @@ public class SchemaTest {
 
 
 	@Test
-	public void userPassword() {
+	public void userPassword() throws NoSaltException {
 		User user = new User();
 		user.setEMail("foo@mail.com");
-		user.setPassword("blah");
+		user.setSalt("tweedledee");
+		user.createPassword("blah");
 		addEntity(user);
+
+		assertTrue(user.matchPassword("blah"));
+		assertFalse(user.matchPassword("tweedle"));
+
+		Session session = HibernateUtil.getSession();
+		session.beginTransaction();
+
+		Query query = session.createQuery("from User");
+		List results = query.list();
+		User storeduser = (User) results.get(0);
+		session.getTransaction().commit();
+
+		assertTrue(storeduser.matchPassword("blah"));
+		assertFalse(storeduser.matchPassword("tweedle"));
+		assertFalse(storeduser.matchPassword("*!@#HJKNMoiu9"));
 	}
 }
