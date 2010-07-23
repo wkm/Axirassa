@@ -10,9 +10,12 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.junit.Test;
 
+import com.zanoccio.axirassa.domain.AccountUserModel;
 import com.zanoccio.axirassa.domain.UserModel;
 import com.zanoccio.axirassa.domain.exception.NoSaltException;
+import com.zanoccio.axirassa.domainpaths.QuickRegisterPath;
 import com.zanoccio.axirassa.util.HibernateUtil;
+import com.zanoccio.axirassa.util.Meta;
 import com.zanoccio.axirassa.util.SchemaTest;
 
 public class UserTest extends SchemaTest {
@@ -38,5 +41,24 @@ public class UserTest extends SchemaTest {
 		assertTrue(storeduser.matchPassword("blah"));
 		assertFalse(storeduser.matchPassword("tweedle"));
 		assertFalse(storeduser.matchPassword("*!@#HJKNMoiu9"));
+		assertFalse(storeduser.matchPassword("\""));
+		assertFalse(storeduser.matchPassword("'"));
+	}
+
+
+	@Test
+	public void quickRegisterPath() throws NoSaltException {
+		new QuickRegisterPath("twit@mail.com", "boohoo").execute();
+
+		Session session = HibernateUtil.getSession();
+		session.beginTransaction();
+
+		Query query = session.createQuery("from AccountUserModel");
+		List results = query.list();
+		AccountUserModel accountuser = (AccountUserModel) results.get(0);
+
+		session.getTransaction().commit();
+
+		Meta.inspect(accountuser);
 	}
 }
