@@ -12,15 +12,17 @@ import org.hornetq.api.core.client.ClientSession;
 import org.hornetq.api.core.client.ClientSessionFactory;
 import org.hornetq.api.core.client.HornetQClient;
 import org.hornetq.core.remoting.impl.invm.InVMConnectorFactory;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.zanoccio.axirassa.util.EmbeddedMessagingServer;
 
 public class HornetTest {
-	@BeforeClass()
-	public static void startHornet() throws Exception {
-		EmbeddedMessagingServer.start();
+	static {
+		try {
+			EmbeddedMessagingServer.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 

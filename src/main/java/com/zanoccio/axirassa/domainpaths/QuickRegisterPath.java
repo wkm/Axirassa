@@ -8,9 +8,8 @@ import com.zanoccio.axirassa.domain.AccountUserModel;
 import com.zanoccio.axirassa.domain.UserModel;
 import com.zanoccio.axirassa.domain.UserRole;
 import com.zanoccio.axirassa.domain.exception.NoSaltException;
-import com.zanoccio.axirassa.util.HibernateUtil;
 
-public class QuickRegisterPath implements DomainPath {
+public class QuickRegisterPath extends AbstractDomainPath {
 
 	private final String email;
 	private final String password;
@@ -23,7 +22,7 @@ public class QuickRegisterPath implements DomainPath {
 
 
 	@Override
-	public void execute() throws NoSaltException {
+	public void execute(Session session) throws NoSaltException {
 		UserModel user = new UserModel();
 		AccountModel account = new AccountModel();
 		AccountUserModel accountuser = new AccountUserModel();
@@ -38,13 +37,8 @@ public class QuickRegisterPath implements DomainPath {
 		accountuser.setAccount(account);
 		accountuser.setUser(user);
 
-		Session session = HibernateUtil.getSession();
-		session.beginTransaction();
-
 		session.save(user);
 		session.save(account);
 		session.save(accountuser);
-
-		session.getTransaction().commit();
 	}
 }

@@ -1,6 +1,7 @@
 
 package com.zanoccio.axirassa.domainpaths;
 
+import org.hibernate.Session;
 
 /**
  * Represents a series of domain model steps relatively closely linked to a
@@ -12,4 +13,7 @@ package com.zanoccio.axirassa.domainpaths;
  */
 public interface DomainPath {
 	public void execute() throws Exception;
+
+
+	public void execute(Session session) throws Exception;
 }

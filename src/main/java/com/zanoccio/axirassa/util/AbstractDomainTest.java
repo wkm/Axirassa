@@ -2,11 +2,15 @@
 package com.zanoccio.axirassa.util;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.junit.BeforeClass;
 
 public class AbstractDomainTest {
-	static {
+	public static Session session;
+
+
+	@BeforeClass
+	public static void hibernateSession() {
 		AnnotationConfiguration config = new AnnotationConfiguration().configure()
 		        .setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect")
 		        .setProperty("hibernate.connection.driver_class", "org.hsqldb.jdbcDriver")
@@ -23,11 +27,6 @@ public class AbstractDomainTest {
 
 
 	public static void addEntity(Object entity) {
-		Transaction transaction = session.beginTransaction();
 		session.save(entity);
-		transaction.commit();
 	}
-
-
-	public static Session session;
 }

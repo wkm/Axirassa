@@ -18,6 +18,8 @@ import com.zanoccio.axirassa.util.AbstractDomainTest;
 public class UserTest extends AbstractDomainTest {
 	@Test
 	public void userPassword() throws NoSaltException {
+		session.beginTransaction();
+
 		UserModel usermodel = new UserModel();
 		usermodel.setEMail("foo@mail.com");
 		usermodel.setSalt("tweedledee");
@@ -27,25 +29,24 @@ public class UserTest extends AbstractDomainTest {
 		assertTrue(usermodel.matchPassword("blah"));
 		assertFalse(usermodel.matchPassword("tweedle"));
 
-		session.beginTransaction();
-		Query query = session.createQuery("from UserModel");
-		List results = query.list();
-		UserModel storeduser = (UserModel) results.get(0);
-		session.getTransaction().commit();
+		// Query query = session.createQuery("from UserModel");
+		// List results = query.list();
+		// UserModel storeduser = (UserModel) results.get(0);
+		//
+		// assertTrue(storeduser.matchPassword("blah"));
+		// assertFalse(storeduser.matchPassword("tweedle"));
+		// assertFalse(storeduser.matchPassword("*!@#HJKNMoiu9"));
+		// assertFalse(storeduser.matchPassword("\""));
+		// assertFalse(storeduser.matchPassword("'"));
 
-		assertTrue(storeduser.matchPassword("blah"));
-		assertFalse(storeduser.matchPassword("tweedle"));
-		assertFalse(storeduser.matchPassword("*!@#HJKNMoiu9"));
-		assertFalse(storeduser.matchPassword("\""));
-		assertFalse(storeduser.matchPassword("'"));
+		session.getTransaction().commit();
 	}
 
 
 	@Test
 	public void quickRegisterPath() throws NoSaltException {
-		new QuickRegisterPath("twit@mail.com", "boohoo").execute();
-
 		session.beginTransaction();
+		new QuickRegisterPath("twit@mail.com", "boohoo").execute(session);
 
 		Query query = session.createQuery("from AccountUserModel");
 		List results = query.list();
