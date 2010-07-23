@@ -28,6 +28,7 @@
 		<!-- Mappings -->
 		<mapping class="com.zanoccio.axirassa.domain.UserModel" />
 		<mapping class="com.zanoccio.axirassa.domain.AccountModel" />
+		<mapping class="com.zanoccio.axirassa.domain.AccountUserModel" />
 		<mapping class="com.zanoccio.axirassa.domain.PingerModel" />
 		
 	</session-factory>
