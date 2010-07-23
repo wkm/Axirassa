@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
 
-public class SchemaTest {
+public class AbstractDomainTest {
 	static {
 		AnnotationConfiguration config = new AnnotationConfiguration().configure()
 		        .setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect")

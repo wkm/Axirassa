@@ -15,10 +15,9 @@ import com.zanoccio.axirassa.domain.UserModel;
 import com.zanoccio.axirassa.domain.exception.NoSaltException;
 import com.zanoccio.axirassa.domainpaths.QuickRegisterPath;
 import com.zanoccio.axirassa.util.HibernateUtil;
-import com.zanoccio.axirassa.util.Meta;
-import com.zanoccio.axirassa.util.SchemaTest;
+import com.zanoccio.axirassa.util.AbstractDomainTest;
 
-public class UserTest extends SchemaTest {
+public class UserTest extends AbstractDomainTest {
 	@Test
 	public void userPassword() throws NoSaltException {
 		UserModel usermodel = new UserModel();
@@ -58,7 +57,5 @@ public class UserTest extends SchemaTest {
 		AccountUserModel accountuser = (AccountUserModel) results.get(0);
 
 		session.getTransaction().commit();
-
-		Meta.inspect(accountuser);
 	}
 }
