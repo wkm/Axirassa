@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0">
     <modelVersion>4.0.0</modelVersion>
@@ -27,8 +28,7 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         <dependency>
      <groupId>org.jboss.netty</groupId>
      <artifactId>netty</artifactId>
-     <version>3.1.0.GA</version>
-     <type>pom</type>
+     <version>3.1.5.GA</version>
         </dependency>
         <dependency>
         	<groupId>org.hornetq</groupId>
@@ -53,7 +53,7 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         </dependency>
         <dependency>
         	<groupId>org.hornetq</groupId>
-        	<artifactId>hornet-jms</artifactId>
+        	<artifactId>hornetq-jms</artifactId>
         	<version>${hornetq-release-version}</version>
         	<scope>compile</scope>
         </dependency>
@@ -172,6 +172,9 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
  repository at ibiblio.     -->
 
         <repository>
+        	<snapshots>
+        		<enabled>false</enabled>
+        	</snapshots>
         	<id>JBoss Repo</id>
         	<url>http://repository.jboss.com/maven2</url>
         </repository>
@@ -197,6 +200,9 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
             <url>http://archiva.openqa.org/repository/releases/</url>
         </repository>
         <repository>
+        	<snapshots>
+        		<enabled>false</enabled>
+        	</snapshots>
         	<id>apache</id>
         	<name>Apache</name>
         	<url>http://ftp.cica.es/mirrors/maven2</url>
