@@ -17,17 +17,17 @@ public class AbstractDomainTest {
 		        .setProperty("hibernate.cache.provider_class", "org.hibernate.cache.HashtableCacheProvider")
 		        .setProperty("hibernate.hbm2ddl.auto", "create-drop").setProperty("hibernate.show_sql", "true");
 		HibernateUtil.setSessionFactory(config.buildSessionFactory());
+
+		session = HibernateUtil.getSession();
 	}
 
 
 	public static void addEntity(Object entity) {
-		Session session = HibernateUtil.getSession();
-		try {
-			Transaction transaction = session.beginTransaction();
-			session.save(entity);
-			transaction.commit();
-		} finally {
-			session.close();
-		}
+		Transaction transaction = session.beginTransaction();
+		session.save(entity);
+		transaction.commit();
 	}
+
+
+	public static Session session;
 }

@@ -7,14 +7,12 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.junit.Test;
 
 import com.zanoccio.axirassa.domain.AccountUserModel;
 import com.zanoccio.axirassa.domain.UserModel;
 import com.zanoccio.axirassa.domain.exception.NoSaltException;
 import com.zanoccio.axirassa.domainpaths.QuickRegisterPath;
-import com.zanoccio.axirassa.util.HibernateUtil;
 import com.zanoccio.axirassa.util.AbstractDomainTest;
 
 public class UserTest extends AbstractDomainTest {
@@ -29,9 +27,7 @@ public class UserTest extends AbstractDomainTest {
 		assertTrue(usermodel.matchPassword("blah"));
 		assertFalse(usermodel.matchPassword("tweedle"));
 
-		Session session = HibernateUtil.getSession();
 		session.beginTransaction();
-
 		Query query = session.createQuery("from UserModel");
 		List results = query.list();
 		UserModel storeduser = (UserModel) results.get(0);
@@ -49,7 +45,6 @@ public class UserTest extends AbstractDomainTest {
 	public void quickRegisterPath() throws NoSaltException {
 		new QuickRegisterPath("twit@mail.com", "boohoo").execute();
 
-		Session session = HibernateUtil.getSession();
 		session.beginTransaction();
 
 		Query query = session.createQuery("from AccountUserModel");
