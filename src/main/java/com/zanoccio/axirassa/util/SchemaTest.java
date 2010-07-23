@@ -7,16 +7,11 @@ import org.hibernate.cfg.AnnotationConfiguration;
 
 public class SchemaTest {
 	static {
-		AnnotationConfiguration config = new AnnotationConfiguration()
-		        .configure()
-		        // .setProperty("hibernate.dialect",
-				// "org.hibernate.dialect.HSQLDialect")
-		        // .setProperty("hibernate.connection.driver_class",
-				// "org.hsqldb.jdbcDriver")
-		        // .setProperty("hibernate.connection.url",
-				// "jdbc:hsqldb:mem:axir")
-		        // .setProperty("hibernate.connection.username",
-				// "sa").setProperty("hibernate.connection.password", "")
+		AnnotationConfiguration config = new AnnotationConfiguration().configure()
+		        .setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect")
+		        .setProperty("hibernate.connection.driver_class", "org.hsqldb.jdbcDriver")
+		        .setProperty("hibernate.connection.url", "jdbc:hsqldb:mem:axir")
+		        .setProperty("hibernate.connection.username", "sa").setProperty("hibernate.connection.password", "")
 		        .setProperty("hibernate.connection.pool_size", "1")
 		        .setProperty("hibernate.connection.autocommit", "true")
 		        .setProperty("hibernate.cache.provider_class", "org.hibernate.cache.HashtableCacheProvider")
