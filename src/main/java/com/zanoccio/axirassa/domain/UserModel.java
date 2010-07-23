@@ -90,7 +90,7 @@ public class UserModel implements Serializable {
 
 
 	@Basic
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users", targetEntity = AccountModel.class)
+	@ManyToMany(fetch = FetchType.LAZY, targetEntity = AccountModel.class, mappedBy = "users")
 	public Set<AccountModel> getAccounts() {
 		return accounts;
 	}
@@ -139,12 +139,12 @@ public class UserModel implements Serializable {
 
 
 	// PASSWORD
-	private String password;
+	private byte[] password;
 
 
 	@Basic
 	@Column(name = "password")
-	public String getPassword() {
+	public byte[] getPassword() {
 		return password;
 	}
 
@@ -163,12 +163,12 @@ public class UserModel implements Serializable {
 	}
 
 
-	public void setPassword(String password) throws NoSaltException {
+	public void setPassword(byte[] password) throws NoSaltException {
 		this.password = password;
 	}
 
 
-	public String hashPassword(String password) throws NoSaltException {
+	public byte[] hashPassword(String password) throws NoSaltException {
 		if (salt == null)
 			throw new NoSaltException(this);
 
@@ -177,7 +177,7 @@ public class UserModel implements Serializable {
 		msgdigest.update(salt.getBytes());
 		msgdigest.update(password.getBytes());
 
-		return new String(msgdigest.digest());
+		return msgdigest.digest();
 	}
 
 
@@ -187,7 +187,16 @@ public class UserModel implements Serializable {
 	 * @throws NoSaltException
 	 */
 	public boolean matchPassword(String password) throws NoSaltException {
-		return this.password.equals(hashPassword(password));
+		byte[] hashed = hashPassword(password);
+
+		if (hashed.length != this.password.length)
+			return false;
+
+		for (int i = 0; i < hashed.length; i++)
+			if (hashed[i] != this.password[i])
+				return false;
+
+		return true;
 	}
 
 
