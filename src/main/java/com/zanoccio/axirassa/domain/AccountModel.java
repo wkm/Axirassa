@@ -20,11 +20,11 @@ public class AccountModel implements Serializable {
 	private static final long serialVersionUID = -6937561064726878987L;
 
 	// ID
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}

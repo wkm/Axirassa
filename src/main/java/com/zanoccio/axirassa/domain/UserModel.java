@@ -7,8 +7,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -70,6 +72,7 @@ public class UserModel implements Serializable {
 
 
 	@Id
+	@Basic
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "user_id")
 	public Long getId() {
@@ -86,7 +89,8 @@ public class UserModel implements Serializable {
 	private Set<AccountModel> accounts;
 
 
-	@ManyToMany(mappedBy = "users", targetEntity = AccountModel.class)
+	@Basic
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users", targetEntity = AccountModel.class)
 	public Set<AccountModel> getAccounts() {
 		return accounts;
 	}
@@ -101,6 +105,7 @@ public class UserModel implements Serializable {
 	private String name;
 
 
+	@Basic
 	@Column(name = "name")
 	public String getName() {
 		return name;
@@ -116,6 +121,7 @@ public class UserModel implements Serializable {
 	private String salt;
 
 
+	@Basic
 	@Column(name = "salt")
 	public String getSalt() {
 		return salt;
@@ -136,6 +142,7 @@ public class UserModel implements Serializable {
 	private String password;
 
 
+	@Basic
 	@Column(name = "password")
 	public String getPassword() {
 		return password;
