@@ -40,6 +40,7 @@ public class HornetTest {
 		message.getBodyBuffer().writeString("Hello");
 
 		producer.send(message);
+		producer.close();
 
 		session.start();
 
@@ -49,6 +50,9 @@ public class HornetTest {
 
 		System.out.println("message = " + msgReceived.getBodyBuffer().readString());
 
+		consumer.close();
+
+		session.deleteQueue("example");
 		session.close();
 	}
 
