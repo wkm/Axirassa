@@ -25,6 +25,12 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         	<scope>compile</scope>
         </dependency>
         <dependency>
+     <groupId>org.jboss.netty</groupId>
+     <artifactId>netty</artifactId>
+     <version>3.1.0.GA</version>
+     <type>pom</type>
+        </dependency>
+        <dependency>
         	<groupId>org.hornetq</groupId>
         	<artifactId>hornetq-core</artifactId>
         	<version>${hornetq-release-version}</version>
@@ -43,6 +49,12 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         	<artifactId>hornetq-logging</artifactId>
         	<version>${hornetq-release-version}</version>
         	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.hornetq</groupId>
+        	<artifactId>hornet-jms</artifactId>
+        	<version>${hornetq-release-version}</version>
         	<scope>compile</scope>
         </dependency>
         <dependency>
@@ -83,6 +95,12 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         	<artifactId>hibernate-core</artifactId>
         	<version>3.5.1-Final</version>
         	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
+        <dependency>
+        	<groupId>javax.jms</groupId>
+        	<artifactId>jms</artifactId>
+        	<version>1.1</version>
         	<scope>compile</scope>
         </dependency>
     </dependencies>
@@ -157,6 +175,13 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         	<id>JBoss Repo</id>
         	<url>http://repository.jboss.com/maven2</url>
         </repository>
+             <repository>
+       <id>repository.jboss.org</id>
+       <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+       <snapshots>
+         <enabled>false</enabled>
+       </snapshots>
+     </repository>
                 <repository>
             <id>tapestry-snapshots</id>
             <url>http://tapestry.formos.com/maven-snapshot-repository/</url>
