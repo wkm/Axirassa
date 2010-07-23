@@ -2,16 +2,12 @@
 package com.zanoccio.axirassa.domain;
 
 import java.io.Serializable;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -35,21 +31,18 @@ public class AccountModel implements Serializable {
 	}
 
 
-	// USERS
-	private Set<UserModel> users;
+	// Name
+	private String name;
 
 
-	@ManyToMany(targetEntity = UserModel.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(
-	        name = "Accounts_Users",
-	        joinColumns = @JoinColumn(name = "EmployeeID"),
-	        inverseJoinColumns = @JoinColumn(name = "AccountID"))
-	public Set<UserModel> getUsers() {
-		return users;
+	@Basic
+	public String getName() {
+		return name;
 	}
 
 
-	public void setUsers(Set<UserModel> users) {
-		this.users = users;
+	public void setName(String name) {
+		this.name = name;
 	}
+
 }

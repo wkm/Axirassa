@@ -5,16 +5,13 @@ import java.io.Serializable;
 import java.security.MessageDigest;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -82,22 +79,6 @@ public class UserModel implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-
-	// ACCOUNTS
-	private Set<AccountModel> accounts;
-
-
-	@Basic
-	@ManyToMany(fetch = FetchType.LAZY, targetEntity = AccountModel.class, mappedBy = "users")
-	public Set<AccountModel> getAccounts() {
-		return accounts;
-	}
-
-
-	public void setAccounts(Set<AccountModel> accounts) {
-		this.accounts = accounts;
 	}
 
 
