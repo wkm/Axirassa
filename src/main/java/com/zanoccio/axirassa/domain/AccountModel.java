@@ -42,8 +42,8 @@ public class AccountModel implements Serializable {
 	@ManyToMany(targetEntity = UserModel.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(
 	        name = "Accounts_Users",
-	        joinColumns = @JoinColumn(referencedColumnName = "EmployeeID"),
-	        inverseJoinColumns = @JoinColumn(referencedColumnName = "AccountID"))
+	        joinColumns = @JoinColumn(name = "EmployeeID"),
+	        inverseJoinColumns = @JoinColumn(name = "AccountID"))
 	public Set<UserModel> getUsers() {
 		return users;
 	}
