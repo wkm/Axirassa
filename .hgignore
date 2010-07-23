@@ -6,3 +6,8 @@ syntax: regexp
 syntax: regexp
 ^src/main/webapp/WEB-INF/classes$
 ^target$
+
+syntax: regexp
+^data/bindings$
+syntax: regexp
+^data/journal$

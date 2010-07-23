@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0">
     <modelVersion>4.0.0</modelVersion>
@@ -25,6 +26,11 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         	<scope>compile</scope>
         </dependency>
         <dependency>
+     <groupId>org.jboss.netty</groupId>
+     <artifactId>netty</artifactId>
+     <version>3.1.5.GA</version>
+        </dependency>
+        <dependency>
         	<groupId>org.hornetq</groupId>
         	<artifactId>hornetq-core</artifactId>
         	<version>${hornetq-release-version}</version>
@@ -43,6 +49,12 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         	<artifactId>hornetq-logging</artifactId>
         	<version>${hornetq-release-version}</version>
         	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.hornetq</groupId>
+        	<artifactId>hornetq-jms</artifactId>
+        	<version>${hornetq-release-version}</version>
         	<scope>compile</scope>
         </dependency>
         <dependency>
@@ -83,6 +95,12 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         	<artifactId>hibernate-core</artifactId>
         	<version>3.5.1-Final</version>
         	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
+        <dependency>
+        	<groupId>javax.jms</groupId>
+        	<artifactId>jms</artifactId>
+        	<version>1.1</version>
         	<scope>compile</scope>
         </dependency>
     </dependencies>
@@ -154,9 +172,19 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
  repository at ibiblio.     -->
 
         <repository>
+        	<snapshots>
+        		<enabled>false</enabled>
+        	</snapshots>
         	<id>JBoss Repo</id>
         	<url>http://repository.jboss.com/maven2</url>
         </repository>
+             <repository>
+       <id>repository.jboss.org</id>
+       <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+       <snapshots>
+         <enabled>false</enabled>
+       </snapshots>
+     </repository>
                 <repository>
             <id>tapestry-snapshots</id>
             <url>http://tapestry.formos.com/maven-snapshot-repository/</url>
@@ -172,6 +200,9 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
             <url>http://archiva.openqa.org/repository/releases/</url>
         </repository>
         <repository>
+        	<snapshots>
+        		<enabled>false</enabled>
+        	</snapshots>
         	<id>apache</id>
         	<name>Apache</name>
         	<url>http://ftp.cica.es/mirrors/maven2</url>
