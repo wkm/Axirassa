@@ -10,6 +10,11 @@ import org.hornetq.core.remoting.impl.invm.InVMAcceptorFactory;
 import org.hornetq.core.server.HornetQServer;
 import org.hornetq.core.server.impl.HornetQServerImpl;
 
+/**
+ * Starts HornetQ as an embedded messaging server.
+ * 
+ * @author wiktor
+ */
 public class EmbeddedMessagingServer {
 	static public void start() throws Exception {
 		Configuration config = new ConfigurationImpl();
