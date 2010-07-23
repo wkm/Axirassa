@@ -1,17 +1,16 @@
 
 package test.com.zanoccio.axirassa.messaging;
 
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
-import javax.jms.MessageConsumer;
-import javax.jms.MessageProducer;
-import javax.jms.Queue;
-import javax.jms.Session;
-import javax.jms.TextMessage;
 
+import org.hornetq.api.core.HornetQException;
 import org.hornetq.api.core.TransportConfiguration;
-import org.hornetq.api.jms.HornetQJMSClient;
+import org.hornetq.api.core.client.ClientConsumer;
+import org.hornetq.api.core.client.ClientMessage;
+import org.hornetq.api.core.client.ClientProducer;
+import org.hornetq.api.core.client.ClientSession;
+import org.hornetq.api.core.client.ClientSessionFactory;
+import org.hornetq.api.core.client.HornetQClient;
 import org.hornetq.core.remoting.impl.invm.InVMConnectorFactory;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -26,29 +25,31 @@ public class HornetTest {
 
 
 	@Test
-	public void test() throws JMSException {
-		ConnectionFactory cf = HornetQJMSClient.createConnectionFactory(new TransportConfiguration(
+	public void test() throws JMSException, HornetQException {
+		ClientSessionFactory factory = HornetQClient.createClientSessionFactory(new TransportConfiguration(
 		        InVMConnectorFactory.class.getName()));
 
-		Connection conn = cf.createConnection();
-		conn.start();
+		ClientSession session = factory.createSession();
 
-		Session sess = conn.createSession(true, Session.SESSION_TRANSACTED);
-		Queue queue = sess.createQueue("Pinger");
-		MessageProducer prod = sess.createProducer(queue);
+		session.createQueue("example", "example", true);
 
-		TextMessage msg = sess.createTextMessage("Hello!");
-		prod.send(msg);
+		ClientProducer producer = session.createProducer("example");
 
-		sess.commit();
+		ClientMessage message = session.createMessage(true);
 
-		MessageConsumer consumer = sess.createConsumer(queue);
-		TextMessage txtmsg = (TextMessage) consumer.receive();
+		message.getBodyBuffer().writeString("Hello");
 
-		System.out.println("Msg = " + txtmsg.getText());
+		producer.send(message);
 
-		sess.commit();
-		conn.close();
+		session.start();
+
+		ClientConsumer consumer = session.createConsumer("example");
+
+		ClientMessage msgReceived = consumer.receive();
+
+		System.out.println("message = " + msgReceived.getBodyBuffer().readString());
+
+		session.close();
 	}
 
 }
