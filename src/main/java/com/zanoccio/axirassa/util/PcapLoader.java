@@ -13,9 +13,19 @@ import org.jnetpcap.Pcap;
  * @author wiktor
  */
 public class PcapLoader {
+	private static boolean loaded = false;
+
+
+	public static void require() {
+		if (!loaded)
+			load();
+	}
+
+
 	public static void load() {
 		PcapLoader loader = new PcapLoader();
 		loader.loadLibrary();
+		loaded = true;
 	}
 
 
