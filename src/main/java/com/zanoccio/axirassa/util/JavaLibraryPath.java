@@ -3,6 +3,12 @@ package com.zanoccio.axirassa.util;
 
 import java.lang.reflect.Field;
 
+/**
+ * Convenience class for rewriting the "java.library.path" system setting
+ * 
+ * @author wiktor
+ * 
+ */
 public class JavaLibraryPath {
 	public static void add(String path) {
 		try {

@@ -6,6 +6,12 @@ import java.net.URL;
 
 import org.jnetpcap.Pcap;
 
+/**
+ * Finds the JNI library for jnetpcap on the classpath and adds it to the
+ * JavaLibraryPath.
+ * 
+ * @author wiktor
+ */
 public class PcapLoader {
 	public static void load() {
 		PcapLoader loader = new PcapLoader();
@@ -19,10 +25,6 @@ public class PcapLoader {
 			throw new ExceptionInInitializerError("Cannot find jnetpcap library on classpath");
 
 		File path = new File(library.getPath());
-
-		System.out.println("file: " + path.getParent());
-
-		// System.load("C:/Users/wiktor/Code/X/src/main/resources/jnetpcap.dll");
 		JavaLibraryPath.add(path.getParent());
 		System.out.println("PCAP version: " + Pcap.libVersion());
 	}
