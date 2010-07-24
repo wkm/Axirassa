@@ -13,7 +13,7 @@ import com.zanoccio.axirassa.util.PCap;
 
 public class NICMacAddressTest {
 	@BeforeClass
-	public static void loadLibraries() {
+	public static void loadLibraries() throws Exception {
 		PCap.loadLibrary();
 	}
 
