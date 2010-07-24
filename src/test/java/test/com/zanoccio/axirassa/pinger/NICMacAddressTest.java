@@ -6,9 +6,17 @@ import java.util.List;
 
 import org.jnetpcap.Pcap;
 import org.jnetpcap.PcapIf;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.zanoccio.axirassa.util.PCap;
+
 public class NICMacAddressTest {
+	@BeforeClass
+	public static void loadLibraries() {
+		PCap.loadLibrary();
+	}
+
 
 	@Test
 	public void run() {
