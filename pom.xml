@@ -103,6 +103,11 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         	<version>1.1</version>
         	<scope>compile</scope>
         </dependency>
+        <dependency>
+        	<groupId>org.apache.httpcomponents</groupId>
+        	<artifactId>httpclient</artifactId>
+        	<version>4.0.1</version>
+        </dependency>
     </dependencies>
     <developers>
     	<developer>

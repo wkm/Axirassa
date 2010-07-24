@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -12,7 +13,9 @@ import java.util.Set;
 
 public class PortScanService implements Service {
 
-	public static int THREADS = 10;
+	public static final int THREADS = 2000;
+	public static final int LO_PORT = 0;
+	public static final int HI_PORT = 65536; // 65536
 
 	private String address;
 	private final Set<Integer> openports;
@@ -43,12 +46,10 @@ public class PortScanService implements Service {
 
 	@Override
 	public void execute() throws UnknownHostException, InterruptedException {
-		int max_port = 65536;
-
 		InetAddress address = InetAddress.getByName(this.address);
 		threads = new Thread[THREADS];
 
-		for (int port = 0; port < max_port; port++)
+		for (int port = LO_PORT; port < HI_PORT; port++)
 			portqueue.add(port);
 
 		// start all the threads
@@ -78,7 +79,26 @@ public class PortScanService implements Service {
 
 		@Override
 		public void run() {
-			Socket s = new Socket();
+			// Socket socket = new Socket();
+
+			// try {
+			// socket.setReuseAddress(true);
+			// socket.setSoLinger(false, 1);
+			// socket.setPerformancePreferences(2, 1, 0);
+			// socket.setTcpNoDelay(true);
+			// socket.setKeepAlive(false);
+			// socket.bind(null);
+			// } catch (ConnectException e) {
+			// try {
+			// socket.close();
+			// } catch (IOException e1) {
+			// }
+			// } catch (SocketException e) {
+			// e.printStackTrace();
+			// } catch (IOException e) {
+			// e.printStackTrace();
+			// }
+
 			int port;
 
 			while (true) {
@@ -90,15 +110,15 @@ public class PortScanService implements Service {
 				}
 
 				try {
-					System.out.println(port + ": started on " + address.getCanonicalHostName());
-					s.connect(new InetSocketAddress(address, port), 2000);
-					s.close();
-					System.out.println(port + ": open");
+					Socket socket = new Socket();
+					socket.connect(new InetSocketAddress(address, port), 4000);
+					socket.close();
+
 					synchronized (openports) {
 						openports.add(port);
 					}
+				} catch (SocketTimeoutException e) {
 				} catch (IOException e) {
-					System.out.println(port + ": closed");
 				}
 			}
 		}

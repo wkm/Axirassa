@@ -12,7 +12,7 @@ public class PortScanTest {
 	@Test
 	public void authentication() throws IOException, InterruptedException {
 		PortScanService service = new PortScanService();
-		service.setAddress("localhost");
+		service.setAddress("127.0.0.1");
 
 		service.execute();
 
