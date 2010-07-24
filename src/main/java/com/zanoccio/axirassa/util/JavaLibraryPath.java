@@ -1,33 +1,21 @@
 
 package com.zanoccio.axirassa.util;
 
-import java.io.File;
 import java.lang.reflect.Field;
-import java.util.Properties;
 
 public class JavaLibraryPath {
-	public static void add(File path) throws Exception {
-		String newpath = System.getProperty("java.library.path");
-		if (newpath == null || newpath.length() < 1)
-			newpath = path.getCanonicalPath();
-		else
-			newpath += File.pathSeparator + path.getCanonicalPath();
+	public static void add(String path) throws Exception {
+		System.out.println("Loading");
 
-		Field f = System.class.getDeclaredField("props");
-		f.setAccessible(true);
-		Properties props = (Properties) f.get(null);
-		props.put("java.library.path", newpath);
+		Class<? extends Object> clazz = ClassLoader.class;
 
-		Field loaderpathsfield = ClassLoader.class.getDeclaredField("usr_paths");
-		loaderpathsfield.setAccessible(true);
-		String[] usrpaths = (String[]) loaderpathsfield.get(null);
-		String[] newusrpaths = new String[usrpaths == null ? 1 : usrpaths.length + 1];
+		Field field = clazz.getDeclaredField("sys_paths");
+		boolean accessible = field.isAccessible();
+		if (!accessible)
+			field.setAccessible(true);
 
-		if (usrpaths != null)
-			System.arraycopy(usrpaths, 0, newusrpaths, 0, usrpaths.length);
-
-		newusrpaths[newusrpaths.length - 1] = path.getAbsolutePath();
-		loaderpathsfield.set(null, newusrpaths);
-
+		// remove the current value
+		field.set(clazz, null);
+		System.setProperty("java.library.path", path);
 	}
 }
