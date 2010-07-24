@@ -13,9 +13,9 @@ import java.util.Set;
 
 public class PortScanService implements Service {
 
-	public static final int THREADS = 2000;
+	public static final int THREADS = 5;
 	public static final int LO_PORT = 0;
-	public static final int HI_PORT = 65536; // 65536
+	public static final int HI_PORT = 10; // 65536
 
 	private String address;
 	private final Set<Integer> openports;

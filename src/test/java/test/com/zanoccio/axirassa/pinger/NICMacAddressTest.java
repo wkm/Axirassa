@@ -9,12 +9,13 @@ import org.jnetpcap.PcapIf;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.zanoccio.axirassa.util.PCap;
+import com.zanoccio.axirassa.util.PcapLoader;
 
+// -Djava.library.path="${workspace_loc:X}\src\main\resources\"
 public class NICMacAddressTest {
 	@BeforeClass
 	public static void loadLibraries() throws Exception {
-		PCap.loadLibrary();
+		PcapLoader.load();
 	}
 
 
