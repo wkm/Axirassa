@@ -15,6 +15,7 @@ public class TestMACAddress {
 	@Test
 	public void statics() {
 		assertEquals("00:00:00:00:00:00", MACAddress.EMPTY.toString());
+		assertEquals("ff:ff:ff:ff:ff:ff", MACAddress.BROADCAST.toString());
 	}
 
 

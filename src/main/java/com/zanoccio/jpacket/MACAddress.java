@@ -17,6 +17,7 @@ import com.zanoccio.jpacket.exceptions.MalformedMACAddressException;
 public class MACAddress implements PacketFragment {
 
 	public static final MACAddress EMPTY = MACAddress.parse("0:0:0:0:0:0");
+	public static final MACAddress BROADCAST = MACAddress.parse("ff:ff:ff:ff:ff:ff");
 
 	private final byte[] address;
 
