@@ -1,6 +1,8 @@
 
 package com.zanoccio.jpacket;
 
+import java.util.Arrays;
+
 import com.zanoccio.jpacket.exceptions.JPacketException;
 import com.zanoccio.jpacket.exceptions.MalformedIP4AddressException;
 
@@ -28,13 +30,22 @@ public class IP4Address implements PacketFragment {
 	 * Gives null if the address could not be parsed.
 	 */
 	public static IP4Address parse(String address) {
-		String[] components = address.split(".");
+		String[] components = address.split("\\.", 4);
 		if (components.length != 4)
 			return null;
 
 		byte[] bytes = new byte[4];
 		for (int i = 0; i < 4; i++)
-			bytes[i] = Byte.parseByte(components[i]);
+			try {
+				int num = Integer.parseInt(components[i]);
+
+				if (num < 0 || 255 < num)
+					return null;
+
+				bytes[i] = (byte) num;
+			} catch (NumberFormatException e) {
+				return null;
+			}
 
 		try {
 			return new IP4Address(bytes);
@@ -60,6 +71,10 @@ public class IP4Address implements PacketFragment {
 	}
 
 
+	//
+	// PacketFragment
+	//
+
 	@Override
 	public byte[] getBytes() {
 		return address;
@@ -69,6 +84,38 @@ public class IP4Address implements PacketFragment {
 	@Override
 	public int size() {
 		return 4;
+	}
+
+
+	//
+	// Object
+	//
+
+	@Override
+	public int hashCode() {
+		return Arrays.hashCode(address);
+	}
+
+
+	@Override
+	public boolean equals(Object other) {
+		if (other == null)
+			return false;
+
+		if (other instanceof IP4Address) {
+			IP4Address o = (IP4Address) other;
+			return Arrays.equals(address, o.address);
+		}
+
+		return false;
+	}
+
+
+	@SuppressWarnings("boxing")
+	@Override
+	public String toString() {
+		return String.format("%d.%d.%d.%d", address[0] & 0x000000FF, address[1] & 0x000000FF, address[2] & 0x000000FF,
+		                     address[3] & 0x000000FF);
 	}
 
 }

@@ -13,6 +13,12 @@ import com.zanoccio.jpacket.MACAddress;
 public class TestMACAddress {
 
 	@Test
+	public void statics() {
+		assertEquals("00:00:00:00:00:00", MACAddress.EMPTY.toString());
+	}
+
+
+	@Test
 	public void construction() {
 		MACAddress mac = MACAddress.parse("00:0a:0B:ff:FF:00");
 		assertNotNull(mac);
@@ -24,6 +30,9 @@ public class TestMACAddress {
 		assertNull(MACAddress.parse("00:00:00:00:00:00:"));
 		assertNull(MACAddress.parse(":::::"));
 		assertNull(MACAddress.parse("00:0a:0B:FF:FFF:00"));
+
+		// check for overflow
+		assertEquals("ff:ff:ff:ff:ff:ff", MACAddress.parse("ff:ff:ff:ff:ff:ff").toString());
 	}
 
 
