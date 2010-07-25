@@ -1,7 +1,29 @@
+
 package com.zanoccio.jpacket.headers;
 
-import com.zanoccio.jpacket.FragmentOpcode;
+import com.zanoccio.jpacket.PacketFragment;
+import com.zanoccio.jpacket.PacketUtilities;
 
-public interface ARPProtocolType extends FragmentOpcode {
+public enum ARPProtocolType implements PacketFragment {
+	IP4(0x0800);
+
+	private byte[] bytes;
+
+
+	ARPProtocolType(int code) {
+		bytes = PacketUtilities.toByteArray(code);
+	}
+
+
+	@Override
+	public byte[] getBytes() {
+		return bytes;
+	}
+
+
+	@Override
+	public int size() {
+		return 2;
+	}
 
 }

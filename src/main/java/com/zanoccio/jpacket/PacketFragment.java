@@ -1,6 +1,9 @@
 
 package com.zanoccio.jpacket;
 
-public interface FragmentOpcode {
+public interface PacketFragment {
 	public byte[] getBytes();
+
+
+	public int size();
 }

@@ -1,10 +1,10 @@
 
 package com.zanoccio.jpacket.headers;
 
-import com.zanoccio.jpacket.FragmentOpcode;
+import com.zanoccio.jpacket.PacketFragment;
 import com.zanoccio.jpacket.PacketUtilities;
 
-public enum ARPHardwareType implements FragmentOpcode {
+public enum ARPHardwareType implements PacketFragment {
 	ETHERNET(0x0001);
 
 	private byte[] bytes;
@@ -18,5 +18,11 @@ public enum ARPHardwareType implements FragmentOpcode {
 	@Override
 	public byte[] getBytes() {
 		return bytes;
+	}
+
+
+	@Override
+	public int size() {
+		return 2;
 	}
 }

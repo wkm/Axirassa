@@ -1,10 +1,10 @@
 
 package com.zanoccio.jpacket.headers;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface PacketHeader {
 
-	Collection<Byte> construct();
+	List<Byte> construct();
 
 }

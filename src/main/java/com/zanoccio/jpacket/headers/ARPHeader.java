@@ -1,8 +1,6 @@
 
 package com.zanoccio.jpacket.headers;
 
-import java.util.Collection;
-
 import org.bouncycastle.util.IPAddress;
 
 import com.zanoccio.jpacket.MACAddress;
@@ -36,12 +34,4 @@ public class ARPHeader extends AbstractPacketHeader {
 
 	@StaticFragment(slot = 8)
 	private IPAddress targetip;
-
-
-	@Override
-	public Collection<Byte> construct() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
