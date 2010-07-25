@@ -15,5 +15,7 @@ public class TestARPHeader {
 
 		arp.setHardwareType(ARPHardwareType.ETHERNET);
 		arp.setProtocolType(ARPProtocolType.IP4);
+
+		System.out.println();
 	}
 }

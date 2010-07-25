@@ -47,24 +47,113 @@ public class ARPHeader extends AbstractPacketHeader {
 	 */
 	public static ARPHeader whoHas(IPAddress addr) {
 		ARPHeader header = new ARPHeader();
-		header.hardwaretype = ARPHardwareType.ETHERNET;
-		header.protocoltype = ARPProtocolType.IP4;
-		header.hardwaresize = 6;
-		header.protocolsize = 4;
+		header.setHardwareType(ARPHardwareType.ETHERNET);
+		header.setProtocolType(ARPProtocolType.IP4);
+		header.setHardwareSize(6);
+		header.setProtocolSize(4);
 
-		header.targetmac = MACAddress.EMPTY;
-		header.targetip = addr;
+		header.setTargetMAC(MACAddress.EMPTY);
+		header.setTargetIP(addr);
 
 		return header;
 	}
 
 
 	public ARPHeader() {
-		hardwaretype = ARPHardwareType.ETHERNET;
-		protocoltype = ARPProtocolType.IP4;
-		hardwaresize = 6; // for ETHERNET
-		protocolsize = 4; // for IP
+		setHardwareType(ARPHardwareType.ETHERNET);
+		setProtocolType(ARPProtocolType.IP4);
+		setHardwareSize(6); // for ETHERNET
+		setProtocolSize(4); // for IP
 	}
 
-	// ACCESSORS
+
+	public void setHardwareType(ARPHardwareType hardwaretype) {
+		this.hardwaretype = hardwaretype;
+	}
+
+
+	public ARPHardwareType getHardwareType() {
+		return hardwaretype;
+	}
+
+
+	public void setProtocolType(ARPProtocolType protocoltype) {
+		this.protocoltype = protocoltype;
+	}
+
+
+	public ARPProtocolType getProtocolType() {
+		return protocoltype;
+	}
+
+
+	public void setHardwareSize(int hardwaresize) {
+		this.hardwaresize = hardwaresize;
+	}
+
+
+	public int getHardwareSize() {
+		return hardwaresize;
+	}
+
+
+	public void setProtocolSize(int protocolsize) {
+		this.protocolsize = protocolsize;
+	}
+
+
+	public int getProtocolSize() {
+		return protocolsize;
+	}
+
+
+	public void setOpcode(ARPOpcode opcode) {
+		this.opcode = opcode;
+	}
+
+
+	public ARPOpcode getOpcode() {
+		return opcode;
+	}
+
+
+	public void setSenderMAC(MACAddress sendermac) {
+		this.sendermac = sendermac;
+	}
+
+
+	public MACAddress getSenderMAC() {
+		return sendermac;
+	}
+
+
+	public void setSenderIP(IPAddress senderip) {
+		this.senderip = senderip;
+	}
+
+
+	public IPAddress getSenderIP() {
+		return senderip;
+	}
+
+
+	public void setTargetMAC(MACAddress targetmac) {
+		this.targetmac = targetmac;
+	}
+
+
+	public MACAddress getTargetMAC() {
+		return targetmac;
+	}
+
+
+	public void setTargetIP(IPAddress targetip) {
+		this.targetip = targetip;
+	}
+
+
+	public IPAddress getTargetIP() {
+		return targetip;
+	}
+
 }
