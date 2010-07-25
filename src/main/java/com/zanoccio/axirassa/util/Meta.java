@@ -15,14 +15,14 @@ public class Meta {
 
 
 	public static void inspect(Object obj) {
-		StringBuffer buff = new StringBuffer();
+		StringBuilder buff = new StringBuilder();
 		inspect(obj, 0, new HashSet<Object>(), buff);
 
 		System.out.println(buff.toString());
 	}
 
 
-	private static void inspect(Object obj, int indentlevel, HashSet<Object> displayed, StringBuffer buff) {
+	private static void inspect(Object obj, int indentlevel, HashSet<Object> displayed, StringBuilder buff) {
 		if (obj == null) {
 			buff.append("null");
 			return;
@@ -92,7 +92,7 @@ public class Meta {
 	}
 
 
-	private static void indent(StringBuffer buff, int level) {
+	private static void indent(StringBuilder buff, int level) {
 		for (int i = 0; i < level; i++)
 			buff.append("  ");
 	}

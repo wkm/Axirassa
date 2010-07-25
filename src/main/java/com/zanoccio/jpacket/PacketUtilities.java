@@ -19,28 +19,28 @@ public class PacketUtilities {
 	 */
 	@SuppressWarnings("boxing")
 	public static String toHexDump(byte[] array) {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		for (int row = 0; row < array.length; row += 16) {
 			if (row != 0)
-				buffer.append('\n');
+				sb.append('\n');
 
-			buffer.append(String.format("%04X", row));
-			buffer.append(' ');
+			sb.append(String.format("%04X", row));
+			sb.append(' ');
 
 			// render hex
 			for (int column = 0; column + row < array.length && column < 16; column++) {
-				buffer.append(' ');
-				buffer.append(String.format("%02x", array[column + row]));
+				sb.append(' ');
+				sb.append(String.format("%02x", array[column + row]));
 
 				// extra break
 				if (column == 7)
-					buffer.append(' ');
+					sb.append(' ');
 			}
 
 			// TODO also render ASCII
 		}
 
-		return buffer.toString();
+		return sb.toString();
 	}
 }
