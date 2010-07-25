@@ -1,6 +1,8 @@
 
 package com.zanoccio.jpacket;
 
+import org.bouncycastle.util.Arrays;
+
 import com.zanoccio.jpacket.exceptions.JPacketException;
 import com.zanoccio.jpacket.exceptions.MalformedMACAddressException;
 
@@ -27,14 +29,22 @@ public class MACAddress implements PacketFragment {
 	 * @return
 	 */
 	public static MACAddress parse(String address) {
-		String[] components = address.split(":");
+		String[] components = address.split(":", 6);
 
 		if (components.length != 6)
 			return null;
 
 		byte[] values = new byte[6];
 		for (int i = 0; i < 6; i++)
-			values[i] = Byte.parseByte(components[i], 16);
+			try {
+				int integer = Integer.parseInt(components[i], 16);
+				if (integer < 0 || 255 < integer)
+					return null;
+
+				values[i] = (byte) integer;
+			} catch (NumberFormatException e) {
+				return null;
+			}
 
 		try {
 			return new MACAddress(values);
@@ -67,6 +77,9 @@ public class MACAddress implements PacketFragment {
 	}
 
 
+	//
+	// PacketFragment
+	//
 	@Override
 	public int size() {
 		return 6;
@@ -76,6 +89,38 @@ public class MACAddress implements PacketFragment {
 	@Override
 	public byte[] getBytes() {
 		return address;
+	}
+
+
+	//
+	// Object
+	//
+
+	@Override
+	public int hashCode() {
+		return Arrays.hashCode(address);
+	}
+
+
+	@Override
+	public boolean equals(Object other) {
+		if (other == null)
+			return false;
+
+		if (other instanceof MACAddress) {
+			MACAddress o = (MACAddress) other;
+			return Arrays.areEqual(address, o.address);
+		}
+
+		return false;
+	}
+
+
+	@SuppressWarnings("boxing")
+	@Override
+	public String toString() {
+		return String.format("%02x:%02x:%02x:%02x:%02x:%02x", address[0], address[1], address[2], address[3],
+		                     address[4], address[5]);
 	}
 
 }

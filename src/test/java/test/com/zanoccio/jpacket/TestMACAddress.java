@@ -2,6 +2,7 @@
 package test.com.zanoccio.jpacket;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -15,7 +16,7 @@ public class TestMACAddress {
 	public void construction() {
 		MACAddress mac = MACAddress.parse("00:0a:0B:ff:FF:00");
 		assertNotNull(mac);
-		assertEquals(mac.toString(), "00:0a:0b:ff:ff:00");
+		assertEquals("00:0a:0b:ff:ff:00", mac.toString());
 
 		assertNull(MACAddress.parse("00"));
 		assertNull(MACAddress.parse("00:00:00:00:00"));
@@ -23,5 +24,26 @@ public class TestMACAddress {
 		assertNull(MACAddress.parse("00:00:00:00:00:00:"));
 		assertNull(MACAddress.parse(":::::"));
 		assertNull(MACAddress.parse("00:0a:0B:FF:FFF:00"));
+	}
+
+
+	@SuppressWarnings("boxing")
+	@Test
+	public void comparison() {
+		MACAddress mac1 = MACAddress.parse("00:0a:0B:ff:FF:00");
+		MACAddress mac2 = MACAddress.parse("00:0a:0b:ff:ff:00");
+		MACAddress mac3 = MACAddress.parse("00:bb:cc:dd:ee:ff");
+
+		assertNotNull(mac1);
+		assertNotNull(mac2);
+		assertNotNull(mac3);
+
+		assertEquals(mac1, mac2);
+		assertFalse(mac1.equals(mac3));
+		assertFalse(mac2.equals(mac3));
+
+		assertEquals(mac1.hashCode(), mac2.hashCode());
+		assertFalse(mac1.hashCode() == mac3.hashCode());
+		assertFalse(mac2.hashCode() == mac3.hashCode());
 	}
 }
