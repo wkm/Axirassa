@@ -4,6 +4,7 @@ package com.zanoccio.jpacket.headers;
 import org.bouncycastle.util.IPAddress;
 
 import com.zanoccio.jpacket.MACAddress;
+import com.zanoccio.jpacket.headers.annotations.FromNetworkInterface;
 import com.zanoccio.jpacket.headers.annotations.StaticFragment;
 
 public class ARPHeader extends AbstractPacketHeader {
@@ -24,9 +25,11 @@ public class ARPHeader extends AbstractPacketHeader {
 	private ARPOpcode opcode;
 
 	@StaticFragment(slot = 5)
+	@FromNetworkInterface
 	private MACAddress sendermac;
 
 	@StaticFragment(slot = 6)
+	@FromNetworkInterface
 	private IPAddress senderip;
 
 	@StaticFragment(slot = 7)
@@ -34,4 +37,34 @@ public class ARPHeader extends AbstractPacketHeader {
 
 	@StaticFragment(slot = 8)
 	private IPAddress targetip;
+
+
+	/**
+	 * Constructs a whoHas ARP packet broadcast on the local network
+	 * 
+	 * @param addr
+	 * @return
+	 */
+	public static ARPHeader whoHas(IPAddress addr) {
+		ARPHeader header = new ARPHeader();
+		header.hardwaretype = ARPHardwareType.ETHERNET;
+		header.protocoltype = ARPProtocolType.IP4;
+		header.hardwaresize = 6;
+		header.protocolsize = 4;
+
+		header.targetmac = MACAddress.EMPTY;
+		header.targetip = addr;
+
+		return header;
+	}
+
+
+	public ARPHeader() {
+		hardwaretype = ARPHardwareType.ETHERNET;
+		protocoltype = ARPProtocolType.IP4;
+		hardwaresize = 6; // for ETHERNET
+		protocolsize = 4; // for IP
+	}
+
+	// ACCESSORS
 }
