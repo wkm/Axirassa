@@ -1,7 +1,7 @@
 
 package com.zanoccio.jpacket;
 
-import org.bouncycastle.util.Arrays;
+import java.util.Arrays;
 
 import com.zanoccio.jpacket.exceptions.JPacketException;
 import com.zanoccio.jpacket.exceptions.MalformedMACAddressException;
@@ -109,7 +109,7 @@ public class MACAddress implements PacketFragment {
 
 		if (other instanceof MACAddress) {
 			MACAddress o = (MACAddress) other;
-			return Arrays.areEqual(address, o.address);
+			return Arrays.equals(address, o.address);
 		}
 
 		return false;
