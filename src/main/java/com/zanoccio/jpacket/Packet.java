@@ -4,6 +4,7 @@ package com.zanoccio.jpacket;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zanoccio.jpacket.exceptions.JPacketException;
 import com.zanoccio.jpacket.headers.PacketHeader;
 
 public class Packet {
@@ -17,7 +18,7 @@ public class Packet {
 	}
 
 
-	public List<Byte> construct() {
+	public List<Byte> construct() throws JPacketException {
 		if (body != null)
 			return body;
 
@@ -32,8 +33,9 @@ public class Packet {
 
 	/**
 	 * @return
+	 * @throws JPacketException
 	 */
-	public byte[] constructBytes() {
+	public byte[] constructBytes() throws JPacketException {
 		construct();
 
 		byte[] bytes = new byte[body.size()];
