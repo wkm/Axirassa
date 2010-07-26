@@ -23,6 +23,6 @@ public class TestARPHeader {
 		arp.setTargetIP(IP4Address.EMPTY);
 
 		arp.associate(new MockNetworkInterface());
-		System.out.println(arp.construct());
+		arp.construct();
 	}
 }
