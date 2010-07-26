@@ -1,27 +1,26 @@
 
 package com.zanoccio.jpacket.headers;
 
-import org.bouncycastle.util.IPAddress;
-
+import com.zanoccio.jpacket.IP4Address;
 import com.zanoccio.jpacket.MACAddress;
 import com.zanoccio.jpacket.headers.annotations.FromNetworkInterface;
 import com.zanoccio.jpacket.headers.annotations.StaticFragment;
 
 public class ARPHeader extends AbstractPacketHeader {
 
-	@StaticFragment(slot = 0, size = 4)
+	@StaticFragment(slot = 0)
 	private ARPHardwareType hardwaretype;
 
-	@StaticFragment(slot = 1, size = 4)
+	@StaticFragment(slot = 1)
 	private ARPProtocolType protocoltype;
 
-	@StaticFragment(slot = 2, size = 2)
+	@StaticFragment(slot = 2, size = 1)
 	private int hardwaresize;
 
-	@StaticFragment(slot = 3, size = 2)
+	@StaticFragment(slot = 3, size = 1)
 	private int protocolsize;
 
-	@StaticFragment(slot = 4, size = 4)
+	@StaticFragment(slot = 4)
 	private ARPOpcode opcode;
 
 	@StaticFragment(slot = 5)
@@ -30,13 +29,13 @@ public class ARPHeader extends AbstractPacketHeader {
 
 	@StaticFragment(slot = 6)
 	@FromNetworkInterface
-	private IPAddress senderip;
+	private IP4Address senderip;
 
 	@StaticFragment(slot = 7)
 	private MACAddress targetmac;
 
 	@StaticFragment(slot = 8)
-	private IPAddress targetip;
+	private IP4Address targetip;
 
 
 	/**
@@ -45,7 +44,7 @@ public class ARPHeader extends AbstractPacketHeader {
 	 * @param addr
 	 * @return
 	 */
-	public static ARPHeader whoHas(IPAddress addr) {
+	public static ARPHeader whoHas(IP4Address addr) {
 		ARPHeader header = new ARPHeader();
 		header.setHardwareType(ARPHardwareType.ETHERNET);
 		header.setProtocolType(ARPProtocolType.IP4);
@@ -64,9 +63,14 @@ public class ARPHeader extends AbstractPacketHeader {
 		setProtocolType(ARPProtocolType.IP4);
 		setHardwareSize(6); // for ETHERNET
 		setProtocolSize(4); // for IP
+
+		setOpcode(ARPOpcode.REQUEST);
 	}
 
 
+	//
+	// Accessors
+	//
 	public void setHardwareType(ARPHardwareType hardwaretype) {
 		this.hardwaretype = hardwaretype;
 	}
@@ -127,12 +131,12 @@ public class ARPHeader extends AbstractPacketHeader {
 	}
 
 
-	public void setSenderIP(IPAddress senderip) {
+	public void setSenderIP(IP4Address senderip) {
 		this.senderip = senderip;
 	}
 
 
-	public IPAddress getSenderIP() {
+	public IP4Address getSenderIP() {
 		return senderip;
 	}
 
@@ -147,12 +151,12 @@ public class ARPHeader extends AbstractPacketHeader {
 	}
 
 
-	public void setTargetIP(IPAddress targetip) {
+	public void setTargetIP(IP4Address targetip) {
 		this.targetip = targetip;
 	}
 
 
-	public IPAddress getTargetIP() {
+	public IP4Address getTargetIP() {
 		return targetip;
 	}
 
