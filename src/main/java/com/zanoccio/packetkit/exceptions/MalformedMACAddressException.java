@@ -1,7 +1,7 @@
 
 package com.zanoccio.packetkit.exceptions;
 
-public class MalformedMACAddressException extends JPacketException {
+public class MalformedMACAddressException extends PacketKitException {
 	private static final long serialVersionUID = -1244000509353195669L;
 
 

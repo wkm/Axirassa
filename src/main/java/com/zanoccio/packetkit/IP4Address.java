@@ -3,7 +3,7 @@ package com.zanoccio.packetkit;
 
 import java.util.Arrays;
 
-import com.zanoccio.packetkit.exceptions.JPacketException;
+import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.exceptions.MalformedIP4AddressException;
 
 public class IP4Address implements PacketFragment {
@@ -49,7 +49,7 @@ public class IP4Address implements PacketFragment {
 
 		try {
 			return new IP4Address(bytes);
-		} catch (JPacketException e) {
+		} catch (PacketKitException e) {
 			return null;
 		}
 	}
@@ -58,7 +58,7 @@ public class IP4Address implements PacketFragment {
 	private final byte[] address;
 
 
-	public IP4Address(byte[] address) throws JPacketException {
+	public IP4Address(byte[] address) throws PacketKitException {
 		if (address.length != 4)
 			throw new MalformedIP4AddressException(address);
 

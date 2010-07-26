@@ -17,7 +17,7 @@ import com.zanoccio.packetkit.exceptions.CouldNotPopulateException;
 import com.zanoccio.packetkit.exceptions.InvalidFieldException;
 import com.zanoccio.packetkit.exceptions.InvalidFieldSizeException;
 import com.zanoccio.packetkit.exceptions.InvalidStaticFragmentTypeException;
-import com.zanoccio.packetkit.exceptions.JPacketException;
+import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.exceptions.NoNetworkInterfaceException;
 import com.zanoccio.packetkit.exceptions.NullFieldException;
 import com.zanoccio.packetkit.exceptions.SlotTakenException;
@@ -78,7 +78,7 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 
 
 	@Override
-	public List<Byte> construct() throws JPacketException {
+	public List<Byte> construct() throws PacketKitException {
 
 		//
 		// Construct the Packet Skeleton
@@ -164,7 +164,7 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 
 						if (!accessible)
 							field.setAccessible(false);
-					} catch (JPacketException e) {
+					} catch (PacketKitException e) {
 						// throw these directly
 						throw e;
 					} catch (Exception e) {

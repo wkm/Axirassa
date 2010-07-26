@@ -3,7 +3,7 @@ package com.zanoccio.packetkit.exceptions;
 
 import java.lang.reflect.Field;
 
-public class InvalidStaticFragmentTypeException extends JPacketException {
+public class InvalidStaticFragmentTypeException extends PacketKitException {
 	private static final long serialVersionUID = 2682036002109015312L;
 
 

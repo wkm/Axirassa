@@ -1,7 +1,7 @@
 
 package com.zanoccio.packetkit.exceptions;
 
-public class NoNetworkInterfaceException extends JPacketException {
+public class NoNetworkInterfaceException extends PacketKitException {
 	private static final long serialVersionUID = 262437506957702591L;
 
 

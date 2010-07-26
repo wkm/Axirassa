@@ -3,7 +3,7 @@ package com.zanoccio.packetkit.exceptions;
 
 import org.jnetpcap.PcapIf;
 
-public class NoIP4AddressException extends JPacketException {
+public class NoIP4AddressException extends PacketKitException {
 	private static final long serialVersionUID = 2137358715470463928L;
 
 

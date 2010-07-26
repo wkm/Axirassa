@@ -3,7 +3,7 @@ package com.zanoccio.packetkit;
 
 import java.util.Arrays;
 
-import com.zanoccio.packetkit.exceptions.JPacketException;
+import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.exceptions.MalformedMACAddressException;
 
 /**
@@ -49,7 +49,7 @@ public class MACAddress implements PacketFragment {
 
 		try {
 			return new MACAddress(values);
-		} catch (JPacketException e) {
+		} catch (PacketKitException e) {
 			return null;
 		}
 	}
@@ -59,10 +59,10 @@ public class MACAddress implements PacketFragment {
 	 * Creates a {@link MACAddress} from an array of six bytes.
 	 * 
 	 * @param values
-	 * @throws JPacketException
+	 * @throws PacketKitException
 	 *             if the array does not contain six bytes.
 	 */
-	public MACAddress(byte[] values) throws JPacketException {
+	public MACAddress(byte[] values) throws PacketKitException {
 		if (values.length != 6)
 			throw new MalformedMACAddressException(values);
 

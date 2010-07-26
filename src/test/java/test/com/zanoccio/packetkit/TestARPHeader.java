@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.zanoccio.packetkit.IP4Address;
 import com.zanoccio.packetkit.MACAddress;
-import com.zanoccio.packetkit.exceptions.JPacketException;
+import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.headers.ARPHardwareType;
 import com.zanoccio.packetkit.headers.ARPHeader;
 import com.zanoccio.packetkit.headers.ARPProtocolType;
@@ -16,7 +16,7 @@ import com.zanoccio.packetkit.mock.MockNetworkInterface;
 public class TestARPHeader {
 
 	@Test
-	public void construct() throws JPacketException {
+	public void construct() throws PacketKitException {
 		ARPHeader arp = new ARPHeader();
 
 		arp.setHardwareType(ARPHardwareType.ETHERNET);

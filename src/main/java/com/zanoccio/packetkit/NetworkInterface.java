@@ -8,7 +8,7 @@ import org.jnetpcap.PcapAddr;
 import org.jnetpcap.PcapIf;
 import org.jnetpcap.PcapSockAddr;
 
-import com.zanoccio.packetkit.exceptions.JPacketException;
+import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.exceptions.NoIP4AddressException;
 
 public class NetworkInterface {
@@ -37,7 +37,7 @@ public class NetworkInterface {
 	}
 
 
-	public NetworkInterface(PcapIf device) throws JPacketException, IOException {
+	public NetworkInterface(PcapIf device) throws PacketKitException, IOException {
 		this.device = device;
 		this.macaddress = new MACAddress(device.getHardwareAddress());
 

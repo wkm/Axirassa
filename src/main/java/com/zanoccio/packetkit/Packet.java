@@ -4,7 +4,7 @@ package com.zanoccio.packetkit;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.zanoccio.packetkit.exceptions.JPacketException;
+import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.headers.PacketHeader;
 
 public class Packet {
@@ -18,7 +18,7 @@ public class Packet {
 	}
 
 
-	public List<Byte> construct() throws JPacketException {
+	public List<Byte> construct() throws PacketKitException {
 		if (body != null)
 			return body;
 
@@ -33,9 +33,9 @@ public class Packet {
 
 	/**
 	 * @return
-	 * @throws JPacketException
+	 * @throws PacketKitException
 	 */
-	public byte[] constructBytes() throws JPacketException {
+	public byte[] constructBytes() throws PacketKitException {
 		construct();
 
 		byte[] bytes = new byte[body.size()];

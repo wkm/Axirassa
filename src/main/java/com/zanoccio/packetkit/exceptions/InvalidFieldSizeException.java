@@ -3,7 +3,7 @@ package com.zanoccio.packetkit.exceptions;
 
 import java.lang.reflect.Field;
 
-public class InvalidFieldSizeException extends JPacketException {
+public class InvalidFieldSizeException extends PacketKitException {
 	/**
      * 
      */

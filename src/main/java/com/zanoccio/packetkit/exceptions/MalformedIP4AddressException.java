@@ -1,7 +1,7 @@
 
 package com.zanoccio.packetkit.exceptions;
 
-public class MalformedIP4AddressException extends JPacketException {
+public class MalformedIP4AddressException extends PacketKitException {
 	private static final long serialVersionUID = 4524638855168726329L;
 
 

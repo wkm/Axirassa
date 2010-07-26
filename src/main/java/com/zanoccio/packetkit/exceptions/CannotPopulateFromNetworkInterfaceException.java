@@ -3,7 +3,7 @@ package com.zanoccio.packetkit.exceptions;
 
 import java.lang.reflect.Field;
 
-public class CannotPopulateFromNetworkInterfaceException extends JPacketException {
+public class CannotPopulateFromNetworkInterfaceException extends PacketKitException {
 	private static final long serialVersionUID = 8696498050689708393L;
 
 

@@ -1,11 +1,11 @@
 
 package com.zanoccio.packetkit.exceptions;
 
-public class JPacketException extends Exception {
+public class PacketKitException extends Exception {
 	private static final long serialVersionUID = 7373749741008517553L;
 
 
-	public JPacketException(String msg) {
+	public PacketKitException(String msg) {
 		super(msg);
 	}
 }
