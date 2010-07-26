@@ -11,7 +11,7 @@ public enum ARPProtocolType implements PacketFragment {
 
 
 	ARPProtocolType(int code) {
-		bytes = PacketUtilities.toByteArray(code);
+		bytes = PacketUtilities.toByteArray((short) code);
 	}
 
 

@@ -15,7 +15,7 @@ public enum ARPOpcode implements PacketFragment {
 
 
 	ARPOpcode(int code) {
-		bytes = PacketUtilities.toByteArray(code);
+		bytes = PacketUtilities.toByteArray((short) code);
 	}
 
 
@@ -27,7 +27,7 @@ public enum ARPOpcode implements PacketFragment {
 
 	@Override
 	public int size() {
-		return 4;
+		return 2;
 	}
 
 }

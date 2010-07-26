@@ -5,13 +5,13 @@ import com.zanoccio.jpacket.PacketFragment;
 import com.zanoccio.jpacket.PacketUtilities;
 
 public enum ARPHardwareType implements PacketFragment {
-	ETHERNET(0x0001);
+	ETHERNET(0x01);
 
 	private byte[] bytes;
 
 
 	ARPHardwareType(int code) {
-		bytes = PacketUtilities.toByteArray(code);
+		bytes = PacketUtilities.toByteArray((short) code);
 	}
 
 
