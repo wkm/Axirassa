@@ -39,19 +39,20 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 	class FragmentSlot implements Comparable<FragmentSlot> {
 		int slot;
 		Field field;
-		boolean fromnetworkinterface;
 		int size;
+		boolean fixed;
 
 
-		public FragmentSlot(int slot, Field field) {
-			this(slot, field, false);
+		public FragmentSlot(int slot, Field field, int size) {
+			this(slot, field, size, false);
 		}
 
 
-		public FragmentSlot(int slot, Field field, boolean fromnetworkinterface) {
+		public FragmentSlot(int slot, Field field, int size, boolean fixed) {
 			this.slot = slot;
 			this.field = field;
-			this.fromnetworkinterface = fromnetworkinterface;
+			this.size = size;
+			this.fixed = fixed;
 		}
 
 
@@ -85,7 +86,6 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 		//
 
 		Field[] fields = getClass().getDeclaredFields();
-		System.out.println(fields.length);
 		HashSet<Integer> slots = new HashSet<Integer>();
 		PriorityQueue<FragmentSlot> queue = new PriorityQueue<FragmentSlot>();
 
@@ -93,6 +93,7 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 
 		// check all fields for annotations
 		for (Field field : fields) {
+			int fragmentsize;
 			StaticFragment annotation = field.getAnnotation(StaticFragment.class);
 
 			Class<? extends Object> fieldtype = field.getType();
@@ -131,9 +132,6 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 			if (slots.contains(slots))
 				throw new SlotTakenException(field);
 
-			// add the field's width to the packetsize
-			packetsize += annotation.size();
-
 			// if the field type isn't one of the accepted primitives
 			if (!VALIDPRIMITIVES.contains(field.getType())) {
 
@@ -162,6 +160,7 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 							throw new NullFieldException(field);
 
 						packetsize += fragment.size();
+						fragmentsize = fragment.size();
 
 						if (!accessible)
 							field.setAccessible(false);
@@ -172,8 +171,10 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 						// wrap all other exceptions
 						throw new InvalidFieldException(field, e);
 					}
-				} else
+				} else {
+					fragmentsize = annotation.size();
 					packetsize += annotation.size();
+				}
 
 			} else {
 				// if it is a primitive type a width must be specified
@@ -181,18 +182,19 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 					throw new InvalidFieldSizeException(field, annotation.size());
 
 				packetsize += annotation.size();
+				fragmentsize = annotation.size();
 			}
+
+			boolean isfixed = annotation.fixed();
 
 			// shove this field onto the queue
 			slots.add(Integer.valueOf(slot));
-			queue.add(new FragmentSlot(slot, field, fromnetworkinterface));
+			queue.add(new FragmentSlot(slot, field, fragmentsize, isfixed));
 		}
 
 		//
 		// Build the Actual Packet
 		//
-		System.out.println(queue);
-		System.out.println("Packet Size: " + packetsize);
 
 		ArrayList<Byte> list = new ArrayList<Byte>(packetsize);
 		for (FragmentSlot slot : queue) {
@@ -204,10 +206,10 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 
 				Object obj = field.get(this);
 				byte[] bytes = getBytes(obj);
-				addBytes(list, bytes);
-
-				System.out.println(field.getName() + ":");
-				System.out.println("\t" + PacketUtilities.toHexDumpFragment(bytes));
+				if (slot.fixed)
+					addBytes(list, bytes, slot.size);
+				else
+					addBytes(list, bytes);
 
 				if (!accessible)
 					field.setAccessible(false);
@@ -220,14 +222,23 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 		for (int i = 0; i < bytes.length; i++)
 			bytes[i] = list.get(i).byteValue();
 
-		System.out.println("Hexdump: ");
-		System.out.println(PacketUtilities.toHexDump(bytes));
-		System.out.println("======================================");
-
 		return list;
 	}
 
 
+	@SuppressWarnings("boxing")
+	private void addBytes(List<Byte> list, byte[] bytes, int size) {
+		if (bytes.length < size) {
+			for (int i = 0; i < size - bytes.length; i++)
+				list.add((byte) 0);
+			addBytes(list, bytes);
+		} else
+			for (int i = bytes.length - size; i < bytes.length; i++)
+				list.add(bytes[i]);
+	}
+
+
+	@SuppressWarnings("boxing")
 	private void addBytes(List<Byte> list, byte[] bytes) {
 		for (byte b : bytes)
 			list.add(b);

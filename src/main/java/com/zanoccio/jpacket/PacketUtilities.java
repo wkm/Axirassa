@@ -1,6 +1,13 @@
 
 package com.zanoccio.jpacket;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.List;
+
+import com.zanoccio.jpacket.exceptions.JPacketException;
+import com.zanoccio.jpacket.headers.PacketHeader;
+
 public class PacketUtilities {
 
 	/**
@@ -61,5 +68,16 @@ public class PacketUtilities {
 		}
 
 		return sb.toString();
+	}
+
+
+	@SuppressWarnings("boxing")
+	public static void assertPacketEquals(String hexdump, PacketHeader packet) throws JPacketException {
+		List<Byte> list = packet.construct();
+		byte[] bytes = new byte[list.size()];
+		for (int i = 0; i < list.size(); i++)
+			bytes[i] = list.get(i);
+
+		assertEquals(hexdump, toHexDump(bytes));
 	}
 }
