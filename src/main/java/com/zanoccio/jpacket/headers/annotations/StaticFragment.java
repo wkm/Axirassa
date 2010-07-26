@@ -25,4 +25,10 @@ public @interface StaticFragment {
 	 * The size of this fragment in bytes.
 	 */
 	int size() default -1;
+
+
+	/**
+	 * Constrain the fragment to exactly the specified amount of bytes.
+	 */
+	boolean fixed() default false;
 }

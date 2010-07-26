@@ -14,10 +14,10 @@ public class ARPHeader extends AbstractPacketHeader {
 	@StaticFragment(slot = 1)
 	private ARPProtocolType protocoltype;
 
-	@StaticFragment(slot = 2, size = 1)
+	@StaticFragment(slot = 2, size = 1, fixed = true)
 	private int hardwaresize;
 
-	@StaticFragment(slot = 3, size = 1)
+	@StaticFragment(slot = 3, size = 1, fixed = true)
 	private int protocolsize;
 
 	@StaticFragment(slot = 4)
