@@ -14,6 +14,11 @@ public class PacketUtilities {
 	}
 
 
+	public static byte[] toByteArray(short value) {
+		return new byte[] { (byte) (value >>> 8), (byte) value };
+	}
+
+
 	/**
 	 * Format an array of bytes in a hex dump format similar to WireShark.
 	 */
@@ -39,6 +44,20 @@ public class PacketUtilities {
 			}
 
 			// TODO also render ASCII
+		}
+
+		return sb.toString();
+	}
+
+
+	public static String toHexDumpFragment(byte[] bytes) {
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < bytes.length; i++) {
+			if (i > 0)
+				sb.append(' ');
+
+			sb.append(String.format("%02x", bytes[i]));
 		}
 
 		return sb.toString();
