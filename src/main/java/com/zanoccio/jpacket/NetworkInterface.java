@@ -20,10 +20,21 @@ public class NetworkInterface {
 
 	private final PcapIf device;
 
-	private final IP4Address ipaddress;
-	private final MACAddress macaddress;
+	protected IP4Address ipaddress;
+	protected MACAddress macaddress;
 
 	private Pcap pcap;
+
+
+	protected NetworkInterface() {
+		errorbuffer = null;
+		device = null;
+
+		ipaddress = null;
+		macaddress = null;
+
+		pcap = null;
+	}
 
 
 	public NetworkInterface(PcapIf device) throws JPacketException, IOException {
@@ -50,5 +61,15 @@ public class NetworkInterface {
 
 	public void openLive() {
 		pcap = Pcap.openLive(device.getName(), snaplength, flags, timeout, errorbuffer);
+	}
+
+
+	public MACAddress getMACAddress() {
+		return macaddress;
+	}
+
+
+	public IP4Address getIP4Address() {
+		return ipaddress;
 	}
 }
