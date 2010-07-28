@@ -2,39 +2,14 @@
 package com.zanoccio.packetkit.headers;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.PriorityQueue;
 
-import com.zanoccio.packetkit.IP4Address;
-import com.zanoccio.packetkit.MACAddress;
 import com.zanoccio.packetkit.NetworkInterface;
 import com.zanoccio.packetkit.PacketFragment;
 import com.zanoccio.packetkit.PacketUtilities;
-import com.zanoccio.packetkit.exceptions.CannotPopulateFromNetworkInterfaceException;
-import com.zanoccio.packetkit.exceptions.CouldNotPopulateException;
-import com.zanoccio.packetkit.exceptions.InvalidFieldException;
-import com.zanoccio.packetkit.exceptions.InvalidFieldSizeException;
-import com.zanoccio.packetkit.exceptions.InvalidStaticFragmentTypeException;
-import com.zanoccio.packetkit.exceptions.NoNetworkInterfaceException;
-import com.zanoccio.packetkit.exceptions.NullFieldException;
 import com.zanoccio.packetkit.exceptions.PacketKitException;
-import com.zanoccio.packetkit.exceptions.SlotTakenException;
-import com.zanoccio.packetkit.headers.annotations.FromNetworkInterface;
-import com.zanoccio.packetkit.headers.annotations.StaticFragment;
 
 public abstract class AbstractPacketHeader implements PacketHeader {
-
-	public static HashSet<Class<? extends Object>> VALIDPRIMITIVES;
-	static {
-		VALIDPRIMITIVES = new HashSet<Class<? extends Object>>();
-		VALIDPRIMITIVES.add(Integer.TYPE);
-	}
-
-
-
-
 
 	class FragmentSlot implements Comparable<FragmentSlot> {
 		int slot;
@@ -78,152 +53,56 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 	}
 
 
+	//
+	// Construct
+	//
+
 	@Override
 	public List<Byte> construct() throws PacketKitException {
+		PacketSkeleton skeleton = PacketSkeleton.SKELETON_CACHE.get(getClass());
+		if (skeleton == null)
+			skeleton = new PacketSkeleton(getClass());
 
-		//
-		// Construct the Packet Skeleton
-		// TODO this should be done only once for a particular class
-		//
+		if (skeleton.isFixedSize()) {
+			int size = skeleton.getSize().intValue();
+			byte[] buffer = new byte[size];
+			int index = 0;
 
-		Field[] fields = getClass().getDeclaredFields();
-		HashSet<Integer> slots = new HashSet<Integer>();
-		PriorityQueue<FragmentSlot> queue = new PriorityQueue<FragmentSlot>();
-
-		int packetsize = 0;
-
-		// check all fields for annotations
-		for (Field field : fields) {
-			int fragmentsize;
-			StaticFragment annotation = field.getAnnotation(StaticFragment.class);
-
-			Class<? extends Object> fieldtype = field.getType();
-			// do we populate this from the network interface?
-			boolean fromnetworkinterface = false;
-			if (field.isAnnotationPresent(FromNetworkInterface.class)) {
-				if (networkinterface == null)
-					throw new NoNetworkInterfaceException(this);
-
-				fromnetworkinterface = true;
-
-				boolean accessible = field.isAccessible();
-				if (!accessible)
-					field.setAccessible(true);
-				try {
-					if (fieldtype == IP4Address.class)
-						field.set(this, networkinterface.getIP4Address());
-					else if (fieldtype == MACAddress.class)
-						field.set(this, networkinterface.getMACAddress());
-					else
-						throw new CannotPopulateFromNetworkInterfaceException(field, fieldtype);
-				} catch (Exception e) {
-					throw new CouldNotPopulateException(this, e);
-				} finally {
-					if (!accessible)
-						field.setAccessible(false);
-				}
-			}
-
-			// no StaticFragment annotation, move along...
-			if (annotation == null)
-				continue;
-
-			// check that the slot is unused
-			int slot = annotation.slot();
-			if (slots.contains(slots))
-				throw new SlotTakenException(field);
-
-			// if the field type isn't one of the accepted primitives
-			if (!VALIDPRIMITIVES.contains(field.getType())) {
-
-				// verify the field's class implements PacketFragment
-				Class<? extends Object>[] interfaces = field.getType().getInterfaces();
-				boolean validtype = false;
-				for (Class<? extends Object> iface : interfaces)
-					if (iface == PacketFragment.class) {
-						validtype = true;
-						break;
-					}
-
-				// is at least one of the interfaces PacketFragment?
-				if (!validtype)
-					throw new InvalidStaticFragmentTypeException(field);
-
-				if (annotation.size() < 0) {
-					// ask the PacketFragment for its width
-					try {
-						boolean accessible = field.isAccessible();
-						if (!accessible)
-							field.setAccessible(true);
-
-						PacketFragment fragment = (PacketFragment) field.get(this);
-						if (fragment == null)
-							throw new NullFieldException(field);
-
-						packetsize += fragment.size();
-						fragmentsize = fragment.size();
-
-						if (!accessible)
-							field.setAccessible(false);
-					} catch (PacketKitException e) {
-						// throw these directly
-						throw e;
-					} catch (Exception e) {
-						// wrap all other exceptions
-						throw new InvalidFieldException(field, e);
-					}
-				} else {
-					fragmentsize = annotation.size();
-					packetsize += annotation.size();
-				}
-
-			} else {
-				// if it is a primitive type a width must be specified
-				if (annotation.size() < 0)
-					throw new InvalidFieldSizeException(field, annotation.size());
-
-				packetsize += annotation.size();
-				fragmentsize = annotation.size();
-			}
-
-			boolean isfixed = annotation.fixed();
-
-			// shove this field onto the queue
-			slots.add(Integer.valueOf(slot));
-			queue.add(new FragmentSlot(slot, field, fragmentsize, isfixed));
 		}
 
+		// //
+		// // Build the Actual Packet
+		// //
 		//
-		// Build the Actual Packet
+		// ArrayList<Byte> list = new ArrayList<Byte>(packetsize);
+		// for (FragmentSlot slot : queue) {
+		// Field field = slot.field;
+		// try {
+		// boolean accessible = field.isAccessible();
+		// if (!accessible)
+		// field.setAccessible(true);
 		//
+		// Object obj = field.get(this);
+		// byte[] bytes = getBytes(obj);
+		// if (slot.fixed)
+		// addBytes(list, bytes, slot.size);
+		// else
+		// addBytes(list, bytes);
+		//
+		// if (!accessible)
+		// field.setAccessible(false);
+		// } catch (Exception e) {
+		// throw new InvalidFieldException(field, e);
+		// }
+		// }
+		//
+		// byte[] bytes = new byte[list.size()];
+		// for (int i = 0; i < bytes.length; i++)
+		// bytes[i] = list.get(i).byteValue();
+		//
+		// return list;
 
-		ArrayList<Byte> list = new ArrayList<Byte>(packetsize);
-		for (FragmentSlot slot : queue) {
-			Field field = slot.field;
-			try {
-				boolean accessible = field.isAccessible();
-				if (!accessible)
-					field.setAccessible(true);
-
-				Object obj = field.get(this);
-				byte[] bytes = getBytes(obj);
-				if (slot.fixed)
-					addBytes(list, bytes, slot.size);
-				else
-					addBytes(list, bytes);
-
-				if (!accessible)
-					field.setAccessible(false);
-			} catch (Exception e) {
-				throw new InvalidFieldException(field, e);
-			}
-		}
-
-		byte[] bytes = new byte[list.size()];
-		for (int i = 0; i < bytes.length; i++)
-			bytes[i] = list.get(i).byteValue();
-
-		return list;
+		return null;
 	}
 
 
@@ -258,5 +137,14 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 			return PacketUtilities.toByteArray(shortval.shortValue());
 		} else
 			return new byte[] {};
+	}
+
+
+	//
+	// Reconstruct
+	//
+
+	public void reconstruct(byte[] bytes) {
+
 	}
 }
