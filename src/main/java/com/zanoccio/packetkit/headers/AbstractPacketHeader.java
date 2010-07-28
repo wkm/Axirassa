@@ -17,9 +17,9 @@ import com.zanoccio.packetkit.exceptions.CouldNotPopulateException;
 import com.zanoccio.packetkit.exceptions.InvalidFieldException;
 import com.zanoccio.packetkit.exceptions.InvalidFieldSizeException;
 import com.zanoccio.packetkit.exceptions.InvalidStaticFragmentTypeException;
-import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.exceptions.NoNetworkInterfaceException;
 import com.zanoccio.packetkit.exceptions.NullFieldException;
+import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.exceptions.SlotTakenException;
 import com.zanoccio.packetkit.headers.annotations.FromNetworkInterface;
 import com.zanoccio.packetkit.headers.annotations.StaticFragment;
@@ -72,6 +72,7 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 	protected NetworkInterface networkinterface;
 
 
+	@Override
 	public void associate(NetworkInterface networkinterface) {
 		this.networkinterface = networkinterface;
 	}
