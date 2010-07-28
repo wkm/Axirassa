@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import com.zanoccio.packetkit.exceptions.PacketKitException;
+import com.zanoccio.packetkit.frames.Frame;
 import com.zanoccio.packetkit.headers.PacketHeader;
 
 public class PacketUtilities {
@@ -71,13 +72,27 @@ public class PacketUtilities {
 	}
 
 
-	@SuppressWarnings("boxing")
 	public static void assertPacketEquals(String hexdump, PacketHeader packet) throws PacketKitException {
-		List<Byte> list = packet.construct();
+		assertPacketEquals(hexdump, packet.construct());
+	}
+
+
+	public static void assertPacketEquals(String hexdump, Frame frame) throws PacketKitException {
+		assertPacketEquals(hexdump, frame.construct());
+	}
+
+
+	@SuppressWarnings("boxing")
+	public static void assertPacketEquals(String hexdump, List<Byte> list) {
 		byte[] bytes = new byte[list.size()];
 		for (int i = 0; i < list.size(); i++)
 			bytes[i] = list.get(i);
 
+		assertPacketEquals(hexdump, bytes);
+	}
+
+
+	public static void assertPacketEquals(String hexdump, byte[] bytes) {
 		assertEquals(hexdump, toHexDump(bytes));
 	}
 }
