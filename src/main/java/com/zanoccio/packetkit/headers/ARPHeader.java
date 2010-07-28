@@ -53,6 +53,7 @@ public class ARPHeader extends AbstractPacketHeader {
 
 		header.setTargetMAC(MACAddress.EMPTY);
 		header.setTargetIP(addr);
+		header.setOpcode(ARPOpcode.REQUEST);
 
 		return header;
 	}
