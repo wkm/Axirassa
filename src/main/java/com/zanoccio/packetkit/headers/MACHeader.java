@@ -1,13 +1,11 @@
 
 package com.zanoccio.packetkit.headers;
 
-import org.jnetpcap.protocol.lan.Ethernet.EthernetType;
-
 import com.zanoccio.packetkit.MACAddress;
 import com.zanoccio.packetkit.headers.annotations.FromNetworkInterface;
 import com.zanoccio.packetkit.headers.annotations.StaticFragment;
 
-public class EthernetHeader extends AbstractPacketHeader {
+public class MACHeader extends AbstractPacketHeader {
 
 	@StaticFragment(slot = 0)
 	private MACAddress destination;
@@ -17,11 +15,11 @@ public class EthernetHeader extends AbstractPacketHeader {
 	private MACAddress source;
 
 	@StaticFragment(slot = 2)
-	private EthernetType type;
+	private EtherType type;
 
 
-	public static EthernetHeader broadcast() {
-		EthernetHeader header = new EthernetHeader();
+	public static MACHeader broadcast() {
+		MACHeader header = new MACHeader();
 		header.setDestination(MACAddress.BROADCAST);
 
 		return header;
@@ -52,12 +50,12 @@ public class EthernetHeader extends AbstractPacketHeader {
 	}
 
 
-	public void setType(EthernetType type) {
+	public void setType(EtherType type) {
 		this.type = type;
 	}
 
 
-	public EthernetType getType() {
+	public EtherType getType() {
 		return type;
 	}
 
