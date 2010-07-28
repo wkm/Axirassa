@@ -1,6 +1,8 @@
 
 package test.com.zanoccio.axirassa.messaging;
 
+import static org.junit.Assert.assertEquals;
+
 import javax.jms.JMSException;
 
 import org.hornetq.api.core.HornetQException;
@@ -50,7 +52,7 @@ public class HornetTest {
 
 		ClientMessage msgReceived = consumer.receive();
 
-		System.out.println("message = " + msgReceived.getBodyBuffer().readString());
+		assertEquals("Hello", msgReceived.getBodyBuffer().readString());
 
 		consumer.close();
 

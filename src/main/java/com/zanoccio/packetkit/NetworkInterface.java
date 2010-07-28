@@ -8,8 +8,9 @@ import org.jnetpcap.PcapAddr;
 import org.jnetpcap.PcapIf;
 import org.jnetpcap.PcapSockAddr;
 
-import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.exceptions.NoIP4AddressException;
+import com.zanoccio.packetkit.exceptions.PacketKitException;
+import com.zanoccio.packetkit.frames.Frame;
 
 public class NetworkInterface {
 
@@ -71,5 +72,16 @@ public class NetworkInterface {
 
 	public IP4Address getIP4Address() {
 		return ipaddress;
+	}
+
+
+	public void sendPacket(Frame frame) throws PacketKitException {
+		frame.associate(this);
+		pcap.sendPacket(frame.construct());
+	}
+
+
+	public void liveCapture() {
+
 	}
 }
