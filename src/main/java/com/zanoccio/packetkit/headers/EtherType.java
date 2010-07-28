@@ -3,7 +3,9 @@ package com.zanoccio.packetkit.headers;
 
 import com.zanoccio.packetkit.PacketFragment;
 import com.zanoccio.packetkit.PacketUtilities;
+import com.zanoccio.packetkit.headers.annotations.FixedSize;
 
+@FixedSize(size = 2)
 public enum EtherType implements PacketFragment {
 	IP4(0x0800),
 	IP6(0x86DD),

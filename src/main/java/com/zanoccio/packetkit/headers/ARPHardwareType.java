@@ -3,7 +3,9 @@ package com.zanoccio.packetkit.headers;
 
 import com.zanoccio.packetkit.PacketFragment;
 import com.zanoccio.packetkit.PacketUtilities;
+import com.zanoccio.packetkit.headers.annotations.FixedSize;
 
+@FixedSize(size = 2)
 public enum ARPHardwareType implements PacketFragment {
 	ETHERNET(0x01),
 	IEEE_802_NETWORKS(0x06);

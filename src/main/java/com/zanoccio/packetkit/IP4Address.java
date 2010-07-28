@@ -3,9 +3,11 @@ package com.zanoccio.packetkit;
 
 import java.util.Arrays;
 
-import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.exceptions.MalformedIP4AddressException;
+import com.zanoccio.packetkit.exceptions.PacketKitException;
+import com.zanoccio.packetkit.headers.annotations.FixedSize;
 
+@FixedSize(size = 4)
 public class IP4Address implements PacketFragment {
 
 	/**

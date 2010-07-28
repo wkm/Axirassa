@@ -3,8 +3,9 @@ package com.zanoccio.packetkit;
 
 import java.util.Arrays;
 
-import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.exceptions.MalformedMACAddressException;
+import com.zanoccio.packetkit.exceptions.PacketKitException;
+import com.zanoccio.packetkit.headers.annotations.FixedSize;
 
 /**
  * Represents a media access control address.
@@ -14,6 +15,7 @@ import com.zanoccio.packetkit.exceptions.MalformedMACAddressException;
  * 
  * @author wiktor
  */
+@FixedSize(size = 6)
 public class MACAddress implements PacketFragment {
 
 	public static final MACAddress EMPTY = MACAddress.parse("0:0:0:0:0:0");

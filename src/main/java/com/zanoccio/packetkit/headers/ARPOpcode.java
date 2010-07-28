@@ -3,7 +3,9 @@ package com.zanoccio.packetkit.headers;
 
 import com.zanoccio.packetkit.PacketFragment;
 import com.zanoccio.packetkit.PacketUtilities;
+import com.zanoccio.packetkit.headers.annotations.FixedSize;
 
+@FixedSize(size = 2)
 public enum ARPOpcode implements PacketFragment {
 	REQUEST(0x0001),
 	REPLY(0x0002);
