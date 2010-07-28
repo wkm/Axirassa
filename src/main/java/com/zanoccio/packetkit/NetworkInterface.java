@@ -2,9 +2,12 @@
 package com.zanoccio.packetkit;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
+import org.jnetpcap.ByteBufferHandler;
 import org.jnetpcap.Pcap;
 import org.jnetpcap.PcapAddr;
+import org.jnetpcap.PcapHeader;
 import org.jnetpcap.PcapIf;
 import org.jnetpcap.PcapSockAddr;
 
@@ -16,7 +19,7 @@ public class NetworkInterface {
 
 	private final int snaplength = 1024;
 	private final int flags = Pcap.MODE_NON_BLOCKING;
-	private final int timeout = 10 * 1000;
+	private final int timeout = 1000;
 	private final StringBuilder errorbuffer;
 
 	private final PcapIf device;
@@ -82,6 +85,20 @@ public class NetworkInterface {
 
 
 	public void liveCapture() {
+		ByteBufferHandler<String> handler = new ByteBufferHandler<String>() {
+			@Override
+			public void nextPacket(PcapHeader header, ByteBuffer buffer, String user) {
+				byte[] bytes = new byte[buffer.capacity()];
+				buffer.get(bytes);
 
+				System.out.println("\n\n\n\n\n======================");
+				System.out.println("user: " + user);
+				System.out.println("header: " + header.size());
+				System.out.println("buffer size: " + buffer.capacity());
+				System.out.println(PacketUtilities.toHexDump(bytes));
+			}
+		};
+
+		pcap.loop(1, handler, "");
 	}
 }
