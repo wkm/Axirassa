@@ -5,7 +5,8 @@ import com.zanoccio.packetkit.PacketFragment;
 import com.zanoccio.packetkit.PacketUtilities;
 
 public enum ARPHardwareType implements PacketFragment {
-	ETHERNET(0x01);
+	ETHERNET(0x01),
+	IEEE_802_NETWORKS(0x06);
 
 	private byte[] bytes;
 
