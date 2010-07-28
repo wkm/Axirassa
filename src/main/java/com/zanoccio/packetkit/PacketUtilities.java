@@ -3,6 +3,7 @@ package com.zanoccio.packetkit;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.zanoccio.packetkit.exceptions.PacketKitException;
@@ -55,6 +56,29 @@ public class PacketUtilities {
 		}
 
 		return sb.toString();
+	}
+
+
+	public static byte[] parseHexDump(String dump) {
+
+		String[] components = dump.split("[ \t\n]+");
+		ArrayList<Byte> bytes = new ArrayList<Byte>();
+
+		for (String component : components)
+			if (component.length() == 2) {
+				try {
+					bytes.add(Integer.valueOf(component, 16).byteValue());
+				} catch (NumberFormatException e) {
+					System.out.println("could not parse: " + component);
+				}
+			}
+
+		byte[] array = new byte[bytes.size()];
+		int i = 0;
+		for (Byte b : bytes)
+			array[i++] = b.byteValue();
+
+		return array;
 	}
 
 
