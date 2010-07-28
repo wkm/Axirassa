@@ -25,13 +25,7 @@ public class TestARPHeader {
 		arp.setTargetIP(IP4Address.EMPTY);
 
 		arp.associate(new MockNetworkInterface());
-		assertPacketEquals("0000  00 01 08 00 06 04 00 02  de ad de ad be ef 12 34\n"
+		assertPacketEquals("0000  00 01 08 00 06 04 00 01  de ad de ad be ef 12 34\n"
 		        + "0010  56 78 ff ff ff ff ff ff  00 00 00 00", arp);
-
-		long start = System.currentTimeMillis();
-		for (int i = 0; i < 1000; i++)
-			arp.construct();
-
-		System.out.println("took " + (System.currentTimeMillis() - start));
 	}
 }
