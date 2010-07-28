@@ -5,8 +5,8 @@ import com.zanoccio.packetkit.PacketFragment;
 import com.zanoccio.packetkit.PacketUtilities;
 
 public enum ARPOpcode implements PacketFragment {
-	REPLY(0x0001),
-	REQUEST(0x0002);
+	REQUEST(0x0001),
+	REPLY(0x0002);
 
 	// there are many more:
 	// http://www.iana.org/assignments/arp-parameters/arp-parameters.xml
@@ -29,5 +29,4 @@ public enum ARPOpcode implements PacketFragment {
 	public int size() {
 		return 2;
 	}
-
 }
