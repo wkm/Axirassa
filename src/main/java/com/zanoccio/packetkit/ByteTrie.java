@@ -54,9 +54,11 @@ public class ByteTrie<T> {
 
 		for (; index < key.length - 1; index++) {
 			cursor.child = new ByteTrieIndex<T>();
+			cursor.bytevalue = key[index];
 			cursor = cursor.child;
 		}
 
+		cursor.bytevalue = key[index];
 		cursor.value = value;
 
 		return head;
@@ -66,11 +68,26 @@ public class ByteTrie<T> {
 	public T get(byte[] key) {
 		ByteTrieIndex<T> cursor = head;
 		int index = 0;
+
 		while (true) {
 			if (cursor.bytevalue == key[index]) {
 				// are we done?
 				if (index == key.length - 1)
 					return cursor.value;
+
+				// if there is no child, the key doesn't exist
+				if (cursor.child == null)
+					return null;
+
+				// now look at the child
+				cursor = cursor.child;
+				index++;
+			} else {
+				// if the next node doesn't exist, neither does the key
+				if (cursor.next == null)
+					return null;
+
+				cursor = cursor.next;
 			}
 		}
 	}
@@ -96,5 +113,11 @@ class ByteTrieIndex<T> {
 		this.value = value;
 		this.child = null;
 		this.next = null;
+	}
+
+
+	@Override
+	public String toString() {
+		return super.toString() + "  " + bytevalue + ": " + value;
 	}
 }
