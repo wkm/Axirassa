@@ -7,16 +7,24 @@ import org.junit.Test;
 
 import com.zanoccio.packetkit.IP4Address;
 import com.zanoccio.packetkit.MACAddress;
+import com.zanoccio.packetkit.PacketUtilities;
 import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.headers.ARPHardwareType;
 import com.zanoccio.packetkit.headers.ARPHeader;
 import com.zanoccio.packetkit.headers.ARPProtocolType;
+import com.zanoccio.packetkit.headers.PacketSkeleton;
 import com.zanoccio.packetkit.mock.MockNetworkInterface;
 
 public class TestARPHeader {
 
+	static public String HEXDUMP_1 = "0000  00 01 08 00 06 04 00 01  de ad de ad be ef 12 34\n"
+	        + "0010  56 78 ff ff ff ff ff ff  00 00 00 00";
+
+
 	@Test
 	public void construct() throws PacketKitException {
+		PacketSkeleton skeleton = new PacketSkeleton(ARPHeader.class);
+
 		ARPHeader arp = new ARPHeader();
 
 		arp.setHardwareType(ARPHardwareType.ETHERNET);
@@ -25,7 +33,13 @@ public class TestARPHeader {
 		arp.setTargetIP(IP4Address.EMPTY);
 
 		arp.associate(new MockNetworkInterface());
-		assertPacketEquals("0000  00 01 08 00 06 04 00 01  de ad de ad be ef 12 34\n"
-		        + "0010  56 78 ff ff ff ff ff ff  00 00 00 00", arp);
+		assertPacketEquals(HEXDUMP_1, arp);
+	}
+
+
+	@Test
+	public void build() {
+		ARPHeader arp = new ARPHeader();
+		arp.reconstruct(PacketUtilities.parseHexDump(HEXDUMP_1));
 	}
 }

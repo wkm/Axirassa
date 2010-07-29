@@ -2,12 +2,17 @@
 package com.zanoccio.packetkit.headers;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
+import com.zanoccio.packetkit.IP4Address;
+import com.zanoccio.packetkit.MACAddress;
 import com.zanoccio.packetkit.PacketFragment;
+import com.zanoccio.packetkit.exceptions.CannotPopulateFromNetworkInterfaceException;
+import com.zanoccio.packetkit.exceptions.InvalidFieldException;
 import com.zanoccio.packetkit.exceptions.InvalidStaticFragmentTypeException;
 import com.zanoccio.packetkit.exceptions.NotDeclareDynamicException;
 import com.zanoccio.packetkit.exceptions.PacketKitException;
@@ -24,10 +29,11 @@ import com.zanoccio.packetkit.headers.annotations.StaticFragment;
  * 
  */
 public class PacketSkeleton {
-	public static HashSet<Class<? extends Object>> VALIDPRIMITIVES;
+	public static HashMap<Class<? extends Object>, FragmentSlotType> VALIDPRIMITIVES;
 	static {
-		VALIDPRIMITIVES = new HashSet<Class<? extends Object>>();
-		VALIDPRIMITIVES.add(Integer.TYPE);
+		VALIDPRIMITIVES = new HashMap<Class<? extends Object>, FragmentSlotType>();
+		VALIDPRIMITIVES.put(Integer.TYPE, FragmentSlotType.INT);
+		VALIDPRIMITIVES.put(Short.TYPE, FragmentSlotType.SHORT);
 	}
 
 	public static HashMap<Class<? extends Object>, PacketSkeleton> SKELETON_CACHE;
@@ -62,15 +68,28 @@ public class PacketSkeleton {
 		fieldsfromnetworkinterface = new ArrayList<Field>();
 
 		int packetsize = 0;
+		// examine each field to construct this packet's skeleton
 		for (Field field : fields) {
+			FragmentSlotType slottype = null;
+
 			boolean isfragmentfixed = true;
 			int fragmentsize;
 
 			StaticFragment annotation = field.getAnnotation(StaticFragment.class);
 
+			// check whether this field is autowired by the network
+			// interface
 			Class<? extends Object> fieldtype = field.getType();
-			if (field.isAnnotationPresent(FromNetworkInterface.class))
+			if (field.isAnnotationPresent(FromNetworkInterface.class)) {
 				fieldsfromnetworkinterface.add(field);
+
+				if (fieldtype == IP4Address.class)
+					slottype = FragmentSlotType.IP4ADDRESS;
+				else if (fieldtype == MACAddress.class)
+					slottype = FragmentSlotType.MACADDRESS;
+				else
+					throw new CannotPopulateFromNetworkInterfaceException(field, fieldtype);
+			}
 
 			// no StaticFragment annotation, move along...
 			if (annotation == null)
@@ -82,8 +101,8 @@ public class PacketSkeleton {
 				throw new SlotTakenException(field);
 
 			// verify the field's type
-			if (!VALIDPRIMITIVES.contains(field.getType())) {
-				Class<? extends Object>[] interfaces = field.getType().getInterfaces();
+			if (!VALIDPRIMITIVES.containsKey(fieldtype)) {
+				Class<? extends Object>[] interfaces = fieldtype.getInterfaces();
 				boolean validtype = false;
 				for (Class<? extends Object> iface : interfaces)
 					if (iface == PacketFragment.class) {
@@ -93,7 +112,19 @@ public class PacketSkeleton {
 
 				if (!validtype)
 					throw new InvalidStaticFragmentTypeException(field);
+
+				// if the slot type is already set it's being autowired
+				if (slottype == null)
+					slottype = FragmentSlotType.PACKETFRAGMENT;
+
+			} else {
+				slottype = VALIDPRIMITIVES.get(fieldtype);
 			}
+
+			// verify that the field is accessible
+			int modifiers = field.getModifiers();
+			if (Modifier.isPrivate(modifiers) || Modifier.isProtected(modifiers))
+				throw new InvalidFieldException(field, " must be public or package scoped");
 
 			if (annotation.size() < 0) {
 				// if there is no explicit size
@@ -112,7 +143,7 @@ public class PacketSkeleton {
 			}
 
 			slots.add(Integer.valueOf(slot));
-			queue.add(new FragmentSlot(slot, field, fragmentsize, isfragmentfixed));
+			queue.add(new FragmentSlot(slottype, slot, field, fragmentsize, isfragmentfixed));
 
 			if (fragmentsize > 0)
 				packetsize += fragmentsize;
@@ -146,12 +177,8 @@ public class PacketSkeleton {
 		sb.append("\tsize: " + getSize()).append('\n');
 
 		for (FragmentSlot slot : queue) {
-			sb.append('\t').append(slot.slot).append(':');
-			sb.append(slot.fixed).append("  ");
-			sb.append(slot.size);
-			sb.append("  ").append(slot.field.getName()).append("  ");
-			sb.append(slot.field.getType().getCanonicalName());
-			sb.append('\n');
+			sb.append(String.format("\t%d:%s  %d  %15s  %15s  %s\n", slot.slot, slot.fixed ? "fixed " : "dynamic",
+			                        slot.size, slot.type, slot.field.getName(), slot.field.getType().getCanonicalName()));
 		}
 
 		sb.append(")");
@@ -167,25 +194,41 @@ public class PacketSkeleton {
 	public Integer getSize() {
 		return size;
 	}
+
+
+	public PriorityQueue<FragmentSlot> getSlots() {
+		return queue;
+	}
+}
+
+enum FragmentSlotType {
+	// general case
+	PACKETFRAGMENT,
+
+	// primitives
+	INT,
+	SHORT,
+
+	// values from a network interface
+	IP4ADDRESS,
+	MACADDRESS;
 }
 
 class FragmentSlot implements Comparable<FragmentSlot> {
-	int slot;
-	Field field;
-	int size;
-	boolean fixed;
+	public FragmentSlotType type;
+
+	public int slot;
+	public Field field;
+	public int size;
+	public boolean fixed;
 
 
-	public FragmentSlot(int slot, Field field, int size) {
-		this(slot, field, size, false);
-	}
-
-
-	public FragmentSlot(int slot, Field field, int size, boolean fixed) {
+	public FragmentSlot(FragmentSlotType type, int slot, Field field, int size, boolean fixed) {
 		this.slot = slot;
 		this.field = field;
 		this.size = size;
 		this.fixed = fixed;
+		this.type = type;
 	}
 
 

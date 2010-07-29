@@ -10,40 +10,41 @@ import com.zanoccio.packetkit.headers.PacketHeader;
 public class Packet {
 
 	private final List<PacketHeader> headers;
-	private ArrayList<Byte> body;
+	private byte[] body;
 
 
 	public Packet() {
 		headers = new ArrayList<PacketHeader>();
+		body = null;
 	}
 
 
-	public List<Byte> construct() throws PacketKitException {
+	public byte[] construct() throws PacketKitException {
+		byte[][] fragments = new byte[headers.size()][];
+
 		if (body != null)
 			return body;
 
-		body = new ArrayList<Byte>();
+		// construct each component
+		int i = 0;
+		int totallength = 0;
+		for (PacketHeader header : headers) {
+			fragments[i] = header.construct();
+			totallength += fragments[i].length;
 
-		for (PacketHeader header : headers)
-			body.addAll(header.construct());
+			i++;
+		}
+
+		// shove the fragments together
+		byte[] body = new byte[totallength];
+		int index = 0;
+		for (byte[] fragment : fragments)
+			for (byte b : fragment)
+				body[index++] = b;
+
+		// cache
+		this.body = body;
 
 		return body;
-	}
-
-
-	/**
-	 * @return
-	 * @throws PacketKitException
-	 */
-	public byte[] constructBytes() throws PacketKitException {
-		construct();
-
-		byte[] bytes = new byte[body.size()];
-
-		int i = 0;
-		for (Byte curbyte : body)
-			bytes[i++] = curbyte.byteValue();
-
-		return bytes;
 	}
 }

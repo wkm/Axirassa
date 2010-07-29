@@ -24,18 +24,33 @@ public class Frame {
 
 
 	public byte[] construct() throws PacketKitException {
-		ArrayList<Byte> bytes = new ArrayList<Byte>();
+		byte[][] fragments = new byte[headers.size()][];
+
+		// if (body != null)
+		// return body;
+
+		// construct each component
+		int i = 0;
+		int totallength = 0;
 		for (PacketHeader header : headers) {
 			header.associate(networkinterface);
-			bytes.addAll(header.construct());
+			fragments[i] = header.construct();
+			totallength += fragments[i].length;
+
+			i++;
 		}
 
-		byte[] array = new byte[bytes.size()];
-		int i = 0;
-		for (Byte b : bytes)
-			array[i++] = b.byteValue();
+		// shove the fragments together
+		byte[] body = new byte[totallength];
+		int index = 0;
+		for (byte[] fragment : fragments)
+			for (byte b : fragment)
+				body[index++] = b;
 
-		return array;
+		// cache
+		// this.body = body;
+
+		return body;
 	}
 
 
