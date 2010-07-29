@@ -40,6 +40,6 @@ public class TestARPHeader {
 	@Test
 	public void build() {
 		ARPHeader arp = new ARPHeader();
-		arp.reconstruct(PacketUtilities.parseHexDump(HEXDUMP_1));
+		arp.deconstruct(PacketUtilities.parseHexDump(HEXDUMP_1));
 	}
 }

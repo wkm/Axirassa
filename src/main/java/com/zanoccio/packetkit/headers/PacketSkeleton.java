@@ -36,18 +36,6 @@ public class PacketSkeleton {
 		VALIDPRIMITIVES.put(Short.TYPE, FragmentSlotType.SHORT);
 	}
 
-	public static HashMap<Class<? extends Object>, PacketSkeleton> SKELETON_CACHE;
-	static {
-		SKELETON_CACHE = new HashMap<Class<? extends Object>, PacketSkeleton>();
-
-		try {
-			SKELETON_CACHE.put(ARPHeader.class, new PacketSkeleton(ARPHeader.class));
-			SKELETON_CACHE.put(MACHeader.class, new PacketSkeleton(MACHeader.class));
-		} catch (PacketKitException e) {
-			throw new ExceptionInInitializerError(e);
-		}
-	}
-
 	private String name;
 	private Class<? extends PacketHeader> klass;
 	private boolean isfixedsize;
@@ -162,10 +150,6 @@ public class PacketSkeleton {
 			size = null;
 			if (!klass.isAnnotationPresent(DynamicSize.class))
 				throw new NotDeclareDynamicException(klass);
-		}
-
-		synchronized (SKELETON_CACHE) {
-			SKELETON_CACHE.put(klass, this);
 		}
 	}
 

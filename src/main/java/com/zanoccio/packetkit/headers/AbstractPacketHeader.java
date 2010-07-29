@@ -14,22 +14,23 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 	protected NetworkInterface networkinterface;
 
 
+	/**
+	 * Associate this packet with a network interface; many packet types have
+	 * their fields autowired by the network interface.
+	 */
 	@Override
 	public void associate(NetworkInterface networkinterface) {
 		this.networkinterface = networkinterface;
 	}
 
 
-	//
-	// Construct
-	//
-
+	/**
+	 * Constructs the packet, creating the byte array that can be sent directly
+	 * through the network interface.
+	 */
 	@Override
 	public byte[] construct() throws PacketKitException {
-		PacketSkeleton skeleton = PacketSkeleton.SKELETON_CACHE.get(getClass());
-		if (skeleton == null)
-			skeleton = new PacketSkeleton(getClass());
-
+		PacketSkeleton skeleton = PacketSkeletonRegistry.getInstance().retrieve(getClass());
 		if (skeleton.isFixedSize()) {
 			int size = skeleton.getSize().intValue();
 			byte[] buffer = new byte[size];
@@ -120,11 +121,13 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 	}
 
 
-	//
-	// Reconstruct
-	//
-
-	public void reconstruct(byte[] bytes) {
+	/**
+	 * Populates this packet by deconstructing a byte array into the various
+	 * fields of a packet.
+	 * 
+	 * @param bytes
+	 */
+	public void deconstruct(byte[] bytes) {
 
 	}
 }
