@@ -8,14 +8,14 @@ import com.zanoccio.packetkit.headers.annotations.StaticFragment;
 public class MACHeader extends AbstractPacketHeader {
 
 	@StaticFragment(slot = 0)
-	private MACAddress destination;
+	MACAddress destination;
 
 	@StaticFragment(slot = 1)
 	@FromNetworkInterface
-	private MACAddress source;
+	MACAddress source;
 
 	@StaticFragment(slot = 2)
-	private EtherType type;
+	EtherType type;
 
 
 	public static MACHeader broadcast() {

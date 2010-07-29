@@ -39,6 +39,13 @@ public class PacketSkeleton {
 	public static HashMap<Class<? extends Object>, PacketSkeleton> SKELETON_CACHE;
 	static {
 		SKELETON_CACHE = new HashMap<Class<? extends Object>, PacketSkeleton>();
+
+		try {
+			SKELETON_CACHE.put(ARPHeader.class, new PacketSkeleton(ARPHeader.class));
+			SKELETON_CACHE.put(MACHeader.class, new PacketSkeleton(MACHeader.class));
+		} catch (PacketKitException e) {
+			throw new ExceptionInInitializerError(e);
+		}
 	}
 
 	private String name;
