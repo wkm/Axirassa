@@ -28,6 +28,12 @@ public class PacketUtilities {
 	}
 
 
+	// by tschodt from http://forums.sun.com/thread.jspa?threadID=628082
+	public static int intFromByteArray(byte[] b) {
+		return b[0] << 24 | (b[1] & 0xff) << 16 | (b[2] & 0xff) << 8 | (b[3] & 0xff);
+	}
+
+
 	/**
 	 * Format an array of bytes in a hex dump format similar to WireShark.
 	 */
