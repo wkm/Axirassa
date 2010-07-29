@@ -12,7 +12,7 @@ public class ByteTrie<T> {
 	}
 
 
-	public void add(byte[] key, Object value) {
+	public void add(byte[] key, T value) {
 		ByteTrieIndex<T> cursor = head;
 		int index = 0;
 		while (true) {
@@ -48,7 +48,7 @@ public class ByteTrie<T> {
 	}
 
 
-	private ByteTrieIndex<T> createChain(byte[] key, Object value, int index) {
+	private ByteTrieIndex<T> createChain(byte[] key, T value, int index) {
 		ByteTrieIndex<T> head = new ByteTrieIndex<T>();
 		ByteTrieIndex<T> cursor = head;
 
