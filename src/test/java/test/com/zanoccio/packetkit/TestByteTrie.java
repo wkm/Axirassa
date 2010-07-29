@@ -31,5 +31,7 @@ public class TestByteTrie {
 		assertEquals("furball", trie.get(new byte[] { 1 }));
 		assertEquals("woofer", trie.get(new byte[] { 0, 8, 9, 0 }));
 		assertEquals("horsey", trie.get(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 }));
+
+		assertEquals("cat", trie.get(new byte[] { 1, 0, 8, 9, 2 }, 1, 3));
 	}
 }

@@ -66,13 +66,19 @@ public class ByteTrie<T> {
 
 
 	public T get(byte[] key) {
-		ByteTrieIndex<T> cursor = head;
-		int index = 0;
+		return get(key, 0, key.length);
+	}
 
+
+	public T get(byte[] key, int start, int length) {
+		ByteTrieIndex<T> cursor = head;
+
+		int index = start;
+		int end = start + length - 1;
 		while (true) {
 			if (cursor.bytevalue == key[index]) {
 				// are we done?
-				if (index == key.length - 1)
+				if (index == end)
 					return cursor.value;
 
 				// if there is no child, the key doesn't exist
