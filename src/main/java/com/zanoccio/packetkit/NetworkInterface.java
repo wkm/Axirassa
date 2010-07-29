@@ -91,7 +91,7 @@ public class NetworkInterface {
 				byte[] bytes = new byte[buffer.capacity()];
 				buffer.get(bytes);
 
-				System.out.println("\n\n\n\n\n======================");
+				System.out.println("======================");
 				System.out.println("user: " + user);
 				System.out.println("header: " + header.size());
 				System.out.println("buffer size: " + buffer.capacity());

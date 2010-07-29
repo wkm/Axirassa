@@ -32,6 +32,5 @@ public class TestFrame {
 		                           + "0010  08 00 06 04 00 01 de ad  de ad be ef 12 34 56 78\n"
 		                           + "0020  00 00 00 00 00 00 c0 a8  01 08",
 		                   whohas);
-
 	}
 }
