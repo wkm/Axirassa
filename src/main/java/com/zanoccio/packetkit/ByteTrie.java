@@ -8,7 +8,7 @@ public class ByteTrie<T> {
 
 
 	public ByteTrie() {
-		head = new ByteTrieIndex(0, null);
+		head = new ByteTrieIndex<T>(0, null);
 	}
 
 
