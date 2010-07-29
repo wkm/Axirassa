@@ -3,16 +3,21 @@ package com.zanoccio.packetkit;
 
 public class ByteTrie<T> {
 
-	private final ByteTrieIndex<T> head;
+	private ByteTrieIndex<T> head;
 	private final int nodecount = 0;
 
 
 	public ByteTrie() {
-		head = new ByteTrieIndex<T>(0, null);
+		head = null;
 	}
 
 
 	public void add(byte[] key, T value) {
+		if (head == null && key.length > 0) {
+			head = new ByteTrieIndex<T>();
+			head.bytevalue = key[0];
+		}
+
 		ByteTrieIndex<T> cursor = head;
 		int index = 0;
 		while (true) {
@@ -76,25 +81,19 @@ public class ByteTrie<T> {
 		int index = start;
 		int end = start + length - 1;
 		while (true) {
+			if (cursor == null)
+				return null;
+
 			if (cursor.bytevalue == key[index]) {
 				// are we done?
 				if (index == end)
 					return cursor.value;
 
-				// if there is no child, the key doesn't exist
-				if (cursor.child == null)
-					return null;
-
 				// now look at the child
 				cursor = cursor.child;
 				index++;
-			} else {
-				// if the next node doesn't exist, neither does the key
-				if (cursor.next == null)
-					return null;
-
+			} else
 				cursor = cursor.next;
-			}
 		}
 	}
 }
