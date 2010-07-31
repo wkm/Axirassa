@@ -12,7 +12,6 @@ import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.headers.ARPHardwareType;
 import com.zanoccio.packetkit.headers.ARPHeader;
 import com.zanoccio.packetkit.headers.ARPProtocolType;
-import com.zanoccio.packetkit.headers.PacketSkeleton;
 import com.zanoccio.packetkit.mock.MockNetworkInterface;
 
 public class TestARPHeader {
@@ -23,8 +22,6 @@ public class TestARPHeader {
 
 	@Test
 	public void construct() throws PacketKitException {
-		PacketSkeleton skeleton = new PacketSkeleton(ARPHeader.class);
-
 		ARPHeader arp = new ARPHeader();
 
 		arp.setHardwareType(ARPHardwareType.ETHERNET);
@@ -38,7 +35,7 @@ public class TestARPHeader {
 
 
 	@Test
-	public void build() {
+	public void build() throws PacketKitException {
 		ARPHeader arp = new ARPHeader();
 		arp.deconstruct(PacketUtilities.parseHexDump(HEXDUMP_1));
 	}

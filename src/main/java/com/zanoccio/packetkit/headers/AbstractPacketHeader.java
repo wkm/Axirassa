@@ -3,6 +3,8 @@ package com.zanoccio.packetkit.headers;
 
 import java.lang.reflect.Field;
 
+import com.zanoccio.packetkit.IP4Address;
+import com.zanoccio.packetkit.MACAddress;
 import com.zanoccio.packetkit.NetworkInterface;
 import com.zanoccio.packetkit.PacketFragment;
 import com.zanoccio.packetkit.PacketUtilities;
@@ -126,8 +128,62 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 	 * fields of a packet.
 	 * 
 	 * @param bytes
+	 * @throws PacketKitException
 	 */
-	public void deconstruct(byte[] bytes) {
+	@SuppressWarnings("boxing")
+	public void deconstruct(byte[] bytes) throws PacketKitException {
+		PacketSkeleton skeleton = PacketSkeletonRegistry.getInstance().retrieve(getClass());
 
+		if (skeleton.isFixedSize()) {
+			int size = skeleton.getSize().intValue();
+			int index = 0;
+
+			for (FragmentSlot slot : skeleton.getSlots()) {
+				Field field = slot.field;
+				Object value;
+
+				switch (slot.type) {
+				case IP4ADDRESS:
+					value = new IP4Address(extract(bytes, index, slot.size));
+					break;
+
+				case MACADDRESS:
+					value = new MACAddress(extract(bytes, index, slot.size));
+					break;
+
+				case SHORT:
+					value = PacketUtilities.shortFromByteArray(extract(bytes, index, slot.size));
+					break;
+
+				case INT:
+					value = PacketUtilities.intFromByteArray(extract(bytes, index, slot.size));
+					break;
+
+				case PACKETFRAGMENT:
+					PacketFragment fragment;
+					try {
+						fragment = (PacketFragment) slot.field.getType().newInstance();
+					} catch (InstantiationException e) {
+						throw new InvalidFieldException(field, e);
+					} catch (IllegalAccessException e) {
+						throw new InvalidFieldException(field, e);
+					}
+
+					fragment.fromBytes(bytes, index, slot.size);
+					value = fragment;
+					break;
+				}
+			}
+		}
+
+		throw new UnsupportedOperationException("dynamic packet deconstruction is not yet implemented");
+	}
+
+
+	private byte[] extract(byte[] buffer, int start, int length) {
+		byte[] bytes = new byte[length];
+		for (int i = 0; i < length; i++)
+			bytes[i] = buffer[start + i];
+		return bytes;
 	}
 }

@@ -3,9 +3,12 @@ package com.zanoccio.packetkit;
 
 import static org.junit.Assert.assertEquals;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zanoccio.packetkit.exceptions.InvalidFieldError;
 import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.frames.Frame;
 import com.zanoccio.packetkit.headers.PacketHeader;
@@ -31,6 +34,11 @@ public class PacketUtilities {
 	// by tschodt from http://forums.sun.com/thread.jspa?threadID=628082
 	public static int intFromByteArray(byte[] b) {
 		return b[0] << 24 | (b[1] & 0xff) << 16 | (b[2] & 0xff) << 8 | (b[3] & 0xff);
+	}
+
+
+	public static short shortFromByteArray(byte[] b) {
+		return (short) (b[0] << 8 | (b[1] & 0xff));
 	}
 
 
@@ -124,5 +132,42 @@ public class PacketUtilities {
 
 	public static void assertPacketEquals(String hexdump, byte[] bytes) {
 		assertEquals(hexdump, toHexDump(bytes));
+	}
+
+
+	/**
+	 * Constructs a ByteTrie from the public, static, final fields of any enum
+	 * that implements {@link PacketFragment}
+	 */
+	public static <T extends PacketFragment> ByteTrie<T> trieFromEnum(Class<T> klass) {
+		ByteTrie<T> trie = new ByteTrie<T>();
+
+		Field[] fields = klass.getDeclaredFields();
+		for (Field field : fields) {
+			int modifiers = field.getModifiers();
+
+			if (Modifier.isFinal(modifiers) && Modifier.isPublic(modifiers) && Modifier.isStatic(modifiers)) {
+				try {
+					Object object = field.get(null);
+					if (klass.isInstance(object)) {
+						@SuppressWarnings("unchecked")
+						T value = (T) object;
+						trie.add(value.getBytes(), value);
+					} else
+						throw new InvalidFieldError(field, " is not an instance of " + klass);
+				} catch (IllegalArgumentException e) {
+					throw new InvalidFieldError(field, e);
+				} catch (IllegalAccessException e) {
+					throw new InvalidFieldError(field, e);
+				}
+			}
+		}
+
+		return trie;
+	}
+
+
+	public static String fieldName(Field field) {
+		return "Field " + field.getDeclaringClass().getCanonicalName() + ":" + field.getName();
 	}
 }

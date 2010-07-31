@@ -1,6 +1,7 @@
 
 package com.zanoccio.packetkit;
 
+
 public class ByteTrie<T> {
 
 	private ByteTrieIndex<T> head;
