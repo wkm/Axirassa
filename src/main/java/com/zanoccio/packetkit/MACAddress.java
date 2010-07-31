@@ -126,4 +126,11 @@ public class MACAddress implements PacketFragment {
 		                     address[4], address[5]);
 	}
 
+
+	@Override
+	public MACAddress fromBytes(byte[] buffer, int slot, int length) {
+		return new MACAddress(buffer[slot], buffer[slot + 1], buffer[slot + 2], buffer[slot + 3], buffer[slot + 4],
+		        buffer[slot + 5]);
+	}
+
 }

@@ -120,4 +120,10 @@ public class IP4Address implements PacketFragment {
 		                     address[3] & 0x000000FF);
 	}
 
+
+	@Override
+	public IP4Address fromBytes(byte[] buffer, int slot, int length) {
+		return new IP4Address(buffer[slot], buffer[slot + 1], buffer[slot + 2], buffer[slot + 3]);
+	}
+
 }
