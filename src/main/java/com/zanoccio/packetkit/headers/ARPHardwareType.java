@@ -1,6 +1,7 @@
 
 package com.zanoccio.packetkit.headers;
 
+import com.zanoccio.packetkit.ByteTrie;
 import com.zanoccio.packetkit.PacketFragment;
 import com.zanoccio.packetkit.PacketUtilities;
 import com.zanoccio.packetkit.headers.annotations.FixedSize;
@@ -9,6 +10,8 @@ import com.zanoccio.packetkit.headers.annotations.FixedSize;
 public enum ARPHardwareType implements PacketFragment {
 	ETHERNET(0x01),
 	IEEE_802_NETWORKS(0x06);
+
+	private static final ByteTrie<ARPHardwareType> TRIE = PacketUtilities.trieFromEnum(ARPHardwareType.class);
 
 	private byte[] bytes;
 
@@ -27,5 +30,11 @@ public enum ARPHardwareType implements PacketFragment {
 	@Override
 	public int size() {
 		return 2;
+	}
+
+
+	@Override
+	public ARPHardwareType fromBytes(byte[] buffer, int slot, int length) {
+		return TRIE.get(buffer, slot, length);
 	}
 }

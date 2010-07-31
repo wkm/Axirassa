@@ -1,6 +1,7 @@
 
 package com.zanoccio.packetkit.headers;
 
+import com.zanoccio.packetkit.ByteTrie;
 import com.zanoccio.packetkit.PacketFragment;
 import com.zanoccio.packetkit.PacketUtilities;
 import com.zanoccio.packetkit.headers.annotations.FixedSize;
@@ -9,6 +10,8 @@ import com.zanoccio.packetkit.headers.annotations.FixedSize;
 public enum ARPOpcode implements PacketFragment {
 	REQUEST(0x0001),
 	REPLY(0x0002);
+
+	private static final ByteTrie<ARPOpcode> TRIE = PacketUtilities.trieFromEnum(ARPOpcode.class);
 
 	// there are many more:
 	// http://www.iana.org/assignments/arp-parameters/arp-parameters.xml
@@ -30,5 +33,11 @@ public enum ARPOpcode implements PacketFragment {
 	@Override
 	public int size() {
 		return 2;
+	}
+
+
+	@Override
+	public ARPOpcode fromBytes(byte[] buffer, int slot, int length) {
+		return TRIE.get(buffer, slot, length);
 	}
 }

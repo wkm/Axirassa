@@ -1,6 +1,7 @@
 
 package com.zanoccio.packetkit.headers;
 
+import com.zanoccio.packetkit.ByteTrie;
 import com.zanoccio.packetkit.PacketFragment;
 import com.zanoccio.packetkit.PacketUtilities;
 import com.zanoccio.packetkit.headers.annotations.FixedSize;
@@ -8,6 +9,8 @@ import com.zanoccio.packetkit.headers.annotations.FixedSize;
 @FixedSize(size = 2)
 public enum ARPProtocolType implements PacketFragment {
 	IP4(0x0800);
+
+	private static final ByteTrie<ARPProtocolType> TRIE = PacketUtilities.trieFromEnum(ARPProtocolType.class);
 
 	private byte[] bytes;
 
@@ -26,6 +29,12 @@ public enum ARPProtocolType implements PacketFragment {
 	@Override
 	public int size() {
 		return 2;
+	}
+
+
+	@Override
+	public ARPProtocolType fromBytes(byte[] buffer, int slot, int length) {
+		return TRIE.get(buffer, slot, length);
 	}
 
 }
