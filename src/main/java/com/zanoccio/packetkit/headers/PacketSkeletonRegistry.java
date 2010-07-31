@@ -20,6 +20,7 @@ public class PacketSkeletonRegistry {
 	}
 
 
+	// pre-skeletize all included classes
 	static {
 		try {
 			PacketSkeletonRegistry.getInstance().register(ARPHeader.class);
