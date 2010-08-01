@@ -4,15 +4,17 @@ package com.zanoccio.packetkit.headers;
 import com.zanoccio.packetkit.ByteTrie;
 import com.zanoccio.packetkit.PacketFragment;
 import com.zanoccio.packetkit.PacketUtilities;
+import com.zanoccio.packetkit.headers.annotations.FixedSize;
 
+@FixedSize(size = 1)
 public enum ICMPType implements PacketFragment {
 	ECHO_REQUEST(0x8);
 
 	private static ByteTrie<ICMPType> TRIE = PacketUtilities.trieFromEnum(ICMPType.class);
 
 
-	public ICMPType fromByte(byte[] bytes) {
-		return TRIE.get(bytes);
+	public static ICMPType fromBytes(byte[] bytes, int offset, int length) {
+		return TRIE.get(bytes, offset, length);
 	}
 
 
