@@ -11,7 +11,7 @@ import com.zanoccio.packetkit.headers.annotations.StaticFragment;
  * 
  * @author wiktor
  */
-public class ICMPHeader {
+public class ICMPHeader extends AbstractPacketHeader {
 	@StaticFragment(slot = 0)
 	ICMPType type;
 
@@ -30,4 +30,68 @@ public class ICMPHeader {
 
 	@Data
 	byte[] data;
+
+
+	//
+	// Accessors
+	//
+
+	public void setType(ICMPType type) {
+		this.type = type;
+	}
+
+
+	public ICMPType getType() {
+		return type;
+	}
+
+
+	public void setCode(int code) {
+		this.code = code;
+	}
+
+
+	public int getCode() {
+		return code;
+	}
+
+
+	public void setChecksum(int checksum) {
+		this.checksum = checksum;
+	}
+
+
+	public int getChecksum() {
+		return checksum;
+	}
+
+
+	public void setIdentifier(int identifier) {
+		this.identifier = identifier;
+	}
+
+
+	public int getIdentifier() {
+		return identifier;
+	}
+
+
+	public void setSequenceNumber(int sequencenumber) {
+		this.sequencenumber = sequencenumber;
+	}
+
+
+	public int getSequenceNumber() {
+		return sequencenumber;
+	}
+
+
+	public void setData(byte[] data) {
+		this.data = data;
+	}
+
+
+	public byte[] getData() {
+		return data;
+	}
 }
