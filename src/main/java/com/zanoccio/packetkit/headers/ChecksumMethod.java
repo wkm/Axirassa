@@ -10,7 +10,9 @@ import com.zanoccio.packetkit.PacketUtilities;
  */
 public enum ChecksumMethod {
 	/**
-	 * Compute the 16-bit one's complement checksum
+	 * Compute the 16-bit one's complement checksum.
+	 * 
+	 * (implemented by following along http://www.netfor2.com/checksum.html)
 	 */
 	ONESCOMPLEMENT {
 		@Override
