@@ -18,7 +18,8 @@ public class TestICMPHeader extends AbstractPacketTest {
 		icmp.setCode(0);
 		icmp.setIdentifier(1);
 		icmp.setSequenceNumber(13);
+		icmp.setData(getBytes("IcmpEchoData"));
 
-		assertPacketEquals(getProperties("IcmpEchoRequest"), icmp.construct());
+		assertPacketEquals(getProperty("IcmpEchoRequest"), icmp.construct());
 	}
 }
