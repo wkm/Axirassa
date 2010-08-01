@@ -52,10 +52,5 @@ public class TestARPHeader {
 		assertEquals(mock.getIP4Address(), arp.getSenderIP());
 		assertEquals(mock.getMACAddress(), arp.getSenderMAC());
 
-		long start = System.currentTimeMillis();
-		for (int i = 0; i < 100000; i++)
-			arp.deconstruct(PacketUtilities.parseHexDump(HEXDUMP_1));
-		System.out.println("time: " + (System.currentTimeMillis() - start));
-
 	}
 }
