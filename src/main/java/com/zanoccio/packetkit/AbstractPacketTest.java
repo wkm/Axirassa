@@ -11,9 +11,14 @@ public class AbstractPacketTest {
 	public static HashMap<Class<? extends AbstractPacketTest>, Properties> properties = new HashMap<Class<? extends AbstractPacketTest>, Properties>();
 
 
-	public String getProperties(String key) {
+	public String getProperty(String key) {
 		Properties prop = loadProperties(getClass());
 		return prop.getProperty(key);
+	}
+
+
+	public byte[] getBytes(String key) {
+		return PacketUtilities.parseHexDump(getProperty(key));
 	}
 
 
@@ -22,7 +27,6 @@ public class AbstractPacketTest {
 			return properties.get(klass);
 
 		String fname = klass.getCanonicalName().replace('.', '\\') + ".properties";
-		System.out.println(fname);
 		InputStream istream = getClass().getClassLoader().getResourceAsStream(fname);
 		if (istream == null)
 			throw new ExceptionInInitializerError("Could not find properties for " + klass + " at " + fname);
