@@ -13,6 +13,12 @@ public enum ARPOpcode implements PacketFragment {
 
 	private static final ByteTrie<ARPOpcode> TRIE = PacketUtilities.trieFromEnum(ARPOpcode.class);
 
+
+	public static ARPOpcode fromBytes(byte[] buffer, int slot, int length) {
+		return TRIE.get(buffer, slot, length);
+	}
+
+
 	// there are many more:
 	// http://www.iana.org/assignments/arp-parameters/arp-parameters.xml
 
@@ -33,11 +39,5 @@ public enum ARPOpcode implements PacketFragment {
 	@Override
 	public int size() {
 		return 2;
-	}
-
-
-	@Override
-	public ARPOpcode fromBytes(byte[] buffer, int slot, int length) {
-		return TRIE.get(buffer, slot, length);
 	}
 }

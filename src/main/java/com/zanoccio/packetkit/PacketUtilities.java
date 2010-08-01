@@ -37,8 +37,36 @@ public class PacketUtilities {
 	}
 
 
+	public static int intFromByteArray(byte[] b, int start) {
+		return b[start] << 24 | (b[start + 1] & 0xff) << 16 | (b[start + 2] & 0xff) << 8 | (b[start + 3] & 0xff);
+	}
+
+
+	/**
+	 * @deprecated
+	 */
+	@Deprecated
+	public static int intFromByteArray(byte[] b, int start, int length) {
+		return intFromByteArray(b, start);
+	}
+
+
 	public static short shortFromByteArray(byte[] b) {
 		return (short) (b[0] << 8 | (b[1] & 0xff));
+	}
+
+
+	public static short shortFromByteArray(byte[] b, int start) {
+		return (short) (b[start] << 8 | (b[start + 1] & 0xff));
+	}
+
+
+	/**
+	 * @deprecated
+	 */
+	@Deprecated
+	public static short shortFromByteArray(byte[] b, int start, int length) {
+		return shortFromByteArray(b, start);
 	}
 
 

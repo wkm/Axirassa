@@ -15,6 +15,12 @@ public enum EtherType implements PacketFragment {
 
 	private static final ByteTrie<EtherType> TRIE = PacketUtilities.trieFromEnum(EtherType.class);
 
+
+	public static EtherType fromBytes(byte[] buffer, int slot, int length) {
+		return TRIE.get(buffer, slot, length);
+	}
+
+
 	private byte[] bytes;
 
 
@@ -32,11 +38,5 @@ public enum EtherType implements PacketFragment {
 	@Override
 	public int size() {
 		return 2;
-	}
-
-
-	@Override
-	public EtherType fromBytes(byte[] buffer, int slot, int length) {
-		return TRIE.get(buffer, slot, length);
 	}
 }

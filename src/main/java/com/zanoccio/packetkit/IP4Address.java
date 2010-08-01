@@ -26,6 +26,11 @@ public class IP4Address implements PacketFragment {
 	public static final IP4Address EMPTY = IP4Address.parse("0.0.0.0");
 
 
+	public static IP4Address fromBytes(byte[] buffer, int slot, int length) {
+		return new IP4Address(buffer[slot], buffer[slot + 1], buffer[slot + 2], buffer[slot + 3]);
+	}
+
+
 	/**
 	 * Parses an {@link IP4Address} in the form <tt>00.00.00.00</tt>.
 	 * 
@@ -118,12 +123,6 @@ public class IP4Address implements PacketFragment {
 	public String toString() {
 		return String.format("%d.%d.%d.%d", address[0] & 0x000000FF, address[1] & 0x000000FF, address[2] & 0x000000FF,
 		                     address[3] & 0x000000FF);
-	}
-
-
-	@Override
-	public IP4Address fromBytes(byte[] buffer, int slot, int length) {
-		return new IP4Address(buffer[slot], buffer[slot + 1], buffer[slot + 2], buffer[slot + 3]);
 	}
 
 }

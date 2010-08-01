@@ -2,11 +2,13 @@
 package test.com.zanoccio.packetkit;
 
 import static com.zanoccio.packetkit.PacketUtilities.assertPacketEquals;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 import com.zanoccio.packetkit.IP4Address;
 import com.zanoccio.packetkit.MACAddress;
+import com.zanoccio.packetkit.NetworkInterface;
 import com.zanoccio.packetkit.PacketUtilities;
 import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.headers.ARPHardwareType;
@@ -38,5 +40,22 @@ public class TestARPHeader {
 	public void build() throws PacketKitException {
 		ARPHeader arp = new ARPHeader();
 		arp.deconstruct(PacketUtilities.parseHexDump(HEXDUMP_1));
+
+		// test normal fields
+		assertEquals(ARPHardwareType.ETHERNET, arp.getHardwareType());
+		assertEquals(ARPProtocolType.IP4, arp.getProtocolType());
+		assertEquals(MACAddress.BROADCAST, arp.getTargetMAC());
+		assertEquals(IP4Address.EMPTY, arp.getTargetIP());
+
+		// test autowired fields
+		NetworkInterface mock = new MockNetworkInterface();
+		assertEquals(mock.getIP4Address(), arp.getSenderIP());
+		assertEquals(mock.getMACAddress(), arp.getSenderMAC());
+
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < 100000; i++)
+			arp.deconstruct(PacketUtilities.parseHexDump(HEXDUMP_1));
+		System.out.println("time: " + (System.currentTimeMillis() - start));
+
 	}
 }

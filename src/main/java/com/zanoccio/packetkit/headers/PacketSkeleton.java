@@ -2,6 +2,7 @@
 package com.zanoccio.packetkit.headers;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.PriorityQueue;
 import com.zanoccio.packetkit.IP4Address;
 import com.zanoccio.packetkit.MACAddress;
 import com.zanoccio.packetkit.PacketFragment;
+import com.zanoccio.packetkit.PacketUtilities;
 import com.zanoccio.packetkit.exceptions.CannotPopulateFromNetworkInterfaceException;
 import com.zanoccio.packetkit.exceptions.InvalidFieldException;
 import com.zanoccio.packetkit.exceptions.InvalidStaticFragmentTypeException;
@@ -50,6 +52,7 @@ public class PacketSkeleton {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	public void construct(Class<? extends PacketHeader> klass) throws PacketKitException {
 		isfixedsize = true;
 
@@ -137,8 +140,53 @@ public class PacketSkeleton {
 				fragmentsize = annotation.size();
 			}
 
+			//
+			// now find the method for reconstructing the fragment from bytes
+			//
+
+			// create method signatures
+			Class<? extends Object>[] signature = null;
+			try {
+				signature = new Class[] { Class.forName("[B"), Integer.TYPE, Integer.TYPE };
+			} catch (ClassNotFoundException e1) {
+				throw new PacketKitException(e1.toString());
+			}
+
+			Method constructor = null;
+			try {
+				switch (slottype) {
+				case INT:
+					constructor = PacketUtilities.class.getDeclaredMethod("intFromByteArray", signature);
+					break;
+
+				case SHORT:
+					constructor = PacketUtilities.class.getDeclaredMethod("shortFromByteArray", signature);
+					break;
+
+				case IP4ADDRESS:
+				case MACADDRESS:
+				case PACKETFRAGMENT:
+				default:
+					constructor = fieldtype.getDeclaredMethod("fromBytes", signature);
+					break;
+				}
+
+				// verify the constructor is static
+				if (!Modifier.isStatic(constructor.getModifiers()))
+					throw new InvalidFieldException(field, "the byte reconstructor method is not static: "
+					        + constructor);
+
+				// verify the constructor is accessible
+				if (!Modifier.isPublic(constructor.getModifiers()))
+					throw new InvalidFieldException(field, "the byte reconstructor method is not public " + constructor);
+			} catch (SecurityException e) {
+				throw new InvalidFieldException(field, e);
+			} catch (NoSuchMethodException e) {
+				throw new InvalidFieldException(field, e);
+			}
+
 			slots.add(Integer.valueOf(slot));
-			queue.add(new FragmentSlot(slottype, slot, field, fragmentsize, isfragmentfixed));
+			queue.add(new FragmentSlot(slottype, slot, field, fragmentsize, isfragmentfixed, constructor));
 
 			if (fragmentsize > 0)
 				packetsize += fragmentsize;
@@ -212,14 +260,16 @@ class FragmentSlot implements Comparable<FragmentSlot> {
 	public Field field;
 	public int size;
 	public boolean fixed;
+	public Method constructor;
 
 
-	public FragmentSlot(FragmentSlotType type, int slot, Field field, int size, boolean fixed) {
+	public FragmentSlot(FragmentSlotType type, int slot, Field field, int size, boolean fixed, Method constructor) {
 		this.slot = slot;
 		this.field = field;
 		this.size = size;
 		this.fixed = fixed;
 		this.type = type;
+		this.constructor = constructor;
 	}
 
 

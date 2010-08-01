@@ -2,12 +2,12 @@
 package com.zanoccio.packetkit.headers;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
-import com.zanoccio.packetkit.IP4Address;
-import com.zanoccio.packetkit.MACAddress;
 import com.zanoccio.packetkit.NetworkInterface;
 import com.zanoccio.packetkit.PacketFragment;
 import com.zanoccio.packetkit.PacketUtilities;
+import com.zanoccio.packetkit.exceptions.DeconstructionException;
 import com.zanoccio.packetkit.exceptions.InvalidFieldException;
 import com.zanoccio.packetkit.exceptions.PacketKitException;
 
@@ -142,38 +142,24 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 				Field field = slot.field;
 				Object value;
 
-				switch (slot.type) {
-				case IP4ADDRESS:
-					value = new IP4Address(extract(bytes, index, slot.size));
-					break;
+				try {
+					value = slot.constructor.invoke(null, bytes, index, slot.size);
 
-				case MACADDRESS:
-					value = new MACAddress(extract(bytes, index, slot.size));
-					break;
+					if (value == null)
+						throw new DeconstructionException(bytes, field, value);
 
-				case SHORT:
-					value = PacketUtilities.shortFromByteArray(extract(bytes, index, slot.size));
-					break;
-
-				case INT:
-					value = PacketUtilities.intFromByteArray(extract(bytes, index, slot.size));
-					break;
-
-				case PACKETFRAGMENT:
-					PacketFragment fragment;
-					try {
-						fragment = (PacketFragment) slot.field.getType().newInstance();
-					} catch (InstantiationException e) {
-						throw new InvalidFieldException(field, e);
-					} catch (IllegalAccessException e) {
-						throw new InvalidFieldException(field, e);
-					}
-
-					fragment.fromBytes(bytes, index, slot.size);
-					value = fragment;
-					break;
+					field.set(this, value);
+				} catch (IllegalArgumentException e) {
+					throw new DeconstructionException(bytes, e);
+				} catch (IllegalAccessException e) {
+					throw new DeconstructionException(bytes, e);
+				} catch (InvocationTargetException e) {
+					throw new DeconstructionException(bytes, e);
 				}
+
+				index += slot.size;
 			}
+			return;
 		}
 
 		throw new UnsupportedOperationException("dynamic packet deconstruction is not yet implemented");

@@ -13,6 +13,12 @@ public enum ARPHardwareType implements PacketFragment {
 
 	private static final ByteTrie<ARPHardwareType> TRIE = PacketUtilities.trieFromEnum(ARPHardwareType.class);
 
+
+	public static ARPHardwareType fromBytes(byte[] buffer, int slot, int length) {
+		return TRIE.get(buffer, slot, length);
+	}
+
+
 	private byte[] bytes;
 
 
@@ -30,11 +36,5 @@ public enum ARPHardwareType implements PacketFragment {
 	@Override
 	public int size() {
 		return 2;
-	}
-
-
-	@Override
-	public ARPHardwareType fromBytes(byte[] buffer, int slot, int length) {
-		return TRIE.get(buffer, slot, length);
 	}
 }

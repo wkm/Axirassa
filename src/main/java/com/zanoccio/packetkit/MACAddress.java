@@ -21,6 +21,13 @@ public class MACAddress implements PacketFragment {
 	public static final MACAddress EMPTY = MACAddress.parse("0:0:0:0:0:0");
 	public static final MACAddress BROADCAST = MACAddress.parse("ff:ff:ff:ff:ff:ff");
 
+
+	public static MACAddress fromBytes(byte[] buffer, int slot, int length) {
+		return new MACAddress(buffer[slot], buffer[slot + 1], buffer[slot + 2], buffer[slot + 3], buffer[slot + 4],
+		        buffer[slot + 5]);
+	}
+
+
 	private final byte[] address;
 
 
@@ -124,13 +131,6 @@ public class MACAddress implements PacketFragment {
 	public String toString() {
 		return String.format("%02x:%02x:%02x:%02x:%02x:%02x", address[0], address[1], address[2], address[3],
 		                     address[4], address[5]);
-	}
-
-
-	@Override
-	public MACAddress fromBytes(byte[] buffer, int slot, int length) {
-		return new MACAddress(buffer[slot], buffer[slot + 1], buffer[slot + 2], buffer[slot + 3], buffer[slot + 4],
-		        buffer[slot + 5]);
 	}
 
 }
