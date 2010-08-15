@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -16,10 +17,11 @@ import com.zanoccio.packetkit.PacketFragment;
 import com.zanoccio.packetkit.PacketUtilities;
 import com.zanoccio.packetkit.exceptions.CannotPopulateFromNetworkInterfaceException;
 import com.zanoccio.packetkit.exceptions.InvalidFieldException;
-import com.zanoccio.packetkit.exceptions.InvalidStaticFragmentTypeException;
 import com.zanoccio.packetkit.exceptions.NotDeclareDynamicException;
 import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.exceptions.SlotTakenException;
+import com.zanoccio.packetkit.headers.annotations.Checksum;
+import com.zanoccio.packetkit.headers.annotations.Data;
 import com.zanoccio.packetkit.headers.annotations.DynamicSize;
 import com.zanoccio.packetkit.headers.annotations.FixedSize;
 import com.zanoccio.packetkit.headers.annotations.FromNetworkInterface;
@@ -63,52 +65,70 @@ public class PacketSkeleton {
 		int slotindex = DEFAULT_FRAGMENT_SLOT;
 
 		isfixedsize = true;
+		fieldsfromnetworkinterface = new ArrayList<Field>();
 
-		this.name = klass.getName();
+		name = klass.getName();
 		this.klass = klass;
 
 		Field[] fields = klass.getDeclaredFields();
 
+		//
+		// 1) Sort by Physical Slot
+		//
+
 		HashSet<Integer> slots = new HashSet<Integer>();
-		PriorityQueue<FragmentSlot> queue = new PriorityQueue<FragmentSlot>();
+		HashSet<Integer> physicalslots = new HashSet<Integer>();
+		PriorityQueue<FragmentSlot> slotqueue = new PriorityQueue<FragmentSlot>();
+		PriorityQueue<FragmentSlot> physicalslotqueue = new PriorityQueue<FragmentSlot>(10,
+		        new PhysicalSlotComparator());
+		PriorityQueue<FragmentSlot> logicalslotqueue = new PriorityQueue<FragmentSlot>(10, new LogicalSlotComparator());
 
-		fieldsfromnetworkinterface = new ArrayList<Field>();
-
-		//
-		// Extract all annotated fields and sort by slot
-		//
-		int offset = 0;
 		for (Field field : fields) {
-			int fragmentslot;
-			FragmentSlotType fragmenttype = null;
-			FragmentSlot fragment = new FragmentSlot();
-
 			// pull the StaticFragment annotation for this field
 			StaticFragment annotation = field.getAnnotation(StaticFragment.class);
 
-			// no StaticFragment annotation
+			// no StaticFragment annotation, so keep going
 			if (annotation == null)
 				continue;
 
-			// check whether a slot was specified
-			if (annotation.slot() != StaticFragment.DEFAULT_SLOT)
+			int fragmentslot;
+
+			// check whether a physical slot was specified
+			if (annotation.slot() != StaticFragment.DEFAULT_SIZE)
 				// use it
 				fragmentslot = annotation.slot();
 			else
-				// otherwise, use the slot index
 				fragmentslot = slotindex;
 
-			// increment the slot index
+			// increment the physical slot index
 			slotindex++;
 
-			// check that the slot hasn't been taken
-			if (slots.contains(slotindex))
+			// check that the physical slot hasn't been taken
+			if (physicalslots.contains(slotindex))
 				throw new SlotTakenException(field);
 
-			// reserve the slot
-			slots.add(slotindex);
+			// reserve the physical slot
+			physicalslots.add(slotindex);
 
-			// get the type of the field
+			// create the fragment
+			FragmentSlot fragment = new FragmentSlot();
+			fragment.physicalslot = fragmentslot;
+			fragment.field = field;
+
+			// add the fragment
+			physicalslotqueue.add(fragment);
+		}
+
+		//
+		// 2) Compute size and offset
+		//
+		int offset = 0;
+		for (FragmentSlot fragment : physicalslotqueue) {
+			Field field = fragment.field;
+			StaticFragment annotation = field.getAnnotation(StaticFragment.class);
+
+			int fragmentsize;
+			FragmentSlotType fragmenttype = null;
 			Class<? extends Object> fieldtype = field.getType();
 
 			// check whether this field is autowired
@@ -121,27 +141,53 @@ public class PacketSkeleton {
 					throw new CannotPopulateFromNetworkInterfaceException(field, fieldtype);
 			}
 
+			// check for a Checksum or Data annotation
+			if (field.isAnnotationPresent(Checksum.class)) {
+				Checksum checksum = field.getAnnotation(Checksum.class);
+				if (fieldtype != Integer.TYPE)
+					throw new InvalidFieldException(field, " must be an int to store a checksum");
+
+				fragmenttype = FragmentSlotType.CHECKSUM;
+			}
+
+			// check for a Data annotation
+			if (field.isAnnotationPresent(Data.class)) {
+				fragmenttype = FragmentSlotType.DATA;
+			}
+
 			// verify that the field's type is compatible with the framework
 			if (!VALIDPRIMITIVES.containsKey(fieldtype)) {
 				// if this type isn't being autowired
-				if (fragmenttype != null)
+				if (fragmenttype == null)
 					// and the type is being valid
 					if (isValidType(fieldtype))
 						fragmenttype = FragmentSlotType.PACKETFRAGMENT;
+			} else {
+				if (fieldtype == Integer.TYPE)
+					fragmenttype = FragmentSlotType.INT;
+				else if (fieldtype == Short.TYPE)
+					fragmenttype = FragmentSlotType.SHORT;
+				else
+					throw new InvalidFieldException(field, "Unsupported field primitive");
 			}
+
+			if (fragmenttype == null)
+				throw new InvalidFieldException(field, "Cannot determine type of packet fragment");
+
+			fragment.type = fragmenttype;
 
 			// ensure that the field is efficiently accessible
 			if (!isFieldAccessible(field))
-				throw new InvalidFieldException(field, "must be public or package scoped");
+				throw new InvalidFieldException(field, "must be public or packaged scoped");
 
 			// compute the size of this fragment
 			if (annotation.size() == StaticFragment.DEFAULT_SIZE) {
-				// check whether the field has a fixed size defines
+				// check whether the field has a fixed size defined
 				if (fieldtype.isAnnotationPresent(FixedSize.class)) {
 					FixedSize sizeanno = fieldtype.getAnnotation(FixedSize.class);
-					fragment.size = sizeanno.size();
+					fragmentsize = sizeanno.size();
 				} else
-					// the fragment is dynamic, and thus so is the packet
+					// the fragment is dynamic. and thus so is the packet
 					fragment.size = FixedSize.DYNAMIC;
 			} else {
 				fragment.size = annotation.size();
@@ -149,119 +195,40 @@ public class PacketSkeleton {
 
 			// set the offset for this fragment
 			fragment.offset = offset;
-			fragment.slot = slotindex;
 
-			// if this fragment had a size, increase the offset
+			// if this fragment has a size, increase the offset
 			if (fragment.size != FixedSize.DYNAMIC)
 				offset += fragment.size;
 
-			// TODO final checks on the fragment (positive size, etc.)
-
-			queue.add(fragment);
-		}
-
-		System.out.println("Queue: " + queue);
-
-		//
-		// Process each annotated field in slot-order
-		//
-
-		int packetsize = 0;
-		// examine each field to construct this packet's skeleton
-		for (Field field : fields) {
-			FragmentSlotType slottype = null;
-
-			boolean isfragmentfixed = true;
-			int fragmentsize;
-
-			StaticFragment annotation = field.getAnnotation(StaticFragment.class);
-
-			// check whether this field is autowired by the network
-			// interface
-			Class<? extends Object> fieldtype = field.getType();
-			if (field.isAnnotationPresent(FromNetworkInterface.class)) {
-				fieldsfromnetworkinterface.add(field);
-
-				if (fieldtype == IP4Address.class)
-					slottype = FragmentSlotType.IP4ADDRESS;
-				else if (fieldtype == MACAddress.class)
-					slottype = FragmentSlotType.MACADDRESS;
-				else
-					throw new CannotPopulateFromNetworkInterfaceException(field, fieldtype);
-			}
-
-			// no StaticFragment annotation, move along...
-			if (annotation == null)
-				continue;
-
-			// check that the slot is unused
-			int slot = annotation.slot();
-			if (slots.contains(slot))
-				throw new SlotTakenException(field);
-
-			// verify the field's type
-			if (!VALIDPRIMITIVES.containsKey(fieldtype)) {
-				Class<? extends Object>[] interfaces = fieldtype.getInterfaces();
-				boolean validtype = false;
-				for (Class<? extends Object> iface : interfaces)
-					if (iface == PacketFragment.class) {
-						validtype = true;
-						break;
-					}
-
-				if (!validtype)
-					throw new InvalidStaticFragmentTypeException(field);
-
-				// if the slot type is already set it's being autowired
-				if (slottype == null)
-					slottype = FragmentSlotType.PACKETFRAGMENT;
-
-			} else {
-				slottype = VALIDPRIMITIVES.get(fieldtype);
-			}
-
-			// verify that the field is accessible
-			int modifiers = field.getModifiers();
-			if (Modifier.isPrivate(modifiers) || Modifier.isProtected(modifiers))
-				throw new InvalidFieldException(field, " must be public or package scoped");
-
-			if (annotation.size() < 0) {
-				// if there is no explicit size
-				if (fieldtype.isAnnotationPresent(FixedSize.class)) {
-					// but the type has a @FixedSize annotation
-					FixedSize sizeannotation = fieldtype.getAnnotation(FixedSize.class);
-					fragmentsize = sizeannotation.size();
-				} else {
-					// too bad... dynamic
-					isfixedsize = false;
-					isfragmentfixed = false;
-					fragmentsize = -1;
-				}
-			} else {
-				fragmentsize = annotation.size();
-			}
+			fragment.fixed = (fragment.size != FixedSize.DYNAMIC);
 
 			//
-			// now find the method for reconstructing the fragment from bytes
+			// find the method for reconstructing the fragment from bytes
 			//
 
 			// create method signatures
 			Class<? extends Object>[] signature = null;
 			try {
 				signature = new Class[] { Class.forName("[B"), Integer.TYPE, Integer.TYPE };
-			} catch (ClassNotFoundException e1) {
-				throw new PacketKitException(e1.toString());
+			} catch (ClassNotFoundException e) {
+				throw new PacketKitException(e);
 			}
 
-			Method constructor = null;
+			Method constructor;
 			try {
-				switch (slottype) {
+				switch (fragmenttype) {
 				case INT:
 					constructor = PacketUtilities.class.getDeclaredMethod("intFromByteArray", signature);
 					break;
 
 				case SHORT:
 					constructor = PacketUtilities.class.getDeclaredMethod("shortFromByteArray", signature);
+					break;
+
+				case CHECKSUM:
+				case DATA:
+					// we have to treat these specially
+					constructor = null;
 					break;
 
 				case IP4ADDRESS:
@@ -279,31 +246,48 @@ public class PacketSkeleton {
 
 				// verify the constructor is accessible
 				if (!Modifier.isPublic(constructor.getModifiers()))
-					throw new InvalidFieldException(field, "the byte reconstructor method is not public " + constructor);
+					throw new InvalidFieldException(field, "the byte reconstructor method is not public: "
+					        + constructor);
+
+				fragment.constructor = constructor;
 			} catch (SecurityException e) {
 				throw new InvalidFieldException(field, e);
 			} catch (NoSuchMethodException e) {
 				throw new InvalidFieldException(field, e);
 			}
 
-			// construct the FragmentSlot
-			FragmentSlot fragslot = new FragmentSlot();
-			fragslot.type = slottype;
-			fragslot.slot = slot;
-			fragslot.size = fragmentsize;
-			fragslot.offset = packetsize;
-			fragslot.fixed = isfragmentfixed;
-			fragslot.constructor = constructor;
+			//
+			// Compute Logical Slot
+			//
+			fragment.logicalslot = fragment.physicalslot;
+			switch (fragmenttype) {
+			case CHECKSUM:
+				fragment.logicalslot += 200;
+				break;
 
-			slots.add(Integer.valueOf(slot));
-			queue.add(fragslot);
+			case DATA:
+				fragment.logicalslot += 100;
+				break;
 
-			if (fragmentsize > 0)
-				packetsize += fragmentsize;
+			default:
+				// the logical slot is just the original slot
+				break;
+			}
+			logicalslotqueue.add(fragment);
 		}
 
+		//
+		// 3) Finally, sort by logical slot
+		//
+
+		System.out.println("Queue: " + slotqueue);
+
+		//
+		// Process slots in physicalslot-order
+		//
+
 		if (isFixedSize() == true)
-			size = Integer.valueOf(packetsize);
+			size = offset;
 		else {
 			size = null;
 			if (!klass.isAnnotationPresent(DynamicSize.class))
@@ -352,8 +336,8 @@ public class PacketSkeleton {
 		sb.append("\tsize: " + getSize()).append('\n');
 
 		for (FragmentSlot slot : slotlist) {
-			sb.append(String.format("\t%d:%s  %d  %15s  %15s  %s\n", slot.slot, slot.fixed ? "fixed " : "dynamic",
-			                        slot.size, slot.type, slot.field.getName(), slot.field.getType().getCanonicalName()));
+			sb.append(String.format("\t%d:%s  %d  %15s  %15s  %s\n", slot.physicalslot, slot.fixed ? "fixed "
+			        : "dynamic", slot.size, slot.type, slot.field.getName(), slot.field.getType().getCanonicalName()));
 		}
 
 		sb.append(")");
@@ -400,10 +384,15 @@ class FragmentSlot implements Comparable<FragmentSlot> {
 	public FragmentSlotType type;
 
 	/**
-	 * in what order this fragment should be filled relative to other fragments
-	 * in this packet
+	 * the fragment's relative position from other fragments within this packet.
 	 */
-	public int slot;
+	public int physicalslot;
+
+	/**
+	 * when this fragment should be filled relative to other fragments within
+	 * the packet.
+	 */
+	public int logicalslot;
 
 	/**
 	 * the field this fragment is stored in within a {@link PacketFragment}
@@ -435,13 +424,43 @@ class FragmentSlot implements Comparable<FragmentSlot> {
 
 	@Override
 	public int compareTo(FragmentSlot other) {
-		return this.slot - other.slot;
+		return this.physicalslot - other.physicalslot;
 	}
 
 
 	@Override
 	public String toString() {
-		return "FragmentSlot(" + slot + "\n\tfield: " + field + "\n\toffset:" + offset + "\n\tsize:" + size
+		return "FragmentSlot(" + physicalslot + "\n\tfield: " + field + "\n\toffset:" + offset + "\n\tsize:" + size
 		        + "\n\tfixed:" + fixed + "\n)";
 	}
+}
+
+/**
+ * {@link Comparator} for {@link FragmentSlot}s by their physical slot.
+ * 
+ * @author wiktor
+ * 
+ */
+class PhysicalSlotComparator implements Comparator<FragmentSlot> {
+
+	@Override
+	public int compare(FragmentSlot left, FragmentSlot right) {
+		return left.physicalslot - right.physicalslot;
+	}
+
+}
+
+/**
+ * {@link Comparator} for {@link FragmentSlot} by their offset
+ * 
+ * @author wiktor
+ * 
+ */
+class LogicalSlotComparator implements Comparator<FragmentSlot> {
+
+	@Override
+	public int compare(FragmentSlot left, FragmentSlot right) {
+		return left.offset - right.offset;
+	}
+
 }
