@@ -15,16 +15,26 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface StaticFragment {
+	int DEFAULT_SLOT = -1;
+	int DEFAULT_SIZE = -1;
+
+
 	/**
-	 * The position of this fragment; slots are sorted from smallest to largest
+	 * The position of this fragment; slots are sorted from smallest to largest.
+	 * 
+	 * Fields annotated with {@link Data} are automatically assigned slots
+	 * starting from 100.
+	 * 
+	 * Fields annotated with {@link Checksum} are automatically assigned slots
+	 * starting from 200.
 	 */
-	int slot() default -1;
+	int slot() default DEFAULT_SLOT;
 
 
 	/**
 	 * The size of this fragment in bytes.
 	 */
-	int size() default -1;
+	int size() default DEFAULT_SIZE;
 
 
 	/**

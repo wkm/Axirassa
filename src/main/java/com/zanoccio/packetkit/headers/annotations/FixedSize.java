@@ -15,6 +15,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface FixedSize {
 
+	final int DYNAMIC = -1;
+
+
 	/**
 	 * @return the size of the object
 	 */

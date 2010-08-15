@@ -8,6 +8,6 @@ public class SlotTakenException extends PacketKitException {
 
 
 	public SlotTakenException(Field f) {
-		super("For field " + f.getDeclaringClass().getCanonicalName() + ":" + f.getName() + " slot is already taken");
+		super("For field " + f.getDeclaringClass().getCanonicalName() + ":" + f.getName() + " physicalslot is already taken");
 	}
 }

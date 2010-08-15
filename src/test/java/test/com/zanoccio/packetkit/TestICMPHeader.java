@@ -14,6 +14,7 @@ public class TestICMPHeader extends AbstractPacketTest {
 	@Test
 	public void test() throws PacketKitException {
 		ICMPHeader icmp = new ICMPHeader();
+
 		icmp.setType(ICMPType.ECHO_REQUEST);
 		icmp.setCode(0);
 		icmp.setIdentifier(1);

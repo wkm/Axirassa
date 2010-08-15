@@ -28,6 +28,7 @@ public class ICMPHeader extends AbstractPacketHeader {
 	@StaticFragment(slot = 4, size = 2, fixed = true)
 	int sequencenumber;
 
+	@StaticFragment(slot = 5)
 	@Data
 	byte[] data;
 

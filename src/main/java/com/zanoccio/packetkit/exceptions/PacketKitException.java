@@ -8,4 +8,9 @@ public class PacketKitException extends Exception {
 	public PacketKitException(String msg) {
 		super(msg);
 	}
+
+
+	public PacketKitException(ClassNotFoundException e) {
+		this(e.toString());
+	}
 }

@@ -59,7 +59,7 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 				}
 
 				if (!reflect)
-					// look at the next slot
+					// look at the next physicalslot
 					continue;
 
 				Object fieldvalue = null;
@@ -92,6 +92,12 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 					PacketFragment fragment = (PacketFragment) fieldvalue;
 					addBytes(buffer, index, fragment.getBytes(), slot.size);
 					index += slot.size;
+					break;
+
+				case DATA:
+					byte[] bytes = (byte[]) fieldvalue;
+					addBytes(buffer, index, bytes);
+					index += bytes.length;
 					break;
 
 				default:
