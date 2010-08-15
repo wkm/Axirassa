@@ -198,4 +198,23 @@ public class PacketUtilities {
 	public static String fieldName(Field field) {
 		return "Field " + field.getDeclaringClass().getCanonicalName() + ":" + field.getName();
 	}
+
+
+	public static int byteArrayLength(byte[] bytes) {
+		return bytes.length;
+	}
+
+
+	//
+	// Types
+	//
+
+	public static final Class<? extends Object> BYTE_ARRAY;
+	static {
+		try {
+			BYTE_ARRAY = Class.forName("[B");
+		} catch (ClassNotFoundException e) {
+			throw new ExceptionInInitializerError(e);
+		}
+	}
 }

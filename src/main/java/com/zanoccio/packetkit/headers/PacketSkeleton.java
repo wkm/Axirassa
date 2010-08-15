@@ -35,9 +35,9 @@ import com.zanoccio.packetkit.headers.annotations.StaticFragment;
  */
 public class PacketSkeleton {
 
-	public static final int DEFAULT_FRAGMENT_SLOT = 0;
-	public static final int DATA_FRAGMENT_SLOT = 100;
-	public static final int CHECKSUM_FRAGMENT_SLOT = 200;
+	public static final int DEFAULT_LOGICAL_SLOT = 0;
+	public static final int DATA_LOGICAL_SLOT = 100;
+	public static final int CHECKSUM_LOGICAL_SLOT = 200;
 
 	public static HashMap<Class<? extends Object>, FragmentSlotType> VALIDPRIMITIVES;
 	static {
@@ -53,6 +53,7 @@ public class PacketSkeleton {
 
 	// private ArrayList<Field> fieldsfromnetworkinterface;
 	private ArrayList<FragmentSlot> slotlist;
+	private ArrayList<FragmentSlot> dynamicslots;
 
 
 	public PacketSkeleton(Class<? extends PacketHeader> klass) throws PacketKitException {
@@ -60,9 +61,9 @@ public class PacketSkeleton {
 	}
 
 
-	@SuppressWarnings({ "unchecked", "boxing" })
+	@SuppressWarnings("boxing")
 	public void construct(Class<? extends PacketHeader> klass) throws PacketKitException {
-		int slotindex = DEFAULT_FRAGMENT_SLOT;
+		int slotindex = DEFAULT_LOGICAL_SLOT;
 
 		isfixedsize = true;
 		// fieldsfromnetworkinterface = new ArrayList<Field>();
@@ -202,55 +203,10 @@ public class PacketSkeleton {
 			// find the method for reconstructing the fragment from bytes
 			//
 
-			// create method signatures
-			Class<? extends Object>[] signature = null;
-			try {
-				signature = new Class[] { Class.forName("[B"), Integer.TYPE, Integer.TYPE };
-			} catch (ClassNotFoundException e) {
-				throw new PacketKitException(e);
-			}
+			fragment.constructor = getConstructorMethod(field, fragment);
 
-			Method constructor;
-			try {
-				switch (fragment.type) {
-				case INT:
-					constructor = PacketUtilities.class.getDeclaredMethod("intFromByteArray", signature);
-					break;
-
-				case SHORT:
-					constructor = PacketUtilities.class.getDeclaredMethod("shortFromByteArray", signature);
-					break;
-
-				case CHECKSUM:
-				case DATA:
-					// we have to treat these specially
-					constructor = null;
-					break;
-
-				case IP4ADDRESS:
-				case MACADDRESS:
-				case PACKETFRAGMENT:
-				default:
-					constructor = fieldtype.getDeclaredMethod("fromBytes", signature);
-					break;
-				}
-
-				// verify the constructor is static
-				if (constructor != null && !Modifier.isStatic(constructor.getModifiers()))
-					throw new InvalidFieldException(field, "the byte reconstructor method is not static: "
-					        + constructor);
-
-				// verify the constructor is accessible
-				if (constructor != null && !Modifier.isPublic(constructor.getModifiers()))
-					throw new InvalidFieldException(field, "the byte reconstructor method is not public: "
-					        + constructor);
-
-				fragment.constructor = constructor;
-			} catch (SecurityException e) {
-				throw new InvalidFieldException(field, e);
-			} catch (NoSuchMethodException e) {
-				throw new InvalidFieldException(field, e);
-			}
+			if (fragment.fixed == false)
+				fragment.sizemethod = getSizeMethod(field, fragment);
 
 			//
 			// Compute Logical Slot
@@ -258,11 +214,11 @@ public class PacketSkeleton {
 			fragment.logicalslot = fragment.physicalslot;
 			switch (fragment.type) {
 			case CHECKSUM:
-				fragment.logicalslot += 200;
+				fragment.logicalslot += CHECKSUM_LOGICAL_SLOT;
 				break;
 
 			case DATA:
-				fragment.logicalslot += 100;
+				fragment.logicalslot += DATA_LOGICAL_SLOT;
 				break;
 
 			default:
@@ -277,8 +233,14 @@ public class PacketSkeleton {
 		//
 
 		slotlist = new ArrayList<FragmentSlot>(logicalslotqueue.size());
-		for (FragmentSlot fragment : logicalslotqueue)
+		dynamicslots = new ArrayList<FragmentSlot>();
+
+		for (FragmentSlot fragment : logicalslotqueue) {
 			slotlist.add(fragment);
+
+			if (fragment.fixed == false)
+				dynamicslots.add(fragment);
+		}
 
 		if (isFixedSize() == true)
 			size = offset;
@@ -287,6 +249,79 @@ public class PacketSkeleton {
 			if (!klass.isAnnotationPresent(DynamicSize.class))
 				throw new NotDeclareDynamicException(klass);
 		}
+	}
+
+
+	@SuppressWarnings("unchecked")
+	private Method getSizeMethod(Field field, FragmentSlot fragment) throws PacketKitException {
+		Class<? extends Object> fieldtype = field.getType();
+		Method sizemethod;
+		Class<? extends Object>[] signature = new Class[] { PacketUtilities.BYTE_ARRAY };
+
+		try {
+			switch (fragment.type) {
+			case DATA:
+				sizemethod = PacketUtilities.class.getDeclaredMethod("byteArrayLength", signature);
+				break;
+
+			default:
+				throw new InvalidFieldException(field, "Cannot dynamically size field: " + field);
+			}
+		} catch (NoSuchMethodException e) {
+			throw new InvalidFieldException(field, e);
+		}
+
+		return sizemethod;
+	}
+
+
+	@SuppressWarnings("unchecked")
+	private Method getConstructorMethod(Field field, FragmentSlot fragment) throws PacketKitException {
+		Method constructor;
+		Class<? extends Object> fieldtype = field.getType();
+
+		// create method signatures
+		Class<? extends Object>[] signature = null;
+		signature = new Class[] { PacketUtilities.BYTE_ARRAY, Integer.TYPE, Integer.TYPE };
+
+		try {
+			switch (fragment.type) {
+			case INT:
+				constructor = PacketUtilities.class.getDeclaredMethod("intFromByteArray", signature);
+				break;
+
+			case SHORT:
+				constructor = PacketUtilities.class.getDeclaredMethod("shortFromByteArray", signature);
+				break;
+
+			case CHECKSUM:
+			case DATA:
+				// we have to treat these specially
+				constructor = null;
+				break;
+
+			case IP4ADDRESS:
+			case MACADDRESS:
+			case PACKETFRAGMENT:
+			default:
+				constructor = fieldtype.getDeclaredMethod("fromBytes", signature);
+				break;
+			}
+
+			// verify the constructor is static
+			if (constructor != null && !Modifier.isStatic(constructor.getModifiers()))
+				throw new InvalidFieldException(field, "the byte reconstructor method is not static: " + constructor);
+
+			// verify the constructor is accessible
+			if (constructor != null && !Modifier.isPublic(constructor.getModifiers()))
+				throw new InvalidFieldException(field, "the byte reconstructor method is not public: " + constructor);
+		} catch (SecurityException e) {
+			throw new InvalidFieldException(field, e);
+		} catch (NoSuchMethodException e) {
+			throw new InvalidFieldException(field, e);
+		}
+
+		return constructor;
 	}
 
 
@@ -415,6 +450,12 @@ class FragmentSlot implements Comparable<FragmentSlot> {
 	 * [PacketFragment]
 	 */
 	public Method constructor;
+
+	/**
+	 * a reference to a Method which dynamically computes the size of this
+	 * fragment.
+	 */
+	public Method sizemethod;
 
 
 	@Override
