@@ -86,12 +86,12 @@ public class PacketUtilities {
 
 			// render hex
 			for (int column = 0; column + row < array.length && column < 16; column++) {
+				// extra break
+				if (column == 8)
+					sb.append(' ');
+
 				sb.append(' ');
 				sb.append(String.format("%02x", array[column + row]));
-
-				// extra break
-				if (column == 7)
-					sb.append(' ');
 			}
 
 			// TODO also render ASCII
