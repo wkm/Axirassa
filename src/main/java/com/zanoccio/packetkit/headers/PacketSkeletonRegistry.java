@@ -24,7 +24,7 @@ public class PacketSkeletonRegistry {
 	static {
 		try {
 			PacketSkeletonRegistry.getInstance().register(ARPHeader.class);
-			PacketSkeletonRegistry.getInstance().register(MACHeader.class);
+			PacketSkeletonRegistry.getInstance().register(EthernetHeader.class);
 		} catch (PacketKitException e) {
 			System.out.println("Exception.");
 			e.printStackTrace();

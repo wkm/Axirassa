@@ -18,7 +18,7 @@ import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.frames.Frame;
 import com.zanoccio.packetkit.headers.ARPHeader;
 import com.zanoccio.packetkit.headers.EtherType;
-import com.zanoccio.packetkit.headers.MACHeader;
+import com.zanoccio.packetkit.headers.EthernetHeader;
 
 public class TestLiveInterface {
 
@@ -37,7 +37,7 @@ public class TestLiveInterface {
 
 		Frame whohas = new Frame();
 
-		MACHeader macheader = MACHeader.broadcast();
+		EthernetHeader macheader = EthernetHeader.broadcast();
 		macheader.setType(EtherType.ARP);
 		whohas.addHeader(macheader);
 

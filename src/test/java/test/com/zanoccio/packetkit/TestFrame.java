@@ -10,7 +10,7 @@ import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.frames.Frame;
 import com.zanoccio.packetkit.headers.ARPHeader;
 import com.zanoccio.packetkit.headers.EtherType;
-import com.zanoccio.packetkit.headers.MACHeader;
+import com.zanoccio.packetkit.headers.EthernetHeader;
 import com.zanoccio.packetkit.mock.MockNetworkInterface;
 
 public class TestFrame {
@@ -19,7 +19,7 @@ public class TestFrame {
 	public void whoHasFrame() throws PacketKitException {
 		Frame whohas = new Frame();
 
-		MACHeader macheader = MACHeader.broadcast();
+		EthernetHeader macheader = EthernetHeader.broadcast();
 		macheader.setType(EtherType.ARP);
 		whohas.addHeader(macheader);
 

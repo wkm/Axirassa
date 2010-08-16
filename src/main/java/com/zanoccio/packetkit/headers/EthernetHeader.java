@@ -5,7 +5,7 @@ import com.zanoccio.packetkit.MACAddress;
 import com.zanoccio.packetkit.headers.annotations.FromNetworkInterface;
 import com.zanoccio.packetkit.headers.annotations.StaticFragment;
 
-public class MACHeader extends AbstractPacketHeader {
+public class EthernetHeader extends AbstractPacketHeader {
 
 	@StaticFragment(slot = 0)
 	MACAddress destination;
@@ -18,8 +18,8 @@ public class MACHeader extends AbstractPacketHeader {
 	EtherType type;
 
 
-	public static MACHeader broadcast() {
-		MACHeader header = new MACHeader();
+	public static EthernetHeader broadcast() {
+		EthernetHeader header = new EthernetHeader();
 		header.setDestination(MACAddress.BROADCAST);
 
 		return header;
