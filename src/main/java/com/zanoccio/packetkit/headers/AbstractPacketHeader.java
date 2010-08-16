@@ -55,7 +55,6 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 		}
 
 		byte[] buffer = new byte[size];
-		int index = 0;
 
 		for (FragmentSlot slot : skeleton.getSlots()) {
 			Field field = slot.field;
@@ -64,13 +63,11 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 			// apply values from the network interface
 			switch (slot.type) {
 			case IP4ADDRESS:
-				addBytes(buffer, index, networkinterface.getIP4Address().getBytes(), slot.size);
-				index += slot.size;
+				addBytes(buffer, slot.offset, networkinterface.getIP4Address().getBytes(), slot.size);
 				break;
 
 			case MACADDRESS:
-				addBytes(buffer, index, networkinterface.getMACAddress().getBytes(), slot.size);
-				index += slot.size;
+				addBytes(buffer, slot.offset, networkinterface.getMACAddress().getBytes(), slot.size);
 				break;
 
 			default:
@@ -93,30 +90,31 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 			if (fieldvalue == null)
 				throw new InvalidFieldException(field, new NullPointerException());
 
+			System.out.println("Computing: " + slot.type);
 			// translate field values into bytes
 			switch (slot.type) {
 			case INT:
 				Integer integer = (Integer) fieldvalue;
-				addBytes(buffer, index, PacketUtilities.toByteArray(integer.intValue()), slot.size);
-				index += slot.size;
+				addBytes(buffer, slot.offset, PacketUtilities.toByteArray(integer.intValue()), slot.size);
 				break;
 
 			case SHORT:
 				Short shortint = (Short) fieldvalue;
-				addBytes(buffer, index, PacketUtilities.toByteArray(shortint.shortValue()), slot.size);
-				index += slot.size;
+				addBytes(buffer, slot.offset, PacketUtilities.toByteArray(shortint.shortValue()), slot.size);
 				break;
 
 			case PACKETFRAGMENT:
 				PacketFragment fragment = (PacketFragment) fieldvalue;
-				addBytes(buffer, index, fragment.getBytes(), slot.size);
-				index += slot.size;
+				addBytes(buffer, slot.offset, fragment.getBytes(), slot.size);
 				break;
 
 			case DATA:
 				byte[] bytes = (byte[]) fieldvalue;
-				addBytes(buffer, index, bytes);
-				index += bytes.length;
+				addBytes(buffer, slot.offset, bytes);
+				break;
+
+			case CHECKSUM:
+				addBytes(buffer, slot.offset, ChecksumMethod.ONESCOMPLEMENT.compute(buffer), slot.size);
 				break;
 
 			default:
@@ -124,6 +122,7 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 			}
 		}
 
+		System.out.println("DONE");
 		return buffer;
 	}
 

@@ -152,21 +152,21 @@ public class PacketSkeleton {
 				fragment.type = FragmentSlotType.DATA;
 			}
 
-			// verify that the field's type is compatible with the framework
-			if (!VALIDPRIMITIVES.containsKey(fieldtype)) {
-				// if this type isn't being autowired
-				if (fragment.type == null)
+			// if we don't already know the type of the field
+			if (fragment.type == null)
+				// verify that the field's type is compatible with the framework
+				if (!VALIDPRIMITIVES.containsKey(fieldtype)) {
 					// and the type is being valid
 					if (isValidType(fieldtype))
 						fragment.type = FragmentSlotType.PACKETFRAGMENT;
-			} else {
-				if (fieldtype == Integer.TYPE)
-					fragment.type = FragmentSlotType.INT;
-				else if (fieldtype == Short.TYPE)
-					fragment.type = FragmentSlotType.SHORT;
-				else
-					throw new InvalidFieldException(field, "Unsupported field primitive");
-			}
+				} else {
+					if (fieldtype == Integer.TYPE)
+						fragment.type = FragmentSlotType.INT;
+					else if (fieldtype == Short.TYPE)
+						fragment.type = FragmentSlotType.SHORT;
+					else
+						throw new InvalidFieldException(field, "Unsupported field primitive");
+				}
 
 			if (fragment.type == null)
 				throw new InvalidFieldException(field, "Cannot determine type of packet fragment");
@@ -234,6 +234,10 @@ public class PacketSkeleton {
 
 		slotlist = new ArrayList<FragmentSlot>(logicalslotqueue.size());
 		dynamicslots = new ArrayList<FragmentSlot>();
+
+		System.out.println("\n\n\n\n\n\n\n\n\n");
+		System.out.println(klass);
+		System.out.println(logicalslotqueue);
 
 		for (FragmentSlot fragment : logicalslotqueue) {
 			slotlist.add(fragment);
@@ -471,8 +475,9 @@ class FragmentSlot implements Comparable<FragmentSlot> {
 
 	@Override
 	public String toString() {
-		return "FragmentSlot(" + physicalslot + "\n\tfield: " + field + "\n\toffset:" + offset + "\n\tsize:" + size
-		        + "\n\tfixed:" + fixed + "\n\tconstructor: " + constructor + "\n\tsizemethod: " + sizemethod + "\n)";
+		return "FragmentSlot(\n\tphysicalslot: " + physicalslot + "\n\tlogicalslot: " + logicalslot + "\n\tfield: "
+		        + field + "\n\toffset:" + offset + "\n\tsize:" + size + "\n\tfixed:" + fixed + "\n\tconstructor: "
+		        + constructor + "\n\tsizemethod: " + sizemethod + "\n)";
 	}
 }
 
@@ -501,7 +506,7 @@ class LogicalSlotComparator implements Comparator<FragmentSlot> {
 
 	@Override
 	public int compare(FragmentSlot left, FragmentSlot right) {
-		return left.offset - right.offset;
+		return left.logicalslot - right.logicalslot;
 	}
 
 }
