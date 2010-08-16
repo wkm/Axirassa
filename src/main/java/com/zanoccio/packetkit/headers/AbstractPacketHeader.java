@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import com.zanoccio.packetkit.NetworkInterface;
 import com.zanoccio.packetkit.PacketFragment;
 import com.zanoccio.packetkit.PacketUtilities;
+import com.zanoccio.packetkit.exceptions.CouldNotPopulateException;
 import com.zanoccio.packetkit.exceptions.DeconstructionException;
 import com.zanoccio.packetkit.exceptions.InvalidFieldException;
 import com.zanoccio.packetkit.exceptions.PacketKitException;
@@ -33,82 +34,97 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 	@Override
 	public byte[] construct() throws PacketKitException {
 		PacketSkeleton skeleton = PacketSkeletonRegistry.getInstance().retrieve(getClass());
-		if (skeleton.isFixedSize()) {
-			int size = skeleton.getSize().intValue();
-			byte[] buffer = new byte[size];
-			int index = 0;
 
-			for (FragmentSlot slot : skeleton.getSlots()) {
-				Field field = slot.field;
-				boolean reflect = false;
+		// start with the base packet size
+		int size = skeleton.getSize().intValue();
 
-				// apply values from the network interface
-				switch (slot.type) {
-				case IP4ADDRESS:
-					addBytes(buffer, index, networkinterface.getIP4Address().getBytes(), slot.size);
-					index += slot.size;
-					break;
-
-				case MACADDRESS:
-					addBytes(buffer, index, networkinterface.getMACAddress().getBytes(), slot.size);
-					index += slot.size;
-					break;
-
-				default:
-					reflect = true;
-				}
-
-				if (!reflect)
-					// look at the next physicalslot
-					continue;
-
-				Object fieldvalue = null;
-				try {
-					fieldvalue = field.get(this);
-				} catch (IllegalArgumentException e) {
-					throw new InvalidFieldException(field, e);
-				} catch (IllegalAccessException e) {
-					throw new InvalidFieldException(field, e);
-				}
-
-				if (fieldvalue == null)
-					throw new InvalidFieldException(field, new NullPointerException());
-
-				// translate field values into bytes
-				switch (slot.type) {
-				case INT:
-					Integer integer = (Integer) fieldvalue;
-					addBytes(buffer, index, PacketUtilities.toByteArray(integer.intValue()), slot.size);
-					index += slot.size;
-					break;
-
-				case SHORT:
-					Short shortint = (Short) fieldvalue;
-					addBytes(buffer, index, PacketUtilities.toByteArray(shortint.shortValue()), slot.size);
-					index += slot.size;
-					break;
-
-				case PACKETFRAGMENT:
-					PacketFragment fragment = (PacketFragment) fieldvalue;
-					addBytes(buffer, index, fragment.getBytes(), slot.size);
-					index += slot.size;
-					break;
-
-				case DATA:
-					byte[] bytes = (byte[]) fieldvalue;
-					addBytes(buffer, index, bytes);
-					index += bytes.length;
-					break;
-
-				default:
-					throw new UnsupportedOperationException(slot.type + " is not yet supported");
-				}
+		// compute the size of the dynamic fields
+		for (FragmentSlot fragment : skeleton.getDynamicSlots()) {
+			Object obj;
+			try {
+				obj = fragment.sizemethod.invoke(null, fragment.field.get(this));
+			} catch (IllegalArgumentException e) {
+				throw new CouldNotPopulateException(this, e);
+			} catch (IllegalAccessException e) {
+				throw new CouldNotPopulateException(this, e);
+			} catch (InvocationTargetException e) {
+				throw new CouldNotPopulateException(this, e);
 			}
 
-			return buffer;
+			size += (Integer) obj;
 		}
 
-		throw new UnsupportedOperationException("dynamic packet construction is not yet implemented");
+		byte[] buffer = new byte[size];
+		int index = 0;
+
+		for (FragmentSlot slot : skeleton.getSlots()) {
+			Field field = slot.field;
+			boolean reflect = false;
+
+			// apply values from the network interface
+			switch (slot.type) {
+			case IP4ADDRESS:
+				addBytes(buffer, index, networkinterface.getIP4Address().getBytes(), slot.size);
+				index += slot.size;
+				break;
+
+			case MACADDRESS:
+				addBytes(buffer, index, networkinterface.getMACAddress().getBytes(), slot.size);
+				index += slot.size;
+				break;
+
+			default:
+				reflect = true;
+			}
+
+			if (!reflect)
+				// look at the next physicalslot
+				continue;
+
+			Object fieldvalue = null;
+			try {
+				fieldvalue = field.get(this);
+			} catch (IllegalArgumentException e) {
+				throw new InvalidFieldException(field, e);
+			} catch (IllegalAccessException e) {
+				throw new InvalidFieldException(field, e);
+			}
+
+			if (fieldvalue == null)
+				throw new InvalidFieldException(field, new NullPointerException());
+
+			// translate field values into bytes
+			switch (slot.type) {
+			case INT:
+				Integer integer = (Integer) fieldvalue;
+				addBytes(buffer, index, PacketUtilities.toByteArray(integer.intValue()), slot.size);
+				index += slot.size;
+				break;
+
+			case SHORT:
+				Short shortint = (Short) fieldvalue;
+				addBytes(buffer, index, PacketUtilities.toByteArray(shortint.shortValue()), slot.size);
+				index += slot.size;
+				break;
+
+			case PACKETFRAGMENT:
+				PacketFragment fragment = (PacketFragment) fieldvalue;
+				addBytes(buffer, index, fragment.getBytes(), slot.size);
+				index += slot.size;
+				break;
+
+			case DATA:
+				byte[] bytes = (byte[]) fieldvalue;
+				addBytes(buffer, index, bytes);
+				index += bytes.length;
+				break;
+
+			default:
+				throw new UnsupportedOperationException(slot.type + " is not yet supported");
+			}
+		}
+
+		return buffer;
 	}
 
 

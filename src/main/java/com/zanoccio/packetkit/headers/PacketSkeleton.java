@@ -388,6 +388,11 @@ public class PacketSkeleton {
 	public List<FragmentSlot> getSlots() {
 		return slotlist;
 	}
+
+
+	public List<FragmentSlot> getDynamicSlots() {
+		return dynamicslots;
+	}
 }
 
 enum FragmentSlotType {
@@ -467,7 +472,7 @@ class FragmentSlot implements Comparable<FragmentSlot> {
 	@Override
 	public String toString() {
 		return "FragmentSlot(" + physicalslot + "\n\tfield: " + field + "\n\toffset:" + offset + "\n\tsize:" + size
-		        + "\n\tfixed:" + fixed + "\n)";
+		        + "\n\tfixed:" + fixed + "\n\tconstructor: " + constructor + "\n\tsizemethod: " + sizemethod + "\n)";
 	}
 }
 
