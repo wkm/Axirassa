@@ -1,18 +1,21 @@
 
 package test.com.zanoccio.packetkit;
 
+import static com.zanoccio.packetkit.PacketUtilities.assertArrayEquals;
 import static com.zanoccio.packetkit.PacketUtilities.assertPacketEquals;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 import com.zanoccio.packetkit.AbstractPacketTest;
+import com.zanoccio.packetkit.PacketUtilities;
 import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.headers.ICMPHeader;
 import com.zanoccio.packetkit.headers.ICMPType;
 
 public class TestICMPHeader extends AbstractPacketTest {
 	@Test
-	public void test() throws PacketKitException {
+	public void construct() throws PacketKitException {
 		ICMPHeader icmp = new ICMPHeader();
 
 		icmp.setType(ICMPType.ECHO_REQUEST);
@@ -22,5 +25,19 @@ public class TestICMPHeader extends AbstractPacketTest {
 		icmp.setData(getBytes("IcmpEchoData"));
 
 		assertPacketEquals(getProperty("IcmpEchoRequest"), icmp.construct());
+	}
+
+
+	@Test
+	public void deconstruct() throws PacketKitException {
+		ICMPHeader icmp = new ICMPHeader();
+		icmp.deconstruct(PacketUtilities.parseHexDump(getProperty("IcmpEchoRequest")));
+
+		assertEquals(ICMPType.ECHO_REQUEST, icmp.getType());
+		assertEquals(0, icmp.getCode());
+		assertEquals(1, icmp.getIdentifier());
+		assertEquals(14, icmp.getSequenceNumber());
+
+		assertArrayEquals(PacketUtilities.parseHexDump(getProperty("IcmpEchoData")), icmp.getData());
 	}
 }

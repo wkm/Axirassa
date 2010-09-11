@@ -37,7 +37,7 @@ public class TestARPHeader {
 
 
 	@Test
-	public void build() throws PacketKitException {
+	public void deconstruct() throws PacketKitException {
 		ARPHeader arp = new ARPHeader();
 		arp.deconstruct(PacketUtilities.parseHexDump(HEXDUMP_1));
 
