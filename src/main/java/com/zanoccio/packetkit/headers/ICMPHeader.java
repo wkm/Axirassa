@@ -20,7 +20,7 @@ public class ICMPHeader extends AbstractPacketHeader {
 
 	@StaticFragment(slot = 2, size = 2, fixed = true)
 	@Checksum(type = ChecksumMethod.ONESCOMPLEMENT)
-	int checksum;
+	byte[] checksum;
 
 	@StaticFragment(slot = 3, size = 2, fixed = true)
 	int identifier;
@@ -57,12 +57,12 @@ public class ICMPHeader extends AbstractPacketHeader {
 	}
 
 
-	public void setChecksum(int checksum) {
+	public void setChecksum(byte[] checksum) {
 		this.checksum = checksum;
 	}
 
 
-	public int getChecksum() {
+	public byte[] getChecksum() {
 		return checksum;
 	}
 
