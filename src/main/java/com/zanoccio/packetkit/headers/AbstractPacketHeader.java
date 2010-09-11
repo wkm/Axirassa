@@ -61,7 +61,7 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 
 		byte[] buffer = new byte[size];
 
-		for (FragmentSlot slot : skeleton.getPhysicalSlotOrder()) {
+		for (FragmentSlot slot : skeleton.getLogicalSlotOrder()) {
 			Field field = slot.field;
 
 			Object fieldvalue = null;
