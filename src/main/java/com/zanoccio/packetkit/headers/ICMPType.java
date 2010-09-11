@@ -8,6 +8,7 @@ import com.zanoccio.packetkit.headers.annotations.FixedSize;
 
 @FixedSize(size = 1)
 public enum ICMPType implements PacketFragment {
+	ECHO_REPLY(0x0),
 	ECHO_REQUEST(0x8);
 
 	private static ByteTrie<ICMPType> TRIE = PacketUtilities.trieFromEnum(ICMPType.class);
