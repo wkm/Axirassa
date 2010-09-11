@@ -16,9 +16,9 @@ public enum ChecksumMethod {
 	 */
 	ONESCOMPLEMENT {
 		@Override
-		public byte[] compute(byte[] array) {
+		public byte[] compute(byte[] array, int offset, int length) {
 			int total = 0;
-			for (int i = 0; i < array.length; i += 2) {
+			for (int i = offset; i < offset + length; i += 2) {
 				total += 0x0000ffff & (array[i] << 8 | (array[i + 1] & 0xff));
 			}
 
@@ -28,5 +28,10 @@ public enum ChecksumMethod {
 		}
 	};
 
-	abstract public byte[] compute(byte[] array);
+	abstract public byte[] compute(byte[] array, int offset, int length);
+
+
+	public byte[] compute(byte[] array) {
+		return compute(array, 0, array.length);
+	}
 }
