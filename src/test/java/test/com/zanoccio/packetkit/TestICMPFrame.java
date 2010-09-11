@@ -4,14 +4,22 @@ package test.com.zanoccio.packetkit;
 import org.junit.Test;
 
 import com.zanoccio.packetkit.AbstractPacketTest;
+import com.zanoccio.packetkit.IP4Address;
 import com.zanoccio.packetkit.MACAddress;
+import com.zanoccio.packetkit.PacketUtilities;
+import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.frames.Frame;
 import com.zanoccio.packetkit.headers.EtherType;
 import com.zanoccio.packetkit.headers.EthernetHeader;
+import com.zanoccio.packetkit.headers.ICMPHeader;
+import com.zanoccio.packetkit.headers.ICMPType;
+import com.zanoccio.packetkit.headers.IPHeader;
+import com.zanoccio.packetkit.headers.IPProtocol;
+import com.zanoccio.packetkit.mock.MockNetworkInterface;
 
 public class TestICMPFrame extends AbstractPacketTest {
 	@Test
-	public void test() {
+	public void test() throws PacketKitException {
 		Frame frame = new Frame();
 
 		// ethernet header
@@ -20,5 +28,33 @@ public class TestICMPFrame extends AbstractPacketTest {
 		ethernet.setSource(MACAddress.parse("00:1f:33:46:94:e8"));
 		ethernet.setType(EtherType.IP4);
 		frame.addHeader(ethernet);
+
+		// IP header
+		IPHeader ip = new IPHeader();
+		ip.setVersion(4);
+		ip.setHeaderLength(20);
+		ip.setServices(0);
+		ip.setTotalLength(60);
+
+		ip.setFlags(0);
+		ip.setFragmentOffset(0);
+		ip.setTimeToLive(51);
+		ip.setProtocol(IPProtocol.ICMP);
+		ip.setSource(IP4Address.parse("74.125.95.99"));
+		ip.setDestination(IP4Address.parse("192.168.1.3"));
+
+		frame.addHeader(ip);
+
+		ICMPHeader icmp = new ICMPHeader();
+		icmp.setType(ICMPType.ECHO_REQUEST);
+		icmp.setCode(0);
+		icmp.setIdentifier(1);
+		icmp.setSequenceNumber(17);
+		icmp.setData(PacketUtilities.parseHexDump(getProperty("IcmpData")));
+
+		frame.addHeader(icmp);
+		frame.associate(new MockNetworkInterface());
+
+		PacketUtilities.assertPacketEquals(getProperty("IcmpFrame"), frame.construct());
 	}
 }
