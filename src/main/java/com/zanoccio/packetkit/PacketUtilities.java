@@ -33,21 +33,33 @@ public class PacketUtilities {
 
 	// by tschodt from http://forums.sun.com/thread.jspa?threadID=628082
 	public static int intFromByteArray(byte[] b) {
-		return b[0] << 24 | (b[1] & 0xff) << 16 | (b[2] & 0xff) << 8 | (b[3] & 0xff);
+		return intFromByteArray(b, 0, 4);
 	}
 
 
 	public static int intFromByteArray(byte[] b, int start) {
-		return b[start] << 24 | (b[start + 1] & 0xff) << 16 | (b[start + 2] & 0xff) << 8 | (b[start + 3] & 0xff);
+		return intFromByteArray(b, start, 4);
 	}
 
 
-	/**
-	 * @deprecated
-	 */
-	@Deprecated
 	public static int intFromByteArray(byte[] b, int start, int length) {
-		return intFromByteArray(b, start);
+		switch (length) {
+		case 0:
+			return 0;
+
+		case 1:
+			return b[start] & 0xff;
+
+		case 2:
+			return (b[start] & 0xff) << 8 | (b[start + 1] & 0xff);
+
+		case 3:
+			return (b[start] & 0xff) << 16 | (b[start + 1] & 0xff) << 8 | (b[start + 2] & 0xff);
+
+		case 4:
+		default:
+			return b[start] << 24 | (b[start + 1] & 0xff) << 16 | (b[start + 2] & 0xff) << 8 | (b[start + 3] & 0xff);
+		}
 	}
 
 
@@ -61,12 +73,18 @@ public class PacketUtilities {
 	}
 
 
-	/**
-	 * @deprecated
-	 */
-	@Deprecated
 	public static short shortFromByteArray(byte[] b, int start, int length) {
-		return shortFromByteArray(b, start);
+		switch (length) {
+		case 0:
+			return 0;
+
+		case 1:
+			return (short) (b[start] & 0xff);
+
+		case 2:
+		default:
+			return (short) ((b[start] & 0xff) << 8 | (b[start + 1] & 0xff));
+		}
 	}
 
 
@@ -163,6 +181,11 @@ public class PacketUtilities {
 	}
 
 
+	public static void assertArrayEquals(byte[] expected, byte[] actual) {
+		assertEquals(toHexDump(expected), toHexDump(actual));
+	}
+
+
 	/**
 	 * Constructs a ByteTrie from the public, static, final fields of any enum
 	 * that implements {@link PacketFragment}
@@ -205,6 +228,21 @@ public class PacketUtilities {
 	}
 
 
+	public static byte[] extractBytes(byte[] bytes, int start) {
+		return extractBytes(bytes, start, bytes.length - start);
+	}
+
+
+	public static byte[] extractBytes(byte[] bytes, int start, int length) {
+		byte[] result = new byte[length];
+
+		for (int i = 0; i < length; i++)
+			result[i] = bytes[i + start];
+
+		return result;
+	}
+
+
 	//
 	// Types
 	//
@@ -217,4 +255,5 @@ public class PacketUtilities {
 			throw new ExceptionInInitializerError(e);
 		}
 	}
+
 }
