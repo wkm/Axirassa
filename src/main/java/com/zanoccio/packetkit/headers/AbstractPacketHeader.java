@@ -6,6 +6,8 @@ import static com.zanoccio.packetkit.PacketUtilities.extractBytes;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
+import com.zanoccio.packetkit.IP4Address;
+import com.zanoccio.packetkit.MACAddress;
 import com.zanoccio.packetkit.NetworkInterface;
 import com.zanoccio.packetkit.PacketFragment;
 import com.zanoccio.packetkit.PacketUtilities;
@@ -59,27 +61,8 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 
 		byte[] buffer = new byte[size];
 
-		for (FragmentSlot slot : skeleton.getSlots()) {
+		for (FragmentSlot slot : skeleton.getPhysicalSlotOrder()) {
 			Field field = slot.field;
-			boolean reflect = false;
-
-			// apply values from the network interface
-			switch (slot.type) {
-			case IP4ADDRESS:
-				addBytes(buffer, slot.offset, networkinterface.getIP4Address().getBytes(), slot.size);
-				break;
-
-			case MACADDRESS:
-				addBytes(buffer, slot.offset, networkinterface.getMACAddress().getBytes(), slot.size);
-				break;
-
-			default:
-				reflect = true;
-			}
-
-			if (!reflect)
-				// look at the next physicalslot
-				continue;
 
 			Object fieldvalue = null;
 			try {
@@ -90,38 +73,63 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 				throw new InvalidFieldException(field, e);
 			}
 
-			if (slot.type != FragmentSlotType.CHECKSUM && fieldvalue == null)
-				throw new InvalidFieldException(field, new NullPointerException());
+			if (fieldvalue == null)
+				// apply values from the network interface
+				switch (slot.type) {
+				case IP4ADDRESS:
+					addBytes(buffer, slot.offset, networkinterface.getIP4Address().getBytes(), slot.size);
+					break;
 
-			// translate field values into bytes
-			switch (slot.type) {
-			case INT:
-				Integer integer = (Integer) fieldvalue;
-				addBytes(buffer, slot.offset, PacketUtilities.toByteArray(integer.intValue()), slot.size);
-				break;
+				case MACADDRESS:
+					addBytes(buffer, slot.offset, networkinterface.getMACAddress().getBytes(), slot.size);
+					break;
 
-			case SHORT:
-				Short shortint = (Short) fieldvalue;
-				addBytes(buffer, slot.offset, PacketUtilities.toByteArray(shortint.shortValue()), slot.size);
-				break;
+				case CHECKSUM:
+					System.out.println("\n\nFor " + getClass().getSimpleName());
+					addBytes(buffer, slot.offset, ChecksumMethod.ONESCOMPLEMENT.compute(buffer, 0, size), slot.size);
+					break;
 
-			case PACKETFRAGMENT:
-				PacketFragment fragment = (PacketFragment) fieldvalue;
-				addBytes(buffer, slot.offset, fragment.getBytes(), slot.size);
-				break;
+				default:
+					throw new InvalidFieldException(field, new NullPointerException());
+				}
 
-			case DATA:
-				byte[] bytes = (byte[]) fieldvalue;
-				addBytes(buffer, slot.offset, bytes);
-				break;
+			else
+				// translate field values into bytes
+				switch (slot.type) {
+				case INT:
+					Integer integer = (Integer) fieldvalue;
+					addBytes(buffer, slot.offset, PacketUtilities.toByteArray(integer.intValue()), slot.size);
+					break;
 
-			case CHECKSUM:
-				addBytes(buffer, slot.offset, ChecksumMethod.ONESCOMPLEMENT.compute(buffer), slot.size);
-				break;
+				case SHORT:
+					Short shortint = (Short) fieldvalue;
+					addBytes(buffer, slot.offset, PacketUtilities.toByteArray(shortint.shortValue()), slot.size);
+					break;
 
-			default:
-				throw new UnsupportedOperationException(slot.type + " is not yet supported");
-			}
+				case PACKETFRAGMENT:
+					PacketFragment fragment = (PacketFragment) fieldvalue;
+					addBytes(buffer, slot.offset, fragment.getBytes(), slot.size);
+					break;
+
+				case IP4ADDRESS:
+					IP4Address ip4 = (IP4Address) fieldvalue;
+					addBytes(buffer, slot.offset, ip4.getBytes());
+					break;
+
+				case MACADDRESS:
+					MACAddress mac = (MACAddress) fieldvalue;
+					addBytes(buffer, slot.offset, mac.getBytes());
+					break;
+
+				case DATA:
+				case CHECKSUM:
+					byte[] bytes = (byte[]) fieldvalue;
+					addBytes(buffer, slot.offset, bytes);
+					break;
+
+				default:
+					throw new UnsupportedOperationException(slot.type + " is not yet supported");
+				}
 		}
 
 		return buffer;
@@ -159,7 +167,7 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 		if (skeleton.isFixedSize()) {
 			int index = 0;
 
-			for (FragmentSlot slot : skeleton.getPhsyicalSlotOrder()) {
+			for (FragmentSlot slot : skeleton.getPhysicalSlotOrder()) {
 				Field field = slot.field;
 				Object value;
 
