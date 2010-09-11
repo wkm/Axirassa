@@ -5,11 +5,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.PriorityQueue;
 
 import com.zanoccio.packetkit.IP4Address;
 import com.zanoccio.packetkit.MACAddress;
@@ -52,7 +52,8 @@ public class PacketSkeleton {
 	private Integer size;
 
 	// private ArrayList<Field> fieldsfromnetworkinterface;
-	private ArrayList<FragmentSlot> slotlist;
+	private ArrayList<FragmentSlot> logicalslotlist;
+	private ArrayList<FragmentSlot> physicalslotlist;
 	private ArrayList<FragmentSlot> dynamicslots;
 
 
@@ -78,9 +79,8 @@ public class PacketSkeleton {
 		//
 
 		HashSet<Integer> physicalslots = new HashSet<Integer>();
-		PriorityQueue<FragmentSlot> physicalslotqueue = new PriorityQueue<FragmentSlot>(10,
-		        new PhysicalSlotComparator());
-		PriorityQueue<FragmentSlot> logicalslotqueue = new PriorityQueue<FragmentSlot>(10, new LogicalSlotComparator());
+		physicalslotlist = new ArrayList<FragmentSlot>();
+		logicalslotlist = new ArrayList<FragmentSlot>();
 
 		for (Field field : fields) {
 			// pull the StaticFragment annotation for this field
@@ -115,14 +115,16 @@ public class PacketSkeleton {
 			fragment.field = field;
 
 			// add the fragment
-			physicalslotqueue.add(fragment);
+			physicalslotlist.add(fragment);
 		}
+
+		Collections.sort(physicalslotlist, new PhysicalSlotComparator());
 
 		//
 		// 2) Compute size and offset
 		//
 		int offset = 0;
-		for (FragmentSlot fragment : physicalslotqueue) {
+		for (FragmentSlot fragment : physicalslotlist) {
 			Field field = fragment.field;
 			StaticFragment annotation = field.getAnnotation(StaticFragment.class);
 
@@ -141,8 +143,9 @@ public class PacketSkeleton {
 			// check for a Checksum or Data annotation
 			if (field.isAnnotationPresent(Checksum.class)) {
 				// Checksum checksum = field.getAnnotation(Checksum.class);
-				if (fieldtype != Integer.TYPE)
-					throw new InvalidFieldException(field, " must be an int to store a checksum");
+				// if (fieldtype != Integer.TYPE)
+				// throw new InvalidFieldException(field,
+				// " must be an int to store a checksum");
 
 				fragment.type = FragmentSlotType.CHECKSUM;
 			}
@@ -225,27 +228,23 @@ public class PacketSkeleton {
 				// the logical slot is just the original slot
 				break;
 			}
-			logicalslotqueue.add(fragment);
+			logicalslotlist.add(fragment);
 		}
 
 		//
 		// 3) Finally, sort by logical slot
 		//
 
-		slotlist = new ArrayList<FragmentSlot>(logicalslotqueue.size());
+		Collections.sort(logicalslotlist, new LogicalSlotComparator());
+
+		// find dynamic slots
 		dynamicslots = new ArrayList<FragmentSlot>();
 
-		System.out.println("\n\n\n\n\n\n\n\n\n");
-		System.out.println(klass);
-		System.out.println(logicalslotqueue);
-
-		for (FragmentSlot fragment : logicalslotqueue) {
-			slotlist.add(fragment);
-
+		for (FragmentSlot fragment : logicalslotlist)
 			if (fragment.fixed == false)
 				dynamicslots.add(fragment);
-		}
 
+		// ensure the packet is fixed size or has been declared as dynamic
 		if (isFixedSize() == true)
 			size = offset;
 		else {
@@ -369,7 +368,7 @@ public class PacketSkeleton {
 		sb.append("\tfixed: " + isFixedSize()).append('\n');
 		sb.append("\tsize: " + getSize()).append('\n');
 
-		for (FragmentSlot slot : slotlist) {
+		for (FragmentSlot slot : logicalslotlist) {
 			sb.append(String.format("\t%d:%s  %d  %15s  %15s  %s\n", slot.physicalslot, slot.fixed ? "fixed "
 			        : "dynamic", slot.size, slot.type, slot.field.getName(), slot.field.getType().getCanonicalName()));
 		}
@@ -389,8 +388,28 @@ public class PacketSkeleton {
 	}
 
 
+	/**
+	 * @see #getLogicalSlotOrder()
+	 * @return
+	 */
 	public List<FragmentSlot> getSlots() {
-		return slotlist;
+		return logicalslotlist;
+	}
+
+
+	/**
+	 * @return the list of slots for the packet in their logical (fill) order
+	 */
+	public List<FragmentSlot> getLogicalSlotOrder() {
+		return getSlots();
+	}
+
+
+	/**
+	 * @return the list of slots for the packet in their physical order
+	 */
+	public List<FragmentSlot> getPhsyicalSlotOrder() {
+		return physicalslotlist;
 	}
 
 
