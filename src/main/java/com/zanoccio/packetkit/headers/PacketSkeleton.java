@@ -408,7 +408,7 @@ public class PacketSkeleton {
 	/**
 	 * @return the list of slots for the packet in their physical order
 	 */
-	public List<FragmentSlot> getPhsyicalSlotOrder() {
+	public List<FragmentSlot> getPhysicalSlotOrder() {
 		return physicalslotlist;
 	}
 
