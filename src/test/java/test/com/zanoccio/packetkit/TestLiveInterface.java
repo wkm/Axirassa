@@ -49,6 +49,6 @@ public class TestLiveInterface {
 			netinterface.sendPacket(whohas);
 		}
 
-		// netinterface.liveCapture();
+		netinterface.liveCapture();
 	}
 }
