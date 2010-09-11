@@ -17,39 +17,36 @@ import com.zanoccio.packetkit.headers.annotations.Subfragment;
 public class IPHeader extends AbstractPacketHeader {
 
 	@StaticFragment(slot = 0, size = 1, fixed = true)
-	int version;
+	int version_length_pack;
 
 	@StaticFragment(slot = 1, size = 1, fixed = true)
-	int headerlength;
-
-	@StaticFragment(slot = 2, size = 1, fixed = true)
 	int services;
 
-	@StaticFragment(slot = 3, size = 2, fixed = true)
+	@StaticFragment(slot = 2, size = 2, fixed = true)
 	@HeaderLength
 	int totallength;
 
-	@StaticFragment(slot = 4, size = 1, fixed = true)
-	int flags;
+	@StaticFragment(slot = 3, size = 2, fixed = true)
+	int identification;
 
-	@StaticFragment(slot = 5, size = 2, fixed = true)
-	int fragmentoffset;
+	@StaticFragment(slot = 4, size = 2, fixed = true)
+	int flags_fragmentoffset_pack;
 
-	@StaticFragment(slot = 6, size = 1, fixed = true)
+	@StaticFragment(slot = 5, size = 1, fixed = true)
 	int timetolive;
 
-	@StaticFragment(slot = 7)
+	@StaticFragment(slot = 6)
 	IPProtocol protocol;
 
-	@StaticFragment(slot = 8, size = 2, fixed = true)
+	@StaticFragment(slot = 7, size = 2, fixed = true)
 	@Checksum(type = ChecksumMethod.ONESCOMPLEMENT)
-	int checksum;
+	byte[] checksum;
 
-	@StaticFragment(slot = 9)
+	@StaticFragment(slot = 8)
 	@FromNetworkInterface
 	IP4Address source;
 
-	@StaticFragment(slot = 10)
+	@StaticFragment(slot = 9)
 	IP4Address destination;
 
 	@Subfragment
@@ -61,22 +58,40 @@ public class IPHeader extends AbstractPacketHeader {
 	//
 
 	public void setVersion(int version) {
-		this.version = version;
+		// wipe the existing version
+		version_length_pack &= 0x0f;
+
+		// set the new version
+		version_length_pack |= (version << 4);
 	}
 
 
 	public int getVersion() {
-		return version;
+		return this.version_length_pack;
 	}
 
 
+	/**
+	 * The length of the header in bytes (automatically converted into 32 bit
+	 * words within the header)
+	 */
 	public void setHeaderLength(int headerlength) {
-		this.headerlength = headerlength;
+		// wipe the existing length
+		version_length_pack &= 0xf0;
+
+		// set the new version
+		version_length_pack |= (0x0f & (headerlength / 4));
 	}
 
 
+	/**
+	 * The length of the header in bytes.
+	 * 
+	 * (note that the the length specified in the header is in terms of 32 bit
+	 * words).
+	 */
 	public int getHeaderLength() {
-		return headerlength;
+		return 4 * this.version_length_pack;
 	}
 
 
@@ -100,23 +115,33 @@ public class IPHeader extends AbstractPacketHeader {
 	}
 
 
+	public void setIdentification(int identification) {
+		this.identification = identification;
+	}
+
+
+	public int getIdentification() {
+		return identification;
+	}
+
+
 	public int getFlags() {
-		return flags;
+		return flags_fragmentoffset_pack;
 	}
 
 
 	public void setFlags(int flags) {
-		this.flags = flags;
+		flags_fragmentoffset_pack = flags << 13;
 	}
 
 
 	public int getFragmentOffset() {
-		return fragmentoffset;
+		return flags_fragmentoffset_pack;
 	}
 
 
 	public void setFragmentOffset(int fragmentoffset) {
-		this.fragmentoffset = fragmentoffset;
+		this.flags_fragmentoffset_pack = fragmentoffset;
 	}
 
 
@@ -140,12 +165,12 @@ public class IPHeader extends AbstractPacketHeader {
 	}
 
 
-	public int getChecksum() {
+	public byte[] getChecksum() {
 		return checksum;
 	}
 
 
-	public void setChecksum(int checksum) {
+	public void setChecksum(byte[] checksum) {
 		this.checksum = checksum;
 	}
 
