@@ -1,6 +1,8 @@
 
 package com.zanoccio.packetkit.headers;
 
+import static com.zanoccio.packetkit.PacketUtilities.extractBytes;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
@@ -11,6 +13,7 @@ import com.zanoccio.packetkit.exceptions.CouldNotPopulateException;
 import com.zanoccio.packetkit.exceptions.DeconstructionException;
 import com.zanoccio.packetkit.exceptions.InvalidFieldException;
 import com.zanoccio.packetkit.exceptions.PacketKitException;
+import com.zanoccio.packetkit.headers.annotations.StaticFragment;
 
 public abstract class AbstractPacketHeader implements PacketHeader {
 
@@ -87,10 +90,9 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 				throw new InvalidFieldException(field, e);
 			}
 
-			if (fieldvalue == null)
+			if (slot.type != FragmentSlotType.CHECKSUM && fieldvalue == null)
 				throw new InvalidFieldException(field, new NullPointerException());
 
-			System.out.println("Computing: " + slot.type);
 			// translate field values into bytes
 			switch (slot.type) {
 			case INT:
@@ -122,7 +124,6 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 			}
 		}
 
-		System.out.println("DONE");
 		return buffer;
 	}
 
@@ -156,15 +157,21 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 		PacketSkeleton skeleton = PacketSkeletonRegistry.getInstance().retrieve(getClass());
 
 		if (skeleton.isFixedSize()) {
-			int size = skeleton.getSize().intValue();
 			int index = 0;
 
-			for (FragmentSlot slot : skeleton.getSlots()) {
+			for (FragmentSlot slot : skeleton.getPhsyicalSlotOrder()) {
 				Field field = slot.field;
 				Object value;
 
 				try {
-					value = slot.constructor.invoke(null, bytes, index, slot.size);
+					if (slot.constructor != null)
+						value = slot.constructor.invoke(null, bytes, index, slot.size);
+					else {
+						if (slot.size == StaticFragment.DEFAULT_SIZE)
+							value = extractBytes(bytes, index);
+						else
+							value = extractBytes(bytes, index, slot.size);
+					}
 
 					if (value == null)
 						throw new DeconstructionException(bytes, field, value);
