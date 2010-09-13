@@ -118,6 +118,18 @@ public class TestICMPFrame extends AbstractPacketTest {
 		for (int i = 0; i < 1000; i++)
 			frame.deconstruct(headers, hexdump);
 		assertTrue(System.currentTimeMillis() - start < 100);
+	}
 
+
+	@Test
+	public void failpacket() {
+		Frame frame = new Frame();
+		List<PacketHeader> headers = new ArrayList<PacketHeader>(3);
+		headers.add(new EthernetHeader());
+		headers.add(new IPHeader());
+		headers.add(new ICMPHeader());
+
+		byte[] hexdump = PacketUtilities.parseHexDump(getProperty("CorruptFrame"));
+		frame.deconstruct(headers, hexdump);
 	}
 }
