@@ -4,6 +4,7 @@ package com.zanoccio.packetkit.frames;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.zanoccio.packetkit.ByteParser;
 import com.zanoccio.packetkit.NetworkInterface;
 import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.headers.PacketHeader;
@@ -20,6 +21,11 @@ public class Frame {
 
 	public void addHeader(PacketHeader header) {
 		headers.add(header);
+	}
+
+
+	public List<PacketHeader> getHeaders() {
+		return headers;
 	}
 
 
@@ -51,6 +57,28 @@ public class Frame {
 		// this.body = body;
 
 		return body;
+	}
+
+
+	public boolean deconstruct(List<PacketHeader> headers, byte[] buffer) {
+		return deconstruct(headers, buffer, 0, buffer.length);
+	}
+
+
+	public boolean deconstruct(List<PacketHeader> headers, byte[] buffer, int start, int length) {
+		ByteParser container = new ByteParser(buffer, start);
+
+		for (PacketHeader header : headers) {
+			try {
+				System.out.println("Deconstructing: " + header);
+				header.deconstruct(container, length);
+				System.out.println("   ====> " + header);
+			} catch (PacketKitException e) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 

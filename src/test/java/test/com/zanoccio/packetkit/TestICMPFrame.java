@@ -1,6 +1,9 @@
 
 package test.com.zanoccio.packetkit;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import com.zanoccio.packetkit.AbstractPacketTest;
@@ -15,11 +18,12 @@ import com.zanoccio.packetkit.headers.ICMPHeader;
 import com.zanoccio.packetkit.headers.ICMPType;
 import com.zanoccio.packetkit.headers.IPHeader;
 import com.zanoccio.packetkit.headers.IPProtocol;
+import com.zanoccio.packetkit.headers.PacketHeader;
 import com.zanoccio.packetkit.mock.MockNetworkInterface;
 
 public class TestICMPFrame extends AbstractPacketTest {
 	@Test
-	public void test() throws PacketKitException {
+	public void construct() throws PacketKitException {
 		Frame frame = new Frame();
 
 		// ethernet header
@@ -55,5 +59,22 @@ public class TestICMPFrame extends AbstractPacketTest {
 		frame.associate(new MockNetworkInterface());
 
 		PacketUtilities.assertPacketEquals(getProperty("IcmpFrame"), frame.construct());
+	}
+
+
+	@Test
+	public void deconstruct() throws PacketKitException {
+		Frame frame = new Frame();
+		List<PacketHeader> headers = new ArrayList<PacketHeader>(3);
+		headers.add(new EthernetHeader());
+		headers.add(new IPHeader());
+		headers.add(new ICMPHeader());
+
+		frame.deconstruct(headers, PacketUtilities.parseHexDump(getProperty("IcmpFrame")));
+
+		headers = frame.getHeaders();
+		for (PacketHeader header : headers) {
+			System.out.println("header: " + header);
+		}
 	}
 }

@@ -6,6 +6,7 @@ import static com.zanoccio.packetkit.PacketUtilities.extractBytes;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
+import com.zanoccio.packetkit.ByteParser;
 import com.zanoccio.packetkit.IP4Address;
 import com.zanoccio.packetkit.MACAddress;
 import com.zanoccio.packetkit.NetworkInterface;
@@ -153,19 +154,26 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 	}
 
 
+	@Override
+	public boolean deconstruct(byte[] bytes) throws PacketKitException {
+		return deconstruct(new ByteParser(bytes, 0), bytes.length);
+	}
+
+
 	/**
 	 * Populates this packet by deconstructing a byte array into the various
 	 * fields of a packet.
 	 * 
-	 * @param bytes
+	 * @param container
 	 * @throws PacketKitException
 	 */
+	@Override
 	@SuppressWarnings("boxing")
-	public void deconstruct(byte[] bytes) throws PacketKitException {
+	public boolean deconstruct(ByteParser container, int length) throws PacketKitException {
 		PacketSkeleton skeleton = PacketSkeletonRegistry.getInstance().retrieve(getClass());
 
 		if (skeleton.isFixedSize()) {
-			int index = 0;
+			int index = container.cursor;
 
 			for (FragmentSlot slot : skeleton.getPhysicalSlotOrder()) {
 				Field field = slot.field;
@@ -173,29 +181,35 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 
 				try {
 					if (slot.constructor != null)
-						value = slot.constructor.invoke(null, bytes, index, slot.size);
+						value = slot.constructor.invoke(null, container.bytes, index, slot.size);
 					else {
 						if (slot.size == StaticFragment.DEFAULT_SIZE)
-							value = extractBytes(bytes, index);
+							value = extractBytes(container.bytes, index);
 						else
-							value = extractBytes(bytes, index, slot.size);
+							value = extractBytes(container.bytes, index, slot.size);
 					}
 
 					if (value == null)
-						throw new DeconstructionException(bytes, field, value);
+						throw new DeconstructionException(container.bytes, field, value);
 
 					field.set(this, value);
 				} catch (IllegalArgumentException e) {
-					throw new DeconstructionException(bytes, e);
+					e.printStackTrace();
+					throw new DeconstructionException(container.bytes, e);
 				} catch (IllegalAccessException e) {
-					throw new DeconstructionException(bytes, e);
+					throw new DeconstructionException(container.bytes, e);
 				} catch (InvocationTargetException e) {
-					throw new DeconstructionException(bytes, e);
+					throw new DeconstructionException(container.bytes, e);
 				}
 
 				index += slot.size;
+
+				if (index > container.cursor + length)
+					return false;
 			}
-			return;
+
+			container.cursor = index;
+			return true;
 		}
 
 		throw new UnsupportedOperationException("dynamic packet deconstruction is not yet implemented");

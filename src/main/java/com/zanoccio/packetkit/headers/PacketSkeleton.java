@@ -67,7 +67,6 @@ public class PacketSkeleton {
 		int slotindex = DEFAULT_LOGICAL_SLOT;
 
 		isfixedsize = true;
-		// fieldsfromnetworkinterface = new ArrayList<Field>();
 
 		name = klass.getName();
 		this.klass = klass;
@@ -257,7 +256,6 @@ public class PacketSkeleton {
 
 	@SuppressWarnings("unchecked")
 	private Method getSizeMethod(Field field, FragmentSlot fragment) throws PacketKitException {
-		Class<? extends Object> fieldtype = field.getType();
 		Method sizemethod;
 		Class<? extends Object>[] signature = new Class[] { PacketUtilities.BYTE_ARRAY };
 
