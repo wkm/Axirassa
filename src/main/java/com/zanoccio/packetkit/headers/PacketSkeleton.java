@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import com.zanoccio.javakit.FormatString;
 import com.zanoccio.packetkit.IP4Address;
 import com.zanoccio.packetkit.MACAddress;
 import com.zanoccio.packetkit.PacketFragment;
@@ -62,6 +63,9 @@ public class PacketSkeleton {
 	}
 
 
+	/**
+	 * Constructs a skeleton for a {@link PacketHeader}. Skeletons are
+	 */
 	@SuppressWarnings("boxing")
 	public void construct(Class<? extends PacketHeader> klass) throws PacketKitException {
 		int slotindex = DEFAULT_LOGICAL_SLOT;
@@ -327,8 +331,8 @@ public class PacketSkeleton {
 
 
 	/**
-	 * Gives true if the given field is accessible (ie, either public or
-	 * package-accessible)
+	 * @return true if the given field is accessible (ie, either public or
+	 *         package-accessible)
 	 */
 	private boolean isFieldAccessible(Field field) {
 		int modifiers = field.getModifiers();
@@ -337,7 +341,7 @@ public class PacketSkeleton {
 
 
 	/**
-	 * Gives true if the given class implements {@link PacketFragment}.
+	 * @return true if the given class implements {@link PacketFragment}.
 	 */
 	private boolean isValidType(Class<? extends Object> fieldtype) {
 		Class<? extends Object>[] interfaces = fieldtype.getInterfaces();
@@ -352,35 +356,103 @@ public class PacketSkeleton {
 	}
 
 
+	/**
+	 * @return true if this packet is fixed in size
+	 */
 	public boolean isFixedSize() {
 		return isfixedsize;
 	}
 
 
-	@SuppressWarnings("boxing")
+	/**
+	 * Gives a pretty-printed representation of the fields within a packet.
+	 * 
+	 * The representation is an ASCII approximation of what a standard
+	 * byte-chart might look like for a packet.
+	 */
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("PacketSkeleton(").append(name).append('\n');
-		sb.append("\t").append(klass.getCanonicalName()).append('\n');
-		sb.append("\tfixed: " + isFixedSize()).append('\n');
-		sb.append("\tsize: " + getSize()).append('\n');
+		return toString(0);
+	}
 
-		for (FragmentSlot slot : logicalslotlist) {
-			sb.append(String.format("\t%d:%s  %d  %15s  %15s  %s\n", slot.physicalslot, slot.fixed ? "fixed "
-			        : "dynamic", slot.size, slot.type, slot.field.getName(), slot.field.getType().getCanonicalName()));
+
+	/**
+	 * Like {@link #toString()}, but with an explicit initial bit offset.
+	 */
+	public String toString(int bitoffset) {
+		StringBuffer sb = new StringBuffer();
+
+		sb.append(klass.getSimpleName());
+		sb.append(" Packet Skeleton");
+
+		// if we're not aligned on a 32-bit word, pad out
+		if (bitoffset % 32 != 0) {
+			sb.append(String.format("\n%04d ", 32 * (bitoffset / 32) / 8));
+			for (int i = 0; i < bitoffset % 32; i++)
+				sb.append("  ");
 		}
 
-		sb.append(")");
+		int slotindex = 0;
+		for (FragmentSlot slot : physicalslotlist) {
+			int hpos = bitoffset % 32;
+
+			if (hpos == 0) {
+				if (slotindex > 0)
+					sb.append('|');
+
+				sb.append(String.format("\n%03d ", bitoffset / 8));
+			}
+
+			// we only use the slotindex to draw trailing '|'
+			slotindex++;
+
+			String name = slot.field.getName();
+
+			if (!slot.fixed) {
+				sb.append('|');
+				sb.append(FormatString.cutoff(" " + name, 64 - 3, ""));
+				sb.append(" ...");
+				continue;
+			}
+
+			// if our slot doesn't go onto the next line
+			if (hpos + slot.bitSize() <= 32) {
+				// just draw it
+				int width = 2 * slot.bitSize() - 1;
+
+				sb.append('|');
+				sb.append(FormatString.center(FormatString.cutoff(name, width), width));
+			} else {
+				// compute the width on this line
+				int curwidth = 64 - hpos;
+
+				// and the remaining width
+				int remainingwidth = 2 * slot.bitSize() - curwidth;
+
+				// if we have enough width on this line
+				if (name.length() < curwidth - 1) {
+					// just draw it
+					int width = slot.bitSize() - 1;
+
+					sb.append('|');
+					sb.append(FormatString.center(FormatString.cutoff(name, width), width));
+				}
+			}
+
+			// dynamic slots shouldn't reach here because of the continue above
+			if (slot.fixed) {
+				bitoffset += slot.bitSize();
+			}
+		}
+
 		return sb.toString();
 	}
 
 
-	public void deleteme(Integer size) {
-		this.size = size;
-	}
-
-
+	/**
+	 * @return the size of the packet in bytes, or null if the packet is
+	 *         dynamically sized
+	 */
 	public Integer getSize() {
 		return size;
 	}
@@ -411,6 +483,9 @@ public class PacketSkeleton {
 	}
 
 
+	/**
+	 * @return a list of slots in the packet which are dynamically sized
+	 */
 	public List<FragmentSlot> getDynamicSlots() {
 		return dynamicslots;
 	}
@@ -482,6 +557,11 @@ class FragmentSlot implements Comparable<FragmentSlot> {
 	 * fragment.
 	 */
 	public Method sizemethod;
+
+
+	public int bitSize() {
+		return size * 8;
+	}
 
 
 	@Override

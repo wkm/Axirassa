@@ -12,6 +12,7 @@ import com.zanoccio.packetkit.PacketUtilities;
 import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.headers.ICMPHeader;
 import com.zanoccio.packetkit.headers.ICMPType;
+import com.zanoccio.packetkit.headers.PacketSkeletonRegistry;
 
 public class TestICMPHeader extends AbstractPacketTest {
 	@Test
@@ -25,6 +26,8 @@ public class TestICMPHeader extends AbstractPacketTest {
 		icmp.setData(getBytes("IcmpEchoData"));
 
 		assertPacketEquals(getProperty("IcmpEchoRequest"), icmp.construct());
+
+		System.out.println(PacketSkeletonRegistry.getInstance().retrieve(ICMPHeader.class).toString());
 	}
 
 

@@ -86,7 +86,6 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 					break;
 
 				case CHECKSUM:
-					System.out.println("\n\nFor " + getClass().getSimpleName());
 					addBytes(buffer, slot.offset, ChecksumMethod.ONESCOMPLEMENT.compute(buffer, 0, size), slot.size);
 					break;
 
