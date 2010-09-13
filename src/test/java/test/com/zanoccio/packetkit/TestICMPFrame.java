@@ -2,6 +2,7 @@
 package test.com.zanoccio.packetkit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,5 +101,23 @@ public class TestICMPFrame extends AbstractPacketTest {
 		assertEquals(1, icmp.getIdentifier());
 		assertEquals(17, icmp.getSequenceNumber());
 		PacketUtilities.assertPacketEquals(getProperty("IcmpData"), icmp.getData());
+	}
+
+
+	@Test
+	public void speedtest() {
+		Frame frame = new Frame();
+		List<PacketHeader> headers = new ArrayList<PacketHeader>(3);
+		headers.add(new EthernetHeader());
+		headers.add(new IPHeader());
+		headers.add(new ICMPHeader());
+
+		byte[] hexdump = PacketUtilities.parseHexDump(getProperty("IcmpFrame"));
+
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < 1000; i++)
+			frame.deconstruct(headers, hexdump);
+		assertTrue(System.currentTimeMillis() - start < 100);
+
 	}
 }
