@@ -10,7 +10,7 @@ import com.zanoccio.packetkit.exceptions.PacketKitException;
 import com.zanoccio.packetkit.headers.PacketHeader;
 
 public class Frame {
-	private final List<PacketHeader> headers;
+	private List<PacketHeader> headers;
 	private NetworkInterface networkinterface;
 
 
@@ -67,12 +67,11 @@ public class Frame {
 
 	public boolean deconstruct(List<PacketHeader> headers, byte[] buffer, int start, int length) {
 		ByteParser container = new ByteParser(buffer, start);
+		this.headers = headers;
 
 		for (PacketHeader header : headers) {
 			try {
-				System.out.println("Deconstructing: " + header);
 				header.deconstruct(container, length);
-				System.out.println("   ====> " + header);
 			} catch (PacketKitException e) {
 				return false;
 			}
@@ -84,5 +83,17 @@ public class Frame {
 
 	public void associate(NetworkInterface networkinterface) {
 		this.networkinterface = networkinterface;
+	}
+
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (PacketHeader header : headers) {
+			sb.append(header);
+			sb.append('\n');
+		}
+
+		return sb.toString();
 	}
 }

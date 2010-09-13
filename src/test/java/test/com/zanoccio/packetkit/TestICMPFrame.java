@@ -1,6 +1,8 @@
 
 package test.com.zanoccio.packetkit;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,8 +75,30 @@ public class TestICMPFrame extends AbstractPacketTest {
 		frame.deconstruct(headers, PacketUtilities.parseHexDump(getProperty("IcmpFrame")));
 
 		headers = frame.getHeaders();
-		for (PacketHeader header : headers) {
-			System.out.println("header: " + header);
-		}
+
+		EthernetHeader ethernet = (EthernetHeader) headers.get(0);
+		assertEquals(MACAddress.parse("00:24:d7:11:bf:74"), ethernet.getDestination());
+		assertEquals(MACAddress.parse("00:1f:33:46:94:e8"), ethernet.getSource());
+		assertEquals(EtherType.IP4, ethernet.getType());
+
+		IPHeader ip = (IPHeader) headers.get(1);
+		assertEquals(4, ip.getVersion());
+		assertEquals(20, ip.getHeaderLength());
+		assertEquals(0, ip.getServices());
+		assertEquals(60, ip.getTotalLength());
+		assertEquals(15097, ip.getIdentification());
+		assertEquals(0, ip.getFlags());
+		assertEquals(0, ip.getFragmentOffset());
+		assertEquals(51, ip.getTimeToLive());
+		assertEquals(IPProtocol.ICMP, ip.getProtocol());
+		assertEquals(IP4Address.parse("74.125.95.99"), ip.getSource());
+		assertEquals(IP4Address.parse("192.168.1.3"), ip.getDestination());
+
+		ICMPHeader icmp = (ICMPHeader) headers.get(2);
+		assertEquals(ICMPType.ECHO_REPLY, icmp.getType());
+		assertEquals(0, icmp.getCode());
+		assertEquals(1, icmp.getIdentifier());
+		assertEquals(17, icmp.getSequenceNumber());
+		PacketUtilities.assertPacketEquals(getProperty("IcmpData"), icmp.getData());
 	}
 }

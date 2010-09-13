@@ -67,7 +67,7 @@ public class IPHeader extends AbstractPacketHeader {
 
 
 	public int getVersion() {
-		return this.version_length_pack;
+		return version_length_pack >> 4;
 	}
 
 
@@ -91,7 +91,7 @@ public class IPHeader extends AbstractPacketHeader {
 	 * words).
 	 */
 	public int getHeaderLength() {
-		return 4 * this.version_length_pack;
+		return 4 * (0x0f & this.version_length_pack);
 	}
 
 
