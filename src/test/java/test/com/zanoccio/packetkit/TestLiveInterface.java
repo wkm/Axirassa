@@ -45,10 +45,10 @@ public class TestLiveInterface {
 		whohas.addHeader(arpheader);
 
 		netinterface.openLive();
-		for (int i = 0; i < 1; i++) {
-			netinterface.sendPacket(whohas);
-		}
 
+		long start = System.currentTimeMillis();
+		netinterface.sendPacket(whohas);
 		netinterface.liveCapture();
+		System.out.println("elapsed: " + (System.currentTimeMillis() - start));
 	}
 }

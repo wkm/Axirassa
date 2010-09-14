@@ -2,14 +2,14 @@
 package com.zanoccio.packetkit;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 
-import org.jnetpcap.ByteBufferHandler;
 import org.jnetpcap.Pcap;
 import org.jnetpcap.PcapAddr;
 import org.jnetpcap.PcapHeader;
 import org.jnetpcap.PcapIf;
 import org.jnetpcap.PcapSockAddr;
+import org.jnetpcap.nio.JBuffer;
+import org.jnetpcap.nio.JMemory;
 
 import com.zanoccio.packetkit.exceptions.NoIP4AddressException;
 import com.zanoccio.packetkit.exceptions.PacketKitException;
@@ -19,7 +19,7 @@ public class NetworkInterface {
 
 	private final int snaplength = 1024;
 	private final int flags = Pcap.MODE_NON_BLOCKING;
-	private final int timeout = 1000;
+	private final int timeout = 1;
 	private final StringBuilder errorbuffer;
 
 	private final PcapIf device;
@@ -85,20 +85,15 @@ public class NetworkInterface {
 
 
 	public void liveCapture() {
-		ByteBufferHandler<String> handler = new ByteBufferHandler<String>() {
-			@Override
-			public void nextPacket(PcapHeader header, ByteBuffer buffer, String user) {
-				byte[] bytes = new byte[buffer.capacity()];
-				buffer.get(bytes);
+		PcapHeader header = new PcapHeader();
+		JBuffer buffer = new JBuffer(JMemory.Type.POINTER);
 
-				System.out.println("======================");
-				System.out.println("user: " + user);
-				System.out.println("header: " + header.size());
-				System.out.println("buffer size: " + buffer.capacity());
-				System.out.println(PacketUtilities.toHexDump(bytes));
-			}
-		};
+		pcap.nextEx(header, buffer);
+		System.out.println("======================");
+		System.out.println(PacketUtilities.toHexDump(buffer.getByteArray(0, buffer.size())));
 
-		pcap.loop(1, handler, "");
+		// pcap.dispatch(0, handler, "");
+
+		pcap.close();
 	}
 }
