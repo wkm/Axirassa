@@ -132,8 +132,15 @@ public class TestICMPFrame extends AbstractPacketTest {
 
 		byte[] hexdump = PacketUtilities.parseHexDump(getProperty("IcmpFrame"));
 
+		// fail by premature end (BugzID:43)
 		for (int length = 0; length <= 40; length += 5) {
 			assertFalse(frame.deconstruct(headers, PacketUtilities.extractBytes(hexdump, 0, length)));
 		}
+
+		// fail by enum (BugzID:41)
+		hexdump[11] = 0;
+		hexdump[12] = 13;
+		assertFalse(frame.deconstruct(headers, hexdump));
+
 	}
 }
