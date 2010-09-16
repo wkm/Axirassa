@@ -80,7 +80,9 @@ public class NetworkInterface {
 
 	public void sendPacket(Frame frame) throws PacketKitException {
 		frame.associate(this);
-		pcap.sendPacket(frame.construct());
+		byte[] bytes = frame.construct();
+		System.out.println("cons: " + System.currentTimeMillis());
+		pcap.sendPacket(bytes);
 	}
 
 
@@ -91,8 +93,8 @@ public class NetworkInterface {
 		pcap.nextEx(header, buffer);
 		System.out.println("======================");
 		System.out.println(PacketUtilities.toHexDump(buffer.getByteArray(0, buffer.size())));
-
-		// pcap.dispatch(0, handler, "");
+		System.out.println("Now: " + System.currentTimeMillis());
+		System.out.println("Cap: " + header.timestampInMillis());
 
 		pcap.close();
 	}

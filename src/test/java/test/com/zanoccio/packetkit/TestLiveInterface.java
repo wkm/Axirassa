@@ -47,7 +47,9 @@ public class TestLiveInterface {
 		netinterface.openLive();
 
 		long start = System.currentTimeMillis();
+		System.out.println("send: " + start);
 		netinterface.sendPacket(whohas);
+		System.out.println("sent: " + System.currentTimeMillis());
 		netinterface.liveCapture();
 		System.out.println("elapsed: " + (System.currentTimeMillis() - start));
 	}
