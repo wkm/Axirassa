@@ -16,6 +16,7 @@ import com.zanoccio.packetkit.exceptions.CouldNotPopulateException;
 import com.zanoccio.packetkit.exceptions.DeconstructionException;
 import com.zanoccio.packetkit.exceptions.InvalidFieldException;
 import com.zanoccio.packetkit.exceptions.PacketKitException;
+import com.zanoccio.packetkit.exceptions.PacketValidationException;
 import com.zanoccio.packetkit.headers.annotations.StaticFragment;
 
 public abstract class AbstractPacketHeader implements PacketHeader {
@@ -23,20 +24,12 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 	protected NetworkInterface networkinterface;
 
 
-	/**
-	 * Associate this packet with a network interface; many packet types have
-	 * their fields autowired by the network interface.
-	 */
 	@Override
 	public void associate(NetworkInterface networkinterface) {
 		this.networkinterface = networkinterface;
 	}
 
 
-	/**
-	 * Constructs the packet, creating the byte array that can be sent directly
-	 * through the network interface.
-	 */
 	@Override
 	public byte[] construct() throws PacketKitException {
 		PacketSkeleton skeleton = PacketSkeletonRegistry.getInstance().retrieve(getClass());
@@ -208,6 +201,11 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 			}
 
 			container.cursor = index;
+
+			// validate the packet
+			if (!validate())
+				throw new PacketValidationException(container.bytes, this);
+
 			return true;
 		}
 
@@ -215,10 +213,8 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 	}
 
 
-	private byte[] extract(byte[] buffer, int start, int length) {
-		byte[] bytes = new byte[length];
-		for (int i = 0; i < length; i++)
-			bytes[i] = buffer[start + i];
-		return bytes;
+	@Override
+	public boolean validate() {
+		return true;
 	}
 }
