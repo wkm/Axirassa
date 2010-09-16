@@ -1,7 +1,15 @@
 
 package com.zanoccio.packetkit;
 
-
+/**
+ * An implementation of a byte-level trie.
+ * 
+ * Extremely naive benchmarks seem to indicate that this runs at around 30MHz.
+ * 
+ * @author wiktor
+ * 
+ * @param <T>
+ */
 public class ByteTrie<T> {
 
 	private ByteTrieIndex<T> head;
@@ -82,6 +90,9 @@ public class ByteTrie<T> {
 		int index = start;
 		int end = start + length - 1;
 		while (true) {
+			if (index >= key.length)
+				return null;
+
 			if (cursor == null)
 				return null;
 
