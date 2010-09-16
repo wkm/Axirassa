@@ -71,7 +71,8 @@ public class Frame {
 
 		for (PacketHeader header : headers) {
 			try {
-				header.deconstruct(container, length);
+				if (!header.deconstruct(container, length))
+					return false;
 			} catch (PacketKitException e) {
 				return false;
 			}

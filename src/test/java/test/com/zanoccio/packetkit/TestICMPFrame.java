@@ -2,6 +2,7 @@
 package test.com.zanoccio.packetkit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -129,7 +130,10 @@ public class TestICMPFrame extends AbstractPacketTest {
 		headers.add(new IPHeader());
 		headers.add(new ICMPHeader());
 
-		byte[] hexdump = PacketUtilities.parseHexDump(getProperty("CorruptFrame"));
-		frame.deconstruct(headers, hexdump);
+		byte[] hexdump = PacketUtilities.parseHexDump(getProperty("IcmpFrame"));
+
+		for (int length = 0; length <= 40; length += 5) {
+			assertFalse(frame.deconstruct(headers, PacketUtilities.extractBytes(hexdump, 0, length)));
+		}
 	}
 }

@@ -33,5 +33,18 @@ public class TestByteTrie {
 		assertEquals("horsey", trie.get(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 }));
 
 		assertEquals("cat", trie.get(new byte[] { 1, 0, 8, 9, 2 }, 1, 3));
+
+		//
+		// benchmark
+		//
+
+		// byte[] key = new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 };
+		// long start = System.currentTimeMillis();
+		//
+		// for (int i = 0; i < 35000000; i++)
+		// trie.get(key);
+		//
+		// System.out.println("elapsed: " + (System.currentTimeMillis() -
+		// start));
 	}
 }

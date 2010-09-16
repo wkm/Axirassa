@@ -179,10 +179,11 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 				Object value;
 
 				try {
-					if (slot.constructor != null)
+					if (slot.constructor != null) {
 						value = slot.constructor.invoke(null, container.bytes, index, slot.size);
-					else {
+					} else {
 						if (slot.size == StaticFragment.DEFAULT_SIZE)
+							// pull whatever bytes remain
 							value = extractBytes(container.bytes, index);
 						else
 							value = extractBytes(container.bytes, index, slot.size);
@@ -192,8 +193,7 @@ public abstract class AbstractPacketHeader implements PacketHeader {
 						throw new DeconstructionException(container.bytes, field, value);
 
 					field.set(this, value);
-				} catch (IllegalArgumentException e) {
-					e.printStackTrace();
+				} catch (RuntimeException e) {
 					throw new DeconstructionException(container.bytes, e);
 				} catch (IllegalAccessException e) {
 					throw new DeconstructionException(container.bytes, e);
