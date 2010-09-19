@@ -108,6 +108,13 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         	<artifactId>httpclient</artifactId>
         	<version>4.0.1</version>
         </dependency>
+        <dependency>
+        	<groupId>org.hyperic</groupId>
+        	<artifactId>sigar</artifactId>
+        	<version>1.6.3.82</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
     </dependencies>
     <developers>
     	<developer>
