@@ -1,5 +1,5 @@
 
-package com.zanoccio.axirassa.services;
+package com.zanoccio.axirassa.services.pingservice;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -11,6 +11,7 @@ import org.jnetpcap.Pcap;
 import org.jnetpcap.PcapIf;
 import org.jnetpcap.packet.RegistryHeaderErrors;
 
+import com.zanoccio.axirassa.services.Service;
 import com.zanoccio.axirassa.services.exceptions.CannotFindNetworkInterfacesException;
 import com.zanoccio.axirassa.services.exceptions.PingServiceException;
 import com.zanoccio.axirassa.util.PcapLoader;
