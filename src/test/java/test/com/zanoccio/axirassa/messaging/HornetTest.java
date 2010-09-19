@@ -13,7 +13,7 @@ import org.hornetq.api.core.client.ClientProducer;
 import org.hornetq.api.core.client.ClientSession;
 import org.hornetq.api.core.client.ClientSessionFactory;
 import org.hornetq.api.core.client.HornetQClient;
-import org.hornetq.core.remoting.impl.invm.InVMConnectorFactory;
+import org.hornetq.integration.transports.netty.NettyConnectorFactory;
 import org.junit.Test;
 
 import com.zanoccio.axirassa.util.EmbeddedMessagingServer;
@@ -31,7 +31,7 @@ public class HornetTest {
 	@Test
 	public void test() throws JMSException, HornetQException {
 		ClientSessionFactory factory = HornetQClient.createClientSessionFactory(new TransportConfiguration(
-		        InVMConnectorFactory.class.getName()));
+		        NettyConnectorFactory.class.getName()));
 
 		ClientSession session = factory.createSession();
 
@@ -52,7 +52,10 @@ public class HornetTest {
 
 		ClientMessage msgReceived = consumer.receive();
 
-		assertEquals("Hello", msgReceived.getBodyBuffer().readString());
+		String msg = msgReceived.getBodyBuffer().readString();
+		assertEquals("Hello", msg);
+
+		System.out.println("HornetQ message body: " + msg);
 
 		consumer.close();
 
