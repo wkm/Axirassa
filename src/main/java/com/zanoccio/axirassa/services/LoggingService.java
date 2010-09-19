@@ -7,6 +7,8 @@ package com.zanoccio.axirassa.services;
  * {@link LoggingService} provides a gentle usability wrapper around log4j that
  * does the real work.
  * 
+ * The service is intended to provide
+ * 
  * @author wiktor
  */
 public class LoggingService {
