@@ -2,6 +2,10 @@
 	<head>
 		<title>axirassa | internal systems monitor</title>
 		<link rel="stylesheet" type="text/css" href="css/sentinel.css" />
+		
+		<script type="text/javascript" src="js/lib/canvas2image.js"></script>
+		<script type="text/javascript" src="js/lib/canvastext.js"></script>
+		<script type="text/javascript" src="js/flotr-0.2.0-alpha.js"></script>
 	</head>
 	<body>
 		<div id="header">
@@ -11,9 +15,10 @@
 		<div class="agent">
 			<div class="agentname">cpu</div>
 		
-			<div class="chart big"></div>
-			
 			<div class="charts">
+			<div id="chart1" class="chart big"></div>
+			
+			
 			<div class="chart"></div>
 			<div class="chart"></div>
 			<div class="chart"></div>
@@ -45,5 +50,45 @@
 			<div class="agentname">throughput</div>
 			<div class="chart big"></div>
 		</div>
+		
+		<script type="text/javascript">
+			/**
+			 * Wait till dom's finished loading.
+			 */
+
+			document.observe('dom:loaded', function(){
+				/**
+				 * Fill series d1 and d2 width random values.
+				 */
+
+				var d1 = [];
+				var d2 = [];
+				var d3 = [];			
+
+			    for(var i = 0; i != 30; i++){
+					d1.push([i,Math.ceil(Math.random()*10)]);
+					d2.push([i+0.3, Math.ceil(Math.random()*10)]);
+					d3.push([i+0.6, Math.ceil(Math.random()*20)]);
+				}
+
+				/**
+				 * Draw the graph in the first container.
+				 */
+
+				Flotr.draw(
+					$('chart1'),
+					[
+						{data:d1, color: 'red'}, 
+						{data:d2, color: 'gray'}, 
+						{data:d3, color: 'black'}
+					],
+					{lines: {show:true},
+					 yaxis: {min: 0},
+					 shadowSize: 0
+					}
+				);
+			});			
+		</script>
+		
 	</body>
 </html>
