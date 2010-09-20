@@ -11,15 +11,14 @@
 		<div id="header">
 			<span class="logo">axirassa</span> sentinel
 		</div>
+		
+		<t:actionlink t:id="cpuupdate">update cpu</t:actionlink>
 
 		<div class="agent">
 			<div class="agentname">cpu</div>
 		
 			<div class="charts">
 			<div id="chart1" class="chart big"></div>
-					<p>
-			<t:actionlink t:id="clicker" zone="counterZone">increment the count</t:actionlink>
-		</p>
 			
 			
 			<div class="chart"></div>
@@ -71,7 +70,7 @@
 				 */
 				var dat;
 				
-				new Ajax.Request('/axir/sentinel.clicker', {
+				new Ajax.Request('/axir/sentinel.cpuupdate', {
 					method: 'get',
 					onSuccess: function(transport){
 						dat = transport.responseText.evalJSON();
@@ -82,7 +81,7 @@
 								{data: dat, color: 'red'}
 							],
 							{lines: {show:true},
-							 yaxis: {min: 0},
+							 yaxis: {min: 0, max: 100},
 							 shadowSize: 0
 							}
 						);
