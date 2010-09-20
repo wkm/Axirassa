@@ -5,7 +5,7 @@
 		
 		<script type="text/javascript" src="js/lib/canvas2image.js"></script>
 		<script type="text/javascript" src="js/lib/canvastext.js"></script>
-		<script type="text/javascript" src="js/flotr-0.2.0-alpha.js"></script>
+		<script type="text/javascript" src="js/flotr.debug-0.2.0-alpha.js"></script>
 	</head>
 	<body>
 		<div id="header">
@@ -17,6 +17,9 @@
 		
 			<div class="charts">
 			<div id="chart1" class="chart big"></div>
+					<p>
+			<t:actionlink t:id="clicker" zone="counterZone">increment the count</t:actionlink>
+		</p>
 			
 			
 			<div class="chart"></div>
@@ -55,9 +58,7 @@
 			<p>You clicked the link <strong>${clickCount}</strong> times.</p>
 		</t:zone>
 		
-		<p>
-			<t:actionlink t:id="clicker" zone="counterZone">increment the count</t:actionlink>
-		</p>
+
 		
 		<script type="text/javascript">
 			/**
@@ -68,33 +69,25 @@
 				/**
 				 * Fill series d1 and d2 width random values.
 				 */
-
-				var d1 = [];
-				var d2 = [];
-				var d3 = [];			
-
-			    for(var i = 0; i != 30; i++){
-					d1.push([i,Math.ceil(Math.random()*10)]);
-					d2.push([i+0.3, Math.ceil(Math.random()*10)]);
-					d3.push([i+0.6, Math.ceil(Math.random()*20)]);
-				}
-
-				/**
-				 * Draw the graph in the first container.
-				 */
-
-				Flotr.draw(
-					$('chart1'),
-					[
-						{data:d1, color: 'red'}, 
-						{data:d2, color: 'gray'}, 
-						{data:d3, color: 'black'}
-					],
-					{lines: {show:true},
-					 yaxis: {min: 0},
-					 shadowSize: 0
+				var dat;
+				
+				new Ajax.Request('/axir/sentinel.clicker', {
+					method: 'get',
+					onSuccess: function(transport){
+						dat = transport.responseText.evalJSON();
+						
+						Flotr.draw(
+							$('chart1'),
+							[
+								{data: dat, color: 'red'}
+							],
+							{lines: {show:true},
+							 yaxis: {min: 0},
+							 shadowSize: 0
+							}
+						);
 					}
-				);
+				});
 			});			
 		</script>
 		
