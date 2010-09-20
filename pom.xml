@@ -234,8 +234,8 @@ of a Tapestry Maven plugin is not required.   -->
     </pluginRepositories>
 
     <properties>
-        <tapestry-release-version>5.1.0.5</tapestry-release-version>
-        <hornetq-release-version>2.0.0.GA</hornetq-release-version>
+    	<tapestry-release-version>5.2.0</tapestry-release-version>
+    	<hornetq-release-version>2.0.0.GA</hornetq-release-version>
         <hibernate-release-version>3.5.4</hibernate-release-version>
     </properties>
 </project>
