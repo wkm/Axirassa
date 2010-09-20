@@ -31,5 +31,10 @@
 		<mapping class="com.zanoccio.axirassa.domain.AccountUserModel" />
 		<mapping class="com.zanoccio.axirassa.domain.PingerModel" />
 		
+		<mapping class="com.zanoccio.axirassa.domain.SentinelMachineModel" />
+		
+		<!-- Auxiliary Mappings -->
+		<mapping file="src/main/java/com/zanoccio/axirassa/domain/auxiliary.hbm.xml" />
+		
 	</session-factory>
 </hibernate-configuration>

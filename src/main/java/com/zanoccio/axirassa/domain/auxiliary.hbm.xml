@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping >
+	<!--  Sentinel CPU Statistics -->
+	<database-object>
+		<create>
+			CREATE TABLE IF NOT EXISTS `SentinelCPUStats` (
+			  `Machine_ID` INTEGER UNSIGNED NOT NULL,
+			  `Date` DATETIME NOT NULL,
+			  `Cpu` INT NOT NULL,
+			  `User` DECIMAL(3,3) NOT NULL,
+			  `System` DECIMAL(3,3) NOT NULL,
+			  PRIMARY KEY (`Machine_ID`, `Date`, `Cpu`)
+			)
+			ENGINE = InnoDB;
+		</create>
+		<drop>
+			DROP TABLE IF EXISTS `SentinelCPUStats`;
+		</drop>
+	</database-object>
+
+	<!-- Sentinel Memory Statistics -->
+	<database-object>
+		<create>
+			CREATE TABLE IF NOT EXISTS `SentinelMemoryStats` (
+				`Machine_ID` INTEGER UNSIGNED NOT NULL,
+				`Date` DATETIME NOT NULL,
+				`Free` LONG NOT NULL,
+				`Total` LONG NOT NULL,
+				PRIMARY KEY (`Machine_ID`, `Date`)
+			)
+			ENGINE = InnoDB;
+		</create>
+		<drop>
+			DROP TABLE IF EXISTS `SentinelMemoryStats`;
+		</drop>
+	</database-object>
+	
+	<!-- Sentinel Disk Usage Statistics -->
+	<database-object>
+		<create>
+			CREATE TABLE IF NOT EXISTS `SentinelDiskUsageStats` (
+				`Machine_ID` INTEGER UNSIGNED NOT NULL,
+				`Date` DATETIME NOT NULL,
+				`Disk` VARCHAR(256) NOT NULL,
+				`Free` LONG NOT NULL,
+				`Total` LONG NOT NULL,
+				PRIMARY KEY (`Machine_ID`, `Date`, `Disk`)
+			)
+			Engine = InnoDB;
+		</create>
+		<drop>
+			DROP TABLE IF EXISTS `SentinelDiskUsageStats`;
+		</drop>
+	</database-object>
+	
+	<!-- Network Usage Statistics -->
+	<database-object>
+		<create>
+			CREATE TABLE IF NOT EXISTS `SentinelNetworkStats` (
+				`Machine_ID` INTEGER UNSIGNED NOT NULL,
+				`Date` DATETIME NOT NULL,
+				`Device` VARCHAR(256) NOT NULL,
+				`Send` LONG NOT NULL,
+				`Receive` LONG NOT NULL,
+				PRIMARY KEY (`Machine_ID`, `Date`, `Device`)
+			)
+			Engine = InnoDB;
+		</create>
+		<drop>
+			DROP TABLE IF EXISTS `SentinelNetworkStats`;
+		</drop>
+	</database-object>
+	
+	<!-- Throughput Statistics -->
+	<database-object>
+		<create>
+			CREATE TABLE IF NOT EXISTS `SentinelThroughputStats` (
+				`Machine_ID` INTEGER UNSIGNED NOT NULL,
+				`Date` DATETIME NOT NULL,
+				`Device` VARCHAR(256) NOT NULL,
+				`Send` FLOAT NOT NULL,
+				`Receive` FLOAT NOT NULL,
+				PRIMARY KEY (`Machine_ID`, `Date`, `Device`)
+			)
+			Engine = InnoDB;
+		</create>
+		<drop>
+			DROP TABLE IF EXISTS `SentinelThroughputStats`;
+		</drop>
+	</database-object>
+</hibernate-mapping> 
