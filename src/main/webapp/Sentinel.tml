@@ -1,4 +1,4 @@
-<html>
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 	<head>
 		<title>axirassa | internal systems monitor</title>
 		<link rel="stylesheet" type="text/css" href="css/sentinel.css" />
@@ -50,6 +50,14 @@
 			<div class="agentname">throughput</div>
 			<div class="chart big"></div>
 		</div>
+		
+		<t:zone t:id="counterZone" id="counterZone">
+			<p>You clicked the link <strong>${clickCount}</strong> times.</p>
+		</t:zone>
+		
+		<p>
+			<t:actionlink t:id="clicker" zone="counterZone">increment the count</t:actionlink>
+		</p>
 		
 		<script type="text/javascript">
 			/**
