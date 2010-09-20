@@ -1,0 +1,66 @@
+body {
+	font-family: verdana, tahoma, sans-serif;
+	font-size: 13pt;
+	
+	background: #fff;
+	
+	margin: 0;
+	padding: 0;
+}
+
+#header {
+	font-size: 20pt;
+	font-variant: small-caps;
+	
+	background: #eee;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 5px;
+	
+	color: #500;
+}
+
+.logo {
+	background: #500;
+	color: #fff;
+	padding: 1px 10px 5px 10px;
+	font-weight: bold;
+	}
+	
+.agent {
+	border-bottom: 1px solid #eee;
+	clear: both;
+	
+	}
+	
+.agentname {
+	padding: 2em 1em;
+	
+	color: #666;
+	font-weight: bold;
+	font-size: 10pt;
+	font-variant: small-caps;
+	
+	width: 5.5em;
+	float: left;
+	}
+
+.charts {
+	float: left;
+	display: box;
+	}
+
+.chart {
+	padding: 2px;
+	margin: 5px;
+	
+	border: 1px solid #ccc;
+	float: left;
+	
+	min-height: 100px;
+	min-width: 350px;
+	}
+	
+.big {
+		min-width: 716px;
+		min-height: 216px;
+	}

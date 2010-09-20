@@ -1,0 +1,49 @@
+<html>
+	<head>
+		<title>axirassa | internal systems monitor</title>
+		<link rel="stylesheet" type="text/css" href="css/sentinel.css" />
+	</head>
+	<body>
+		<div id="header">
+			<span class="logo">axirassa</span> sentinel
+		</div>
+
+		<div class="agent">
+			<div class="agentname">cpu</div>
+		
+			<div class="chart big"></div>
+			
+			<div class="charts">
+			<div class="chart"></div>
+			<div class="chart"></div>
+			<div class="chart"></div>
+			<div class="chart"></div>
+			
+			<div class="chart"></div>
+			<div class="chart"></div>
+			<div class="chart"></div>
+			<div class="chart"></div>
+			</div>
+		</div>
+		<div class="agent">
+			<div class="agentname">memory</div>
+			<div class="chart big"></div>
+		</div>
+		<div class="agent">
+			<div class="agentname">disk space</div>
+			<div class="chart big"></div>
+		</div>
+		<div class="agent">
+			<div class="agentname">disk io</div>
+			<div class="chart big"></div>
+		</div>
+		<div class="agent">
+			<div class="agentname">network</div>
+			<div class="chart big"></div>
+		</div>
+		<div class="agent">
+			<div class="agentname">throughput</div>
+			<div class="chart big"></div>
+		</div>
+	</body>
+</html>
