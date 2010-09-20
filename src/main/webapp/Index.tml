@@ -3,4 +3,9 @@
 	<ul>
 		<li><t:pagelink t:page="Register">register</t:pagelink></li>
 	</ul>
+	
+	<h1>Utilities</h1>
+	<ul>
+		<li><t:pagelink t:page="Sentinel">sentinel</t:pagelink></li>
+	</ul>
 </html>
