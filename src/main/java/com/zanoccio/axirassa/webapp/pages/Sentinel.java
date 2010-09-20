@@ -1,12 +1,15 @@
 
 package com.zanoccio.axirassa.webapp.pages;
 
+import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.Zone;
+import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONArray;
+import org.apache.tapestry5.services.Request;
 
 import com.zanoccio.axirassa.webapp.annotations.PublicPage;
 
@@ -23,11 +26,17 @@ public class Sentinel {
 	@InjectComponent
 	private Zone counterZone;
 
+	@Inject
+	private Request request;
 
-	Object onActionFromClicker() {
-		// if (request.isXHR())
-		// // cleanly handle non-JS
-		// return "Sentinel";
+	@Inject
+	private ComponentResources resources;
+
+
+	Object onActionFromCpuupdate() {
+		if (!request.isXHR())
+			// cleanly handle non-JS
+			return "Sentinel";
 
 		clickCount++;
 		JSONArray obj = new JSONArray();
@@ -36,4 +45,9 @@ public class Sentinel {
 
 		return obj;
 	}
+	//
+	//
+	// void beforeRender() {
+	// resources.createEventLink("cpuupdate");
+	// }
 }
