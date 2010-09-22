@@ -21,8 +21,8 @@
 				<div id="chart1" class="chart big"></div>
 				
 				
+				<div class="name">Processor Details</div>
 				<div class="details">
-					<div class="name">Processor Details</div>
 					<div class="chart"></div>
 					<div class="chart"></div>
 					<div class="chart"></div>
@@ -57,7 +57,7 @@
 		</div>
 		
 		<t:zone t:id="counterZone" id="counterZone">
-			<p>You clicked the link <strong>${clickCount}</strong> times.</p>
+			<p>You clicked the link.</p>
 		</t:zone>
 
 		
