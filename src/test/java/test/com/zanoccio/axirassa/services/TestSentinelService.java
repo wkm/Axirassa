@@ -20,8 +20,7 @@ public class TestSentinelService {
 
 		Service service = new SentinelService(session, 1);
 
-		for (int i = 0; i < 3; i++) {
-			System.out.println(i + "...");
+		for (int i = 0; i < 100; i++) {
 			service.execute();
 			Thread.sleep(1000);
 		}
