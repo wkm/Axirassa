@@ -81,7 +81,7 @@
 						Flotr.draw(
 							$('chart1'),
 							[
-								{data: dat, color: 'red'}
+								{data: dat, color: '#ff9900'}
 							],
 							{lines: {show:true},
 							 yaxis: {min: 0, max: 100},
