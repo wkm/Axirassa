@@ -158,6 +158,8 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
                              that prevents the requestLog from being set. -->
                         <append>true</append>
                     </requestLog>
+                    
+                    <webDefaultXml>src/main/webapp/WEB-INF/webdefault.xml</webDefaultXml>
                 </configuration>
             </plugin>
         </plugins>
