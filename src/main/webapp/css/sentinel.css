@@ -1,33 +1,41 @@
+@import url(http://fonts.googleapis.com/css?family=Molengo&subset=latin);
+
 body {
 	font-family: verdana, tahoma, sans-serif;
 	font-size: 13pt;
 	
 	background: #fafafa;
 	
+	margin-top: 2px;
+	border-top: 1px solid #900;
+	
 	margin: 0;
 	padding: 0;
 }
 
 #header {
-	font-size: 20pt;
-	font-variant: small-caps;
+	font-size: 26pt;
 	
-	background: #eee;
-	border-bottom: 1px solid #ccc;
 	padding-bottom: 5px;
+	margin: 10px 0;
 	
-	color: #500;
+	border-left: 10px solid #900;
+	
+	color: #666;
+	
+	text-transform: uppercase;
+	font-family: 'Molengo';
 }
 
 .logo {
-	background: #500;
-	color: #fff;
-	padding: 1px 10px 5px 10px;
+	color: #900;
+	padding: 1px 0px 5px 10px;
 	font-weight: bold;
 	}
 	
 .agent {
-	border-bottom: 1px solid #eee;
+	padding-bottom: 10px;
+	border-bottom: 1px dotted #ccc;
 	clear: both;
 	float: left;	
 	}
@@ -37,10 +45,12 @@ body {
 	font-variant: small-caps;
 	text-transform: lowercase;
 	font-weight: bold;
+	
+	padding-left: 23px;
 }
 	
 .agentname {
-	padding: 2em 1em;
+	padding: 2em 0 0 15px;
 	
 	color: #666;
 	font-weight: bold;
@@ -50,6 +60,10 @@ body {
 	width: 5.5em;
 	float: left;
 	}
+	
+.details {
+	display: none;
+}
 
 .charts {
 	display: inline-block;
