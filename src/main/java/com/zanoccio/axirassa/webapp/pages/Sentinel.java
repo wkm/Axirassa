@@ -1,30 +1,28 @@
 
 package com.zanoccio.axirassa.webapp.pages;
 
+import java.util.List;
+
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Import;
-import org.apache.tapestry5.annotations.InjectComponent;
-import org.apache.tapestry5.annotations.Persist;
-import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONArray;
 import org.apache.tapestry5.services.Request;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import com.zanoccio.axirassa.util.HibernateUtil;
 import com.zanoccio.axirassa.webapp.annotations.PublicPage;
 
 @PublicPage
 @Import(library = "${tapestry.scriptaculous}/prototype.js")
 public class Sentinel {
-	@Property
-	@Persist
-	private int clickCount;
+
+	private final static String querysql = "SELECT date, SUM(user), SUM(system) FROM SentinelCPUStats WHERE Machine_ID = 1 GROUP BY date";
 
 	// @InjectComponent
 	// private Request request;
-
-	@InjectComponent
-	private Zone counterZone;
 
 	@Inject
 	private Request request;
@@ -34,20 +32,22 @@ public class Sentinel {
 
 
 	Object onActionFromCpuupdate() {
-		if (!request.isXHR())
-			// cleanly handle non-JS
-			return "Sentinel";
+		// if (!request.isXHR())
+		// // cleanly handle non-JS
+		// return "Sentinel";
 
-		clickCount++;
+		Session session = HibernateUtil.getSession();
+
+		// execute a search query
+		Transaction transaction = session.beginTransaction();
+		SQLQuery query = session.createSQLQuery(querysql);
+		List<Object[]> result = query.list();
+
 		JSONArray obj = new JSONArray();
-		for (int i = 0; i < 30; i++)
-			obj.put(new JSONArray(i, Math.ceil(Math.random() * 10)));
+		for (Object[] row : result) {
+			obj.put(row);
+		}
 
 		return obj;
 	}
-	//
-	//
-	// void beforeRender() {
-	// resources.createEventLink("cpuupdate");
-	// }
 }
