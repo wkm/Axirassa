@@ -2,7 +2,7 @@ body {
 	font-family: verdana, tahoma, sans-serif;
 	font-size: 13pt;
 	
-	background: #fff;
+	background: #fafafa;
 	
 	margin: 0;
 	padding: 0;
@@ -29,8 +29,15 @@ body {
 .agent {
 	border-bottom: 1px solid #eee;
 	clear: both;
-	
+	float: left;	
 	}
+	
+.name {
+	font-size: 10pt;
+	font-variant: small-caps;
+	text-transform: lowercase;
+	font-weight: bold;
+}
 	
 .agentname {
 	padding: 2em 1em;
@@ -45,15 +52,17 @@ body {
 	}
 
 .charts {
+	display: inline-block;
 	float: left;
-	display: box;
+	max-width: 750px;
 	}
 
 .chart {
 	padding: 2px;
 	margin: 5px;
 	
-	border: 1px solid #ccc;
+	background: #fff;
+	border: 1px solid #eee;
 	float: left;
 	
 	min-height: 100px;

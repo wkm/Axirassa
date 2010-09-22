@@ -18,18 +18,21 @@
 			<div class="agentname">cpu</div>
 		
 			<div class="charts">
-			<div id="chart1" class="chart big"></div>
-			
-			
-			<div class="chart"></div>
-			<div class="chart"></div>
-			<div class="chart"></div>
-			<div class="chart"></div>
-			
-			<div class="chart"></div>
-			<div class="chart"></div>
-			<div class="chart"></div>
-			<div class="chart"></div>
+				<div id="chart1" class="chart big"></div>
+				
+				
+				<div class="details">
+					<div class="name">Processor Details</div>
+					<div class="chart"></div>
+					<div class="chart"></div>
+					<div class="chart"></div>
+					<div class="chart"></div>
+					
+					<div class="chart"></div>
+					<div class="chart"></div>
+					<div class="chart"></div>
+					<div class="chart"></div>
+				</div>
 			</div>
 		</div>
 		<div class="agent">
