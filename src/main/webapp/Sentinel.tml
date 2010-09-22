@@ -59,20 +59,11 @@
 		<t:zone t:id="counterZone" id="counterZone">
 			<p>You clicked the link <strong>${clickCount}</strong> times.</p>
 		</t:zone>
-		
 
 		
 		<script type="text/javascript">
-			/**
-			 * Wait till dom's finished loading.
-			 */
-
 			document.observe('dom:loaded', function(){
-				/**
-				 * Fill series d1 and d2 width random values.
-				 */
 				var dat;
-				
 				new Ajax.Request('/axir/sentinel.cpuupdate', {
 					method: 'get',
 					onSuccess: function(transport){
@@ -83,7 +74,9 @@
 							[
 								{data: dat, color: '#ff9900'}
 							],
-							{lines: {show:true},
+							{
+							 grid: {color: '#666', backgroundColor: '#fff'},
+							 lines: {show:true},
 							 yaxis: {min: 0, max: 100},
 							 shadowSize: 0
 							}
