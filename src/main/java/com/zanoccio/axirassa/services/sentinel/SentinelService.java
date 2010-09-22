@@ -81,20 +81,16 @@ public class SentinelService implements Service {
 
 	public void insertData() {
 		Date date = new Date();
-		System.out.println("Date: " + date);
 
 		Transaction transaction = session.beginTransaction();
 		if (cpustat != null) {
 			SQLQuery query = session.createSQLQuery(CPU_STAT_INSERT);
-			System.out.println(query.getQueryString());
+
 			query.setInteger(0, machineid);
 			query.setTimestamp(1, date);
 			for (CpuStat stat : cpustat) {
-				System.out.println("CPU: " + stat.cpuid);
 				query.setInteger(2, stat.cpuid);
 
-				System.out.println("user: " + stat.user);
-				System.out.println("sys:  " + stat.system);
 				query.setDouble(3, stat.user);
 				query.setDouble(4, stat.system);
 				query.executeUpdate();
@@ -102,7 +98,6 @@ public class SentinelService implements Service {
 		}
 
 		if (memorystat != null) {
-			System.out.println("memory");
 			SQLQuery query = session.createSQLQuery(MEMORY_STAT_INSERT);
 			query.setInteger(0, machineid);
 			query.setTimestamp(1, date);
