@@ -8,7 +8,7 @@
 		<create>
 			CREATE TABLE SentinelCPUStats (
 			  Machine_ID INTEGER NOT NULL,
-			  Date DATETIME NOT NULL,
+			  Date TIMESTAMP NOT NULL,
 			  Cpu INT NOT NULL,
 			  User DECIMAL(3,3) NOT NULL,
 			  System DECIMAL(3,3) NOT NULL,
@@ -25,7 +25,7 @@
 		<create>
 			CREATE TABLE `SentinelMemoryStats` (
 				`Machine_ID` INTEGER  NOT NULL,
-				`Date` DATETIME NOT NULL,
+				`Date` TIMESTAMP NOT NULL,
 				`Free` LONG NOT NULL,
 				`Total` LONG NOT NULL,
 				PRIMARY KEY (`Machine_ID`, `Date`)
@@ -41,7 +41,7 @@
 		<create>
 			CREATE TABLE `SentinelDiskUsageStats` (
 				`Machine_ID` INTEGER  NOT NULL,
-				`Date` DATETIME NOT NULL,
+				`Date` TIMESTAMP NOT NULL,
 				`Disk` VARCHAR(256) NOT NULL,
 				`Free` LONG NOT NULL,
 				`Total` LONG NOT NULL,
@@ -58,7 +58,7 @@
 		<create>
 			CREATE TABLE `SentinelNetworkStats` (
 				`Machine_ID` INTEGER  NOT NULL,
-				`Date` DATETIME NOT NULL,
+				`Date` TIMESTAMP NOT NULL,
 				`Device` VARCHAR(256) NOT NULL,
 				`Send` LONG NOT NULL,
 				`Receive` LONG NOT NULL,
@@ -75,7 +75,7 @@
 		<create>
 			CREATE TABLE `SentinelThroughputStats` (
 				`Machine_ID` INTEGER  NOT NULL,
-				`Date` DATETIME NOT NULL,
+				`Date` TIMESTAMP NOT NULL,
 				`Device` VARCHAR(256) NOT NULL,
 				`Send` FLOAT NOT NULL,
 				`Receive` FLOAT NOT NULL,
