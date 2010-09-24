@@ -71,7 +71,7 @@ public class SentinelService implements Service {
 		// MEMORY
 		memorystat = new MemoryStat();
 		Mem mem = sigar.getMem();
-		memorystat.free = mem.getActualFree();
+		memorystat.used = mem.getActualUsed();
 		memorystat.total = mem.getTotal();
 
 		// DISK USAGE STAT
@@ -101,7 +101,7 @@ public class SentinelService implements Service {
 			SQLQuery query = session.createSQLQuery(MEMORY_STAT_INSERT);
 			query.setInteger(0, machineid);
 			query.setTimestamp(1, date);
-			query.setLong(2, memorystat.free);
+			query.setLong(2, memorystat.used);
 			query.setLong(3, memorystat.total);
 
 			query.executeUpdate();
@@ -118,7 +118,7 @@ class CpuStat {
 }
 
 class MemoryStat {
-	long free;
+	long used;
 	long total;
 }
 
