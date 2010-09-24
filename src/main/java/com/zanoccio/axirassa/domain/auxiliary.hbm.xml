@@ -26,7 +26,7 @@
 			CREATE TABLE `SentinelMemoryStats` (
 				`Machine_ID` INTEGER  NOT NULL,
 				`Date` TIMESTAMP NOT NULL,
-				`Free` LONG NOT NULL,
+				`Used` LONG NOT NULL,
 				`Total` LONG NOT NULL,
 				PRIMARY KEY (`Machine_ID`, `Date`)
 			)
@@ -43,7 +43,7 @@
 				`Machine_ID` INTEGER  NOT NULL,
 				`Date` TIMESTAMP NOT NULL,
 				`Disk` VARCHAR(256) NOT NULL,
-				`Free` LONG NOT NULL,
+				`Used` LONG NOT NULL,
 				`Total` LONG NOT NULL,
 				PRIMARY KEY (`Machine_ID`, `Date`, `Disk`)
 			)
