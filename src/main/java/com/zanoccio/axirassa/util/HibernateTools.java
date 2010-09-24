@@ -5,8 +5,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
-public class HibernateUtil {
-	private static SessionFactory sessionfactory = buildSessionFactory();
+public class HibernateTools {
+	private static SessionFactory sessionfactory;
 
 
 	private static SessionFactory buildSessionFactory() {
@@ -20,6 +20,9 @@ public class HibernateUtil {
 
 
 	public static SessionFactory getSessionFactory() {
+		if (sessionfactory == null)
+			sessionfactory = buildSessionFactory();
+
 		return sessionfactory;
 	}
 
@@ -30,6 +33,6 @@ public class HibernateUtil {
 
 
 	public static Session getSession() {
-		return sessionfactory.openSession();
+		return getSessionFactory().openSession();
 	}
 }
