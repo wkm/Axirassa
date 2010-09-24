@@ -21,7 +21,7 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.classic.Session;
 
 import com.zanoccio.axirassa.domain.exception.NoSaltException;
-import com.zanoccio.axirassa.util.HibernateUtil;
+import com.zanoccio.axirassa.util.HibernateTools;
 import com.zanoccio.axirassa.util.MessageDigestProvider;
 import com.zanoccio.axirassa.util.RandomStringGenerator;
 
@@ -37,7 +37,7 @@ public class UserModel implements Serializable {
 	//
 
 	public static boolean isEmailRegistered(String email) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Session session = HibernateTools.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
 		Query query = session.createQuery("select user.Email from UserModel as user where user.Email = ?");

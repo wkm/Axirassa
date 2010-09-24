@@ -3,7 +3,7 @@ package com.zanoccio.axirassa.domainpaths;
 
 import org.hibernate.Session;
 
-import com.zanoccio.axirassa.util.HibernateUtil;
+import com.zanoccio.axirassa.util.HibernateTools;
 
 public abstract class AbstractDomainPath implements DomainPath {
 
@@ -14,7 +14,7 @@ public abstract class AbstractDomainPath implements DomainPath {
 	@Deprecated
 	@Override
 	public void execute() throws Exception {
-		Session session = HibernateUtil.getSession();
+		Session session = HibernateTools.getSession();
 		session.beginTransaction();
 		execute(session);
 		session.getTransaction().commit();

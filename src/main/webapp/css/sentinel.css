@@ -7,7 +7,7 @@ body {
 	background: #fafafa;
 	
 	margin-top: 2px;
-	border-top: 1px solid #900;
+	border-top: 2px solid #900;
 	
 	margin: 0;
 	padding: 0;
@@ -32,7 +32,11 @@ body {
 	padding: 1px 0px 5px 10px;
 	font-weight: bold;
 	}
-	
+
+.host {
+	color: #000;
+}
+
 .agent {
 	padding-bottom: 10px;
 	border-bottom: 1px dotted #ccc;
@@ -46,11 +50,11 @@ body {
 	text-transform: lowercase;
 	font-weight: bold;
 	
-	padding-left: 23px;
+	padding-left: 33px;
 }
 	
 .agentname {
-	padding: 2em 0 0 15px;
+	padding: 2em 0 0 22px;
 	
 	color: #666;
 	font-weight: bold;

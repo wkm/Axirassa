@@ -24,9 +24,9 @@ public class AbstractDomainTest {
 		// .setProperty("hibernate.cache.provider_class",
 		// "org.hibernate.cache.HashtableCacheProvider")
 		        .setProperty("hibernate.hbm2ddl.auto", "create-drop").setProperty("hibernate.show_sql", "true");
-		HibernateUtil.setSessionFactory(config.buildSessionFactory());
+		HibernateTools.setSessionFactory(config.buildSessionFactory());
 
-		session = HibernateUtil.getSession();
+		session = HibernateTools.getSession();
 	}
 
 
