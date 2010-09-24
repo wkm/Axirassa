@@ -13,13 +13,14 @@
 			<span class="logo">axirassa</span> sentinel &#8212; <span class="host">zanoccio.com</span>
 		</div>
 		
-		<t:actionlink t:id="cpuupdate">update cpu</t:actionlink>
+		<t:actionlink t:id="cpuupdate">update cpu</t:actionlink><br/>
+		<t:actionlink t:id="memupdate">update mem</t:actionlink>
 
 		<div class="agent">
 			<div class="agentname">cpu</div>
 		
 			<div class="charts">
-				<div id="chart1" class="chart big"></div>
+				<div id="cpuchart" class="chart big"></div>
 				
 				
 				<div class="name">Processor Details</div>
@@ -38,7 +39,7 @@
 		</div>
 		<div class="agent">
 			<div class="agentname">memory</div>
-			<div class="chart big"></div>
+			<div id='memchart' class="chart big"></div>
 		</div>
 		<div class="agent">
 			<div class="agentname">disk space</div>
@@ -60,11 +61,14 @@
 		<t:zone t:id="counterZone" id="counterZone">
 			<p>You clicked the link.</p>
 		</t:zone>
+		
+		
 
 		
 		<script type="text/javascript">
 			document.observe('dom:loaded', function(){
-				plotchart('chart1', '/axir/sentinel.cpuupdate')
+				plotchart('cpuchart', '/axir/sentinel.cpuupdate', 'percent', '#f90'),
+				plotchart('memchart', '/axir/sentinel.memupdate', 'data', '#f09')
 			});			
 		</script>
 		

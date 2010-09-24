@@ -27,19 +27,60 @@ function formattime(date) {
   return hour+":"+minute+ampm;
 }
 
+function percentTicks(n, max) {
+	return n+"%";
+}
+
+var gib = Math.pow(2, 30);
+var mib = Math.pow(2, 20);
+var kib = Math.pow(2, 10);
+
+function dataTicks(n, max) {
+	var base;
+	var unit;
+	if(max > gib) {
+		base = (n / gib);
+		unit = "GiB";
+	} else if(max > mib) {
+		base = (n / mib);
+		unit = "MiB";
+	} else {
+		base = (n / kib);
+		unit = "KiB";
+	}
+	
+	return base.toFixed(2) + unit;
+}
+
 //
 // Chart Plotting
 //
-function plotchart(id, url) {
+function plotchart(id, url, mode, color) {
 	new Ajax.Request(url, {
 		method: 'get',
 		onSuccess: function(transport) {
 			var dat = transport.responseText.evalJSON();
+			
+			var max;
+			var tickfn;
+			switch(mode) {
+			case 'percent':
+				max = 800;
+				tickfn = percentTicks;
+				break;
+				
+			case 'data':
+				max = dat[0];
+				dat = dat[1];
+				tickfn = dataTicks;
+				break;
+			}
+			
 		
 			Flotr.draw(
 					$(id),
 					[
-					 {data: dat, color: '#ff9900'}
+					 {data: dat, color: color}
 					],
 					{
 						grid: {color: '#666', backgroundColor: '#fff'},
@@ -54,9 +95,9 @@ function plotchart(id, url) {
 						},
 						yaxis: {
 							min: 0, 
-							max: 800,
+							max: max,
 							tickFormatter: function(n) {
-								return n + "%";
+								return tickfn(n, max);
 							}
 						}
 					}
