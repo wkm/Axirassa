@@ -3,13 +3,14 @@
 		<title>axirassa | internal systems monitor</title>
 		<link rel="stylesheet" type="text/css" href="css/sentinel.css" />
 		
+		<script type="text/javascript" src="js/sentinel.js"></script>
 		<script type="text/javascript" src="js/lib/canvas2image.js"></script>
 		<script type="text/javascript" src="js/lib/canvastext.js"></script>
 		<script type="text/javascript" src="js/flotr.debug-0.2.0-alpha.js"></script>
 	</head>
 	<body>
 		<div id="header">
-			<span class="logo">axirassa</span> sentinel
+			<span class="logo">axirassa</span> sentinel &#8212; <span class="host">zanoccio.com</span>
 		</div>
 		
 		<t:actionlink t:id="cpuupdate">update cpu</t:actionlink>
@@ -63,26 +64,7 @@
 		
 		<script type="text/javascript">
 			document.observe('dom:loaded', function(){
-				var dat;
-				new Ajax.Request('/axir/sentinel.cpuupdate', {
-					method: 'get',
-					onSuccess: function(transport){
-						dat = transport.responseText.evalJSON();
-						
-						Flotr.draw(
-							$('chart1'),
-							[
-								{data: dat, color: '#ff9900'}
-							],
-							{
-							 grid: {color: '#666', backgroundColor: '#fff'},
-							 lines: {show:true},
-							 yaxis: {min: 0, max: 100},
-							 shadowSize: 0
-							}
-						);
-					}
-				});
+				plotchart('chart1', '/axir/sentinel.cpuupdate')
 			});			
 		</script>
 		
