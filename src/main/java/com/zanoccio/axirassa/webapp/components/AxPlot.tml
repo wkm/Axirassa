@@ -1,16 +1,14 @@
 <div class="charts" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
-	<div class="chart big"  id="${id}">
-	</div>
-	<div class="name">Processor Details</div>
-	<div class="details">
-		<div class="chart"></div>
-		<div class="chart"></div>
-		<div class="chart"></div>
-		<div class="chart"></div>
+	<div class="chart big"  id="${id}"></div>
+	<t:axopener header="Show Processor Details" >
+		<div class="chart">a</div>
+		<div class="chart">b</div>
+		<div class="chart">c</div>
+		<div class="chart">d</div>
 		
-		<div class="chart"></div>
-		<div class="chart"></div>
-		<div class="chart"></div>
-		<div class="chart"></div>
-	</div>
+		<div class="chart">f</div>
+		<div class="chart">g</div>
+		<div class="chart">h</div>
+		<div class="chart">i</div>
+	</t:axopener>
 </div>
