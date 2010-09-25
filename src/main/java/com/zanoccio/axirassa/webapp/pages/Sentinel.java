@@ -52,8 +52,6 @@ public class Sentinel {
 			double user = 100 * ((BigDecimal) row[1]).doubleValue();
 			double system = 100 * ((BigDecimal) row[2]).doubleValue();
 
-			System.out.println("Current time: " + time);
-
 			obj.put(new JSONArray(time.getTime(), user, system));
 		}
 
