@@ -39,7 +39,8 @@ body {
 
 .agent {
 	padding-bottom: 10px;
-	border-bottom: 1px dotted #ccc;
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #eee;
 	clear: both;
 	float: left;	
 	}
