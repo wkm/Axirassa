@@ -3,72 +3,67 @@
 		<title>axirassa | internal systems monitor</title>
 		<link rel="stylesheet" type="text/css" href="css/sentinel.css" />
 		
-		<script type="text/javascript" src="js/sentinel.js"></script>
-		<script type="text/javascript" src="js/lib/canvas2image.js"></script>
-		<script type="text/javascript" src="js/lib/canvastext.js"></script>
-		<script type="text/javascript" src="js/flotr.debug-0.2.0-alpha.js"></script>
+		<script type="text/javascript">
+			var gOverride = {
+			  center: false,
+			  
+			  gColor: '#333333',
+			  gColumns: 9,
+			  gOpacity: 0.05,
+			  gWidth: 10,
+			  
+			  pColor: '#0000ff',
+			  pHeight: 15,
+			  pOffset: 0,
+			  pOpacity: 0.1,
+			  gEnabled: true,
+			  pEnabled: true,
+			  
+			  setupEnabled: false,
+			  fixFlash: true,
+			  size: 900
+			};
+			
+			createGridder = function() {
+			  document.body.appendChild(
+			    document.createElement('script')).src='http://gridder.andreehansson.se/releases/1.3.1/960.gridder.js';
+			}
+			</script>
 	</head>
-	<body>
+	<body >
 		<div id="header">
 			<span class="logo">axirassa</span> sentinel &#8212; <span class="host">zanoccio.com</span>
 		</div>
-		
-		<t:actionlink t:id="cpuupdate">update cpu</t:actionlink><br/>
-		<t:actionlink t:id="memupdate">update mem</t:actionlink>
 
 		<div class="agent">
 			<div class="agentname">cpu</div>
 		
-			<div class="charts">
-				<div id="cpuchart" class="chart big"></div>
-				
-				
-				<div class="name">Processor Details</div>
-				<div class="details">
-					<div class="chart"></div>
-					<div class="chart"></div>
-					<div class="chart"></div>
-					<div class="chart"></div>
-					
-					<div class="chart"></div>
-					<div class="chart"></div>
-					<div class="chart"></div>
-					<div class="chart"></div>
-				</div>
-			</div>
+			<t:axplot t:id="cpuupdate" source="/axir/sentinel.cpuupdate" type="percent" color="#f90" />
 		</div>
 		<div class="agent">
 			<div class="agentname">memory</div>
-			<div id='memchart' class="chart big"></div>
+			<t:axplot t:id="memupdate" source="/axir/sentinel.memupdate" type="data" color="#f09" />
 		</div>
 		<div class="agent">
 			<div class="agentname">disk space</div>
-			<div class="chart big"></div>
 		</div>
 		<div class="agent">
 			<div class="agentname">disk io</div>
-			<div class="chart big"></div>
 		</div>
 		<div class="agent">
 			<div class="agentname">network</div>
-			<div class="chart big"></div>
 		</div>
 		<div class="agent">
 			<div class="agentname">throughput</div>
-			<div class="chart big"></div>
 		</div>
-		
-		<t:zone t:id="counterZone" id="counterZone">
-			<p>You clicked the link.</p>
-		</t:zone>
 		
 		
 
 		
 		<script type="text/javascript">
 			document.observe('dom:loaded', function(){
-				plotchart('cpuchart', '/axir/sentinel.cpuupdate', 'percent', '#f90'),
-				plotchart('memchart', '/axir/sentinel.memupdate', 'data', '#f09')
+//				plotchart('cpuchart', '/axir/sentinel.cpuupdate', 'percent', '#f90'),
+//				plotchart('memchart', '/axir/sentinel.memupdate', 'data', '#f09')
 			});			
 		</script>
 		
