@@ -27,6 +27,11 @@ public class RandomStringGenerator {
 	}
 
 
+	public static String makeRandomString(int length) {
+		return getInstance().randomString(length);
+	}
+
+
 	/**
 	 * @return a string of the given length containing a base-32 encoded random
 	 *         number.
