@@ -6,6 +6,8 @@ import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
+import com.zanoccio.axirassa.util.RandomStringGenerator;
+
 @Import(library = {
         "context:js/flotr.debug-0.2.0-alpha.js", "context:js/sentinel.js", "context:js/lib/canvas2image.js",
         "context:js/lib/canvastext.js" })
@@ -25,7 +27,7 @@ public class AxPlot {
 
 	// ID
 	public static String generateID() {
-		return "plot_" + "abdda";// RandomStringGenerator.makeRandomString(4);
+		return "plot_" + RandomStringGenerator.getInstance().randomString(5);
 	}
 
 
