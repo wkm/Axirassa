@@ -56,16 +56,5 @@
 		<div class="agent">
 			<div class="agentname">throughput</div>
 		</div>
-		
-		
-
-		
-		<script type="text/javascript">
-			document.observe('dom:loaded', function(){
-//				plotchart('cpuchart', '/axir/sentinel.cpuupdate', 'percent', '#f90'),
-//				plotchart('memchart', '/axir/sentinel.memupdate', 'data', '#f09')
-			});			
-		</script>
-		
 	</body>
 </html>
