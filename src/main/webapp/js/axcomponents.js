@@ -60,7 +60,7 @@ var ax = new function() {
 					// create sub graph boxes
 					var detailsnode = $(id + "_details_body");
 					var index = 0;
-					$(detailsnode).show();
+					
 					data['labels'].map(function(label){
 						$(detailsnode).insert(new Element('div', {
 							'class': 'chart axp',
@@ -105,8 +105,10 @@ var ax = new function() {
 									return percentTicks(n);
 								}
 							}
-						});						
+						});				
 					}
+					
+					$(detailsnode).hide();
 					
 					$(id).update('Aggregating data...');
 					chartdata = new Array(datasz);
