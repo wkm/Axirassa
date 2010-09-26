@@ -1,6 +1,11 @@
 <div id="${id}" class="axo" style="${style}" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
-	<div class="axo_header" onclick="ax.opener_toggle('${id}')">${header}</div>
-	<div id="${id}_body" class="axo_body" style="display:${display};">
+	<div 
+		id="${id}_header"
+		class="axo_header ${initialclass}" 
+		onclick="ax.opener_toggle('${id}')">
+		${header}
+	</div>
+	<div id="${id}_body" class="axo_body" style="display:${initialdisplay};">
 		<t:body/>
 	</div>
 </div>

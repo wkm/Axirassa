@@ -35,11 +35,18 @@ var ax = new function() {
 	};
 	
 	this.opener_toggle = function(id) {
-		var obj = $($(id+"_body"));
-		if(obj.visible() == false)
-			obj.show();
-		else
-			obj.hide();
+		var header = $(id+"_header");
+		var body = $(id+"_body");
+		
+		if (body.visible() == false) {
+			header.removeClassName("axo_closed");
+			body.show();
+			header.addClassName("axo_open");
+		} else {
+			header.removeClassName("axo_open");
+			body.hide();
+			header.addClassName("axo_closed");
+		}
 	};
 	
 	this.agentcontrol = function(id, source) {

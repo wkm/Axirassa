@@ -83,10 +83,18 @@ public class AxOpener {
 	}
 
 
-	public String getDisplay() {
+	public String getInitialDisplay() {
 		if (isOpen())
 			return "default";
 		else
 			return "none";
+	}
+
+
+	public String getInitialClass() {
+		if (isOpen())
+			return "axo_open";
+		else
+			return "axo_closed";
 	}
 }

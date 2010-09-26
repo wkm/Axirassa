@@ -26,19 +26,17 @@
 	cursor: pointer;
 }
 
-.axo_header:before {
+.axo_open:before {
+	content: url("/axir/media/openerdown.png");
+	padding-right: 5px;
+	padding-top: 5px;
+}
+
+.axo_closed:before {
 	content: url("/axir/media/openerup.png");
 	padding-right: 5px;
 }
 
 .axo_header:hover {
 	background: #eee;
-}
-
-.axo_open {
-	background: #00f;
-}
-
-.axo_closed {
-	background: #f00;
 }
