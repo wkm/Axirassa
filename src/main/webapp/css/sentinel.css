@@ -44,7 +44,7 @@ body {
 	border-bottom: 1px solid #ddd;
 	border-right: 1px solid #eee;
 	clear: both;
-	float: left;	
+	float: left;
 	}
 	
 .name {
@@ -67,10 +67,6 @@ body {
 	width: 5.5em;
 	float: left;
 	}
-	
-.details {
-	display: none;
-}
 
 .charts {
 	display: inline-block;
@@ -84,12 +80,12 @@ body {
 	float: left;
 	
 	min-height: 100px;
-	min-width: 350px;
+	min-width: 355px;
 	font-size: 7pt;
 	}
 	
 .big {
-		min-width: 700px;
+		min-width: 750px;
 		min-height: 216px;
 		
 		float: none;
