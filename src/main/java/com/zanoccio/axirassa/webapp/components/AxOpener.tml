@@ -1,4 +1,4 @@
-<div id="${id}" class="axo" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<div id="${id}" class="axo" style="${style}" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 	<div class="axo_header" onclick="ax.opener_toggle('${id}')">${header}</div>
 	<div id="${id}_body" class="axo_body" style="display:none;">
 		<t:body/>

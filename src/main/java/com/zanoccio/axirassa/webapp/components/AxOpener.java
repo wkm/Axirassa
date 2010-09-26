@@ -44,4 +44,16 @@ public class AxOpener {
 	public String getHeader() {
 		return header;
 	}
+
+
+	// STYLE
+	@Parameter(defaultPrefix = "literal")
+	private String style;
+
+
+	public String getStyle() {
+		if (style == null)
+			style = "\"\"";
+		return style;
+	}
 }
