@@ -73,6 +73,9 @@ var ax = new function() {
 					var rawdata = data['data'];
 					var chardata;
 					
+					var visible = $(detailsnode).visible();
+					$(detailsnode).show();
+					
 					// refactor data, create charts
 					for (var i = 0; i < length; i++) {
 						// thread over dates
@@ -105,10 +108,11 @@ var ax = new function() {
 									return percentTicks(n);
 								}
 							}
-						});				
+						});
 					}
 					
-					$(detailsnode).hide();
+					if(!visible)
+						$(detailsnode).hide();
 					
 					$(id).update('Aggregating data...');
 					chartdata = new Array(datasz);
