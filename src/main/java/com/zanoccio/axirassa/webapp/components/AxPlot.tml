@@ -1,13 +1,5 @@
 <div class="charts" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 	<div class="chart big"  id="${id}"></div>
-	<t:axopener header="Show Processor Details" >
-		<div class="chart">CPU 0</div>
-		<div class="chart">CPU 1</div>
-		<div class="chart">CPU 2</div>
-		<div class="chart">CPU 3</div>
-		<div class="chart">CPU 4</div>
-		<div class="chart">CPU 5</div>
-		<div class="chart">CPU 6</div>
-		<div class="chart">CPU 7</div>
+	<t:axopener header="Show Processor Details" id="${id}_details" >
 	</t:axopener>
 </div>

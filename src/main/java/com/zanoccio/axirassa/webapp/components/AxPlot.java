@@ -10,7 +10,7 @@ import com.zanoccio.axirassa.util.RandomStringGenerator;
 
 @Import(library = {
         "context:js/flotr.debug-0.2.0-alpha.js", "context:js/sentinel.js", "context:js/lib/canvas2image.js",
-        "context:js/lib/canvastext.js" })
+        "context:js/lib/canvastext.js" }, stylesheet = "context:css/axcomponents.css")
 public class AxPlot {
 
 	@Environmental
@@ -20,8 +20,7 @@ public class AxPlot {
 	void setupRender() {
 		// javascriptsupport.addInitializerCall("plotchart", getID());
 
-		javascriptsupport.addScript("sentinel.plotchart('%s', '%s', '%s', '%s')", getID(), getSource(), getType(),
-		                            getColor());
+		javascriptsupport.addScript("ax.agentcontrol('%s', '%s')", getID(), getSource());
 	}
 
 
