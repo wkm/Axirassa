@@ -27,11 +27,11 @@ var sentinel = new function() {
 	  }
 	  
 	  return hour+":"+minute+ampm;
-	}
+	};
 	
 	function percentTicks(n, max) {
 		return n+"%";
-	}
+	};
 	
 	var gib = Math.pow(2, 30);
 	var mib = Math.pow(2, 20);
