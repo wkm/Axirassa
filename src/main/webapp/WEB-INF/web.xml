@@ -31,6 +31,14 @@ of where to look for pages, components and mixins. -->
     	<param-name>tapestry.compress-whitespace</param-name>
     	<param-value>false</param-value>
     </context-param>
+	<context-param>
+		<param-name>tapestry.production-mode</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	<context-param>
+		<param-name>tapestry.omit-generator-meta</param-name>
+		<param-value>true</param-value>
+	</context-param>
     <filter>
         <filter-name>app</filter-name>
         <filter-class>org.apache.tapestry5.TapestryFilter</filter-class>
