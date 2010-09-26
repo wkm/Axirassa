@@ -1,3 +1,16 @@
+@CHARSET "UTF-8";
+
+/* AxPlot */
+.axp_loading {
+	background: #eee;
+	font-weight: bold;
+	border: 1px solid #ccc;
+}
+
+.axp {
+	padding: 5px;
+}
+
 /* AxOpener */
 .axo_body {
 	margin-left: 1em;
@@ -10,9 +23,14 @@
 	font-variant: small-caps;
 	text-transform: lowercase;
 	
-	padding-left: 33px;
+	padding-left: 5px;
 	
 	cursor: pointer;
+}
+
+.axo_header:before {
+	content: url("/axir/media/openerup.png");
+	padding-right: 5px;
 }
 
 .axo_header:hover {
