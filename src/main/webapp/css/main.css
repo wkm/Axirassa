@@ -16,7 +16,6 @@ body {
 	font-size: 24pt;
 	
 	color: rgb(163, 40, 10);
-	text-shadow: 0 1px 1px rgba(50,0,0,0.2);  
 	
 	font-variant: small-caps;
 }
@@ -47,9 +46,7 @@ h1 {
 	font-weight: normal;
 	color: rgb(125, 12, 15);
 	margin-bottom: 1em;
-
-	/*text-shadow: 0 1px 1px rgba(50,50,50,0.5);*/
-};
+}
 
 .errorMessage {
 	background: #fcc;
