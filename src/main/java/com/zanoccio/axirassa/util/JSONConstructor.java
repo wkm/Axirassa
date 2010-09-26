@@ -40,13 +40,32 @@ public class JSONConstructor {
 	}
 
 
-	public static JSONLiteral generate(Collection<Long> data) {
+	public static JSONLiteral generateLongs(Collection<Long> data) {
 		StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		Iterator<Long> iter = data.iterator();
 
 		sb.append('[');
 		while (iter.hasNext()) {
 			sb.append(iter.next());
+
+			if (iter.hasNext())
+				sb.append(',');
+		}
+		sb.append(']');
+
+		return new JSONLiteral(sb.toString());
+	}
+
+
+	public static JSONLiteral generateStrings(Collection<String> data) {
+		StringBuilder sb = new StringBuilder(BUFFER_SIZE);
+		Iterator<String> iter = data.iterator();
+
+		sb.append('[');
+		while (iter.hasNext()) {
+			sb.append('\'');
+			sb.append(iter.next().replace("'", "\\;"));
+			sb.append('\'');
 
 			if (iter.hasNext())
 				sb.append(',');
