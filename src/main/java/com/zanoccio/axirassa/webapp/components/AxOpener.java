@@ -25,6 +25,10 @@ public class AxOpener {
 	}
 
 
+	/**
+	 * The identifier for this opener; if none is provided one is automatically
+	 * generated with {@link AxOpener#generateID()}.
+	 */
 	@Parameter
 	private String id;
 
@@ -37,6 +41,9 @@ public class AxOpener {
 	}
 
 
+	/**
+	 * The header for the opener that is displayed by the opener arrow.
+	 */
 	@Parameter(required = true, defaultPrefix = "literal")
 	private String header;
 
@@ -46,14 +53,40 @@ public class AxOpener {
 	}
 
 
-	// STYLE
+	/**
+	 * Additional styles to apply to the entire opener.
+	 */
 	@Parameter(defaultPrefix = "literal")
 	private String style;
 
 
 	public String getStyle() {
 		if (style == null)
-			style = "\"\"";
+			style = "";
 		return style;
+	}
+
+
+	/**
+	 * Whether the opener should initially be displayed in the open state ---
+	 * defaults to false.
+	 */
+	@Parameter
+	private Boolean open;
+
+
+	public boolean isOpen() {
+		if (open == null)
+			open = false;
+
+		return open;
+	}
+
+
+	public String getDisplay() {
+		if (isOpen())
+			return "default";
+		else
+			return "hide";
 	}
 }
