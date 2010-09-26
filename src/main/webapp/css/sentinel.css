@@ -1,10 +1,10 @@
-@import url(http://fonts.googleapis.com/css?family=Molengo&subset=latin);
+/* @import url(http://fonts.googleapis.com/css?family=Molengo&subset=latin);*/
 
 body {
 	font-family: verdana, tahoma, sans-serif;
 	font-size: 13pt;
 	
-	background: #fafafa;
+	/*background: #fafafa;*/
 	
 	margin-top: 2px;
 	border-top: 2px solid #900;
@@ -24,7 +24,7 @@ body {
 	color: #666;
 	
 	text-transform: uppercase;
-	font-family: 'Molengo';
+	font-family: 'Molengo', 'Calibri', sans-serif;
 }
 
 .logo {
@@ -91,4 +91,6 @@ body {
 .big {
 		min-width: 716px;
 		min-height: 216px;
+		
+		float: none;
 	}
