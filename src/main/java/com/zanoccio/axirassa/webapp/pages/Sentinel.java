@@ -3,6 +3,7 @@ package com.zanoccio.axirassa.webapp.pages;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -79,7 +80,7 @@ public class Sentinel {
 		}
 
 		// a buffer with a position for each <time, cpu> slot.
-		Double[][][] rawdata = new Double[times.size()][cpucount][2];
+		Double[][][] rawdata = new Double[cpucount][times.size()][2];
 
 		// fill out the rawdata buffer
 		currentcpu = -1;
@@ -106,19 +107,24 @@ public class Sentinel {
 
 			// skip over any missing times
 			while (timeiter.next() < realtime) {
-				rawdata[timeindex][cpuindex][0] = null;
-				rawdata[timeindex][cpuindex][1] = null;
+				rawdata[cpuindex][timeindex][0] = null;
+				rawdata[cpuindex][timeindex][1] = null;
 				timeindex++;
 			}
 
-			rawdata[timeindex][cpuindex][0] = user;
-			rawdata[timeindex][cpuindex][1] = system;
+			rawdata[cpuindex][timeindex][0] = user;
+			rawdata[cpuindex][timeindex][1] = system;
 			timeindex++;
 		}
 
+		ArrayList<String> labels = new ArrayList<String>(cpucount);
+		for (int i = 0; i < cpucount; i++)
+			labels.add("CPU " + i);
+
 		JSONObject result = new JSONObject();
 		result.put("length", cpucount);
-		result.put("times", JSONConstructor.generate(times));
+		result.put("labels", JSONConstructor.generateStrings(labels));
+		result.put("times", JSONConstructor.generateLongs(times));
 		result.put("data", JSONConstructor.generate(rawdata));
 		return result;
 	}
