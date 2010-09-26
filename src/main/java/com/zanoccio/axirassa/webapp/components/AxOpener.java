@@ -87,6 +87,6 @@ public class AxOpener {
 		if (isOpen())
 			return "default";
 		else
-			return "hide";
+			return "none";
 	}
 }
