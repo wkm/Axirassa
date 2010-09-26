@@ -15,6 +15,10 @@
 	cursor: pointer;
 }
 
+.axo_header:hover {
+	background: #eee;
+}
+
 .axo_open {
 	background: #00f;
 }
