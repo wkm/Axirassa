@@ -89,10 +89,11 @@ public class SentinelService implements Service {
 			DiskUsageStat stat = new DiskUsageStat();
 			stat.disk = fs.getDirName();
 
+			// TODO: verify these are 10^3 kilobytes, not 2^10 kilobytes.
 			// retrieve usage
 			FileSystemUsage usage = sigar.getFileSystemUsage(stat.disk);
-			stat.used = usage.getUsed();
-			stat.total = usage.getTotal();
+			stat.used = 1000 * usage.getUsed();
+			stat.total = 1000 * usage.getTotal();
 
 			diskusagestat.add(stat);
 		}
