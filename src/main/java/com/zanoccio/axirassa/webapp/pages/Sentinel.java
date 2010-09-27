@@ -161,6 +161,9 @@ public class Sentinel {
 
 
 	Object onActionFromDiskSpaceUpdate() {
+		if (!request.isXHR())
+			return "Sentinel";
+
 		return new JSONObject();
 	}
 }
