@@ -1,9 +1,11 @@
 
 package com.zanoccio.axirassa.webapp.components;
 
+import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 import com.zanoccio.axirassa.util.RandomStringGenerator;
@@ -16,6 +18,9 @@ public class AxPlot {
 	@Environmental
 	private JavaScriptSupport javascriptsupport;
 
+	@Inject
+	private ComponentResources resources;
+
 
 	void setupRender() {
 		// javascriptsupport.addInitializerCall("plotchart", getID());
@@ -24,12 +29,15 @@ public class AxPlot {
 	}
 
 
-	// ID
 	public static String generateID() {
 		return "plot_" + RandomStringGenerator.getInstance().randomString(5);
 	}
 
 
+	/**
+	 * An optional unique identifier for this component on the page. If not
+	 * specified one is randomly generated.
+	 */
 	@Parameter(defaultPrefix = "literal")
 	private String id;
 
@@ -42,39 +50,32 @@ public class AxPlot {
 	}
 
 
-	// SOURCE
-	@Parameter(required = true, defaultPrefix = "literal")
+	/**
+	 * The data source for this component. By default it's the event handler for
+	 * the action specified by the tapestry id of this component.
+	 */
+	@Parameter(defaultPrefix = "literal")
 	private String source;
 
 
 	public String getSource() {
+		if (source == null)
+			source = resources.createEventLink("action").toAbsoluteURI();
+
 		return source;
 	}
 
 
-	// TYPE
-	@Parameter(required = false, defaultPrefix = "literal")
-	private String type;
+	// detailsHeader
+	@Parameter(defaultPrefix = "literal")
+	private String detailsHeader;
 
 
-	public String getType() {
-		if (type == null)
-			type = "percent";
+	public String getDetailsHeader() {
+		if (detailsHeader == null)
+			detailsHeader = "";
 
-		return type;
-	}
-
-
-	// COLOR
-	@Parameter(required = false, defaultPrefix = "literal")
-	private String color;
-
-
-	public String getColor() {
-		if (color == null)
-			color = "#ff9900";
-
-		return color;
+		return detailsHeader;
 	}
 
 }
