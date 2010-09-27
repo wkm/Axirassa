@@ -36,25 +36,25 @@
 		</div>
 
 		<div class="agent">
-			<div class="agentname">cpu</div>
-		
-			<t:axplot t:id="cpuupdate" source="/axir/sentinel.cpuupdate" type="percent" color="#f90" />
+			<div class="agentname">CPU</div>
+			<t:axplot t:id="cpuupdate" />
 		</div>
 		<div class="agent">
-			<div class="agentname">memory</div>
-			<t:axplot t:id="memupdate" source="/axir/sentinel.memupdate" type="data" color="#f09" />
+			<div class="agentname">Memory</div>
+			<t:axplot t:id="memupdate"/>
 		</div>
 		<div class="agent">
-			<div class="agentname">disk space</div>
+			<div class="agentname">Disk Space</div>
+			<t:axplot t:id="diskspaceupdate"/>
 		</div>
 		<div class="agent">
-			<div class="agentname">disk io</div>
+			<div class="agentname">Disk IO</div>
 		</div>
 		<div class="agent">
-			<div class="agentname">network</div>
+			<div class="agentname">Network</div>
 		</div>
 		<div class="agent">
-			<div class="agentname">throughput</div>
+			<div class="agentname">Throughput</div>
 		</div>
 	</body>
 </html>
