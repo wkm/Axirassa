@@ -13,15 +13,14 @@ import java.util.TreeSet;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.json.JSONArray;
 import org.apache.tapestry5.services.Request;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.zanoccio.axirassa.util.HibernateTools;
 import com.zanoccio.axirassa.webapp.annotations.PublicPage;
 import com.zanoccio.axirassa.webapp.utilities.AxPlotData;
+import com.zanoccio.axirassa.webapp.utilities.AxPlotData.AxPlotAxisLabelingFunction;
 
 @PublicPage
 @Import(library = "${tapestry.scriptaculous}/prototype.js")
@@ -52,7 +51,7 @@ public class Sentinel {
 		Session session = HibernateTools.getSession();
 
 		// execute the search query
-		Transaction transaction = session.beginTransaction();
+		session.beginTransaction();
 		SQLQuery query = session.createSQLQuery(cpusql);
 		List<Object[]> data = query.list();
 		session.close();
@@ -121,6 +120,8 @@ public class Sentinel {
 			labels.add("CPU " + i);
 
 		AxPlotData plotdata = new AxPlotData(cpucount, 2, labels, times, rawdata);
+		plotdata.setAggregatedMax(cpucount * 100);
+		plotdata.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.PERCENT);
 		return plotdata.toJSON();
 	}
 
@@ -131,14 +132,18 @@ public class Sentinel {
 
 		Session session = HibernateTools.getSession();
 
-		Transaction transaction = session.beginTransaction();
+		session.beginTransaction();
 		SQLQuery query = session.createSQLQuery(memsql);
 		List<Object[]> result = query.list();
+		session.close();
 
-		JSONArray finalresult = new JSONArray();
-		JSONArray data = new JSONArray();
+		ArrayList<Long> timestamps = new ArrayList<Long>(result.size());
+		Double[][] dataset = new Double[result.size()][1];
+		ArrayList<String> labels = new ArrayList<String>(1);
+		labels.add("Memory");
 
 		long maxmemory = 0;
+		int i = 0;
 		for (Object[] row : result) {
 			Timestamp time = (Timestamp) row[0];
 			long used = Long.parseLong((String) row[1]);
@@ -147,15 +152,17 @@ public class Sentinel {
 			if (total > maxmemory)
 				maxmemory = total;
 
-			data.put(new JSONArray(time.getTime(), used));
+			timestamps.add(time.getTime());
+			dataset[i++][0] = (double) used;
 		}
 
-		finalresult.put(maxmemory);
-		finalresult.put(data);
+		Double[][][] rawdata = new Double[1][][];
+		rawdata[0] = dataset;
 
-		session.close();
-
-		return finalresult;
+		AxPlotData plotdata = new AxPlotData(1, 1, labels, timestamps, rawdata);
+		plotdata.setAggregatedMax(maxmemory);
+		plotdata.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.DATA);
+		return plotdata.toJSON();
 	}
 }
 

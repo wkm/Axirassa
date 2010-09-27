@@ -20,11 +20,42 @@ import com.zanoccio.axirassa.webapp.components.AxPlot;
  */
 public class AxPlotData implements JSONString {
 
+	/**
+	 * @TODO the whole idea behind this enum is moronic --- or maybe it should
+	 *       be an override. But fundamentally we want to set the type of the
+	 *       dimension and let magic code handle the rest.
+	 * 
+	 * @author wiktor
+	 */
+	public enum AxPlotAxisLabelingFunction {
+		PERCENT("ax.axp_axislab_percent"),
+		DATA("ax.axp_axislab_data"),
+		DATE("ax.axp_axislab_date");
+
+		private String name;
+
+
+		AxPlotAxisLabelingFunction(String name) {
+			this.name = name;
+		}
+
+
+		@Override
+		public String toString() {
+			return name;
+		}
+	}
+
+
 	private int length;
 	private int datasets;
+	private Double aggregatedmax;
 	private List<String> labels;
 	private Collection<Long> timestamps;
 	private Double[][][] data;
+
+	private AxPlotAxisLabelingFunction xaxis;
+	private AxPlotAxisLabelingFunction yaxis;
 
 
 	public AxPlotData(int length, int datasets, List<String> labels, Collection<Long> timestamps, Double[][][] data) {
@@ -46,6 +77,11 @@ public class AxPlotData implements JSONString {
 	}
 
 
+	public void setAggregatedMax(double max) {
+		this.aggregatedmax = max;
+	}
+
+
 	public void setLabels(List<String> labels) {
 		this.labels = labels;
 	}
@@ -61,6 +97,16 @@ public class AxPlotData implements JSONString {
 	}
 
 
+	public void setXAxisLabelingFunction(AxPlotAxisLabelingFunction xaxis) {
+		this.xaxis = xaxis;
+	}
+
+
+	public void setYAxisLabelingFunction(AxPlotAxisLabelingFunction yaxis) {
+		this.yaxis = yaxis;
+	}
+
+
 	@Override
 	public String toJSONString() {
 		return toJSON().toCompactString();
@@ -72,6 +118,11 @@ public class AxPlotData implements JSONString {
 
 		result.put("length", length);
 		result.put("datasets", datasets);
+		result.put("aggregatedMax", aggregatedmax);
+		if (xaxis != null)
+			result.put("xaxislabelfn", xaxis.toString());
+		if (yaxis != null)
+			result.put("yaxislabelfn", yaxis.toString());
 		result.put("labels", JSONConstructor.generateStrings(labels));
 		result.put("times", JSONConstructor.generateLongs(timestamps));
 		result.put("data", JSONConstructor.generate(data));
