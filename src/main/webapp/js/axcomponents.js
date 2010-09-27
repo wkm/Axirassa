@@ -89,6 +89,7 @@ var ax = new function() {
 				$(id).update('Processing...');
 				
 				var data = transport.responseText.evalJSON();
+				
 				var length = data['length'];
 				var times = data['times'];
 				var rawdata = data['data'];
@@ -148,8 +149,8 @@ var ax = new function() {
 						Flotr.draw(
 							$(id + "_chart_" + i), 
 							[
-								{data: chartdata[0], color: "#0117A1", lines:{show:true}},
-								{data: chartdata[1], color: "#D44917", lines:{fill:false}}
+								{data: chartdata[0], color: "#0117A1", lines:{show:true}}
+//								{data: chartdata[1], color: "#D44917", lines:{fill:false}}
 							], 
 							{
 								shadowSize: 0,
@@ -159,7 +160,6 @@ var ax = new function() {
 								
 								yaxis: {
 									min: 0,
-									max: 100,
 									tickFormatter: function(n){
 										return yaxislabfn(n, aggregatedmax);
 									}
@@ -198,8 +198,8 @@ var ax = new function() {
 				Flotr.draw(
 					$(id),
 					[
-						{data: chartdata[0], color: "#0117A1", lines:{show:true}},
-						{data: chartdata[1], color: "#D44917", lines:{fill:false}}
+						{data: chartdata[0], color: "#0117A1", lines:{show:true}}
+//						{data: chartdata[1], color: "#D44917", lines:{fill:false}}
 					],
 					{
 						shadowSize: 0,
