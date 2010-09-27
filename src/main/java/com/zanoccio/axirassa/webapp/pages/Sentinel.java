@@ -4,15 +4,14 @@ package com.zanoccio.axirassa.webapp.pages;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
-import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -29,14 +28,8 @@ public class Sentinel {
 	private final static String cpusql = "SELECT cpu, date, user, system FROM SentinelCPUStats WHERE Machine_ID = 1 ORDER BY cpu ASC, date ASC";
 	private final static String memsql = "SELECT date, used, total FROM SentinelMemoryStats WHERE Machine_ID = 1 ORDER BY date ASC";
 
-	// @InjectComponent
-	// private Request request;
-
 	@Inject
 	private Request request;
-
-	@Inject
-	private ComponentResources resources;
 
 
 	Object onActionFromCpuupdate() {
@@ -162,15 +155,12 @@ public class Sentinel {
 		AxPlotData plotdata = new AxPlotData(1, 1, labels, timestamps, rawdata);
 		plotdata.setAggregatedMax(maxmemory);
 		plotdata.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.DATA);
+
 		return plotdata.toJSON();
 	}
-}
 
-class LongsDescending implements Comparator<Long> {
 
-	@Override
-	public int compare(Long arg0, Long arg1) {
-		return (int) (arg1 - arg0);
+	Object onActionFromDiskSpaceUpdate() {
+		return new JSONObject();
 	}
-
 }
