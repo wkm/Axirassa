@@ -14,15 +14,14 @@ import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONArray;
-import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.zanoccio.axirassa.util.HibernateTools;
-import com.zanoccio.axirassa.util.JSONConstructor;
 import com.zanoccio.axirassa.webapp.annotations.PublicPage;
+import com.zanoccio.axirassa.webapp.utilities.AxPlotData;
 
 @PublicPage
 @Import(library = "${tapestry.scriptaculous}/prototype.js")
@@ -121,12 +120,13 @@ public class Sentinel {
 		for (int i = 0; i < cpucount; i++)
 			labels.add("CPU " + i);
 
-		JSONObject result = new JSONObject();
-		result.put("length", cpucount);
-		result.put("labels", JSONConstructor.generateStrings(labels));
-		result.put("times", JSONConstructor.generateLongs(times));
-		result.put("data", JSONConstructor.generate(rawdata));
-		return result;
+		AxPlotData plotdata = new AxPlotData();
+		plotdata.setLength(cpucount);
+		plotdata.setLabels(labels);
+		plotdata.setTimestamps(times);
+		plotdata.setData(rawdata);
+
+		return plotdata.toJSON();
 	}
 
 
