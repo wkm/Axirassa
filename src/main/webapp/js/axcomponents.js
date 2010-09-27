@@ -78,6 +78,7 @@ var ax = new function() {
 					
 					var times = data['times'];
 					var rawdata = data['data'];
+					var datasets = data['datasets'];
 					var chardata;
 					
 					var visible = $(detailsnode).visible();
@@ -87,81 +88,101 @@ var ax = new function() {
 					for (var i = 0; i < length; i++) {
 						// thread over dates
 						var datasz = times.length;
-						chartdata = new Array(datasz);
 						
-						for (var j = 0; j < datasz; j++) {
-							chartdata[j] = [times[j], rawdata[i][j][1]];
+						chartdata = new Array(datasets);
+						for (var k = 0; k < datasets; k++) {
+							chartdata[k] = new Array(datasz);
 						}
 						
-						Flotr.draw($(id + "_chart_" + i), [{
-							data: chartdata,
-							color: "#D44917"
-						}], {
-							shadowSize: 0,
-							lines: {
-								show: true,
-								fill: true
-							},
-							xaxis: {
-								tickFormatter: function(n){
-									return formattime(new Date(n / 1));
-								}
-							},
-							
-							yaxis: {
-								min: 0,
-								max: 100,
-								tickFormatter: function(n){
-									return percentTicks(n);
+						var total;
+						for (var j = 0; j < datasz; j++) {
+							total = 0;
+							for (var k = 0; k < datasets; k++) {
+								total += rawdata[i][j][k];
+								chartdata[k][j] = [times[j], total];
+							}
+						}
+						
+						var xtickfn;
+						if(i < (length - 2)) {
+							xtickfn = function(n){
+								return "";
+							}
+						} else {
+							xtickfn = function(n) {
+								return formattime(new Date(n / 1));
+							}
+						};
+						
+						Flotr.draw(
+							$(id + "_chart_" + i), 
+							[
+								{data: chartdata[0], color: "#0117A1", lines:{show:true}},
+								{data: chartdata[1], color: "#D44917", lines:{fill:false}}
+							], 
+							{
+								shadowSize: 0,
+								xaxis: {
+									tickFormatter: xtickfn
+								},
+								
+								yaxis: {
+									min: 0,
+									max: 100,
+									tickFormatter: function(n){
+										return percentTicks(n);
+									}
 								}
 							}
-						});
+						);
 					}
 					
 					if(!visible)
 						$(detailsnode).hide();
 					
 					$(id).update('Aggregating data...');
-					chartdata = new Array(datasz);
+					chartdata = new Array(datasets);
+					for(var i = 0; i < datasets; i++) {
+						chartdata[i] = new Array(datasz);
+					}
+					
+					var total;
 					for(var i = 0; i < datasz; i++) {
-						var total = 0;
-						for (var j = 0; j < length; j++) {
-							total += rawdata[j][i][0];
+						total = 0;
+						for (var k = 0; k < datasets; k++) {
+							for (var j = 0; j < length; j++) {
+								total += rawdata[j][i][k];
+							}
+							chartdata[k][i] = [times[i], total];
 						}
-						chartdata[i] = [times[i], total];
 					}
 					
 					$(id).update('');
 					$(id).removeClassName('axp_loading');
 					
-					Flotr.draw($(id), [{
-						data: chartdata,
-						color: "#D44917"
-					}],
-					{
-						shadowSize: 0,
-						lines: {
-							show: true,
-							fill: true
-						},
-						xaxis: {
-							tickFormatter: function(n){
-								return formattime(new Date(n / 1));
-							}
-						},
-						yaxis: {
-							min: 0,
-							max: length * 100,
-							tickFormatter: function(n){
-								return percentTicks(n);
+					Flotr.draw(
+						$(id),
+						[
+							{data: chartdata[0], color: "#0117A1", lines:{show:true}},
+							{data: chartdata[1], color: "#D44917", lines:{fill:false}}
+						],
+						{
+							shadowSize: 0,
+							xaxis: {
+								tickFormatter: function(n) {
+									return formattime(new Date(n / 1));
+								}
+							},
+							yaxis: {
+								min: 0,
+								max: length * 100,
+								tickFormatter: function(n){
+									return percentTicks(n);
+								}
 							}
 						}
-					})
+					);
 				}
-				
-			
-//				$(id).update('');
-//				$(id).removeClassName('axp_loading');
 			}
 		});
 	};

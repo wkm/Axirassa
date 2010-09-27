@@ -111,8 +111,8 @@ public class Sentinel {
 				timeindex++;
 			}
 
-			rawdata[cpuindex][timeindex][0] = user;
-			rawdata[cpuindex][timeindex][1] = system;
+			rawdata[cpuindex][timeindex][0] = system;
+			rawdata[cpuindex][timeindex][1] = user;
 			timeindex++;
 		}
 
@@ -120,12 +120,7 @@ public class Sentinel {
 		for (int i = 0; i < cpucount; i++)
 			labels.add("CPU " + i);
 
-		AxPlotData plotdata = new AxPlotData();
-		plotdata.setLength(cpucount);
-		plotdata.setLabels(labels);
-		plotdata.setTimestamps(times);
-		plotdata.setData(rawdata);
-
+		AxPlotData plotdata = new AxPlotData(cpucount, 2, labels, times, rawdata);
 		return plotdata.toJSON();
 	}
 

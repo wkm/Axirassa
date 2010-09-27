@@ -9,7 +9,7 @@ body {
 	/*background: #fafafa;*/
 	
 	margin-top: 2px;
-	border-top: 2px solid #900;
+	border-top: 2px solid #872501;
 	
 	margin: 0;
 	padding: 0;
@@ -21,7 +21,7 @@ body {
 	padding-bottom: 5px;
 	margin: 10px 0;
 	
-	border-left: 10px solid #900;
+	border-left: 10px solid #872501;
 	
 	color: #666;
 	
@@ -30,7 +30,7 @@ body {
 }
 
 .logo {
-	color: #900;
+	color: #872501;
 	padding: 1px 0px 5px 10px;
 	font-weight: bold;
 	letter-spacing: .1em;

@@ -21,13 +21,28 @@ import com.zanoccio.axirassa.webapp.components.AxPlot;
 public class AxPlotData implements JSONString {
 
 	private int length;
+	private int datasets;
 	private List<String> labels;
 	private Collection<Long> timestamps;
 	private Double[][][] data;
 
 
+	public AxPlotData(int length, int datasets, List<String> labels, Collection<Long> timestamps, Double[][][] data) {
+		setLength(length);
+		setDatasets(datasets);
+		setLabels(labels);
+		setTimestamps(timestamps);
+		setData(data);
+	}
+
+
 	public void setLength(int length) {
 		this.length = length;
+	}
+
+
+	public void setDatasets(int datasets) {
+		this.datasets = datasets;
 	}
 
 
@@ -56,6 +71,7 @@ public class AxPlotData implements JSONString {
 		JSONObject result = new JSONObject();
 
 		result.put("length", length);
+		result.put("datasets", datasets);
 		result.put("labels", JSONConstructor.generateStrings(labels));
 		result.put("times", JSONConstructor.generateLongs(timestamps));
 		result.put("data", JSONConstructor.generate(data));
