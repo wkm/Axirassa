@@ -8,6 +8,8 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hyperic.sigar.CpuPerc;
+import org.hyperic.sigar.FileSystem;
+import org.hyperic.sigar.FileSystemUsage;
 import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
@@ -75,7 +77,25 @@ public class SentinelService implements Service {
 		memorystat.total = mem.getTotal();
 
 		// DISK USAGE STAT
+		diskusagestat = new ArrayList<DiskUsageStat>();
+		FileSystem[] fslist = sigar.getFileSystemList();
+		for (FileSystem fs : fslist) {
+			int type = fs.getType();
 
+			if (type != FileSystem.TYPE_LOCAL_DISK && type != FileSystem.TYPE_SWAP)
+				// skip
+				continue;
+
+			DiskUsageStat stat = new DiskUsageStat();
+			stat.disk = fs.getDirName();
+
+			// retrieve usage
+			FileSystemUsage usage = sigar.getFileSystemUsage(stat.disk);
+			stat.used = usage.getUsed();
+			stat.total = usage.getTotal();
+
+			diskusagestat.add(stat);
+		}
 	}
 
 
@@ -107,6 +127,20 @@ public class SentinelService implements Service {
 			query.executeUpdate();
 		}
 
+		if (diskusagestat != null) {
+			SQLQuery query = session.createSQLQuery(DISKUSAGE_STAT_INSERT);
+			query.setInteger(0, machineid);
+			query.setTimestamp(1, date);
+
+			for (DiskUsageStat stat : diskusagestat) {
+				query.setString(2, stat.disk);
+				query.setLong(3, stat.used);
+				query.setLong(4, stat.total);
+
+				query.executeUpdate();
+			}
+		}
+
 		transaction.commit();
 	}
 }
@@ -124,7 +158,7 @@ class MemoryStat {
 
 class DiskUsageStat {
 	String disk;
-	long free;
+	long used;
 	long total;
 }
 
