@@ -63,8 +63,12 @@ public class JSONConstructor {
 
 		sb.append('[');
 		while (iter.hasNext()) {
+			String val = iter.next();
+			val = val.replace("\\", "\\\\");
+			val = val.replace("'", "\\;");
+
 			sb.append('\'');
-			sb.append(iter.next().replace("'", "\\;"));
+			sb.append(val);
 			sb.append('\'');
 
 			if (iter.hasNext())
