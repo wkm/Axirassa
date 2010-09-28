@@ -20,9 +20,9 @@ public class TestSentinelService {
 
 		Service service = new SentinelService(session, 1);
 
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < (8 * 60); i++) {
 			service.execute();
-			Thread.sleep(1000);
+			Thread.sleep(60000);
 		}
 	}
 }
