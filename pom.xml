@@ -129,6 +129,18 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         	<type>jar</type>
         	<scope>compile</scope>
         </dependency>
+        <dependency>
+        	<groupId>jetty</groupId>
+        	<artifactId>javax.servlet</artifactId>
+        	<version>5.1.12</version>
+        	<scope>test</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.apache.tapestry</groupId>
+        	<artifactId>tapestry-test</artifactId>
+        	<version>${tapestry-release-version}</version>
+        	<scope>test</scope>
+        </dependency>
     </dependencies>
     <url>http://axirassa.com</url>
     <issueManagement>
