@@ -40,9 +40,9 @@ public class JSONConstructor {
 	}
 
 
-	public static JSONLiteral generateLongs(Collection<Long> data) {
+	public static <T> JSONLiteral generate(Collection<T> data) {
 		StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-		Iterator<Long> iter = data.iterator();
+		Iterator<T> iter = data.iterator();
 
 		sb.append('[');
 		while (iter.hasNext()) {
