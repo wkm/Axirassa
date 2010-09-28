@@ -17,8 +17,10 @@ import org.hibernate.Session;
 
 import com.zanoccio.axirassa.util.HibernateTools;
 import com.zanoccio.axirassa.webapp.annotations.PublicPage;
-import com.zanoccio.axirassa.webapp.utilities.AxPlotData;
-import com.zanoccio.axirassa.webapp.utilities.AxPlotData.AxPlotAxisLabelingFunction;
+import com.zanoccio.axirassa.webapp.utilities.AxPlotDataPackage;
+import com.zanoccio.axirassa.webapp.utilities.AxPlotDataPackage.AxPlotAxisLabelingFunction;
+import com.zanoccio.axirassa.webapp.utilities.AxPlotDataSet;
+import com.zanoccio.axirassa.webapp.utilities.AxPlotRange;
 
 @PublicPage
 @Import(library = "${tapestry.scriptaculous}/prototype.js")
@@ -32,7 +34,7 @@ public class Sentinel {
 	private Request request;
 
 
-	Object onActionFromCpuupdate() {
+	public Object onActionFromCpuupdate() {
 		// this codes makes certain assumptions about the ordering from the
 		// database query; in particular that data is grouped by CPU and then by
 		// date.
@@ -49,35 +51,37 @@ public class Sentinel {
 		List<Object[]> data = query.list();
 		session.close();
 
-		HashMap<Integer, Integer> cpuindices = new HashMap<Integer, Integer>();
-
-		// compute the number of CPUs and accumulate all timestamps for which we
-		// have data
+		// compute the number of CPUs and the number of data points per CPU
 		int cpucount = 0;
 		int currentcpu = -1;
+		int dataindex = 0;
+		ArrayList<Integer> datapoints = new ArrayList<Integer>();
 
-		TreeSet<Long> times = new TreeSet<Long>();
 		for (Object[] row : data) {
 			int cpuid = (Integer) row[0];
-			Timestamp time = (Timestamp) row[1];
-			times.add(time.getTime());
 
 			if (cpuid != currentcpu) {
+				if (currentcpu > -1)
+					// store the number of datapoints for this CPU
+					datapoints.add(dataindex);
+
 				currentcpu = cpuid;
-				// store the cpuid -> index mapping
-				cpuindices.put(currentcpu, cpucount);
 				cpucount++;
+				dataindex = 0;
 			}
+
+			dataindex++;
 		}
 
-		// a buffer with a position for each <time, cpu> slot.
-		Double[][][] rawdata = new Double[cpucount][times.size()][2];
+		// start building a data packet
+		AxPlotDataPackage datapackage = new AxPlotDataPackage();
+		AxPlotDataSet currentdataset = null;
 
-		// fill out the rawdata buffer
 		currentcpu = -1;
 		int cpuindex = 0;
-		Iterator<Long> timeiter = null;
-		int timeindex = 0;
+		double[][] datablock = null;
+		double[] axisblock = null;
+		int datacursor = -1;
 
 		for (Object[] row : data) {
 			// pull data
@@ -89,37 +93,35 @@ public class Sentinel {
 
 			// are we at the next cpu?
 			if (cpuid != currentcpu) {
-				currentcpu = cpuid;
-				cpuindex = cpuindices.get(currentcpu);
+				if (currentcpu > -1) {
+					currentdataset.setLabel("CPU " + cpuid);
+					currentdataset.setData(axisblock, datablock);
+					datapackage.addDataSet(currentdataset);
+				}
 
-				timeiter = times.iterator();
-				timeindex = 0;
+				datacursor = -1;
+				datablock = new double[datapoints.get(cpuindex)][2];
+				axisblock = new double[datapoints.get(cpuindex)];
+
+				cpuindex++;
 			}
 
-			// skip over any missing times
-			while (timeiter.next() < realtime) {
-				rawdata[cpuindex][timeindex][0] = null;
-				rawdata[cpuindex][timeindex][1] = null;
-				timeindex++;
-			}
+			datacursor++;
 
-			rawdata[cpuindex][timeindex][0] = system;
-			rawdata[cpuindex][timeindex][1] = user;
-			timeindex++;
+			datablock[datacursor][0] = user;
+			datablock[datacursor][1] = system;
+
+			axisblock[datacursor] = time.getTime();
 		}
 
-		ArrayList<String> labels = new ArrayList<String>(cpucount);
-		for (int i = 0; i < cpucount; i++)
-			labels.add("CPU " + i);
-
-		AxPlotData plotdata = new AxPlotData(cpucount, 2, labels, times, rawdata);
-		plotdata.setAggregatedMax(cpucount * 100);
+		AxPlotDataPackage plotdata = new AxPlotDataPackage();
+		plotdata.setAggregatedYAxisRange(new AxPlotRange(0, cpucount * 100));
 		plotdata.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.PERCENT);
 		return plotdata.toJSON();
 	}
 
 
-	Object onActionFromMemupdate() {
+	public Object onActionFromMemupdate() {
 		if (!request.isXHR())
 			return "Sentinel";
 
@@ -152,15 +154,15 @@ public class Sentinel {
 		Double[][][] rawdata = new Double[1][][];
 		rawdata[0] = dataset;
 
-		AxPlotData plotdata = new AxPlotData(1, 1, labels, timestamps, rawdata);
-		plotdata.setAggregatedMax(maxmemory);
+		AxPlotDataPackage plotdata = new AxPlotDataPackage();
+		plotdata.setAggregatedYAxisRange(new AxPlotRange(0, maxmemory));
 		plotdata.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.DATA);
 
 		return plotdata.toJSON();
 	}
 
 
-	Object onActionFromDiskSpaceUpdate() {
+	public Object onActionFromDiskSpaceUpdate() {
 		Session session = HibernateTools.getSession();
 
 		// execute the search query
@@ -237,8 +239,8 @@ public class Sentinel {
 			timeindex++;
 		}
 
-		AxPlotData plotdata = new AxPlotData(diskcount, 1, labels, times, rawdata);
-		plotdata.setAggregatedMax(totalmemory);
+		AxPlotDataPackage plotdata = new AxPlotDataPackage();
+		plotdata.setAggregatedYAxisRange(new AxPlotRange(0, totalmemory));
 		plotdata.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.DATA);
 		return plotdata.toJSON();
 	}
