@@ -21,6 +21,7 @@ import com.zanoccio.axirassa.webapp.utilities.AxPlotDataPackage;
 import com.zanoccio.axirassa.webapp.utilities.AxPlotDataPackage.AxPlotAxisLabelingFunction;
 import com.zanoccio.axirassa.webapp.utilities.AxPlotDataSet;
 import com.zanoccio.axirassa.webapp.utilities.AxPlotRange;
+import com.zanoccio.javakit.ListUtilities;
 
 @PublicPage
 @Import(library = "${tapestry.scriptaculous}/prototype.js")
@@ -46,40 +47,23 @@ public class Sentinel {
 		Session session = HibernateTools.getSession();
 
 		// execute the search query
-		// session.beginTransaction();
 		SQLQuery query = session.createSQLQuery(cpusql);
 		List<Object[]> data = query.list();
 		session.close();
 
-		ArrayList<List<Object[]>> cpudata = new ArrayList<List<Object[]>>();
-
-		// split data into sublists per CPU
-		int currentcpu = -1;
-		int laststart = 0;
-		int index = 0;
-
-		for (Object[] row : data) {
-			int cpuid = (Integer) row[0];
-
-			if (cpuid != currentcpu) {
-				if (currentcpu > -1)
-					// store the sublist
-					cpudata.add(data.subList(laststart, index));
-
-				currentcpu = cpuid;
-				laststart = index;
+		List<List<Object[]>> cpudata = ListUtilities.partition(data, new ListUtilities.ListPartitioner<Object[]>() {
+			@Override
+			public boolean partition(Object[] previous, Object[] current) {
+				return (!previous[0].equals(current[0]));
 			}
+		});
 
-			index++;
-		}
-
-		cpudata.add(data.subList(laststart, index));
-
-		// start building a data packet
+		// build the individual datasets
 		AxPlotDataPackage datapackage = new AxPlotDataPackage();
 
 		AxPlotRange yrange = new AxPlotRange(0, 100);
 		int cpuindex = 0;
+		int index = 0;
 		for (List<Object[]> dataset : cpudata) {
 			index = 0;
 
