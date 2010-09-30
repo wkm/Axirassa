@@ -39,9 +39,9 @@ public class Sentinel {
 		// database query; in particular that data is grouped by CPU and then by
 		// date.
 
-		// if (!request.isXHR())
-		// // cleanly handle non-JS
-		// return "Sentinel";
+		if (!request.isXHR())
+			// cleanly handle non-JS
+			return "Sentinel";
 
 		Session session = HibernateTools.getSession();
 
@@ -51,85 +51,67 @@ public class Sentinel {
 		List<Object[]> data = query.list();
 		session.close();
 
-		// compute the number of CPUs and the number of data points per CPU
-		int cpucount = 0;
+		ArrayList<List<Object[]>> cpudata = new ArrayList<List<Object[]>>();
+
+		// split data into sublists per CPU
 		int currentcpu = -1;
-		int dataindex = 0;
-		ArrayList<Integer> datapoints = new ArrayList<Integer>();
+		int laststart = 0;
+		int index = 0;
 
 		for (Object[] row : data) {
 			int cpuid = (Integer) row[0];
 
 			if (cpuid != currentcpu) {
 				if (currentcpu > -1)
-					// store the number of datapoints for this CPU
-					datapoints.add(dataindex);
+					// store the sublist
+					cpudata.add(data.subList(laststart, index));
 
 				currentcpu = cpuid;
-				cpucount++;
-				dataindex = 0;
+				laststart = index;
 			}
 
-			dataindex++;
+			index++;
 		}
 
-		// store the final datapoint count
-		if (currentcpu > -1)
-			datapoints.add(dataindex);
+		cpudata.add(data.subList(laststart, index));
 
 		// start building a data packet
 		AxPlotDataPackage datapackage = new AxPlotDataPackage();
-		AxPlotDataSet currentdataset = null;
 
-		currentcpu = -1;
+		AxPlotRange yrange = new AxPlotRange(0, 100);
 		int cpuindex = 0;
-		double[][] datablock = null;
-		double[] axisblock = null;
-		int datacursor = -1;
+		for (List<Object[]> dataset : cpudata) {
+			index = 0;
 
-		for (Object[] row : data) {
-			// pull data
-			int cpuid = (Integer) row[0];
-			Timestamp time = (Timestamp) row[1];
-			long realtime = time.getTime();
-			double user = 100 * ((BigDecimal) row[2]).doubleValue();
-			double system = 100 * ((BigDecimal) row[3]).doubleValue();
+			double[] times = new double[dataset.size()];
 
-			// are we at the next cpu?
-			if (cpuid != currentcpu) {
-				if (currentcpu > -1) {
-					currentdataset.setLabel("CPU " + currentcpu);
-					currentdataset.setData(axisblock, datablock);
-					currentdataset.setYRange(new AxPlotRange(0, 100));
-					datapackage.addDataSet(currentdataset);
-				}
+			// for storing <user,system> tuples:
+			double[][] rawdata = new double[dataset.size()][2];
 
-				currentcpu = cpuid;
+			for (Object[] row : dataset) {
+				Timestamp time = (Timestamp) row[1];
+				long realtime = time.getTime();
+				double user = 100 * ((BigDecimal) row[2]).doubleValue();
+				double system = 100 * ((BigDecimal) row[3]).doubleValue();
 
-				datacursor = -1;
-				currentdataset = new AxPlotDataSet();
-				datablock = new double[datapoints.get(cpuindex)][2];
-				axisblock = new double[datapoints.get(cpuindex)];
+				times[index] = realtime;
+				rawdata[index][0] = user;
+				rawdata[index][1] = system;
 
-				cpuindex++;
+				index++;
 			}
 
-			datacursor++;
+			AxPlotDataSet currentdataset = new AxPlotDataSet();
+			currentdataset.setLabel("CPU " + cpuindex);
+			currentdataset.setData(times, rawdata);
+			currentdataset.setYRange(yrange);
 
-			datablock[datacursor][0] = user;
-			datablock[datacursor][1] = system;
-
-			axisblock[datacursor] = time.getTime();
-		}
-
-		if (currentcpu > -1) {
-			currentdataset.setLabel("CPU " + currentcpu);
-			currentdataset.setData(axisblock, datablock);
-			currentdataset.setYRange(new AxPlotRange(0, 100));
 			datapackage.addDataSet(currentdataset);
+
+			cpuindex++;
 		}
 
-		datapackage.setAggregatedYAxisRange(new AxPlotRange(0, cpucount * 100));
+		datapackage.setAggregatedYAxisRange(new AxPlotRange(0, cpuindex * 100));
 		datapackage.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.PERCENT);
 		datapackage.setLabelDataSets(false);
 
@@ -148,10 +130,8 @@ public class Sentinel {
 		List<Object[]> result = query.list();
 		session.close();
 
-		ArrayList<Long> timestamps = new ArrayList<Long>(result.size());
-		Double[][] dataset = new Double[result.size()][1];
-		ArrayList<String> labels = new ArrayList<String>(1);
-		labels.add("Memory");
+		double[] timestamps = new double[result.size()];
+		double[] dataset = new double[result.size()];
 
 		long maxmemory = 0;
 		int i = 0;
@@ -163,14 +143,18 @@ public class Sentinel {
 			if (total > maxmemory)
 				maxmemory = total;
 
-			timestamps.add(time.getTime());
-			dataset[i++][0] = (double) used;
+			timestamps[i] = time.getTime();
+			dataset[i] = used;
+
+			i++;
 		}
 
-		Double[][][] rawdata = new Double[1][][];
-		rawdata[0] = dataset;
+		AxPlotDataSet memdata = new AxPlotDataSet();
+		memdata.setData(timestamps, dataset);
+		memdata.setLabel("Memory");
 
 		AxPlotDataPackage plotdata = new AxPlotDataPackage();
+		plotdata.addDataSet(memdata);
 		plotdata.setAggregatedYAxisRange(new AxPlotRange(0, maxmemory));
 		plotdata.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.DATA);
 
@@ -188,6 +172,7 @@ public class Sentinel {
 		session.close();
 
 		HashMap<String, Integer> diskindices = new HashMap<String, Integer>();
+		HashMap<Integer, Integer> datapoints = new HashMap<Integer, Integer>();
 
 		// compute the number of disks and accumulate all timestamps for which
 		// we have data
@@ -197,10 +182,12 @@ public class Sentinel {
 		ArrayList<String> labels = new ArrayList<String>(diskcount);
 
 		TreeSet<Long> times = new TreeSet<Long>();
+		int datapointcount = 0;
 		for (Object[] row : data) {
 			String disk = (String) row[0];
 			Timestamp time = (Timestamp) row[1];
 			times.add(time.getTime());
+			datapointcount++;
 
 			if (!disk.equals(currentdisk)) {
 				currentdisk = disk;
@@ -212,9 +199,6 @@ public class Sentinel {
 			}
 		}
 
-		// a buffer with a position for each <time, cpu> slot.
-		Double[][][] rawdata = new Double[diskcount][times.size()][1];
-
 		// fill out the rawdata buffer
 		currentdisk = null;
 		int diskindex = 0;
@@ -223,6 +207,12 @@ public class Sentinel {
 		long maxmemory = 0;
 		long totalmemory = 0;
 
+		// a buffer with a position for each <time, cpu> slot.
+		double[] timestamps = new double[times.size()];
+		double[] rawdata = new double[times.size()];
+
+		AxPlotDataPackage plotdata = new AxPlotDataPackage();
+		AxPlotDataSet dataset = new AxPlotDataSet();
 		for (Object[] row : data) {
 			// pull data
 			String disk = (String) row[0];
@@ -245,17 +235,11 @@ public class Sentinel {
 				timeindex = 0;
 			}
 
-			// skip over any missing times
-			while (timeiter.next() < realtime) {
-				rawdata[diskindex][timeindex][0] = null;
-				timeindex++;
-			}
-
-			rawdata[diskindex][timeindex][0] = (double) used;
+			rawdata[timeindex] = used;
 			timeindex++;
 		}
 
-		AxPlotDataPackage plotdata = new AxPlotDataPackage();
+		plotdata.setLabelDataSets(true);
 		plotdata.setAggregatedYAxisRange(new AxPlotRange(0, totalmemory));
 		plotdata.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.DATA);
 		return plotdata.toJSON();
