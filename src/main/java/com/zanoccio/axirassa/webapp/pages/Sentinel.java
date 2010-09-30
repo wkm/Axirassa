@@ -100,6 +100,7 @@ public class Sentinel {
 				if (currentcpu > -1) {
 					currentdataset.setLabel("CPU " + currentcpu);
 					currentdataset.setData(axisblock, datablock);
+					currentdataset.setYRange(new AxPlotRange(0, 100));
 					datapackage.addDataSet(currentdataset);
 				}
 
@@ -124,11 +125,13 @@ public class Sentinel {
 		if (currentcpu > -1) {
 			currentdataset.setLabel("CPU " + currentcpu);
 			currentdataset.setData(axisblock, datablock);
+			currentdataset.setYRange(new AxPlotRange(0, 100));
 			datapackage.addDataSet(currentdataset);
 		}
 
 		datapackage.setAggregatedYAxisRange(new AxPlotRange(0, cpucount * 100));
 		datapackage.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.PERCENT);
+		datapackage.setLabelDataSets(false);
 
 		return datapackage.toJSON();
 	}

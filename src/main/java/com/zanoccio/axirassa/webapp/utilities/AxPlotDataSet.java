@@ -74,13 +74,41 @@ public class AxPlotDataSet {
 	}
 
 
+	public AxPlotRange getYRange() {
+		if (yrange != null)
+			return yrange;
+
+		return new AxPlotRange();
+	}
+
+
+	/**
+	 * @see #setXRange(AxPlotRange)
+	 */
 	public void setXRange(Double xmin, Double xmax) {
 		setXRange(new AxPlotRange(xmin, xmax));
 	}
 
 
+	/**
+	 * Sets the plot range for the x-axis for this dataset
+	 * 
+	 * @param range
+	 */
 	public void setXRange(AxPlotRange range) {
 		xrange = range;
+	}
+
+
+	/**
+	 * @return the plot range for the x-axis. Returns an empty
+	 *         {@link AxPlotRange} if a plot range hasn't been specified.
+	 */
+	public AxPlotRange getXRange() {
+		if (xrange != null)
+			return xrange;
+
+		return new AxPlotRange();
 	}
 
 }

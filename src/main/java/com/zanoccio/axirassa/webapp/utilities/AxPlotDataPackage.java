@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
+import org.apache.tapestry5.json.JSONArray;
 import org.apache.tapestry5.json.JSONLiteral;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.json.JSONString;
@@ -167,13 +168,23 @@ public class AxPlotDataPackage implements JSONString {
 
 		JSONObject result = new JSONObject();
 
+		// extract labels and plot ranges
 		ArrayList<String> labels = new ArrayList<String>(datasets.size());
-		for (AxPlotDataSet dataset : datasets)
+		JSONArray plotranges = new JSONArray();
+		StringBuilder sb = new StringBuilder();
+		for (AxPlotDataSet dataset : datasets) {
 			labels.add(dataset.getLabel());
+
+			AxPlotRange xrange = dataset.getXRange();
+			AxPlotRange yrange = dataset.getYRange();
+
+			plotranges.put(new JSONArray(xrange.toJSON(), yrange.toJSON()));
+		}
 
 		result.put("labelDataSets", labelDataSets);
 		result.put("depth", datadepth);
 		result.put("datasets", datasets.size());
+		result.put("plotranges", plotranges);
 		result.put("aggregatedMin", yaxisrange.getMin());
 		result.put("aggregatedMax", yaxisrange.getMax());
 		if (xaxis != null)

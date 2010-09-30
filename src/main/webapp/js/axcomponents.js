@@ -160,6 +160,9 @@ var ax = new function() {
 							}
 						};
 						
+						var xrange = data['plotranges'][dataset][0];
+						var yrange = data['plotranges'][dataset][1];
+						
 						var chartindex = 0;
 						Flotr.draw(
 							$(id + "_chart_" + dataset),
@@ -169,11 +172,14 @@ var ax = new function() {
 							{
 								shadowSize: 0,
 								xaxis: {
+									min: xrange[0],
+									max: xrange[1],
 									tickFormatter: xtickfn
 								},
 								
 								yaxis: {
-									min: 0,
+									min: yrange[0],
+									max: yrange[1],
 									tickFormatter: function(n){
 										return yaxislabfn(n, aggregatedmax);
 									}
