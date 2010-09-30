@@ -196,19 +196,19 @@ var ax = new function() {
 				}
 					
 				$(id).update('Aggregating data...');
-				chartdata = new Array(datasets);
-				for(var i = 0; i < datasets; i++) {
+				chartdata = new Array(depth);
+				for(var i = 0; i < depth; i++) {
 					chartdata[i] = new Array(datasz);
 				}
 				
 				var total;
 				for(var i = 0; i < datasz; i++) {
 					total = 0;
-					for (var k = 0; k < datasets; k++) {
-						for (var j = 0; j < depth; j++) {
-							total += rawdata[j][i][k];
+					for (var j = 0; j < depth; j++) {
+						for (var k = 0; k < datasets; k++) {
+							total += rawdata[k][i][j];
 						}
-						chartdata[k][i] = [times[i], total];
+						chartdata[j][i] = [times[i], total];
 					}
 				}
 				

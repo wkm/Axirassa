@@ -3,11 +3,7 @@ package com.zanoccio.axirassa.webapp.pages;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.TreeSet;
 
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -155,77 +151,56 @@ public class Sentinel {
 		List<Object[]> data = query.list();
 		session.close();
 
-		HashMap<String, Integer> diskindices = new HashMap<String, Integer>();
-		HashMap<Integer, Integer> datapoints = new HashMap<Integer, Integer>();
-
-		// compute the number of disks and accumulate all timestamps for which
-		// we have data
-		int diskcount = 0;
-		String currentdisk = null;
-
-		ArrayList<String> labels = new ArrayList<String>(diskcount);
-
-		TreeSet<Long> times = new TreeSet<Long>();
-		int datapointcount = 0;
-		for (Object[] row : data) {
-			String disk = (String) row[0];
-			Timestamp time = (Timestamp) row[1];
-			times.add(time.getTime());
-			datapointcount++;
-
-			if (!disk.equals(currentdisk)) {
-				currentdisk = disk;
-				labels.add(disk);
-
-				// store the disk -> index mapping
-				diskindices.put(currentdisk, diskcount);
-				diskcount++;
+		List<List<Object[]>> diskdata = ListUtilities.partition(data, new ListUtilities.ListPartitioner<Object[]>() {
+			@Override
+			public boolean partition(Object[] previous, Object[] current) {
+				return (!previous[0].equals(current[0]));
 			}
-		}
+		});
 
-		// fill out the rawdata buffer
-		currentdisk = null;
-		int diskindex = 0;
-		Iterator<Long> timeiter = null;
-		int timeindex = 0;
-		long maxmemory = 0;
-		long totalmemory = 0;
+		// build per-disk datasets
+		AxPlotDataPackage datapackage = new AxPlotDataPackage();
+		int index = 0;
+		double totalmemory = 0;
+		for (List<Object[]> dataset : diskdata) {
+			index = 0;
+			double maxsize = 0;
+			double[] times = new double[dataset.size()];
+			double[] rawdata = new double[dataset.size()];
 
-		// a buffer with a position for each <time, cpu> slot.
-		double[] timestamps = new double[times.size()];
-		double[] rawdata = new double[times.size()];
+			AxPlotDataSet currentdataset = new AxPlotDataSet();
 
-		AxPlotDataPackage plotdata = new AxPlotDataPackage();
-		AxPlotDataSet dataset = new AxPlotDataSet();
-		for (Object[] row : data) {
-			// pull data
-			String disk = (String) row[0];
-			Timestamp time = (Timestamp) row[1];
-			long realtime = time.getTime();
-			long used = Long.parseLong((String) row[2]);
-			long total = Long.parseLong((String) row[3]);
+			for (Object[] row : dataset) {
+				// pull data
+				String disk = (String) row[0];
+				Timestamp time = (Timestamp) row[1];
+				long realtime = time.getTime();
+				long used = Long.parseLong((String) row[2]);
+				long total = Long.parseLong((String) row[3]);
 
-			if (total > maxmemory)
-				maxmemory = total;
+				if (currentdataset.getLabel() == null)
+					currentdataset.setLabel(disk);
 
-			// are we at the next cpu?
-			if (!disk.equals(currentdisk)) {
-				totalmemory += maxmemory;
-				maxmemory = 0;
-				currentdisk = disk;
-				diskindex = diskindices.get(currentdisk);
+				times[index] = realtime;
+				rawdata[index] = used;
 
-				timeiter = times.iterator();
-				timeindex = 0;
+				if (maxsize < total)
+					maxsize = total;
+
+				index++;
 			}
 
-			rawdata[timeindex] = used;
-			timeindex++;
+			totalmemory += maxsize;
+
+			currentdataset.setData(times, rawdata);
+			currentdataset.setYRange(0.0, maxsize);
+
+			datapackage.addDataSet(currentdataset);
 		}
 
-		plotdata.setLabelDataSets(true);
-		plotdata.setAggregatedYAxisRange(new AxPlotRange(0, totalmemory));
-		plotdata.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.DATA);
-		return plotdata.toJSON();
+		datapackage.setLabelDataSets(true);
+		datapackage.setAggregatedYAxisRange(new AxPlotRange(0.0, totalmemory));
+		datapackage.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.DATA);
+		return datapackage.toJSON();
 	}
 }
