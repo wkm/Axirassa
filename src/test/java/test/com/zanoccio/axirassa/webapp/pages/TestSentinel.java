@@ -8,6 +8,6 @@ public class TestSentinel {
 	@Test
 	public void testCPUUpdate() {
 		PageTester tester = new PageTester("com.zanoccio.axirassa.webapp", "", "src/main/java");
-		tester.renderPage("Sentinel.cpuupdate");
+		tester.renderPage("sentinel.cpuupdate");
 	}
 }

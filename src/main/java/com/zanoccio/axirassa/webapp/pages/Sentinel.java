@@ -39,9 +39,9 @@ public class Sentinel {
 		// database query; in particular that data is grouped by CPU and then by
 		// date.
 
-		if (!request.isXHR())
-			// cleanly handle non-JS
-			return "Sentinel";
+		// if (!request.isXHR())
+		// // cleanly handle non-JS
+		// return "Sentinel";
 
 		Session session = HibernateTools.getSession();
 
@@ -73,6 +73,10 @@ public class Sentinel {
 			dataindex++;
 		}
 
+		// store the final datapoint count
+		if (currentcpu > -1)
+			datapoints.add(dataindex);
+
 		// start building a data packet
 		AxPlotDataPackage datapackage = new AxPlotDataPackage();
 		AxPlotDataSet currentdataset = null;
@@ -94,12 +98,15 @@ public class Sentinel {
 			// are we at the next cpu?
 			if (cpuid != currentcpu) {
 				if (currentcpu > -1) {
-					currentdataset.setLabel("CPU " + cpuid);
+					currentdataset.setLabel("CPU " + currentcpu);
 					currentdataset.setData(axisblock, datablock);
 					datapackage.addDataSet(currentdataset);
 				}
 
+				currentcpu = cpuid;
+
 				datacursor = -1;
+				currentdataset = new AxPlotDataSet();
 				datablock = new double[datapoints.get(cpuindex)][2];
 				axisblock = new double[datapoints.get(cpuindex)];
 
@@ -114,10 +121,16 @@ public class Sentinel {
 			axisblock[datacursor] = time.getTime();
 		}
 
-		AxPlotDataPackage plotdata = new AxPlotDataPackage();
-		plotdata.setAggregatedYAxisRange(new AxPlotRange(0, cpucount * 100));
-		plotdata.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.PERCENT);
-		return plotdata.toJSON();
+		if (currentcpu > -1) {
+			currentdataset.setLabel("CPU " + currentcpu);
+			currentdataset.setData(axisblock, datablock);
+			datapackage.addDataSet(currentdataset);
+		}
+
+		datapackage.setAggregatedYAxisRange(new AxPlotRange(0, cpucount * 100));
+		datapackage.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.PERCENT);
+
+		return datapackage.toJSON();
 	}
 
 

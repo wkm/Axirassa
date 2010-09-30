@@ -88,18 +88,22 @@ var ax = new function() {
 			onSuccess: function(transport) {
 				$(id).update('Processing...');
 				
+				var colors = ["#D44917", "#0117A1"];
+				
 				var data = transport.responseText.evalJSON();
 				
-				var length = data['length'];
+				var depth = data['depth'];
 				var times = data['times'];
 				var rawdata = data['data'];
 				var datasets = data['datasets'];
 				var datasz = times.length;
 				var aggregatedmax = data['aggregatedMax'];
 				
-				var yaxislabfn = eval(data['yaxislabelfn']);
+				var labeldatasets = data['labelDataSets'];
 				
-				if (length > 1) {
+				var yaxislabfn = data['yaxislabelfn'];
+				
+				if (datasets > 1) {
 					$(id).update('Generating charts...');
 					
 					// create sub graph boxes
@@ -107,10 +111,15 @@ var ax = new function() {
 					var index = 0;
 					
 					data['labels'].map(function(label){
-						$(detailsnode).insert(new Element('div', {
+						var node = new Element('div', {
 							'class': 'chart axp',
 							id: id + "_chart_" + index
-						}));
+						});
+						
+						if(labeldatasets)
+							node.update(label);
+							
+						$(detailsnode).insert(node);
 						index++;
 					});
 					
@@ -120,23 +129,28 @@ var ax = new function() {
 					$(detailsnode).show();
 					
 					// refactor data, create charts
-					for (var i = 0; i < length; i++) {
-						chartdata = new Array(datasets);
-						for (var k = 0; k < datasets; k++) {
+					for (var dataset = 0; dataset < datasets; dataset++) {
+						chartdata = new Array(depth);
+						
+						// allocate data for each depth being plotted
+						for (var k = 0; k < depth; k++) {
 							chartdata[k] = new Array(datasz);
 						}
 						
+						// stack the data for each measuring point
 						var total;
 						for (var j = 0; j < datasz; j++) {
 							total = 0;
-							for (var k = 0; k < datasets; k++) {
-								total += rawdata[i][j][k];
+							for (var k = 0; k < depth; k++) {
+								total += rawdata[dataset][j][k];
 								chartdata[k][j] = [times[j], total];
 							}
 						}
 						
+						// if we're one of the last two datasets, label the
+						// x-axis ticks
 						var xtickfn;
-						if(i < (length - 2)) {
+						if(dataset < (datasets - 2)) {
 							xtickfn = function(n){
 								return "";
 							}
@@ -146,12 +160,12 @@ var ax = new function() {
 							}
 						};
 						
+						var chartindex = 0;
 						Flotr.draw(
-							$(id + "_chart_" + i), 
-							[
-								{data: chartdata[0], color: "#0117A1", lines:{show:true}}
-//								{data: chartdata[1], color: "#D44917", lines:{fill:false}}
-							], 
+							$(id + "_chart_" + dataset),
+							chartdata.map(function(d){
+								return {data: d, color: colors[chartindex++], lines:{show:true}};
+							}), 
 							{
 								shadowSize: 0,
 								xaxis: {
@@ -185,7 +199,7 @@ var ax = new function() {
 				for(var i = 0; i < datasz; i++) {
 					total = 0;
 					for (var k = 0; k < datasets; k++) {
-						for (var j = 0; j < length; j++) {
+						for (var j = 0; j < depth; j++) {
 							total += rawdata[j][i][k];
 						}
 						chartdata[k][i] = [times[i], total];
@@ -195,12 +209,12 @@ var ax = new function() {
 				$(id).update('');
 				$(id).removeClassName('axp_loading');
 				
+				var chartindex = 0;
 				Flotr.draw(
 					$(id),
-					[
-						{data: chartdata[0], color: "#0117A1", lines:{show:true}}
-//						{data: chartdata[1], color: "#D44917", lines:{fill:false}}
-					],
+					chartdata.map(function(d){
+						return {data: d, color: colors[chartindex++], lines:{show:true}};
+					}),
 					{
 						shadowSize: 0,
 						xaxis: {

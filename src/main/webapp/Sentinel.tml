@@ -39,6 +39,7 @@
 			<div class="agentname">CPU</div>
 			<t:axplot t:id="cpuupdate" detailsHeader="Breakdown by Processor"/>
 		</div>
+		<!-- 
 		<div class="agent">
 			<div class="agentname">Memory</div>
 			<t:axplot t:id="memupdate"/>
@@ -47,6 +48,7 @@
 			<div class="agentname">Disk Space</div>
 			<t:axplot t:id="diskspaceupdate" detailsHeader="Breakdown by Disk"/>
 		</div>
+		-->
 		<div class="agent">
 			<div class="agentname">Disk IO</div>
 		</div>

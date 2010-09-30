@@ -3,6 +3,7 @@ package com.zanoccio.axirassa.webapp.utilities;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 import org.apache.tapestry5.json.JSONLiteral;
@@ -59,9 +60,16 @@ public class AxPlotDataPackage implements JSONString {
 	private AxPlotRange xaxisrange;
 	private AxPlotRange yaxisrange;
 
+	private boolean labelDataSets = true;
+
 
 	public void addDataSet(AxPlotDataSet dataset) {
 		datasets.add(dataset);
+	}
+
+
+	public List<AxPlotDataSet> getDataSets() {
+		return datasets;
 	}
 
 
@@ -82,6 +90,11 @@ public class AxPlotDataPackage implements JSONString {
 
 	public void setAggregatedXAxisRange(AxPlotRange range) {
 		this.xaxisrange = range;
+	}
+
+
+	public void setLabelDataSets(boolean value) {
+		labelDataSets = value;
 	}
 
 
@@ -117,7 +130,7 @@ public class AxPlotDataPackage implements JSONString {
 			for (int i = 0; i < datasetdata.length; i++) {
 
 				// skip over any axis point for which we don't have data
-				while (axisiterator.next() != datasetaxis[i]) {
+				while (axisiterator.next() < datasetaxis[i]) {
 					// mark each point in this bar of the table as null
 					for (int j = 0; j < datadepth; j++)
 						data[datasetindex][columncursor][j] = null;
@@ -130,10 +143,12 @@ public class AxPlotDataPackage implements JSONString {
 				for (int j = 0; j < datadepth; j++)
 					if (j < datasetdata[i].length)
 						// values where we have them
-						data[datasetindex][columncursor][j] = datasetdata[i][i];
+						data[datasetindex][columncursor][j] = datasetdata[i][j];
 					else
 						// nulls for the rest
 						data[datasetindex][columncursor][j] = null;
+
+				columncursor++;
 			}
 
 			datasetindex++;
@@ -148,14 +163,17 @@ public class AxPlotDataPackage implements JSONString {
 
 
 	public JSONObject toJSON() {
+		constructAlignedTable();
+
 		JSONObject result = new JSONObject();
 
 		ArrayList<String> labels = new ArrayList<String>(datasets.size());
 		for (AxPlotDataSet dataset : datasets)
 			labels.add(dataset.getLabel());
 
-		result.put("length", datadepth);
-		result.put("datasets", datasets);
+		result.put("labelDataSets", labelDataSets);
+		result.put("depth", datadepth);
+		result.put("datasets", datasets.size());
 		result.put("aggregatedMin", yaxisrange.getMin());
 		result.put("aggregatedMax", yaxisrange.getMax());
 		if (xaxis != null)
