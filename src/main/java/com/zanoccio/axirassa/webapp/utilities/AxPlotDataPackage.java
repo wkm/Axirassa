@@ -53,10 +53,15 @@ public class AxPlotDataPackage implements JSONString {
 	}
 
 
+	private static final int JSON_BUFFER_SIZE = 4096;
+
 	private final ArrayList<AxPlotDataSet> datasets = new ArrayList<AxPlotDataSet>();
 
 	private AxPlotAxisLabelingFunction xaxis;
 	private AxPlotAxisLabelingFunction yaxis;
+
+	private String dataFormat = "%f";
+	private String axisFormat = "%f";
 
 	private AxPlotRange xaxisrange;
 	private AxPlotRange yaxisrange;
@@ -99,12 +104,34 @@ public class AxPlotDataPackage implements JSONString {
 	}
 
 
+	public void setDataFormat(String format) {
+		dataFormat = format;
+	}
+
+
+	public String getDataFormat() {
+		return dataFormat;
+	}
+
+
+	public void setAxisFormat(String format) {
+		axisFormat = format;
+	}
+
+
+	public String getAxisFormat() {
+		return axisFormat;
+	}
+
+
 	private TreeSet<Double> axisvalues;
-	private Double[][][] data;
+	private String datajson;
 	private int datadepth;
 
 
 	private void constructAlignedTable() {
+		StringBuilder json = new StringBuilder(JSON_BUFFER_SIZE);
+
 		// compute all unique axis values across the domain
 		axisvalues = new TreeSet<Double>();
 		datadepth = 0;
@@ -116,8 +143,7 @@ public class AxPlotDataPackage implements JSONString {
 				axisvalues.add(value);
 		}
 
-		// allocate a table for the values
-		data = new Double[datasets.size()][axisvalues.size()][datadepth];
+		json.append('[');
 
 		// copy data from each dataset into the the table
 		int datasetindex = 0;
@@ -128,32 +154,78 @@ public class AxPlotDataPackage implements JSONString {
 			double[][] datasetdata = dataset.getData();
 
 			int columncursor = 0;
+			json.append('[');
 			for (int i = 0; i < datasetdata.length; i++) {
 
 				// skip over any axis point for which we don't have data
 				while (axisiterator.next() < datasetaxis[i]) {
+					json.append('[');
 					// mark each point in this bar of the table as null
-					for (int j = 0; j < datadepth; j++)
-						data[datasetindex][columncursor][j] = null;
+					for (int j = 0; j < datadepth; j++) {
+						json.append("null");
+
+						if (j < datadepth - 1)
+							json.append(',');
+					}
+					json.append("],");
 
 					// move forward in the tableset
 					columncursor++;
 				}
 
 				// copy over this bar of data
-				for (int j = 0; j < datadepth; j++)
+				json.append('[');
+				for (int j = 0; j < datadepth; j++) {
 					if (j < datasetdata[i].length)
-						// values where we have them
-						data[datasetindex][columncursor][j] = datasetdata[i][j];
+						if (datasetdata[i][j] == 0.0)
+							json.append('0');
+						else
+							// values where we have them
+							json.append(String.format(dataFormat, datasetdata[i][j]));
 					else
-						// nulls for the rest
-						data[datasetindex][columncursor][j] = null;
+						json.append("null");
+
+					if (j < datadepth - 1)
+						json.append(',');
+				}
+				json.append(']');
+
+				if (i < datasetdata.length - 1)
+					json.append(',');
 
 				columncursor++;
 			}
 
+			// fill out any remaining axis points with nulls
+			while (axisiterator.hasNext()) {
+				axisiterator.next();
+
+				json.append(',');
+
+				json.append('[');
+				for (int i = 0; i < datadepth; i++) {
+					json.append("null");
+
+					if (i < datadepth - 1)
+						json.append(',');
+				}
+				json.append(']');
+
+			}
+
+			json.append(']');
+
+			if (datasetindex < datasets.size() - 1)
+				json.append(',');
+
 			datasetindex++;
 		}
+
+		json.append(']');
+
+		datajson = json.toString();
+
+		System.out.println("JSON: " + datajson);
 	}
 
 
@@ -193,7 +265,7 @@ public class AxPlotDataPackage implements JSONString {
 			result.put("yaxislabelfn", yaxis.toJSON());
 		result.put("labels", JSONConstructor.generateStrings(labels));
 		result.put("times", JSONConstructor.generate(axisvalues));
-		result.put("data", JSONConstructor.generate(data));
+		result.put("data", new JSONLiteral(datajson));
 
 		return result;
 	}
