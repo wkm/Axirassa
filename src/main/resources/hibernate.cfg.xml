@@ -18,7 +18,7 @@
 		<property name="current_session_context_class">thread</property>
 		
 		<!-- Cache -->
-		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+		<property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
 		
 		<!-- Debugging -->
 		<property name="show_sql">true</property>
