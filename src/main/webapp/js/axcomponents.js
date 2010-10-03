@@ -20,9 +20,9 @@ var ax = new function() {
 	    ampm = "am";
 	  }
 	  
-	  if(hour < 10) {
-	    hour = "0"+hour;
-	  }
+//	  if(hour < 10) {
+//	    hour = "0"+hour;
+//	  }
 	  if(minute < 10) {
 	    minute = "0"+minute;
 	  }
@@ -79,6 +79,7 @@ var ax = new function() {
 	this.axp_axislab_data = dataTicks;
 	
 	this.agentcontrol = function(id, source) {
+		
 		// mark that we're downloading data
 		$(id).addClassName('axp_loading');
 		$(id).update('Downloading data...');
@@ -91,6 +92,7 @@ var ax = new function() {
 				var colors = ["#D44917", "#0117A1"];
 				
 				var data = transport.responseText.evalJSON();
+				
 				
 				var depth = data['depth'];
 				var times = data['times'];
@@ -112,12 +114,15 @@ var ax = new function() {
 					
 					data['labels'].map(function(label){
 						var node = new Element('div', {
-							'class': 'chart axp',
-							id: id + "_chart_" + index
+							'class': 'axp_subchart',
+							id: id + "_" + index
 						});
 						
+						var body = "";
 						if(labeldatasets)
-							node.update(label);
+							node.insert(new Element('div', {'class': 'axp_label'}).update(label));
+						
+						node.insert(new Element('div', {id: id+'_'+index+'_subchart', 'class':'axp_plot'}));
 							
 						$(detailsnode).insert(node);
 						index++;
@@ -165,11 +170,14 @@ var ax = new function() {
 						
 						var chartindex = 0;
 						Flotr.draw(
-							$(id + "_chart_" + dataset),
+							$(id + "_" + dataset + "_subchart"),
 							chartdata.map(function(d){
 								return {data: d, color: colors[chartindex++], lines:{show:true}};
 							}), 
 							{
+								grid: {
+									outlineWidth: 0
+								},
 								shadowSize: 0,
 								xaxis: {
 									min: xrange[0],
@@ -187,6 +195,9 @@ var ax = new function() {
 							}
 						);
 					}
+					
+					x = [,,];
+					
 					
 					if(!visible)
 						$(detailsnode).hide();
@@ -222,6 +233,9 @@ var ax = new function() {
 						return {data: d, color: colors[chartindex++], lines:{show:true}};
 					}),
 					{
+						grid:{
+							outlineWidth: 0.5
+						},
 						shadowSize: 0,
 						xaxis: {
 							tickFormatter: function(n) {

@@ -1,14 +1,31 @@
 @CHARSET "UTF-8";
 
 /* AxPlot */
+.axp_plot {
+	font-size: 7pt;
+	margin: 5px;
+}
+
 .axp_loading {
 	background: #eee;
 	font-weight: bold;
 	border: 1px solid #ccc;
 }
 
-.axp {
+.axp_subchart {
 	padding: 5px;
+	float: left;
+}
+
+.axp_subchart .axp_plot {
+	width: 350px;
+	height: 75px;
+}
+
+.axp_label {
+	font-weight: bold;
+	font-size: 8pt;
+	color: #333;
 }
 
 /* AxOpener */

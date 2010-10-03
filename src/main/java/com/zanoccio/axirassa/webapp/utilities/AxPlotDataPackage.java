@@ -53,7 +53,7 @@ public class AxPlotDataPackage implements JSONString {
 	}
 
 
-	private static final int JSON_BUFFER_SIZE = 4096;
+	private static final int JSON_BUFFER_SIZE = 65536;
 
 	private final ArrayList<AxPlotDataSet> datasets = new ArrayList<AxPlotDataSet>();
 
@@ -181,7 +181,7 @@ public class AxPlotDataPackage implements JSONString {
 							json.append('0');
 						else
 							// values where we have them
-							json.append(String.format(dataFormat, datasetdata[i][j]));
+							json.append(datasetdata[i][j]);
 					else
 						json.append("null");
 
@@ -224,8 +224,6 @@ public class AxPlotDataPackage implements JSONString {
 		json.append(']');
 
 		datajson = json.toString();
-
-		System.out.println("JSON: " + datajson);
 	}
 
 
@@ -236,7 +234,9 @@ public class AxPlotDataPackage implements JSONString {
 
 
 	public JSONObject toJSON() {
+		long starttime = System.currentTimeMillis();
 		constructAlignedTable();
+		System.out.println("aligned table in: " + (System.currentTimeMillis() - starttime));
 
 		JSONObject result = new JSONObject();
 

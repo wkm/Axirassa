@@ -1,5 +1,5 @@
 <div class="charts" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
-	<div class="chart big"  id="${id}"></div>
+	<div class="axp_plot big"  id="${id}"></div>
 	<t:axopener header="${detailsHeader}" id="${id}_details">
 	</t:axopener>
 </div>
