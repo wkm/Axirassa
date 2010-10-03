@@ -113,43 +113,4 @@ public class AppModule {
 
 		configuration.add("Timing", filter);
 	}
-
-	// public void contributeMarkupRenderer(final
-	// OrderedConfiguration<MarkupRendererFilter> configuration,
-	// final Environment environment) {
-	// MarkupRendererFilter filter = new MarkupRendererFilter() {
-	//
-	// @Override
-	// public void renderMarkup(MarkupWriter writer, MarkupRenderer renderer) {
-	// environment.push(ValidationDecorator.class, new
-	// CustomValidationDecorator(environment, writer));
-	// renderer.renderMarkup(writer);
-	// environment.pop(ValidationDecorator.class);
-	//
-	// }
-	// };
-	//
-	// configuration.add("CustomValidationDecorator", filter,
-	// "after:DefaultValidationDecorator");
-	// }
-	//
-	//
-	// public void contributePartialMarkupRenderer(final
-	// OrderedConfiguration<PartialMarkupRendererFilter> configuration,
-	// final Environment environment) {
-	// PartialMarkupRendererFilter filter = new PartialMarkupRendererFilter() {
-	//
-	// @Override
-	// public void renderMarkup(MarkupWriter writer, JSONObject reply,
-	// PartialMarkupRenderer renderer) {
-	// environment.push(ValidationDecorator.class, new
-	// CustomValidationDecorator(environment, writer));
-	// renderer.renderMarkup(writer, reply);
-	// environment.pop(ValidationDecorator.class);
-	// }
-	// };
-	//
-	// configuration.add("CustomValidationDecorator", filter,
-	// "after:DefaultValidationDecorator");
-	// }
 }
