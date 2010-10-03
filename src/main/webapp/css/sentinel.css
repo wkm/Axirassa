@@ -42,13 +42,12 @@ body {
 
 .agent {
 	padding-bottom: 10px;
-	border-bottom: 1px solid #ddd;
-	border-right: 1px solid #eee;
 	clear: both;
 	float: left;
 	}
 	
 .name {
+	font-family: 'Seg', 'Verdana', 'Tahoma', sans-serif;
 	font-size: 10pt;
 	font-variant: small-caps;
 	text-transform: lowercase;
@@ -73,7 +72,7 @@ body {
 .charts {
 	display: inline-block;
 	float: left;
-	max-width: 750px;
+	max-width: 900px;
 	}
 
 .chart {
@@ -81,14 +80,14 @@ body {
 	
 	float: left;
 	
-	min-height: 100px;
-	min-width: 355px;
+	min-height: 65px;
+	min-width: 380px;
 	font-size: 7pt;
 	}
 	
 .big {
-		min-width: 750px;
-		min-height: 216px;
+		min-width: 800px;
+		min-height: 150px;
 		
 		float: none;
 	}

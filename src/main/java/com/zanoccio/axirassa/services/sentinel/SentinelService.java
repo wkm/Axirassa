@@ -3,6 +3,7 @@ package com.zanoccio.axirassa.services.sentinel;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -22,6 +23,7 @@ public class SentinelService implements Service {
 	private static final String CPU_STAT_INSERT = "INSERT INTO SentinelCPUStats VALUES (?,?,?,?,?)";
 	private static final String MEMORY_STAT_INSERT = "INSERT INTO SentinelMemoryStats VALUES (?,?,?,?)";
 	private static final String DISKUSAGE_STAT_INSERT = "INSERT INTO SentinelDiskUsageStats VALUES (?,?,?,?,?)";
+	private static final String DISKIO_STAT_INSERT = "INSERT INTO SentinelDiskIOStats VALUES (?,?,?,?,?)";
 	private static final String NETWORK_STAT_INSERT = "INSERT INTO SentinelNetworkStats VALUES (?,?,?,?,?)";
 	private static final String THROUGHPUT_STAT_INSERT = "INSERT INTO SentinelThroughputStats VALUES (?,?,?,?,?)";
 
@@ -35,6 +37,10 @@ public class SentinelService implements Service {
 	private ArrayList<DiskUsageStat> diskusagestat;
 	private ArrayList<NetworkStat> networkstat;
 	private ArrayList<ThroughputStat> throughputstat;
+
+	private long lastservice;
+
+	private LinkedHashMap<String, DiskIOStat> diskiostat;
 
 
 	public SentinelService(Session session, int machineid) {
@@ -86,16 +92,19 @@ public class SentinelService implements Service {
 				// skip
 				continue;
 
-			DiskUsageStat stat = new DiskUsageStat();
-			stat.disk = fs.getDirName();
+			DiskUsageStat usage_stat = new DiskUsageStat();
+			usage_stat.disk = fs.getDirName();
 
 			// TODO: verify these are 10^3 kilobytes, not 2^10 kilobytes.
 			// retrieve usage
-			FileSystemUsage usage = sigar.getFileSystemUsage(stat.disk);
-			stat.used = 1000 * usage.getUsed();
-			stat.total = 1000 * usage.getTotal();
+			FileSystemUsage usage = sigar.getFileSystemUsage(usage_stat.disk);
+			usage_stat.used = 1000 * usage.getUsed();
+			usage_stat.total = 1000 * usage.getTotal();
 
-			diskusagestat.add(stat);
+			DiskIOStat io_stat = new DiskIOStat();
+			usage.getDiskWriteBytes();
+
+			diskusagestat.add(usage_stat);
 		}
 	}
 
@@ -161,6 +170,12 @@ class DiskUsageStat {
 	String disk;
 	long used;
 	long total;
+}
+
+class DiskIOStat {
+	String disk;
+	long read;
+	long written;
 }
 
 class NetworkStat {
