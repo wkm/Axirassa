@@ -36,7 +36,7 @@ public class Sentinel {
 		// database query; in particular that data is grouped by CPU and then by
 		// date.
 
-		if (!request.isXHR())
+		if (request != null && !request.isXHR())
 			// cleanly handle non-JS
 			return "Sentinel";
 
@@ -94,6 +94,8 @@ public class Sentinel {
 		datapackage.setAggregatedYAxisRange(new AxPlotRange(0, cpuindex * 100));
 		datapackage.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.PERCENT);
 		datapackage.setLabelDataSets(false);
+
+		datapackage.setDataFormat("%2.1f");
 
 		return datapackage.toJSON();
 	}
@@ -179,7 +181,7 @@ public class Sentinel {
 				long total = Long.parseLong((String) row[3]);
 
 				if (currentdataset.getLabel() == null)
-					currentdataset.setLabel(disk);
+					currentdataset.setLabel("Disk - " + disk);
 
 				times[index] = realtime;
 				rawdata[index] = used;
@@ -197,6 +199,8 @@ public class Sentinel {
 
 			datapackage.addDataSet(currentdataset);
 		}
+
+		datapackage.setDataFormat("%3.01f");
 
 		datapackage.setLabelDataSets(true);
 		datapackage.setAggregatedYAxisRange(new AxPlotRange(0.0, totalmemory));
