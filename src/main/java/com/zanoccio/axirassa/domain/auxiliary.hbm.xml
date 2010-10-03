@@ -53,6 +53,22 @@
 		</drop>
 	</database-object>
 	
+	<database-object>
+		<create>
+			CREATE TABLE `SentinelDiskIOStats` (
+				`Machine_ID` INTEGER NOT NULL,
+				`Date` TIMESTAMP NOT NULL,
+				`Disk` VARCHAR(256) NOT NULL,
+				`Read` LONG NOT NULL
+				`Write` LONG NOT NULL
+				PRIMARY KEY (`Machine_ID`, `Date`, `Disk)
+			)
+		</create>
+		<drop>
+			DROP TABLE `SentinelDiskIOStats`
+		</drop>
+	</database-object>
+	
 	<!-- Network Usage Statistics -->
 	<database-object>
 		<create>
