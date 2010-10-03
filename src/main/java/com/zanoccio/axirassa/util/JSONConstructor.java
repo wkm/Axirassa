@@ -10,6 +10,39 @@ public class JSONConstructor {
 	public static final int BUFFER_SIZE = 1024 * 1024;
 
 
+	/**
+	 * TODO (BugzID:83)
+	 */
+	public static String format(double value, int precision, double granularity) {
+		if (value < granularity)
+			return "0";
+
+		// one less than the number of digits
+		int magnitude = (int) Math.log10(value);
+
+		// apply the granularity
+		value = ((long) value * granularity) / granularity;
+
+		// compute the amount of extra characters
+		int extra;
+		if (value % 1 > 0)
+			extra = 2;
+		else
+			extra = 1;
+
+		int cursor = precision + extra;
+		char[] result = new char[precision + extra];
+
+		// from the end, copy the result
+		double start = Math.pow(10, magnitude - precision);
+		while (cursor >= 0) {
+			cursor--;
+		}
+
+		return new String(result);
+	}
+
+
 	public static JSONLiteral generate(Double[][][] array) {
 		StringBuilder sb = new StringBuilder(BUFFER_SIZE);
 		sb.append('[');
