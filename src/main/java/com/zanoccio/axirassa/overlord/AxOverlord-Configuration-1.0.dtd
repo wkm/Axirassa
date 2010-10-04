@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT configuration (target+, group+)>
+
+<!ELEMENT target (#PCDATA)>
+<!ATTLIST target name CDATA #REQUIRED>
+<!ATTLIST target class CDATA #REQUIRED>
+
+<!ELEMENT group (execute+)>
+<!ATTLIST group name CDATA #REQUIRED>
+
+<!ELEMENT execute (#PCDATA)>
+<!ATTLIST execute instances CDATA "1">

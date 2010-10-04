@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE axoverlord-configuration PUBLIC
+	"-//AxOverlord/AxOverlord Configuration DTD 1.0//EN"
+	"com/zanoccio/axirassa/overlord/AxOverlord-Configuration-1.0.dtd">
+<configuration>
+	<target name="AxSentinelAgent" class=""/>
+	<target name="AxSobrietyQ" />
+	<target name="AxMessageQ" />
+	
+	<group name="master">
+		<execute>AxSentinelAgent</execute>
+		<execute>AxSentinelQ</execute>
+		<execute>AxMessageQ</execute>
+	</group>
+	
+	<group name="worker">
+		<execute>AxSentinelAgent</execute>
+		<execute instances="6">AxPinger</execute>
+	</group>
+	
+	<group name="support">
+		<execute>AxSentinelAgent</execute>
+		<execute instances="3">AxEmailService</execute>
+		<execute instances="3">AxSMSService</execute>
+	</group>
+</configuration>
