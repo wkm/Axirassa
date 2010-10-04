@@ -11,8 +11,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import com.zanoccio.axirassa.overlord.exceptions.DuplicateGroupException;
 import com.zanoccio.axirassa.overlord.exceptions.DuplicateTargetException;
 import com.zanoccio.axirassa.overlord.exceptions.NoExecutionTargetsException;
+import com.zanoccio.axirassa.overlord.exceptions.NoGroupsException;
 import com.zanoccio.axirassa.overlord.exceptions.NoOverlordConfigurationException;
 import com.zanoccio.axirassa.overlord.exceptions.OverlordException;
 import com.zanoccio.axirassa.overlord.exceptions.OverlordParsingException;
@@ -44,7 +46,7 @@ public class Overlord {
 	private Document dom;
 
 
-	public void execute(String[] groups) throws OverlordException {
+	public void execute(String[] parameters) throws OverlordException {
 		// locate configuration file
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
@@ -62,13 +64,12 @@ public class Overlord {
 		Element docroot = dom.getDocumentElement();
 
 		// create execution targets
-		NodeList nodelist = docroot.getElementsByTagName("target");
-		if (nodelist.getLength() < 1)
+		NodeList targetlist = docroot.getElementsByTagName("target");
+		if (targetlist.getLength() < 1)
 			throw new NoExecutionTargetsException(configfile);
 
-		for (int i = 0; i < nodelist.getLength(); i++) {
-			ExecutionTarget target = null;
-			target = ExecutionTarget.create(nodelist.item(i));
+		for (int i = 0; i < targetlist.getLength(); i++) {
+			ExecutionTarget target = ExecutionTarget.create(targetlist.item(i));
 
 			// check that this execution target doesn't already exist
 			if (targets.containsKey(target.getCanonicalName()))
@@ -76,10 +77,32 @@ public class Overlord {
 
 			targets.put(target.getCanonicalName(), target);
 		}
+		targetlist = null;
 
 		// create execution groups
+		NodeList executionlist = docroot.getElementsByTagName("group");
+		if (executionlist.getLength() < 1)
+			throw new NoGroupsException(configfile);
 
-		// attempt to execute each execution group
+		for (int i = 0; i < executionlist.getLength(); i++) {
+			ExecutionGroup group = ExecutionGroup.create(this, executionlist.item(i));
 
+			// check that this execution group doesn't already exist
+			if (groups.containsKey(group.getCanonicalName()))
+				throw new DuplicateGroupException(group, configfile);
+
+			groups.put(group.getCanonicalName(), group);
+		}
+
+		// attempt to execute the specified execution groups
+	}
+
+
+	/**
+	 * @return the target with the given canonical name or <tt>null</tt> if no
+	 *         such target exists.
+	 */
+	public ExecutionTarget findTarget(String targetname) {
+		return targets.get(targetname.toLowerCase());
 	}
 }

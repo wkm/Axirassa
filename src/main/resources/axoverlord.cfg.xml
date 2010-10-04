@@ -8,7 +8,7 @@
 	<target name="AxMessageQ" class="com.zanoccio.axirassa.MessageQueue" /> -->
 	
 	<group name="master">
-		<execute>AxSentinelAgent</execute>
+		<execute target="AxSentinelAgent" />
 		<!-- <execute>AxSentinelQ</execute>
 		<execute>AxMessageQ</execute> -->
 	</group>

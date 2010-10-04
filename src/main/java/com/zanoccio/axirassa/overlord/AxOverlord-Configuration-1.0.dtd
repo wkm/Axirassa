@@ -9,4 +9,5 @@
 <!ATTLIST group name CDATA #REQUIRED>
 
 <!ELEMENT execute (#PCDATA)>
+<!ATTLIST execute target CDATA #REQUIRED>
 <!ATTLIST execute instances CDATA "1">
