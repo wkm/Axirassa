@@ -43,6 +43,11 @@ public class SentinelService implements Service {
 	private LinkedHashMap<String, DiskIOStat> diskiostat;
 
 
+	public static void main(String[] param) {
+		System.out.println("OH HAI from SentinelService");
+	}
+
+
 	public SentinelService(Session session, int machineid) {
 		this.session = session;
 		this.machineid = machineid;

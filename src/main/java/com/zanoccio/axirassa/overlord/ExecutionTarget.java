@@ -9,11 +9,12 @@ import com.zanoccio.axirassa.overlord.exceptions.OverlordException;
 import com.zanoccio.axirassa.overlord.exceptions.OverlordTargetClassNotFoundException;
 
 public class ExecutionTarget {
+	private final Overlord overlord;
 	private final String name;
 	private final Class<? extends Object> klass;
 
 
-	public static ExecutionTarget create(Node node) throws OverlordException {
+	public static ExecutionTarget create(Overlord overlord, Node node) throws OverlordException {
 		if (!node.getNodeName().equalsIgnoreCase("target"))
 			return null;
 
@@ -28,17 +29,19 @@ public class ExecutionTarget {
 		classname = classnode.getTextContent();
 
 		try {
-			return new ExecutionTarget(name, classname);
+			return new ExecutionTarget(overlord, name, classname);
 		} catch (ClassNotFoundException e) {
 			throw new OverlordTargetClassNotFoundException(name, node.getOwnerDocument(), e);
 		}
 	}
 
 
-	public ExecutionTarget(String name, String classname) throws ClassNotFoundException, OverlordException {
+	public ExecutionTarget(Overlord overlord, String name, String classname) throws ClassNotFoundException,
+	        OverlordException {
 		if (!OverlordUtilities.isValidName(name))
 			throw new InvalidOverlordNameException(name);
 
+		this.overlord = overlord;
 		this.name = name;
 		this.klass = Class.forName(classname);
 	}
@@ -60,6 +63,11 @@ public class ExecutionTarget {
 	 */
 	public String getCanonicalName() {
 		return name.toLowerCase();
+	}
+
+
+	public Class<? extends Object> getTargetClass() {
+		return klass;
 	}
 
 }

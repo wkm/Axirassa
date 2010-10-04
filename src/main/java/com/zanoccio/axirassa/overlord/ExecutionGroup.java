@@ -1,6 +1,7 @@
 
 package com.zanoccio.axirassa.overlord;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,8 @@ public class ExecutionGroup {
 		ExecutionGroup group = new ExecutionGroup(name);
 
 		// fill it with execution targets
-		NodeList childnodes = namenode.getChildNodes();
+		NodeList childnodes = node.getChildNodes();
+
 		if (childnodes.getLength() < 1)
 			throw new EmptyExecutionGroupException(name, node.getOwnerDocument());
 
@@ -76,6 +78,15 @@ public class ExecutionGroup {
 
 	public List<ExecutionSpecification> getExecutionSpecifications() {
 		return executionspecs;
+	}
+
+
+	public void execute() throws IOException {
+		System.out.println("Starting execution group: " + getName());
+
+		for (ExecutionSpecification spec : executionspecs) {
+			spec.execute();
+		}
 	}
 
 }

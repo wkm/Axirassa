@@ -4,6 +4,8 @@
 <!ELEMENT target (#PCDATA)>
 <!ATTLIST target name CDATA #REQUIRED>
 <!ATTLIST target class CDATA #REQUIRED>
+<!ATTLIST target autorestart CDATA "true">
+<!ATTLIST target launchmode CDATA "spawn"> <!-- or "jvm" -->
 
 <!ELEMENT group (execute+)>
 <!ATTLIST group name CDATA #REQUIRED>

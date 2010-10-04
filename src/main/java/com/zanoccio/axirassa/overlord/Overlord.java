@@ -1,6 +1,8 @@
 
 package com.zanoccio.axirassa.overlord;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedHashMap;
 
@@ -31,7 +33,7 @@ public class Overlord {
 	private static final String CONFIGURATION_FILE = "axoverlord.cfg.xml";
 
 
-	public static void main(String[] parameters) throws OverlordException {
+	public static void main(String[] parameters) throws OverlordException, IOException {
 		Overlord overlord = new Overlord();
 		overlord.execute(new String[] { "master" });
 	}
@@ -45,14 +47,18 @@ public class Overlord {
 	private final LinkedHashMap<String, ExecutionGroup> groups = new LinkedHashMap<String, ExecutionGroup>();
 	private Document dom;
 
+	private String basedirectory;
 
-	public void execute(String[] parameters) throws OverlordException {
+
+	public void execute(String[] parameters) throws OverlordException, IOException {
 		// locate configuration file
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
 		URL configfile = ClassLoader.getSystemResource(CONFIGURATION_FILE);
 		if (configfile == null)
 			throw new NoOverlordConfigurationException(CONFIGURATION_FILE);
+
+		basedirectory = new File(configfile.getPath()).getParent();
 
 		try {
 			DocumentBuilder db = dbf.newDocumentBuilder();
@@ -69,7 +75,7 @@ public class Overlord {
 			throw new NoExecutionTargetsException(configfile);
 
 		for (int i = 0; i < targetlist.getLength(); i++) {
-			ExecutionTarget target = ExecutionTarget.create(targetlist.item(i));
+			ExecutionTarget target = ExecutionTarget.create(this, targetlist.item(i));
 
 			// check that this execution target doesn't already exist
 			if (targets.containsKey(target.getCanonicalName()))
@@ -95,6 +101,10 @@ public class Overlord {
 		}
 
 		// attempt to execute the specified execution groups
+		for (String parameter : parameters) {
+			ExecutionGroup group = groups.get(parameter);
+			group.execute();
+		}
 	}
 
 
@@ -104,5 +114,10 @@ public class Overlord {
 	 */
 	public ExecutionTarget findTarget(String targetname) {
 		return targets.get(targetname.toLowerCase());
+	}
+
+
+	public String getBaseDirectory() {
+		return basedirectory;
 	}
 }
