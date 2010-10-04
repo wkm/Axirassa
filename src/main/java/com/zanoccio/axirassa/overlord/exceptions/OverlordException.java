@@ -9,4 +9,9 @@ abstract public class OverlordException extends Exception {
 		super(msg);
 	}
 
+
+	public OverlordException(String msg, Exception cause) {
+		super(msg, cause);
+	}
+
 }

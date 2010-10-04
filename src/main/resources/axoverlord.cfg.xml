@@ -3,16 +3,16 @@
 	"-//AxOverlord/AxOverlord Configuration DTD 1.0//EN"
 	"com/zanoccio/axirassa/overlord/AxOverlord-Configuration-1.0.dtd">
 <configuration>
-	<target name="AxSentinelAgent" class=""/>
-	<target name="AxSobrietyQ" />
-	<target name="AxMessageQ" />
+	<target name="AxSentinelAgent" class="com.zanoccio.axirassa.services.sentinel.SentinelService" />
+	<!-- <target name="AxSobrietyQ" class="com.zanoccio.axirassa.SobrietyMessageQueue" />
+	<target name="AxMessageQ" class="com.zanoccio.axirassa.MessageQueue" /> -->
 	
 	<group name="master">
 		<execute>AxSentinelAgent</execute>
-		<execute>AxSentinelQ</execute>
-		<execute>AxMessageQ</execute>
+		<!-- <execute>AxSentinelQ</execute>
+		<execute>AxMessageQ</execute> -->
 	</group>
-	
+	<!--
 	<group name="worker">
 		<execute>AxSentinelAgent</execute>
 		<execute instances="6">AxPinger</execute>
@@ -23,4 +23,5 @@
 		<execute instances="3">AxEmailService</execute>
 		<execute instances="3">AxSMSService</execute>
 	</group>
+	-->
 </configuration>
