@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -72,18 +73,28 @@ public class ExecutionSpecification {
 
 
 	private void executeInstance() throws IOException {
-		ProcessBuilder processbuilder = new ProcessBuilder("java.exe", target.getTargetClass().getCanonicalName());
+		ArrayList<String> cli = new ArrayList<String>();
+		cli.add("java.exe");
+
+		// add jvm options
+		if (target.getJVMOptions().size() > 0) {
+			cli.addAll(target.getJVMOptions().getCommandLine());
+		}
+
+		cli.add(target.getTargetClass().getCanonicalName());
+
+		System.out.println("CLI: " + cli);
+
+		ProcessBuilder processbuilder = new ProcessBuilder(cli);
 		processbuilder.redirectErrorStream(true);
 		processbuilder.directory(new File(overlord.getBaseDirectory()));
-
-		System.out.println("starting from: " + processbuilder.directory());
 
 		Process process = processbuilder.start();
 
 		BufferedReader stream = new BufferedReader(new InputStreamReader(process.getInputStream()));
 		String line;
 		while ((line = stream.readLine()) != null)
-			System.out.println("OUT: " + line);
+			System.out.println("STDOUT: " + line);
 
 	}
 }

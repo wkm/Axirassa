@@ -3,6 +3,7 @@ package com.zanoccio.axirassa.overlord;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.zanoccio.axirassa.overlord.exceptions.InvalidOverlordNameException;
 import com.zanoccio.axirassa.overlord.exceptions.OverlordException;
@@ -12,12 +13,14 @@ public class ExecutionTarget {
 	private final Overlord overlord;
 	private final String name;
 	private final Class<? extends Object> klass;
+	private final TargetJVMOptions jvmoptions;
 
 
 	public static ExecutionTarget create(Overlord overlord, Node node) throws OverlordException {
 		if (!node.getNodeName().equalsIgnoreCase("target"))
 			return null;
 
+		// create the base execution target
 		NamedNodeMap attributes = node.getAttributes();
 
 		String name, classname;
@@ -28,11 +31,25 @@ public class ExecutionTarget {
 		name = namenode.getTextContent();
 		classname = classnode.getTextContent();
 
+		ExecutionTarget target = null;
+
 		try {
-			return new ExecutionTarget(overlord, name, classname);
+			target = new ExecutionTarget(overlord, name, classname);
 		} catch (ClassNotFoundException e) {
 			throw new OverlordTargetClassNotFoundException(name, node.getOwnerDocument(), e);
 		}
+
+		// apply any options
+		NodeList children = node.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node child = children.item(i);
+
+			if (child.getNodeName().equals("jvmoptions")) {
+				TargetJVMOptions.populate(target.getJVMOptions(), child);
+			}
+		}
+
+		return target;
 	}
 
 
@@ -44,6 +61,7 @@ public class ExecutionTarget {
 		this.overlord = overlord;
 		this.name = name;
 		this.klass = Class.forName(classname);
+		this.jvmoptions = new TargetJVMOptions();
 	}
 
 
@@ -63,6 +81,11 @@ public class ExecutionTarget {
 	 */
 	public String getCanonicalName() {
 		return name.toLowerCase();
+	}
+
+
+	public TargetJVMOptions getJVMOptions() {
+		return jvmoptions;
 	}
 
 

@@ -105,6 +105,7 @@ public class Overlord {
 			ExecutionGroup group = groups.get(parameter);
 			group.execute();
 		}
+		executionlist = null;
 	}
 
 

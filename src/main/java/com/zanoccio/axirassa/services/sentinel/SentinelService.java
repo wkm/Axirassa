@@ -42,9 +42,26 @@ public class SentinelService implements Service {
 
 	private LinkedHashMap<String, DiskIOStat> diskiostat;
 
+	private static int MEGABYTE = (1024 * 1024);
 
-	public static void main(String[] param) {
-		System.out.println("OH HAI from SentinelService");
+
+	public static void main(String[] param) throws InterruptedException {
+		Runtime runtime = Runtime.getRuntime();
+		System.out.printf("max heap: %d\n", runtime.maxMemory());
+
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < 10 * MEGABYTE; i++) {
+			list.add(i);
+
+			if (i % MEGABYTE == 0) {
+				System.out.printf("total   : %d\n", runtime.totalMemory() / MEGABYTE);
+				System.out.printf("free    : %d\n", runtime.freeMemory() / MEGABYTE);
+			}
+		}
+
+		Thread.sleep(120 * 1000);
+
+		System.out.println("Good bye.");
 	}
 
 
