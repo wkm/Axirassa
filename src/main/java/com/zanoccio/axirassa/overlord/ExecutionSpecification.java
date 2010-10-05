@@ -56,7 +56,7 @@ public class ExecutionSpecification {
 		if (count < 1)
 			return;
 
-		this.instances = count;
+		instances = count;
 	}
 
 
@@ -66,9 +66,10 @@ public class ExecutionSpecification {
 
 
 	public void execute() throws IOException {
-		for (int i = 0; i < instances; i++)
+		for (int i = 0; i < instances; i++) {
 			System.out.printf("  %s %d -- %s\n", target.getName(), i, target.getTargetClass().getCanonicalName());
-		executeInstance();
+			executeInstance();
+		}
 	}
 
 
@@ -91,10 +92,14 @@ public class ExecutionSpecification {
 
 		Process process = processbuilder.start();
 
-		BufferedReader stream = new BufferedReader(new InputStreamReader(process.getInputStream()));
+		BufferedReader stdoutstream = new BufferedReader(new InputStreamReader(process.getInputStream()));
+		BufferedReader stderrstream = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 		String line;
-		while ((line = stream.readLine()) != null)
+		while ((line = stdoutstream.readLine()) != null)
 			System.out.println("STDOUT: " + line);
+
+		while ((line = stderrstream.readLine()) != null)
+			System.out.println("STDERR: " + line);
 
 	}
 }
