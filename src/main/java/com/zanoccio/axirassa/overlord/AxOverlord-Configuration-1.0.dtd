@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!ELEMENT configuration (target+, group+)>
 
-<!ELEMENT target (#PCDATA)>
-<!ATTLIST target name CDATA #REQUIRED>
-<!ATTLIST target class CDATA #REQUIRED>
-<!ATTLIST target autorestart CDATA "true">
-<!ATTLIST target launchmode CDATA "spawn"> <!-- or "jvm" -->
+<!ELEMENT target (jvmoptions?)>
+<!ATTLIST target 
+	name CDATA #REQUIRED
+	class CDATA #REQUIRED
+	autorestart (yes|no) "yes"
+	launchmode (jvm|thread) "jvm"
+>
+
+<!ELEMENT jvmoptions (option*)>
+
+<!ELEMENT option EMPTY>
+<!ATTLIST option
+	 name CDATA #REQUIRED
+	 value CDATA #REQUIRED
+>
 
 <!ELEMENT group (execute+)>
-<!ATTLIST group name CDATA #REQUIRED>
+<!ATTLIST group
+	name CDATA #REQUIRED
+>
 
 <!ELEMENT execute (#PCDATA)>
-<!ATTLIST execute target CDATA #REQUIRED>
-<!ATTLIST execute instances CDATA "1">
+<!ATTLIST execute 
+	 target CDATA #REQUIRED
+	 instances CDATA "1"
+>
