@@ -30,6 +30,25 @@ import com.zanoccio.axirassa.overlord.exceptions.OverlordParsingException;
  * 
  */
 public class Overlord {
+
+	enum SystemPlatform {
+		WINDOWS,
+		LINUX,
+		OTHER;
+	}
+
+
+	private static final SystemPlatform platform;
+	static {
+		String os = System.getProperty("os.name").toLowerCase();
+		if (os.indexOf("windows") >= 0)
+			platform = SystemPlatform.WINDOWS;
+		else if (os.indexOf("linux") >= 0)
+			platform = SystemPlatform.LINUX;
+		else
+			platform = SystemPlatform.OTHER;
+	}
+
 	private static final String CONFIGURATION_FILE = "axoverlord.cfg.xml";
 
 
@@ -50,7 +69,26 @@ public class Overlord {
 	private String basedirectory;
 
 
+	public String getJava() {
+		switch (platform) {
+		case WINDOWS:
+			return "java.exe";
+
+		case LINUX:
+			return "java";
+
+		default:
+			return null;
+		}
+	}
+
+
 	public void execute(String[] parameters) throws OverlordException, IOException {
+		if (platform == SystemPlatform.OTHER) {
+			System.err.println("Ax|Overlord is not supported on " + System.getProperty("os.name"));
+			return;
+		}
+
 		// locate configuration file
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 

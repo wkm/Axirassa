@@ -74,7 +74,7 @@ public class ExecutionSpecification {
 
 	private void executeInstance() throws IOException {
 		ArrayList<String> cli = new ArrayList<String>();
-		cli.add("java.exe");
+		cli.add(overlord.getJava());
 
 		// add jvm options
 		if (target.getJVMOptions().size() > 0) {
