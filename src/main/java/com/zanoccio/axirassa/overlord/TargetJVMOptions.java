@@ -37,21 +37,16 @@ public class TargetJVMOptions {
 			return null;
 
 		NodeList optionnodes = jvmoptions.getChildNodes();
-		System.out.println("jvmoption node: " + jvmoptions);
-		System.out.println("options: " + optionnodes);
 
 		for (int i = 0; i < optionnodes.getLength(); i++) {
 			Node optionnode = optionnodes.item(i);
 			if (!optionnode.getNodeName().equals("option"))
 				continue;
 
-			System.out.println("at node: " + optionnode);
 			NamedNodeMap attributes = optionnode.getAttributes();
 
 			Node namenode = attributes.getNamedItem("name");
 			Node valuenode = attributes.getNamedItem("value");
-
-			System.out.printf("%s = %s\n", namenode.getTextContent(), valuenode.getTextContent());
 
 			options.addOption(namenode.getTextContent(), valuenode.getTextContent());
 		}
@@ -73,7 +68,6 @@ public class TargetJVMOptions {
 
 
 	public void addOption(JVMOption option, String value) {
-		System.out.println("Adding option: " + option + " : " + value);
 		options.put(option, value);
 	}
 

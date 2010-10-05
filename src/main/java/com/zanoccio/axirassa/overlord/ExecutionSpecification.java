@@ -84,8 +84,6 @@ public class ExecutionSpecification {
 
 		cli.add(target.getTargetClass().getCanonicalName());
 
-		System.out.println("CLI: " + cli);
-
 		ProcessBuilder processbuilder = new ProcessBuilder(cli);
 		processbuilder.redirectErrorStream(true);
 		processbuilder.directory(new File(overlord.getBaseDirectory()));

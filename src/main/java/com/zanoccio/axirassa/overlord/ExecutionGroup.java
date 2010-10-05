@@ -83,7 +83,6 @@ public class ExecutionGroup {
 
 	public void execute() throws IOException {
 		System.out.println("Starting execution group: " + getName());
-
 		for (ExecutionSpecification spec : executionspecs) {
 			spec.execute();
 		}
