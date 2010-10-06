@@ -102,7 +102,7 @@ public class Overlord {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			dom = db.parse(configfile.getPath());
 		} catch (Exception e) { // TODO: much too general
-			throw new OverlordParsingException(configfile, e);
+			throw new OverlordParsingException(dom, e);
 		}
 
 		Element docroot = dom.getDocumentElement();
@@ -110,14 +110,14 @@ public class Overlord {
 		// create execution targets
 		NodeList targetlist = docroot.getElementsByTagName("target");
 		if (targetlist.getLength() < 1)
-			throw new NoExecutionTargetsException(configfile);
+			throw new NoExecutionTargetsException(dom);
 
 		for (int i = 0; i < targetlist.getLength(); i++) {
 			ExecutionTarget target = ExecutionTarget.create(this, targetlist.item(i));
 
 			// check that this execution target doesn't already exist
 			if (targets.containsKey(target.getCanonicalName()))
-				throw new DuplicateTargetException(target, configfile);
+				throw new DuplicateTargetException(target, dom);
 
 			targets.put(target.getCanonicalName(), target);
 		}
@@ -126,14 +126,14 @@ public class Overlord {
 		// create execution groups
 		NodeList executionlist = docroot.getElementsByTagName("group");
 		if (executionlist.getLength() < 1)
-			throw new NoGroupsException(configfile);
+			throw new NoGroupsException(dom);
 
 		for (int i = 0; i < executionlist.getLength(); i++) {
 			ExecutionGroup group = ExecutionGroup.create(this, executionlist.item(i));
 
 			// check that this execution group doesn't already exist
 			if (groups.containsKey(group.getCanonicalName()))
-				throw new DuplicateGroupException(group, configfile);
+				throw new DuplicateGroupException(group, dom);
 
 			groups.put(group.getCanonicalName(), group);
 		}
