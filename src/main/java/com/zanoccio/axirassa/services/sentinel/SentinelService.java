@@ -12,6 +12,7 @@ import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.FileSystem;
 import org.hyperic.sigar.FileSystemUsage;
 import org.hyperic.sigar.Mem;
+import org.hyperic.sigar.NetInterfaceStat;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 
@@ -42,13 +43,9 @@ public class SentinelService implements Service {
 
 	private LinkedHashMap<String, DiskIOStat> diskiostat;
 
-	private static int MEGABYTE = (1024 * 1024);
-
 
 	public static void main(String[] param) throws InterruptedException {
-		Runtime runtime = Runtime.getRuntime();
-		Thread.sleep(1500);
-		System.out.println("Good bye.");
+		Thread.sleep(15000);
 	}
 
 
@@ -115,6 +112,19 @@ public class SentinelService implements Service {
 
 			diskusagestat.add(usage_stat);
 		}
+
+		// NETWORK USAGE STAT
+		networkstat = new ArrayList<NetworkStat>();
+		String[] netinterfaces = sigar.getNetInterfaceList();
+		for (String netinterface : netinterfaces) {
+			NetInterfaceStat stat = sigar.getNetInterfaceStat(netinterface);
+			NetworkStat netstat = new NetworkStat();
+			netstat.device = netinterface;
+			netstat.receive = stat.getRxBytes();
+			netstat.send = stat.getTxBytes();
+
+			networkstat.add(netstat);
+		}
 	}
 
 
@@ -156,6 +166,19 @@ public class SentinelService implements Service {
 				query.setLong(3, stat.used);
 				query.setLong(4, stat.total);
 
+				query.executeUpdate();
+			}
+		}
+
+		if (networkstat != null) {
+			SQLQuery query = session.createSQLQuery(NETWORK_STAT_INSERT);
+			query.setInteger(0, machineid);
+			query.setTimestamp(1, date);
+
+			for (NetworkStat stat : networkstat) {
+				query.setString(2, stat.device);
+				query.setLong(3, stat.send);
+				query.setLong(4, stat.receive);
 				query.executeUpdate();
 			}
 		}

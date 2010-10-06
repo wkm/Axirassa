@@ -1,10 +1,8 @@
 
 package com.zanoccio.axirassa.overlord;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.w3c.dom.NamedNodeMap;
@@ -89,15 +87,5 @@ public class ExecutionSpecification {
 		processbuilder.directory(new File(overlord.getBaseDirectory()));
 
 		Process process = processbuilder.start();
-
-		BufferedReader stdoutstream = new BufferedReader(new InputStreamReader(process.getInputStream()));
-		BufferedReader stderrstream = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-		String line;
-		while ((line = stdoutstream.readLine()) != null)
-			System.out.println("STDOUT: " + line);
-
-		while ((line = stderrstream.readLine()) != null)
-			System.out.println("STDERR: " + line);
-
 	}
 }

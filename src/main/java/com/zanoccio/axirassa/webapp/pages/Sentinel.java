@@ -26,6 +26,7 @@ public class Sentinel {
 	private final static String cpusql = "SELECT CPU, Date, User, System FROM SentinelCPUStats WHERE Machine_ID = 1 ORDER BY CPU ASC, Date ASC";
 	private final static String memsql = "SELECT Date, Used, Total FROM SentinelMemoryStats WHERE Machine_ID = 1 ORDER BY Date ASC";
 	private final static String disksql = "SELECT Disk, Date, Used, Total FROM SentinelDiskUsageStats WHERE Machine_ID = 1 ORDER BY Disk ASC, Date ASC";
+	private final static String networksql = "SELECT Device, Date, Send, Receive FROM SentinelNetworkStats WHERE Machine_ID = 1 ORDER BY Device ASC, Date ASC";
 
 	@Inject
 	private Request request;
@@ -205,6 +206,60 @@ public class Sentinel {
 		datapackage.setLabelDataSets(true);
 		datapackage.setAggregatedYAxisRange(new AxPlotRange(0.0, totalmemory));
 		datapackage.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.DATA);
+		return datapackage.toJSON();
+	}
+
+
+	public Object onActionFromNetworkUpdate() {
+		Session session = HibernateTools.getSession();
+
+		SQLQuery query = session.createSQLQuery(networksql);
+		List<Object[]> data = query.list();
+		session.close();
+
+		// partition on the network interface
+		List<List<Object[]>> networkdata = ListUtilities.partition(data, new ListUtilities.ListPartitioner<Object[]>() {
+			@Override
+			public boolean partition(Object[] previous, Object[] current) {
+				return (!previous[0].equals(current[0]));
+			}
+		});
+
+		// build datasets per network interface
+		AxPlotDataPackage datapackage = new AxPlotDataPackage();
+		int index = 0;
+		for (List<Object[]> dataset : networkdata) {
+			index = 0;
+			double[] times = new double[dataset.size()];
+			double[][] rawdata = new double[dataset.size()][2];
+
+			AxPlotDataSet currentdataset = new AxPlotDataSet();
+
+			for (Object[] row : dataset) {
+				String iface = (String) row[0];
+				Timestamp time = (Timestamp) row[1];
+				long realtime = time.getTime();
+				long sent = Long.parseLong((String) row[2]);
+				long received = Long.parseLong((String) row[3]);
+
+				if (currentdataset.getLabel() == null)
+					currentdataset.setLabel(iface);
+
+				times[index] = realtime;
+				rawdata[index][0] = sent;
+				rawdata[index][1] = received;
+
+				index++;
+			}
+
+			currentdataset.setData(times, rawdata);
+			currentdataset.setYRange(0.0, null);
+			datapackage.addDataSet(currentdataset);
+		}
+
+		datapackage.setLabelDataSets(true);
+		datapackage.setYAxisLabelingFunction(AxPlotAxisLabelingFunction.DATA);
+
 		return datapackage.toJSON();
 	}
 }

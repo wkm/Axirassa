@@ -257,8 +257,10 @@ public class AxPlotDataPackage implements JSONString {
 		result.put("depth", datadepth);
 		result.put("datasets", datasets.size());
 		result.put("plotranges", plotranges);
-		result.put("aggregatedMin", yaxisrange.getMin());
-		result.put("aggregatedMax", yaxisrange.getMax());
+		if (yaxisrange != null)
+			result.put("aggregatedMin", yaxisrange.getMin());
+		if (yaxisrange != null)
+			result.put("aggregatedMax", yaxisrange.getMax());
 		if (xaxis != null)
 			result.put("xaxislabelfn", xaxis.toJSON());
 		if (yaxis != null)

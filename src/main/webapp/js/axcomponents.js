@@ -56,14 +56,14 @@ var ax = new function() {
 	function dataTicks(n, max) {
 		var base;
 		var unit;
-		if(max > gib) {
+		if(max > 5 * gib) {
 			base = (n / gib);
 			unit = "GiB";
-		} else if(max > mib) {
+		} else if(max > 5 * mib) {
 			base = (n / mib);
 			unit = "MiB";
 		} else {
-			base = (n / kib);
+			base = (n / 5 * kib);
 			unit = "KiB";
 		}
 		

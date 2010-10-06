@@ -54,6 +54,7 @@
 		</div>
 		<div class="agent">
 			<div class="agentname">Network</div>
+			<t:axplot t:id="networkupdate" detailsHeader="Breakdown by Network Interface" />
 		</div>
 		<div class="agent">
 			<div class="agentname">Throughput</div>

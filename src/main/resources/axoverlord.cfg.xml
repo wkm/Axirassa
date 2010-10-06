@@ -3,6 +3,7 @@
  "-//AxOverlord/AxOverlord Configuration DTD 1.0//EN"
  "com/zanoccio/axirassa/overlord/AxOverlord-Configuration-1.0.dtd">
 <configuration>
+	<!-- Target Classes -->
     <target name="AxSentinelAgent" class="com.zanoccio.axirassa.services.sentinel.SentinelService"> 
         <jvmoptions>
             <option name="Xmx" value="32M"/>
@@ -14,7 +15,7 @@
     <target name="AxMessageQ" class="com.zanoccio.axirassa.MessageQueue" /> -->
     
     <group name="master">
-        <execute target="AxSentinelAgent"/>
+        <execute target="AxSentinelAgent" instances="3"/>
         <!-- <execute>AxSentinelQ</execute>
         <execute>AxMessageQ</execute> -->
     </group>

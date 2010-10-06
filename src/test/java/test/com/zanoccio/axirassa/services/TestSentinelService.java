@@ -22,7 +22,7 @@ public class TestSentinelService {
 
 		for (int i = 0; i < (8 * 60); i++) {
 			service.execute();
-			Thread.sleep(60000);
+			Thread.sleep(1000);
 		}
 	}
 }
