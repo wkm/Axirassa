@@ -16,8 +16,12 @@ public class AxPlotDataSet {
 	private double[] axis;
 	private double[][] data;
 	private int datadepth = 0;
-	private AxPlotRange yrange;
-	private AxPlotRange xrange;
+
+	private AxPlotRange ydatarange;
+	private AxPlotRange yplotrange;
+
+	private AxPlotRange xdatarange;
+	private AxPlotRange xplotrange;
 
 
 	public void setLabel(String label) {
@@ -40,12 +44,54 @@ public class AxPlotDataSet {
 
 
 	public void setData(double[] axis, double[][] data) {
+		datadepth = computeDataDepth(data);
+
+		this.xdatarange = findXDataRange(axis);
+		this.ydatarange = findYDataRange(data);
+
+		this.axis = axis;
+		this.data = data;
+	}
+
+
+	private int computeDataDepth(double[][] data) {
+		int datadepth = 0;
 		for (double[] column : data)
 			if (column.length > datadepth)
 				datadepth = column.length;
 
-		this.axis = axis;
-		this.data = data;
+		return datadepth;
+	}
+
+
+	/**
+	 * This makes the assumption that data is already pre-sorted on the x-axis.
+	 */
+	private AxPlotRange findXDataRange(double[] times) {
+		if (times.length < 1)
+			return new AxPlotRange(0, 0);
+
+		return new AxPlotRange(times[0], times[times.length - 1]);
+	}
+
+
+	private AxPlotRange findYDataRange(double[][] data) {
+		double min = 0;
+		double max = 0;
+
+		for (double[] column : data) {
+			double total = 0;
+			for (double value : column)
+				total += value;
+
+			if (total < min)
+				min = total;
+
+			if (total > max)
+				max = total;
+		}
+
+		return new AxPlotRange(min, max);
 	}
 
 
@@ -64,21 +110,33 @@ public class AxPlotDataSet {
 	}
 
 
-	public void setYRange(Double ymin, Double ymax) {
-		setYRange(new AxPlotRange(ymin, ymax));
+	public void setYPlotRange(Double ymin, Double ymax) {
+		setYPlotRange(new AxPlotRange(ymin, ymax));
 	}
 
 
-	public void setYRange(AxPlotRange range) {
-		yrange = range;
+	public void setYPlotRange(AxPlotRange range) {
+		yplotrange = range;
 	}
 
 
-	public AxPlotRange getYRange() {
-		if (yrange != null)
-			return yrange;
+	/**
+	 * @return the desired plot range for the y-axis.
+	 */
+	public AxPlotRange getYPlotRange() {
+		if (yplotrange != null)
+			return yplotrange;
 
 		return new AxPlotRange();
+	}
+
+
+	/**
+	 * @return the actual minimum and maximum of the data on the y-axis.
+	 *         (stacked, if appropriate)
+	 */
+	public AxPlotRange getYDataRange() {
+		return ydatarange;
 	}
 
 
@@ -96,7 +154,7 @@ public class AxPlotDataSet {
 	 * @param range
 	 */
 	public void setXRange(AxPlotRange range) {
-		xrange = range;
+		xplotrange = range;
 	}
 
 
@@ -105,8 +163,8 @@ public class AxPlotDataSet {
 	 *         {@link AxPlotRange} if a plot range hasn't been specified.
 	 */
 	public AxPlotRange getXRange() {
-		if (xrange != null)
-			return xrange;
+		if (xplotrange != null)
+			return xplotrange;
 
 		return new AxPlotRange();
 	}
