@@ -44,8 +44,9 @@ public class SentinelService implements Service {
 	private LinkedHashMap<String, DiskIOStat> diskiostat;
 
 
-	public static void main(String[] param) throws InterruptedException {
-		Thread.sleep(15000);
+	public static void main(String[] param) throws SigarException {
+		SentinelService service = new SentinelService(null, 0);
+		service.retrieveStatistics();
 	}
 
 
@@ -119,7 +120,8 @@ public class SentinelService implements Service {
 		for (String netinterface : netinterfaces) {
 			NetInterfaceStat stat = sigar.getNetInterfaceStat(netinterface);
 			NetworkStat netstat = new NetworkStat();
-			netstat.device = netinterface;
+
+			netstat.device = sigar.getNetInterfaceConfig(netinterface).getDescription();
 			netstat.receive = stat.getRxBytes();
 			netstat.send = stat.getTxBytes();
 
