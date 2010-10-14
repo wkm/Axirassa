@@ -20,9 +20,6 @@ var ax = new function() {
 	    ampm = "am";
 	  }
 	  
-//	  if(hour < 10) {
-//	    hour = "0"+hour;
-//	  }
 	  if(minute < 10) {
 	    minute = "0"+minute;
 	  }
@@ -67,7 +64,7 @@ var ax = new function() {
 			unit = "KiB";
 		}
 		
-		return base.toFixed(2) + unit;
+		return base.toFixed(0) + unit;
 	};
 	
 	this.axp_axislab_date = function(val, max){
@@ -234,7 +231,7 @@ var ax = new function() {
 					}),
 					{
 						grid:{
-							outlineWidth: 0.5
+							outlineWidth: 0
 						},
 						shadowSize: 0,
 						xaxis: {

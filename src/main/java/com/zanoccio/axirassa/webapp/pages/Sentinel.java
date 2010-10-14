@@ -85,7 +85,7 @@ public class Sentinel {
 			AxPlotDataSet currentdataset = new AxPlotDataSet();
 			currentdataset.setLabel("CPU " + cpuindex);
 			currentdataset.setData(times, rawdata);
-			currentdataset.setYRange(yrange);
+			currentdataset.setYPlotRange(yrange);
 
 			datapackage.addDataSet(currentdataset);
 
@@ -196,7 +196,7 @@ public class Sentinel {
 			totalmemory += maxsize;
 
 			currentdataset.setData(times, rawdata);
-			currentdataset.setYRange(0.0, maxsize);
+			currentdataset.setYPlotRange(0.0, maxsize);
 
 			datapackage.addDataSet(currentdataset);
 		}
@@ -253,7 +253,7 @@ public class Sentinel {
 			}
 
 			currentdataset.setData(times, rawdata);
-			currentdataset.setYRange(0.0, null);
+			currentdataset.setYPlotRange(0.0, null);
 			datapackage.addDataSet(currentdataset);
 		}
 

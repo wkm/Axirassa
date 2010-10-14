@@ -141,6 +141,13 @@ of testing facilities designed for use with TestNG (http://testng.org/), so it's
         	<version>${tapestry-release-version}</version>
         	<scope>test</scope>
         </dependency>
+        <dependency>
+        	<groupId>org.glassfish</groupId>
+        	<artifactId>javax.annotation</artifactId>
+        	<version>3.1-b21</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
     </dependencies>
     <url>http://axirassa.com</url>
     <issueManagement>

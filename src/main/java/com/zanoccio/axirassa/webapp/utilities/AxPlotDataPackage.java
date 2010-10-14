@@ -53,7 +53,7 @@ public class AxPlotDataPackage implements JSONString {
 	}
 
 
-	private static final int JSON_BUFFER_SIZE = 65536;
+	private static final int JSON_BUFFER_SIZE = 4096;
 
 	private final ArrayList<AxPlotDataSet> datasets = new ArrayList<AxPlotDataSet>();
 
@@ -234,9 +234,7 @@ public class AxPlotDataPackage implements JSONString {
 
 
 	public JSONObject toJSON() {
-		long starttime = System.currentTimeMillis();
 		constructAlignedTable();
-		System.out.println("aligned table in: " + (System.currentTimeMillis() - starttime));
 
 		JSONObject result = new JSONObject();
 
@@ -248,7 +246,7 @@ public class AxPlotDataPackage implements JSONString {
 			labels.add(dataset.getLabel());
 
 			AxPlotRange xrange = dataset.getXRange();
-			AxPlotRange yrange = dataset.getYRange();
+			AxPlotRange yrange = dataset.getYPlotRange();
 
 			plotranges.put(new JSONArray(xrange.toJSON(), yrange.toJSON()));
 		}
