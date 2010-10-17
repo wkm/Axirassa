@@ -3,49 +3,24 @@ package com.zanoccio.axirassa.overlord;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-
-import com.zanoccio.axirassa.overlord.exceptions.OverlordException;
-import com.zanoccio.axirassa.overlord.exceptions.UnknownExecutionTargetException;
-
 public class ExecutionSpecification {
-	public static ExecutionSpecification create(Overlord overlord, Node item) throws OverlordException {
-
-		if (!item.getNodeName().equalsIgnoreCase("execute"))
-			return null;
-
-		// get the target and instance count for this spec
-		NamedNodeMap attributes = item.getAttributes();
-		String targetname = attributes.getNamedItem("target").getTextContent();
-		String instances = attributes.getNamedItem("instances").getTextContent();
-		int instancecount = Integer.parseInt(instances);
-
-		ExecutionTarget target = overlord.findTarget(targetname);
-
-		if (target == null)
-			throw new UnknownExecutionTargetException(targetname, item.getOwnerDocument());
-
-		ExecutionSpecification spec = new ExecutionSpecification(overlord, target);
-		spec.setInstances(instancecount);
-
-		return spec;
-	}
-
-
 	//
 	// Class Instances
 	//
 
-	private final Overlord overlord;
+	private final OverlordConfiguration configuraton;
 	private int instances;
 	private final ExecutionTarget target;
 
+	private URL basedirectory;
+	private String javaexec;
 
-	public ExecutionSpecification(Overlord overlord, ExecutionTarget target) {
-		this.overlord = overlord;
+
+	public ExecutionSpecification(OverlordConfiguration configuraton, ExecutionTarget target) {
+		this.configuraton = configuraton;
 		this.target = target;
 	}
 
@@ -73,7 +48,7 @@ public class ExecutionSpecification {
 
 	private void executeInstance() throws IOException {
 		ArrayList<String> cli = new ArrayList<String>();
-		cli.add(overlord.getJava());
+		cli.add(configuraton.getJavaExecutable());
 
 		// add jvm options
 		if (target.getJVMOptions().size() > 0) {
@@ -84,7 +59,7 @@ public class ExecutionSpecification {
 
 		ProcessBuilder processbuilder = new ProcessBuilder(cli);
 		processbuilder.redirectErrorStream(true);
-		processbuilder.directory(new File(overlord.getBaseDirectory()));
+		processbuilder.directory(new File(configuraton.getBaseDirectory()));
 
 		Process process = processbuilder.start();
 	}

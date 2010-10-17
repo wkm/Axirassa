@@ -5,40 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import com.zanoccio.axirassa.overlord.exceptions.EmptyExecutionGroupException;
 import com.zanoccio.axirassa.overlord.exceptions.InvalidOverlordNameException;
 import com.zanoccio.axirassa.overlord.exceptions.OverlordException;
 
 public class ExecutionGroup {
 
-	public static ExecutionGroup create(Overlord overlord, Node node) throws OverlordException {
-		if (!node.getNodeName().equalsIgnoreCase("group"))
-			return null;
-
-		// create an empty execution group
-		NamedNodeMap attributes = node.getAttributes();
-
-		String name;
-		Node namenode = attributes.getNamedItem("name");
-		name = namenode.getTextContent();
-
-		ExecutionGroup group = new ExecutionGroup(name);
-
-		// fill it with execution targets
-		NodeList childnodes = node.getChildNodes();
-
-		if (childnodes.getLength() < 1)
-			throw new EmptyExecutionGroupException(name, node.getOwnerDocument());
-
-		for (int i = 0; i < childnodes.getLength(); i++) {
-			group.addExecutionSpecification(ExecutionSpecification.create(overlord, childnodes.item(i)));
-		}
-
-		return group;
+	public static String canonicalizeName(String name) {
+		return name.toLowerCase();
 	}
 
 

@@ -4,7 +4,7 @@
  "com/zanoccio/axirassa/overlord/AxOverlord-Configuration-1.0.dtd">
 <configuration>
 	<!-- Target Classes -->
-    <target name="AxSentinelAgent" class="com.zanoccio.axirassa.services.sentinel.SentinelService"> 
+    <target name="AxSentinelAgent" class="com.zanoccio.axirassa.services.sentinel.SentinelService" autorestart="true"> 
         <jvmoptions>
             <option name="Xmx" value="32M"/>
             <option name="Xms" value="32M"/>
