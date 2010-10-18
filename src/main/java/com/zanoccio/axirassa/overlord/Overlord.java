@@ -71,7 +71,7 @@ public class Overlord {
 
 	public void execute(String[] parameters) throws OverlordException, IOException {
 		if (platform == SystemPlatform.OTHER) {
-			System.err.println("Ax|Overlord is not supported on " + System.getProperty("os.name"));
+			System.err.println("Overlord is not supported on " + System.getProperty("os.name"));
 			return;
 		}
 
@@ -81,7 +81,15 @@ public class Overlord {
 
 		configuration = new OverlordConfiguration();
 		configuration.setJavaExecutable(findJavaExecutable());
+
 		XMLConfigurationParser configparser = new XMLConfigurationParser(configfile, configuration);
 		configparser.parse();
+
+		for (String groupname : parameters) {
+			ExecutionGroup group = configuration.getExecutionGroup(groupname);
+
+			if (group != null)
+				group.execute();
+		}
 	}
 }

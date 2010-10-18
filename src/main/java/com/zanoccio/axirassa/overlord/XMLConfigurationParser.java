@@ -1,6 +1,7 @@
 
 package com.zanoccio.axirassa.overlord;
 
+import java.io.File;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -39,6 +40,8 @@ public class XMLConfigurationParser {
 	public OverlordConfiguration parse() throws OverlordException {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
+		configuration.setBaseDirectory(new File(configfile.getPath()).getParent());
+
 		try {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			dom = db.parse(configfile.getPath());
@@ -61,7 +64,7 @@ public class XMLConfigurationParser {
 
 
 	private void createExecutionTargets() throws OverlordException {
-		NodeList targetlist = docroot.getElementsByTagName("target");
+		NodeList targetlist = docroot.getElementsByTagName(XMLName.TARGET.toString());
 		if (targetlist.getLength() < 1)
 			throw new NoExecutionTargetsException(dom);
 
@@ -80,13 +83,11 @@ public class XMLConfigurationParser {
 	private ExecutionTarget createExecutionTarget(Node node) throws OverlordException {
 		NamedNodeMap attributes = node.getAttributes();
 
-		String name, classname;
+		Node namenode = attributes.getNamedItem(XMLName.NAME.toString());
+		Node classnode = attributes.getNamedItem(XMLName.CLASS.toString());
 
-		Node namenode = attributes.getNamedItem("name");
-		Node classnode = attributes.getNamedItem("class");
-
-		name = namenode.getTextContent();
-		classname = classnode.getTextContent();
+		String name = namenode.getTextContent();
+		String classname = classnode.getTextContent();
 
 		ExecutionTarget target = null;
 
@@ -99,7 +100,7 @@ public class XMLConfigurationParser {
 		// apply any options
 		NodeList children = node.getChildNodes();
 		for (Node child : new IterableNodeList(children))
-			if (child.getNodeName().equals("jvmoptions"))
+			if (child.getNodeName().equals(XMLName.JVMOPTIONS.toString()))
 				TargetJVMOptions.populate(target.getJVMOptions(), child);
 
 		return target;
@@ -107,7 +108,7 @@ public class XMLConfigurationParser {
 
 
 	private void createExecutionGroups() throws OverlordException {
-		NodeList grouplist = docroot.getElementsByTagName("group");
+		NodeList grouplist = docroot.getElementsByTagName(XMLName.GROUP.toString());
 		if (grouplist.getLength() < 1)
 			throw new NoGroupsException(dom);
 
@@ -126,9 +127,8 @@ public class XMLConfigurationParser {
 		// create an empty execution group
 		NamedNodeMap attributes = node.getAttributes();
 
-		String name;
-		Node namenode = attributes.getNamedItem("name");
-		name = namenode.getTextContent();
+		Node namenode = attributes.getNamedItem(XMLName.NAME.toString());
+		String name = namenode.getTextContent();
 
 		ExecutionGroup group = new ExecutionGroup(name);
 
@@ -139,7 +139,8 @@ public class XMLConfigurationParser {
 			throw new EmptyExecutionGroupException(name, node.getOwnerDocument());
 
 		for (Node childnode : new IterableNodeList(childnodes))
-			group.addExecutionSpecification(createExecutionSpecification(childnode));
+			if (childnode.getNodeName().equals(XMLName.EXECUTE.toString()))
+				group.addExecutionSpecification(createExecutionSpecification(childnode));
 
 		return group;
 	}
@@ -147,8 +148,9 @@ public class XMLConfigurationParser {
 
 	private ExecutionSpecification createExecutionSpecification(Node node) throws OverlordException {
 		NamedNodeMap attributes = node.getAttributes();
-		String targetname = attributes.getNamedItem("target").getTextContent();
-		String instances = attributes.getNamedItem("instances").getTextContent();
+
+		String targetname = attributes.getNamedItem(XMLName.TARGET.toString()).getTextContent();
+		String instances = attributes.getNamedItem(XMLName.INSTANCES.toString()).getTextContent();
 		int instancecount = Integer.parseInt(instances);
 
 		ExecutionTarget target = configuration.getExecutionTarget(targetname);

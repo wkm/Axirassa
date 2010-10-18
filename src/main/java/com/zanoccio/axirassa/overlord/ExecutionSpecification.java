@@ -3,7 +3,6 @@ package com.zanoccio.axirassa.overlord;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class ExecutionSpecification {
@@ -14,9 +13,6 @@ public class ExecutionSpecification {
 	private final OverlordConfiguration configuraton;
 	private int instances;
 	private final ExecutionTarget target;
-
-	private URL basedirectory;
-	private String javaexec;
 
 
 	public ExecutionSpecification(OverlordConfiguration configuraton, ExecutionTarget target) {
