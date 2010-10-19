@@ -46,6 +46,7 @@ public class SentinelService implements Service {
 
 	public static void main(String[] param) throws SigarException {
 		SentinelService service = new SentinelService(null, 0);
+		System.out.println("   Started: " + service.toString());
 		service.retrieveStatistics();
 	}
 

@@ -3,20 +3,19 @@ package com.zanoccio.axirassa.overlord;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class ExecutionSpecification {
 	//
 	// Class Instances
 	//
 
-	private final OverlordConfiguration configuraton;
+	private final OverlordConfiguration configuration;
 	private int instances;
 	private final ExecutionTarget target;
 
 
 	public ExecutionSpecification(OverlordConfiguration configuraton, ExecutionTarget target) {
-		this.configuraton = configuraton;
+		this.configuration = configuraton;
 		this.target = target;
 	}
 
@@ -43,20 +42,21 @@ public class ExecutionSpecification {
 
 
 	private void executeInstance() throws IOException {
-		ArrayList<String> cli = new ArrayList<String>();
-		cli.add(configuraton.getJavaExecutable());
+		CommandLine cli = new CommandLine(configuration.getJavaExecutable());
 
 		// add jvm options
-		if (target.getJVMOptions().size() > 0) {
-			cli.addAll(target.getJVMOptions().getCommandLine());
-		}
+		if (target.getJVMOptions().size() > 0)
+			cli.addArguments(target.getJVMOptions().getCommandLine());
 
-		cli.add(target.getTargetClass().getCanonicalName());
+		cli.addArgument(target.getTargetClass().getCanonicalName());
 
-		ProcessBuilder processbuilder = new ProcessBuilder(cli);
+		ProcessBuilder processbuilder = new ProcessBuilder(cli.buildCommandLine());
 		processbuilder.redirectErrorStream(true);
-		processbuilder.directory(new File(configuraton.getBaseDirectory()));
+		processbuilder.directory(new File(configuration.getBaseDirectory()));
 
-		Process process = processbuilder.start();
+		ExecutionMonitor monitor = new ExecutionMonitor(processbuilder);
+		monitor.setRemainingRestarts(5);
+		Thread thread = new Thread(monitor);
+		thread.start();
 	}
 }
