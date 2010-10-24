@@ -278,6 +278,8 @@
 	</pluginRepositories>
 
 	<properties>
+		<project.build.sourceEncoding>ASCII</project.build.sourceEncoding>
+	
 		<tapestry-release-version>5.2.0</tapestry-release-version>
 		<hornetq-release-version>2.0.0.GA</hornetq-release-version>
 		<hibernate-release-version>3.5.4</hibernate-release-version>
