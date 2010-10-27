@@ -35,13 +35,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hornetq</groupId>
-			<artifactId>hornetq-transports</artifactId>
-			<version>${hornetq-release-version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hornetq</groupId>
 			<artifactId>hornetq-logging</artifactId>
 			<version>${hornetq-release-version}</version>
 			<type>jar</type>
@@ -144,6 +137,11 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+			<version>2.2.1</version>
+		</dependency>
 	</dependencies>
 	<url>http://axirassa.com</url>
 	<issueManagement>
@@ -182,6 +180,12 @@
 					<optimize>true</optimize>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+				<groupId>com.zanoccio.axirassa.overlord.maven</groupId>
+				<artifactId>maven-overlord-plugin</artifactId>
+				<version>0.1</version>
+			</plugin>
 
 			<!-- Run the application using "mvn jetty:run" -->
 			<plugin>
@@ -189,10 +193,7 @@
 				<artifactId>maven-jetty-plugin</artifactId>
 				<version>6.1.9</version>
 				<configuration>
-					<!-- Log to the console. -->
 					<requestLog implementation="org.mortbay.jetty.NCSARequestLog">
-						<!-- This doesn't do anything for Jetty, but is a workaround for a 
-							Maven bug that prevents the requestLog from being set. -->
 						<append>true</append>
 					</requestLog>
 
@@ -207,19 +208,6 @@
 	</build>
 
 	<reporting>
-
-		<!-- Adds a report detailing the components, mixins and base classes defined 
-			by this module. -->
-		<plugins>
-			<plugin>
-				<groupId>org.apache.tapestry</groupId>
-				<artifactId>tapestry-component-report</artifactId>
-				<version>${tapestry-release-version}</version>
-				<configuration>
-					<rootPackage>com.zanoccio.axirassa.webapp</rootPackage>
-				</configuration>
-			</plugin>
-		</plugins>
 	</reporting>
 
 	<repositories>
@@ -280,8 +268,8 @@
 	<properties>
 		<project.build.sourceEncoding>ASCII</project.build.sourceEncoding>
 	
-		<tapestry-release-version>5.2.0</tapestry-release-version>
-		<hornetq-release-version>2.0.0.GA</hornetq-release-version>
-		<hibernate-release-version>3.5.4</hibernate-release-version>
+		<tapestry-release-version>5.2.1</tapestry-release-version>
+		<hornetq-release-version>2.1.2.Final</hornetq-release-version>
+		<hibernate-release-version>3.6.0.Final</hibernate-release-version>
 	</properties>
 </project>
