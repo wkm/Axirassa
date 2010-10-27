@@ -13,7 +13,7 @@ import org.hornetq.api.core.client.ClientProducer;
 import org.hornetq.api.core.client.ClientSession;
 import org.hornetq.api.core.client.ClientSessionFactory;
 import org.hornetq.api.core.client.HornetQClient;
-import org.hornetq.integration.transports.netty.NettyConnectorFactory;
+import org.hornetq.core.remoting.impl.netty.NettyConnectorFactory;
 import org.junit.Test;
 
 import com.zanoccio.axirassa.util.EmbeddedMessagingServer;
