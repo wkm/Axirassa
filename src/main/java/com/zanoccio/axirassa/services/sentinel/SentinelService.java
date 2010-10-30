@@ -17,37 +17,35 @@ import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 
 import com.zanoccio.axirassa.services.Service;
+import com.zanoccio.axirassa.util.HibernateTools;
 import com.zanoccio.axirassa.util.SigarLoader;
 
 public class SentinelService implements Service {
-
-	private static final String CPU_STAT_INSERT = "INSERT INTO SentinelCPUStats VALUES (?,?,?,?,?)";
-	private static final String MEMORY_STAT_INSERT = "INSERT INTO SentinelMemoryStats VALUES (?,?,?,?)";
-	private static final String DISKUSAGE_STAT_INSERT = "INSERT INTO SentinelDiskUsageStats VALUES (?,?,?,?,?)";
-	private static final String DISKIO_STAT_INSERT = "INSERT INTO SentinelDiskIOStats VALUES (?,?,?,?,?)";
-	private static final String NETWORK_STAT_INSERT = "INSERT INTO SentinelNetworkStats VALUES (?,?,?,?,?)";
-	private static final String THROUGHPUT_STAT_INSERT = "INSERT INTO SentinelThroughputStats VALUES (?,?,?,?,?)";
 
 	private final Session session;
 	private final int machineid;
 
 	private Sigar sigar;
 
-	private ArrayList<CpuStat> cpustat;
-	private MemoryStat memorystat;
-	private ArrayList<DiskUsageStat> diskusagestat;
-	private ArrayList<NetworkStat> networkstat;
-	private ArrayList<ThroughputStat> throughputstat;
+	private ArrayList<CPUStatistic> cpustats;
+	private MemoryStatistic memorystat;
+	private ArrayList<DiskUsageStatistic> diskusagestat;
+	private ArrayList<NetworkStatistic> networkstat;
+	private ArrayList<NetworkThroughputStatistic> throughputstat;
 
 	private long lastservice;
 
-	private LinkedHashMap<String, DiskIOStat> diskiostat;
+	private LinkedHashMap<String, DiskIOStatistic> diskiostat;
 
 
-	public static void main(String[] param) throws SigarException {
-		SentinelService service = new SentinelService(null, 0);
-		System.out.println("   Started: " + service.toString());
-		service.retrieveStatistics();
+	public static void main(String[] param) throws Exception {
+		Session session = HibernateTools.getSession();
+		Service service = new SentinelService(session, 1);
+
+		while (true) {
+			service.execute();
+			Thread.sleep(60 * 1000);
+		}
 	}
 
 
@@ -69,29 +67,26 @@ public class SentinelService implements Service {
 		if (sigar == null)
 			sigar = new Sigar();
 
+		Date date = new Date();
+
 		// CPU
 		CpuPerc[] cpus = sigar.getCpuPercList();
-		cpustat = new ArrayList<CpuStat>(cpus.length);
+		cpustats = new ArrayList<CPUStatistic>(cpus.length);
 		int cpuid = 0;
 		for (CpuPerc cpu : cpus) {
-			CpuStat stat = new CpuStat();
-			stat.cpuid = cpuid;
-			stat.system = cpu.getSys();
-			stat.user = cpu.getUser();
-
-			cpustat.add(stat);
+			cpustats.add(new CPUStatistic(machineid, date, cpuid, cpu.getSys(), cpu.getUser()));
 
 			cpuid++;
 		}
 
 		// MEMORY
-		memorystat = new MemoryStat();
+		memorystat = new MemoryStatistic();
 		Mem mem = sigar.getMem();
 		memorystat.used = mem.getActualUsed();
 		memorystat.total = mem.getTotal();
 
 		// DISK USAGE STAT
-		diskusagestat = new ArrayList<DiskUsageStat>();
+		diskusagestat = new ArrayList<DiskUsageStatistic>();
 		FileSystem[] fslist = sigar.getFileSystemList();
 		for (FileSystem fs : fslist) {
 			int type = fs.getType();
@@ -100,7 +95,7 @@ public class SentinelService implements Service {
 				// skip
 				continue;
 
-			DiskUsageStat usage_stat = new DiskUsageStat();
+			DiskUsageStatistic usage_stat = new DiskUsageStatistic();
 			usage_stat.disk = fs.getDirName();
 
 			// TODO: verify these are 10^3 kilobytes, not 2^10 kilobytes.
@@ -109,18 +104,18 @@ public class SentinelService implements Service {
 			usage_stat.used = 1000 * usage.getUsed();
 			usage_stat.total = 1000 * usage.getTotal();
 
-			DiskIOStat io_stat = new DiskIOStat();
+			DiskIOStatistic io_stat = new DiskIOStatistic();
 			usage.getDiskWriteBytes();
 
 			diskusagestat.add(usage_stat);
 		}
 
 		// NETWORK USAGE STAT
-		networkstat = new ArrayList<NetworkStat>();
+		networkstat = new ArrayList<NetworkStatistic>();
 		String[] netinterfaces = sigar.getNetInterfaceList();
 		for (String netinterface : netinterfaces) {
 			NetInterfaceStat stat = sigar.getNetInterfaceStat(netinterface);
-			NetworkStat netstat = new NetworkStat();
+			NetworkStatistic netstat = new NetworkStatistic();
 
 			netstat.device = sigar.getNetInterfaceConfig(netinterface).getDescription();
 			netstat.receive = stat.getRxBytes();
@@ -134,23 +129,16 @@ public class SentinelService implements Service {
 	public void insertData() {
 		Date date = new Date();
 
+		System.out.println("Inserting " + date);
+
 		Transaction transaction = session.beginTransaction();
-		if (cpustat != null) {
-			SQLQuery query = session.createSQLQuery(CPU_STAT_INSERT);
-
-			query.setInteger(0, machineid);
-			query.setTimestamp(1, date);
-			for (CpuStat stat : cpustat) {
-				query.setInteger(2, stat.cpuid);
-
-				query.setDouble(3, stat.user);
-				query.setDouble(4, stat.system);
-				query.executeUpdate();
-			}
+		if (cpustats != null) {
+			for (CPUStatistic stat : cpustats)
+				stat.save(session);
 		}
 
 		if (memorystat != null) {
-			SQLQuery query = session.createSQLQuery(MEMORY_STAT_INSERT);
+			SQLQuery query = session.createSQLQuery(MemoryStatistic.MEMORY_STAT_INSERT);
 			query.setInteger(0, machineid);
 			query.setTimestamp(1, date);
 			query.setLong(2, memorystat.used);
@@ -160,11 +148,11 @@ public class SentinelService implements Service {
 		}
 
 		if (diskusagestat != null) {
-			SQLQuery query = session.createSQLQuery(DISKUSAGE_STAT_INSERT);
+			SQLQuery query = session.createSQLQuery(DiskUsageStatistic.DISKUSAGE_STAT_INSERT);
 			query.setInteger(0, machineid);
 			query.setTimestamp(1, date);
 
-			for (DiskUsageStat stat : diskusagestat) {
+			for (DiskUsageStatistic stat : diskusagestat) {
 				query.setString(2, stat.disk);
 				query.setLong(3, stat.used);
 				query.setLong(4, stat.total);
@@ -174,11 +162,11 @@ public class SentinelService implements Service {
 		}
 
 		if (networkstat != null) {
-			SQLQuery query = session.createSQLQuery(NETWORK_STAT_INSERT);
+			SQLQuery query = session.createSQLQuery(NetworkStatistic.NETWORK_STAT_INSERT);
 			query.setInteger(0, machineid);
 			query.setTimestamp(1, date);
 
-			for (NetworkStat stat : networkstat) {
+			for (NetworkStatistic stat : networkstat) {
 				query.setString(2, stat.device);
 				query.setLong(3, stat.send);
 				query.setLong(4, stat.receive);
@@ -188,39 +176,4 @@ public class SentinelService implements Service {
 
 		transaction.commit();
 	}
-}
-
-class CpuStat {
-	int cpuid;
-	double user;
-	double system;
-}
-
-class MemoryStat {
-	long used;
-	long total;
-}
-
-class DiskUsageStat {
-	String disk;
-	long used;
-	long total;
-}
-
-class DiskIOStat {
-	String disk;
-	long read;
-	long written;
-}
-
-class NetworkStat {
-	String device;
-	long send;
-	long receive;
-}
-
-class ThroughputStat {
-	String device;
-	float send;
-	float receive;
 }
