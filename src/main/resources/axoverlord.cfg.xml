@@ -11,6 +11,7 @@
             <option name="Xss" value="1024K"/>
         </jvmoptions>
     </target>
+	
     <!-- <target name="AxSobrietyQ" class="com.zanoccio.axirassa.SobrietyMessageQueue" />
     <target name="AxMessageQ" class="com.zanoccio.axirassa.MessageQueue" /> -->
     

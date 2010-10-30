@@ -38,7 +38,6 @@ public class HornetTest {
 		session.createQueue("example", "example", true);
 
 		ClientProducer producer = session.createProducer("example");
-
 		ClientMessage message = session.createMessage(true);
 
 		message.getBodyBuffer().writeString("Hello");
@@ -49,7 +48,6 @@ public class HornetTest {
 		session.start();
 
 		ClientConsumer consumer = session.createConsumer("example");
-
 		ClientMessage msgReceived = consumer.receive();
 
 		String msg = msgReceived.getBodyBuffer().readString();
