@@ -61,7 +61,7 @@
 				`Disk` VARCHAR(256) NOT NULL,
 				`Read` LONG NOT NULL,
 				`Write` LONG NOT NULL,
-				PRIMARY KEY (`Machine_ID`, `Date`, `Disk)
+				PRIMARY KEY (`Machine_ID`, `Date`, `Disk`)
 			)
 		</create>
 		<drop>
