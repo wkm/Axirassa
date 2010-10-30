@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hyperic.sigar.CpuPerc;
@@ -88,23 +87,14 @@ public class SentinelService implements Service {
 		for (FileSystem fs : fslist) {
 			int type = fs.getType();
 
+			// skip CDs, network stores, swap, etc.
 			if (type != FileSystem.TYPE_LOCAL_DISK && type != FileSystem.TYPE_SWAP)
-				// skip
 				continue;
 
-			DiskUsageStatistic usage_stat = new DiskUsageStatistic();
-			usage_stat.disk = fs.getDirName();
-
 			// TODO: verify these are 10^3 kilobytes, not 2^10 kilobytes.
-			// retrieve usage
-			FileSystemUsage usage = sigar.getFileSystemUsage(usage_stat.disk);
-			usage_stat.used = 1000 * usage.getUsed();
-			usage_stat.total = 1000 * usage.getTotal();
-
-			DiskIOStatistic io_stat = new DiskIOStatistic();
-			usage.getDiskWriteBytes();
-
-			diskusagestat.add(usage_stat);
+			FileSystemUsage usage = sigar.getFileSystemUsage(fs.getDirName());
+			diskusagestat.add(new DiskUsageStatistic(machineid, date, fs.getDirName(), 1000 * usage.getUsed(),
+			        1000 * usage.getTotal()));
 		}
 
 		// NETWORK USAGE STAT
@@ -131,19 +121,9 @@ public class SentinelService implements Service {
 		if (memorystat != null)
 			memorystat.save(session);
 
-		if (diskusagestat != null) {
-			SQLQuery query = session.createSQLQuery(DiskUsageStatistic.DISKUSAGE_STAT_INSERT);
-			query.setInteger(0, machineid);
-			query.setTimestamp(1, date);
-
-			for (DiskUsageStatistic stat : diskusagestat) {
-				query.setString(2, stat.disk);
-				query.setLong(3, stat.used);
-				query.setLong(4, stat.total);
-
-				query.executeUpdate();
-			}
-		}
+		if (diskusagestat != null)
+			for (DiskUsageStatistic stat : diskusagestat)
+				stat.save(session);
 
 		if (networkstat != null)
 			for (NetworkStatistic stat : networkstat)
