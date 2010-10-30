@@ -115,13 +115,8 @@ public class SentinelService implements Service {
 		String[] netinterfaces = sigar.getNetInterfaceList();
 		for (String netinterface : netinterfaces) {
 			NetInterfaceStat stat = sigar.getNetInterfaceStat(netinterface);
-			NetworkStatistic netstat = new NetworkStatistic();
-
-			netstat.device = sigar.getNetInterfaceConfig(netinterface).getDescription();
-			netstat.receive = stat.getRxBytes();
-			netstat.send = stat.getTxBytes();
-
-			networkstat.add(netstat);
+			String interfacename = sigar.getNetInterfaceConfig(netinterface).getDescription();
+			networkstat.add(new NetworkStatistic(machineid, date, interfacename, stat.getTxBytes(), stat.getRxBytes()));
 		}
 	}
 
@@ -132,10 +127,9 @@ public class SentinelService implements Service {
 		System.out.println("Inserting " + date);
 
 		Transaction transaction = session.beginTransaction();
-		if (cpustats != null) {
+		if (cpustats != null)
 			for (CPUStatistic stat : cpustats)
 				stat.save(session);
-		}
 
 		if (memorystat != null) {
 			SQLQuery query = session.createSQLQuery(MemoryStatistic.MEMORY_STAT_INSERT);
@@ -161,18 +155,9 @@ public class SentinelService implements Service {
 			}
 		}
 
-		if (networkstat != null) {
-			SQLQuery query = session.createSQLQuery(NetworkStatistic.NETWORK_STAT_INSERT);
-			query.setInteger(0, machineid);
-			query.setTimestamp(1, date);
-
-			for (NetworkStatistic stat : networkstat) {
-				query.setString(2, stat.device);
-				query.setLong(3, stat.send);
-				query.setLong(4, stat.receive);
-				query.executeUpdate();
-			}
-		}
+		if (networkstat != null)
+			for (NetworkStatistic stat : networkstat)
+				stat.save(session);
 
 		transaction.commit();
 	}
