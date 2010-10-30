@@ -6,7 +6,7 @@ import java.util.Date;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
-class CPUStatistic extends AbstractSentinelStatistics {
+class CPUStatistic extends AbstractSentinelStatistic {
 
 	private static final String CPU_STAT_INSERT = "INSERT INTO SentinelCPUStats VALUES (?,?,?,?,?)";
 

@@ -3,13 +3,13 @@ package com.zanoccio.axirassa.services.sentinel;
 
 import java.util.Date;
 
-public abstract class AbstractSentinelStatistics implements SentinelStatistic {
+public abstract class AbstractSentinelStatistic implements SentinelStatistic {
 
 	private final int machineid;
 	private final Date timestamp;
 
 
-	public AbstractSentinelStatistics(int machineid, Date timestamp) {
+	public AbstractSentinelStatistic(int machineid, Date timestamp) {
 		this.machineid = machineid;
 		this.timestamp = timestamp;
 	}

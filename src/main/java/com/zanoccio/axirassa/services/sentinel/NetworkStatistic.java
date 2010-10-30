@@ -6,7 +6,7 @@ import java.util.Date;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
-class NetworkStatistic extends AbstractSentinelStatistics {
+class NetworkStatistic extends AbstractSentinelStatistic {
 	private static final String NETWORK_STAT_INSERT = "INSERT INTO SentinelNetworkStats VALUES (?,?,?,?,?)";
 
 	private final String device;

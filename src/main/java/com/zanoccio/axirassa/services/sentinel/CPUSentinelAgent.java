@@ -2,8 +2,8 @@
 package com.zanoccio.axirassa.services.sentinel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
-import org.hibernate.Session;
 import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.SigarException;
 
@@ -28,9 +28,8 @@ public class CPUSentinelAgent extends AbstractSentinelStatisticsAgent {
 
 
 	@Override
-	public void save(Session session) {
-		for (CPUStatistic stat : cpustats)
-			stat.save(session);
+	public Collection<CPUStatistic> getStatistics() {
+		return cpustats;
 	}
 
 }

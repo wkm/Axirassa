@@ -6,7 +6,7 @@ import java.util.Date;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
-class DiskUsageStatistic extends AbstractSentinelStatistics {
+class DiskUsageStatistic extends AbstractSentinelStatistic {
 	private static final String DISKUSAGE_STAT_INSERT = "INSERT INTO SentinelDiskUsageStats VALUES (?,?,?,?,?)";
 
 	private final String disk;

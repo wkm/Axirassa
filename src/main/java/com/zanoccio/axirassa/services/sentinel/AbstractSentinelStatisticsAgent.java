@@ -1,8 +1,10 @@
 
 package com.zanoccio.axirassa.services.sentinel;
 
+import java.util.Collection;
 import java.util.Date;
 
+import org.hibernate.Session;
 import org.hyperic.sigar.Sigar;
 
 public abstract class AbstractSentinelStatisticsAgent implements SentinelAgent {
@@ -45,5 +47,14 @@ public abstract class AbstractSentinelStatisticsAgent implements SentinelAgent {
 
 	public Date getDate() {
 		return date;
+	}
+
+
+	abstract public Collection<? extends SentinelStatistic> getStatistics();
+
+
+	public void save(Session session) {
+		for (SentinelStatistic statistic : getStatistics())
+			statistic.save(session);
 	}
 }

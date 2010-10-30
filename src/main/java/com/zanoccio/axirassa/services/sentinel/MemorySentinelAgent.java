@@ -1,6 +1,9 @@
 
 package com.zanoccio.axirassa.services.sentinel;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import org.hibernate.Session;
 import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.SigarException;
@@ -22,4 +25,9 @@ public class MemorySentinelAgent extends AbstractSentinelStatisticsAgent {
 		memorystat.save(session);
 	}
 
+
+	@Override
+	public Collection<MemoryStatistic> getStatistics() {
+		return Collections.singleton(memorystat);
+	}
 }

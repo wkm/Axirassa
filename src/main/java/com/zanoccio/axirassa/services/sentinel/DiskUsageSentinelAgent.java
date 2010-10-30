@@ -2,8 +2,8 @@
 package com.zanoccio.axirassa.services.sentinel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
-import org.hibernate.Session;
 import org.hyperic.sigar.FileSystem;
 import org.hyperic.sigar.FileSystemUsage;
 import org.hyperic.sigar.SigarException;
@@ -39,9 +39,8 @@ public class DiskUsageSentinelAgent extends AbstractSentinelStatisticsAgent {
 
 
 	@Override
-	public void save(Session session) {
-		for (DiskUsageStatistic stat : diskusagestat)
-			stat.save(session);
+	public Collection<DiskUsageStatistic> getStatistics() {
+		return diskusagestat;
 	}
 
 }

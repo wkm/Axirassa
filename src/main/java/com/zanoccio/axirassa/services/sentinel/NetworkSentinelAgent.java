@@ -2,26 +2,26 @@
 package com.zanoccio.axirassa.services.sentinel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
-import org.hibernate.Session;
 import org.hyperic.sigar.NetInterfaceStat;
 import org.hyperic.sigar.SigarException;
 
 public class NetworkSentinelAgent extends AbstractSentinelStatisticsAgent {
 
-	private final ArrayList<NetworkStatistic> networkstat = new ArrayList<NetworkStatistic>();
+	private final ArrayList<NetworkStatistic> networkstats = new ArrayList<NetworkStatistic>();
 
 
 	@Override
 	public void execute() throws SigarException {
-		networkstat.clear();
+		networkstats.clear();
 
 		String[] netinterfaces = getSigar().getNetInterfaceList();
-		networkstat.ensureCapacity(netinterfaces.length);
+		networkstats.ensureCapacity(netinterfaces.length);
 		for (String netinterface : netinterfaces) {
 			NetInterfaceStat stat = getSigar().getNetInterfaceStat(netinterface);
 			String interfacename = getSigar().getNetInterfaceConfig(netinterface).getDescription();
-			networkstat.add(new NetworkStatistic(getMachineID(), getDate(), interfacename, stat.getTxBytes(), stat
+			networkstats.add(new NetworkStatistic(getMachineID(), getDate(), interfacename, stat.getTxBytes(), stat
 			        .getRxBytes()));
 		}
 
@@ -29,9 +29,8 @@ public class NetworkSentinelAgent extends AbstractSentinelStatisticsAgent {
 
 
 	@Override
-	public void save(Session session) {
-		for (NetworkStatistic stat : networkstat)
-			stat.save(session);
+	public Collection<NetworkStatistic> getStatistics() {
+		return networkstats;
 	}
 
 }

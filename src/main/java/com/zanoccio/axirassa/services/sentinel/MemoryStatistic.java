@@ -6,7 +6,7 @@ import java.util.Date;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
-class MemoryStatistic extends AbstractSentinelStatistics {
+class MemoryStatistic extends AbstractSentinelStatistic {
 	private static final String MEMORY_STAT_INSERT = "INSERT INTO SentinelMemoryStats VALUES (?,?,?,?)";
 
 	private final long used;
