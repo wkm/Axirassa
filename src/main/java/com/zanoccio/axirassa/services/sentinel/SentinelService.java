@@ -3,11 +3,9 @@ package com.zanoccio.axirassa.services.sentinel;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.FileSystem;
 import org.hyperic.sigar.FileSystemUsage;
 import org.hyperic.sigar.Mem;
@@ -26,20 +24,20 @@ public class SentinelService implements Service {
 
 	private Sigar sigar;
 
+	private final ArrayList<Class<? extends SentinelAgent>> agentclasses = new ArrayList<Class<? extends SentinelAgent>>();
+	private final ArrayList<SentinelAgent> agents = new ArrayList<SentinelAgent>();
+
 	private ArrayList<CPUStatistic> cpustats;
 	private MemoryStatistic memorystat;
 	private ArrayList<DiskUsageStatistic> diskusagestat;
 	private ArrayList<NetworkStatistic> networkstat;
-	private ArrayList<NetworkThroughputStatistic> throughputstat;
-
-	private long lastservice;
-
-	private LinkedHashMap<String, DiskIOStatistic> diskiostat;
 
 
 	public static void main(String[] param) throws Exception {
 		Session session = HibernateTools.getSession();
-		Service service = new SentinelService(session, 1);
+		SentinelService service = new SentinelService(session, 1);
+
+		service.addAgent(CPUSentinelAgent.class);
 
 		while (true) {
 			service.execute();
@@ -54,27 +52,60 @@ public class SentinelService implements Service {
 	}
 
 
+	public void addAgent(Class<? extends SentinelAgent> agentclass) {
+		agentclasses.add(agentclass);
+	}
+
+
 	@Override
 	public void execute() throws Exception {
+		setupSigar();
+
+		setupAgents();
+
 		retrieveStatistics();
 		insertData();
 	}
 
 
-	public void retrieveStatistics() throws SigarException {
+	private void setupSigar() {
+		SigarLoader.require();
+		if (sigar == null)
+			sigar = new Sigar();
+	}
+
+
+	private void setupAgents() {
+		try {
+			setupAgentsWithExceptions();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	private void setupAgentsWithExceptions() throws InstantiationException, IllegalAccessException {
+		for (Class<? extends SentinelAgent> agentclass : agentclasses) {
+			SentinelAgent agent = agentclass.newInstance();
+			agent.setSigar(sigar);
+			agents.add(agent);
+		}
+	}
+
+
+	private void retrieveStatistics() throws SigarException {
 		SigarLoader.require();
 		if (sigar == null)
 			sigar = new Sigar();
 
 		Date date = new Date();
 
-		// CPU
-		CpuPerc[] cpus = sigar.getCpuPercList();
-		cpustats = new ArrayList<CPUStatistic>(cpus.length);
-		int cpuid = 0;
-		for (CpuPerc cpu : cpus) {
-			cpustats.add(new CPUStatistic(machineid, date, cpuid, cpu.getSys(), cpu.getUser()));
-			cpuid++;
+		for (SentinelAgent agent : agents) {
+			agent.setMachineID(machineid);
+			agent.setDate(date);
+			agent.execute();
 		}
 
 		// MEMORY
@@ -108,12 +139,15 @@ public class SentinelService implements Service {
 	}
 
 
-	public void insertData() {
+	private void insertData() {
 		Date date = new Date();
 
 		System.out.println("Inserting " + date);
 
 		Transaction transaction = session.beginTransaction();
+		for (SentinelAgent agent : agents)
+			agent.save(session);
+
 		if (cpustats != null)
 			for (CPUStatistic stat : cpustats)
 				stat.save(session);
