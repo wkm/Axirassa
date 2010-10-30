@@ -6,7 +6,6 @@ import java.util.Date;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hyperic.sigar.NetInterfaceStat;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 
@@ -34,6 +33,7 @@ public class SentinelService implements Service {
 		service.addAgent(CPUSentinelAgent.class);
 		service.addAgent(MemorySentinelAgent.class);
 		service.addAgent(DiskUsageSentinelAgent.class);
+		service.addAgent(NetworkSentinelAgent.class);
 
 		while (true) {
 			service.execute();
@@ -97,36 +97,21 @@ public class SentinelService implements Service {
 			sigar = new Sigar();
 
 		Date date = new Date();
+		System.out.println("Retrieving: " + date);
 
 		for (SentinelAgent agent : agents) {
 			agent.setMachineID(machineid);
 			agent.setDate(date);
 			agent.execute();
 		}
-
-		// NETWORK USAGE STAT
-		networkstat = new ArrayList<NetworkStatistic>();
-		String[] netinterfaces = sigar.getNetInterfaceList();
-		for (String netinterface : netinterfaces) {
-			NetInterfaceStat stat = sigar.getNetInterfaceStat(netinterface);
-			String interfacename = sigar.getNetInterfaceConfig(netinterface).getDescription();
-			networkstat.add(new NetworkStatistic(machineid, date, interfacename, stat.getTxBytes(), stat.getRxBytes()));
-		}
 	}
 
 
 	private void insertData() {
-		Date date = new Date();
-
-		System.out.println("Inserting " + date);
-
 		Transaction transaction = session.beginTransaction();
+
 		for (SentinelAgent agent : agents)
 			agent.save(session);
-
-		if (networkstat != null)
-			for (NetworkStatistic stat : networkstat)
-				stat.save(session);
 
 		transaction.commit();
 	}
