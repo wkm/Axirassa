@@ -29,7 +29,6 @@ public class CPUSentinelAgent extends AbstractSentinelAgent {
 
 	@Override
 	public void save(Session session) {
-		System.out.println("Saving CPU stats");
 		for (CPUStatistic stat : cpustats)
 			stat.save(session);
 	}

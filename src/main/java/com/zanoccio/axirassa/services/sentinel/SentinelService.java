@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hyperic.sigar.FileSystem;
 import org.hyperic.sigar.FileSystemUsage;
-import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.NetInterfaceStat;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
@@ -38,6 +37,7 @@ public class SentinelService implements Service {
 		SentinelService service = new SentinelService(session, 1);
 
 		service.addAgent(CPUSentinelAgent.class);
+		service.addAgent(MemorySentinelAgent.class);
 
 		while (true) {
 			service.execute();
@@ -107,10 +107,6 @@ public class SentinelService implements Service {
 			agent.setDate(date);
 			agent.execute();
 		}
-
-		// MEMORY
-		Mem mem = sigar.getMem();
-		memorystat = new MemoryStatistic(machineid, date, mem.getActualUsed(), mem.getTotal());
 
 		// DISK USAGE STAT
 		diskusagestat = new ArrayList<DiskUsageStatistic>();
