@@ -6,8 +6,6 @@ import java.util.Date;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hyperic.sigar.FileSystem;
-import org.hyperic.sigar.FileSystemUsage;
 import org.hyperic.sigar.NetInterfaceStat;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
@@ -38,6 +36,7 @@ public class SentinelService implements Service {
 
 		service.addAgent(CPUSentinelAgent.class);
 		service.addAgent(MemorySentinelAgent.class);
+		service.addAgent(DiskUsageSentinelAgent.class);
 
 		while (true) {
 			service.execute();
@@ -108,22 +107,6 @@ public class SentinelService implements Service {
 			agent.execute();
 		}
 
-		// DISK USAGE STAT
-		diskusagestat = new ArrayList<DiskUsageStatistic>();
-		FileSystem[] fslist = sigar.getFileSystemList();
-		for (FileSystem fs : fslist) {
-			int type = fs.getType();
-
-			// skip CDs, network stores, swap, etc.
-			if (type != FileSystem.TYPE_LOCAL_DISK && type != FileSystem.TYPE_SWAP)
-				continue;
-
-			// TODO: verify these are 10^3 kilobytes, not 2^10 kilobytes.
-			FileSystemUsage usage = sigar.getFileSystemUsage(fs.getDirName());
-			diskusagestat.add(new DiskUsageStatistic(machineid, date, fs.getDirName(), 1000 * usage.getUsed(),
-			        1000 * usage.getTotal()));
-		}
-
 		// NETWORK USAGE STAT
 		networkstat = new ArrayList<NetworkStatistic>();
 		String[] netinterfaces = sigar.getNetInterfaceList();
@@ -147,9 +130,6 @@ public class SentinelService implements Service {
 		if (cpustats != null)
 			for (CPUStatistic stat : cpustats)
 				stat.save(session);
-
-		if (memorystat != null)
-			memorystat.save(session);
 
 		if (diskusagestat != null)
 			for (DiskUsageStatistic stat : diskusagestat)
