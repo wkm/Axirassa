@@ -31,5 +31,4 @@ public class CPUSentinelAgent extends AbstractSentinelStatisticsAgent {
 	public Collection<CPUStatistic> getStatistics() {
 		return cpustats;
 	}
-
 }

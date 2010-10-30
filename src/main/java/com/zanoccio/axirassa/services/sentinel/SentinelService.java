@@ -35,9 +35,11 @@ public class SentinelService implements Service {
 		service.addAgent(DiskUsageSentinelAgent.class);
 		service.addAgent(NetworkSentinelAgent.class);
 
+		service.initialize();
+
 		while (true) {
 			service.execute();
-			Thread.sleep(60 * 1000);
+			Thread.sleep(5 * 1000);
 		}
 	}
 
@@ -53,12 +55,14 @@ public class SentinelService implements Service {
 	}
 
 
+	public void initialize() {
+		setupSigar();
+		setupAgents();
+	}
+
+
 	@Override
 	public void execute() throws Exception {
-		setupSigar();
-
-		setupAgents();
-
 		retrieveStatistics();
 		insertData();
 	}
