@@ -23,10 +23,10 @@ import com.zanoccio.javakit.ListUtilities;
 @Import(library = "${tapestry.scriptaculous}/prototype.js")
 public class Sentinel {
 
-	private final static String cpusql = "SELECT CPU, Date, User, System FROM SentinelCPUStats WHERE Machine_ID = 1 ORDER BY CPU ASC, Date ASC";
-	private final static String memsql = "SELECT Date, Used, Total FROM SentinelMemoryStats WHERE Machine_ID = 1 ORDER BY Date ASC";
-	private final static String disksql = "SELECT Disk, Date, Used, Total FROM SentinelDiskUsageStats WHERE Machine_ID = 1 ORDER BY Disk ASC, Date ASC";
-	private final static String networksql = "SELECT Device, Date, Send, Receive FROM SentinelNetworkStats WHERE Machine_ID = 1 ORDER BY Device ASC, Date ASC";
+	private final static String cpusql = "SELECT CPU, Date, User, System FROM SentinelCPUStats WHERE Machine_ID = 1 ORDER BY CPU ASC, Date ASC LIMIT 1000";
+	private final static String memsql = "SELECT Date, Used, Total FROM SentinelMemoryStats WHERE Machine_ID = 1 ORDER BY Date ASC LIMIT 1000";
+	private final static String disksql = "SELECT Disk, Date, Used, Total FROM SentinelDiskUsageStats WHERE Machine_ID = 1 ORDER BY Disk ASC, Date ASC LIMIT 1000";
+	private final static String networksql = "SELECT Device, Date, Send, Receive FROM SentinelNetworkStats WHERE Machine_ID = 1 ORDER BY Device ASC, Date ASC LIMIT 1000";
 
 	@Inject
 	private Request request;
