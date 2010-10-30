@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.hyperic.sigar.Sigar;
 
-public abstract class AbstractSentinelAgent implements SentinelAgent {
+public abstract class AbstractSentinelStatisticsAgent implements SentinelAgent {
 
 	private int machineid;
 	private Sigar sigar;

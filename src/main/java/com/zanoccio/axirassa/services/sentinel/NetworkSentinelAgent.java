@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import org.hyperic.sigar.NetInterfaceStat;
 import org.hyperic.sigar.SigarException;
 
-public class NetworkSentinelAgent extends AbstractSentinelAgent {
+public class NetworkSentinelAgent extends AbstractSentinelStatisticsAgent {
 
 	private final ArrayList<NetworkStatistic> networkstat = new ArrayList<NetworkStatistic>();
 

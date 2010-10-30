@@ -8,7 +8,7 @@ import org.hyperic.sigar.FileSystem;
 import org.hyperic.sigar.FileSystemUsage;
 import org.hyperic.sigar.SigarException;
 
-public class DiskUsageSentinelAgent extends AbstractSentinelAgent {
+public class DiskUsageSentinelAgent extends AbstractSentinelStatisticsAgent {
 
 	// TODO: verify these are 10^3 kilobytes, not 2^10 kilobytes.
 	private final static int SCALING_FACTOR = 1000;

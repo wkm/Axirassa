@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.SigarException;
 
-public class MemorySentinelAgent extends AbstractSentinelAgent {
+public class MemorySentinelAgent extends AbstractSentinelStatisticsAgent {
 
 	private MemoryStatistic memorystat;
 

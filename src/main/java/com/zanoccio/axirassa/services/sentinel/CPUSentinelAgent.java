@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.SigarException;
 
-public class CPUSentinelAgent extends AbstractSentinelAgent {
+public class CPUSentinelAgent extends AbstractSentinelStatisticsAgent {
 
 	private final ArrayList<CPUStatistic> cpustats = new ArrayList<CPUStatistic>();
 
