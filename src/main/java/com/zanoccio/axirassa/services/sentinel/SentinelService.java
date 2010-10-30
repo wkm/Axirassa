@@ -24,9 +24,6 @@ public class SentinelService implements Service {
 	private final ArrayList<Class<? extends SentinelAgent>> agentclasses = new ArrayList<Class<? extends SentinelAgent>>();
 	private final ArrayList<SentinelAgent> agents = new ArrayList<SentinelAgent>();
 
-	private ArrayList<CPUStatistic> cpustats;
-	private MemoryStatistic memorystat;
-	private ArrayList<DiskUsageStatistic> diskusagestat;
 	private ArrayList<NetworkStatistic> networkstat;
 
 
@@ -126,14 +123,6 @@ public class SentinelService implements Service {
 		Transaction transaction = session.beginTransaction();
 		for (SentinelAgent agent : agents)
 			agent.save(session);
-
-		if (cpustats != null)
-			for (CPUStatistic stat : cpustats)
-				stat.save(session);
-
-		if (diskusagestat != null)
-			for (DiskUsageStatistic stat : diskusagestat)
-				stat.save(session);
 
 		if (networkstat != null)
 			for (NetworkStatistic stat : networkstat)
