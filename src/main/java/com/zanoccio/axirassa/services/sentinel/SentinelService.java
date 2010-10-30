@@ -75,15 +75,12 @@ public class SentinelService implements Service {
 		int cpuid = 0;
 		for (CpuPerc cpu : cpus) {
 			cpustats.add(new CPUStatistic(machineid, date, cpuid, cpu.getSys(), cpu.getUser()));
-
 			cpuid++;
 		}
 
 		// MEMORY
-		memorystat = new MemoryStatistic();
 		Mem mem = sigar.getMem();
-		memorystat.used = mem.getActualUsed();
-		memorystat.total = mem.getTotal();
+		memorystat = new MemoryStatistic(machineid, date, mem.getActualUsed(), mem.getTotal());
 
 		// DISK USAGE STAT
 		diskusagestat = new ArrayList<DiskUsageStatistic>();
@@ -131,15 +128,8 @@ public class SentinelService implements Service {
 			for (CPUStatistic stat : cpustats)
 				stat.save(session);
 
-		if (memorystat != null) {
-			SQLQuery query = session.createSQLQuery(MemoryStatistic.MEMORY_STAT_INSERT);
-			query.setInteger(0, machineid);
-			query.setTimestamp(1, date);
-			query.setLong(2, memorystat.used);
-			query.setLong(3, memorystat.total);
-
-			query.executeUpdate();
-		}
+		if (memorystat != null)
+			memorystat.save(session);
 
 		if (diskusagestat != null) {
 			SQLQuery query = session.createSQLQuery(DiskUsageStatistic.DISKUSAGE_STAT_INSERT);
