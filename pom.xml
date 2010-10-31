@@ -197,7 +197,7 @@
 						<append>true</append>
 					</requestLog>
 
-					<!-- <scanIntervalSeconds>1</scanIntervalSeconds> -->
+					<scanIntervalSeconds>1</scanIntervalSeconds>
 					<jettyConfg>src/main/webapp/WEB-INF/jetty.xml</jettyConfg>
 					<webDefaultXml>src/main/webapp/WEB-INF/webdefault.xml</webDefaultXml>
 				</configuration>
