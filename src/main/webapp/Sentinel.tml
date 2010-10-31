@@ -51,6 +51,7 @@
 		
 		<div class="agent">
 			<div class="agentname">Disk IO</div>
+			<t:axplot t:id="diskioupdate" detailsHeader="Breakdown by Disk" />
 		</div>
 		<div class="agent">
 			<div class="agentname">Network</div>
@@ -58,6 +59,7 @@
 		</div>
 		<div class="agent">
 			<div class="agentname">Throughput</div>
+			<t:axplot t:id="networkioupdate" detailsHeader="Breakdown by Network Interface" />
 		</div>
 	</body>
 </html>
