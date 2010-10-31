@@ -33,7 +33,7 @@ public class NetworkSentinelAgent extends AbstractSentinelStatisticsAgent {
 			networkstats.add(new NetworkStatistic(getMachineID(), getDate(), interfacename, current.txbytes,
 			        current.rxbytes));
 
-			NetworkIOSnapshot previous = previoussnapshots.get(netinterface);
+			NetworkIOSnapshot previous = previoussnapshots.get(interfacename);
 			if (previous != null) {
 				long millis = getDate().getTime() - previous.date.getTime();
 				long seconds = millis / 1000;
