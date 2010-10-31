@@ -26,8 +26,8 @@
 			CREATE TABLE `SentinelMemoryStats` (
 				`Machine_ID` INTEGER  NOT NULL,
 				`Date` TIMESTAMP NOT NULL,
-				`Used` LONG NOT NULL,
-				`Total` LONG NOT NULL,
+				`Used` BIGINT NOT NULL,
+				`Total` BIGINT NOT NULL,
 				PRIMARY KEY (`Machine_ID`, `Date`)
 			)
 		</create>
@@ -43,8 +43,8 @@
 				`Machine_ID` INTEGER  NOT NULL,
 				`Date` TIMESTAMP NOT NULL,
 				`Disk` VARCHAR(256) NOT NULL,
-				`Used` LONG NOT NULL,
-				`Total` LONG NOT NULL,
+				`Used` BIGINT NOT NULL,
+				`Total` BIGINT NOT NULL,
 				PRIMARY KEY (`Machine_ID`, `Date`, `Disk`)
 			)
 		</create>
@@ -76,8 +76,8 @@
 				`Machine_ID` INTEGER  NOT NULL,
 				`Date` TIMESTAMP NOT NULL,
 				`Device` VARCHAR(256) NOT NULL,
-				`Send` LONG NOT NULL,
-				`Receive` LONG NOT NULL,
+				`Send` BIGINT NOT NULL,
+				`Receive` BIGINT NOT NULL,
 				PRIMARY KEY (`Machine_ID`, `Date`, `Device`)
 			)
 		</create>
@@ -93,8 +93,8 @@
 				`Machine_ID` INTEGER  NOT NULL,
 				`Date` TIMESTAMP NOT NULL,
 				`Device` VARCHAR(256) NOT NULL,
-				`Send` LONG NOT NULL,
-				`Receive` LONG NOT NULL,
+				`Send` BIGINT NOT NULL,
+				`Receive` BIGINT NOT NULL,
 				PRIMARY KEY (`Machine_ID`, `Date`, `Device`)
 			)
 		</create>
