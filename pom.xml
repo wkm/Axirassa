@@ -181,11 +181,6 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<groupId>com.zanoccio.axirassa.overlord.maven</groupId>
-				<artifactId>maven-overlord-plugin</artifactId>
-				<version>0.1</version>
-			</plugin>
 
 			<!-- Run the application using "mvn jetty:run" -->
 			<plugin>
