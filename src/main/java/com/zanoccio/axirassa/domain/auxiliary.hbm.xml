@@ -59,8 +59,8 @@
 				`Machine_ID` INTEGER NOT NULL,
 				`Date` TIMESTAMP NOT NULL,
 				`Disk` VARCHAR(256) NOT NULL,
-				`Read` LONG NOT NULL,
-				`Write` LONG NOT NULL,
+				`Read` FLOAT NOT NULL,
+				`Write` FLOAT NOT NULL,
 				PRIMARY KEY (`Machine_ID`, `Date`, `Disk`)
 			)
 		</create>
