@@ -41,10 +41,10 @@ public class NetworkSentinelAgent extends AbstractSentinelStatisticsAgent {
 				long rxrate = (current.rxbytes - previous.rxbytes) / seconds;
 				long txrate = (current.txbytes - previous.txbytes) / seconds;
 
-				networkstats.add(new NetworkIOStatistic(getMachineID(), getDate(), netinterface, rxrate, txrate));
+				networkstats.add(new NetworkIOStatistic(getMachineID(), getDate(), interfacename, rxrate, txrate));
 			}
 
-			previoussnapshots.put(netinterface, current);
+			previoussnapshots.put(interfacename, current);
 		}
 
 	}
