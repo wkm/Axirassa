@@ -180,7 +180,7 @@
 					<optimize>true</optimize>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>com.zanoccio.axirassa.overlord.maven</groupId>
 				<artifactId>maven-overlord-plugin</artifactId>
@@ -196,6 +196,15 @@
 					<requestLog implementation="org.mortbay.jetty.NCSARequestLog">
 						<append>true</append>
 					</requestLog>
+
+					<Set name="ThreadPool">
+						<New class="org.mortbay.thread.QueuedThreadPool">
+							<Set name="minThreads">10</Set>
+							<Set name="maxThreads">200</Set>
+							<Set name="lowThreads">20</Set>
+							<Set name="SpawnOrShrinkAt">2</Set>
+						</New>
+					</Set>
 
 					<scanIntervalSeconds>1</scanIntervalSeconds>
 					<jettyConfg>src/main/webapp/WEB-INF/jetty.xml</jettyConfg>
@@ -267,7 +276,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>ASCII</project.build.sourceEncoding>
-	
+
 		<tapestry-release-version>5.2.1</tapestry-release-version>
 		<hornetq-release-version>2.1.2.Final</hornetq-release-version>
 		<hibernate-release-version>3.6.0.Final</hibernate-release-version>

@@ -227,7 +227,7 @@ var ax = new function() {
 				Flotr.draw(
 					$(id),
 					chartdata.map(function(d){
-						return {data: d, color: colors[chartindex++], lines:{show:true}};
+						return {data: d, color: colors[chartindex++], lines:{show:true, fill:true}};
 					}),
 					{
 						grid:{
