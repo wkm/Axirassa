@@ -32,7 +32,7 @@ public class SentinelService implements Service {
 
 		service.addAgent(CPUSentinelAgent.class);
 		service.addAgent(MemorySentinelAgent.class);
-		service.addAgent(DiskUsageSentinelAgent.class);
+		service.addAgent(DiskSentinelAgent.class);
 		service.addAgent(NetworkSentinelAgent.class);
 
 		service.initialize();
