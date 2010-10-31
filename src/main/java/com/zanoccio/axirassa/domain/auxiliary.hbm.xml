@@ -89,17 +89,17 @@
 	<!-- Throughput Statistics -->
 	<database-object>
 		<create>
-			CREATE TABLE `SentinelThroughputStats` (
+			CREATE TABLE `SentinelNetworkIOStats` (
 				`Machine_ID` INTEGER  NOT NULL,
 				`Date` TIMESTAMP NOT NULL,
 				`Device` VARCHAR(256) NOT NULL,
-				`Send` FLOAT NOT NULL,
-				`Receive` FLOAT NOT NULL,
+				`Send` LONG NOT NULL,
+				`Receive` LONG NOT NULL,
 				PRIMARY KEY (`Machine_ID`, `Date`, `Device`)
 			)
 		</create>
 		<drop>
-			DROP TABLE `SentinelThroughputStats`
+			DROP TABLE `SentinelNetworkIOStats`
 		</drop>
 	</database-object>
 	

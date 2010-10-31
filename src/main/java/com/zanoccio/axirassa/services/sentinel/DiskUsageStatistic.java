@@ -23,21 +23,6 @@ class DiskUsageStatistic extends AbstractSentinelStatistic {
 	}
 
 
-	public String getDisk() {
-		return disk;
-	}
-
-
-	public long getUsed() {
-		return used;
-	}
-
-
-	public long getTotal() {
-		return total;
-	}
-
-
 	@Override
 	public void save(Session session) {
 		SQLQuery query = session.createSQLQuery(DISKUSAGE_STAT_INSERT);

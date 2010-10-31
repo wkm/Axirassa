@@ -3,13 +3,16 @@ package com.zanoccio.axirassa.services.sentinel;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 
 import org.hyperic.sigar.NetInterfaceStat;
 import org.hyperic.sigar.SigarException;
 
 public class NetworkSentinelAgent extends AbstractSentinelStatisticsAgent {
 
-	private final ArrayList<NetworkStatistic> networkstats = new ArrayList<NetworkStatistic>();
+	private final ArrayList<SentinelStatistic> networkstats = new ArrayList<SentinelStatistic>();
+	private final HashMap<String, NetworkIOSnapshot> previoussnapshots = new HashMap<String, NetworkIOSnapshot>();
 
 
 	@Override
@@ -21,16 +24,41 @@ public class NetworkSentinelAgent extends AbstractSentinelStatisticsAgent {
 		for (String netinterface : netinterfaces) {
 			NetInterfaceStat stat = getSigar().getNetInterfaceStat(netinterface);
 			String interfacename = getSigar().getNetInterfaceConfig(netinterface).getDescription();
-			networkstats.add(new NetworkStatistic(getMachineID(), getDate(), interfacename, stat.getTxBytes(), stat
-			        .getRxBytes()));
+
+			NetworkIOSnapshot current = new NetworkIOSnapshot();
+			current.date = getDate();
+			current.rxbytes = stat.getRxBytes();
+			current.txbytes = stat.getTxBytes();
+
+			networkstats.add(new NetworkStatistic(getMachineID(), getDate(), interfacename, current.txbytes,
+			        current.rxbytes));
+
+			NetworkIOSnapshot previous = previoussnapshots.get(netinterface);
+			if (previous != null) {
+				long millis = getDate().getTime() - previous.date.getTime();
+				long seconds = millis / 1000;
+
+				long rxrate = (current.rxbytes - previous.rxbytes) / seconds;
+				long txrate = (current.txbytes - previous.txbytes) / seconds;
+
+				networkstats.add(new NetworkIOStatistic(getMachineID(), getDate(), netinterface, rxrate, txrate));
+			}
+
+			previoussnapshots.put(netinterface, current);
 		}
 
 	}
 
 
 	@Override
-	public Collection<NetworkStatistic> getStatistics() {
+	public Collection<SentinelStatistic> getStatistics() {
 		return networkstats;
 	}
 
+}
+
+class NetworkIOSnapshot {
+	Date date;
+	long rxbytes;
+	long txbytes;
 }

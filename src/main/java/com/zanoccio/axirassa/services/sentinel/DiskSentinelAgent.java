@@ -43,8 +43,8 @@ public class DiskSentinelAgent extends AbstractSentinelStatisticsAgent {
 
 			DiskIOSnapshot current = new DiskIOSnapshot();
 			current.date = getDate();
-			current.readbytes = usage.getDiskReadBytes();
-			current.writebytes = usage.getDiskWriteBytes();
+			current.readbytes = used;
+			current.writebytes = total;
 
 			// compare with previous
 			DiskIOSnapshot previous = previoussnapshots.get(fs.getDirName());
