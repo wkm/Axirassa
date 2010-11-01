@@ -60,7 +60,7 @@ var ax = new function() {
 			base = (n / mib);
 			unit = "MiB";
 		} else {
-			base = (n / 5 * kib);
+			base = (n / kib);
 			unit = "KiB";
 		}
 		
@@ -169,7 +169,13 @@ var ax = new function() {
 						Flotr.draw(
 							$(id + "_" + dataset + "_subchart"),
 							chartdata.map(function(d){
-								return {data: d, color: colors[chartindex++], lines:{show:true}};
+								var showpoints = (d.length <= 100);
+								return {
+									data: d, 
+									color: colors[chartindex++], 
+									lines:{show:true},
+									points:{show:showpoints, lineWidth: 1, radius: 2}
+								};
 							}), 
 							{
 								grid: {
