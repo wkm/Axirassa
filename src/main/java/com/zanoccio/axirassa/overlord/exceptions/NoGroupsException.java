@@ -1,7 +1,6 @@
 
 package com.zanoccio.axirassa.overlord.exceptions;
 
-
 import org.w3c.dom.Document;
 
 public class NoGroupsException extends OverlordException {

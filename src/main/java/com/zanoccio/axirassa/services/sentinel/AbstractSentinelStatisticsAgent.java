@@ -20,31 +20,37 @@ public abstract class AbstractSentinelStatisticsAgent implements SentinelAgent {
 	}
 
 
-	public void setMachineID(int machineid) {
+	@Override
+	public void setMachineID(final int machineid) {
 		this.machineid = machineid;
 	}
 
 
+	@Override
 	public int getMachineID() {
 		return machineid;
 	}
 
 
-	public void setSigar(Sigar sigar) {
+	@Override
+	public void setSigar(final Sigar sigar) {
 		this.sigar = sigar;
 	}
 
 
+	@Override
 	public Sigar getSigar() {
 		return sigar;
 	}
 
 
-	public void setDate(Date date) {
+	@Override
+	public void setDate(final Date date) {
 		this.date = date;
 	}
 
 
+	@Override
 	public Date getDate() {
 		return date;
 	}
@@ -53,7 +59,8 @@ public abstract class AbstractSentinelStatisticsAgent implements SentinelAgent {
 	abstract public Collection<? extends SentinelStatistic> getStatistics();
 
 
-	public void save(Session session) {
+	@Override
+	public void save(final Session session) {
 		for (SentinelStatistic statistic : getStatistics())
 			statistic.save(session);
 	}
