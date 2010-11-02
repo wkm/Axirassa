@@ -23,9 +23,18 @@
 }
 
 .axp_label {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	
 	font-weight: bold;
 	font-size: 8pt;
 	color: #333;
+	width: 350px;
+}
+
+.axp_label:hover {
+	white-space: normal;
 }
 
 /* AxOpener */
