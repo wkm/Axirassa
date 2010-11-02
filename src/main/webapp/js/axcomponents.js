@@ -169,7 +169,7 @@ var ax = new function() {
 						Flotr.draw(
 							$(id + "_" + dataset + "_subchart"),
 							chartdata.map(function(d){
-								var showpoints = (d.length <= 100);
+								var showpoints = (d.length <= 30);
 								return {
 									data: d, 
 									color: colors[chartindex++], 
@@ -233,7 +233,13 @@ var ax = new function() {
 				Flotr.draw(
 					$(id),
 					chartdata.map(function(d){
-						return {data: d, color: colors[chartindex++], lines:{show:true, fill:true}};
+						var showpoints = (d.length <= 30);
+						return {
+							data: d, 
+							color: colors[chartindex++], 
+							lines:{show:true, fill:true},
+							points:{show:showpoints, lineWidth: 1, radius: 2}
+						};
 					}),
 					{
 						grid:{
