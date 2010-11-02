@@ -6,13 +6,16 @@ body {
 	font-family: verdana, tahoma, sans-serif;
 	font-size: 13pt;
 	
-	/*background: #fafafa;*/
-	
-	margin-top: 2px;
 	border-top: 2px solid #872501;
-	
 	margin: 0;
 	padding: 0;
+}
+
+#footer {
+	clear: both;
+	font-size: 8pt;
+	font-weight: bold;
+	padding: 50px 0 500px 33px;
 }
 
 #header {
