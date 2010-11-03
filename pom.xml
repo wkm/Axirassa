@@ -6,7 +6,7 @@
 	<groupId>org.apache.tapestry</groupId>
 	<artifactId>axir</artifactId>
 	<version>0.1</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>axirassa</name>
 	<dependencies>
 		<dependency>
@@ -204,6 +204,14 @@
 <!-- 					<scanIntervalSeconds>1</scanIntervalSeconds>-->
 					<jettyConfg>src/main/webapp/WEB-INF/jetty.xml</jettyConfg>
 					<webDefaultXml>src/main/webapp/WEB-INF/webdefault.xml</webDefaultXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -39,7 +39,7 @@ public class SentinelService implements Service {
 
 		while (true) {
 			service.execute();
-			Thread.sleep(5 * 1000);
+			Thread.sleep(60 * 1000);
 		}
 	}
 
