@@ -4,7 +4,7 @@
 	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
-		
+		 
 		<!-- Database Connection -->
 		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
 		<property name="connection.url">jdbc:mysql://localhost/axir_devel</property>
@@ -45,7 +45,7 @@
 		<mapping class="com.zanoccio.axirassa.domain.SentinelMachineModel" />
 		
 		<!-- Auxiliary Mappings -->
-		<mapping file="src/main/java/com/zanoccio/axirassa/domain/auxiliary.hbm.xml" />
+		<mapping resource="com/zanoccio/axirassa/domain/auxiliary.hbm.xml" />
 		
 	</session-factory>
 </hibernate-configuration>
