@@ -12,6 +12,7 @@ public class AbstractDomainTest {
 	@BeforeClass
 	public static void hibernateSession() {
 		AnnotationConfiguration config = new AnnotationConfiguration().configure();
+		config.setProperty("connection.url", "jdbc:mysql://localhost/axir_test");
 		config.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		config.setProperty("hibernate.show_sql", "true");
 
