@@ -4,7 +4,6 @@ package com.zanoccio.axirassa.util;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,8 +41,10 @@ public class JavaLibraryPath {
 
 		System.out.println("File: " + path + " adding to classpath");
 
-		if (isLibraryFile(file))
-			file = copyToTemporaryDirectory(file);
+		if (isLibraryFile(file)) {
+			InputStream instream = obj.getClass().getResourceAsStream(path);
+			file = copyToTemporaryDirectory(file, instream);
+		}
 
 		System.out.println("Eventually ading: " + file.getParent() + " to class path");
 		add(file.getParent());
@@ -63,13 +64,13 @@ public class JavaLibraryPath {
 	}
 
 
-	private static File copyToTemporaryDirectory(File source) throws IOException {
+	private static File copyToTemporaryDirectory(File source, InputStream stream) throws IOException {
 		File directory = createTemporaryDirectory();
 		File newfile = new File(directory.getPath() + File.separator + source.getName());
 
 		System.out.println("Copying from " + source.getPath() + " --> " + newfile.getPath());
 
-		InputStream in = new BufferedInputStream(new FileInputStream(source), BUFFER_SIZE);
+		InputStream in = new BufferedInputStream(stream, BUFFER_SIZE);
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(newfile), BUFFER_SIZE);
 
 		int cursor;

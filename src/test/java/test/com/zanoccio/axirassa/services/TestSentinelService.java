@@ -9,7 +9,6 @@ import com.zanoccio.axirassa.services.sentinel.DiskSentinelAgent;
 import com.zanoccio.axirassa.services.sentinel.MemorySentinelAgent;
 import com.zanoccio.axirassa.services.sentinel.NetworkSentinelAgent;
 import com.zanoccio.axirassa.services.sentinel.SentinelService;
-import com.zanoccio.axirassa.util.AbstractDomainTest;
 
 public class TestSentinelService {
 
@@ -18,8 +17,8 @@ public class TestSentinelService {
 
 	@Test
 	public void test() throws Exception {
-		AbstractDomainTest.hibernateSession();
-		session = AbstractDomainTest.session;
+		// AbstractDomainTest.hibernateSession();
+		// session = AbstractDomainTest.session;
 
 		SentinelService service = new SentinelService(session, 1);
 
