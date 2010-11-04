@@ -1,8 +1,7 @@
 
 package com.zanoccio.axirassa.util;
 
-import java.io.File;
-import java.net.URL;
+import java.io.IOException;
 
 /**
  * Similar to {@link PcapLoader} but for Sigar.
@@ -23,18 +22,17 @@ public class SigarLoader {
 
 	public static void load() {
 		SigarLoader loader = new SigarLoader();
-		loader.loadLibrary();
+		try {
+			loader.loadLibrary();
+		} catch (IOException e) {
+			throw new ExceptionInInitializerError(e);
+		}
+
 		loaded = true;
 	}
 
 
-	public void loadLibrary() {
-		URL library = getClass().getResource("/sigar-x86-winnt.dll");
-		if (library == null)
-			throw new ExceptionInInitializerError("Cannot fine sigar library");
-
-		File path = new File(library.getPath());
-		JavaLibraryPath.add(path.getParent());
+	public void loadLibrary() throws IOException {
+		JavaLibraryPath.addFile("/sigar-x86-winnt.dll");
 	}
-
 }
