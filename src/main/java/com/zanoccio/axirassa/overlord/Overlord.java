@@ -2,6 +2,7 @@
 package com.zanoccio.axirassa.overlord;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 import com.zanoccio.axirassa.overlord.exceptions.NoOverlordConfigurationException;
@@ -40,10 +41,14 @@ public class Overlord {
 		if (configfile == null)
 			throw new NoOverlordConfigurationException(CONFIGURATION_FILE);
 
+		InputStream configstream = ClassLoader.getSystemResourceAsStream(CONFIGURATION_FILE);
+
+		System.out.println("CONFIG STREAM: " + configstream);
+
 		configuration = new OverlordConfiguration();
 		configuration.setJavaExecutable(systemsupport.getJavaExecutable());
 
-		XMLConfigurationParser configparser = new XMLConfigurationParser(configfile, configuration);
+		XMLConfigurationParser configparser = new XMLConfigurationParser(configfile, configstream, configuration);
 		configparser.parse();
 
 		for (String groupname : parameters) {

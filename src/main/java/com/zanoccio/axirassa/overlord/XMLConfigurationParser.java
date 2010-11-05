@@ -2,6 +2,7 @@
 package com.zanoccio.axirassa.overlord;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -29,10 +30,12 @@ public class XMLConfigurationParser {
 	private Document dom;
 	private Element docroot;
 	private final OverlordConfiguration configuration;
+	private final InputStream inputstream;
 
 
-	public XMLConfigurationParser(URL configfile, OverlordConfiguration configuration) {
+	public XMLConfigurationParser(URL configfile, InputStream stream, OverlordConfiguration configuration) {
 		this.configfile = configfile;
+		this.inputstream = stream;
 		this.configuration = configuration;
 	}
 
@@ -44,7 +47,8 @@ public class XMLConfigurationParser {
 
 		try {
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			dom = db.parse(configfile.getPath());
+			db.setEntityResolver(new ClassPathEntityResolver());
+			dom = db.parse(inputstream);
 		} catch (Exception e) {
 			throw new OverlordParsingException(dom, e);
 		}
