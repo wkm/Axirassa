@@ -43,8 +43,6 @@ public class Overlord {
 
 		InputStream configstream = ClassLoader.getSystemResourceAsStream(CONFIGURATION_FILE);
 
-		System.out.println("CONFIG STREAM: " + configstream);
-
 		configuration = new OverlordConfiguration();
 		configuration.setJavaExecutable(systemsupport.getJavaExecutable());
 

@@ -31,8 +31,6 @@ public class ClassPathEntityResolver implements EntityResolver {
 			return null;
 
 		String path = extractPath(systemid);
-
-		System.out.println("TRYING TO FIND: " + path);
 		try {
 			InputStream inputstream = ClassLoader.getSystemResourceAsStream(path);
 

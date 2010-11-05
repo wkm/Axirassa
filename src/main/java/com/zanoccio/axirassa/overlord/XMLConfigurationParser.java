@@ -75,11 +75,7 @@ public class XMLConfigurationParser {
 
 
 	private String stripPrefix(String path) {
-		System.out.println("STARTING WITH: " + path);
-		String stripped = path.replaceFirst("^file:\\\\", "").replaceFirst("^file:/", "");
-		System.out.println("CLEANED TO: " + stripped);
-
-		return stripped;
+		return path.replaceFirst("^file:\\\\", "").replaceFirst("^file:/", "");
 	}
 
 
