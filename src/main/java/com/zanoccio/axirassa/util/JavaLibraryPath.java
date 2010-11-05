@@ -28,8 +28,6 @@ public class JavaLibraryPath {
 	 * Includes special handling of .dll and .so files by copying them out of a
 	 * containing .jar (if applicable) into a temporary directory and then
 	 * adding them to the classpath.
-	 * 
-	 * @throws IOException
 	 */
 	public static void addFile(String path) throws IOException {
 		Object obj = "raw object";
@@ -39,14 +37,13 @@ public class JavaLibraryPath {
 
 		File file = new File(library.getPath());
 
-		System.out.println("File: " + path + " adding to classpath");
-
 		if (isLibraryFile(file)) {
 			InputStream instream = obj.getClass().getResourceAsStream(path);
 			file = copyToTemporaryDirectory(file, instream);
+
+			System.out.println("Extracting dynamic library " + path + " to: " + file.getPath());
 		}
 
-		System.out.println("Eventually ading: " + file.getParent() + " to class path");
 		add(file.getParent());
 	}
 
@@ -68,8 +65,6 @@ public class JavaLibraryPath {
 		File directory = createTemporaryDirectory();
 		File newfile = new File(directory.getPath() + File.separator + source.getName());
 
-		System.out.println("Copying from " + source.getPath() + " --> " + newfile.getPath());
-
 		InputStream in = new BufferedInputStream(stream, BUFFER_SIZE);
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(newfile), BUFFER_SIZE);
 
@@ -79,8 +74,6 @@ public class JavaLibraryPath {
 
 		in.close();
 		out.close();
-
-		System.out.println("Done.");
 
 		return newfile;
 	}
