@@ -62,7 +62,9 @@ public class ExecutionSpecification {
 
 		ExecutionMonitor monitor = new ExecutionMonitor(processbuilder);
 		monitor.setRemainingRestarts(5);
+
 		Thread thread = new Thread(monitor);
+		configuration.getOverlord().addExecutionInstance(thread, monitor);
 		thread.start();
 	}
 }

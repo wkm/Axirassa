@@ -4,6 +4,8 @@ package com.zanoccio.axirassa.overlord;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import com.zanoccio.axirassa.overlord.exceptions.NoOverlordConfigurationException;
 import com.zanoccio.axirassa.overlord.exceptions.OverlordException;
@@ -13,7 +15,10 @@ import com.zanoccio.axirassa.overlord.os.OverlordSystemSupport;
 /**
  * A process starting/monitoring daemon and framework.
  * 
- * AxOverlord hooks into a HornetQ message passing framework
+ * AxOverlord hooks into a HornetQ message passing framework.
+ * 
+ * Note that java processes started by Overlord will not be terminated by
+ * default unless {@link #addShutdownHooks()} is called.
  * 
  * @author wiktor
  * 
@@ -24,6 +29,7 @@ public class Overlord {
 
 	public static void main(String[] parameters) throws OverlordException, IOException {
 		Overlord overlord = new Overlord();
+		overlord.addShutdownHooks();
 		overlord.execute(new String[] { "master" });
 	}
 
@@ -32,6 +38,7 @@ public class Overlord {
 	// Class Instances
 	//
 	private OverlordConfiguration configuration;
+	private final ArrayList<ExecutionInstance> threads = new ArrayList<ExecutionInstance>();
 
 
 	public void execute(String[] parameters) throws OverlordException, IOException {
@@ -43,7 +50,7 @@ public class Overlord {
 
 		InputStream configstream = ClassLoader.getSystemResourceAsStream(CONFIGURATION_FILE);
 
-		configuration = new OverlordConfiguration();
+		configuration = new OverlordConfiguration(this);
 		configuration.setJavaExecutable(systemsupport.getJavaExecutable());
 
 		XMLConfigurationParser configparser = new XMLConfigurationParser(configfile, configstream, configuration);
@@ -55,5 +62,41 @@ public class Overlord {
 			if (group != null)
 				group.execute();
 		}
+	}
+
+
+	public Collection<ExecutionInstance> getExecutionInstances() {
+		return threads;
+	}
+
+
+	private void addShutdownHooks() {
+		Runtime.getRuntime().addShutdownHook(new OverlordDynamicShutdownHook(this));
+	}
+
+
+	public void addExecutionInstance(Thread thread, ExecutionMonitor monitor) {
+		threads.add(new ExecutionInstance(thread, monitor));
+	}
+}
+
+class ExecutionInstance {
+	private final Thread thread;
+	private final ExecutionMonitor monitor;
+
+
+	public ExecutionInstance(Thread thread, ExecutionMonitor monitor) {
+		this.thread = thread;
+		this.monitor = monitor;
+	}
+
+
+	public Thread getThread() {
+		return thread;
+	}
+
+
+	public ExecutionMonitor getMonitor() {
+		return monitor;
 	}
 }

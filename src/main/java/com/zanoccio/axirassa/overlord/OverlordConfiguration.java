@@ -5,12 +5,23 @@ import java.util.LinkedHashMap;
 
 public class OverlordConfiguration {
 
+	private final Overlord overlord;
 	private final LinkedHashMap<String, ExecutionTarget> targets = new LinkedHashMap<String, ExecutionTarget>();
 	private final LinkedHashMap<String, ExecutionGroup> groups = new LinkedHashMap<String, ExecutionGroup>();
 
 	private String basedirectory;
 	private String classpath;
 	private String javaexecutable;
+
+
+	public OverlordConfiguration(Overlord overlord) {
+		this.overlord = overlord;
+	}
+
+
+	public Overlord getOverlord() {
+		return overlord;
+	}
 
 
 	public void setBaseDirectory(String basediretory) {
