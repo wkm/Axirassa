@@ -38,7 +38,7 @@ public class Overlord {
 	// Class Instances
 	//
 	private OverlordConfiguration configuration;
-	private final ArrayList<ExecutionInstance> threads = new ArrayList<ExecutionInstance>();
+	private final ArrayList<ExecutionInstance> instances = new ArrayList<ExecutionInstance>();
 
 
 	public void execute(String[] parameters) throws OverlordException, IOException {
@@ -66,7 +66,7 @@ public class Overlord {
 
 
 	public Collection<ExecutionInstance> getExecutionInstances() {
-		return threads;
+		return instances;
 	}
 
 
@@ -76,7 +76,16 @@ public class Overlord {
 
 
 	public void addExecutionInstance(Thread thread, ExecutionMonitor monitor) {
-		threads.add(new ExecutionInstance(thread, monitor));
+		instances.add(new ExecutionInstance(thread, monitor));
+	}
+
+
+	public void killInstances() {
+		for (ExecutionInstance instance : instances)
+			if (instance.getThread().isAlive()) {
+				instance.getThread().interrupt();
+				instance.getMonitor().killProcess();
+			}
 	}
 }
 

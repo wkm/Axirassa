@@ -68,6 +68,7 @@ public class ExecutionMonitor implements Runnable {
 		if (process == null)
 			return;
 
+		System.out.println("  Killing process");
 		process.destroy();
 	}
 }

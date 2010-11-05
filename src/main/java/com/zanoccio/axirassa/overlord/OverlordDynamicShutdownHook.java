@@ -14,24 +14,12 @@ import java.util.Collection;
  */
 public class OverlordDynamicShutdownHook extends Thread {
 
-	private int timeout;
-	private boolean terminateByDefault;
 	private final Overlord overlord;
 	private int alivethreadcount = 0;
 
 
 	public OverlordDynamicShutdownHook(Overlord overlord) {
 		this.overlord = overlord;
-	}
-
-
-	public void setTimeout(int timeout) {
-		this.timeout = timeout;
-	}
-
-
-	public void setTerminateByDefault(boolean terminateByDefault) {
-		this.terminateByDefault = terminateByDefault;
 	}
 
 
@@ -62,18 +50,8 @@ public class OverlordDynamicShutdownHook extends Thread {
 			break;
 
 		default:
-			terminateThreads();
+			overlord.killInstances();
 			break;
 		}
-	}
-
-
-	private void terminateThreads() {
-		for (ExecutionInstance instance : overlord.getExecutionInstances())
-			if (instance.getThread().isAlive()) {
-				instance.getThread().interrupt();
-				System.out.println("  Killing process");
-				instance.getMonitor().killProcess();
-			}
 	}
 }
