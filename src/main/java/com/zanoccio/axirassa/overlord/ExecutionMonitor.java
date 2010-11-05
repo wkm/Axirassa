@@ -1,6 +1,9 @@
 
 package com.zanoccio.axirassa.overlord;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 import com.zanoccio.axirassa.overlord.exceptions.ExceptionInMonitorError;
 
 /**
@@ -35,6 +38,15 @@ public class ExecutionMonitor implements Runnable {
 			try {
 				System.out.printf(toString() + " starting [%d]: " + builder.command() + "\n", startCount);
 				Process process = builder.start();
+
+				BufferedReader stdoutstream = new BufferedReader(new InputStreamReader(process.getInputStream()));
+				BufferedReader stderrstream = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+
+				String line;
+				while ((line = stdoutstream.readLine()) != null)
+					System.out.println("STDOUT: " + line);
+				while ((line = stderrstream.readLine()) != null)
+					System.out.println("STDERR: " + line);
 
 				startCount++;
 				remainingRestarts--;
