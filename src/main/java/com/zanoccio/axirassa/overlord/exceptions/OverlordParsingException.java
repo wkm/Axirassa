@@ -8,6 +8,6 @@ public class OverlordParsingException extends OverlordException {
 
 
 	public OverlordParsingException(Document doc, Exception exception) {
-		super("Error while parsing " + doc.getBaseURI(), exception);
+		super("Error while parsing " + doc, exception);
 	}
 }
