@@ -16,7 +16,7 @@
     <target name="AxMessageQ" class="com.zanoccio.axirassa.MessageQueue" /> -->
     
     <group name="master">
-        <execute target="AxSentinelAgent" instances="3"/>
+        <execute target="AxSentinelAgent"/>
         <!-- <execute>AxSentinelQ</execute>
         <execute>AxMessageQ</execute> -->
     </group>
