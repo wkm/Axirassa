@@ -15,6 +15,7 @@ public class ExecutionMonitor implements Runnable {
 	private int remainingRestarts = 0;
 	private int startCount = 0;
 	private final ProcessBuilder builder;
+	private Process process;
 
 
 	public ExecutionMonitor(ProcessBuilder builder) {
@@ -37,7 +38,7 @@ public class ExecutionMonitor implements Runnable {
 		while (remainingRestarts > 0) {
 			try {
 				System.out.printf(toString() + " starting [%d]: " + builder.command() + "\n", startCount);
-				Process process = builder.start();
+				process = builder.start();
 
 				BufferedReader stdoutstream = new BufferedReader(new InputStreamReader(process.getInputStream()));
 				BufferedReader stderrstream = new BufferedReader(new InputStreamReader(process.getErrorStream()));
@@ -52,10 +53,21 @@ public class ExecutionMonitor implements Runnable {
 				remainingRestarts--;
 
 				process.waitFor();
+			} catch (InterruptedException e) {
+				System.out.println("ExecutionMonitor interrupted.");
+				return;
 			} catch (Exception e) {
 				throw new ExceptionInMonitorError(e);
 			}
 		}
 		System.out.println(toString() + " finished.");
+	}
+
+
+	public void killProcess() {
+		if (process == null)
+			return;
+
+		process.destroy();
 	}
 }
