@@ -23,8 +23,6 @@ public class SentinelService implements Service {
 	private final ArrayList<Class<? extends SentinelAgent>> agentclasses = new ArrayList<Class<? extends SentinelAgent>>();
 	private final ArrayList<SentinelAgent> agents = new ArrayList<SentinelAgent>();
 
-	private ArrayList<NetworkStatistic> networkstat;
-
 
 	public static void main(String[] param) throws Exception {
 		Session session = HibernateTools.getSession();
