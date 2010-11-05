@@ -44,6 +44,12 @@ public class ExecutionSpecification {
 	private void executeInstance() throws IOException {
 		CommandLine cli = new CommandLine(configuration.getJavaExecutable());
 
+		// add classpath if applicable
+		if (configuration.getClassPath() != null) {
+			cli.addArgument("-cp");
+			cli.addArgument(configuration.getClassPath());
+		}
+
 		// add jvm options
 		if (target.getJVMOptions().size() > 0)
 			cli.addArguments(target.getJVMOptions().getCommandLine());

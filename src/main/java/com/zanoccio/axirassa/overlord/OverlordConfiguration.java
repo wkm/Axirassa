@@ -7,12 +7,19 @@ public class OverlordConfiguration {
 
 	private final LinkedHashMap<String, ExecutionTarget> targets = new LinkedHashMap<String, ExecutionTarget>();
 	private final LinkedHashMap<String, ExecutionGroup> groups = new LinkedHashMap<String, ExecutionGroup>();
+
 	private String basedirectory;
+	private String classpath;
 	private String javaexecutable;
 
 
 	public void setBaseDirectory(String basediretory) {
 		this.basedirectory = basediretory;
+	}
+
+
+	public void setClassPath(String classpath) {
+		this.classpath = classpath;
 	}
 
 
@@ -23,6 +30,11 @@ public class OverlordConfiguration {
 
 	public String getJavaExecutable() {
 		return javaexecutable;
+	}
+
+
+	public String getClassPath() {
+		return classpath;
 	}
 
 

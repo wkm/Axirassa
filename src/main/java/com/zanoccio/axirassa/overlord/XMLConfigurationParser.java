@@ -43,7 +43,7 @@ public class XMLConfigurationParser {
 	public OverlordConfiguration parse() throws OverlordException {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
-		configuration.setBaseDirectory(new File(configfile.getPath()).getParent());
+		setClassPathAndBaseDirectory();
 
 		try {
 			DocumentBuilder db = dbf.newDocumentBuilder();
@@ -59,6 +59,40 @@ public class XMLConfigurationParser {
 		createExecutionGroups();
 
 		return configuration;
+	}
+
+
+	private void setClassPathAndBaseDirectory() {
+		// if the configfile is within a JAR, we use it to set the classpath
+		String jarfile = retrieveJarFile(configfile);
+		if (jarfile != null) {
+			configuration.setClassPath(stripPrefix(jarfile));
+			configuration.setBaseDirectory(stripPrefix(new File(jarfile).getParent()));
+		} else {
+			configuration.setBaseDirectory(new File(configfile.getPath()).getParent());
+		}
+	}
+
+
+	private String stripPrefix(String path) {
+		System.out.println("STARTING WITH: " + path);
+		String stripped = path.replaceFirst("^file:\\\\", "").replaceFirst("^file:/", "");
+		System.out.println("CLEANED TO: " + stripped);
+
+		return stripped;
+	}
+
+
+	private String retrieveJarFile(URL file) {
+		String[] components = file.getPath().split("!", 2);
+
+		if (components.length < 2)
+			return null;
+
+		if (components[0].toLowerCase().endsWith(".jar"))
+			return components[0];
+
+		return null;
 	}
 
 
