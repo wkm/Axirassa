@@ -23,6 +23,7 @@ import com.zanoccio.axirassa.overlord.exceptions.OverlordException;
 import com.zanoccio.axirassa.overlord.exceptions.OverlordParsingException;
 import com.zanoccio.axirassa.overlord.exceptions.OverlordTargetClassNotFoundException;
 import com.zanoccio.axirassa.overlord.exceptions.UnknownExecutionTargetException;
+import com.zanoccio.javakit.ClassPathEntityResolver;
 
 public class XMLConfigurationParser {
 
