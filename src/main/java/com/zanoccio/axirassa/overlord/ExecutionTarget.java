@@ -7,7 +7,7 @@ import com.zanoccio.axirassa.overlord.exceptions.OverlordException;
 public class ExecutionTarget {
 	private final String name;
 	private final Class<? extends Object> klass;
-	private final TargetJVMOptions jvmoptions;
+	private TargetJVMOptions jvmoptions;
 
 
 	public static String canonicalizeName(String name) {
@@ -51,6 +51,11 @@ public class ExecutionTarget {
 
 	public Class<? extends Object> getTargetClass() {
 		return klass;
+	}
+
+
+	public void setOptions(TargetJVMOptions jvmoptions) {
+		this.jvmoptions = jvmoptions;
 	}
 
 }

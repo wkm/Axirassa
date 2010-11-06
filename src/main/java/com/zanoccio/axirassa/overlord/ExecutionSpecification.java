@@ -51,8 +51,7 @@ public class ExecutionSpecification {
 		}
 
 		// add jvm options
-		if (target.getJVMOptions().size() > 0)
-			cli.addArguments(target.getJVMOptions().getCommandLine());
+		cli.addArguments(target.getJVMOptions().getCommandLine());
 
 		cli.addArgument(target.getTargetClass().getCanonicalName());
 

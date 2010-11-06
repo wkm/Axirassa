@@ -40,7 +40,8 @@ public class TargetJVMOptions {
 
 		for (int i = 0; i < optionnodes.getLength(); i++) {
 			Node optionnode = optionnodes.item(i);
-			if (!optionnode.getNodeName().equals("option"))
+
+			if (!optionnode.getNodeName().equalsIgnoreCase("option"))
 				continue;
 
 			NamedNodeMap attributes = optionnode.getAttributes();

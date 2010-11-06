@@ -26,7 +26,7 @@ public class CommandLine {
 
 
 	public void addArguments(List<String> arguments) {
-		arguments.addAll(arguments);
+		this.arguments.addAll(arguments);
 	}
 
 

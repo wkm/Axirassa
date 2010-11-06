@@ -136,7 +136,7 @@ public class XMLConfigurationParser {
 		NodeList children = node.getChildNodes();
 		for (Node child : new IterableNodeList(children))
 			if (child.getNodeName().equals(XMLName.JVMOPTIONS.toString()))
-				TargetJVMOptions.populate(target.getJVMOptions(), child);
+				target.setOptions(TargetJVMOptions.populate(target.getJVMOptions(), child));
 
 		return target;
 	}
