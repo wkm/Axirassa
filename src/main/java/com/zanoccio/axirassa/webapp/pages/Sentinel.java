@@ -12,7 +12,6 @@ import org.apache.tapestry5.services.Request;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
-import com.zanoccio.axirassa.util.HibernateTools;
 import com.zanoccio.axirassa.webapp.annotations.PublicPage;
 import com.zanoccio.axirassa.webapp.utilities.AxPlotDataPackage;
 import com.zanoccio.axirassa.webapp.utilities.AxPlotDataPackage.AxPlotAxisLabelingFunction;
@@ -50,12 +49,9 @@ public class Sentinel {
 			// cleanly handle non-JS
 			return "Sentinel";
 
-		Session session = HibernateTools.getSession();
-
 		// execute the search query
 		SQLQuery query = session.createSQLQuery(cpusql);
 		List<Object[]> data = query.list();
-		session.close();
 
 		List<List<Object[]>> cpudata = ListUtilities.partition(data, new ListUtilities.ListPartitioner<Object[]>() {
 			@Override
@@ -115,12 +111,8 @@ public class Sentinel {
 		if (!request.isXHR())
 			return "Sentinel";
 
-		Session session = HibernateTools.getSession();
-
-		// session.beginTransaction();
 		SQLQuery query = session.createSQLQuery(memsql);
 		List<Object[]> result = query.list();
-		session.close();
 
 		double[] timestamps = new double[result.size()];
 		double[] dataset = new double[result.size()];
@@ -155,13 +147,13 @@ public class Sentinel {
 
 
 	public Object onActionFromDiskSpaceUpdate() {
-		Session session = HibernateTools.getSession();
+		if (!request.isXHR())
+			return "Sentinel";
 
 		// execute the search query
 		// session.beginTransaction();
 		SQLQuery query = session.createSQLQuery(disksql);
 		List<Object[]> data = query.list();
-		session.close();
 
 		List<List<Object[]>> diskdata = ListUtilities.partition(data, new ListUtilities.ListPartitioner<Object[]>() {
 			@Override
@@ -220,11 +212,11 @@ public class Sentinel {
 
 
 	public Object onActionFromDiskIOUpdate() {
-		Session session = HibernateTools.getSession();
+		if (!request.isXHR())
+			return "Sentinel";
 
 		SQLQuery query = session.createSQLQuery(diskiosql);
 		List<Object[]> data = query.list();
-		session.close();
 
 		List<List<Object[]>> iodata = ListUtilities.partition(data, new ListUtilities.ListPartitioner<Object[]>() {
 			@Override
@@ -271,11 +263,11 @@ public class Sentinel {
 
 
 	public Object onActionFromNetworkUpdate() {
-		Session session = HibernateTools.getSession();
+		if (!request.isXHR())
+			return "Sentinel";
 
 		SQLQuery query = session.createSQLQuery(networksql);
 		List<Object[]> data = query.list();
-		session.close();
 
 		// partition on the network interface
 		List<List<Object[]>> networkdata = ListUtilities.partition(data, new ListUtilities.ListPartitioner<Object[]>() {
@@ -324,11 +316,11 @@ public class Sentinel {
 
 
 	public Object onActionFromNetworkIOUpdate() {
-		Session session = HibernateTools.getSession();
+		if (!request.isXHR())
+			return "Sentinel";
 
 		SQLQuery query = session.createSQLQuery(networkiosql);
 		List<Object[]> data = query.list();
-		session.close();
 
 		List<List<Object[]>> iodata = ListUtilities.partition(data, new ListUtilities.ListPartitioner<Object[]>() {
 			@Override
