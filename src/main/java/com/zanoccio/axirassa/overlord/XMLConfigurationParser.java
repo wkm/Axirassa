@@ -68,9 +68,9 @@ public class XMLConfigurationParser {
 		String jarfile = retrieveJarFile(configfile);
 		if (jarfile != null) {
 			configuration.setClassPath(stripPrefix(jarfile));
-			configuration.setBaseDirectory(stripPrefix(new File(jarfile).getParentFile().getAbsolutePath()));
+			configuration.setBaseDirectory(stripPrefix(new File(jarfile).getParent()));
 		} else {
-			configuration.setBaseDirectory(new File(configfile.getPath()).getParentFile().getAbsolutePath());
+			configuration.setBaseDirectory(new File(configfile.getPath()).getParent());
 		}
 	}
 
