@@ -48,6 +48,8 @@ public class Overlord {
 		if (configfile == null)
 			throw new NoOverlordConfigurationException(CONFIGURATION_FILE);
 
+		System.out.println("Overlord configuration found at: " + configfile.getPath());
+
 		InputStream configstream = ClassLoader.getSystemResourceAsStream(CONFIGURATION_FILE);
 
 		configuration = new OverlordConfiguration(this);
