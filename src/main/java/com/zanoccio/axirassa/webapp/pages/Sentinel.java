@@ -37,6 +37,9 @@ public class Sentinel {
 	@Inject
 	private Request request;
 
+	@Inject
+	private Session session;
+
 
 	public Object onActionFromCpuupdate() {
 		// this codes makes certain assumptions about the ordering from the
