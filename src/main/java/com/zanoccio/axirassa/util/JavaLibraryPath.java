@@ -92,10 +92,15 @@ public class JavaLibraryPath {
 		try {
 			Class<? extends Object> classobject = ClassLoader.class;
 
-			Field field = classobject.getDeclaredField("sys_paths");
-			boolean accessible = field.isAccessible();
-			if (!accessible)
-				field.setAccessible(true);
+			Field syspathsfield = classobject.getDeclaredField("sys_paths");
+			Field userpathsfield = classobject.getDeclaredField("usr_paths");
+			
+			if (!syspathsfield.isAccessible())
+				syspathsfield.setAccessible(true);
+			
+			if(!userpathsfield.isAccessible())
+				userpathsfield.setAccessible(true);
+			
 
 			String current = System.getProperty("java.library.path");
 			path = path + ";" + current;
@@ -103,7 +108,9 @@ public class JavaLibraryPath {
 			System.out.println("Adjusting path to: " + path);
 
 			// remove the current value
-			field.set(classobject, null);
+			syspathsfield.set(classobject, null);
+			userpathsfield.set(classobject, null);
+			
 			System.setProperty("java.library.path", path);
 		} catch (Exception e) {
 			throw new ExceptionInInitializerError(e);

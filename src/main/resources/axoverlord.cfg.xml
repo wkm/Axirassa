@@ -10,6 +10,13 @@
             <option name="Xms" value="32M"/>
             <option name="Xss" value="1024K"/>
         </jvmoptions>
+        <resources>
+        	<resource>sigar-x86-winnt.dll</resource>
+        	<!-- <resource>sigar-amd64-winnt.dll</resource> -->
+        	<resource>libsigar-amd64-linux.so</resource>
+        	<!-- <resource>libsigar-x86-linux.so</resource> -->
+        	<!-- <resource>libsigar-ia64-linux.so</resource> -->
+        </resources>
     </target>
 	
     <!-- <target name="AxSobrietyQ" class="com.zanoccio.axirassa.SobrietyMessageQueue" />
