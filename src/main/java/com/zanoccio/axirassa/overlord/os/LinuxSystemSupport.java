@@ -8,4 +8,9 @@ public class LinuxSystemSupport extends AbstractOverlordSystemSupport {
 		return "java";
 	}
 
+	@Override
+	public OverlordSystem getSystem() {
+		return OverlordSystem.LINUX;
+	}
+
 }

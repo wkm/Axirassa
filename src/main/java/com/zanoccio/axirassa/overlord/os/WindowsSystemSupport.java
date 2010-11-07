@@ -6,4 +6,9 @@ public class WindowsSystemSupport extends AbstractOverlordSystemSupport {
 	public String getJavaExecutable() {
 		return "java.exe";
 	}
+
+	@Override
+	public OverlordSystem getSystem() {
+		return OverlordSystem.WINDOWS;
+	}
 }
