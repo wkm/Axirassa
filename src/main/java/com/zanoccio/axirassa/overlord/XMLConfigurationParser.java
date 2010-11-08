@@ -137,11 +137,44 @@ public class XMLConfigurationParser {
 
 		// apply any options
 		NodeList children = node.getChildNodes();
-		for (Node child : new IterableNodeList(children))
-			if (child.getNodeName().equals(XMLName.JVMOPTIONS.toString()))
-				target.setOptions(TargetJVMOptions.populate(target.getJVMOptions(), child));
+		TargetOptions options = createExecutionTargetOptions(node.getChildNodes());
+		target.setOptions(options);
 
 		return target;
+	}
+
+
+	private TargetOptions createExecutionTargetOptions(NodeList nodelist) {
+		TargetOptions options = new TargetOptions();
+
+		for (Node node : new IterableNodeList(nodelist)) {
+			String nodename = node.getNodeName().toLowerCase();
+
+			if (nodename.equals(XMLName.JVMOPTION.toString()))
+				createExecutionTargetJVMOption(options, node);
+			else if (nodename.equals(XMLName.LIBRARY.toString()))
+				createExecutionTargetLibraryOption(options, node);
+			else
+				// TODO throw an exception instead? In theory the XML parser is
+				// supposed to enforce this via the DTD....
+				continue;
+		}
+
+		return options;
+	}
+
+
+	private void createExecutionTargetJVMOption(TargetOptions options, Node node) {
+		NamedNodeMap attributes = node.getAttributes();
+		Node namenode = attributes.getNamedItem(XMLName.NAME.toString());
+		Node valuenode = attributes.getNamedItem(XMLName.VALUE.toString());
+
+		options.addJVMOption(namenode.getTextContent(), valuenode.getTextContent());
+	}
+
+
+	private void createExecutionTargetLibraryOption(TargetOptions options, Node node) {
+		options.addLibrary(node.getTextContent());
 	}
 
 

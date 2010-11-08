@@ -11,7 +11,6 @@ import org.hyperic.sigar.SigarException;
 
 import com.zanoccio.axirassa.services.Service;
 import com.zanoccio.axirassa.util.HibernateTools;
-import com.zanoccio.axirassa.util.SigarLoader;
 
 public class SentinelService implements Service {
 
@@ -67,7 +66,7 @@ public class SentinelService implements Service {
 
 
 	private void setupSigar() {
-		SigarLoader.require();
+		// SigarLoader.require();
 		if (sigar == null)
 			sigar = new Sigar();
 	}
@@ -94,7 +93,7 @@ public class SentinelService implements Service {
 
 
 	private void retrieveStatistics() throws SigarException {
-		SigarLoader.require();
+		// SigarLoader.require();
 		if (sigar == null)
 			sigar = new Sigar();
 

@@ -6,12 +6,14 @@ public enum XMLName {
 	TARGET,
 	GROUP,
 	EXECUTE,
+	JVMOPTION,
+	LIBRARY,
 
 	// attributes
 	INSTANCES,
 	NAME,
-	JVMOPTIONS,
-	CLASS;
+	CLASS,
+	VALUE;
 
 	@Override
 	public String toString() {

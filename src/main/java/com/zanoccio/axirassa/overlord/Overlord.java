@@ -39,6 +39,7 @@ public class Overlord {
 	//
 	private OverlordConfiguration configuration;
 	private final ArrayList<ExecutionInstance> instances = new ArrayList<ExecutionInstance>();
+	private final NativeLibraryProvider libprovider = new NativeLibraryProvider();
 
 
 	public void execute(String[] parameters) throws OverlordException, IOException {
@@ -72,7 +73,12 @@ public class Overlord {
 	}
 
 
-	private void addShutdownHooks() {
+	public NativeLibraryProvider getNativeLibraryProvider() {
+		return libprovider;
+	}
+
+
+	public void addShutdownHooks() {
 		Runtime.getRuntime().addShutdownHook(new OverlordDynamicShutdownHook(this));
 	}
 
