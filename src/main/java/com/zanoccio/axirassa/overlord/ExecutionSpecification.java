@@ -3,6 +3,7 @@ package com.zanoccio.axirassa.overlord;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 
 public class ExecutionSpecification {
 	//
@@ -42,6 +43,8 @@ public class ExecutionSpecification {
 
 
 	private void executeInstance() throws IOException {
+		provideLibraries();
+
 		CommandLine cli = new CommandLine(configuration.getJavaExecutable());
 
 		// add classpath if applicable
@@ -51,8 +54,19 @@ public class ExecutionSpecification {
 		}
 
 		// add jvm options
-		cli.addArguments(target.getJVMOptions().getCommandLine());
+		cli.addArguments(target.getOptions().getCommandLine());
 
+		// set the library path, if applicable
+		if (target.getOptions().needsLibraries()) {
+			System.out.println("NEEDS LIBRARIES");
+			NativeLibraryProvider libprovider = configuration.getOverlord().getNativeLibraryProvider();
+
+			String path = libprovider.getLibraryPath();
+			if (path != null)
+				cli.addArgument("-Djava.library.path=" + path);
+		}
+
+		// add class name
 		cli.addArgument(target.getTargetClass().getCanonicalName());
 
 		ProcessBuilder processbuilder = new ProcessBuilder(cli.buildCommandLine());
@@ -65,5 +79,14 @@ public class ExecutionSpecification {
 		Thread thread = new Thread(monitor);
 		configuration.getOverlord().addExecutionInstance(thread, monitor);
 		thread.start();
+	}
+
+
+	private void provideLibraries() throws IOException {
+		Collection<String> libraries = target.getOptions().getLibraries();
+		NativeLibraryProvider libprovider = configuration.getOverlord().getNativeLibraryProvider();
+
+		for (String library : libraries)
+			libprovider.provideLibrary(library);
 	}
 }

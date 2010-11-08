@@ -39,6 +39,7 @@ public class Overlord {
 	//
 	private OverlordConfiguration configuration;
 	private final ArrayList<ExecutionInstance> instances = new ArrayList<ExecutionInstance>();
+	private final NativeLibraryProvider libprovider = new NativeLibraryProvider();
 
 
 	public void execute(String[] parameters) throws OverlordException, IOException {
@@ -69,6 +70,11 @@ public class Overlord {
 
 	public Collection<ExecutionInstance> getExecutionInstances() {
 		return instances;
+	}
+
+
+	public NativeLibraryProvider getNativeLibraryProvider() {
+		return libprovider;
 	}
 
 
