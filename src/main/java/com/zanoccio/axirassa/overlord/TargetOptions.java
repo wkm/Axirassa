@@ -10,7 +10,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class TargetJVMOptions {
+public class TargetOptions {
 
 	public enum JVMOption {
 		XMX("Xmx"),
@@ -32,7 +32,7 @@ public class TargetJVMOptions {
 	}
 
 
-	public static TargetJVMOptions populate(TargetJVMOptions options, Node jvmoptions) {
+	public static TargetOptions populate(TargetOptions options, Node jvmoptions) {
 		if (!jvmoptions.getNodeName().equalsIgnoreCase("jvmoptions"))
 			return null;
 

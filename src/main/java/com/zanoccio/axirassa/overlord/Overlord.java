@@ -72,7 +72,7 @@ public class Overlord {
 	}
 
 
-	private void addShutdownHooks() {
+	public void addShutdownHooks() {
 		Runtime.getRuntime().addShutdownHook(new OverlordDynamicShutdownHook(this));
 	}
 
