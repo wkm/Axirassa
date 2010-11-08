@@ -10,12 +10,10 @@ import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 import org.junit.Test;
 
-import com.zanoccio.axirassa.util.SigarLoader;
-
 public class TestSigar {
 	@Test
 	public void cpuinfo() throws SigarException {
-		SigarLoader.require();
+		// SigarLoader.require();
 
 		Sigar sigar = new Sigar();
 		Cpu cpu = sigar.getCpu();
