@@ -53,9 +53,6 @@ public class ExecutionSpecification {
 		// add jvm options
 		cli.addArguments(target.getJVMOptions().getCommandLine());
 
-		// bootstrap
-		cli.addArgument(OverlordBootstrapper.class.getCanonicalName());
-
 		cli.addArgument(target.getTargetClass().getCanonicalName());
 
 		ProcessBuilder processbuilder = new ProcessBuilder(cli.buildCommandLine());
