@@ -6,10 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 public class TargetOptions {
 
 	public enum JVMOption {
@@ -32,44 +28,26 @@ public class TargetOptions {
 	}
 
 
-	public static TargetOptions populate(TargetOptions options, Node jvmoptions) {
-		if (!jvmoptions.getNodeName().equalsIgnoreCase("jvmoptions"))
-			return null;
-
-		NodeList optionnodes = jvmoptions.getChildNodes();
-
-		for (int i = 0; i < optionnodes.getLength(); i++) {
-			Node optionnode = optionnodes.item(i);
-
-			if (!optionnode.getNodeName().equalsIgnoreCase("option"))
-				continue;
-
-			NamedNodeMap attributes = optionnode.getAttributes();
-
-			Node namenode = attributes.getNamedItem("name");
-			Node valuenode = attributes.getNamedItem("value");
-
-			options.addOption(namenode.getTextContent(), valuenode.getTextContent());
-		}
-
-		return options;
-	}
-
-
 	//
 	// Class Instances
 	//
 
 	private final LinkedHashMap<JVMOption, String> options = new LinkedHashMap<JVMOption, String>();
+	private final ArrayList<String> libraries = new ArrayList<String>();
 
 
-	public void addOption(String option, String value) {
-		addOption(JVMOption.valueOf(option.toUpperCase()), value);
+	public void addJVMOption(String option, String value) {
+		addJVMOption(JVMOption.valueOf(option.toUpperCase()), value);
 	}
 
 
-	public void addOption(JVMOption option, String value) {
+	public void addJVMOption(JVMOption option, String value) {
 		options.put(option, value);
+	}
+
+
+	public void addLibrary(String name) {
+		libraries.add(name);
 	}
 
 

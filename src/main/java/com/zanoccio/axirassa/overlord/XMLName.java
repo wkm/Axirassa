@@ -12,7 +12,8 @@ public enum XMLName {
 	// attributes
 	INSTANCES,
 	NAME,
-	CLASS;
+	CLASS,
+	VALUE;
 
 	@Override
 	public String toString() {
