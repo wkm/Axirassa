@@ -40,6 +40,11 @@ public class Sentinel {
 	private Session session;
 
 
+	/**
+	 * axir/sentinel/cpuupdate/24h 7d 30d 365d
+	 * 
+	 * @return
+	 */
 	public Object onActionFromCpuupdate() {
 		// this codes makes certain assumptions about the ordering from the
 		// database query; in particular that data is grouped by CPU and then by
