@@ -22,7 +22,16 @@ public class NetworkSentinelAgent extends AbstractSentinelStatisticsAgent {
 		String[] netinterfaces = getSigar().getNetInterfaceList();
 		networkstats.ensureCapacity(netinterfaces.length);
 		for (String netinterface : netinterfaces) {
-			NetInterfaceStat stat = getSigar().getNetInterfaceStat(netinterface);
+			NetInterfaceStat stat = null;
+			try {
+				stat = getSigar().getNetInterfaceStat(netinterface);
+			} catch (SigarException e) {
+				// ignore, keep going
+			}
+
+			if (stat == null)
+				continue;
+
 			String interfacename = getSigar().getNetInterfaceConfig(netinterface).getDescription();
 
 			NetworkIOSnapshot current = new NetworkIOSnapshot();
