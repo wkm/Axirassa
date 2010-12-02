@@ -11,5 +11,4 @@ public class AccountTest extends AbstractDomainTest {
 	public void accounts() {
 		AccountModel account = new AccountModel();
 	}
-
 }
