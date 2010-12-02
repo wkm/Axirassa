@@ -11,6 +11,8 @@ public abstract class AbstractOverlordSystemSupport implements OverlordSystemSup
 			return new WindowsSystemSupport();
 		else if (os.indexOf("linux") >= 0)
 			return new LinuxSystemSupport();
+		else if (os.indexOf("mac") >= 0)
+			return new MacSystemSupport();
 		else
 			throw new UnsupportedPlatformException(os);
 	}
