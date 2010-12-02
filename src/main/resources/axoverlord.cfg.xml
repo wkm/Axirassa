@@ -16,6 +16,8 @@
 		<library>/libsigar-ia64-linux.so</library>
 		<library>/sigar-x86-winnt.dll</library>
 		<library>/sigar-amd64-winnt.dll</library>
+		<library>/libsigar-universal-macosx.dylib</library>
+		<library>/libsigar-universal64-macosx.dylib</library>
     </target>
 	
     <!-- <target name="AxSobrietyQ" class="com.zanoccio.axirassa.SobrietyMessageQueue" />
