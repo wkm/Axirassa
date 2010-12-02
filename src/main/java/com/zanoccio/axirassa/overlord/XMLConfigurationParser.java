@@ -67,10 +67,10 @@ public class XMLConfigurationParser {
 		// if the configfile is within a JAR, we use it to set the classpath
 		String jarfile = retrieveJarFile(configfile);
 		if (jarfile != null) {
-			System.out.println("JAR file at: "+jarfile);
+			System.out.println("JAR file at: " + jarfile);
 			configuration.setClassPath(stripPrefix(jarfile));
-			
-			System.out.println("Classpath set to: "+configuration.getClassPath());
+
+			System.out.println("Classpath set to: " + configuration.getClassPath());
 			configuration.setBaseDirectory(stripPrefix(new File(jarfile).getParent()));
 		} else {
 			configuration.setBaseDirectory(new File(configfile.getPath()).getParent());
@@ -136,7 +136,6 @@ public class XMLConfigurationParser {
 		}
 
 		// apply any options
-		NodeList children = node.getChildNodes();
 		TargetOptions options = createExecutionTargetOptions(node.getChildNodes());
 		target.setOptions(options);
 
