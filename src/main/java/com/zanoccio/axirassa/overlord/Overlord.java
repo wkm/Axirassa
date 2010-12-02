@@ -28,6 +28,7 @@ public class Overlord {
 
 
 	public static void main(String[] parameters) throws OverlordException, IOException {
+		System.out.println("Ax|Overlord Starting");
 		Overlord overlord = new Overlord();
 		overlord.addShutdownHooks();
 		overlord.execute(new String[] { "master" });
