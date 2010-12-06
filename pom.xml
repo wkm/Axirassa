@@ -290,7 +290,7 @@
 	<properties>
 		<project.build.sourceEncoding>ASCII</project.build.sourceEncoding>
 
-		<tapestry-release-version>5.2.1</tapestry-release-version>
+		<tapestry-release-version>5.2.4</tapestry-release-version>
 		<hornetq-release-version>2.1.2.Final</hornetq-release-version>
 		<hibernate-release-version>3.6.0.Final</hibernate-release-version>
 	</properties>

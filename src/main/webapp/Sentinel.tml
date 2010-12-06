@@ -2,65 +2,40 @@
 	<head>
 		<title>axirassa | internal systems monitor</title>
 		<link rel="stylesheet" type="text/css" href="css/sentinel.css" />
-		
-		<script type="text/javascript">
-			var gOverride = {
-			  center: false,
-			  
-			  gColor: '#333333',
-			  gColumns: 9,
-			  gOpacity: 0.05,
-			  gWidth: 10,
-			  
-			  pColor: '#0000ff',
-			  pHeight: 15,
-			  pOffset: 0,
-			  pOpacity: 0.1,
-			  gEnabled: true,
-			  pEnabled: true,
-			  
-			  setupEnabled: false,
-			  fixFlash: true,
-			  size: 900
-			};
-			
-			createGridder = function() {
-			  document.body.appendChild(
-			    document.createElement('script')).src='http://gridder.andreehansson.se/releases/1.3.1/960.gridder.js';
-			}
-			</script>
 	</head>
 	<body>
 		<div id="header">
 			<span class="logo">axirassa</span> sentinel &#8212; <span class="host">zanoccio.com</span>
 		</div>
-
-		<div class="agent">
-			<div class="agentname">CPU</div>
-			<t:axplot t:id="cpuupdate" detailsHeader="Breakdown by Processor"/>
-		</div>
-		 
-		<div class="agent">
-			<div class="agentname">Memory</div>
-			<t:axplot t:id="memupdate"/>
-		</div>
-		<div class="agent">
-			<div class="agentname">Disk Space</div>
-			<t:axplot t:id="diskspaceupdate" detailsHeader="Breakdown by Disk"/>
-		</div>
 		
-		<div class="agent">
-			<div class="agentname">Disk IO</div>
-			<t:axplot t:id="diskioupdate" detailsHeader="Breakdown by Disk" />
-		</div>
-		<div class="agent">
-			<div class="agentname">Network</div>
-			<t:axplot t:id="networkupdate" detailsHeader="Breakdown by Network Interface" />
-		</div>
-		<div class="agent">
-			<div class="agentname">Throughput</div>
-			<t:axplot t:id="networkioupdate" detailsHeader="Breakdown by Network Interface" />
-		</div>
+		<t:axplotgroup>
+			<div class="agent">
+				<div class="agentname">CPU</div>
+				<t:axplot t:id="cpuupdate" detailsHeader="Breakdown by Processor"/>
+			</div>
+			 
+			<div class="agent">
+				<div class="agentname">Memory</div>
+				<t:axplot t:id="memupdate"/>
+			</div>
+			<div class="agent">
+				<div class="agentname">Disk Space</div>
+				<t:axplot t:id="diskspaceupdate" detailsHeader="Breakdown by Disk"/>
+			</div>
+			
+			<div class="agent">
+				<div class="agentname">Disk IO</div>
+				<t:axplot t:id="diskioupdate" detailsHeader="Breakdown by Disk" />
+			</div>
+			<div class="agent">
+				<div class="agentname">Network</div>
+				<t:axplot t:id="networkupdate" detailsHeader="Breakdown by Network Interface" />
+			</div>
+			<div class="agent">
+				<div class="agentname">Throughput</div>
+				<t:axplot t:id="networkioupdate" detailsHeader="Breakdown by Network Interface" />
+			</div>
+		</t:axplotgroup>
 		
 		<div id="footer">
 			Zanoccio, LLC.
