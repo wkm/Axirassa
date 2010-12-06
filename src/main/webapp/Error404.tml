@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+  <head>
+    <title>Resource not found.</title>
+  </head>
+  <body>
+    <h1>Page or resource not found.</h1>
+
+    <t:if test="! productionMode">
+      <t:renderobject object="request"/>
+    </t:if>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<div class="ax_pg_ctrls">
+		<div class="ax_pg_ctrl">last 24 hours</div>
+		<div class="ax_pg_ctrl">last 7 days</div>
+		<div class="ax_pg_ctrl">last 30 days</div>
+		<div class="ax_pg_ctrl">last 90 days</div>
+		<div class="ax_pg_ctrl">last 365 days</div>
+	</div>
+	<t:body/>
+</t:container>
