@@ -10,12 +10,16 @@ import org.hyperic.sigar.FileSystem;
 import org.hyperic.sigar.FileSystemUsage;
 import org.hyperic.sigar.SigarException;
 
+import axirassa.services.sentinel.model.SentinelDiskIOStatisticModel;
+import axirassa.services.sentinel.model.SentinelDiskUsageStatisticModel;
+import axirassa.services.sentinel.model.SentinelStatisticModel;
+
 public class DiskSentinelAgent extends AbstractSentinelStatisticsAgent {
 
 	// TODO: verify these are 10^3 kilobytes, not 2^10 kilobytes.
 	public final static int SCALING_FACTOR = 1000;
 
-	private final ArrayList<SentinelStatistic> diskstat = new ArrayList<SentinelStatistic>();
+	private final ArrayList<SentinelStatisticModel> diskstat = new ArrayList<SentinelStatisticModel>();
 	private final HashMap<String, DiskIOSnapshot> previoussnapshots = new HashMap<String, DiskIOSnapshot>();
 
 
@@ -39,7 +43,15 @@ public class DiskSentinelAgent extends AbstractSentinelStatisticsAgent {
 			long used = SCALING_FACTOR * usage.getUsed();
 			long total = SCALING_FACTOR * usage.getTotal();
 
-			diskstat.add(new DiskUsageStatistic(getMachineID(), getDate(), fs.getDirName(), used, total));
+			SentinelDiskUsageStatisticModel usagedatum = new SentinelDiskUsageStatisticModel();
+
+			usagedatum.machineid = getMachineID();
+			usagedatum.date = getDate();
+			usagedatum.disk = fs.getDirName();
+			usagedatum.used = used;
+			usagedatum.total = total;
+
+			diskstat.add(usagedatum);
 
 			DiskIOSnapshot current = new DiskIOSnapshot();
 			current.date = getDate();
@@ -52,10 +64,18 @@ public class DiskSentinelAgent extends AbstractSentinelStatisticsAgent {
 				long millis = getDate().getTime() - previous.date.getTime();
 				long seconds = millis / 1000;
 
-				double readrate = (current.readbytes - previous.readbytes) / seconds;
-				double writerate = (current.writebytes - previous.writebytes) / seconds;
+				float readrate = (current.readbytes - previous.readbytes) / seconds;
+				float writerate = (current.writebytes - previous.writebytes) / seconds;
 
-				diskstat.add(new DiskIOStatistic(getMachineID(), getDate(), fs.getDirName(), readrate, writerate));
+				SentinelDiskIOStatisticModel iodatum = new SentinelDiskIOStatisticModel();
+
+				iodatum.machineid = getMachineID();
+				iodatum.date = getDate();
+				iodatum.disk = fs.getDirName();
+				iodatum.read = readrate;
+				iodatum.write = writerate;
+
+				diskstat.add(iodatum);
 			}
 
 			previoussnapshots.put(fs.getDirName(), current);
@@ -64,7 +84,7 @@ public class DiskSentinelAgent extends AbstractSentinelStatisticsAgent {
 
 
 	@Override
-	public Collection<SentinelStatistic> getStatistics() {
+	public Collection<SentinelStatisticModel> getStatistics() {
 		return diskstat;
 	}
 

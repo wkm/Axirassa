@@ -9,9 +9,13 @@ import java.util.HashMap;
 import org.hyperic.sigar.NetInterfaceStat;
 import org.hyperic.sigar.SigarException;
 
+import axirassa.services.sentinel.model.SentinelNetworkIOStatisticModel;
+import axirassa.services.sentinel.model.SentinelNetworkStatisticModel;
+import axirassa.services.sentinel.model.SentinelStatisticModel;
+
 public class NetworkSentinelAgent extends AbstractSentinelStatisticsAgent {
 
-	private final ArrayList<SentinelStatistic> networkstats = new ArrayList<SentinelStatistic>();
+	private final ArrayList<SentinelStatisticModel> networkstats = new ArrayList<SentinelStatisticModel>();
 	private final HashMap<String, NetworkIOSnapshot> previoussnapshots = new HashMap<String, NetworkIOSnapshot>();
 
 
@@ -39,8 +43,15 @@ public class NetworkSentinelAgent extends AbstractSentinelStatisticsAgent {
 			current.rxbytes = stat.getRxBytes();
 			current.txbytes = stat.getTxBytes();
 
-			networkstats.add(new NetworkStatistic(getMachineID(), getDate(), interfacename, current.txbytes,
-			        current.rxbytes));
+			SentinelNetworkStatisticModel netdatum = new SentinelNetworkStatisticModel();
+
+			netdatum.machineid = getMachineID();
+			netdatum.date = getDate();
+			netdatum.device = interfacename;
+			netdatum.send = current.txbytes;
+			netdatum.receive = current.rxbytes;
+
+			networkstats.add(netdatum);
 
 			NetworkIOSnapshot previous = previoussnapshots.get(interfacename);
 			if (previous != null) {
@@ -50,7 +61,15 @@ public class NetworkSentinelAgent extends AbstractSentinelStatisticsAgent {
 				long rxrate = (current.rxbytes - previous.rxbytes) / seconds;
 				long txrate = (current.txbytes - previous.txbytes) / seconds;
 
-				networkstats.add(new NetworkIOStatistic(getMachineID(), getDate(), interfacename, rxrate, txrate));
+				SentinelNetworkIOStatisticModel netiodatum = new SentinelNetworkIOStatisticModel();
+
+				netiodatum.machineid = getMachineID();
+				netiodatum.date = getDate();
+				netiodatum.device = interfacename;
+				netiodatum.receive = rxrate;
+				netiodatum.send = txrate;
+
+				networkstats.add(netiodatum);
 			}
 
 			previoussnapshots.put(interfacename, current);
@@ -60,7 +79,7 @@ public class NetworkSentinelAgent extends AbstractSentinelStatisticsAgent {
 
 
 	@Override
-	public Collection<SentinelStatistic> getStatistics() {
+	public Collection<SentinelStatisticModel> getStatistics() {
 		return networkstats;
 	}
 
