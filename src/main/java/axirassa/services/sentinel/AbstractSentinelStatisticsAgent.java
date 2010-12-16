@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hyperic.sigar.Sigar;
 
 import axirassa.services.sentinel.model.SentinelStatisticModel;
@@ -62,11 +61,16 @@ public abstract class AbstractSentinelStatisticsAgent implements SentinelAgent {
 	abstract public Collection<? extends SentinelStatisticModel> getStatistics();
 
 
+	/**
+	 * Save the domain models returned from {@link #getStatistics()} using the
+	 * {@link Session} object.
+	 * 
+	 * <strong>Note that no transaction is used:</strong> the calling function
+	 * must instrument it's own transaction handling.
+	 */
 	@Override
 	public void save(final Session session) {
-		Transaction transaction = session.beginTransaction();
 		for (SentinelStatisticModel statistic : getStatistics())
 			session.save(statistic);
-		transaction.commit();
 	}
 }
