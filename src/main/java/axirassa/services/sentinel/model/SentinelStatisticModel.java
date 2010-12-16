@@ -1,5 +1,5 @@
 package axirassa.services.sentinel.model;
 
-public interface SentinelModel {
+public interface SentinelStatisticModel {
 
 }
