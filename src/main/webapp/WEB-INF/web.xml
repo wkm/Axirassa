@@ -24,7 +24,7 @@
         <!-- The only significant configuration for Tapestry 5, this informs Tapestry
 of where to look for pages, components and mixins. -->
         <param-name>tapestry.app-package</param-name>
-        <param-value>com.zanoccio.axirassa.webapp</param-value>
+        <param-value>axirassa.webapp</param-value>
     </context-param>
     <!-- disable whitespace compression for debugging -->
     <context-param>

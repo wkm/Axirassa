@@ -6,10 +6,10 @@
 	<session-factory>
 		 
 		<!-- Database Connection -->
-		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.driver_class">org.postgresql.Driver</property>
 		<property name="connection.url">jdbc:mysql://localhost/axir_devel</property>
-		<property name="connection.user">root</property>
-		<property name="connection.password"></property>
+		<property name="connection.user">axir</property>
+		<property name="connection.password">petula87112</property>
 		
 		<property name="connection.autoReconnect">true</property>
 		<property name="connection.autoReconnectForPools">true</property>
@@ -21,7 +21,7 @@
 		
 		<property name="hibernate.generate_statistics">true</property>
 		
-		<property name="dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 		
 		
 		<!-- Session Management -->
@@ -38,15 +38,15 @@
 		
 		
 		<!-- Mappings -->
-		<mapping class="com.zanoccio.axirassa.domain.UserModel" />
-		<mapping class="com.zanoccio.axirassa.domain.AccountModel" />
-		<mapping class="com.zanoccio.axirassa.domain.AccountUserModel" />
-		<mapping class="com.zanoccio.axirassa.domain.PingerModel" />
+		<mapping class="axirassa.domain.UserModel" />
+		<mapping class="axirassa.domain.AccountModel" />
+		<mapping class="axirassa.domain.AccountUserModel" />
+		<mapping class="axirassa.domain.PingerModel" />
 		
-		<mapping class="com.zanoccio.axirassa.domain.SentinelMachineModel" />
+		<mapping class="axirassa.domain.SentinelMachineModel" />
 		
 		<!-- Auxiliary Mappings -->
-		<mapping resource="com/zanoccio/axirassa/domain/auxiliary.hbm.xml" />
+		<mapping resource="axirassa/domain/auxiliary.hbm.xml" />
 		
 	</session-factory>
 </hibernate-configuration>
