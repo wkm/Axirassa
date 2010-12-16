@@ -3,39 +3,6 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<!--  Sentinel CPU Statistics -->
-	<database-object>
-		<create>
-			CREATE TABLE SentinelCPUStats (
-			  Machine_ID INTEGER NOT NULL,
-			  Date TIMESTAMP NOT NULL,
-			  Cpu INT NOT NULL,
-			  User DECIMAL(3,3) NOT NULL,
-			  System DECIMAL(3,3) NOT NULL,
-			  PRIMARY KEY (Machine_ID, Date, Cpu)
-			)
-		</create>
-		<drop>
-			DROP TABLE IF EXISTS `SentinelCPUStats`
-		</drop>
-	</database-object>
-
-	<!-- Sentinel Memory Statistics -->
-	<database-object>
-		<create>
-			CREATE TABLE `SentinelMemoryStats` (
-				`Machine_ID` INTEGER  NOT NULL,
-				`Date` TIMESTAMP NOT NULL,
-				`Used` BIGINT NOT NULL,
-				`Total` BIGINT NOT NULL,
-				PRIMARY KEY (`Machine_ID`, `Date`)
-			)
-		</create>
-		<drop>
-			DROP TABLE IF EXISTS `SentinelMemoryStats`
-		</drop>
-	</database-object>
-	
 	<!-- Sentinel Disk Usage Statistics -->
 	<database-object>
 		<create>
