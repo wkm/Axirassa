@@ -21,27 +21,27 @@ public class SentinelCPUStatisticModel implements SentinelModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	Long id;
+	public Long id;
 
 	@Basic
 	@Column(name = "`Machine_ID`", nullable = false)
-	int machineid;
+	public int machineid;
 
 	@Basic
 	@Column(name = "`Date`", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	Date date;
+	public Date date;
 
 	@Basic
 	@Column(name = "`Cpu`", nullable = false)
-	int cpuid;
+	public int cpuid;
 
 	@Basic
 	@Column(name = "`User`", nullable = false)
-	double user;
+	public double user;
 
 	@Basic
 	@Column(name = "`System`", nullable = false)
-	double system;
+	public double system;
 
 }

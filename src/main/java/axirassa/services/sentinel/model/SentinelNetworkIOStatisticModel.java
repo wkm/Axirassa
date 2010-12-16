@@ -20,26 +20,26 @@ import javax.persistence.UniqueConstraint;
 public class SentinelNetworkIOStatisticModel implements SentinelModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	Long id;
+	public Long id;
 
 	@Basic
 	@Column(name = "`Machine_ID`", nullable = false)
-	int machineid;
+	public int machineid;
 
 	@Basic
 	@Column(name = "`Date`", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	Date date;
+	public Date date;
 
 	@Basic
 	@Column(name = "`Device`", nullable = false)
-	String device;
+	public String device;
 
 	@Basic
 	@Column(name = "`Send`", nullable = false)
-	long send;
+	public long send;
 
 	@Basic
 	@Column(name = "`Receive`", nullable = false)
-	long receive;
+	public long receive;
 }

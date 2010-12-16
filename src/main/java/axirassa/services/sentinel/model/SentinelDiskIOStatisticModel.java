@@ -20,26 +20,26 @@ import javax.persistence.UniqueConstraint;
 public class SentinelDiskIOStatisticModel implements SentinelModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	Long id;
+	public Long id;
 
 	@Basic
 	@Column(name = "`Machine_ID`", nullable = false)
-	int machineid;
+	public int machineid;
 
 	@Basic
 	@Column(name = "`Date`", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	Date date;
+	public Date date;
 
 	@Basic
 	@Column(name = "`Disk`", nullable = false)
-	String disk;
+	public String disk;
 
 	@Basic
 	@Column(name = "`Read`", nullable = false)
-	float read;
+	public float read;
 
 	@Basic
 	@Column(name = "`Write`", nullable = false)
-	float write;
+	public float write;
 }
