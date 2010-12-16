@@ -36,10 +36,10 @@ public class SentinelNetworkStatisticModel implements SentinelStatisticModel {
 	public String device;
 
 	@Basic
-	@Column(name = "`Used`", nullable = false)
-	public long used;
+	@Column(name = "`Send`", nullable = false)
+	public long send;
 
 	@Basic
-	@Column(name = "`Total`", nullable = false)
-	public long total;
+	@Column(name = "`Receive`", nullable = false)
+	public long receive;
 }
