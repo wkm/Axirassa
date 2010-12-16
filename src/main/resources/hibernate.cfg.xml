@@ -52,8 +52,5 @@
 		<mapping class="axirassa.domain.sentinel.SentinelNetworkStatisticModel" />
 		<mapping class="axirassa.domain.sentinel.SentinelNetworkIOStatisticModel" />
 		
-		<!-- Auxiliary Mappings -->
-		<!-- <mapping resource="axirassa/domain/auxiliary.hbm.xml" /> -->
-		
 	</session-factory>
 </hibernate-configuration>
