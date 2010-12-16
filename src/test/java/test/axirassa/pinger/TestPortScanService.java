@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import axirassa.services.PortScanService;
 
-public class PortScanServiceTest {
+public class TestPortScanService {
 
 	@Test
 	public void authentication() throws IOException, InterruptedException {

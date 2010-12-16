@@ -18,7 +18,7 @@ import org.junit.Test;
 
 import axirassa.util.EmbeddedMessagingServer;
 
-public class HornetTest {
+public class TestHornet {
 	static {
 		try {
 			EmbeddedMessagingServer.start();

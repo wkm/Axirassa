@@ -9,7 +9,7 @@ import org.junit.Test;
 import axirassa.services.exceptions.PingServiceException;
 import axirassa.services.pingservice.PingService;
 
-public class PingServiceTest {
+public class TestPingService {
 	@Test
 	public void execute() throws PingServiceException, RegistryHeaderErrors, IOException {
 		PingService pinger = new PingService();

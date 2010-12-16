@@ -12,7 +12,7 @@ import org.junit.Test;
 import axirassa.util.PcapLoader;
 
 // -Djava.library.path="${workspace_loc:X}\src\main\resources\"
-public class NICMacAddressTest {
+public class TestNICMacAddress {
 	@BeforeClass
 	public static void loadLibraries() throws Exception {
 		PcapLoader.load();
