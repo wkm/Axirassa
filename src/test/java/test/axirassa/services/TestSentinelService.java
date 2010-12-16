@@ -11,7 +11,6 @@ import axirassa.services.sentinel.NetworkSentinelAgent;
 import axirassa.services.sentinel.SentinelService;
 import axirassa.util.AbstractDomainTest;
 
-
 public class TestSentinelService {
 
 	public static Session session;

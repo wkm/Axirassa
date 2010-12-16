@@ -1,11 +1,9 @@
 
 package axirassa.webapp.pages;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
-
 
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -14,27 +12,25 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 import zanoccio.javakit.ListUtilities;
-
 import axirassa.webapp.annotations.PublicPage;
 import axirassa.webapp.utilities.AxPlotDataPackage;
+import axirassa.webapp.utilities.AxPlotDataPackage.AxPlotAxisLabelingFunction;
 import axirassa.webapp.utilities.AxPlotDataSet;
 import axirassa.webapp.utilities.AxPlotRange;
-import axirassa.webapp.utilities.AxPlotDataPackage.AxPlotAxisLabelingFunction;
-
 
 @PublicPage
 @Import(library = "${tapestry.scriptaculous}/prototype.js")
 public class Sentinel {
 
-	private final static String cpusql = "SELECT CPU, Date, User, System FROM SentinelCPUStats WHERE Machine_ID = 1 ORDER BY CPU ASC, Date ASC LIMIT 1000";
+	private final static String cpusql = "SELECT \"Cpu\", \"Date\", \"User\", \"System\" FROM SentinelCPUStats WHERE \"Machine_ID\" = 1 ORDER BY \"Cpu\" ASC, \"Date\" ASC LIMIT 1000";
 
-	private final static String memsql = "SELECT Date, Used, Total FROM SentinelMemoryStats WHERE Machine_ID = 1 ORDER BY Date ASC  LIMIT 1000";
+	private final static String memsql = "SELECT \"Date\", \"Used\", \"Total\" FROM SentinelMemoryStats WHERE \"Machine_ID\" = 1 ORDER BY \"Date\" ASC  LIMIT 1000";
 
-	private final static String disksql = "SELECT Disk, Date, Used, Total FROM SentinelDiskUsageStats WHERE Machine_ID = 1 ORDER BY Disk ASC, Date ASC  LIMIT 1000";
-	private final static String diskiosql = "SELECT Disk, Date, `Read`, `Write` FROM SentinelDiskIOStats WHERE Machine_ID = 1 ORDER BY Disk ASC, DATE ASC  LIMIT 1000";
+	private final static String disksql = "SELECT \"Disk\", \"Date\", \"Used\", \"Total\" FROM SentinelDiskUsageStats WHERE \"Machine_ID\" = 1 ORDER BY \"Disk\" ASC, \"Date\" ASC  LIMIT 1000";
+	private final static String diskiosql = "SELECT \"Disk\", \"Date\", \"Read\", \"Write\" FROM SentinelDiskIOStats WHERE \"Machine_ID\" = 1 ORDER BY \"Disk\" ASC, \"Date\" ASC  LIMIT 1000";
 
-	private final static String networksql = "SELECT Device, Date, Send, Receive FROM SentinelNetworkStats WHERE Machine_ID = 1 ORDER BY Device ASC, Date ASC  LIMIT 1000";
-	private final static String networkiosql = "SELECT Device, Date, Send, Receive FROM SentinelNetworkIOStats WHERE Machine_ID = 1 ORDER BY Device ASC, Date ASC  LIMIT 1000";
+	private final static String networksql = "SELECT \"Device\", \"Date\", \"Send\", \"Receive\" FROM SentinelNetworkStats WHERE \"Machine_ID\" = 1 ORDER BY \"Device\" ASC, \"Date\" ASC  LIMIT 1000";
+	private final static String networkiosql = "SELECT \"Device\", \"Date\", \"Send\", \"Receive\" FROM SentinelNetworkIOStats WHERE \"Machine_ID\" = 1 ORDER BY \"Device\" ASC, \"Date\" ASC  LIMIT 1000";
 
 	@Inject
 	private Request request;
@@ -85,8 +81,8 @@ public class Sentinel {
 			for (Object[] row : dataset) {
 				Timestamp time = (Timestamp) row[1];
 				long realtime = time.getTime();
-				double user = 100 * ((BigDecimal) row[2]).doubleValue();
-				double system = 100 * ((BigDecimal) row[3]).doubleValue();
+				double user = 100 * ((Double) row[2]);
+				double system = 100 * ((Double) row[3]);
 
 				times[index] = realtime;
 				rawdata[index][0] = user;
