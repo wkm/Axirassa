@@ -12,9 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "SentinelDiskUsageStats")
+@Table(name = "SentinelDiskUsageStats", uniqueConstraints = { @UniqueConstraint(columnNames = {
+        "`Machine_ID`", "`Date`", "`Disk`" }) })
 public class SentinelDiskUsageStatisticModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

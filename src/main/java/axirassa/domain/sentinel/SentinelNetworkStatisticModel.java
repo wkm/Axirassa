@@ -12,9 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "SentinelNetworkStats")
+@Table(name = "SentinelNetworkStats", uniqueConstraints = { @UniqueConstraint(columnNames = {
+        "`Machine_ID`", "`Date`", "`Device`" }) })
 public class SentinelNetworkStatisticModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,8 +32,8 @@ public class SentinelNetworkStatisticModel {
 	private Date date;
 
 	@Basic
-	@Column(name = "`Disk`", nullable = false)
-	private String disk;
+	@Column(name = "`Device`", nullable = false)
+	private String device;
 
 	@Basic
 	@Column(name = "`Used`", nullable = false)

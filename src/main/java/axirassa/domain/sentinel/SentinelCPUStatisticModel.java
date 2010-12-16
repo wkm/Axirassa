@@ -12,9 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "SentinelCPUStats")
+@Table(name = "SentinelCPUStats", uniqueConstraints = { @UniqueConstraint(columnNames = {
+        "`Machine_ID`", "`Date`", "`Cpu`" }) })
 public class SentinelCPUStatisticModel {
 
 	@Id
