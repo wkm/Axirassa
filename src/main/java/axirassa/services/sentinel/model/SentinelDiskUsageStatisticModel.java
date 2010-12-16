@@ -17,7 +17,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "SentinelDiskUsageStats", uniqueConstraints = { @UniqueConstraint(columnNames = {
         "`Machine_ID`", "`Date`", "`Disk`" }) })
-public class SentinelDiskUsageStatisticModel {
+public class SentinelDiskUsageStatisticModel implements SentinelModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
