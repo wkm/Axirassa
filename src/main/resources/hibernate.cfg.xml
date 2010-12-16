@@ -45,12 +45,12 @@
 		
 		<mapping class="axirassa.domain.SentinelMachineModel" />
 		
-		<mapping class="axirassa.domain.sentinel.SentinelCPUStatisticModel" />
-		<mapping class="axirassa.domain.sentinel.SentinelMemoryStatisticModel" />
-		<mapping class="axirassa.domain.sentinel.SentinelDiskUsageStatisticModel" />
-		<mapping class="axirassa.domain.sentinel.SentinelDiskIOStatisticModel" />
-		<mapping class="axirassa.domain.sentinel.SentinelNetworkStatisticModel" />
-		<mapping class="axirassa.domain.sentinel.SentinelNetworkIOStatisticModel" />
+		<mapping class="axirassa.services.sentinel.model.SentinelCPUStatisticModel" />
+		<mapping class="axirassa.services.sentinel.model.SentinelMemoryStatisticModel" />
+		<mapping class="axirassa.services.sentinel.model.SentinelDiskUsageStatisticModel" />
+		<mapping class="axirassa.services.sentinel.model.SentinelDiskIOStatisticModel" />
+		<mapping class="axirassa.services.sentinel.model.SentinelNetworkStatisticModel" />
+		<mapping class="axirassa.services.sentinel.model.SentinelNetworkIOStatisticModel" />
 		
 	</session-factory>
 </hibernate-configuration>

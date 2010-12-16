@@ -1,5 +1,5 @@
 
-package axirassa.domain.sentinel;
+package axirassa.services.sentinel.model;
 
 import java.util.Date;
 
@@ -15,9 +15,10 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "SentinelDiskIOStats", uniqueConstraints = { @UniqueConstraint(columnNames = {
-        "`Machine_ID`", "`Date`", "`Disk`" }) })
-public class SentinelDiskIOStatisticModel {
+@Table(
+        name = "SentinelMemoryStats",
+        uniqueConstraints = { @UniqueConstraint(columnNames = { "`Machine_ID`", "`Date`" }) })
+public class SentinelMemoryStatisticModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long id;
@@ -32,14 +33,10 @@ public class SentinelDiskIOStatisticModel {
 	Date date;
 
 	@Basic
-	@Column(name = "`Disk`", nullable = false)
-	String disk;
+	@Column(name = "`Used`", nullable = false)
+	long used;
 
 	@Basic
-	@Column(name = "`Read`", nullable = false)
-	float read;
-
-	@Basic
-	@Column(name = "`Write`", nullable = false)
-	float write;
+	@Column(name = "`Total`", nullable = false)
+	long total;
 }
