@@ -8,7 +8,7 @@ import org.hibernate.Session;
 
 class CPUStatistic extends AbstractSentinelStatistic {
 
-	private static final String CPU_STAT_INSERT = "INSERT INTO SentinelCPUStats VALUES (?,?,?,?,?)";
+	private static final String CPU_STAT_INSERT = "INSERT INTO SentinelCPUStats VALUES (DEFAULT,?,?,?,?,?)";
 
 	private final int cpuid;
 	private final double user;
