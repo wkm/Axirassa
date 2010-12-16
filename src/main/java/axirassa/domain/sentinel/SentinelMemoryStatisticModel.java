@@ -21,22 +21,22 @@ import javax.persistence.UniqueConstraint;
 public class SentinelMemoryStatisticModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	Long id;
 
 	@Basic
 	@Column(name = "`Machine_ID`", nullable = false)
-	private int machineid;
+	int machineid;
 
 	@Basic
 	@Column(name = "`Date`", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date date;
+	Date date;
 
 	@Basic
 	@Column(name = "`Used`", nullable = false)
-	private long used;
+	long used;
 
 	@Basic
 	@Column(name = "`Total`", nullable = false)
-	private long total;
+	long total;
 }

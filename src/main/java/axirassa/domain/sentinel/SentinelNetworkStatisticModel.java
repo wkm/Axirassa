@@ -20,26 +20,26 @@ import javax.persistence.UniqueConstraint;
 public class SentinelNetworkStatisticModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	Long id;
 
 	@Basic
 	@Column(name = "`Machine_ID`", nullable = false)
-	private int machineid;
+	int machineid;
 
 	@Basic
 	@Column(name = "`Date`", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date date;
+	Date date;
 
 	@Basic
 	@Column(name = "`Device`", nullable = false)
-	private String device;
+	String device;
 
 	@Basic
 	@Column(name = "`Used`", nullable = false)
-	private long used;
+	long used;
 
 	@Basic
 	@Column(name = "`Total`", nullable = false)
-	private long total;
+	long total;
 }
