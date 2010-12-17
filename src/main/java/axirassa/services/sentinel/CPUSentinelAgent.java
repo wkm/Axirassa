@@ -27,7 +27,7 @@ public class CPUSentinelAgent extends AbstractSentinelStatisticsAgent {
 
 			datum.machineid = getMachineID();
 			datum.date = getDate();
-			datum.cpuid = cpuid;
+			datum.cpu = cpuid;
 			datum.system = cpu.getSys();
 			datum.user = cpu.getUser();
 

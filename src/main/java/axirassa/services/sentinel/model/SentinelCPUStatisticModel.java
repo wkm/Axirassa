@@ -15,8 +15,9 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "SentinelCPUStats", uniqueConstraints = { @UniqueConstraint(columnNames = {
-        "`Machine_ID`", "`Date`", "`Cpu`" }) })
+@Table(
+        name = "SentinelCPUStats",
+        uniqueConstraints = { @UniqueConstraint(columnNames = { "machineid", "date", "cpu" }) })
 public class SentinelCPUStatisticModel implements SentinelStatisticModel {
 
 	@Id
@@ -24,24 +25,24 @@ public class SentinelCPUStatisticModel implements SentinelStatisticModel {
 	public Long id;
 
 	@Basic
-	@Column(name = "`Machine_ID`", nullable = false)
+	@Column(nullable = false)
 	public int machineid;
 
 	@Basic
-	@Column(name = "`Date`", nullable = false)
+	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date date;
 
 	@Basic
-	@Column(name = "`Cpu`", nullable = false)
-	public int cpuid;
+	@Column(nullable = false)
+	public int cpu;
 
 	@Basic
-	@Column(name = "`User`", nullable = false)
+	@Column(nullable = false)
 	public double user;
 
 	@Basic
-	@Column(name = "`System`", nullable = false)
+	@Column(nullable = false)
 	public double system;
 
 }
