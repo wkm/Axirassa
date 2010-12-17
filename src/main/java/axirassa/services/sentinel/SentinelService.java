@@ -12,7 +12,6 @@ import org.hyperic.sigar.SigarException;
 import axirassa.services.Service;
 import axirassa.util.HibernateTools;
 
-
 public class SentinelService implements Service {
 
 	private final Session session;

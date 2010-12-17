@@ -1,7 +1,6 @@
 
 package axirassa.webapp.pages;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -114,8 +113,8 @@ public class Sentinel {
 		int i = 0;
 		for (Object[] row : result) {
 			Timestamp time = (Timestamp) row[0];
-			long used = ((BigInteger) row[1]).longValue();
-			long total = ((BigInteger) row[2]).longValue();
+			long used = ((Long) row[1]).longValue();
+			long total = ((Long) row[2]).longValue();
 
 			if (total > maxmemory)
 				maxmemory = total;
@@ -172,8 +171,8 @@ public class Sentinel {
 				String disk = (String) row[0];
 				Timestamp time = (Timestamp) row[1];
 				long realtime = time.getTime();
-				long used = ((BigInteger) row[2]).longValue();
-				long total = ((BigInteger) row[3]).longValue();
+				long used = ((Long) row[2]).longValue();
+				long total = ((Long) row[3]).longValue();
 
 				if (currentdataset.getLabel() == null)
 					currentdataset.setLabel("Disk - " + disk);
@@ -283,8 +282,8 @@ public class Sentinel {
 				String iface = (String) row[0];
 				Timestamp time = (Timestamp) row[1];
 				long realtime = time.getTime();
-				long sent = ((BigInteger) row[2]).longValue();
-				long received = ((BigInteger) row[3]).longValue();
+				long sent = ((Long) row[2]).longValue();
+				long received = ((Long) row[3]).longValue();
 
 				if (currentdataset.getLabel() == null)
 					currentdataset.setLabel(iface);
@@ -334,8 +333,8 @@ public class Sentinel {
 				String iface = (String) row[0];
 				Timestamp time = (Timestamp) row[1];
 				long realtime = time.getTime();
-				double rxrate = ((BigInteger) row[2]).longValue();
-				double txrate = ((BigInteger) row[3]).longValue();
+				double rxrate = ((Long) row[2]).longValue();
+				double txrate = ((Long) row[3]).longValue();
 
 				if (currentdataset.getLabel() == null)
 					currentdataset.setLabel(iface);
