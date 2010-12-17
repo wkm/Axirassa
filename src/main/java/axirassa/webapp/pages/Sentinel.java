@@ -9,7 +9,6 @@ import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 import zanoccio.javakit.ListUtilities;
@@ -22,15 +21,6 @@ import axirassa.webapp.utilities.AxPlotRange;
 @PublicPage
 @Import(library = "${tapestry.scriptaculous}/prototype.js")
 public class Sentinel {
-
-	private final static String memsql = "SELECT \"Date\", \"Used\", \"Total\" FROM SentinelMemoryStats WHERE \"Machine_ID\" = 1 ORDER BY \"Date\" ASC";
-
-	private final static String disksql = "SELECT \"Disk\", \"Date\", \"Used\", \"Total\" FROM SentinelDiskUsageStats WHERE \"Machine_ID\" = 1 ORDER BY \"Disk\" ASC, \"Date\" ASC";
-	private final static String diskiosql = "SELECT \"Disk\", \"Date\", \"Read\", \"Write\" FROM SentinelDiskIOStats WHERE \"Machine_ID\" = 1 ORDER BY \"Disk\" ASC, \"Date\" ASC";
-
-	private final static String networksql = "SELECT \"Device\", \"Date\", \"Send\", \"Receive\" FROM SentinelNetworkStats WHERE \"Machine_ID\" = 1 ORDER BY \"Device\" ASC, \"Date\" ASC";
-	private final static String networkiosql = "SELECT \"Device\", \"Date\", \"Send\", \"Receive\" FROM SentinelNetworkIOStats WHERE \"Machine_ID\" = 1 ORDER BY \"Device\" ASC, \"Date\" ASC";
-
 	@Inject
 	private Request request;
 
@@ -114,7 +104,7 @@ public class Sentinel {
 		if (!request.isXHR())
 			return "Sentinel";
 
-		SQLQuery query = session.createSQLQuery(memsql);
+		Query query = session.getNamedQuery("sentinel.memory");
 		List<Object[]> result = query.list();
 
 		double[] timestamps = new double[result.size()];
@@ -155,7 +145,7 @@ public class Sentinel {
 
 		// execute the search query
 		// session.beginTransaction();
-		SQLQuery query = session.createSQLQuery(disksql);
+		Query query = session.getNamedQuery("sentinel.disk");
 		List<Object[]> data = query.list();
 
 		List<List<Object[]>> diskdata = ListUtilities.partition(data, new ListUtilities.ListPartitioner<Object[]>() {
@@ -218,7 +208,7 @@ public class Sentinel {
 		if (!request.isXHR())
 			return "Sentinel";
 
-		SQLQuery query = session.createSQLQuery(diskiosql);
+		Query query = session.getNamedQuery("sentinel.diskio");
 		List<Object[]> data = query.list();
 
 		List<List<Object[]>> iodata = ListUtilities.partition(data, new ListUtilities.ListPartitioner<Object[]>() {
@@ -269,7 +259,7 @@ public class Sentinel {
 		if (!request.isXHR())
 			return "Sentinel";
 
-		SQLQuery query = session.createSQLQuery(networksql);
+		Query query = session.getNamedQuery("sentinel.net");
 		List<Object[]> data = query.list();
 
 		// partition on the network interface
@@ -322,7 +312,7 @@ public class Sentinel {
 		if (!request.isXHR())
 			return "Sentinel";
 
-		SQLQuery query = session.createSQLQuery(networkiosql);
+		Query query = session.getNamedQuery("sentinel.netio");
 		List<Object[]> data = query.list();
 
 		List<List<Object[]>> iodata = ListUtilities.partition(data, new ListUtilities.ListPartitioner<Object[]>() {

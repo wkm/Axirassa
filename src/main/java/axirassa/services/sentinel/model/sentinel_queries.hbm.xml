@@ -14,4 +14,53 @@
 			cpu asc,
 			date asc 
 	]]></query>
+	<query name="sentinel.memory"><![CDATA[
+		select memstat.date, memstat.used, memstat.total
+		from
+			SentinelMemoryStatisticModel as memstat
+		where
+			machineid = 1
+		order by
+			date asc
+	]]></query>
+	<query name="sentinel.disk"><![CDATA[
+		select diskstat.disk, diskstat.date, diskstat.used, diskstat.total
+		from
+			SentinelDiskUsageStatisticModel as diskstat
+		where
+			machineid = 1
+		order by
+			disk asc,
+			date asc
+	]]></query>
+	<query name="sentinel.diskio"><![CDATA[
+		select diskiostat.disk, diskiostat.date, diskiostat.read, diskiostat.write
+		from
+			SentinelDiskIOStatisticModel as diskiostat
+		where
+			machineid = 1
+		order by
+			disk asc,
+			date asc
+	]]></query>
+	<query name="sentinel.net"><![CDATA[
+		select netstat.device, netstat.date, netstat.send, netstat.receive
+		from
+			SentinelNetworkStatisticModel as netstat
+		where
+			machineid = 1
+		order by
+			device asc,
+			date asc
+	]]></query>
+	<query name="sentinel.netio"><![CDATA[
+		select netiostat.device, netiostat.date, netiostat.send, netiostat.receive
+		from
+			SentinelNetworkIOStatisticModel as netiostat
+		where
+			machineid = 1
+		order by
+			device asc,
+			date asc
+	]]></query>
 </hibernate-mapping>
