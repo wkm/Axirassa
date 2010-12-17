@@ -22,15 +22,15 @@ import axirassa.webapp.utilities.AxPlotRange;
 @Import(library = "${tapestry.scriptaculous}/prototype.js")
 public class Sentinel {
 
-	private final static String cpusql = "SELECT \"Cpu\", \"Date\", \"User\", \"System\" FROM SentinelCPUStats WHERE \"Machine_ID\" = 1 ORDER BY \"Cpu\" ASC, \"Date\" ASC LIMIT 1000";
+	private final static String cpusql = "SELECT \"Cpu\", \"Date\", \"User\", \"System\" FROM SentinelCPUStats WHERE \"Machine_ID\" = 1 ORDER BY \"Cpu\" ASC, \"Date\" ASC";
 
-	private final static String memsql = "SELECT \"Date\", \"Used\", \"Total\" FROM SentinelMemoryStats WHERE \"Machine_ID\" = 1 ORDER BY \"Date\" ASC  LIMIT 1000";
+	private final static String memsql = "SELECT \"Date\", \"Used\", \"Total\" FROM SentinelMemoryStats WHERE \"Machine_ID\" = 1 ORDER BY \"Date\" ASC";
 
-	private final static String disksql = "SELECT \"Disk\", \"Date\", \"Used\", \"Total\" FROM SentinelDiskUsageStats WHERE \"Machine_ID\" = 1 ORDER BY \"Disk\" ASC, \"Date\" ASC  LIMIT 1000";
-	private final static String diskiosql = "SELECT \"Disk\", \"Date\", \"Read\", \"Write\" FROM SentinelDiskIOStats WHERE \"Machine_ID\" = 1 ORDER BY \"Disk\" ASC, \"Date\" ASC  LIMIT 1000";
+	private final static String disksql = "SELECT \"Disk\", \"Date\", \"Used\", \"Total\" FROM SentinelDiskUsageStats WHERE \"Machine_ID\" = 1 ORDER BY \"Disk\" ASC, \"Date\" ASC";
+	private final static String diskiosql = "SELECT \"Disk\", \"Date\", \"Read\", \"Write\" FROM SentinelDiskIOStats WHERE \"Machine_ID\" = 1 ORDER BY \"Disk\" ASC, \"Date\" ASC";
 
-	private final static String networksql = "SELECT \"Device\", \"Date\", \"Send\", \"Receive\" FROM SentinelNetworkStats WHERE \"Machine_ID\" = 1 ORDER BY \"Device\" ASC, \"Date\" ASC  LIMIT 1000";
-	private final static String networkiosql = "SELECT \"Device\", \"Date\", \"Send\", \"Receive\" FROM SentinelNetworkIOStats WHERE \"Machine_ID\" = 1 ORDER BY \"Device\" ASC, \"Date\" ASC  LIMIT 1000";
+	private final static String networksql = "SELECT \"Device\", \"Date\", \"Send\", \"Receive\" FROM SentinelNetworkStats WHERE \"Machine_ID\" = 1 ORDER BY \"Device\" ASC, \"Date\" ASC";
+	private final static String networkiosql = "SELECT \"Device\", \"Date\", \"Send\", \"Receive\" FROM SentinelNetworkIOStats WHERE \"Machine_ID\" = 1 ORDER BY \"Device\" ASC, \"Date\" ASC";
 
 	@Inject
 	private Request request;
