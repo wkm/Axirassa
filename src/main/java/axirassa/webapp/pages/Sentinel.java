@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
@@ -21,8 +22,6 @@ import axirassa.webapp.utilities.AxPlotRange;
 @PublicPage
 @Import(library = "${tapestry.scriptaculous}/prototype.js")
 public class Sentinel {
-
-	private final static String cpusql = "SELECT \"Cpu\", \"Date\", \"User\", \"System\" FROM SentinelCPUStats WHERE \"Machine_ID\" = 1 ORDER BY \"Cpu\" ASC, \"Date\" ASC";
 
 	private final static String memsql = "SELECT \"Date\", \"Used\", \"Total\" FROM SentinelMemoryStats WHERE \"Machine_ID\" = 1 ORDER BY \"Date\" ASC";
 
@@ -54,7 +53,7 @@ public class Sentinel {
 			return "Sentinel";
 
 		// execute the search query
-		SQLQuery query = session.createSQLQuery(cpusql);
+		Query query = session.getNamedQuery("sentinel.cpu");
 		List<Object[]> data = query.list();
 
 		List<List<Object[]>> cpudata = ListUtilities.partition(data, new ListUtilities.ListPartitioner<Object[]>() {
