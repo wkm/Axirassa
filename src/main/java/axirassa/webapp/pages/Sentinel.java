@@ -2,7 +2,12 @@
 package axirassa.webapp.pages;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -27,12 +32,50 @@ public class Sentinel {
 	private Session session;
 
 
+	private Date getDateFromInterval(String interval) {
+		Date current = new Date();
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		calendar.setTime(current);
+		applyDateInterval(calendar, interval);
+		return calendar.getTime();
+	}
+
+
+	private Calendar applyDateInterval(Calendar calendar, String interval) {
+		Pattern regex = Pattern.compile("([0-9]+)([mhd])");
+		Matcher matcher = regex.matcher(interval);
+
+		while (matcher.find()) {
+			String offsetstring = matcher.group(1);
+			String type = matcher.group(2);
+
+			int offset = Integer.parseInt(offsetstring);
+
+			switch (type.charAt(0)) {
+			case 'm':
+				calendar.set(Calendar.MINUTE, offset);
+				break;
+
+			case 'h':
+				calendar.set(Calendar.HOUR, offset);
+				break;
+
+			case 'd':
+				calendar.set(Calendar.DAY_OF_YEAR, offset);
+				break;
+			}
+		}
+
+		return calendar;
+	}
+
+
 	/**
 	 * axir/sentinel/cpuupdate/24h 7d 30d 365d
 	 * 
 	 * @return
 	 */
-	public Object onActionFromCpuupdate() {
+	public Object onActionFromCpuupdate(String interval) {
 		// this codes makes certain assumptions about the ordering from the
 		// database query; in particular that data is grouped by CPU and then by
 		// date.
@@ -40,6 +83,9 @@ public class Sentinel {
 		if (request != null && !request.isXHR())
 			// cleanly handle non-JS
 			return "Sentinel";
+
+		Date fromdate = getDateFromInterval(interval);
+		System.out.println("Date: " + fromdate);
 
 		// execute the search query
 		Query query = session.getNamedQuery("sentinel.cpu");
