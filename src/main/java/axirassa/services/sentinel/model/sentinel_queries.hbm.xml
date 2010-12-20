@@ -10,6 +10,7 @@
 			SentinelCPUStatisticModel as cpustat
 		where
 			machineid = 1
+			and date >= :date
 		order by
 			cpu asc,
 			date asc 
