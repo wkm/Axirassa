@@ -69,10 +69,10 @@ var ax = new function() {
 	
 	this.axp_axislab_date = function(val, max){
 		return formattime(new Date(val/1));
-	}
+	};
 	this.axp_axislab_percent = function(val, max){
 		return percentTicks(val);
-	}
+	};
 	this.axp_axislab_data = dataTicks;
 	
 	this.agentcontrol = function(id, source) {
@@ -155,11 +155,11 @@ var ax = new function() {
 						if(dataset < (datasets - 2)) {
 							xtickfn = function(n){
 								return "";
-							}
+							};
 						} else {
 							xtickfn = function(n) {
 								return formattime(new Date(n / 1));
-							}
+							};
 						};
 						
 						var xrange = data['plotranges'][dataset][0];
