@@ -75,11 +75,16 @@ var ax = new function() {
 	};
 	this.axp_axislab_data = dataTicks;
 	
-	this.agentcontrol = function(id, source) {
+	this.agentcontrol = function(id, origsource) {
 		
 		// mark that we're downloading data
 		$(id).addClassName('axp_loading');
 		$(id).update('Downloading data...');
+		
+		var source = origsource;
+		if(source.match("^.*cpuupdate$")) {
+			source = source + "/24h";
+		}
 		
 		new Ajax.Request(source, {
 			method: 'get',
