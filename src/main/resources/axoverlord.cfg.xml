@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE axoverlord-configuration PUBLIC
  "-//AxOverlord/AxOverlord Configuration DTD 1.0//EN"
- "classpath://com/zanoccio/axirassa/overlord/AxOverlord-Configuration-1.0.dtd">
+ "classpath://axirassa/overlord/AxOverlord-Configuration-1.0.dtd">
 <configuration>
 	<!-- Target Classes -->
-    <target name="AxSentinelAgent" class="com.zanoccio.axirassa.services.sentinel.SentinelService" autorestart="true">
+    <target name="AxSentinelAgent" class="axirassa.services.sentinel.SentinelService" autorestart="true">
     	<!-- JVM options --> 
         <jvmoption name="Xmx" value="32M"/>
         <jvmoption name="Xms" value="32M"/>

@@ -8,6 +8,8 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import zanoccio.javakit.exception.UnknownResourceException;
+
 /**
  * Based on http://www.ibm.com/developerworks/xml/library/x-tipentres.html
  * 
@@ -31,14 +33,16 @@ public class ClassPathEntityResolver implements EntityResolver {
 			return null;
 
 		String path = extractPath(systemid);
+
 		try {
 			InputStream inputstream = ClassLoader.getSystemResourceAsStream(path);
 
 			if (inputstream == null)
-				return null;
+				throw new UnknownResourceException(path);
 
 			return new InputSource(inputstream);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
