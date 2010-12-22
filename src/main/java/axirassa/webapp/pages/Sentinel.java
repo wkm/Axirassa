@@ -34,9 +34,13 @@ public class Sentinel {
 
 	private Date getDateFromInterval(String interval) {
 		Date current = new Date();
-		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeZone(TimeZone.getTimeZone("GMT"));
 		calendar.setTime(current);
 		applyDateInterval(calendar, interval);
+
+		System.out.println("Date: " + calendar.getTime());
 		return calendar.getTime();
 	}
 
@@ -53,15 +57,15 @@ public class Sentinel {
 
 			switch (type.charAt(0)) {
 			case 'm':
-				calendar.set(Calendar.MINUTE, offset);
+				calendar.add(Calendar.MINUTE, -offset);
 				break;
 
 			case 'h':
-				calendar.set(Calendar.HOUR, offset);
+				calendar.add(Calendar.HOUR, -offset);
 				break;
 
 			case 'd':
-				calendar.set(Calendar.DAY_OF_YEAR, offset);
+				calendar.add(Calendar.DAY_OF_YEAR, -offset);
 				break;
 			}
 		}
@@ -89,6 +93,9 @@ public class Sentinel {
 
 		// execute the search query
 		Query query = session.getNamedQuery("sentinel.cpu");
+		query.setDate("date", fromdate);
+		System.out.println("Query: " + query);
+
 		List<Object[]> data = query.list();
 
 		List<List<Object[]>> cpudata = ListUtilities.partition(data, new ListUtilities.ListPartitioner<Object[]>() {

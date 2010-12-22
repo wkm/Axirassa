@@ -83,7 +83,7 @@ var ax = new function() {
 		
 		var source = origsource;
 		if(source.match("^.*cpuupdate$")) {
-			source = source + "/24h";
+			source = source + "/4h";
 		}
 		
 		new Ajax.Request(source, {
