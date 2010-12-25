@@ -21,6 +21,7 @@
 			SentinelMemoryStatisticModel as memstat
 		where
 			machineid = 1
+			and date >= :date
 		order by
 			date asc
 	]]></query>
@@ -30,6 +31,7 @@
 			SentinelDiskUsageStatisticModel as diskstat
 		where
 			machineid = 1
+			and date >= :date
 		order by
 			disk asc,
 			date asc
@@ -40,6 +42,7 @@
 			SentinelDiskIOStatisticModel as diskiostat
 		where
 			machineid = 1
+			and date >= :date
 		order by
 			disk asc,
 			date asc
@@ -50,6 +53,7 @@
 			SentinelNetworkStatisticModel as netstat
 		where
 			machineid = 1
+			and date >= :date
 		order by
 			device asc,
 			date asc
@@ -60,6 +64,7 @@
 			SentinelNetworkIOStatisticModel as netiostat
 		where
 			machineid = 1
+			and date >= :date
 		order by
 			device asc,
 			date asc

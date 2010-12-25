@@ -40,7 +40,6 @@ public class Sentinel {
 		calendar.setTime(current);
 		applyDateInterval(calendar, interval);
 
-		System.out.println("Date: " + calendar.getTime());
 		return calendar.getTime();
 	}
 
@@ -89,12 +88,10 @@ public class Sentinel {
 			return "Sentinel";
 
 		Date fromdate = getDateFromInterval(interval);
-		System.out.println("Date: " + fromdate);
 
 		// execute the search query
 		Query query = session.getNamedQuery("sentinel.cpu");
 		query.setDate("date", fromdate);
-		System.out.println("Query: " + query);
 
 		List<Object[]> data = query.list();
 
@@ -152,11 +149,14 @@ public class Sentinel {
 	}
 
 
-	public Object onActionFromMemupdate() {
-		if (!request.isXHR())
+	public Object onActionFromMemupdate(String interval) {
+		if (request != null && !request.isXHR())
 			return "Sentinel";
 
+		Date fromdate = getDateFromInterval(interval);
 		Query query = session.getNamedQuery("sentinel.memory");
+		query.setDate("date", fromdate);
+
 		List<Object[]> result = query.list();
 
 		double[] timestamps = new double[result.size()];
@@ -191,13 +191,15 @@ public class Sentinel {
 	}
 
 
-	public Object onActionFromDiskSpaceUpdate() {
+	public Object onActionFromDiskSpaceUpdate(String interval) {
 		if (!request.isXHR())
 			return "Sentinel";
 
-		// execute the search query
-		// session.beginTransaction();
+		Date fromdate = getDateFromInterval(interval);
+
 		Query query = session.getNamedQuery("sentinel.disk");
+		query.setDate("date", fromdate);
+
 		List<Object[]> data = query.list();
 
 		List<List<Object[]>> diskdata = ListUtilities.partition(data, new ListUtilities.ListPartitioner<Object[]>() {
@@ -256,11 +258,15 @@ public class Sentinel {
 	}
 
 
-	public Object onActionFromDiskIOUpdate() {
+	public Object onActionFromDiskIOUpdate(String interval) {
 		if (!request.isXHR())
 			return "Sentinel";
 
+		Date fromdate = getDateFromInterval(interval);
+
 		Query query = session.getNamedQuery("sentinel.diskio");
+		query.setDate("date", fromdate);
+
 		List<Object[]> data = query.list();
 
 		List<List<Object[]>> iodata = ListUtilities.partition(data, new ListUtilities.ListPartitioner<Object[]>() {
@@ -307,11 +313,15 @@ public class Sentinel {
 	}
 
 
-	public Object onActionFromNetworkUpdate() {
+	public Object onActionFromNetworkUpdate(String interval) {
 		if (!request.isXHR())
 			return "Sentinel";
 
+		Date fromdate = getDateFromInterval(interval);
+
 		Query query = session.getNamedQuery("sentinel.net");
+		query.setDate("date", fromdate);
+
 		List<Object[]> data = query.list();
 
 		// partition on the network interface
@@ -360,11 +370,15 @@ public class Sentinel {
 	}
 
 
-	public Object onActionFromNetworkIOUpdate() {
+	public Object onActionFromNetworkIOUpdate(String interval) {
 		if (!request.isXHR())
 			return "Sentinel";
 
+		Date fromdate = getDateFromInterval(interval);
+
 		Query query = session.getNamedQuery("sentinel.netio");
+		query.setDate("date", fromdate);
+
 		List<Object[]> data = query.list();
 
 		List<List<Object[]>> iodata = ListUtilities.partition(data, new ListUtilities.ListPartitioner<Object[]>() {

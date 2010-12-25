@@ -81,10 +81,7 @@ var ax = new function() {
 		$(id).addClassName('axp_loading');
 		$(id).update('Downloading data...');
 		
-		var source = origsource;
-		if(source.match("^.*cpuupdate$")) {
-			source = source + "/4h";
-		}
+		var source = origsource + "/4h";
 		
 		new Ajax.Request(source, {
 			method: 'get',
