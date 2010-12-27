@@ -25,6 +25,7 @@ var ax = new function() {
 	  }
 	  
 	  return hour+":"+minute+ampm;
+	  
 	};
 	
 	function percentTicks(n) {

@@ -15,6 +15,7 @@ import org.apache.tapestry5.services.Request;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import zanoccio.javakit.DateUtilities;
 import zanoccio.javakit.ListUtilities;
 import axirassa.webapp.annotations.PublicPage;
 import axirassa.webapp.utilities.AxPlotDataPackage;
@@ -33,12 +34,14 @@ public class Sentinel {
 
 
 	private Date getDateFromInterval(String interval) {
-		Date current = new Date();
+		Date current = DateUtilities.gmtTime();
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeZone(TimeZone.getTimeZone("GMT"));
 		calendar.setTime(current);
 		applyDateInterval(calendar, interval);
+
+		System.out.println("FROM DATE: " + calendar.getTime());
 
 		return calendar.getTime();
 	}
@@ -69,6 +72,8 @@ public class Sentinel {
 			}
 		}
 
+		System.out.println("From date: " + calendar.getTime());
+
 		return calendar;
 	}
 
@@ -91,7 +96,7 @@ public class Sentinel {
 
 		// execute the search query
 		Query query = session.getNamedQuery("sentinel.cpu");
-		query.setDate("date", fromdate);
+		query.setTimestamp("date", fromdate);
 
 		List<Object[]> data = query.list();
 
@@ -155,7 +160,7 @@ public class Sentinel {
 
 		Date fromdate = getDateFromInterval(interval);
 		Query query = session.getNamedQuery("sentinel.memory");
-		query.setDate("date", fromdate);
+		query.setTimestamp("date", fromdate);
 
 		List<Object[]> result = query.list();
 
@@ -198,7 +203,7 @@ public class Sentinel {
 		Date fromdate = getDateFromInterval(interval);
 
 		Query query = session.getNamedQuery("sentinel.disk");
-		query.setDate("date", fromdate);
+		query.setTimestamp("date", fromdate);
 
 		List<Object[]> data = query.list();
 
@@ -265,7 +270,7 @@ public class Sentinel {
 		Date fromdate = getDateFromInterval(interval);
 
 		Query query = session.getNamedQuery("sentinel.diskio");
-		query.setDate("date", fromdate);
+		query.setTimestamp("date", fromdate);
 
 		List<Object[]> data = query.list();
 
@@ -320,7 +325,7 @@ public class Sentinel {
 		Date fromdate = getDateFromInterval(interval);
 
 		Query query = session.getNamedQuery("sentinel.net");
-		query.setDate("date", fromdate);
+		query.setTimestamp("date", fromdate);
 
 		List<Object[]> data = query.list();
 
@@ -377,7 +382,7 @@ public class Sentinel {
 		Date fromdate = getDateFromInterval(interval);
 
 		Query query = session.getNamedQuery("sentinel.netio");
-		query.setDate("date", fromdate);
+		query.setTimestamp("date", fromdate);
 
 		List<Object[]> data = query.list();
 

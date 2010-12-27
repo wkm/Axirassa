@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 
+import zanoccio.javakit.DateUtilities;
 import axirassa.services.Service;
 import axirassa.util.HibernateTools;
 
@@ -97,7 +98,7 @@ public class SentinelService implements Service {
 		if (sigar == null)
 			sigar = new Sigar();
 
-		Date date = new Date();
+		Date date = DateUtilities.gmtTime();
 		System.out.println("Retrieving: " + date);
 
 		for (SentinelAgent agent : agents) {
