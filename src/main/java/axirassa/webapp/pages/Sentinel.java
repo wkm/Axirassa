@@ -41,8 +41,6 @@ public class Sentinel {
 		calendar.setTime(current);
 		applyDateInterval(calendar, interval);
 
-		System.out.println("FROM DATE: " + calendar.getTime());
-
 		return calendar.getTime();
 	}
 
@@ -71,8 +69,6 @@ public class Sentinel {
 				break;
 			}
 		}
-
-		System.out.println("From date: " + calendar.getTime());
 
 		return calendar;
 	}
