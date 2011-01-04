@@ -10,10 +10,6 @@ Tapestry.FieldEventManager.addMethods( {
 		this.fieldContainer = this.field.parentNode;
 		Element.extend(this.fieldContainer);
 		
-		this.label = $(id + '-label');
-		this.labelContainer = this.label.parentNode;
-		Element.extend(this.labelContainer);
-		
 		var msgId = id + '-msg';
 		this.msg = $(msgId);
 		
@@ -47,9 +43,6 @@ Tapestry.FieldEventManager.addMethods( {
 		this.msg.update(message);
 		this.msg.show();
 		
-		this.label.addClassName("error-label");
-		this.labelContainer.addClassName("error-label-c");
-		
 		this.field.addClassName("error-field");
 		this.fieldContainer.addClassName("error-field-c");
 		
@@ -60,9 +53,6 @@ Tapestry.FieldEventManager.addMethods( {
 	removeDecorations: function() {
 		this.msg.update(null);
 		this.msg.hide();
-		
-		this.label.removeClassName("error-label");
-		this.labelContainer.removeClassName("error-label-c");
 		
 		this.field.removeClassName("error-field");
 		this.fieldContainer.removeClassName("error-field-c");

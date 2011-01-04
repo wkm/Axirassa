@@ -9,6 +9,11 @@ public class AxTextField extends AxAbstractTextInput {
 	private TextField txtfield;
 
 
+	public TextField getTextField() {
+		return txtfield;
+	}
+
+
 	@Override
 	public String getControlName() {
 		return txtfield.getControlName();
