@@ -26,11 +26,12 @@ body {
 	text-shadow: none;
 }
 
-.ax {}
+.ax {
+	font-weight:bold;
+}
 
-.sep {
-	color: #666;
-	text-shadow: none;
+.txtinput {
+	font-family: Verdana,sans-serif;
 }
 
 #subtitle {
