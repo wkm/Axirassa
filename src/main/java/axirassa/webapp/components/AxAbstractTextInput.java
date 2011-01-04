@@ -12,8 +12,14 @@ abstract public class AxAbstractTextInput implements Field {
 	@Inject
 	private ComponentResources resources;
 
-	@Property
+	@Parameter(required = true, defaultPrefix = "literal")
 	private String name;
+
+
+	public String getName() {
+		return name;
+	}
+
 
 	@Property
 	private String text;
@@ -39,5 +45,4 @@ abstract public class AxAbstractTextInput implements Field {
 		else
 			return label;
 	}
-
 }
