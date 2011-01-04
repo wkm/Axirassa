@@ -1,10 +1,13 @@
-<tr xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
-	<td>
-		<t:label t:for="txtfield">
-			${name}
-		</t:label>
-	</td>
-	<td class='forminput'>
-		<t:textfield class='txtinput' t:label="${label}" t:value="text" t:id="txtfield"/>
-	</td>
-</tr>
+<?xml version="1.0" encoding="utf-8" ?>
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<tr>
+		<td>
+			<t:label t:for="txtfield">
+				${name}
+			</t:label>
+		</td>
+		<td class='forminput'>
+			<t:textfield class='txtinput' t:label="${label}" t:value="text" t:id="txtfield"/>
+		</td>
+	</tr>
+</t:container>
