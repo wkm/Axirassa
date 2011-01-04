@@ -1,15 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <html t:type="layout" t:pageTitle="Register" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 	<t:axform t:id="registerForm">
-		<t:axtextfield t:id="email" t:name="E-mail" 
-			t:validate='required,email'/>
-		<t:axtextfield t:id="confirmemail" t:name="Confirm" 
-			t:validate='required'/>
+		<t:axtextfield t:id="email" t:name="E-mail" t:validate='required,email'/>
+		<t:axtextfield t:id="confirmemail" t:name="Confirm" t:validate='required'/>
 		
-		<t:axpasswordfield t:id="password" t:name="Password" 
-			t:validate='required' />
-		<t:axpasswordfield t:id="confirmpassword" t:name="Confirm" 
-			t:validate='required'/>
-		
+		<t:axpasswordfield t:id="password" t:name="Password" t:validate='required' />
+		<t:axpasswordfield t:id="confirmpassword" t:name="Confirm" t:validate='required'/> 
 		<t:axsubmit value="Submit"/>
 	</t:axform>
 </html>

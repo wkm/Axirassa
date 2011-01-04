@@ -1,5 +1,8 @@
-<t:form t:id="form" autoFocus="false" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
-	<table class='form'>
-		<t:body/>
-	</table>
-</t:form>
+<?xml version="1.0" encoding="UTF-8"?>
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+	<t:form t:id="form" autoFocus="false">
+		<table class='form'>
+			<t:body/>
+		</table>
+	</t:form>
+</t:container>
