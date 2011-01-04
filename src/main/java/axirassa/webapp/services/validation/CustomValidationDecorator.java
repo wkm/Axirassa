@@ -10,6 +10,8 @@ import org.apache.tapestry5.dom.Element;
 import org.apache.tapestry5.services.Environment;
 
 /**
+ * Validations are annoying because there are both client and server side
+ * components, each necessarily implemented in Java vs JavaScript.
  * 
  * Based on: http://jumpstart.doublenegative.com.au/jumpstart/examples/input/
  * novalidationbubbles1
