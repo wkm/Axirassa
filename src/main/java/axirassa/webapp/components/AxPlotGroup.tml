@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<div class="ax_pg_ctrls">
-		<div class="ax_pg_ctrl">24h</div>
-		<div class="ax_pg_ctrl">7d</div>
-		<div class="ax_pg_ctrl">30d</div>
-		<div class="ax_pg_ctrl">90d</div>
-		<div class="ax_pg_ctrl">365d</div>
+		<t:axplotgroupcontrol label="24h"/>
+		<t:axplotgroupcontrol label="7d"/>
+		<t:axplotgroupcontrol label="30d"/>
+		<t:axplotgroupcontrol label="90d"/>
+		<t:axplotgroupcontrol label="365d"/>
 	</div>
 	<t:body/>
 </t:container>

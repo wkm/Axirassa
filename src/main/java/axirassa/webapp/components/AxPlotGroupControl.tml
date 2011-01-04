@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div class="ax_pg_ctrl" onclick="ax.set_pg_resolution(${value})">${label}</div>
