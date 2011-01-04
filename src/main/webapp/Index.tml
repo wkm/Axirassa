@@ -2,7 +2,7 @@
 	  xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 	<h1>Actions</h1>
 	<ul>
-		<li><t:pagelink t:page="Register">register</t:pagelink></li>
+		<li><t:pagelink t:page="User/Register">register</t:pagelink></li>
 	</ul>
 	
 	<h1>Utilities</h1>
