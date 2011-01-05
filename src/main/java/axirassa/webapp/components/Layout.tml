@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
 	<head>
-		<title>axirassa | pinger :: ${pageTitle}</title>
-		<!--  <link rel="stylesheet" type="text/css" href="${asset:context:/css/yui_reset.css}" /> -->
+		<title>${pageTitle} :: axirassa webpresence monitoring</title>
+		<!-- <link rel="stylesheet" type="text/css" href="${asset:context:/css/yui_reset.css}" /> -->
 	</head>
 	<body>
 		<div id='header'>
-			<div id='title'><span class='ax'>axirassa</span><span class='p'> pinger</span></div>
+			<div id='title'><span class='ax'>axirassa</span><span class='p'> webpresence monitoring</span></div>
         </div>
         <div id ="content">
         	<h1>${header}</h1>
