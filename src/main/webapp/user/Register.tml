@@ -6,6 +6,6 @@
 		<t:axformvspace/>
 		<t:axpasswordfield t:id="password" t:name="Password" t:validate='required' />
 		<t:axpasswordfield t:id="confirmpassword" t:name="Confirm password" t:validate='required'/> 
-		<t:axsubmit t:value="Submit"/>
+		<t:axsubmit label="Register"/>
 	</t:axform>
 </html>
