@@ -1,6 +1,6 @@
 <tr xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<td></td>
 	<td class='forminput'>
-		<t:submit t:id="submit"/>
+		<t:submit class='formsubmit' t:id="submit"/>
 	</td>
 </tr>

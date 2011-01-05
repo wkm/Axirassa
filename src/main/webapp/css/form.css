@@ -34,3 +34,8 @@ input {
 	border-bottom: rgb(247, 242, 137);
 	font-size: 70%;
 }
+
+.submit {
+	text-align: right;
+	font-size: 95%;
+}
