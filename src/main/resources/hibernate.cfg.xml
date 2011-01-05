@@ -36,7 +36,6 @@
 		<property name="hbm2ddl.auto">update</property>
 		
 		
-		
 		<!-- Mappings -->
 		<mapping class="axirassa.domain.UserModel" />
 		<mapping class="axirassa.domain.AccountModel" />
