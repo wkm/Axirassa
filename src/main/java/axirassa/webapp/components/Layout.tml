@@ -9,7 +9,6 @@
 			<div id='title'><span class='ax'>axirassa</span><span class='p'> webpresence monitoring</span></div>
         </div>
         <div id ="content">
-        	<h1>${header}</h1>
 			<t:body/>
 		</div>
 		<div id="footer">
