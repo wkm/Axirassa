@@ -7,7 +7,7 @@ import org.apache.tapestry5.annotations.Property;
 
 import axirassa.webapp.components.AxForm;
 
-public class Register {
+public class RegisterUser {
 	@Persist
 	@Property
 	private String email;
