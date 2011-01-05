@@ -7,6 +7,7 @@ import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.ValidationDecorator;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Import;
+import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Environment;
@@ -21,6 +22,26 @@ public class AxForm implements FormValidationControl {
 
 	@Component
 	private Form form;
+
+	@Parameter(defaultPrefix = "literal")
+	private String title;
+
+
+	public String getTitle() {
+		return title;
+	}
+
+
+	@Parameter
+	private boolean hasTitle;
+
+
+	public boolean hasTitle() {
+		if (title != null)
+			return true;
+		else
+			return false;
+	}
 
 
 	void beginRender(MarkupWriter writer) {
