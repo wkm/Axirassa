@@ -1,12 +1,14 @@
 
 package axirassa.webapp.pages.user;
 
-import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.annotations.Secure;
 
 import axirassa.webapp.components.AxForm;
 
+@Secure
 public class RegisterUser {
 	@Persist
 	private String email;
@@ -42,7 +44,7 @@ public class RegisterUser {
 	@Property
 	private String confirmpassword;
 
-	@Component
+	@InjectComponent
 	private AxForm registerForm;
 
 
