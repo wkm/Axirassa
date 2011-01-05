@@ -1,6 +1,7 @@
 
 package axirassa.webapp.components;
 
+import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.Field;
 import org.apache.tapestry5.FormValidationControl;
 import org.apache.tapestry5.MarkupWriter;
@@ -23,7 +24,7 @@ public class AxForm implements FormValidationControl {
 	@Component()
 	private Form form;
 
-	@Parameter(defaultPrefix = "literal")
+	@Parameter(defaultPrefix = BindingConstants.LITERAL)
 	private String title;
 
 

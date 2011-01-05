@@ -1,6 +1,7 @@
 
 package axirassa.webapp.components;
 
+import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.Field;
 import org.apache.tapestry5.annotations.Parameter;
@@ -12,7 +13,7 @@ abstract public class AxAbstractTextInput implements Field {
 	@Inject
 	private ComponentResources resources;
 
-	@Parameter(required = true, defaultPrefix = "literal")
+	@Parameter(required = true, defaultPrefix = BindingConstants.LITERAL)
 	private String name;
 
 

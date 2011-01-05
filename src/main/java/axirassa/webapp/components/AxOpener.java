@@ -1,6 +1,7 @@
 
 package axirassa.webapp.components;
 
+import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
@@ -44,7 +45,7 @@ public class AxOpener {
 	/**
 	 * The header for the opener that is displayed by the opener arrow.
 	 */
-	@Parameter(required = true, defaultPrefix = "literal")
+	@Parameter(required = true, defaultPrefix = BindingConstants.LITERAL)
 	private String header;
 
 

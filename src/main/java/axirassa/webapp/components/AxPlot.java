@@ -1,6 +1,7 @@
 
 package axirassa.webapp.components;
 
+import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.Import;
@@ -38,7 +39,7 @@ public class AxPlot {
 	 * An optional unique identifier for this component on the page. If not
 	 * specified one is randomly generated.
 	 */
-	@Parameter(defaultPrefix = "literal")
+	@Parameter(defaultPrefix = BindingConstants.LITERAL)
 	private String id;
 
 
@@ -54,7 +55,7 @@ public class AxPlot {
 	 * The data source for this component. By default it's the event handler for
 	 * the action specified by the tapestry id of this component.
 	 */
-	@Parameter(defaultPrefix = "literal")
+	@Parameter(defaultPrefix = BindingConstants.LITERAL)
 	private String source;
 
 
@@ -67,7 +68,7 @@ public class AxPlot {
 
 
 	// detailsHeader
-	@Parameter(defaultPrefix = "literal")
+	@Parameter(defaultPrefix = BindingConstants.LITERAL)
 	private String detailsHeader;
 
 
