@@ -20,7 +20,7 @@ public class AxForm implements FormValidationControl {
 	@Inject
 	private Environment environment;
 
-	@Component
+	@Component()
 	private Form form;
 
 	@Parameter(defaultPrefix = "literal")
