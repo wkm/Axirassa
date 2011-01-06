@@ -7,7 +7,7 @@ import axirassa.domain.AccountModel;
 import axirassa.util.AbstractDomainTest;
 
 
-public class TestAccount extends AbstractDomainTest {
+public class TestAccountModel extends AbstractDomainTest {
 	@Test
 	public void accounts() {
 		AccountModel account = new AccountModel();
