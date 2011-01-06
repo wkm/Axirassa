@@ -15,7 +15,6 @@ import axirassa.domain.exception.NoSaltException;
 import axirassa.domainpaths.QuickRegisterPath;
 import axirassa.util.AbstractDomainTest;
 
-
 public class TestUserModel extends AbstractDomainTest {
 	@Test
 	public void userPassword() throws NoSaltException {
@@ -30,16 +29,17 @@ public class TestUserModel extends AbstractDomainTest {
 		assertTrue(usermodel.matchPassword("blah"));
 		assertFalse(usermodel.matchPassword("tweedle"));
 
-		// Query query = session.createQuery("from UserModel");
-		// List results = query.list();
-		// UserModel storeduser = (UserModel) results.get(0);
-		//
-		// assertTrue(storeduser.matchPassword("blah"));
-		// assertFalse(storeduser.matchPassword("tweedle"));
-		// assertFalse(storeduser.matchPassword("*!@#HJKNMoiu9"));
-		// assertFalse(storeduser.matchPassword("\""));
-		// assertFalse(storeduser.matchPassword("'"));
+		session.getTransaction().commit();
+	}
 
+
+	@Test
+	public void userAutomaticSalting() throws NoSaltException {
+		session.beginTransaction();
+		UserModel user = new UserModel();
+		user.setEMail("foo@bar.com");
+		user.createPassword("password");
+		addEntity(user);
 		session.getTransaction().commit();
 	}
 
