@@ -1,42 +1,27 @@
 
 package axirassa.webapp.pages.user;
 
-import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.hibernate.Session;
 
-import axirassa.webapp.components.AxForm;
+import axirassa.domain.UserModel;
+import axirassa.domain.exception.NoSaltException;
 
 @Secure
 public class RegisterUser {
+	@Inject
+	private Session session;
+
 	@Persist
+	@Property
 	private String email;
 
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-
-	public String getEmail() {
-		return email;
-	}
-
-
 	@Persist
+	@Property
 	private String confirmemail;
-
-
-	public void setConfirmEmail(String email) {
-		this.confirmemail = email;
-	}
-
-
-	public String getConfirmEmail() {
-		return confirmemail;
-	}
-
 
 	@Property
 	private String password;
@@ -44,13 +29,20 @@ public class RegisterUser {
 	@Property
 	private String confirmpassword;
 
-	@InjectComponent
-	private AxForm registerForm;
 
+	String onSuccess() throws NoSaltException {
+		UserModel newuser = new UserModel();
 
-	String onSuccess() {
-		System.out.println("Processing form.");
-		System.out.println("Email: " + email);
+		newuser.setEMail(email);
+		newuser.createPassword(password);
+
+		// we can ignore confirmemail and confirmpassword because validation
+		// will have already required them to be identical.
+
+		session.beginTransaction();
+		session.save(newuser);
+		session.getTransaction().commit();
+
 		return "Index";
 	}
 }
