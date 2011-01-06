@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html t:type="layout" t:pageTitle="Login" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<html t:type="layout" t:pageTitle="Login" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<t:axform t:title="Login">
 		<t:axtextfield t:value="email" t:name="E-mail" t:validate="required,email"/>
 		<t:axpasswordfield t:value="password" t:name="Password" t:validate="required"/>

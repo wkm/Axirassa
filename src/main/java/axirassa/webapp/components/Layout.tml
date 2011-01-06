@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?> 
-<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<head>
 		<title>${pageTitle} :: axirassa webpresence monitoring</title>
 		<!-- <link rel="stylesheet" type="text/css" href="${asset:context:/css/yui_reset.css}" /> -->

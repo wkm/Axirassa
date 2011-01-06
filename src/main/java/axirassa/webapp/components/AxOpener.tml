@@ -1,4 +1,4 @@
-<div id="${id}" class="axo" style="${style}" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<div id="${id}" class="axo" style="${style}" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<div 
 		id="${id}_header"
 		class="axo_header ${initialclass}" 

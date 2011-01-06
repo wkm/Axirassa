@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<t:if test="hasTitle">
 		<h3>${title}</h3>
 	</t:if>

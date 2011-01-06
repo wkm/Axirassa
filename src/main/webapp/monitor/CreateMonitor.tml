@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html t:type="layout" t:pageTitle="Create Pinger" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<html t:type="layout" t:pageTitle="Create Pinger" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<t:axform t:title="Create Pinger">
 		<t:axtextfield t:value="url" t:name="URL" t:validate="required"/>
 		<t:axformvspace/>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html t:type="layout" t:pageTitle="Register" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
+<html t:type="layout" t:pageTitle="Register" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<t:axform t:title="Register for Monitoring">
 		<t:axtextfield t:value="email" t:name="E-mail" t:validate='required,email'/>
 		<t:axtextfield t:value="confirmemail" t:name="Confirm e-mail" t:validate='required'/>
