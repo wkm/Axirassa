@@ -25,7 +25,6 @@ import axirassa.util.HibernateTools;
 import axirassa.util.MessageDigestProvider;
 import axirassa.util.RandomStringGenerator;
 
-
 @Entity
 @Table(name = "Users")
 public class UserModel implements Serializable {
@@ -133,9 +132,6 @@ public class UserModel implements Serializable {
 
 	/**
 	 * Sets the password for this UserModel by salting and encrypting it
-	 * 
-	 * @param password
-	 * @throws NoSaltException
 	 */
 	public void createPassword(String password) throws NoSaltException {
 		if (salt == null)
@@ -145,6 +141,10 @@ public class UserModel implements Serializable {
 	}
 
 
+	/**
+	 * directly set the password, but without altering the salt. Use
+	 * {@link #createPassword(String)} to create a salt.
+	 */
 	public void setPassword(byte[] password) throws NoSaltException {
 		this.password = password;
 	}
@@ -166,7 +166,6 @@ public class UserModel implements Serializable {
 	/**
 	 * @return gives true if the given password matches the recorded password
 	 *         for this user when salted and encrypted.
-	 * @throws NoSaltException
 	 */
 	public boolean matchPassword(String password) throws NoSaltException {
 		byte[] hashed = hashPassword(password);
