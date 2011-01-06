@@ -16,7 +16,7 @@ import axirassa.domainpaths.QuickRegisterPath;
 import axirassa.util.AbstractDomainTest;
 
 
-public class TestUser extends AbstractDomainTest {
+public class TestUserModel extends AbstractDomainTest {
 	@Test
 	public void userPassword() throws NoSaltException {
 		session.beginTransaction();
