@@ -3,7 +3,7 @@
 	<t:axform t:title="Create Pinger">
 		<t:axtextfield t:value="url" t:name="URL" t:validate="required"/>
 		<t:axformvspace/>
-		Monitors
-		Monitor Frequency
+		<t:AxFormLabel label="Monitors"/>
+		<t:AxFormLabel label="Monitor Frequency"/>
 	</t:axform>
 </html>
