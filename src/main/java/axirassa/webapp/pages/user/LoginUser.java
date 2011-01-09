@@ -3,6 +3,7 @@ package axirassa.webapp.pages.user;
 
 import java.util.List;
 
+import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
@@ -12,6 +13,7 @@ import org.hibernate.Session;
 
 import axirassa.domain.UserModel;
 import axirassa.domain.exception.NoSaltException;
+import axirassa.webapp.components.AxForm;
 
 @Secure
 public class LoginUser {
@@ -24,24 +26,43 @@ public class LoginUser {
 
 	@Property
 	private String password;
-	
 
-	String onSuccess() throws NoSaltException {
+	@Component
+	private AxForm form;
+
+
+	void onValidateFromForm() throws NoSaltException {
+		if (email == null || password == null) {
+			showInvalidLoginMessage();
+			return;
+		}
+
 		Query query = session.createQuery("from UserModel where email=:email");
 		query.setString("email", email);
 
 		List<UserModel> users = query.list();
 
-		if (users.size() < 0)
-			// no user's with that e-mail
-			return "Login";
+		if (users.size() < 0) {
+			showInvalidLoginMessage();
+			return;
+		}
 
 		UserModel first = users.iterator().next();
-		if (first.matchPassword(password))
-			// LOGIN
-			return "Index";
-		else
-			return "User/Login";
+		if (!first.matchPassword(password)) {
+			showInvalidLoginMessage();
+			return;
+		}
 
+		// LOGIN
+	}
+
+
+	private void showInvalidLoginMessage() {
+		form.recordError("E-mail, password combination was not found in records");
+	}
+
+
+	String onSuccess() {
+		return "Index";
 	}
 }

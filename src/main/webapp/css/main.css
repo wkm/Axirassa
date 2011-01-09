@@ -62,3 +62,7 @@ h1 {
 	font-size: 60%;
 	color: #666;
 }
+
+ul {
+	list-style-type: square;
+}

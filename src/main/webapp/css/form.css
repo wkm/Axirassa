@@ -32,22 +32,32 @@ label {
 	margin-bottom: .2em;
 }
 
-.errorMsg {
+.t-error, .errorMsg {
 	font-weight: bold;
 	
+	border: 1px solid rgb(232, 148, 0);
+	background: rgb(247, 242, 137);
+}
+
+div.t-error {
+	width: 40em;
+	margin-bottom: 1em;
+	font-size: 70%;
+}
+
+.errorMsg {
 	margin: 0 10px;
 	padding: 2px 5px;
-	background: rgb(247, 242, 137);
-	border: 1px solid rgb(232, 148, 0);
 	
 	-moz-border-radius: 2px 2px 0 0;
 	-webkit-border-radius: 2px 2px 0 0;
 	
 	border-bottom: rgb(247, 242, 137);
-	font-size: 70%;
 	
 	float: left; 
 	clear: both;
+	
+	font-size: 70%;
 }
 
 .ax_input {
