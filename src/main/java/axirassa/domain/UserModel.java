@@ -17,11 +17,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.classic.Session;
 
 import axirassa.domain.exception.NoSaltException;
-import axirassa.util.HibernateTools;
 import axirassa.util.MessageDigestProvider;
 import axirassa.util.RandomStringGenerator;
 
@@ -36,20 +35,16 @@ public class UserModel implements Serializable {
 	// Static
 	//
 
-	public static boolean isEmailRegistered(String email) {
-		Session session = HibernateTools.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-
-		Query query = session.createQuery("select user.Email from UserModel as user where user.Email = ?");
-		query.setString(0, email);
+	public static boolean isEmailRegistered(Session session, String email) {
+		Query query = session.createQuery("select user.EMail from UserModel as user where user.EMail = :email");
+		query.setString("email", email);
 
 		List results = query.list();
-		session.getTransaction().commit();
-
+		boolean isregistered = false;
 		if (results.size() > 0)
 			return true;
-		else
-			return false;
+
+		return isregistered;
 	}
 
 

@@ -1,17 +1,26 @@
 
 package axirassa.webapp.pages.user;
 
+import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.Log;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.json.JSONObject;
+import org.apache.tapestry5.services.Request;
 import org.hibernate.Session;
 
 import axirassa.domain.UserModel;
 import axirassa.domain.exception.NoSaltException;
+import axirassa.webapp.components.AxForm;
+import axirassa.webapp.components.AxTextField;
 
 @Secure
 public class RegisterUser {
+	@Inject
+	private Request request;
+
 	@Inject
 	private Session session;
 
@@ -28,6 +37,23 @@ public class RegisterUser {
 
 	@Property
 	private String confirmpassword;
+
+	@Component
+	private AxTextField emailField;
+
+	@Component
+	private AxForm form;
+
+
+	@Log
+	JSONObject onAJAXValidateFromEmailField() {
+		String emailvalue = request.getParameter("param");
+
+		if (UserModel.isEmailRegistered(session, emailvalue))
+			return new JSONObject().put("error", "The email '" + emailvalue + "' is taken");
+
+		return new JSONObject();
+	}
 
 
 	String onSuccess() throws NoSaltException {

@@ -24,7 +24,7 @@ public class LoginUser {
 
 	@Property
 	private String password;
-
+	
 
 	String onSuccess() throws NoSaltException {
 		Query query = session.createQuery("from UserModel where email=:email");
