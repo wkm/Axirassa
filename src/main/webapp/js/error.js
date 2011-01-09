@@ -44,10 +44,7 @@ Tapestry.FieldEventManager.addMethods( {
 		this.msg.show();
 		
 		this.field.addClassName("error-field");
-		this.fieldContainer.addClassName("error-field-c");
-		
 		this.msg.addClassName("error-msg");
-		this.msgContainer.addClassName("error-msg-c");
 	},
 	
 	removeDecorations: function() {
@@ -55,9 +52,6 @@ Tapestry.FieldEventManager.addMethods( {
 		this.msg.hide();
 		
 		this.field.removeClassName("error-field");
-		this.fieldContainer.removeClassName("error-field-c");
-		
 		this.msg.removeClassName("error-msg");
-		this.msgContainer.removeClassName("error-msg-c");
 	}
 });
