@@ -4,8 +4,9 @@
 		<t:axtextfield t:value="url" t:name="URL" t:validate="required"/>
 		<t:axformvspace/>
 		<t:AxFormLabel label="Monitors"/>
+		
+		
 		<t:AxFormLabel label="Monitor Frequency"/>
-	
 		<t:radiogroup label="foo" value="monitorFrequency" encoder="frequencyEncoder">
 			<t:loop source="frequencies" value="frequencyValue" encoder="frequencyEncoder">
 				<t:radio t:id="radio" value="frequencyValue"/>

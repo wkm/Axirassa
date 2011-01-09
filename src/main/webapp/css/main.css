@@ -30,15 +30,6 @@ body {
 	font-weight:bold;
 }
 
-.txtinput {
-	font-family: Verdana,sans-serif;
-}
-
-.formsubmit {
-	 font-size: 13pt;
-	 float: right;
-}
-
 #subtitle {
 	color: #333;
 	font-size: 13pt;
@@ -59,7 +50,6 @@ h1 {
 	padding-top: 1.5em;
 	padding-left: 25px;
 	
-	max-width: 35em;
 	min-height: 25em;
 	
 	border-left: 5px solid rgb(125, 12, 15);

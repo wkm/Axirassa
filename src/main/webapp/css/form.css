@@ -1,20 +1,30 @@
 @CHARSET "UTF-8";
 
-.form {
-	border-collapse: separate;
-	border-spacing: 10px 0;
-}
-
 input {
 	font-family: sans-serif;
 }
 
+.ax_field {
+	clear: both;
+}
+
+label {
+	display: block;
+	float: left;
+	width: 10em; 
+}
+
+.input {
+	float: left;
+	font-size: 13pt;
+	}
+
 .txtinput {
+	font-family: Verdana,sans-serif;
 	border: 1px solid #ddd;
 	border-bottom-color: #bbb;
 	
 	width: 25em;
-	font-size: 13pt;
 	padding: 1px 2px;
 	
 	margin-bottom: .2em;
@@ -36,9 +46,8 @@ input {
 }
 
 .submit {
-	text-align: right;
-	
-	font-size: 95%;
+	margin-top: 1em;
+	margin-left: 30em;
 }
 
 .ax_frmlbl {
