@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
-	<tr>
-		<td colspan="2" class='ax_frmlbl'>${label}</td>
-	</tr>
+	<div class='ax_field ax_frmlbl'>${label}</div>
 </t:container>
