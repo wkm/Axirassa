@@ -5,5 +5,14 @@
 		<t:axformvspace/>
 		<t:AxFormLabel label="Monitors"/>
 		<t:AxFormLabel label="Monitor Frequency"/>
+	
+		<t:radiogroup label="foo" value="monitorFrequency" encoder="frequencyEncoder">
+			<t:loop source="frequencies" value="frequencyValue" encoder="frequencyEncoder">
+				<t:radio t:id="radio" value="frequencyValue"/>
+				<t:label for="radio">${frequencyValue.label}</t:label>
+			</t:loop>
+		</t:radiogroup>
+		
+		<t:AxSubmit label="Create" />
 	</t:axform>
 </html>
