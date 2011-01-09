@@ -43,6 +43,10 @@ of where to look for pages, components and mixins. -->
 		<param-name>tapestry.omit-generator-meta</param-name>
 		<param-value>true</param-value>
 	</context-param>
+	<context-param>
+		<param-name>tapestry.default-stylesheet</param-name>
+		<param-value>context:/css/main.css</param-value>
+	</context-param>
     <filter>
         <filter-name>app</filter-name>
         <filter-class>org.apache.tapestry5.TapestryFilter</filter-class>

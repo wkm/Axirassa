@@ -5,7 +5,7 @@ import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 
-@Import(stylesheet = { "context:/css/main.css", "context:/css/form.css" })
+@Import(stylesheet = { "context:/css/form.css" })
 public class Layout {
 	@Parameter(required = true, defaultPrefix = BindingConstants.LITERAL)
 	private String pageTitle;
