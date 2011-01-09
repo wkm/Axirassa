@@ -17,6 +17,7 @@ label {
 .input {
 	float: left;
 	font-size: 13pt;
+	clear:both;
 	}
 
 .txtinput {
@@ -25,7 +26,8 @@ label {
 	border-bottom-color: #bbb;
 	
 	width: 25em;
-	padding: 1px 2px;
+	padding: 2px 3px;
+	margin: 0;
 	
 	margin-bottom: .2em;
 }
@@ -43,6 +45,13 @@ label {
 	
 	border-bottom: rgb(247, 242, 137);
 	font-size: 70%;
+	
+	float: left; 
+	clear: both;
+}
+
+.ax_input {
+	float: left;
 }
 
 .submit {
