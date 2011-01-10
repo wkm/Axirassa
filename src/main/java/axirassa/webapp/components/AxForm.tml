@@ -3,7 +3,7 @@
 	<t:if test="hasTitle">
 		<h3>${title}</h3>
 	</t:if>
-	<t:form t:id="form" autoFocus="false">
+	<t:form t:name="name" t:id="form" autoFocus="false">
 		<table class='form'>
 			<t:body/>
 		</table>
