@@ -66,3 +66,59 @@ h1 {
 ul {
 	list-style-type: square;
 }
+
+/*
+ * debugging support
+ */
+div.t-exception-report {
+	font-size: 80%;
+}
+
+.t-exception-report ul li {
+	margin-bottom: 1em;
+}
+
+div.t-exception-report dl dt {
+	font-weight: bold;
+	font-size: 14pt;
+	font-variant: small-caps;
+	text-transform: lowercase;
+}
+
+.t-location-outer {
+	background: #eee;
+}
+
+.t-location-content {
+	font-family: monaco;
+	font-size: 10pt;
+}
+
+.t-location-current {
+	background: #fed;
+	font-weight: bold;
+}
+
+.t-location-line {
+	font-family: verdana;
+	font-weight: bold;
+	font-size: 8pt;
+}
+ 
+.t-exception-class-name {
+	font-family: monaco;
+}
+
+ul.t-stack-trace {
+	font-size: 80%;
+	font-family: monaco;
+}
+
+ul.t-stack-trace li {
+	margin: 0;
+	padding: 0;
+}
+
+.t-omitted-frame {
+	display: none;
+}
