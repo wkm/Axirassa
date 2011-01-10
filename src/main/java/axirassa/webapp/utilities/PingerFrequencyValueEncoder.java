@@ -18,6 +18,9 @@ public class PingerFrequencyValueEncoder implements ValueEncoder<PingerFrequency
 
 	@Override
 	public PingerFrequency toValue(String clientValue) {
+		if (clientValue == null)
+			return null;
+
 		return PingerFrequency.valueOf(clientValue);
 	}
 
