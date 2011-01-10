@@ -1,8 +1,9 @@
 
 package axirassa.domain;
 
+import axirassa.webapp.utilities.LabeledObject;
 
-public enum PingerFrequency {
+public enum PingerFrequency implements LabeledObject {
 	MINUTE(1),
 	MINUTES_5(5),
 	MINUTES_10(10),
@@ -22,6 +23,7 @@ public enum PingerFrequency {
 	}
 
 
+	@Override
 	public String getLabel() {
 		if (interval == 1)
 			return "minute";
