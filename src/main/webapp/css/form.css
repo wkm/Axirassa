@@ -60,8 +60,17 @@ div.t-error {
 	font-size: 70%;
 }
 
+.ax_field ul {
+	clear: both;
+}
+
 .ax_input {
 	float: left;
+}
+
+.radio {
+	margin-left: .5em;
+	margin-right: .5em;
 }
 
 .submit {
@@ -70,5 +79,7 @@ div.t-error {
 }
 
 .ax_frmlbl {
+	padding-top: 1.5em;
+	padding-bottom: .5em;
 	font-weight:bold;
 }

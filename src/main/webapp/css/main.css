@@ -49,18 +49,25 @@ h1 {
 	margin-top: 1.5em;
 	padding-top: 1.5em;
 	padding-left: 25px;
+	padding-bottom: 1.5em;
 	
 	min-height: 25em;
 	
 	border-left: 5px solid rgb(125, 12, 15);
+	
+	clear: both;
 }
 
 #footer {
+	clear: both;
+	
 	margin: 0;
 	margin-left: 30px;
 	padding-top: 4px;
 	font-size: 60%;
-	color: #666;
+	color: #333;
+	
+	font-weight: bold;
 }
 
 ul {
