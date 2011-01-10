@@ -5,6 +5,25 @@
 		<t:axformvspace/>
 		<t:AxFormLabel label="Monitors"/>
 		
+		<div class="ax_field">
+			<t:checkbox class='input check' value="httpMonitor" name="monitors" t:id="httpmon"/>
+			<t:label t:for="httpmon">HTTP</t:label>
+			<ul>
+				<li>response time; latency; response code</li>
+			</ul>
+		</div>
+		<div class="ax_field">
+			<t:checkbox class='input check' value="httpsMonitor" name="monitors" t:id="httpsmon"/>
+			<t:label t:for="httpsmon">HTTPS</t:label>
+			<ul>
+				<li>certificate validation</li>
+				<li>response time; latency; response code</li>
+			</ul>
+		</div>
+		<div class="ax_field">
+			<t:checkbox class='input check' value="icmpMonitor" name="monitors" t:id="icmpmon"/>
+			<t:label t:for="icmpmon">ICMP Ping</t:label>
+		</div>
 		
 		<t:AxFormLabel label="Monitor Frequency"/>
 		<t:AxRadioGroup value="monitorFrequency" values="frequencies" encoder="frequencyEncoder"/>
