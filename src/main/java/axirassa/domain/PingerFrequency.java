@@ -26,8 +26,8 @@ public enum PingerFrequency implements LabeledObject {
 	@Override
 	public String getLabel() {
 		if (interval == 1)
-			return "minute";
+			return "every minute";
 		else
-			return interval + " minutes";
+			return "every " + interval + " minutes";
 	}
 }
