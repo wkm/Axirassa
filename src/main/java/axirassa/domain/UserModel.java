@@ -3,8 +3,10 @@ package axirassa.domain;
 
 import java.io.Serializable;
 import java.security.MessageDigest;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -45,6 +47,19 @@ public class UserModel implements Serializable {
 			return true;
 
 		return isregistered;
+	}
+
+
+	public static UserModel getUserByEmail(Session session, String email) {
+		Query query = session.createQuery("from UserModel where email=:email");
+		query.setString("email", email);
+
+		List<UserModel> users = query.list();
+
+		if (users.size() < 0)
+			return null;
+
+		return users.iterator().next();
 	}
 
 
@@ -208,5 +223,16 @@ public class UserModel implements Serializable {
 
 		if (name == null)
 			name = email;
+	}
+
+
+	// ROLES
+
+	/**
+	 * a placeholder function which just returns <"user"> until we have a need
+	 * for actual roles
+	 */
+	public Set<String> getRoles() {
+		return Collections.singleton("user");
 	}
 }

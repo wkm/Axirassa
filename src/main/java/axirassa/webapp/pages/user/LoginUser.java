@@ -1,24 +1,27 @@
 
 package axirassa.webapp.pages.user;
 
-import java.util.List;
-
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.hibernate.Query;
 import org.hibernate.Session;
+import org.tynamo.security.services.SecurityService;
 
 import axirassa.domain.UserModel;
 import axirassa.domain.exception.NoSaltException;
 import axirassa.webapp.components.AxForm;
 
 @Secure
+@RequiresUser
 public class LoginUser {
 	@Inject
 	private Session session;
+
+	@Inject
+	private SecurityService securityService;
 
 	@Persist
 	@Property
@@ -37,23 +40,17 @@ public class LoginUser {
 			return;
 		}
 
-		Query query = session.createQuery("from UserModel where email=:email");
-		query.setString("email", email);
+		UserModel user = UserModel.getUserByEmail(session, email);
 
-		List<UserModel> users = query.list();
-
-		if (users.size() < 0) {
+		if (user == null) {
 			showInvalidLoginMessage();
 			return;
 		}
 
-		UserModel first = users.iterator().next();
-		if (!first.matchPassword(password)) {
+		if (!user.matchPassword(password)) {
 			showInvalidLoginMessage();
 			return;
 		}
-
-		// LOGIN
 	}
 
 
