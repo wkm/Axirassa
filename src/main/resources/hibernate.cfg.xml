@@ -41,6 +41,7 @@
 		<mapping class="axirassa.domain.AccountModel" />
 		<mapping class="axirassa.domain.AccountUserModel" />
 		<mapping class="axirassa.domain.PingerModel" />
+		<mapping class="axirassa.domain.MonitorTypeModel" />
 		
 		<mapping class="axirassa.domain.SentinelMachineModel" />
 		
