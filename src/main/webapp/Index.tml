@@ -10,6 +10,7 @@
 	<h3>Pingers</h3>
 	<ul>
 		<li><t:pagelink t:page="Monitor/Create">Create</t:pagelink></li>
+		<li><t:pagelink t:page="Monitor/List">List</t:pagelink></li>
 	</ul>
 	
 	<h3>Utilities</h3>
