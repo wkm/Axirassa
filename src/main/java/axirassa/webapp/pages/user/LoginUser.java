@@ -3,6 +3,7 @@ package axirassa.webapp.pages.user;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.subject.Subject;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
@@ -16,6 +17,7 @@ import axirassa.domain.exception.NoSaltException;
 import axirassa.webapp.components.AxForm;
 
 @Secure
+@RequiresGuest
 public class LoginUser {
 	@Inject
 	private Session session;
@@ -44,7 +46,7 @@ public class LoginUser {
 		try {
 			subject.login(new UsernamePasswordToken(email, password));
 		} catch (AuthenticationException e) {
-			form.recordError(e.getLocalizedMessage());
+			showInvalidLoginMessage();
 		}
 	}
 
