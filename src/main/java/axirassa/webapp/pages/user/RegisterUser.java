@@ -1,6 +1,7 @@
 
 package axirassa.webapp.pages.user;
 
+import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Log;
 import org.apache.tapestry5.annotations.Persist;
@@ -17,6 +18,7 @@ import axirassa.webapp.components.AxForm;
 import axirassa.webapp.components.AxTextField;
 
 @Secure
+@RequiresGuest
 public class RegisterUser {
 	@Inject
 	private Request request;

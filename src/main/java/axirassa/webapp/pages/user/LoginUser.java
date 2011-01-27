@@ -1,24 +1,30 @@
 
 package axirassa.webapp.pages.user;
 
-import java.util.List;
-
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresGuest;
+import org.apache.shiro.subject.Subject;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
+import org.apache.tapestry5.corelib.components.Checkbox;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.hibernate.Query;
 import org.hibernate.Session;
+import org.tynamo.security.services.SecurityService;
 
-import axirassa.domain.UserModel;
 import axirassa.domain.exception.NoSaltException;
 import axirassa.webapp.components.AxForm;
 
 @Secure
+@RequiresGuest
 public class LoginUser {
 	@Inject
 	private Session session;
+
+	@Inject
+	private SecurityService security;
 
 	@Persist
 	@Property
@@ -26,6 +32,12 @@ public class LoginUser {
 
 	@Property
 	private String password;
+
+	@Property
+	private boolean rememberme;
+
+	@Component
+	private Checkbox remembermebox;
 
 	@Component
 	private AxForm form;
@@ -37,23 +49,14 @@ public class LoginUser {
 			return;
 		}
 
-		Query query = session.createQuery("from UserModel where email=:email");
-		query.setString("email", email);
-
-		List<UserModel> users = query.list();
-
-		if (users.size() < 0) {
+		Subject subject = security.getSubject();
+		try {
+			UsernamePasswordToken auth = new UsernamePasswordToken(email, password);
+			auth.setRememberMe(rememberme);
+			subject.login(auth);
+		} catch (AuthenticationException e) {
 			showInvalidLoginMessage();
-			return;
 		}
-
-		UserModel first = users.iterator().next();
-		if (!first.matchPassword(password)) {
-			showInvalidLoginMessage();
-			return;
-		}
-
-		// LOGIN
 	}
 
 
