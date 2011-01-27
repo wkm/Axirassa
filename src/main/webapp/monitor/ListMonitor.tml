@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html t:type="layout" t:pageTitle="List Monitors" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<h3>Monitors</h3>
+</html>
