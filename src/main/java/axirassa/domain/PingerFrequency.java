@@ -4,12 +4,12 @@ package axirassa.domain;
 import axirassa.webapp.utilities.LabeledObject;
 
 public enum PingerFrequency implements LabeledObject {
-	MINUTE(1),
-	MINUTES_5(5),
-	MINUTES_10(10),
-	MINUTES_15(15),
-	MINUTES_30(30),
-	MINUTES_60(60);
+	MINUTE(60),
+	MINUTES_5(5 * 60),
+	MINUTES_10(10 * 60),
+	MINUTES_15(15 * 60),
+	MINUTES_30(30 * 60),
+	MINUTES_60(60 * 60);
 	private int interval;
 
 
@@ -18,6 +18,9 @@ public enum PingerFrequency implements LabeledObject {
 	}
 
 
+	/**
+	 * @return the number of seconds in this interval
+	 */
 	public int getInterval() {
 		return interval;
 	}
@@ -26,8 +29,12 @@ public enum PingerFrequency implements LabeledObject {
 	@Override
 	public String getLabel() {
 		if (interval == 1)
+			return "every second";
+		else if (interval < 60)
+			return "every " + interval + " seconds";
+		else if (interval == 60)
 			return "every minute";
 		else
-			return "every " + interval + " minutes";
+			return "every " + (interval / 60) + " minutes";
 	}
 }
