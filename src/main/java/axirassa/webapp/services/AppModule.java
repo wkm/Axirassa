@@ -128,6 +128,7 @@ public class AppModule {
 
 	public void contributeWebSecurityManager(Configuration<Realm> configuration) {
 		EntityRealm realm = new EntityRealm(session);
+		realm.setCredentialsMatcher(new UserCredentialsMatcher(session));
 		configuration.add(realm);
 	}
 }
