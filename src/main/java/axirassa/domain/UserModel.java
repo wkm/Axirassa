@@ -21,6 +21,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NotFound;
 
 import axirassa.domain.exception.NoSaltException;
 import axirassa.util.MessageDigestProvider;
@@ -232,7 +233,8 @@ public class UserModel implements Serializable {
 	 * a placeholder function which just returns <"user"> until we have a need
 	 * for actual roles
 	 */
-	public Set<String> getRoles() {
+	@NotFound
+	public Set<String> roles() {
 		return Collections.singleton("user");
 	}
 }

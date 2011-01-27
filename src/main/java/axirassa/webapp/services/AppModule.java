@@ -3,15 +3,20 @@ package axirassa.webapp.services;
 
 import java.io.IOException;
 
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.realm.Realm;
 import org.apache.tapestry5.SymbolConstants;
+import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
+import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Local;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.RequestFilter;
 import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 
 /**
@@ -20,6 +25,10 @@ import org.slf4j.Logger;
  * service definitions.
  */
 public class AppModule {
+	@Inject
+	private Session session;
+
+
 	public static void bind(ServiceBinder binder) {
 		// binder.bind(MyServiceInterface.class, MyServiceImpl.class);
 
@@ -27,6 +36,8 @@ public class AppModule {
 		// Use service builder methods (example below) when the implementation
 		// is provided inline, or requires more initialization than simply
 		// invoking the constructor.
+
+		binder.bind(AuthorizingRealm.class, EntityRealm.class);
 	}
 
 
@@ -112,5 +123,11 @@ public class AppModule {
 		// within the pipeline.
 
 		configuration.add("Timing", filter);
+	}
+
+
+	public void contributeWebSecurityManager(Configuration<Realm> configuration) {
+		EntityRealm realm = new EntityRealm(session);
+		configuration.add(realm);
 	}
 }
