@@ -11,7 +11,6 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
 import org.apache.tapestry5.corelib.components.Checkbox;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.hibernate.Session;
 import org.tynamo.security.services.SecurityService;
 
 import axirassa.domain.exception.NoSaltException;
@@ -20,9 +19,6 @@ import axirassa.webapp.components.AxForm;
 @Secure
 @RequiresGuest
 public class LoginUser {
-	@Inject
-	private Session session;
-
 	@Inject
 	private SecurityService security;
 
