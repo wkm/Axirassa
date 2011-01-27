@@ -8,7 +8,6 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
-import org.tynamo.security.services.SecurityService;
 
 import axirassa.domain.UserModel;
 import axirassa.domain.exception.NoSaltException;
@@ -19,9 +18,6 @@ import axirassa.webapp.components.AxForm;
 public class LoginUser {
 	@Inject
 	private Session session;
-
-	@Inject
-	private SecurityService securityService;
 
 	@Persist
 	@Property
