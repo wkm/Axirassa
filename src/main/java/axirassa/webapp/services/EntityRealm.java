@@ -5,7 +5,6 @@ import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -15,7 +14,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.hibernate.Session;
 
 import axirassa.domain.UserModel;
-import axirassa.domain.exception.NoSaltException;
 
 /**
  * Based on suggestion from
@@ -40,8 +38,6 @@ public class EntityRealm extends AuthorizingRealm {
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		System.out.println("GETTING AUTHORIZATION INFO");
-
 		if (principals.isEmpty())
 			return null;
 
@@ -65,12 +61,7 @@ public class EntityRealm extends AuthorizingRealm {
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-		System.out.println("GETTING AUTHENTICATION INFO");
-
 		UsernamePasswordToken uptoken = (UsernamePasswordToken) token;
-		System.out.println("USER: " + uptoken.getUsername());
-		System.out.println("PASSWORD: " + new String(uptoken.getPassword()));
-		System.out.println("HOST: " + uptoken.getHost());
 
 		String email = uptoken.getUsername();
 
@@ -79,18 +70,12 @@ public class EntityRealm extends AuthorizingRealm {
 
 		// verify account exists
 		UserModel user = UserModel.getUserByEmail(session, email);
-		try {
-			if (user.matchPassword(new String(uptoken.getPassword()))) {
-				System.out.println("PASSWORD MATCH");
-			} else {
-				System.out.println("PASSWORD FAIL");
-				return null;
-			}
-		} catch (NoSaltException e) {
-			throw new AccountException("No salt stored for account");
-		}
 
-		return new SimpleAuthenticationInfo(email, user.getPassword(), REALM_NAME);
+		// retrieve the password and salt
+		byte[] password = user.getPassword();
+		String salt = user.getSalt();
+
+		return new UserAuthenticationInfo(email, password, salt);
 	}
 
 }
