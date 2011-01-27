@@ -18,6 +18,7 @@ import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
 import org.hibernate.Session;
 import org.slf4j.Logger;
+import org.tynamo.security.SecuritySymbols;
 
 /**
  * This module is automatically included as part of the Tapestry IoC Registry,
@@ -42,25 +43,21 @@ public class AppModule {
 
 
 	public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration) {
-		// Contributions to ApplicationDefaults will override any contributions
-		// to
-		// FactoryDefaults (with the same key). Here we're restricting the
-		// supported
-		// locales to just "en" (English). As you add localised message catalogs
-		// and other assets,
-		// you can extend this list of locales (it's a comma separated series of
-		// locale names;
-		// the first locale name is the default when there's no reasonable
-		// match).
+		// As you add localised message catalogs and other assets, you can
+		// extend this list of locales (it's a comma separated series of locale
+		// names;
 
 		configuration.add(SymbolConstants.SUPPORTED_LOCALES, "en");
 
 		// The factory default is true but during the early stages of an
-		// application
-		// overriding to false is a good idea. In addition, this is often
-		// overridden
-		// on the command line as -Dtapestry.production-mode=false
+		// application overriding to false is a good idea. In addition, this is
+		// often overridden on the command line as
+		// -Dtapestry.production-mode=false
 		configuration.add(SymbolConstants.PRODUCTION_MODE, "false");
+
+		// tapestry-security configuration
+		configuration.add(SecuritySymbols.LOGIN_URL, "/user/login");
+		configuration.add(SecuritySymbols.UNAUTHORIZED_URL, "/index");
 	}
 
 

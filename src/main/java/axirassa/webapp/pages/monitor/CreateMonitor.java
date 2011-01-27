@@ -4,12 +4,14 @@ package axirassa.webapp.pages.monitor;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.tapestry5.ValueEncoder;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.util.EnumValueEncoder;
 
 import axirassa.domain.PingerFrequency;
 
+@RequiresUser
 public class CreateMonitor {
 	@Property
 	private final ValueEncoder<PingerFrequency> frequencyEncoder = new EnumValueEncoder(PingerFrequency.class);
