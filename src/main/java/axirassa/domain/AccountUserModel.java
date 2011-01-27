@@ -1,6 +1,8 @@
 
 package axirassa.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,7 +18,8 @@ import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "AccountUsers")
-public class AccountUserModel {
+public class AccountUserModel implements Serializable {
+	private static final long serialVersionUID = -1634641083458982998L;
 
 	// ID
 	private Long id;

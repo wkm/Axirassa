@@ -29,7 +29,6 @@ import axirassa.util.RandomStringGenerator;
 @Entity
 @Table(name = "Users")
 public class UserModel implements Serializable {
-
 	private static final long serialVersionUID = 1375674968928774909L;
 
 
