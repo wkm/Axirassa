@@ -10,6 +10,11 @@
 				<div id='title'><span class='ax'>axirassa</span><span class='p'> webpresence monitoring</span></div>
 			</t:pagelink>
         </div>
+        <t:security.user>
+	        <div id="headerbar">
+	        	You're logged in as ${username}
+	        </div>
+        </t:security.user>
         <div id ="content">
 			<t:body/>
 		</div>
