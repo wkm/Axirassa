@@ -4,6 +4,7 @@
 	<ul>
 		<li><t:pagelink t:page="User/Register">Register</t:pagelink></li>
 		<li><t:pagelink t:page="User/Login">Login</t:pagelink></li>
+		<li><t:pagelink t:page="User/Logout">Logout</t:pagelink></li>
 	</ul>
 	
 	<h3>Pingers</h3>
