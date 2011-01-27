@@ -2,9 +2,14 @@
 <html t:type="layout" t:pageTitle="Login" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<t:axform t:id="form" t:title="Login">
 		<t:errors/>
-	
+
 		<t:axtextfield t:value="email" t:name="E-mail" t:validate="required,email"/>
 		<t:axpasswordfield t:value="password" t:name="Password" t:validate="required"/>
+		<div class="ax_field">
+			<t:checkbox class='input check' t:value="rememberme" t:id="remembermebox"/>
+			<t:label t:for="remembermebox">remember me?</t:label>
+		</div>
+		
 		<t:axsubmit label="Login"/>
 	</t:axform>
 </html> 

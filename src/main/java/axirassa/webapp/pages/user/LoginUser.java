@@ -9,6 +9,7 @@ import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
+import org.apache.tapestry5.corelib.components.Checkbox;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.tynamo.security.services.SecurityService;
@@ -32,6 +33,12 @@ public class LoginUser {
 	@Property
 	private String password;
 
+	@Property
+	private boolean rememberme;
+
+	@Component
+	private Checkbox remembermebox;
+
 	@Component
 	private AxForm form;
 
@@ -44,7 +51,9 @@ public class LoginUser {
 
 		Subject subject = security.getSubject();
 		try {
-			subject.login(new UsernamePasswordToken(email, password));
+			UsernamePasswordToken auth = new UsernamePasswordToken(email, password);
+			auth.setRememberMe(rememberme);
+			subject.login(auth);
 		} catch (AuthenticationException e) {
 			showInvalidLoginMessage();
 		}
