@@ -21,7 +21,6 @@ import javax.persistence.TemporalType;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.NotFound;
 
 import axirassa.domain.exception.NoSaltException;
 import axirassa.util.MessageDigestProvider;
@@ -57,10 +56,20 @@ public class UserModel implements Serializable {
 
 		List<UserModel> users = query.list();
 
-		if (users.size() < 0)
+		if (users.size() <= 0)
 			return null;
 
 		return users.iterator().next();
+	}
+
+
+	public static byte[] hashPasswordWithSalt(String password, byte[] salt) {
+		MessageDigest msgdigest = MessageDigestProvider.generate();
+		msgdigest.update(MessageDigestProvider.salt());
+		msgdigest.update(salt);
+		msgdigest.update(password.getBytes());
+
+		return msgdigest.digest();
 	}
 
 
@@ -144,11 +153,15 @@ public class UserModel implements Serializable {
 	/**
 	 * Sets the password for this UserModel by salting and encrypting it
 	 */
-	public void createPassword(String password) throws NoSaltException {
+	public void createPassword(String password) {
 		if (salt == null)
 			salt = createSalt();
 
-		this.password = hashPassword(password);
+		try {
+			this.password = hashPassword(password);
+		} catch (NoSaltException e) {
+			e.printStackTrace();
+		}
 	}
 
 
@@ -165,12 +178,7 @@ public class UserModel implements Serializable {
 		if (salt == null)
 			throw new NoSaltException(this);
 
-		MessageDigest msgdigest = MessageDigestProvider.generate();
-		msgdigest.update(MessageDigestProvider.salt());
-		msgdigest.update(salt.getBytes());
-		msgdigest.update(password.getBytes());
-
-		return msgdigest.digest();
+		return hashPasswordWithSalt(password, salt.getBytes());
 	}
 
 
@@ -233,7 +241,6 @@ public class UserModel implements Serializable {
 	 * a placeholder function which just returns <"user"> until we have a need
 	 * for actual roles
 	 */
-	@NotFound
 	public Set<String> roles() {
 		return Collections.singleton("user");
 	}
