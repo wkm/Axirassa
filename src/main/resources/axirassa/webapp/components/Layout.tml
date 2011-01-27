@@ -6,7 +6,9 @@
 	</head>
 	<body>
 		<div id='header'>
-			<div id='title'><span class='ax'>axirassa</span><span class='p'> webpresence monitoring</span></div>
+			<t:pagelink t:page="Index">
+				<div id='title'><span class='ax'>axirassa</span><span class='p'> webpresence monitoring</span></div>
+			</t:pagelink>
         </div>
         <div id ="content">
 			<t:body/>

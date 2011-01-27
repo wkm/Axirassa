@@ -15,9 +15,11 @@ body {
 	margin-left: 30px;
 	font-size: 24pt;
 	
-	color: rgb(163, 40, 10);
-	
 	font-variant: small-caps;
+}
+
+#header a {
+	text-decoration: none;
 }
 
 .p {
@@ -27,7 +29,8 @@ body {
 }
 
 .ax {
-	font-weight:bold;
+	font-weight: bold;
+	color: rgb(163, 40, 10);
 }
 
 #subtitle {
