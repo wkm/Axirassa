@@ -33,6 +33,11 @@ public class EmbeddedMessagingServer {
 		HornetQServer server = HornetQServers.newHornetQServer(config);
 		server.start();
 
-		System.out.println("HornetQ server started");
+		System.out.println("Axirassa Embedded HornetQ server started.");
+	}
+
+
+	static public void main(String[] args) throws Exception {
+		start();
 	}
 }
