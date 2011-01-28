@@ -7,7 +7,7 @@ import org.jnetpcap.packet.RegistryHeaderErrors;
 import org.junit.Test;
 
 import axirassa.services.exceptions.PingServiceException;
-import axirassa.services.pingservice.PingService;
+import axirassa.services.pinger.PingService;
 
 public class TestPingService {
 	@Test

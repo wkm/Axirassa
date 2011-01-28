@@ -1,5 +1,5 @@
 
-package axirassa.services.pingservice;
+package axirassa.services.pinger;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
