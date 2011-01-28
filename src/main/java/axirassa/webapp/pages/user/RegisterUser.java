@@ -48,7 +48,7 @@ public class RegisterUser {
 
 
 	@Log
-	JSONObject onAJAXValidateFromEmailField() {
+	public JSONObject onAJAXValidateFromEmailField() {
 		String emailvalue = request.getParameter("param");
 
 		if (UserModel.isEmailRegistered(session, emailvalue))
@@ -58,7 +58,7 @@ public class RegisterUser {
 	}
 
 
-	String onSuccess() throws NoSaltException {
+	public String onSuccess() throws NoSaltException {
 		UserModel newuser = new UserModel();
 
 		newuser.setEMail(email);
