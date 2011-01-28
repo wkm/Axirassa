@@ -1,8 +1,8 @@
 
 package axirassa.webapp.pages.monitor;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.apache.shiro.authz.annotation.RequiresUser;
@@ -17,6 +17,7 @@ import axirassa.domain.MonitorType;
 import axirassa.domain.MonitorTypeModel;
 import axirassa.domain.PingerFrequency;
 import axirassa.domain.PingerModel;
+import axirassa.domain.UserModel;
 
 @RequiresUser
 public class CreateMonitor {
@@ -49,24 +50,27 @@ public class CreateMonitor {
 
 
 	public String onSuccess() {
-		ArrayList<Object> entities = new ArrayList<Object>();
-
 		// save the pinger
 		PingerModel pinger = new PingerModel();
 		pinger.setUrl(url);
 		pinger.setFrequency(monitorFrequency);
-		entities.add(pinger);
+		pinger.setUser(UserModel.getUserByEmail(session, (String) security.getSubject().getPrincipal()));
+
+		LinkedHashSet<MonitorTypeModel> monitortypes = new LinkedHashSet<MonitorTypeModel>();
 
 		if (httpMonitor)
-			entities.add(new MonitorTypeModel(pinger, MonitorType.HTTP));
+			monitortypes.add(new MonitorTypeModel(pinger, MonitorType.HTTP));
 		if (httpsMonitor)
-			entities.add(new MonitorTypeModel(pinger, MonitorType.HTTPS));
+			monitortypes.add(new MonitorTypeModel(pinger, MonitorType.HTTPS));
 		if (icmpMonitor)
-			entities.add(new MonitorTypeModel(pinger, MonitorType.ICMP_PING));
+			monitortypes.add(new MonitorTypeModel(pinger, MonitorType.ICMP_PING));
+
+		pinger.setMonitorType(monitortypes);
 
 		session.beginTransaction();
-		for (Object entity : entities)
-			session.save(entity);
+		for (MonitorTypeModel monitor : monitortypes)
+			session.save(monitor);
+		session.save(pinger);
 		session.getTransaction().commit();
 
 		return "Monitor/List";
