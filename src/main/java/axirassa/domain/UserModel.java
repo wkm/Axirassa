@@ -84,13 +84,13 @@ public class UserModel implements Serializable {
 	// private Set accessevents;
 
 	// ID
+	@Id
+	@Basic(optional = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "user_id")
 	private Long id;
 
 
-	@Id
-	@Basic
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "user_id")
 	public Long getId() {
 		return id;
 	}
@@ -102,11 +102,11 @@ public class UserModel implements Serializable {
 
 
 	// NAME
+	@Basic(optional = false)
+	@Column(name = "name")
 	private String name;
 
 
-	@Basic
-	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -118,11 +118,11 @@ public class UserModel implements Serializable {
 
 
 	// SALT
+	@Basic(optional = false)
+	@Column(name = "salt")
 	private String salt;
 
 
-	@Basic
-	@Column(name = "salt")
 	public String getSalt() {
 		return salt;
 	}
@@ -139,11 +139,11 @@ public class UserModel implements Serializable {
 
 
 	// PASSWORD
+	@Basic(optional = false)
+	@Column(name = "password")
 	private byte[] password;
 
 
-	@Basic
-	@Column(name = "password")
 	public byte[] getPassword() {
 		return password;
 	}
@@ -200,11 +200,12 @@ public class UserModel implements Serializable {
 
 
 	// SIGN UP DATE
+	@Basic(optional = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "signupdate")
 	private Date signupdate;
 
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "signupdate")
 	public Date getSignUpDate() {
 		return signupdate;
 	}
@@ -216,11 +217,12 @@ public class UserModel implements Serializable {
 
 
 	// EMAIL
+	@NaturalId
+	@Basic(optional = false)
+	@Column(name = "email")
 	private String email;
 
 
-	@NaturalId
-	@Column(name = "email")
 	public String getEMail() {
 		return email;
 	}

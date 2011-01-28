@@ -16,14 +16,20 @@ public class SentinelMachineModel implements Serializable {
 	private static final long serialVersionUID = -4248011777749278671L;
 
 	// ID
-	private Long id;
-
 
 	@Id
 	@Basic
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+
 	public Long getId() {
 		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 
@@ -31,10 +37,10 @@ public class SentinelMachineModel implements Serializable {
 	// name
 	//
 
+	@Basic(optional = false)
 	private String name;
 
 
-	@Basic
 	public String getName() {
 		return name;
 	}
@@ -42,11 +48,6 @@ public class SentinelMachineModel implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 }

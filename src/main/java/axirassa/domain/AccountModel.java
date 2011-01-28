@@ -20,6 +20,7 @@ public class AccountModel implements Serializable {
 
 
 	@Id
+	@Basic(optional = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
@@ -35,7 +36,7 @@ public class AccountModel implements Serializable {
 	private String name;
 
 
-	@Basic
+	@Basic(optional = false)
 	public String getName() {
 		return name;
 	}

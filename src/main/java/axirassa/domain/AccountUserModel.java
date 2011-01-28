@@ -3,6 +3,7 @@ package axirassa.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -73,6 +74,7 @@ public class AccountUserModel implements Serializable {
 	private UserRole role;
 
 
+	@Basic(optional = false)
 	@Enumerated(EnumType.STRING)
 	public UserRole getRole() {
 		return role;
