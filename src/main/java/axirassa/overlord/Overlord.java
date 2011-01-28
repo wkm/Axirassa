@@ -31,7 +31,11 @@ public class Overlord {
 		System.out.println("Ax|Overlord Starting");
 		Overlord overlord = new Overlord();
 		overlord.addShutdownHooks();
-		overlord.execute(new String[] { "master" });
+
+		if (parameters.length <= 0)
+			overlord.execute(new String[] { "master" });
+		else
+			overlord.execute(parameters);
 	}
 
 
