@@ -143,3 +143,19 @@ ul.t-stack-trace li {
 .t-omitted-frame {
 	display: none;
 }
+
+table {
+	border-collapse: collapse;
+}
+
+td {
+	border: 1px solid #eee;
+}
+
+.pinger_url {
+	width: 35em;
+}
+
+.pinger_types {
+	font-size: 10pt;
+}

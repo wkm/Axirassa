@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html t:type="layout" t:pageTitle="List Monitors" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<h3>Monitors</h3>
+	
+	<table>
+		<t:loop source="pingers" value="pinger">
+			<tr><td class='pinger_url'>${pinger.url}</td><td>${pinger.frequency}</td></tr>
+			<tr><td class='pinger_types' colspan='2'>
+				<t:loop source="pinger.monitorType" value="type">
+					${type.type}
+				</t:loop>
+			</td></tr>
+		</t:loop>
+	</table>
 </html>
