@@ -2,6 +2,7 @@
 package axirassa.domain;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -35,7 +37,7 @@ public class PingerModel implements Serializable {
 
 
 	// USER
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private UserModel user;
 
 
@@ -50,7 +52,7 @@ public class PingerModel implements Serializable {
 
 
 	// URL
-	@Basic
+	@Basic(optional = false)
 	@Column(name = "URL")
 	private String url;
 
@@ -68,7 +70,7 @@ public class PingerModel implements Serializable {
 	/**
 	 * The number of seconds between checks
 	 */
-	@Basic
+	@Basic(optional = false)
 	@Column(name = "frequency")
 	private int frequency;
 
@@ -85,5 +87,19 @@ public class PingerModel implements Serializable {
 
 	public int getFrequency() {
 		return frequency;
+	}
+
+
+	@OneToMany(fetch = FetchType.LAZY)
+	public Set<MonitorTypeModel> monitorType;
+
+
+	public Set<MonitorTypeModel> getMonitorType() {
+		return monitorType;
+	}
+
+
+	public void setMonitorType(Set<MonitorTypeModel> monitorType) {
+		this.monitorType = monitorType;
 	}
 }
