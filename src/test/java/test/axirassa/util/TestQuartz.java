@@ -7,10 +7,7 @@ import java.text.ParseException;
 
 import org.junit.Test;
 import org.quartz.CronTrigger;
-import org.quartz.Job;
 import org.quartz.JobDetail;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
@@ -22,25 +19,14 @@ public class TestQuartz {
 		Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 		scheduler.start();
 
-		JobDetail job = new JobDetail("job1", "group1", TestJobClass.class);
-		Trigger trigger = new CronTrigger("trigger1", "group1", "/1 * * * * *");
+		JobDetail job = new JobDetail("job1", "group1", TestQuartzJobClass.class);
+		Trigger trigger = new CronTrigger("trigger1", "group1", "0/1 * * * * ?");
 
 		scheduler.scheduleJob(job, trigger);
-		Thread.sleep(30L * 1000L);
+
+		Thread.sleep(50);
 		scheduler.shutdown(true);
 
-		assertTrue(TestJobClass.flipped);
-	}
-}
-
-class TestJobClass implements Job {
-
-	static public boolean flipped = false;
-
-
-	@Override
-	public void execute(JobExecutionContext context) throws JobExecutionException {
-		System.out.println("Job executed.");
-		flipped = true;
+		assertTrue(TestQuartzJobClass.flipped);
 	}
 }
