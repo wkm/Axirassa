@@ -1,5 +1,5 @@
 
-package axirassa.domain;
+package axirassa.model;
 
 import java.io.Serializable;
 import java.security.MessageDigest;
@@ -22,7 +22,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.annotations.NaturalId;
 
-import axirassa.domain.exception.NoSaltException;
+import axirassa.model.exception.NoSaltException;
 import axirassa.util.MessageDigestProvider;
 import axirassa.util.RandomStringGenerator;
 

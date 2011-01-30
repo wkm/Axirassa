@@ -9,8 +9,8 @@ import org.hibernate.Session;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import axirassa.domain.UserModel;
-import axirassa.domain.exception.NoSaltException;
+import axirassa.model.UserModel;
+import axirassa.model.exception.NoSaltException;
 import axirassa.util.AbstractDomainTest;
 import axirassa.webapp.services.UserAuthenticationInfo;
 import axirassa.webapp.services.UserCredentialsMatcher;

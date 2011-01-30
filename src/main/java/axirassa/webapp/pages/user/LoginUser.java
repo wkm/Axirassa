@@ -13,7 +13,7 @@ import org.apache.tapestry5.corelib.components.Checkbox;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.tynamo.security.services.SecurityService;
 
-import axirassa.domain.exception.NoSaltException;
+import axirassa.model.exception.NoSaltException;
 import axirassa.webapp.components.AxForm;
 
 @Secure

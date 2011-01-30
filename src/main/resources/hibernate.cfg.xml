@@ -37,13 +37,13 @@
 		
 		
 		<!-- Mappings -->
-		<mapping class="axirassa.domain.UserModel" />
-		<mapping class="axirassa.domain.AccountModel" />
-		<mapping class="axirassa.domain.AccountUserModel" />
-		<mapping class="axirassa.domain.PingerModel" />
-		<mapping class="axirassa.domain.MonitorTypeModel" />
+		<mapping class="axirassa.model.UserModel" />
+		<mapping class="axirassa.model.AccountModel" />
+		<mapping class="axirassa.model.AccountUserModel" />
+		<mapping class="axirassa.model.PingerModel" />
+		<mapping class="axirassa.model.MonitorTypeModel" />
 		
-		<mapping class="axirassa.domain.SentinelMachineModel" />
+		<mapping class="axirassa.model.SentinelMachineModel" />
 		
 		<mapping class="axirassa.services.sentinel.model.SentinelCPUStatisticModel" />
 		<mapping class="axirassa.services.sentinel.model.SentinelMemoryStatisticModel" />

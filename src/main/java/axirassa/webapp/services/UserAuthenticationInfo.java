@@ -7,7 +7,7 @@ import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.apache.shiro.util.SimpleByteSource;
 
-import axirassa.domain.UserModel;
+import axirassa.model.UserModel;
 
 public class UserAuthenticationInfo implements SaltedAuthenticationInfo {
 	private static final long serialVersionUID = -239215165106391271L;

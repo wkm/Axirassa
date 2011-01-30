@@ -10,9 +10,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.tynamo.security.services.SecurityService;
 
-import axirassa.domain.MonitorTypeModel;
-import axirassa.domain.PingerModel;
-import axirassa.domain.UserModel;
+import axirassa.model.MonitorTypeModel;
+import axirassa.model.PingerModel;
+import axirassa.model.UserModel;
 
 @RequiresUser
 public class ListMonitor {

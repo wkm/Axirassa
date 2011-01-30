@@ -3,7 +3,7 @@
  "-//AxOverlord/AxOverlord Configuration DTD 1.0//EN"
  "classpath://axirassa/overlord/AxOverlord-Configuration-1.0.dtd">
 <configuration>
-	<!-- Target Classes -->
+	<!-- EXECUTION TARGET CLASSES -->
     <target name="AxSentinelAgent" class="axirassa.services.sentinel.SentinelService" autorestart="true">
     	<!-- JVM options --> 
         <jvmoption name="Xmx" value="32M"/>
@@ -24,10 +24,13 @@
 		<jvmoption name="Xmx" value="256m"/>
 		<jvmoption name="Xms" value="256m"/>   	
     </target>
-	
-    <!-- <target name="AxSobrietyQ" class="com.zanoccio.axirassa.SobrietyMessageQueue" />
-    <target name="AxMessageQ" class="com.zanoccio.axirassa.MessageQueue" /> -->
     
+    <service name="AxInjector" 
+    	     class="axirassa.services.pinger.InjectorService"
+    	     runner="axirassa.services.runner.RepeatingServiceRunner" /> 
+	
+
+	<!-- EXECUTION GROUPS -->   
     <group name="master">
         <execute target="AxSentinelAgent"/>
         <!-- <execute>AxSentinelQ</execute>

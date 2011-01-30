@@ -1,5 +1,5 @@
 
-package axirassa.domain;
+package axirassa.model;
 
 import java.io.Serializable;
 import java.util.Set;

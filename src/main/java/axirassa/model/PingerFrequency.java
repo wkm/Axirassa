@@ -1,5 +1,5 @@
 
-package axirassa.domain;
+package axirassa.model;
 
 import axirassa.webapp.utilities.LabeledObject;
 

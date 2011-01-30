@@ -3,7 +3,7 @@ package test.axirassa.domain;
 
 import org.junit.Test;
 
-import axirassa.domain.AccountModel;
+import axirassa.model.AccountModel;
 import axirassa.util.AbstractDomainTest;
 
 
