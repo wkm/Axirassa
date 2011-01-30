@@ -90,7 +90,7 @@ public class PingerModel implements Serializable {
 	}
 
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.EAGER)
 	public Set<MonitorTypeModel> monitorType;
 
 
