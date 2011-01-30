@@ -26,7 +26,7 @@
     </target>
     
     <service name="AxInjector" 
-    	     class="axirassa.services.pinger.InjectorService"
+    	     class="axirassa.services.pinger.ControllerService"
     	     runner="axirassa.services.runner.RepeatingServiceRunner" /> 
 	
 

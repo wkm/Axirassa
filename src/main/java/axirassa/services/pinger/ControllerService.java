@@ -18,18 +18,18 @@ import axirassa.util.HibernateTools;
 import axirassa.util.MessagingTools;
 
 /**
- * The InjectorService executes every minute, creating a message for each
+ * The ControllerService executes every minute, creating a message for each
  * triggered pinger.
  * 
  * @author wiktor
  */
-public class InjectorService implements Service {
+public class ControllerService implements Service {
 
 	private final ClientSession messagingSession;
 	private final Session databaseSession;
 
 
-	public InjectorService(ClientSession messagingSession, Session databaseSession) {
+	public ControllerService(ClientSession messagingSession, Session databaseSession) {
 		this.messagingSession = messagingSession;
 		this.databaseSession = databaseSession;
 	}
@@ -66,7 +66,7 @@ public class InjectorService implements Service {
 		ClientSession msgsession = MessagingTools.getEmbeddedSession();
 		Session dbsession = HibernateTools.getSession();
 
-		Service service = new InjectorService(msgsession, dbsession);
+		Service service = new ControllerService(msgsession, dbsession);
 
 		System.out.println("Executing injector");
 		service.execute();
