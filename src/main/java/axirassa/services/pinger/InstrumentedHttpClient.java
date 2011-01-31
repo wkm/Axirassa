@@ -42,4 +42,5 @@ public class InstrumentedHttpClient extends DefaultHttpClient {
 		responsetick = 0;
 		finishtick = 0;
 	}
+
 }
