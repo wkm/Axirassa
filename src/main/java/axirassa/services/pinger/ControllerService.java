@@ -40,11 +40,9 @@ public class ControllerService implements Service {
 
 	@Override
 	public void execute() throws Exception {
-		messagingSession.createQueue(Messaging.PINGER_REQUEST_QUEUE, Messaging.PINGER_REQUEST_QUEUE, false);
-
 		ClientProducer producer = messagingSession.createProducer(Messaging.PINGER_REQUEST_QUEUE);
 
-		Query query = databaseSession.createQuery("from PingerModel where frequency=:frequency");
+		Query query = databaseSession.getNamedQuery("pingers_by_frequency");
 		query.setInteger("frequency", 3600);
 
 		List<PingerModel> pingers = query.list();
