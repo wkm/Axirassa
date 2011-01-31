@@ -37,7 +37,7 @@ public class UserModel implements Serializable {
 	//
 
 	public static boolean isEmailRegistered(Session session, String email) {
-		Query query = session.createQuery("select user.Email from UserModel as user where user.Email = :email");
+		Query query = session.getNamedQuery("user_is_email_registered");
 		query.setString("email", email);
 
 		List results = query.list();
@@ -50,7 +50,7 @@ public class UserModel implements Serializable {
 
 
 	public static UserModel getUserByEmail(Session session, String email) {
-		Query query = session.createQuery("from UserModel where email=:email");
+		Query query = session.getNamedQuery("user_by_email");
 		query.setString("email", email);
 
 		List<UserModel> users = query.list();
