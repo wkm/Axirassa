@@ -50,9 +50,9 @@ public class ExecutionMonitor implements Runnable {
 
 				String line;
 				while ((line = stdoutstream.readLine()) != null)
-					System.out.println(getId() + " STDOUT: " + line);
+					System.out.println("STDOUT{" + getId() + "} " + line);
 				while ((line = stderrstream.readLine()) != null)
-					System.out.println(getId() + " STDERR: " + line);
+					System.out.println("STDERR{" + getId() + "} " + line);
 
 				startCount++;
 				remainingRestarts--;
