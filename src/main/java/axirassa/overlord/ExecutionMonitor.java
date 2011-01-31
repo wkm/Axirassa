@@ -12,13 +12,18 @@ import axirassa.overlord.exceptions.ExceptionInMonitorError;
  * @author wiktor
  */
 public class ExecutionMonitor implements Runnable {
+	private final ExecutionTarget target;
+	private final int id;
 	private int remainingRestarts = 0;
 	private int startCount = 0;
 	private final ProcessBuilder builder;
 	private Process process;
 
 
-	public ExecutionMonitor(ProcessBuilder builder) {
+	public ExecutionMonitor(ExecutionTarget target, int id, ProcessBuilder builder) {
+		this.target = target;
+		this.id = id;
+
 		this.builder = builder;
 	}
 
@@ -45,9 +50,9 @@ public class ExecutionMonitor implements Runnable {
 
 				String line;
 				while ((line = stdoutstream.readLine()) != null)
-					System.out.println("STDOUT: " + line);
+					System.out.println(getId() + " STDOUT: " + line);
 				while ((line = stderrstream.readLine()) != null)
-					System.out.println("STDERR: " + line);
+					System.out.println(getId() + " STDERR: " + line);
 
 				startCount++;
 				remainingRestarts--;
@@ -70,5 +75,10 @@ public class ExecutionMonitor implements Runnable {
 
 		System.out.println("  Killing process");
 		process.destroy();
+	}
+
+
+	private String getId() {
+		return target.getName() + " " + id;
 	}
 }

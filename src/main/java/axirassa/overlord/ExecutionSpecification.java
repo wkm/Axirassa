@@ -37,12 +37,12 @@ public class ExecutionSpecification {
 	public void execute() throws IOException {
 		for (int i = 0; i < instances; i++) {
 			System.out.printf("  %s %d -- %s\n", target.getName(), i, target.getTargetClass().getCanonicalName());
-			executeInstance();
+			executeInstance(i);
 		}
 	}
 
 
-	private void executeInstance() throws IOException {
+	private void executeInstance(int id) throws IOException {
 		provideLibraries();
 
 		CommandLine cli = new CommandLine(configuration.getJavaExecutable());
@@ -73,7 +73,7 @@ public class ExecutionSpecification {
 		processbuilder.redirectErrorStream(true);
 		processbuilder.directory(new File(configuration.getBaseDirectory()));
 
-		ExecutionMonitor monitor = new ExecutionMonitor(processbuilder);
+		ExecutionMonitor monitor = new ExecutionMonitor(target, id, processbuilder);
 		monitor.setRemainingRestarts(1);
 
 		Thread thread = new Thread(monitor);
