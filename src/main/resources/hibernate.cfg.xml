@@ -43,6 +43,8 @@
 		<mapping class="axirassa.model.PingerModel" />
 		<mapping class="axirassa.model.MonitorTypeModel" />
 		
+		<mapping class="axirassa.model.HttpStatisticsModel" />
+		
 		<mapping class="axirassa.model.SentinelMachineModel" />
 		
 		<mapping class="axirassa.services.sentinel.model.SentinelCPUStatisticModel" />
