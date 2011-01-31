@@ -3,7 +3,10 @@
  "-//AxOverlord/AxOverlord Configuration DTD 1.0//EN"
  "classpath://axirassa/overlord/AxOverlord-Configuration-1.0.dtd">
 <configuration>
-	<!-- EXECUTION TARGET CLASSES -->
+
+	<!-- ################################################################ -->
+	<!-- EXECUTION TARGET CLASSES                                         -->
+	<!-- ################################################################ -->
     <target name="AxSentinelAgent" class="axirassa.services.sentinel.SentinelService" autorestart="true">
     	<!-- JVM options --> 
         <jvmoption name="Xmx" value="32M"/>
@@ -41,8 +44,11 @@
 		<jvmoption name="Xms" value="32m"/>
 	</target>
 	
-
-	<!-- EXECUTION GROUPS -->   
+	
+	
+	<!-- ################################################################ -->
+	<!-- EXECUTION GROUPS                                                 -->
+	<!-- ################################################################ --> 
     <group name="master">
         <execute target="AxSentinelAgent"/>
         <!-- <execute>AxSentinelQ</execute>
@@ -51,8 +57,8 @@
     
     <group name="devel">
     	<execute target="AxMessagingServer" />
-    	<execute target="AxControllerService" />
-    	<execute instances="3" target="AxPingerService" />
+    	<execute initialdelay="1000" target="AxControllerService" />
+    	<execute initialdelay="2000" instances="3" target="AxPingerService" />
     </group>
     
     <!--
