@@ -3,6 +3,7 @@ package axirassa.services.pinger;
 
 import java.io.IOException;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 
@@ -20,16 +21,24 @@ public class HTTPPinger {
 
 
 	public PingerResponseMessage ping(String url) throws ClientProtocolException, IOException, PingerServiceException {
+		System.out.println("HTTPPinger: " + url);
 		HttpGet get = new HttpGet(url);
-		client.executeWithInstrumentation(get);
+		HttpResponse response = client.executeWithInstrumentation(get);
 
 		System.out.println("++ TIMING  +++++++++++++++++++++++++++++++++++++++++");
 		System.out.println("LATENCY: " + client.getLatency() + "ms");
 		System.out.println("RESPONSE:   " + client.getResponseTime() + "ms");
-		System.out.println("++ CONTENT +++++++++++++++++++++++++++++++++++++++++");
-		System.out.println(client.getResponseContent());
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
-		return null;
+		PingerResponseMessage message = new PingerResponseMessage();
+		message.setUrl(url);
+		message.setLatencyMillis(client.getLatency());
+		message.setResponseTimeMillis(client.getResponseTime());
+		message.setStatusCode(response.getStatusLine().getStatusCode());
+		message.setResponseSizeBytes(client.getResponseContent().length());
+		message.setUncompressedSizeBytes(0);
+
+		return message;
 	}
 
 
