@@ -58,7 +58,7 @@
     <group name="devel">
     	<execute target="AxMessagingServer" />
     	<execute initialdelay="1000" target="AxControllerService" />
-    	<execute initialdelay="2000" instances="3" target="AxPingerService" />
+    	<execute initialdelay="2000" instances="1" target="AxPingerService" />
     </group>
     
     <!--
