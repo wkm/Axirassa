@@ -20,14 +20,26 @@
 		<library>/libsigar-universal64-macosx.dylib</library>
     </target>
     
-    <target name="AxMessagingServer" class="axirassa.util.EmbeddedMessagingServer" autorestart="true">
+    <target name="AxMessagingServer" 
+            class="axirassa.util.EmbeddedMessagingServer" 
+            autorestart="true">
 		<jvmoption name="Xmx" value="256m"/>
 		<jvmoption name="Xms" value="256m"/>   	
     </target>
     
-    <service name="AxInjector" 
-    	     class="axirassa.services.pinger.ControllerService"
-    	     runner="axirassa.services.runner.RepeatingServiceRunner" /> 
+    <target name="AxControllerService" 
+    	    class="axirassa.services.runners.ControllerServiceRunner"
+            autorestart="true">
+		<jvmoption name="Xmx" value="64m"/>
+		<jvmoption name="Xms" value="64m"/>
+	</target>
+
+    <target name="AxPingerService"
+            class="axirassa.services.runners.PingerServiceRunner"
+            autorestart="true">
+		<jvmoption name="Xmx" value="32m"/>
+		<jvmoption name="Xms" value="32m"/>
+	</target>
 	
 
 	<!-- EXECUTION GROUPS -->   
@@ -38,7 +50,9 @@
     </group>
     
     <group name="devel">
-    	<execute target="AxMessagingServer"/>
+    	<execute target="AxMessagingServer" />
+    	<execute target="AxControllerService" />
+    	<execute instances="3" target="AxPingerService" />
     </group>
     
     <!--
