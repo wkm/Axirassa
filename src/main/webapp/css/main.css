@@ -58,7 +58,7 @@ h1 {
 	margin-bottom: 1em;
 }
 
-h2,h3,h4,h5,h6 {
+h2,h3,h4,h5,h6,th {
 	font-family: "Adelle Bold", Georgia, serif;
 }
 
@@ -154,14 +154,27 @@ table {
 	border-collapse: collapse;
 }
 
-td {
+td,th {
 	border: 1px solid #eee;
+	padding: 2px 5px;
 }
 
-.pinger_url {
+th {
+	font-size: 13pt;
+	color: #333;
+	text-align: left;
+	background: #f9f9f9;
+}
+
+.url {
 	width: 35em;
+	font-weight: bold;
 }
 
-.pinger_types {
+.url,.freq {
+	border-top: 2px solid #ddd;
+}
+
+.types {
 	font-size: 10pt;
 }

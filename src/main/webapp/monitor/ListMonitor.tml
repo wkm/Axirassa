@@ -3,9 +3,10 @@
 	<h3>Monitors</h3>
 	
 	<table>
+		<tr><th>URL</th><th>frequency</th></tr>
 		<t:loop source="pingers" value="pinger">
-			<tr><td class='pinger_url'>${pinger.url}</td><td>${pinger.frequency}</td></tr>
-			<tr><td class='pinger_types' colspan='2'>
+			<tr><td class='url'>${pinger.url}</td><td class='freq'>${pinger.frequency}</td></tr>
+			<tr><td class='types' colspan='2'>
 				<t:loop source="pinger.monitorType" value="type">
 					${type.type}
 				</t:loop>
