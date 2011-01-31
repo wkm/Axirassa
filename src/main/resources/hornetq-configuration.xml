@@ -3,6 +3,7 @@
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:schemaLocation="urn:hornetq /schema/hornetq-configuration.xsd">
 
+	<!-- CONNECTORS -->
     <connectors>
         <connector name="netty">
             <factory-class>
@@ -14,4 +15,15 @@
             <param key="use-nio" value="true"/>
         </connector>
     </connectors>
+    
+    <!-- QUEUES -->
+    <queues>
+    	<queue name="Pinger.Request">
+    		<durable>true</durable>
+    	</queue>
+    	
+    	<queue name="Pinger.Response">
+    		<durable>false</durable>
+    	</queue>
+    </queues>
 </configuration>
