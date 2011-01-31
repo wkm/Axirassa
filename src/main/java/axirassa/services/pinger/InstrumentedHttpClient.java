@@ -13,34 +13,34 @@ import org.apache.http.protocol.HttpContext;
 
 public class InstrumentedHttpClient extends DefaultHttpClient {
 
-	private long starttick;
-	private long responsetick;
-	private long finishtick;
+	private long startTick;
+	private long responseTick;
+	private long finishTick;
 
 
 	public InstrumentedHttpClient() {
 		addRequestInterceptor(new HttpRequestInterceptor() {
 			@Override
 			public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
-				if (starttick == 0)
-					starttick = System.nanoTime();
+				if (startTick == 0)
+					startTick = System.nanoTime();
 			}
 		});
 
 		addResponseInterceptor(new HttpResponseInterceptor() {
 			@Override
 			public void process(HttpResponse response, HttpContext context) throws HttpException, IOException {
-				if (responsetick == 0)
-					responsetick = System.nanoTime();
+				if (responseTick == 0)
+					responseTick = System.nanoTime();
 			}
 		});
 	}
 
 
 	private void resetTimings() {
-		starttick = 0;
-		responsetick = 0;
-		finishtick = 0;
+		startTick = 0;
+		responseTick = 0;
+		finishTick = 0;
 	}
 
 }
