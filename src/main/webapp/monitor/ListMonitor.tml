@@ -13,4 +13,7 @@
 			</td></tr>
 		</t:loop>
 	</table>
+	<p>
+	Create <t:pagelink t:page="Monitor/Create">another monitor</t:pagelink>.
+	</p>
 </html>
