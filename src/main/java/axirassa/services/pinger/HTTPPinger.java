@@ -8,7 +8,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 
 import axirassa.messaging.PingerResponseMessage;
-import axirassa.services.exceptions.PingerServiceException;
+import axirassa.services.exceptions.AxirassaServiceException;
 
 public class HTTPPinger {
 
@@ -20,7 +20,7 @@ public class HTTPPinger {
 	}
 
 
-	public PingerResponseMessage ping(String url) throws ClientProtocolException, IOException, PingerServiceException {
+	public PingerResponseMessage ping(String url) throws ClientProtocolException, IOException, AxirassaServiceException {
 		System.out.println("HTTPPinger: " + url);
 		HttpGet get = new HttpGet(url);
 		HttpResponse response = client.executeWithInstrumentation(get);
@@ -42,7 +42,7 @@ public class HTTPPinger {
 	}
 
 
-	public static void main(String[] args) throws ClientProtocolException, IOException, PingerServiceException {
+	public static void main(String[] args) throws ClientProtocolException, IOException, AxirassaServiceException {
 		HTTPPinger pinger = new HTTPPinger();
 		pinger.ping("http://localhost:8080/axirassa");
 	}
