@@ -1,5 +1,5 @@
 
-package axirassa.domain;
+package axirassa.model;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -90,7 +90,7 @@ public class PingerModel implements Serializable {
 	}
 
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.EAGER)
 	public Set<MonitorTypeModel> monitorType;
 
 

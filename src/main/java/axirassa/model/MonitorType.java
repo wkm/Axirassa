@@ -1,5 +1,5 @@
 
-package axirassa.domain;
+package axirassa.model;
 
 public enum MonitorType {
 	HTTP,

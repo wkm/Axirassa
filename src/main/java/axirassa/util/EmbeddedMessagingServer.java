@@ -4,8 +4,7 @@ package axirassa.util;
 import java.util.HashSet;
 
 import org.hornetq.api.core.TransportConfiguration;
-import org.hornetq.core.config.Configuration;
-import org.hornetq.core.config.impl.ConfigurationImpl;
+import org.hornetq.core.config.impl.FileConfiguration;
 import org.hornetq.core.remoting.impl.invm.InVMAcceptorFactory;
 import org.hornetq.core.remoting.impl.netty.NettyAcceptorFactory;
 import org.hornetq.core.server.HornetQServer;
@@ -19,10 +18,11 @@ import org.hornetq.core.server.JournalType;
  */
 public class EmbeddedMessagingServer {
 	static public void start() throws Exception {
-		Configuration config = new ConfigurationImpl();
+		FileConfiguration config = new FileConfiguration();
+
+		config.setConfigurationUrl("hornetq-configuration.xml");
 
 		HashSet<TransportConfiguration> transports = new HashSet<TransportConfiguration>();
-
 		transports.add(new TransportConfiguration(NettyAcceptorFactory.class.getName()));
 		transports.add(new TransportConfiguration(InVMAcceptorFactory.class.getName()));
 
@@ -30,9 +30,21 @@ public class EmbeddedMessagingServer {
 		config.setAcceptorConfigurations(transports);
 		config.setSecurityEnabled(false);
 
+		config.start();
+
 		HornetQServer server = HornetQServers.newHornetQServer(config);
 		server.start();
 
-		System.out.println("HornetQ server started");
+		System.out.println("Axirassa Embedded HornetQ server started.");
+		System.out.println("Queues:");
+
+		String[] queues = server.getHornetQServerControl().getQueueNames();
+		for (String queue : queues)
+			System.out.println("\t" + queue);
+	}
+
+
+	static public void main(String[] args) throws Exception {
+		start();
 	}
 }

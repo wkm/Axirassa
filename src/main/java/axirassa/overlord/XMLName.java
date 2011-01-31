@@ -13,7 +13,8 @@ public enum XMLName {
 	INSTANCES,
 	NAME,
 	CLASS,
-	VALUE;
+	VALUE,
+	INITIALDELAY;
 
 	@Override
 	public String toString() {

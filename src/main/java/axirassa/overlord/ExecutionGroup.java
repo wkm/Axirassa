@@ -54,7 +54,7 @@ public class ExecutionGroup {
 	}
 
 
-	public void execute() throws IOException {
+	public void execute() throws IOException, InterruptedException {
 		System.out.println("Starting execution group: " + getName());
 		for (ExecutionSpecification spec : executionspecs) {
 			spec.execute();

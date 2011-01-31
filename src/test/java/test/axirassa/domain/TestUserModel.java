@@ -4,15 +4,10 @@ package test.axirassa.domain;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
-import org.hibernate.Query;
 import org.junit.Test;
 
-import axirassa.domain.AccountUserModel;
-import axirassa.domain.UserModel;
-import axirassa.domain.exception.NoSaltException;
-import axirassa.domainpaths.QuickRegisterPath;
+import axirassa.model.UserModel;
+import axirassa.model.exception.NoSaltException;
 import axirassa.util.AbstractDomainTest;
 
 public class TestUserModel extends AbstractDomainTest {
@@ -40,19 +35,6 @@ public class TestUserModel extends AbstractDomainTest {
 		user.setEMail("foo@bar.com");
 		user.createPassword("password");
 		addEntity(user);
-		session.getTransaction().commit();
-	}
-
-
-	@Test
-	public void quickRegisterPath() throws NoSaltException {
-		session.beginTransaction();
-		new QuickRegisterPath("twit@mail.com", "boohoo").execute(session);
-
-		Query query = session.createQuery("from AccountUserModel");
-		List results = query.list();
-		AccountUserModel accountuser = (AccountUserModel) results.get(0);
-
 		session.getTransaction().commit();
 	}
 }

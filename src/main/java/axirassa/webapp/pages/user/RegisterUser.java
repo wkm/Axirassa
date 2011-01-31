@@ -12,8 +12,8 @@ import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
 import org.hibernate.Session;
 
-import axirassa.domain.UserModel;
-import axirassa.domain.exception.NoSaltException;
+import axirassa.model.UserModel;
+import axirassa.model.exception.NoSaltException;
 import axirassa.webapp.components.AxForm;
 import axirassa.webapp.components.AxTextField;
 

@@ -9,7 +9,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.hibernate.Session;
 
-import axirassa.domain.UserModel;
+import axirassa.model.UserModel;
 
 public class UserCredentialsMatcher implements CredentialsMatcher {
 

@@ -1,7 +1,7 @@
 
-package axirassa.domain.exception;
+package axirassa.model.exception;
 
-import axirassa.domain.UserModel;
+import axirassa.model.UserModel;
 
 public class NoSaltException extends Exception {
 	private static final long serialVersionUID = 1L;

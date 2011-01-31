@@ -3,7 +3,10 @@
  "-//AxOverlord/AxOverlord Configuration DTD 1.0//EN"
  "classpath://axirassa/overlord/AxOverlord-Configuration-1.0.dtd">
 <configuration>
-	<!-- Target Classes -->
+
+	<!-- ################################################################ -->
+	<!-- EXECUTION TARGET CLASSES                                         -->
+	<!-- ################################################################ -->
     <target name="AxSentinelAgent" class="axirassa.services.sentinel.SentinelService" autorestart="true">
     	<!-- JVM options --> 
         <jvmoption name="Xmx" value="32M"/>
@@ -19,15 +22,45 @@
 		<library>/libsigar-universal-macosx.dylib</library>
 		<library>/libsigar-universal64-macosx.dylib</library>
     </target>
-	
-    <!-- <target name="AxSobrietyQ" class="com.zanoccio.axirassa.SobrietyMessageQueue" />
-    <target name="AxMessageQ" class="com.zanoccio.axirassa.MessageQueue" /> -->
     
+    <target name="AxMessagingServer" 
+            class="axirassa.util.EmbeddedMessagingServer" 
+            autorestart="true">
+		<jvmoption name="Xmx" value="256m"/>
+		<jvmoption name="Xms" value="256m"/>   	
+    </target>
+    
+    <target name="AxControllerService" 
+    	    class="axirassa.services.runners.ControllerServiceRunner"
+            autorestart="true">
+		<jvmoption name="Xmx" value="64m"/>
+		<jvmoption name="Xms" value="64m"/>
+	</target>
+
+    <target name="AxPingerService"
+            class="axirassa.services.runners.PingerServiceRunner"
+            autorestart="true">
+		<jvmoption name="Xmx" value="32m"/>
+		<jvmoption name="Xms" value="32m"/>
+	</target>
+	
+	
+	
+	<!-- ################################################################ -->
+	<!-- EXECUTION GROUPS                                                 -->
+	<!-- ################################################################ --> 
     <group name="master">
         <execute target="AxSentinelAgent"/>
         <!-- <execute>AxSentinelQ</execute>
         <execute>AxMessageQ</execute> -->
     </group>
+    
+    <group name="devel">
+    	<execute target="AxMessagingServer" />
+    	<execute initialdelay="1000" target="AxControllerService" />
+    	<execute initialdelay="2000" instances="3" target="AxPingerService" />
+    </group>
+    
     <!--
     <group name="worker">
     <execute>AxSentinelAgent</execute>

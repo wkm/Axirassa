@@ -13,7 +13,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.hibernate.Session;
 
-import axirassa.domain.UserModel;
+import axirassa.model.UserModel;
 
 /**
  * Based on suggestion from

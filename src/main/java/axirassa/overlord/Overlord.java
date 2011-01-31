@@ -27,11 +27,15 @@ public class Overlord {
 	private static final String CONFIGURATION_FILE = "axoverlord.cfg.xml";
 
 
-	public static void main(String[] parameters) throws OverlordException, IOException {
+	public static void main(String[] parameters) throws OverlordException, IOException, InterruptedException {
 		System.out.println("Ax|Overlord Starting");
 		Overlord overlord = new Overlord();
 		overlord.addShutdownHooks();
-		overlord.execute(new String[] { "master" });
+
+		if (parameters.length <= 0)
+			overlord.execute(new String[] { "devel" });
+		else
+			overlord.execute(parameters);
 	}
 
 
@@ -43,7 +47,7 @@ public class Overlord {
 	private final NativeLibraryProvider libprovider = new NativeLibraryProvider();
 
 
-	public void execute(String[] parameters) throws OverlordException, IOException {
+	public void execute(String[] parameters) throws OverlordException, IOException, InterruptedException {
 		OverlordSystemSupport systemsupport = AbstractOverlordSystemSupport.getSystemSupport();
 
 		URL configfile = ClassLoader.getSystemResource(CONFIGURATION_FILE);
