@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -16,7 +15,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import zanoccio.javakit.ClassPathEntityResolver;
-
 import axirassa.overlord.exceptions.DuplicateGroupException;
 import axirassa.overlord.exceptions.DuplicateTargetException;
 import axirassa.overlord.exceptions.EmptyExecutionGroupException;
@@ -26,7 +24,6 @@ import axirassa.overlord.exceptions.OverlordException;
 import axirassa.overlord.exceptions.OverlordParsingException;
 import axirassa.overlord.exceptions.OverlordTargetClassNotFoundException;
 import axirassa.overlord.exceptions.UnknownExecutionTargetException;
-
 
 public class XMLConfigurationParser {
 
@@ -222,17 +219,20 @@ public class XMLConfigurationParser {
 	private ExecutionSpecification createExecutionSpecification(Node node) throws OverlordException {
 		NamedNodeMap attributes = node.getAttributes();
 
-		String targetname = attributes.getNamedItem(XMLName.TARGET.toString()).getTextContent();
-		String instances = attributes.getNamedItem(XMLName.INSTANCES.toString()).getTextContent();
-		int instancecount = Integer.parseInt(instances);
+		String targetNameAttr = attributes.getNamedItem(XMLName.TARGET.toString()).getTextContent();
+		String instancecountAttr = attributes.getNamedItem(XMLName.INSTANCES.toString()).getTextContent();
+		String initialDelayAttr = attributes.getNamedItem(XMLName.INITIALDELAY.toString()).getTextContent();
+		int instancecount = Integer.parseInt(instancecountAttr);
+		int initialDelay = Integer.parseInt(initialDelayAttr);
 
-		ExecutionTarget target = configuration.getExecutionTarget(targetname);
+		ExecutionTarget target = configuration.getExecutionTarget(targetNameAttr);
 
 		if (target == null)
-			throw new UnknownExecutionTargetException(targetname, node.getOwnerDocument());
+			throw new UnknownExecutionTargetException(targetNameAttr, node.getOwnerDocument());
 
 		ExecutionSpecification spec = new ExecutionSpecification(configuration, target);
 		spec.setInstances(instancecount);
+		spec.setInitialDelay(initialDelay);
 
 		return spec;
 	}

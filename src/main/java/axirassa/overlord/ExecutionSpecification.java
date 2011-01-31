@@ -13,6 +13,7 @@ public class ExecutionSpecification {
 	private final OverlordConfiguration configuration;
 	private int instances;
 	private final ExecutionTarget target;
+	private int initialDelay = 0;
 
 
 	public ExecutionSpecification(OverlordConfiguration configuraton, ExecutionTarget target) {
@@ -34,7 +35,12 @@ public class ExecutionSpecification {
 	}
 
 
-	public void execute() throws IOException {
+	public void execute() throws IOException, InterruptedException {
+		if (initialDelay > 0) {
+			System.out.println("Pausing for " + initialDelay + "ms");
+			Thread.sleep(initialDelay);
+		}
+
 		for (int i = 0; i < instances; i++) {
 			System.out.printf("  %s %d -- %s\n", target.getName(), i, target.getTargetClass().getCanonicalName());
 			executeInstance(i);
@@ -88,5 +94,15 @@ public class ExecutionSpecification {
 
 		for (String library : libraries)
 			libprovider.provideLibrary(library);
+	}
+
+
+	public void setInitialDelay(int initialDelay) {
+		this.initialDelay = initialDelay;
+	}
+
+
+	public int getInitialDelay() {
+		return initialDelay;
 	}
 }
