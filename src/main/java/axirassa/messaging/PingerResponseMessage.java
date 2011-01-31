@@ -65,11 +65,11 @@ public class PingerResponseMessage extends AutoSerializingObject {
 
 
 	public void setUncompressedSizeBytes(long uncompressedSizeBytes) {
-	    this.uncompressedSizeBytes = uncompressedSizeBytes;
-    }
+		this.uncompressedSizeBytes = uncompressedSizeBytes;
+	}
 
 
 	public long getUncompressedSizeBytes() {
-	    return uncompressedSizeBytes;
-    }
+		return uncompressedSizeBytes;
+	}
 }

@@ -12,16 +12,14 @@ import axirassa.services.exceptions.PingerServiceException;
 public class HTTPPinger {
 
 	private final InstrumentedHttpClient client;
-	private final String url;
 
 
-	public HTTPPinger(String url) {
+	public HTTPPinger() {
 		client = new InstrumentedHttpClient();
-		this.url = url;
 	}
 
 
-	public PingerResponseMessage ping() throws ClientProtocolException, IOException, PingerServiceException {
+	public PingerResponseMessage ping(String url) throws ClientProtocolException, IOException, PingerServiceException {
 		HttpGet get = new HttpGet(url);
 		client.executeWithInstrumentation(get);
 
@@ -36,7 +34,7 @@ public class HTTPPinger {
 
 
 	public static void main(String[] args) throws ClientProtocolException, IOException, PingerServiceException {
-		HTTPPinger pinger = new HTTPPinger("http://localhost:8080/axirassa");
-		pinger.ping();
+		HTTPPinger pinger = new HTTPPinger();
+		pinger.ping("http://localhost:8080/axirassa");
 	}
 }
