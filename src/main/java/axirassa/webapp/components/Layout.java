@@ -8,7 +8,7 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.tynamo.security.services.SecurityService;
 
-@Import(stylesheet = { "context:/css/form.css" })
+@Import(stylesheet = { "context:/css/form.css", "context:/css/fonts.css" })
 public class Layout {
 	@Inject
 	private SecurityService security;
