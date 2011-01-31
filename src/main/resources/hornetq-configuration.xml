@@ -19,10 +19,12 @@
     <!-- QUEUES -->
     <queues>
     	<queue name="Pinger.Request">
+    		<address>Pinger.Request</address>
     		<durable>true</durable>
     	</queue>
     	
     	<queue name="Pinger.Response">
+    		<address>Pinger.Response</address>
     		<durable>false</durable>
     	</queue>
     </queues>
