@@ -11,6 +11,7 @@ public class PingerResponseMessage extends AutoSerializingObject {
 	private long responseTimeMillis;
 	private int statusCode;
 	private long responseSizeBytes;
+	private long uncompressedSizeBytes;
 
 
 	public void setUrl(String url) {
@@ -61,4 +62,14 @@ public class PingerResponseMessage extends AutoSerializingObject {
 	public long getResponseSizeBytes() {
 		return responseSizeBytes;
 	}
+
+
+	public void setUncompressedSizeBytes(long uncompressedSizeBytes) {
+	    this.uncompressedSizeBytes = uncompressedSizeBytes;
+    }
+
+
+	public long getUncompressedSizeBytes() {
+	    return uncompressedSizeBytes;
+    }
 }
