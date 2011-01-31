@@ -24,8 +24,8 @@ public class PingerService implements Service {
 
 
 	@Override
-	public void execute() throws HornetQException, IOException, ClassNotFoundException {
-		// we have to start before reading messages 
+	public void execute() throws HornetQException, IOException, ClassNotFoundException, InterruptedException {
+		// we have to start before reading messages
 		messagingSession.start();
 
 		ClientConsumer consumer = messagingSession.createConsumer(Messaging.PINGER_REQUEST_QUEUE);
@@ -41,6 +41,8 @@ public class PingerService implements Service {
 
 			Object rawobject = AutoSerializingObject.fromBytes(buffer);
 			Meta.inspect(rawobject);
+
+			Thread.sleep(2000);
 		}
 
 		messagingSession.stop();
