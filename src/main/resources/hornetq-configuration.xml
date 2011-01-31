@@ -16,6 +16,9 @@
         </connector>
     </connectors>
     
+    <cluster-user>HORNETQ.CLUSTER.ADMIN.USER</cluster-user>
+    <cluster-password>ROZfzM1WxpGVSBVMIesBMFyn</cluster-password>
+    
     <!-- QUEUES -->
     <queues>
     	<queue name="Pinger.Request">
