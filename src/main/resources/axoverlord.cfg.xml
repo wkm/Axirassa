@@ -36,6 +36,13 @@
 		<jvmoption name="Xmx" value="64m"/>
 		<jvmoption name="Xms" value="64m"/>
 	</target>
+	
+	<target name="AxInjectorService" 
+    	    class="axirassa.services.runners.InjectorServiceRunner"
+            autorestart="true">
+		<jvmoption name="Xmx" value="64m"/>
+		<jvmoption name="Xms" value="64m"/>
+	</target>
 
     <target name="AxPingerService"
             class="axirassa.services.runners.PingerServiceRunner"
@@ -59,6 +66,7 @@
     	<execute target="AxMessagingServer" />
     	<execute initialdelay="1000" target="AxControllerService" />
     	<execute initialdelay="2000" instances="1" target="AxPingerService" />
+    	<execute initialdelay="5000" target="AxInjectorService" />
     </group>
     
     <!--
