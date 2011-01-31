@@ -34,35 +34,38 @@ public class PingerService implements Service {
 	        PingerServiceException {
 		// we have to start before reading messages
 		messagingSession.start();
+		try {
+			ClientProducer responseProducer = messagingSession.createProducer(Messaging.PINGER_RESPONSE_QUEUE);
+			ClientConsumer requestConsumer = messagingSession.createConsumer(Messaging.PINGER_REQUEST_QUEUE);
 
-		ClientProducer responseProducer = messagingSession.createProducer(Messaging.PINGER_RESPONSE_QUEUE);
-		ClientConsumer requestConsumer = messagingSession.createConsumer(Messaging.PINGER_REQUEST_QUEUE);
+			while (true) {
+				ClientMessage message = requestConsumer.receiveImmediate();
+				if (message == null) {
+					System.out.println("No more messages.");
+					break;
+				}
 
-		while (true) {
-			ClientMessage message = requestConsumer.receiveImmediate();
-			if (message == null) {
-				System.out.println("No more messages.");
-				break;
+				byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
+				message.getBodyBuffer().readBytes(buffer);
+
+				Object rawobject = AutoSerializingObject.fromBytes(buffer);
+				if (rawobject instanceof PingerRequestMessage) {
+					PingerRequestMessage request = (PingerRequestMessage) rawobject;
+
+					System.out.println("Pinging: " + request.getUrl());
+					PingerResponseMessage response = pinger.ping(request.getUrl());
+
+					sendResponseMessage(responseProducer, response);
+				}
+
+				Thread.sleep(2000);
 			}
 
-			byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
-			message.getBodyBuffer().readBytes(buffer);
-
-			Object rawobject = AutoSerializingObject.fromBytes(buffer);
-			if (rawobject instanceof PingerRequestMessage) {
-				PingerRequestMessage request = (PingerRequestMessage) rawobject;
-				PingerResponseMessage response = pinger.ping(request.getUrl());
-
-				sendResponseMessage(responseProducer, response);
-			}
-
-			Thread.sleep(2000);
+			responseProducer.close();
+			requestConsumer.close();
+		} finally {
+			messagingSession.stop();
 		}
-
-		responseProducer.close();
-		requestConsumer.close();
-
-		messagingSession.stop();
 	}
 
 

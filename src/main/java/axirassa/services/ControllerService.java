@@ -45,6 +45,8 @@ public class ControllerService implements Service {
 			producer.send(message);
 		}
 
+		System.out.println("POPULATED " + pingers.size() + " PINGERS");
+
 		producer.close();
 	}
 }
