@@ -16,7 +16,7 @@ public class ControllerServiceRunner {
 
 		Service service = new ControllerService(msgsession, dbsession);
 
-		System.out.println("Executing injector");
+		System.out.println("Executing controller");
 		service.execute();
 		System.out.println("Finished executing");
 
