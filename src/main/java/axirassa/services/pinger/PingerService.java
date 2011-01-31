@@ -13,7 +13,8 @@ import axirassa.config.Messaging;
 import axirassa.messaging.PingerRequestMessage;
 import axirassa.messaging.PingerResponseMessage;
 import axirassa.services.Service;
-import axirassa.services.exceptions.PingerServiceException;
+import axirassa.services.exceptions.AxirassaServiceException;
+import axirassa.services.exceptions.InvalidMessageClassException;
 import axirassa.util.AutoSerializingObject;
 
 public class PingerService implements Service {
@@ -31,7 +32,7 @@ public class PingerService implements Service {
 
 	@Override
 	public void execute() throws HornetQException, IOException, ClassNotFoundException, InterruptedException,
-	        PingerServiceException {
+	        AxirassaServiceException {
 		// we have to start before reading messages
 		messagingSession.start();
 		try {
@@ -41,7 +42,7 @@ public class PingerService implements Service {
 			while (true) {
 				ClientMessage message = requestConsumer.receiveImmediate();
 				if (message == null) {
-					System.out.println("No more messages.");
+					System.out.println("NO MORE PINGER REQUESTS.");
 					break;
 				}
 
@@ -56,7 +57,8 @@ public class PingerService implements Service {
 					PingerResponseMessage response = pinger.ping(request.getUrl());
 
 					sendResponseMessage(responseProducer, response);
-				}
+				} else
+					throw new InvalidMessageClassException(PingerRequestMessage.class, rawobject);
 
 				Thread.sleep(2000);
 			}
