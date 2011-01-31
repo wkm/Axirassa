@@ -2,26 +2,44 @@
 package axirassa.services.pinger;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpException;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpResponseInterceptor;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HttpContext;
 
+import axirassa.services.exceptions.ExecutedWithoutInstrumentationException;
+import axirassa.services.exceptions.PingerServiceException;
+
 public class InstrumentedHttpClient extends DefaultHttpClient {
 
+	private static final long NANOS_PER_MILLI = 1000000;
+
 	private long startTick;
+	private long latencyTick;
 	private long responseTick;
-	private long finishTick;
+
+	private boolean isInstrumented;
+	private boolean isStatisticInvalid;
+
+	private StringBuilder responseContent;
 
 
 	public InstrumentedHttpClient() {
 		addRequestInterceptor(new HttpRequestInterceptor() {
 			@Override
 			public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
+				if (!isInstrumented)
+					isStatisticInvalid = true;
+
 				if (startTick == 0)
 					startTick = System.nanoTime();
 			}
@@ -30,8 +48,11 @@ public class InstrumentedHttpClient extends DefaultHttpClient {
 		addResponseInterceptor(new HttpResponseInterceptor() {
 			@Override
 			public void process(HttpResponse response, HttpContext context) throws HttpException, IOException {
-				if (responseTick == 0)
-					responseTick = System.nanoTime();
+				if (!isInstrumented)
+					isStatisticInvalid = true;
+
+				if (latencyTick == 0)
+					latencyTick = System.nanoTime();
 			}
 		});
 	}
@@ -39,8 +60,72 @@ public class InstrumentedHttpClient extends DefaultHttpClient {
 
 	private void resetTimings() {
 		startTick = 0;
+		latencyTick = 0;
 		responseTick = 0;
-		finishTick = 0;
+	}
+
+
+	public HttpResponse executeWithInstrumentation(HttpUriRequest request) throws ClientProtocolException, IOException {
+		try {
+			isInstrumented = true;
+			isStatisticInvalid = false;
+			resetTimings();
+
+			HttpResponse response = execute(request);
+			HttpEntity entity = response.getEntity();
+
+			if (entity != null) {
+				readInputStreamBuffer(entity.getContent());
+			}
+
+			responseTick = System.nanoTime();
+
+			return response;
+		} finally {
+			isInstrumented = false;
+		}
+	}
+
+
+	private void readInputStreamBuffer(InputStream input) throws IOException {
+		InputStreamReader reader = new InputStreamReader(input);
+		responseContent = new StringBuilder(input.available());
+
+		char[] buffer = new char[4096];
+		int length;
+		while ((length = reader.read(buffer)) != -1)
+			responseContent.append(buffer, 0, length);
+
+		reader.close();
+		input.close();
+	}
+
+
+	/**
+	 * @return total time to receive the complete response, in milliseconds
+	 */
+	public int getResponseTime() throws PingerServiceException {
+		if (isStatisticInvalid)
+			throw new ExecutedWithoutInstrumentationException(this);
+
+		return (int) ((responseTick - startTick) / NANOS_PER_MILLI);
+	}
+
+
+	/**
+	 * @return time from the sending of the request to the first byte of the
+	 *         response, in milliseconds
+	 */
+	public int getLatency() throws PingerServiceException {
+		if (isStatisticInvalid)
+			throw new ExecutedWithoutInstrumentationException(this);
+
+		return (int) ((latencyTick - startTick) / NANOS_PER_MILLI);
+	}
+
+
+	public String getResponseContent() {
+		return responseContent.toString();
 	}
 
 }
