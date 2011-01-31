@@ -4,8 +4,8 @@ package axirassa.services.runners;
 import org.hibernate.Session;
 import org.hornetq.api.core.client.ClientSession;
 
+import axirassa.services.ControllerService;
 import axirassa.services.Service;
-import axirassa.services.pinger.ControllerService;
 import axirassa.util.HibernateTools;
 import axirassa.util.MessagingTools;
 

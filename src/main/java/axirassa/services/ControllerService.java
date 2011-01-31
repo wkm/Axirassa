@@ -1,5 +1,5 @@
 
-package axirassa.services.pinger;
+package axirassa.services;
 
 import java.util.List;
 
@@ -12,7 +12,6 @@ import org.hornetq.api.core.client.ClientSession;
 import axirassa.config.Messaging;
 import axirassa.messaging.PingerRequestMessage;
 import axirassa.model.PingerModel;
-import axirassa.services.Service;
 
 /**
  * The ControllerService executes every minute, creating a message for each
