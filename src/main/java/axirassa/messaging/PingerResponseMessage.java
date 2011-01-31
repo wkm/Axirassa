@@ -1,10 +1,16 @@
 
 package axirassa.messaging;
 
-public class PingerResponseMessage {
+import axirassa.util.AutoSerializingObject;
+
+public class PingerResponseMessage extends AutoSerializingObject {
+	private static final long serialVersionUID = 5842601804063738634L;
+
 	private String url;
-	private long latencymillis;
-	private long responsetime;
+	private long latencyMillis;
+	private long responseTimeMillis;
+	private int statusCode;
+	private long responseSizeBytes;
 
 
 	public void setUrl(String url) {
@@ -17,22 +23,42 @@ public class PingerResponseMessage {
 	}
 
 
-	public void setLatencymillis(long latencymillis) {
-		this.latencymillis = latencymillis;
+	public void setLatencyMillis(long latencyMillis) {
+		this.latencyMillis = latencyMillis;
 	}
 
 
-	public long getLatencymillis() {
-		return latencymillis;
+	public long getLatencyMillis() {
+		return latencyMillis;
 	}
 
 
-	public void setResponsetime(long responsetime) {
-		this.responsetime = responsetime;
+	public void setStatusCode(int statusCode) {
+		this.statusCode = statusCode;
 	}
 
 
-	public long getResponsetime() {
-		return responsetime;
+	public int getStatusCode() {
+		return statusCode;
+	}
+
+
+	public void setResponseTimeMillis(long responseTimeMillis) {
+		this.responseTimeMillis = responseTimeMillis;
+	}
+
+
+	public long getResponseTimeMillis() {
+		return responseTimeMillis;
+	}
+
+
+	public void setResponseSizeBytes(long responseSizeBytes) {
+		this.responseSizeBytes = responseSizeBytes;
+	}
+
+
+	public long getResponseSizeBytes() {
+		return responseSizeBytes;
 	}
 }
