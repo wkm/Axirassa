@@ -200,7 +200,6 @@ public class UserEntity implements Serializable {
 
 
 	// SIGN UP DATE
-	@Basic(optional = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "signupdate")
 	private Date signupdate;
