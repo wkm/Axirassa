@@ -10,7 +10,7 @@ import org.hornetq.api.core.client.ClientSession;
 
 import axirassa.config.Messaging;
 import axirassa.messaging.PingerResponseMessage;
-import axirassa.model.HttpStatisticsModel;
+import axirassa.model.HttpStatisticsEntity;
 import axirassa.services.exceptions.InvalidMessageClassException;
 import axirassa.util.AutoSerializingObject;
 
@@ -37,7 +37,7 @@ public class InjectorService implements Service {
 		ClientConsumer consumer = messagingSession.createConsumer(Messaging.PINGER_RESPONSE_QUEUE);
 		messagingSession.start();
 
-		ArrayList<HttpStatisticsModel> entities = new ArrayList<HttpStatisticsModel>();
+		ArrayList<HttpStatisticsEntity> entities = new ArrayList<HttpStatisticsEntity>();
 
 		while (true) {
 			ClientMessage message = consumer.receiveImmediate();

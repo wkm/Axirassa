@@ -11,18 +11,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "SentinelMachines")
-public class SentinelMachineModel implements Serializable {
-	private static final long serialVersionUID = -4248011777749278671L;
+@Table(name = "Accounts")
+public class AccountEntity implements Serializable {
+	private static final long serialVersionUID = -6937561064726878987L;
 
 	// ID
-
-	@Id
-	@Basic
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 
+	@Id
+	@Basic(optional = false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
@@ -33,14 +32,11 @@ public class SentinelMachineModel implements Serializable {
 	}
 
 
-	//
-	// name
-	//
-
-	@Basic(optional = false)
+	// Name
 	private String name;
 
 
+	@Basic(optional = false)
 	public String getName() {
 		return name;
 	}

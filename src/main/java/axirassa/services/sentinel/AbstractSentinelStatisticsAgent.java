@@ -7,7 +7,7 @@ import java.util.Date;
 import org.hibernate.Session;
 import org.hyperic.sigar.Sigar;
 
-import axirassa.services.sentinel.model.SentinelStatisticModel;
+import axirassa.services.sentinel.model.SentinelStatisticEntity;
 
 public abstract class AbstractSentinelStatisticsAgent implements SentinelAgent {
 
@@ -58,7 +58,7 @@ public abstract class AbstractSentinelStatisticsAgent implements SentinelAgent {
 	}
 
 
-	abstract public Collection<? extends SentinelStatisticModel> getStatistics();
+	abstract public Collection<? extends SentinelStatisticEntity> getStatistics();
 
 
 	/**
@@ -70,7 +70,7 @@ public abstract class AbstractSentinelStatisticsAgent implements SentinelAgent {
 	 */
 	@Override
 	public void save(final Session session) {
-		for (SentinelStatisticModel statistic : getStatistics())
+		for (SentinelStatisticEntity statistic : getStatistics())
 			session.save(statistic);
 	}
 }

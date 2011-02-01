@@ -17,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Pingers")
-public class PingerModel implements Serializable {
+public class PingerEntity implements Serializable {
 	private static final long serialVersionUID = -6709719920544228167L;
 
 	// ID
@@ -38,15 +38,15 @@ public class PingerModel implements Serializable {
 
 	// USER
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	private UserModel user;
+	private UserEntity user;
 
 
-	public UserModel getUser() {
+	public UserEntity getUser() {
 		return user;
 	}
 
 
-	public void setUser(UserModel user) {
+	public void setUser(UserEntity user) {
 		this.user = user;
 	}
 
@@ -91,15 +91,15 @@ public class PingerModel implements Serializable {
 
 
 	@OneToMany(fetch = FetchType.EAGER)
-	public Set<MonitorTypeModel> monitorType;
+	public Set<MonitorTypeEntity> monitorType;
 
 
-	public Set<MonitorTypeModel> getMonitorType() {
+	public Set<MonitorTypeEntity> getMonitorType() {
 		return monitorType;
 	}
 
 
-	public void setMonitorType(Set<MonitorTypeModel> monitorType) {
+	public void setMonitorType(Set<MonitorTypeEntity> monitorType) {
 		this.monitorType = monitorType;
 	}
 }

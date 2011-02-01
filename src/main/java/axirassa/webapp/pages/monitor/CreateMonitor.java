@@ -14,10 +14,10 @@ import org.hibernate.Session;
 import org.tynamo.security.services.SecurityService;
 
 import axirassa.model.MonitorType;
-import axirassa.model.MonitorTypeModel;
+import axirassa.model.MonitorTypeEntity;
 import axirassa.model.PingerFrequency;
-import axirassa.model.PingerModel;
-import axirassa.model.UserModel;
+import axirassa.model.PingerEntity;
+import axirassa.model.UserEntity;
 
 @RequiresUser
 public class CreateMonitor {
@@ -51,24 +51,24 @@ public class CreateMonitor {
 
 	public String onSuccess() {
 		// save the pinger
-		PingerModel pinger = new PingerModel();
+		PingerEntity pinger = new PingerEntity();
 		pinger.setUrl(url);
 		pinger.setFrequency(monitorFrequency);
-		pinger.setUser(UserModel.getUserByEmail(session, (String) security.getSubject().getPrincipal()));
+		pinger.setUser(UserEntity.getUserByEmail(session, (String) security.getSubject().getPrincipal()));
 
-		LinkedHashSet<MonitorTypeModel> monitortypes = new LinkedHashSet<MonitorTypeModel>();
+		LinkedHashSet<MonitorTypeEntity> monitortypes = new LinkedHashSet<MonitorTypeEntity>();
 
 		if (httpMonitor)
-			monitortypes.add(new MonitorTypeModel(pinger, MonitorType.HTTP));
+			monitortypes.add(new MonitorTypeEntity(pinger, MonitorType.HTTP));
 		if (httpsMonitor)
-			monitortypes.add(new MonitorTypeModel(pinger, MonitorType.HTTPS));
+			monitortypes.add(new MonitorTypeEntity(pinger, MonitorType.HTTPS));
 		if (icmpMonitor)
-			monitortypes.add(new MonitorTypeModel(pinger, MonitorType.ICMP_PING));
+			monitortypes.add(new MonitorTypeEntity(pinger, MonitorType.ICMP_PING));
 
 		pinger.setMonitorType(monitortypes);
 
 		session.beginTransaction();
-		for (MonitorTypeModel monitor : monitortypes)
+		for (MonitorTypeEntity monitor : monitortypes)
 			session.save(monitor);
 		session.save(pinger);
 		session.getTransaction().commit();

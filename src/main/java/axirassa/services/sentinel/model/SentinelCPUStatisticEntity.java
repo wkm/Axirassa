@@ -15,31 +15,33 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "SentinelDiskIOStats", uniqueConstraints = { @UniqueConstraint(columnNames = {
-        "`Machine_ID`", "`Date`", "`Disk`" }) })
-public class SentinelDiskIOStatisticModel implements SentinelStatisticModel {
+@Table(name = "SentinelCPUStats", uniqueConstraints = { @UniqueConstraint(
+        columnNames = { "machineid", "`date`", "cpu" }) })
+public class SentinelCPUStatisticEntity implements SentinelStatisticEntity {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
 
 	@Basic
-	@Column(name = "`Machine_ID`", nullable = false)
+	@Column(nullable = false)
 	public int machineid;
 
 	@Basic
-	@Column(name = "`Date`", nullable = false)
+	@Column(name = "`date`", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date date;
 
 	@Basic
-	@Column(name = "`Disk`", nullable = false)
-	public String disk;
+	@Column(nullable = false)
+	public int cpu;
 
 	@Basic
-	@Column(name = "`Read`", nullable = false)
-	public float read;
+	@Column(name = "`user`", nullable = false)
+	public double user;
 
 	@Basic
-	@Column(name = "`Write`", nullable = false)
-	public float write;
+	@Column(nullable = false)
+	public double system;
+
 }

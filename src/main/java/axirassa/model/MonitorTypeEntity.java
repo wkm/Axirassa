@@ -15,15 +15,15 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MonitorTypes")
-public class MonitorTypeModel implements Serializable {
+public class MonitorTypeEntity implements Serializable {
 	private static final long serialVersionUID = -2890867580447534180L;
 
 
-	public MonitorTypeModel() {
+	public MonitorTypeEntity() {
 	}
 
 
-	public MonitorTypeModel(PingerModel pinger, MonitorType type) {
+	public MonitorTypeEntity(PingerEntity pinger, MonitorType type) {
 		this.setPinger(pinger);
 		this.setType(type);
 	}
@@ -47,15 +47,15 @@ public class MonitorTypeModel implements Serializable {
 
 
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	private PingerModel pinger;
+	private PingerEntity pinger;
 
 
-	public void setPinger(PingerModel pinger) {
+	public void setPinger(PingerEntity pinger) {
 		this.pinger = pinger;
 	}
 
 
-	public PingerModel getPinger() {
+	public PingerEntity getPinger() {
 		return pinger;
 	}
 

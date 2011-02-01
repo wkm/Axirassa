@@ -19,7 +19,7 @@ import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "AccountUsers")
-public class AccountUserModel implements Serializable {
+public class AccountUserEntity implements Serializable {
 	private static final long serialVersionUID = -1634641083458982998L;
 
 	// ID
@@ -39,33 +39,33 @@ public class AccountUserModel implements Serializable {
 
 
 	// ACCOUNT
-	private AccountModel account;
+	private AccountEntity account;
 
 
-	@OneToOne(targetEntity = AccountModel.class, fetch = FetchType.LAZY)
+	@OneToOne(targetEntity = AccountEntity.class, fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.PERSIST })
-	public AccountModel getAccount() {
+	public AccountEntity getAccount() {
 		return account;
 	}
 
 
-	public void setAccount(AccountModel account) {
+	public void setAccount(AccountEntity account) {
 		this.account = account;
 	}
 
 
 	// USER
-	private UserModel user;
+	private UserEntity user;
 
 
-	@OneToOne(targetEntity = UserModel.class, fetch = FetchType.LAZY)
+	@OneToOne(targetEntity = UserEntity.class, fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.PERSIST })
-	public UserModel getUser() {
+	public UserEntity getUser() {
 		return user;
 	}
 
 
-	public void setUser(UserModel user) {
+	public void setUser(UserEntity user) {
 		this.user = user;
 	}
 

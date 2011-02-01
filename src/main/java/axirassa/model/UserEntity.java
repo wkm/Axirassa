@@ -28,7 +28,7 @@ import axirassa.util.RandomStringGenerator;
 
 @Entity
 @Table(name = "Users")
-public class UserModel implements Serializable {
+public class UserEntity implements Serializable {
 	private static final long serialVersionUID = 1375674968928774909L;
 
 
@@ -49,11 +49,11 @@ public class UserModel implements Serializable {
 	}
 
 
-	public static UserModel getUserByEmail(Session session, String email) {
+	public static UserEntity getUserByEmail(Session session, String email) {
 		Query query = session.getNamedQuery("user_by_email");
 		query.setString("email", email);
 
-		List<UserModel> users = query.list();
+		List<UserEntity> users = query.list();
 
 		if (users.size() <= 0)
 			return null;
@@ -150,7 +150,7 @@ public class UserModel implements Serializable {
 
 
 	/**
-	 * Sets the password for this UserModel by salting and encrypting it
+	 * Sets the password for this UserEntity by salting and encrypting it
 	 */
 	public void createPassword(String password) {
 		if (salt == null)

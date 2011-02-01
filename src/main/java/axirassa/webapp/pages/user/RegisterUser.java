@@ -12,7 +12,7 @@ import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
 import org.hibernate.Session;
 
-import axirassa.model.UserModel;
+import axirassa.model.UserEntity;
 import axirassa.model.exception.NoSaltException;
 import axirassa.webapp.components.AxForm;
 import axirassa.webapp.components.AxTextField;
@@ -51,7 +51,7 @@ public class RegisterUser {
 	public JSONObject onAJAXValidateFromEmailField() {
 		String emailvalue = request.getParameter("param");
 
-		if (UserModel.isEmailRegistered(session, emailvalue))
+		if (UserEntity.isEmailRegistered(session, emailvalue))
 			return new JSONObject().put("error", "The email '" + emailvalue + "' is taken");
 
 		return new JSONObject();
@@ -59,7 +59,7 @@ public class RegisterUser {
 
 
 	public String onSuccess() throws NoSaltException {
-		UserModel newuser = new UserModel();
+		UserEntity newuser = new UserEntity();
 
 		newuser.setEMail(email);
 		newuser.createPassword(password);

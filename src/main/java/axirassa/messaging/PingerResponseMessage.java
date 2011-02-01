@@ -1,7 +1,7 @@
 
 package axirassa.messaging;
 
-import axirassa.model.HttpStatisticsModel;
+import axirassa.model.HttpStatisticsEntity;
 import axirassa.util.AutoSerializingObject;
 
 public class PingerResponseMessage extends AutoSerializingObject {
@@ -75,8 +75,8 @@ public class PingerResponseMessage extends AutoSerializingObject {
 	}
 
 
-	public HttpStatisticsModel createEntity() {
-		HttpStatisticsModel model = new HttpStatisticsModel();
+	public HttpStatisticsEntity createEntity() {
+		HttpStatisticsEntity model = new HttpStatisticsEntity();
 		model.setLatency((int) latencyMillis);
 		model.setResponseTime((int) responseTimeMillis);
 		model.setResponseSize(responseSizeBytes);

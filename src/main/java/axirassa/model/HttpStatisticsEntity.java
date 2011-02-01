@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "HttpStatistics")
-public class HttpStatisticsModel implements Serializable {
+public class HttpStatisticsEntity implements Serializable {
 	private static final long serialVersionUID = 8808442777520544095L;
 
 	@Id
@@ -22,15 +22,15 @@ public class HttpStatisticsModel implements Serializable {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	private PingerModel pinger;
+	private PingerEntity pinger;
 
 
-	public void setPinger(PingerModel pinger) {
+	public void setPinger(PingerEntity pinger) {
 		this.pinger = pinger;
 	}
 
 
-	public PingerModel getPinger() {
+	public PingerEntity getPinger() {
 		return pinger;
 	}
 

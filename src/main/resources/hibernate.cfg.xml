@@ -37,22 +37,22 @@
 		
 		
 		<!-- Mappings -->
-		<mapping class="axirassa.model.UserModel" />
-		<mapping class="axirassa.model.AccountModel" />
-		<mapping class="axirassa.model.AccountUserModel" />
-		<mapping class="axirassa.model.PingerModel" />
-		<mapping class="axirassa.model.MonitorTypeModel" />
+		<mapping class="axirassa.model.UserEntity" />
+		<mapping class="axirassa.model.AccountEntity" />
+		<mapping class="axirassa.model.AccountUserEntity" />
+		<mapping class="axirassa.model.PingerEntity" />
+		<mapping class="axirassa.model.MonitorTypeEntity" />
 		
-		<mapping class="axirassa.model.HttpStatisticsModel" />
+		<mapping class="axirassa.model.HttpStatisticsEntity" />
 		
-		<mapping class="axirassa.model.SentinelMachineModel" />
+		<mapping class="axirassa.model.SentinelMachineEntity" />
 		
-		<mapping class="axirassa.services.sentinel.model.SentinelCPUStatisticModel" />
-		<mapping class="axirassa.services.sentinel.model.SentinelMemoryStatisticModel" />
-		<mapping class="axirassa.services.sentinel.model.SentinelDiskUsageStatisticModel" />
-		<mapping class="axirassa.services.sentinel.model.SentinelDiskIOStatisticModel" />
-		<mapping class="axirassa.services.sentinel.model.SentinelNetworkStatisticModel" />
-		<mapping class="axirassa.services.sentinel.model.SentinelNetworkIOStatisticModel" />
+		<mapping class="axirassa.services.sentinel.model.SentinelCPUStatisticEntity" />
+		<mapping class="axirassa.services.sentinel.model.SentinelMemoryStatisticEntity" />
+		<mapping class="axirassa.services.sentinel.model.SentinelDiskUsageStatisticEntity" />
+		<mapping class="axirassa.services.sentinel.model.SentinelDiskIOStatisticEntity" />
+		<mapping class="axirassa.services.sentinel.model.SentinelNetworkStatisticEntity" />
+		<mapping class="axirassa.services.sentinel.model.SentinelNetworkIOStatisticEntity" />
 		
 		<mapping resource="axirassa/model/UserModelQueries.hbm.xml" />
 		<mapping resource="axirassa/model/PingerModelQueries.hbm.xml" />
