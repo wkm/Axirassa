@@ -10,7 +10,7 @@ import axirassa.model.UserEntity;
 import axirassa.model.exception.NoSaltException;
 import axirassa.util.AbstractDomainTest;
 
-public class TestUserModel extends AbstractDomainTest {
+public class TestUserEntity extends AbstractDomainTest {
 	@Test
 	public void userPassword() throws NoSaltException {
 		session.beginTransaction();
