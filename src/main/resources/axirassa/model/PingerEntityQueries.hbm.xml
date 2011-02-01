@@ -3,10 +3,23 @@
       "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
       "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="axirassa.model">
+	<query name="pinger_and_user_by_id">
+		from PingerEntity as pinger
+		left join fetch pinger.user
+		where
+			pinger.id = :id
+	</query>
+
 	<query name="pingers_by_frequency">
 		from PingerEntity as pinger
 		left join fetch pinger.monitorType
 		where
 			pinger.frequency = :frequency
+	</query>
+	
+	<query name="pinger_statistics">
+		from HttpStatisticsEntity as statistics
+		where
+			statistics.pinger = :pinger
 	</query>
 </hibernate-mapping>
