@@ -15,14 +15,16 @@ public class TestUserEntity extends AbstractDomainTest {
 	public void userPassword() throws NoSaltException {
 		session.beginTransaction();
 
-		UserEntity usermodel = new UserEntity();
-		usermodel.setEMail("foo@mail.com");
-		usermodel.setSalt("tweedledee");
-		usermodel.createPassword("blah");
-		addEntity(usermodel);
+		UserEntity user = new UserEntity();
+		user.setEMail("foo@mail.com");
+		user.setSalt("tweedledee");
+		user.createPassword("blah");
+		addEntity(user);
 
-		assertTrue(usermodel.matchPassword("blah"));
-		assertFalse(usermodel.matchPassword("tweedle"));
+		assertTrue(user.matchPassword("blah"));
+		assertFalse(user.matchPassword("blah "));
+		assertFalse(user.matchPassword("blah123"));
+		assertFalse(user.matchPassword("tweedle"));
 
 		session.getTransaction().commit();
 	}
