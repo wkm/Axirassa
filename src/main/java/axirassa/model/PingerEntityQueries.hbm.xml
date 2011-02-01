@@ -4,7 +4,7 @@
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="axirassa.model">
 	<query name="pingers_by_frequency">
-		from PingerModel as pinger
+		from PingerEntity as pinger
 		left join fetch pinger.monitorType
 		where
 			pinger.frequency = :frequency
