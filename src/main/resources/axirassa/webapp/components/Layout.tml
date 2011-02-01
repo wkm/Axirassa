@@ -12,7 +12,7 @@
         </div>
         <t:security.user>
 	        <div id="headerbar">
-	        	You're logged in as ${username}
+	        	You're logged in as <strong>${username}</strong>. <t:pagelink t:page="user/logout">logout</t:pagelink>
 	        </div>
         </t:security.user>
         <div id ="content">
