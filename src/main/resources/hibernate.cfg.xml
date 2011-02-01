@@ -54,9 +54,9 @@
 		<mapping class="axirassa.services.sentinel.model.SentinelNetworkStatisticEntity" />
 		<mapping class="axirassa.services.sentinel.model.SentinelNetworkIOStatisticEntity" />
 		
-		<mapping resource="axirassa/model/UserModelQueries.hbm.xml" />
-		<mapping resource="axirassa/model/PingerModelQueries.hbm.xml" />
-		<mapping resource="axirassa/services/sentinel/model/sentinel_queries.hbm.xml" />
+		<mapping resource="axirassa/model/UserEntityQueries.hbm.xml" />
+		<mapping resource="axirassa/model/PingerEntityQueries.hbm.xml" />
+		<mapping resource="axirassa/services/sentinel/model/SentinelQueries.hbm.xml" />
 		
 	</session-factory>
 </hibernate-configuration>
