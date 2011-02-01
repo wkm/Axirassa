@@ -10,7 +10,6 @@ import org.hornetq.api.core.client.ClientProducer;
 import org.hornetq.api.core.client.ClientSession;
 
 import axirassa.config.Messaging;
-import axirassa.messaging.PingerRequestMessage;
 import axirassa.model.PingerEntity;
 
 /**
@@ -41,7 +40,7 @@ public class ControllerService implements Service {
 		List<PingerEntity> pingers = query.list();
 		for (PingerEntity pinger : pingers) {
 			ClientMessage message = messagingSession.createMessage(false);
-			message.getBodyBuffer().writeBytes(new PingerRequestMessage(pinger).toBytes());
+			message.getBodyBuffer().writeBytes(pinger.toBytes());
 			producer.send(message);
 		}
 

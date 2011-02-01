@@ -23,12 +23,13 @@ import org.hibernate.Session;
 import org.hibernate.annotations.NaturalId;
 
 import axirassa.model.exception.NoSaltException;
+import axirassa.util.AutoSerializingObject;
 import axirassa.util.MessageDigestProvider;
 import axirassa.util.RandomStringGenerator;
 
 @Entity
 @Table(name = "Users")
-public class UserEntity implements Serializable {
+public class UserEntity extends AutoSerializingObject implements Serializable {
 	private static final long serialVersionUID = 1375674968928774909L;
 
 

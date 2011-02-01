@@ -12,9 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import axirassa.util.AutoSerializingObject;
+
 @Entity
 @Table(name = "HttpStatistics")
-public class HttpStatisticsEntity implements Serializable {
+public class HttpStatisticsEntity extends AutoSerializingObject implements Serializable {
 	private static final long serialVersionUID = 8808442777520544095L;
 
 	@Id

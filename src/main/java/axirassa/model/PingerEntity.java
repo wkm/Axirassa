@@ -15,9 +15,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import axirassa.util.AutoSerializingObject;
+
 @Entity
 @Table(name = "Pingers")
-public class PingerEntity implements Serializable {
+public class PingerEntity extends AutoSerializingObject implements Serializable {
 	private static final long serialVersionUID = -6709719920544228167L;
 
 	// ID

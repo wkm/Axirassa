@@ -10,8 +10,8 @@ import org.hornetq.api.core.client.ClientProducer;
 import org.hornetq.api.core.client.ClientSession;
 
 import axirassa.config.Messaging;
-import axirassa.messaging.PingerRequestMessage;
-import axirassa.messaging.PingerResponseMessage;
+import axirassa.model.HttpStatisticsEntity;
+import axirassa.model.PingerEntity;
 import axirassa.services.Service;
 import axirassa.services.exceptions.AxirassaServiceException;
 import axirassa.services.exceptions.InvalidMessageClassException;
@@ -50,15 +50,15 @@ public class PingerService implements Service {
 				message.getBodyBuffer().readBytes(buffer);
 
 				Object rawobject = AutoSerializingObject.fromBytes(buffer);
-				if (rawobject instanceof PingerRequestMessage) {
-					PingerRequestMessage request = (PingerRequestMessage) rawobject;
+				if (rawobject instanceof PingerEntity) {
+					PingerEntity request = (PingerEntity) rawobject;
 
 					System.out.println("Pinging: " + request.getUrl());
-					PingerResponseMessage response = pinger.ping(request.getUrl());
+					HttpStatisticsEntity statistic = pinger.ping(request);
 
-					sendResponseMessage(responseProducer, response);
+					sendResponseMessage(responseProducer, statistic);
 				} else
-					throw new InvalidMessageClassException(PingerRequestMessage.class, rawobject);
+					throw new InvalidMessageClassException(PingerEntity.class, rawobject);
 
 				Thread.sleep(2000);
 			}
@@ -71,10 +71,10 @@ public class PingerService implements Service {
 	}
 
 
-	private void sendResponseMessage(ClientProducer responseProducer, PingerResponseMessage response)
+	private void sendResponseMessage(ClientProducer responseProducer, HttpStatisticsEntity statistic)
 	        throws IOException, HornetQException {
 		ClientMessage message = messagingSession.createMessage(false);
-		message.getBodyBuffer().writeBytes(response.toBytes());
+		message.getBodyBuffer().writeBytes(statistic.toBytes());
 		responseProducer.send(message);
 	}
 }
