@@ -4,7 +4,6 @@
 	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
-		 
 		<!-- Database Connection -->
 		<property name="connection.driver_class">org.postgresql.Driver</property>
 		<property name="connection.url">jdbc:postgresql://localhost/axir_devel</property>
@@ -19,6 +18,7 @@
 		<property name="hibernate.c3p0.timeout">1800</property>
 		<property name="hibernate.c3p0.max_statements">50</property>
 		
+		
 		<property name="hibernate.generate_statistics">true</property>
 		
 		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
@@ -27,8 +27,10 @@
 		<!-- Session Management -->
 		<property name="current_session_context_class">thread</property>
 		
+		
 		<!-- Cache -->
 		<property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
+		
 		
 		<!-- Debugging -->
 		<property name="show_sql">true</property>
@@ -57,6 +59,5 @@
 		<mapping resource="axirassa/model/UserEntityQueries.hbm.xml" />
 		<mapping resource="axirassa/model/PingerEntityQueries.hbm.xml" />
 		<mapping resource="axirassa/services/sentinel/model/SentinelQueries.hbm.xml" />
-		
 	</session-factory>
 </hibernate-configuration>

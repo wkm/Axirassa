@@ -10,9 +10,15 @@ public class AbstractDomainTest {
 
 
 	@BeforeClass
+	public static void init() {
+		session = hibernateSession();
+	}
+
+
 	public static Session hibernateSession() {
-		Configuration config = new Configuration().configure();
-		config.setProperty("connection.url", "jdbc:postgresql://localhost/axir_test");
+		Configuration config = new Configuration();
+		config.configure();
+		config.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost/axir_test");
 		config.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		config.setProperty("hibernate.show_sql", "true");
 
