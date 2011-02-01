@@ -9,7 +9,6 @@ import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientSession;
 
 import axirassa.config.Messaging;
-import axirassa.messaging.PingerResponseMessage;
 import axirassa.model.HttpStatisticsEntity;
 import axirassa.services.exceptions.InvalidMessageClassException;
 import axirassa.util.AutoSerializingObject;
@@ -24,6 +23,8 @@ public class InjectorService implements Service {
 
 	private final ClientSession messagingSession;
 	private final Session databaseSession;
+
+	private static final int FLUSH_SIZE = 1000;
 
 
 	public InjectorService(ClientSession messagingSession, Session databaseSession) {
@@ -50,16 +51,29 @@ public class InjectorService implements Service {
 			message.getBodyBuffer().readBytes(buffer);
 
 			Object rawobject = AutoSerializingObject.fromBytes(buffer);
-			if (rawobject instanceof PingerResponseMessage) {
-				PingerResponseMessage response = (PingerResponseMessage) rawobject;
-
-				entities.add(response.createEntity());
-
+			if (rawobject instanceof HttpStatisticsEntity) {
+				HttpStatisticsEntity statistics = (HttpStatisticsEntity) rawobject;
+				entities.add(statistics);
 			} else
-				throw new InvalidMessageClassException(PingerResponseMessage.class, rawobject);
+				throw new InvalidMessageClassException(HttpStatisticsEntity.class, rawobject);
 		}
 
 		System.out.println("READY FOR INJECTION: " + entities);
+
+		databaseSession.beginTransaction();
+		int entityCounter = 0;
+		for (HttpStatisticsEntity entity : entities) {
+			databaseSession.save(entity);
+			entityCounter++;
+
+			// it's necessary to flush the session frequently to prevent the
+			// memory-cache of entities to use up the heap
+			if ((entityCounter % FLUSH_SIZE) == 0) {
+				databaseSession.flush();
+				databaseSession.clear();
+			}
+		}
+		databaseSession.getTransaction().commit();
 
 		messagingSession.stop();
 	}
