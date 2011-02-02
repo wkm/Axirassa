@@ -68,7 +68,7 @@
     	<!-- wait for one second to let the server finish starting -->
     	
     	<execute initialdelay="5000" target="AxControllerService" />
-    	<execute instances="1" target="AxPingerService" />
+    	<execute instances="8" target="AxPingerService" />
     	<execute target="AxInjectorService" />
     </group>
     
