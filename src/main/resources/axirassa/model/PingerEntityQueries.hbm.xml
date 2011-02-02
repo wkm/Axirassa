@@ -4,6 +4,7 @@
       "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="axirassa.model">
 	<query name="pinger_and_user_by_id">
+		select distinct pinger
 		from PingerEntity as pinger
 		left join fetch pinger.user
 		where
@@ -11,6 +12,7 @@
 	</query>
 
 	<query name="pingers_by_frequency">
+		select distinct pinger
 		from PingerEntity as pinger
 		left join fetch pinger.monitorType
 		where
