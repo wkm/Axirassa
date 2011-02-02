@@ -153,7 +153,6 @@ table {
 }
 
 td,th {
-	border: 1px solid #eee;
 	padding: 2px 10px;
 }
 
@@ -161,7 +160,7 @@ th {
 	font-size: 13pt;
 	color: #333;
 	text-align: left;
-	background: #f9f9f9;
+	border-bottom: 1px solid #eee;
 }
 
 .url {
