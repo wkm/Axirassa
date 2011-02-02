@@ -4,13 +4,11 @@ package axirassa.model;
 import java.io.Serializable;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,8 +21,7 @@ public class MonitorTypeEntity implements Serializable {
 	}
 
 
-	public MonitorTypeEntity(PingerEntity pinger, MonitorType type) {
-		this.setPinger(pinger);
+	public MonitorTypeEntity(MonitorType type) {
 		this.setType(type);
 	}
 
@@ -43,20 +40,6 @@ public class MonitorTypeEntity implements Serializable {
 
 	public Long getId() {
 		return id;
-	}
-
-
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	private PingerEntity pinger;
-
-
-	public void setPinger(PingerEntity pinger) {
-		this.pinger = pinger;
-	}
-
-
-	public PingerEntity getPinger() {
-		return pinger;
 	}
 
 

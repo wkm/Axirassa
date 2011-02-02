@@ -15,8 +15,8 @@ import org.tynamo.security.services.SecurityService;
 
 import axirassa.model.MonitorType;
 import axirassa.model.MonitorTypeEntity;
-import axirassa.model.PingerFrequency;
 import axirassa.model.PingerEntity;
+import axirassa.model.PingerFrequency;
 import axirassa.model.UserEntity;
 
 @RequiresUser
@@ -59,11 +59,11 @@ public class CreateMonitor {
 		LinkedHashSet<MonitorTypeEntity> monitortypes = new LinkedHashSet<MonitorTypeEntity>();
 
 		if (httpMonitor)
-			monitortypes.add(new MonitorTypeEntity(pinger, MonitorType.HTTP));
+			monitortypes.add(new MonitorTypeEntity(MonitorType.HTTP));
 		if (httpsMonitor)
-			monitortypes.add(new MonitorTypeEntity(pinger, MonitorType.HTTPS));
+			monitortypes.add(new MonitorTypeEntity(MonitorType.HTTPS));
 		if (icmpMonitor)
-			monitortypes.add(new MonitorTypeEntity(pinger, MonitorType.ICMP_PING));
+			monitortypes.add(new MonitorTypeEntity(MonitorType.ICMP_PING));
 
 		pinger.setMonitorType(monitortypes);
 

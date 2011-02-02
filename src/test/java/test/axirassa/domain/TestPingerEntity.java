@@ -31,8 +31,6 @@ public class TestPingerEntity extends AbstractDomainTest {
 		pinger.setUrl("www.google.com");
 		pinger.setUser(user);
 
-		type.setPinger(pinger);
-
 		session.beginTransaction();
 		session.save(user);
 		// create many of these pingers
