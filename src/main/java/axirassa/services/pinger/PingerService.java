@@ -57,8 +57,11 @@ public class PingerService implements Service {
 					throw new InvalidMessageClassException(PingerEntity.class, rawobject);
 			}
 		} finally {
-			consumer.close();
-			session.stop();
+			if (consumer != null)
+				consumer.close();
+
+			if (session != null)
+				session.stop();
 		}
 	}
 
