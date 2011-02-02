@@ -2,6 +2,7 @@
 package axirassa.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import axirassa.util.AutoSerializingObject;
 
@@ -22,6 +25,11 @@ public class HttpStatisticsEntity extends AutoSerializingObject implements Seria
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+
+	@Basic
+	@Temporal(TemporalType.TIMESTAMP)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Date timestamp;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private PingerEntity pinger;
@@ -106,4 +114,13 @@ public class HttpStatisticsEntity extends AutoSerializingObject implements Seria
 		return uncompressedSize;
 	}
 
+
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
+	}
+
+
+	public Date getTimestamp() {
+		return timestamp;
+	}
 }

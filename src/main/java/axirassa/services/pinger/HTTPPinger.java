@@ -2,6 +2,7 @@
 package axirassa.services.pinger;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -31,6 +32,7 @@ public class HTTPPinger {
 
 		HttpStatisticsEntity statistic = new HttpStatisticsEntity();
 
+		statistic.setTimestamp(new Date());
 		statistic.setPinger(entity);
 		statistic.setLatency(client.getLatency());
 		statistic.setResponseTime(client.getResponseTime());
