@@ -19,12 +19,12 @@ import axirassa.util.AutoSerializingObject;
 
 public class PingerService implements Service {
 
-	private final ClientSession messagingSession;
+	private final ClientSession session;
 	private final HTTPPinger pinger;
 
 
-	public PingerService(ClientSession messagingSession) {
-		this.messagingSession = messagingSession;
+	public PingerService(ClientSession consumeSession) {
+		this.session = consumeSession;
 
 		pinger = new HTTPPinger();
 	}
@@ -34,16 +34,15 @@ public class PingerService implements Service {
 	public void execute() throws HornetQException, IOException, ClassNotFoundException, InterruptedException,
 	        AxirassaServiceException {
 		// we have to start before reading messages
-		messagingSession.start();
+		session.start();
 
-		ClientProducer responseProducer = messagingSession.createProducer(Messaging.PINGER_RESPONSE_QUEUE);
-		ClientConsumer requestConsumer = messagingSession.createConsumer(Messaging.PINGER_REQUEST_QUEUE);
+		ClientConsumer consumer = session.createConsumer(Messaging.PINGER_REQUEST_QUEUE);
+		ClientProducer producer = session.createProducer(Messaging.PINGER_RESPONSE_QUEUE);
 
 		try {
 			while (true) {
-				ClientMessage message = requestConsumer.receive();
+				ClientMessage message = consumer.receive();
 				message.acknowledge();
-				messagingSession.commit();
 
 				byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
 				message.getBodyBuffer().readBytes(buffer);
@@ -51,26 +50,23 @@ public class PingerService implements Service {
 				Object rawobject = AutoSerializingObject.fromBytes(buffer);
 				if (rawobject instanceof PingerEntity) {
 					PingerEntity request = (PingerEntity) rawobject;
-
-					System.out.println("Pinging: " + request.getUrl());
 					HttpStatisticsEntity statistic = pinger.ping(request);
 
-					sendResponseMessage(responseProducer, statistic);
+					sendResponseMessage(producer, statistic);
 				} else
 					throw new InvalidMessageClassException(PingerEntity.class, rawobject);
 			}
 		} finally {
-			responseProducer.close();
-			requestConsumer.close();
-			messagingSession.stop();
+			consumer.close();
+			session.stop();
 		}
 	}
 
 
-	private void sendResponseMessage(ClientProducer responseProducer, HttpStatisticsEntity statistic)
-	        throws IOException, HornetQException {
-		ClientMessage message = messagingSession.createMessage(false);
+	private void sendResponseMessage(ClientProducer producer, HttpStatisticsEntity statistic) throws IOException,
+	        HornetQException {
+		ClientMessage message = session.createMessage(false);
 		message.getBodyBuffer().writeBytes(statistic.toBytes());
-		responseProducer.send(message);
+		producer.send(message);
 	}
 }
