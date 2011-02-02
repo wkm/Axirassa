@@ -57,6 +57,9 @@ public class ExecutionSpecification {
 		if (configuration.getClassPath() != null) {
 			cli.addArgument("-cp");
 			cli.addArgument(configuration.getClassPath());
+		} else {
+			cli.addArgument("-cp");
+			cli.addArgument(System.getProperty("java.class.path"));
 		}
 
 		// add jvm options
