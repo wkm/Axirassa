@@ -64,9 +64,12 @@
     
     <group name="devel">
     	<execute target="AxMessagingServer" />
+    	
+    	<!-- wait for one second to let the server finish starting -->
+    	
     	<execute initialdelay="1000" target="AxControllerService" />
-    	<execute initialdelay="5000" instances="3" target="AxPingerService" />
-    	<execute initialdelay="5000" target="AxInjectorService" />
+    	<execute instances="8" target="AxPingerService" />
+    	<execute target="AxInjectorService" />
     </group>
     
     <!--

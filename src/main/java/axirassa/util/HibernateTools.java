@@ -3,7 +3,7 @@ package axirassa.util;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
 
 public class HibernateTools {
 	private static SessionFactory sessionfactory;
@@ -11,7 +11,11 @@ public class HibernateTools {
 
 	private static SessionFactory buildSessionFactory() {
 		try {
-			return new AnnotationConfiguration().configure().buildSessionFactory();
+			Configuration config = new Configuration().configure();
+			config.setProperty("hibernate.c3p0.min_size", "1");
+
+			return config.buildSessionFactory();
+
 		} catch (Throwable ex) {
 			System.err.println("Initial SessionFactory creation failed." + ex);
 			throw new ExceptionInInitializerError(ex);
@@ -32,7 +36,7 @@ public class HibernateTools {
 	}
 
 
-	public static Session getSession() {
+	public static Session getLightweightSession() {
 		return getSessionFactory().openSession();
 	}
 }

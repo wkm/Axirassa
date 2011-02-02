@@ -24,7 +24,7 @@ public class AbstractDomainTest {
 
 		HibernateTools.setSessionFactory(config.buildSessionFactory());
 
-		session = HibernateTools.getSession();
+		session = HibernateTools.getLightweightSession();
 
 		return session;
 	}

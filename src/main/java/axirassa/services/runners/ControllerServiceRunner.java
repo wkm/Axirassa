@@ -29,7 +29,7 @@ public class ControllerServiceRunner {
 		Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 		scheduler.start();
 
-		Session databaseSession = HibernateTools.getSession();
+		Session databaseSession = HibernateTools.getLightweightSession();
 		ClientSession messagingSession = MessagingTools.getEmbeddedSession();
 
 		JobDataMap datamap = new JobDataMap();

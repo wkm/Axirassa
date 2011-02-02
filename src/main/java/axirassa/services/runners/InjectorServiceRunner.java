@@ -22,7 +22,7 @@ public class InjectorServiceRunner {
 		Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 		scheduler.start();
 
-		Session dbsession = HibernateTools.getSession();
+		Session dbsession = HibernateTools.getLightweightSession();
 		ClientSession msgsession = MessagingTools.getEmbeddedSession();
 
 		JobDataMap datamap = new JobDataMap();

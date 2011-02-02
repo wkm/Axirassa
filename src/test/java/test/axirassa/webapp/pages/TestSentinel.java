@@ -9,7 +9,7 @@ import axirassa.webapp.pages.Sentinel;
 public class TestSentinel {
 	@Test
 	public void testCPUUpdate() {
-		HibernateTools.getSession().disconnect();
+		HibernateTools.getLightweightSession().disconnect();
 
 		Sentinel sent = new Sentinel();
 		int i = 5;

@@ -25,7 +25,7 @@ public class SentinelService implements Service {
 
 
 	public static void main(String[] param) throws Exception {
-		Session session = HibernateTools.getSession();
+		Session session = HibernateTools.getLightweightSession();
 		SentinelService service = new SentinelService(session, 1);
 
 		service.addAgent(CPUSentinelAgent.class);
