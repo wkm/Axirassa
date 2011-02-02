@@ -13,6 +13,7 @@ public class HibernateTools {
 		try {
 			Configuration config = new Configuration().configure();
 			config.setProperty("hibernate.c3p0.min_size", "1");
+			config.setProperty("hibernate.c3p0.max_Size", "1");
 
 			return config.buildSessionFactory();
 
