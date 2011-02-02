@@ -50,9 +50,9 @@ public class ExecutionMonitor implements Runnable {
 
 				String line;
 				while ((line = stdoutstream.readLine()) != null)
-					System.out.println("STDOUT{" + getId() + "} " + line);
+					System.out.println(getId() + ": " + line);
 				while ((line = stderrstream.readLine()) != null)
-					System.out.println("STDERR{" + getId() + "} " + line);
+					System.err.println(getId() + ": " + line);
 
 				startCount++;
 				remainingRestarts--;
@@ -79,6 +79,6 @@ public class ExecutionMonitor implements Runnable {
 
 
 	private String getId() {
-		return target.getName() + " " + id;
+		return target.getName() + '[' + id + ']';
 	}
 }
