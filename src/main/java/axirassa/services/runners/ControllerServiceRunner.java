@@ -10,7 +10,6 @@ import org.quartz.Scheduler;
 import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
 
-import axirassa.util.EmbeddedMessagingServer;
 import axirassa.util.HibernateTools;
 import axirassa.util.MessagingTools;
 
@@ -27,8 +26,6 @@ public class ControllerServiceRunner {
 
 
 	public static void main(String[] args) throws Exception {
-		EmbeddedMessagingServer.start();
-
 		Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 		scheduler.start();
 
