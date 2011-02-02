@@ -35,16 +35,15 @@ public class PingerService implements Service {
 	        AxirassaServiceException {
 		// we have to start before reading messages
 		messagingSession.start();
-		try {
-			ClientProducer responseProducer = messagingSession.createProducer(Messaging.PINGER_RESPONSE_QUEUE);
-			ClientConsumer requestConsumer = messagingSession.createConsumer(Messaging.PINGER_REQUEST_QUEUE);
 
+		ClientProducer responseProducer = messagingSession.createProducer(Messaging.PINGER_RESPONSE_QUEUE);
+		ClientConsumer requestConsumer = messagingSession.createConsumer(Messaging.PINGER_REQUEST_QUEUE);
+
+		try {
 			while (true) {
-				ClientMessage message = requestConsumer.receiveImmediate();
-				if (message == null) {
-					System.out.println("NO MORE PINGER REQUESTS.");
-					break;
-				}
+				ClientMessage message = requestConsumer.receive();
+				message.acknowledge();
+				messagingSession.commit();
 
 				byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
 				message.getBodyBuffer().readBytes(buffer);
@@ -59,13 +58,10 @@ public class PingerService implements Service {
 					sendResponseMessage(responseProducer, statistic);
 				} else
 					throw new InvalidMessageClassException(PingerEntity.class, rawobject);
-
-				Thread.sleep(2000);
 			}
-
+		} finally {
 			responseProducer.close();
 			requestConsumer.close();
-		} finally {
 			messagingSession.stop();
 		}
 	}
