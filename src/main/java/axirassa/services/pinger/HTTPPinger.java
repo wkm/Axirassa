@@ -40,13 +40,4 @@ public class HTTPPinger {
 
 		return statistic;
 	}
-
-
-	public static void main(String[] args) throws ClientProtocolException, IOException, AxirassaServiceException {
-		HTTPPinger pinger = new HTTPPinger();
-		PingerEntity entity = new PingerEntity();
-		entity.setUrl("http://google.com");
-
-		pinger.ping(entity);
-	}
 }
