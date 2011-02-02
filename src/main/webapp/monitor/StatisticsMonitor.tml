@@ -13,4 +13,5 @@
 			</tr>
 		</t:loop>
 	</table>
+	<p><t:pagelink t:page="monitor/statistics" t:context="${id}">Refresh</t:pagelink></p>
 </html>

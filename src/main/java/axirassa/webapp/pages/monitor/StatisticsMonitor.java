@@ -25,8 +25,13 @@ public class StatisticsMonitor {
 	@Property
 	private PingerEntity pinger;
 
+	@Property
+	private Long id;
+
 
 	public void onActivate(Long id) {
+		this.id = id;
+
 		pinger = PingerEntity.findPingerById(session, id);
 		statistics = PingerEntity.findStatistics(session, pinger);
 	}
