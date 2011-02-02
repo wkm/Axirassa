@@ -23,14 +23,11 @@ public class HTTPPinger {
 
 	public HttpStatisticsEntity ping(PingerEntity entity) throws ClientProtocolException, IOException,
 	        AxirassaServiceException {
-		System.out.println("HTTPPinger: " + entity.getUrl());
 		HttpGet get = new HttpGet(entity.getUrl());
 		HttpResponse response = client.executeWithInstrumentation(get);
 
-		System.out.println("++ TIMING  +++++++++++++++++++++++++++++++++++++++++");
-		System.out.println("LATENCY: " + client.getLatency() + "ms");
-		System.out.println("RESPONSE:   " + client.getResponseTime() + "ms");
-		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		System.out.println("Latency: " + client.getLatency() + "ms  Response: " + client.getResponseTime()
+		        + "ms  URL: " + entity.getUrl());
 
 		HttpStatisticsEntity statistic = new HttpStatisticsEntity();
 
