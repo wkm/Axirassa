@@ -153,11 +153,12 @@ table {
 }
 
 td,th {
-	padding: 2px 10px;
+	padding: 0px 15px;
+	font-size: 80%;
 }
 
+
 th {
-	font-size: 13pt;
 	color: #333;
 	text-align: left;
 	border-bottom: 1px solid #eee;
@@ -169,7 +170,11 @@ th {
 }
 
 .url,.freq {
-	border-top: 2px solid #ddd;
+	border-top: 1px solid #ddd;
+}
+
+.data {
+	text-align: right;
 }
 
 .types {

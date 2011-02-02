@@ -2,7 +2,7 @@
 <html t:type="layout" t:pageTitle="Monitor Statistics" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<h3>${pinger.url}</h3>
 	<p>Back to <t:pagelink t:page="monitor/list">monitor listing</t:pagelink>.</p>
-	<table>
+	<table class="data">
 		<tr><th>code</th><th>latency</th><th>total time</th><th>response size</th></tr>
 		<t:loop source="statistics" value="statistic">
 			<tr>
