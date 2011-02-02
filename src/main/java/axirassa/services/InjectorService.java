@@ -36,6 +36,7 @@ public class InjectorService implements Service {
 	@Override
 	public void execute() throws Exception {
 		ClientConsumer consumer = messagingSession.createConsumer(Messaging.PINGER_RESPONSE_QUEUE);
+		System.out.println("Starting messaging session");
 		messagingSession.start();
 
 		ArrayList<HttpStatisticsEntity> entities = new ArrayList<HttpStatisticsEntity>();
@@ -57,6 +58,9 @@ public class InjectorService implements Service {
 				throw new InvalidMessageClassException(HttpStatisticsEntity.class, rawobject);
 		}
 
+		consumer.close();
+		messagingSession.stop();
+
 		System.out.println("Consumed " + entities.size() + " entities");
 
 		databaseSession.beginTransaction();
@@ -73,7 +77,5 @@ public class InjectorService implements Service {
 			}
 		}
 		databaseSession.getTransaction().commit();
-
-		messagingSession.stop();
 	}
 }
