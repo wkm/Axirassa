@@ -42,10 +42,8 @@ public class InjectorService implements Service {
 
 		while (true) {
 			ClientMessage message = consumer.receiveImmediate();
-			if (message == null) {
-				System.out.println("Finished injecting");
+			if (message == null)
 				break;
-			}
 
 			byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
 			message.getBodyBuffer().readBytes(buffer);
@@ -59,7 +57,7 @@ public class InjectorService implements Service {
 				throw new InvalidMessageClassException(HttpStatisticsEntity.class, rawobject);
 		}
 
-		System.out.println("Consumed " + entities.size() + " entities for injection");
+		System.out.println("Consumed " + entities.size() + " entities");
 
 		databaseSession.beginTransaction();
 		int entityCounter = 0;
