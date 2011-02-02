@@ -8,10 +8,10 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import axirassa.services.ControllerService;
+import axirassa.services.InjectorService;
 import axirassa.services.Service;
 
-public class ControllerServiceJob implements Job {
+public class InjectorServiceJob implements Job {
 	public static String DATABASE_SESSION = "session.database";
 	public static String MESSAGING_SESSION = "session.messaging";
 
@@ -24,7 +24,7 @@ public class ControllerServiceJob implements Job {
 			ClientSession messagingSession = (ClientSession) datamap.get(MESSAGING_SESSION);
 			Session databaseSession = (Session) datamap.get(DATABASE_SESSION);
 
-			Service service = new ControllerService(messagingSession, databaseSession);
+			Service service = new InjectorService(messagingSession, databaseSession);
 			service.execute();
 		} catch (Exception e) {
 			throw new JobExecutionException(e);
