@@ -83,7 +83,7 @@ public class ExecutionSpecification {
 		processbuilder.directory(new File(configuration.getBaseDirectory()));
 
 		ExecutionMonitor monitor = new ExecutionMonitor(target, id, processbuilder);
-		monitor.setRemainingRestarts(1);
+		monitor.setRemainingRestarts(-1);
 
 		Thread thread = new Thread(monitor);
 		configuration.getOverlord().addExecutionInstance(thread, monitor);
