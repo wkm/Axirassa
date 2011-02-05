@@ -19,7 +19,7 @@
         PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
         "http://java.sun.com/dtd/web-app_2_3.dtd">
 <web-app>
-    <display-name>axir Tapestry 5 Application</display-name>
+    <display-name>Axirassa Tapestry 5 Application</display-name>
     <context-param>
         <!-- The only significant configuration for Tapestry 5, this informs Tapestry
 of where to look for pages, components and mixins. -->
@@ -55,5 +55,24 @@ of where to look for pages, components and mixins. -->
         <filter-name>app</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+    
+    <!-- Direct Web Remoting -->
+    <servlet>
+    	<servlet-name>dwr-invoker</servlet-name>
+    	<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+    	<init-param>
+    		<param-name>debug</param-name>
+    		<param-value>true</param-value>
+    	</init-param>
+		<init-param>
+    		<param-name>classes</param-name>
+    		<param-value>
+    		</param-value>
+    	</init-param>
+    </servlet>
+    <servlet-mapping>
+    	<servlet-name>dwr-invoker</servlet-name>
+    	<url-pattern>/dwr/*</url-pattern>
+    </servlet-mapping>
 </web-app>
       
