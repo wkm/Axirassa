@@ -128,4 +128,9 @@ public class AppModule {
 		realm.setCredentialsMatcher(new UserCredentialsMatcher(session));
 		configuration.add(realm);
 	}
+
+
+	public void contributeIgnoredPathsFilter(Configuration<String> configuration) {
+		configuration.add("/dwr/.*");
+	}
 }
