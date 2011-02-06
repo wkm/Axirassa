@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC
       "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+      "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="axirasa.model">
 	<query name="user_is_email_registered">
-		select user.email from UserModel as user
+		select user.email from UserEntity as user
 		where user.email = :email
 	</query>
 	<query name="user_by_email">
-		from UserModel
+		from UserEntity
 		where email = :email
 	</query>
 </hibernate-mapping>

@@ -2,6 +2,7 @@
 package axirassa.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -15,10 +16,40 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+import axirassa.util.AutoSerializingObject;
+
 @Entity
 @Table(name = "Pingers")
-public class PingerModel implements Serializable {
+public class PingerEntity extends AutoSerializingObject implements Serializable {
 	private static final long serialVersionUID = -6709719920544228167L;
+
+
+	public static PingerEntity findPingerById(Session session, Long id) {
+		Query query = session.getNamedQuery("pinger_and_user_by_id");
+		query.setLong("id", id);
+
+		List<PingerEntity> pingers = query.list();
+		if (pingers.size() < 1)
+			return null;
+
+		return pingers.iterator().next();
+	}
+
+
+	public static List<HttpStatisticsEntity> findStatistics(Session session, PingerEntity pinger) {
+		Query query = session.getNamedQuery("pinger_statistics");
+		query.setEntity("pinger", pinger);
+
+		return query.list();
+	}
+
+
+	//
+	// INSTANCE
+	//
 
 	// ID
 	@Id
@@ -38,15 +69,15 @@ public class PingerModel implements Serializable {
 
 	// USER
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	private UserModel user;
+	private UserEntity user;
 
 
-	public UserModel getUser() {
+	public UserEntity getUser() {
 		return user;
 	}
 
 
-	public void setUser(UserModel user) {
+	public void setUser(UserEntity user) {
 		this.user = user;
 	}
 
@@ -91,15 +122,15 @@ public class PingerModel implements Serializable {
 
 
 	@OneToMany(fetch = FetchType.EAGER)
-	public Set<MonitorTypeModel> monitorType;
+	public Set<MonitorTypeEntity> monitorType;
 
 
-	public Set<MonitorTypeModel> getMonitorType() {
+	public Set<MonitorTypeEntity> getMonitorType() {
 		return monitorType;
 	}
 
 
-	public void setMonitorType(Set<MonitorTypeModel> monitorType) {
+	public void setMonitorType(Set<MonitorTypeEntity> monitorType) {
 		this.monitorType = monitorType;
 	}
 }

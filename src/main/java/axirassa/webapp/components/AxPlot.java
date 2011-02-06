@@ -61,7 +61,7 @@ public class AxPlot {
 
 	public String getSource() {
 		if (source == null)
-			source = resources.createEventLink("action").toAbsoluteURI();
+			source = resources.createEventLink("action", "4h").toAbsoluteURI();
 
 		return source;
 	}

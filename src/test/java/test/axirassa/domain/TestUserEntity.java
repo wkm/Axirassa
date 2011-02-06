@@ -6,32 +6,37 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import axirassa.model.UserModel;
+import axirassa.model.UserEntity;
 import axirassa.model.exception.NoSaltException;
 import axirassa.util.AbstractDomainTest;
+import axirassa.util.Meta;
 
-public class TestUserModel extends AbstractDomainTest {
+public class TestUserEntity extends AbstractDomainTest {
 	@Test
 	public void userPassword() throws NoSaltException {
 		session.beginTransaction();
 
-		UserModel usermodel = new UserModel();
-		usermodel.setEMail("foo@mail.com");
-		usermodel.setSalt("tweedledee");
-		usermodel.createPassword("blah");
-		addEntity(usermodel);
+		UserEntity user = new UserEntity();
+		user.setEMail("foo@mail.com");
+		user.setSalt("tweedledee");
+		user.createPassword("blah");
+		addEntity(user);
 
-		assertTrue(usermodel.matchPassword("blah"));
-		assertFalse(usermodel.matchPassword("tweedle"));
+		assertTrue(user.matchPassword("blah"));
+		assertFalse(user.matchPassword("blah "));
+		assertFalse(user.matchPassword("blah123"));
+		assertFalse(user.matchPassword("tweedle"));
 
 		session.getTransaction().commit();
+
+		Meta.inspect(user);
 	}
 
 
 	@Test
 	public void userAutomaticSalting() throws NoSaltException {
 		session.beginTransaction();
-		UserModel user = new UserModel();
+		UserEntity user = new UserEntity();
 		user.setEMail("foo@bar.com");
 		user.createPassword("password");
 		addEntity(user);

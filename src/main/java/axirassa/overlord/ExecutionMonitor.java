@@ -14,6 +14,8 @@ import axirassa.overlord.exceptions.ExceptionInMonitorError;
 public class ExecutionMonitor implements Runnable {
 	private final ExecutionTarget target;
 	private final int id;
+
+	private final boolean limitedRestarts = false;
 	private int remainingRestarts = 0;
 	private int startCount = 0;
 	private final ProcessBuilder builder;
@@ -40,9 +42,9 @@ public class ExecutionMonitor implements Runnable {
 
 	@Override
 	public void run() {
-		while (remainingRestarts > 0) {
+		while (remainingRestarts > 0 || limitedRestarts == false) {
 			try {
-				System.out.printf(toString() + " starting [%d]: " + builder.command() + "\n", startCount);
+				System.out.printf(toString() + " STARTING [%d]: " + builder.command() + "\n", startCount);
 				process = builder.start();
 
 				BufferedReader stdoutstream = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -50,9 +52,9 @@ public class ExecutionMonitor implements Runnable {
 
 				String line;
 				while ((line = stdoutstream.readLine()) != null)
-					System.out.println("STDOUT{" + getId() + "} " + line);
+					System.out.println(getId() + ": " + line);
 				while ((line = stderrstream.readLine()) != null)
-					System.out.println("STDERR{" + getId() + "} " + line);
+					System.err.println(getId() + ": " + line);
 
 				startCount++;
 				remainingRestarts--;
@@ -65,6 +67,7 @@ public class ExecutionMonitor implements Runnable {
 				throw new ExceptionInMonitorError(e);
 			}
 		}
+
 		System.out.println(toString() + " finished.");
 	}
 
@@ -79,6 +82,6 @@ public class ExecutionMonitor implements Runnable {
 
 
 	private String getId() {
-		return target.getName() + " " + id;
+		return target.getName() + '[' + id + ']';
 	}
 }

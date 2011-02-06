@@ -9,7 +9,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.hibernate.Session;
 
-import axirassa.model.UserModel;
+import axirassa.model.UserEntity;
 
 public class UserCredentialsMatcher implements CredentialsMatcher {
 
@@ -46,7 +46,7 @@ public class UserCredentialsMatcher implements CredentialsMatcher {
 			return false;
 		}
 
-		byte[] hashedpass = UserModel.hashPasswordWithSalt(new String(uptoken.getPassword()), authinfo
+		byte[] hashedpass = UserEntity.hashPasswordWithSalt(new String(uptoken.getPassword()), authinfo
 		        .getCredentialsSalt().getBytes());
 
 		return Arrays.equals(hashedpass, authinfo.getCredentials());

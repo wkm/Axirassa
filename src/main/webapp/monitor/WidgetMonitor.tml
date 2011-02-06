@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html t:type="layout" t:pageTitle="Monitor Widget" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<!-- <div class="axw">
+		<div class='n'>${pingerName}</div>
+		<div class='t'>${responseTime}<span class='u'>ms</span></div>
+		<div class='sz'>${responseSize}<span class='u'>kb</span></div>
+	</div> -->
+	<p>
+		Your Message:
+		<input id="text" />
+		<input type="button" value="Send" onclick="TextChat.addMessage(dwr.util.getValue('text'))"/>
+	</p>
+	<hr/>
+	<ul id="chatlog" style="list-style-type:none;">
+	</ul>
+
+</html>

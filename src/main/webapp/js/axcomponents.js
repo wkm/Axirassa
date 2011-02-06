@@ -75,6 +75,9 @@ var ax = new function() {
 		return percentTicks(val);
 	};
 	this.axp_axislab_data = dataTicks;
+	this.axp_axislab_timer = function(val, max) {
+		return val +"ms";
+	};
 	
 	this.agentcontrol = function(id, origsource) {
 		

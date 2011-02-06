@@ -15,33 +15,31 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "SentinelCPUStats", uniqueConstraints = { @UniqueConstraint(
-        columnNames = { "machineid", "`date`", "cpu" }) })
-public class SentinelCPUStatisticModel implements SentinelStatisticModel {
-
+@Table(name = "SentinelNetworkStats", uniqueConstraints = { @UniqueConstraint(columnNames = {
+        "`Machine_ID`", "`Date`", "`Device`" }) })
+public class SentinelNetworkStatisticEntity implements SentinelStatisticEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
 
 	@Basic
-	@Column(nullable = false)
+	@Column(name = "`Machine_ID`", nullable = false)
 	public int machineid;
 
 	@Basic
-	@Column(name = "`date`", nullable = false)
+	@Column(name = "`Date`", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date date;
 
 	@Basic
-	@Column(nullable = false)
-	public int cpu;
+	@Column(name = "`Device`", nullable = false)
+	public String device;
 
 	@Basic
-	@Column(name = "`user`", nullable = false)
-	public double user;
+	@Column(name = "`Send`", nullable = false)
+	public long send;
 
 	@Basic
-	@Column(nullable = false)
-	public double system;
-
+	@Column(name = "`Receive`", nullable = false)
+	public long receive;
 }

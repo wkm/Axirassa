@@ -10,9 +10,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.tynamo.security.services.SecurityService;
 
-import axirassa.model.MonitorTypeModel;
-import axirassa.model.PingerModel;
-import axirassa.model.UserModel;
+import axirassa.model.MonitorTypeEntity;
+import axirassa.model.PingerEntity;
+import axirassa.model.UserEntity;
 
 @RequiresUser
 public class ListMonitor {
@@ -23,19 +23,19 @@ public class ListMonitor {
 	private SecurityService security;
 
 	@Property
-	private List<PingerModel> pingers;
+	private List<PingerEntity> pingers;
 
 	@Property
-	private PingerModel pinger;
+	private PingerEntity pinger;
 
 	@Property
-	private MonitorTypeModel type;
+	private MonitorTypeEntity type;
 
 
 	public void onActivate() {
-		UserModel user = UserModel.getUserByEmail(session, (String) security.getSubject().getPrincipal());
+		UserEntity user = UserEntity.getUserByEmail(session, (String) security.getSubject().getPrincipal());
 
-		Query query = session.createQuery("from PingerModel where user=:user");
+		Query query = session.createQuery("from PingerEntity where user=:user");
 		query.setEntity("user", user);
 
 		pingers = query.list();

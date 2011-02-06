@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html t:type="layout" t:pageTitle="Monitor Statistics" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<h3>${pinger.url}</h3>
+	<p>Back to <t:pagelink t:page="monitor/list">monitor listing</t:pagelink>.</p>
+	<table class="data">
+		<tr><th></th><th>code</th><th>latency</th><th>total time</th><th>response size</th></tr>
+		<t:loop source="statistics" value="statistic">
+			<tr>
+				<td>${statistic.timestamp}</td>
+				<td>${statistic.statusCode}</td>
+				<td>${statistic.latency} ms</td>
+				<td>${statistic.responseTime} ms</td>
+				<td>${statistic.responseSize} bytes</td>
+			</tr>
+		</t:loop>
+	</table>
+	<p><t:pagelink t:page="monitor/statistics" t:context="${id}">Refresh</t:pagelink></p>
+</html>

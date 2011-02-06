@@ -9,7 +9,7 @@ import org.hibernate.Session;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import axirassa.model.UserModel;
+import axirassa.model.UserEntity;
 import axirassa.model.exception.NoSaltException;
 import axirassa.util.AbstractDomainTest;
 import axirassa.webapp.services.UserAuthenticationInfo;
@@ -22,18 +22,18 @@ public class TestUserCredentialsMatcher {
 	@BeforeClass
 	public static void createUsers() throws NoSaltException {
 		session.beginTransaction();
-		UserModel u1 = new UserModel();
+		UserEntity u1 = new UserEntity();
 		u1.setEMail("charles@gmail.com");
 		u1.createPassword("password");
 		session.save(u1);
 
-		UserModel u2 = new UserModel();
+		UserEntity u2 = new UserEntity();
 		u2.setEMail("edgar@gmail.com");
 		u2.createPassword("Edgar's Awesomeness!");
 		session.save(u2);
 		session.getTransaction().commit();
 
-		Query q = session.createQuery("from UserModel");
+		Query q = session.createQuery("from UserEntity");
 		System.out.println("Users: " + q.list());
 	}
 
@@ -43,7 +43,7 @@ public class TestUserCredentialsMatcher {
 		UserCredentialsMatcher matcher = new UserCredentialsMatcher(session);
 		UserAuthenticationInfo authinfo;
 
-		authinfo = UserAuthenticationInfo.createInfoFromModel(UserModel.getUserByEmail(session, "charles@gmail.com"));
+		authinfo = UserAuthenticationInfo.createInfoFromModel(UserEntity.getUserByEmail(session, "charles@gmail.com"));
 
 		UsernamePasswordToken token1 = new UsernamePasswordToken("charles@gmail.com", "password");
 		assertTrue(matcher.doCredentialsMatch(token1, authinfo));

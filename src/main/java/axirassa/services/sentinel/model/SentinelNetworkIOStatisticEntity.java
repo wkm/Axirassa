@@ -15,9 +15,9 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "SentinelDiskUsageStats", uniqueConstraints = { @UniqueConstraint(columnNames = {
-        "`Machine_ID`", "`Date`", "`Disk`" }) })
-public class SentinelDiskUsageStatisticModel implements SentinelStatisticModel {
+@Table(name = "SentinelNetworkIOStats", uniqueConstraints = { @UniqueConstraint(columnNames = {
+        "`Machine_ID`", "`Date`", "`Device`" }) })
+public class SentinelNetworkIOStatisticEntity implements SentinelStatisticEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long id;
@@ -32,14 +32,14 @@ public class SentinelDiskUsageStatisticModel implements SentinelStatisticModel {
 	public Date date;
 
 	@Basic
-	@Column(name = "`Disk`", nullable = false)
-	public String disk;
+	@Column(name = "`Device`", nullable = false)
+	public String device;
 
 	@Basic
-	@Column(name = "`Used`", nullable = false)
-	public long used;
+	@Column(name = "`Send`", nullable = false)
+	public long send;
 
 	@Basic
-	@Column(name = "`Total`", nullable = false)
-	public long total;
+	@Column(name = "`Receive`", nullable = false)
+	public long receive;
 }

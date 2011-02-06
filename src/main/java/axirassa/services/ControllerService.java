@@ -10,8 +10,7 @@ import org.hornetq.api.core.client.ClientProducer;
 import org.hornetq.api.core.client.ClientSession;
 
 import axirassa.config.Messaging;
-import axirassa.messaging.PingerRequestMessage;
-import axirassa.model.PingerModel;
+import axirassa.model.PingerEntity;
 
 /**
  * The ControllerService executes every minute, creating a message for each
@@ -38,14 +37,14 @@ public class ControllerService implements Service {
 		Query query = databaseSession.getNamedQuery("pingers_by_frequency");
 		query.setInteger("frequency", 3600);
 
-		List<PingerModel> pingers = query.list();
-		for (PingerModel pinger : pingers) {
+		List<PingerEntity> pingers = query.list();
+		for (PingerEntity pinger : pingers) {
 			ClientMessage message = messagingSession.createMessage(false);
-			message.getBodyBuffer().writeBytes(new PingerRequestMessage(pinger).toBytes());
+			message.getBodyBuffer().writeBytes(pinger.toBytes());
 			producer.send(message);
 		}
 
-		System.out.println("POPULATED " + pingers.size() + " PINGERS");
+		System.out.println("Populated " + pingers.size() + " pingers");
 
 		producer.close();
 	}

@@ -13,7 +13,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.hibernate.Session;
 
-import axirassa.model.UserModel;
+import axirassa.model.UserEntity;
 
 /**
  * Based on suggestion from
@@ -51,7 +51,7 @@ public class EntityRealm extends AuthorizingRealm {
 		if (email == null)
 			return null;
 
-		UserModel user = UserModel.getUserByEmail(session, email);
+		UserEntity user = UserEntity.getUserByEmail(session, email);
 		if (user == null)
 			return null;
 
@@ -69,7 +69,7 @@ public class EntityRealm extends AuthorizingRealm {
 			throw new AccountException("empty username for realm: " + REALM_NAME);
 
 		// verify account exists
-		UserModel user = UserModel.getUserByEmail(session, email);
+		UserEntity user = UserEntity.getUserByEmail(session, email);
 
 		// retrieve the password and salt
 		byte[] password = user.getPassword();

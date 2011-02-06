@@ -57,6 +57,9 @@ public class ExecutionSpecification {
 		if (configuration.getClassPath() != null) {
 			cli.addArgument("-cp");
 			cli.addArgument(configuration.getClassPath());
+		} else {
+			cli.addArgument("-cp");
+			cli.addArgument(System.getProperty("java.class.path"));
 		}
 
 		// add jvm options
@@ -80,7 +83,7 @@ public class ExecutionSpecification {
 		processbuilder.directory(new File(configuration.getBaseDirectory()));
 
 		ExecutionMonitor monitor = new ExecutionMonitor(target, id, processbuilder);
-		monitor.setRemainingRestarts(1);
+		monitor.setRemainingRestarts(-1);
 
 		Thread thread = new Thread(monitor);
 		configuration.getOverlord().addExecutionInstance(thread, monitor);

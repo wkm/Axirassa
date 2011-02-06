@@ -10,16 +10,16 @@ import org.hyperic.sigar.FileSystem;
 import org.hyperic.sigar.FileSystemUsage;
 import org.hyperic.sigar.SigarException;
 
-import axirassa.services.sentinel.model.SentinelDiskIOStatisticModel;
-import axirassa.services.sentinel.model.SentinelDiskUsageStatisticModel;
-import axirassa.services.sentinel.model.SentinelStatisticModel;
+import axirassa.services.sentinel.model.SentinelDiskIOStatisticEntity;
+import axirassa.services.sentinel.model.SentinelDiskUsageStatisticEntity;
+import axirassa.services.sentinel.model.SentinelStatisticEntity;
 
 public class DiskSentinelAgent extends AbstractSentinelStatisticsAgent {
 
 	// TODO: verify these are 10^3 kilobytes, not 2^10 kilobytes.
 	public final static int SCALING_FACTOR = 1000;
 
-	private final ArrayList<SentinelStatisticModel> diskstat = new ArrayList<SentinelStatisticModel>();
+	private final ArrayList<SentinelStatisticEntity> diskstat = new ArrayList<SentinelStatisticEntity>();
 	private final HashMap<String, DiskIOSnapshot> previoussnapshots = new HashMap<String, DiskIOSnapshot>();
 
 
@@ -43,7 +43,7 @@ public class DiskSentinelAgent extends AbstractSentinelStatisticsAgent {
 			long used = SCALING_FACTOR * usage.getUsed();
 			long total = SCALING_FACTOR * usage.getTotal();
 
-			SentinelDiskUsageStatisticModel usagedatum = new SentinelDiskUsageStatisticModel();
+			SentinelDiskUsageStatisticEntity usagedatum = new SentinelDiskUsageStatisticEntity();
 
 			usagedatum.machineid = getMachineID();
 			usagedatum.date = getDate();
@@ -67,7 +67,7 @@ public class DiskSentinelAgent extends AbstractSentinelStatisticsAgent {
 				float readrate = (current.readbytes - previous.readbytes) / seconds;
 				float writerate = (current.writebytes - previous.writebytes) / seconds;
 
-				SentinelDiskIOStatisticModel iodatum = new SentinelDiskIOStatisticModel();
+				SentinelDiskIOStatisticEntity iodatum = new SentinelDiskIOStatisticEntity();
 
 				iodatum.machineid = getMachineID();
 				iodatum.date = getDate();
@@ -84,7 +84,7 @@ public class DiskSentinelAgent extends AbstractSentinelStatisticsAgent {
 
 
 	@Override
-	public Collection<SentinelStatisticModel> getStatistics() {
+	public Collection<SentinelStatisticEntity> getStatistics() {
 		return diskstat;
 	}
 

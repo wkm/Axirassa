@@ -1,0 +1,29 @@
+.axw {
+	width: 480px;
+	height: 160px;
+	
+	border: 1px solid #eee;
+	padding: 0;
+}
+
+.axw .n {
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 180%;
+	margin-top: -11px;
+}
+
+.axw .t, .axw .sz {
+	font-size: 120%;
+	font-weight: bold;
+	text-align: right;
+	text-transform: uppercase;
+}
+.u {
+	color: #666;
+	font-size: 80%;
+}
+
+.axw .t {
+	height: 80px;
+}

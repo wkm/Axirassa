@@ -9,8 +9,8 @@ import axirassa.util.MessagingTools;
 
 public class PingerServiceRunner {
 	public static void main(String[] args) throws Exception {
-		ClientSession msgsession = MessagingTools.getEmbeddedSession();
-		Service service = new PingerService(msgsession);
+		ClientSession session = MessagingTools.getEmbeddedSession();
+		Service service = new PingerService(session);
 
 		service.execute();
 	}

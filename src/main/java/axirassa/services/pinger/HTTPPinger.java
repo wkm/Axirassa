@@ -2,12 +2,14 @@
 package axirassa.services.pinger;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 
-import axirassa.messaging.PingerResponseMessage;
+import axirassa.model.HttpStatisticsEntity;
+import axirassa.model.PingerEntity;
 import axirassa.services.exceptions.AxirassaServiceException;
 
 public class HTTPPinger {
@@ -20,30 +22,24 @@ public class HTTPPinger {
 	}
 
 
-	public PingerResponseMessage ping(String url) throws ClientProtocolException, IOException, AxirassaServiceException {
-		System.out.println("HTTPPinger: " + url);
-		HttpGet get = new HttpGet(url);
+	public HttpStatisticsEntity ping(PingerEntity entity) throws ClientProtocolException, IOException,
+	        AxirassaServiceException {
+		HttpGet get = new HttpGet(entity.getUrl());
 		HttpResponse response = client.executeWithInstrumentation(get);
 
-		System.out.println("++ TIMING  +++++++++++++++++++++++++++++++++++++++++");
-		System.out.println("LATENCY: " + client.getLatency() + "ms");
-		System.out.println("RESPONSE:   " + client.getResponseTime() + "ms");
-		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		System.out.println("Latency: " + client.getLatency() + "ms  Response: " + client.getResponseTime()
+		        + "ms  URL: " + entity.getUrl());
 
-		PingerResponseMessage message = new PingerResponseMessage();
-		message.setUrl(url);
-		message.setLatencyMillis(client.getLatency());
-		message.setResponseTimeMillis(client.getResponseTime());
-		message.setStatusCode(response.getStatusLine().getStatusCode());
-		message.setResponseSizeBytes(client.getResponseContent().length());
-		message.setUncompressedSizeBytes(0);
+		HttpStatisticsEntity statistic = new HttpStatisticsEntity();
 
-		return message;
-	}
+		statistic.setTimestamp(new Date());
+		statistic.setPinger(entity);
+		statistic.setLatency(client.getLatency());
+		statistic.setResponseTime(client.getResponseTime());
+		statistic.setStatusCode(response.getStatusLine().getStatusCode());
+		statistic.setResponseSize(client.getResponseContent().length());
+		statistic.setUncompressedSize(0);
 
-
-	public static void main(String[] args) throws ClientProtocolException, IOException, AxirassaServiceException {
-		HTTPPinger pinger = new HTTPPinger();
-		pinger.ping("http://localhost:8080/axirassa");
+		return statistic;
 	}
 }

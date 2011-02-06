@@ -9,13 +9,13 @@ import java.util.HashMap;
 import org.hyperic.sigar.NetInterfaceStat;
 import org.hyperic.sigar.SigarException;
 
-import axirassa.services.sentinel.model.SentinelNetworkIOStatisticModel;
-import axirassa.services.sentinel.model.SentinelNetworkStatisticModel;
-import axirassa.services.sentinel.model.SentinelStatisticModel;
+import axirassa.services.sentinel.model.SentinelNetworkIOStatisticEntity;
+import axirassa.services.sentinel.model.SentinelNetworkStatisticEntity;
+import axirassa.services.sentinel.model.SentinelStatisticEntity;
 
 public class NetworkSentinelAgent extends AbstractSentinelStatisticsAgent {
 
-	private final ArrayList<SentinelStatisticModel> networkstats = new ArrayList<SentinelStatisticModel>();
+	private final ArrayList<SentinelStatisticEntity> networkstats = new ArrayList<SentinelStatisticEntity>();
 	private final HashMap<String, NetworkIOSnapshot> previoussnapshots = new HashMap<String, NetworkIOSnapshot>();
 
 
@@ -43,7 +43,7 @@ public class NetworkSentinelAgent extends AbstractSentinelStatisticsAgent {
 			current.rxbytes = stat.getRxBytes();
 			current.txbytes = stat.getTxBytes();
 
-			SentinelNetworkStatisticModel netdatum = new SentinelNetworkStatisticModel();
+			SentinelNetworkStatisticEntity netdatum = new SentinelNetworkStatisticEntity();
 
 			netdatum.machineid = getMachineID();
 			netdatum.date = getDate();
@@ -61,7 +61,7 @@ public class NetworkSentinelAgent extends AbstractSentinelStatisticsAgent {
 				long rxrate = (current.rxbytes - previous.rxbytes) / seconds;
 				long txrate = (current.txbytes - previous.txbytes) / seconds;
 
-				SentinelNetworkIOStatisticModel netiodatum = new SentinelNetworkIOStatisticModel();
+				SentinelNetworkIOStatisticEntity netiodatum = new SentinelNetworkIOStatisticEntity();
 
 				netiodatum.machineid = getMachineID();
 				netiodatum.date = getDate();
@@ -79,7 +79,7 @@ public class NetworkSentinelAgent extends AbstractSentinelStatisticsAgent {
 
 
 	@Override
-	public Collection<SentinelStatisticModel> getStatistics() {
+	public Collection<SentinelStatisticEntity> getStatistics() {
 		return networkstats;
 	}
 

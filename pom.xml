@@ -24,7 +24,7 @@
 		<dependency>
 			<groupId>org.jboss.netty</groupId>
 			<artifactId>netty</artifactId>
-			<version>3.2.2.Final</version>
+			<version>${netty-release-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hornetq</groupId>
@@ -56,7 +56,7 @@
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk16</artifactId>
-			<version>1.45</version>
+			<version>${bouncycastle-release-version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -70,13 +70,13 @@
 		<dependency>
 			<groupId>javax.jms</groupId>
 			<artifactId>jms</artifactId>
-			<version>1.1</version>
+			<version>${jms-release-version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.1-beta1</version>
+			<version>${httpcomponents-release-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hyperic</groupId>
@@ -140,14 +140,21 @@
 		<dependency>
 			<groupId>org.tynamo</groupId>
 			<artifactId>tapestry-security</artifactId>
-			<version>0.3.0</version>
+			<version>${tapestry-security-release-version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
-			<version>1.8.4</version>
+			<version>${quartz-scheduler-release-version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.directwebremoting</groupId>
+			<artifactId>dwr</artifactId>
+			<version>3.0.M1</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -307,5 +314,11 @@
 		<tapestry-release-version>5.2.4</tapestry-release-version>
 		<hornetq-release-version>2.1.2.Final</hornetq-release-version>
 		<hibernate-release-version>3.6.0.Final</hibernate-release-version>
+		<netty-release-version>3.2.2.Final</netty-release-version>
+		<bouncycastle-release-version>1.45</bouncycastle-release-version>
+		<jms-release-version>1.1</jms-release-version>
+		<httpcomponents-release-version>4.1-beta1</httpcomponents-release-version>
+		<tapestry-security-release-version>0.3.0</tapestry-security-release-version>
+		<quartz-scheduler-release-version>1.8.4</quartz-scheduler-release-version>
 	</properties>
 </project>

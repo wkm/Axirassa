@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html  t:type="layout" t:pageTitle="Credits"
+       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<h3>Credits</h3>
+	<p>A selection of products and companies which make Axirassa possible.</p>
+	<h4>Apache Tapestry 5</h4>
+	<p>Extremely efficient Java web-development framework, both for the developer and the server.</p>
+	
+	<h4>PostgreSQL</h4>
+	<p>Powerful, flexible, and fast open-source database.</p>
+	
+	<h4>Hibernate</h4>
+	<p>Java </p>
+	
+	<h4>HornetQ</h4>
+	<p>High-speed Messaging Framework from JBoss.</p>
+	
+	<h4>Direct Web Remoting</h4>
+	<p></p>
+	
+	<h4>100tb</h4>
+</html>

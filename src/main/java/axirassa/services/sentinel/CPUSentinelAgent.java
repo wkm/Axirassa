@@ -7,11 +7,11 @@ import java.util.Collection;
 import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.SigarException;
 
-import axirassa.services.sentinel.model.SentinelCPUStatisticModel;
+import axirassa.services.sentinel.model.SentinelCPUStatisticEntity;
 
 public class CPUSentinelAgent extends AbstractSentinelStatisticsAgent {
 
-	private final ArrayList<SentinelCPUStatisticModel> cpustats = new ArrayList<SentinelCPUStatisticModel>();
+	private final ArrayList<SentinelCPUStatisticEntity> cpustats = new ArrayList<SentinelCPUStatisticEntity>();
 
 
 	@Override
@@ -23,7 +23,7 @@ public class CPUSentinelAgent extends AbstractSentinelStatisticsAgent {
 
 		int cpuid = 0;
 		for (CpuPerc cpu : cpus) {
-			SentinelCPUStatisticModel datum = new SentinelCPUStatisticModel();
+			SentinelCPUStatisticEntity datum = new SentinelCPUStatisticEntity();
 
 			datum.machineid = getMachineID();
 			datum.date = getDate();
@@ -38,7 +38,7 @@ public class CPUSentinelAgent extends AbstractSentinelStatisticsAgent {
 
 
 	@Override
-	public Collection<SentinelCPUStatisticModel> getStatistics() {
+	public Collection<SentinelCPUStatisticEntity> getStatistics() {
 		return cpustats;
 	}
 }
