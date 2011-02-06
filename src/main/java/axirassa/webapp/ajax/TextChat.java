@@ -1,36 +1,47 @@
 
 package axirassa.webapp.ajax;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Calendar;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
-import org.directwebremoting.ScriptSession;
-import org.directwebremoting.WebContext;
-import org.directwebremoting.WebContextFactory;
-import org.directwebremoting.proxy.dwr.Util;
+import org.directwebremoting.Browser;
+import org.directwebremoting.ServerContextFactory;
+import org.directwebremoting.ui.dwr.Util;
 import org.directwebremoting.util.Logger;
 
-public class TextChat {
+import axirassa.webapp.ajax.util.DaemonThreadFactory;
+
+public class TextChat implements Runnable {
 	protected static final Logger log = Logger.getLogger(TextChat.class);
 
-	private final ArrayList<TextChatMessage> messages = new ArrayList<TextChatMessage>();
 
-
-	public void addMessage(String text) {
-		if (text != null && text.trim().length() > 0)
-			messages.add(0, new TextChatMessage(text));
-
-		WebContext wctx = WebContextFactory.get();
-		String currentPage = wctx.getCurrentPage();
-
-		Util utilThis = new Util(wctx.getScriptSession());
-		utilThis.setValue("text", "");
-
-		Collection<ScriptSession> session = wctx.getScriptSessionsByPage(currentPage);
-		Util utilAll = new Util(session);
-
-		utilAll.removeAllOptions("chatlog");
-		utilAll.addOptions("chatlog", messages, "text");
+	public TextChat() {
+		log.error("OH HAI ######################");
+		ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1, new DaemonThreadFactory());
+		executor.scheduleAtFixedRate(this, 1, 50, TimeUnit.MILLISECONDS);
+		log.error("SCHEDULER IS RUNNNNNNING");
 	}
 
+
+	@Override
+	public void run() {
+		Calendar cal = Calendar.getInstance();
+		String time = cal.getTime().toString() + " ms: " + cal.get(Calendar.MILLISECOND);
+
+		setDisplay(time);
+	}
+
+
+	public void setDisplay(final String output) {
+		String page = ServerContextFactory.get().getContextPath();
+		page += "/monitor/widget/49";
+
+		Browser.withPage(page, new Runnable() {
+			@Override
+			public void run() {
+				Util.setValue("field", output);
+			}
+		});
+	}
 }

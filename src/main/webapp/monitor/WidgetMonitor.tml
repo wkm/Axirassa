@@ -6,12 +6,10 @@
 		<div class='sz'>${responseSize}<span class='u'>kb</span></div>
 	</div> -->
 	<p>
-		Your Message:
-		<input id="text" />
-		<input type="button" value="Send" onclick="TextChat.addMessage(dwr.util.getValue('text'))"/>
+		Time:
+		<h3 id="field">[getting time]</h3>
+		<h4 id="pollStatus">status</h4>
+		
+		<ul id="methods"></ul>
 	</p>
-	<hr/>
-	<ul id="chatlog" style="list-style-type:none;">
-	</ul>
-
 </html>

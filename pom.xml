@@ -90,7 +90,14 @@
 			<artifactId>jnetpcap</artifactId>
 			<version>1.3b1-2</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/src/main/resources/jnetpcap-1.3b1-2.jar</systemPath>
+			<systemPath>${basedir}/src/main/libraries/jnetpcap-1.3b1-2.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.directwebremoting</groupId>
+			<artifactId>dwr</artifactId>
+			<version>3.0.M1</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/libraries/dwr-3.0.M1-direct.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -148,13 +155,6 @@
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 			<version>${quartz-scheduler-release-version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.directwebremoting</groupId>
-			<artifactId>dwr</artifactId>
-			<version>3.0.M1</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
