@@ -3,7 +3,7 @@ package axirassa.webapp.ajax;
 
 import java.util.ArrayList;
 
-import org.testng.log4testng.Logger;
+import org.directwebremoting.util.Logger;
 
 public class TextChat {
 	protected static final Logger log = Logger.getLogger(TextChat.class);
