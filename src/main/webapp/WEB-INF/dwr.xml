@@ -5,9 +5,9 @@
 <dwr>
 	<allow>
 		<create creator="new" javascript="TextChat">
-			<param name="class" value="axirassa.webapp.ajax.TextChat"/>
+			<param name="class"   value="axirassa.webapp.ajax.TextChat"/>
 		</create>
 		
-		<convert converter="bean" match="axirassa.webapp.ajax.Message"/>
+		<convert converter="bean" match="axirassa.webapp.ajax.*"/>
 	</allow>
 </dwr>

@@ -12,14 +12,18 @@ import org.tynamo.security.services.SecurityService;
 import axirassa.model.PingerEntity;
 
 @RequiresUser
-@Import(stylesheet = { "context:/css/axwidget.css" }, library = { "${DWR.js}/engine.js", "${DWR.js}/util.js" })
+@Import(stylesheet = { "context:/css/axwidget.css" })
 public class WidgetMonitor {
 	@Inject
 	private JavaScriptSupport jssupport;
 
 
 	void setupRender() {
-		jssupport.importJavaScriptLibrary("http://localhost:8080/axirassa/dwr/interface/TextChat.js");
+		final String prefix = "http://localhost:8080/axirassa/dwr";
+		jssupport.importJavaScriptLibrary(prefix + "/interface/TextChat.js");
+		jssupport.importJavaScriptLibrary(prefix + "/engine.js");
+		jssupport.importJavaScriptLibrary(prefix + "/util.js");
+		jssupport.addScript("dwr.engine.setActiveReverseAjax(true)");
 	}
 
 

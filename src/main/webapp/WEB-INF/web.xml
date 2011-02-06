@@ -74,11 +74,8 @@ of where to look for pages, components and mixins. -->
     		<param-name>maxWaitAfterWrite</param-name>
     		<param-value>-1</param-value>
     	</init-param>
-		<init-param>
-    		<param-name>classes</param-name>
-    		<param-value>
-    		</param-value>
-    	</init-param>
+    	
+    	<load-on-startup>true</load-on-startup>
     </servlet>
     <servlet-mapping>
     	<servlet-name>dwr-invoker</servlet-name>
