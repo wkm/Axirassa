@@ -11,7 +11,7 @@ import org.tynamo.security.services.SecurityService;
 import axirassa.model.PingerEntity;
 
 @RequiresUser
-@Import(stylesheet = { "context:/css/axwidget.css" })
+@Import(stylesheet = { "context:/css/axwidget.css" }, library = { "${dwr.js}/engine.js" })
 public class WidgetMonitor {
 	@Inject
 	private Session session;

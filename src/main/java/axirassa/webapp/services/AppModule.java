@@ -12,6 +12,7 @@ import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Local;
+import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.RequestFilter;
 import org.apache.tapestry5.services.RequestHandler;
@@ -58,6 +59,16 @@ public class AppModule {
 		// tapestry-security configuration
 		configuration.add(SecuritySymbols.LOGIN_URL, "/user/login");
 		configuration.add(SecuritySymbols.UNAUTHORIZED_URL, "/index");
+
+		configuration.add("dwr.version", "");
+		configuration.add("dwr.js", "classpath:${dwr.js.path}");
+		configuration.add("dwr.js.path", "org/directwebremoting");
+	}
+
+
+	public static void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration,
+	        @Symbol("dwr.js.path") String dwrPath) {
+		configuration.add("dwr", dwrPath);
 	}
 
 
