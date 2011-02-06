@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 
 body {
-	font-family: 'Centro Sans Pro', 'lucida grande', sans-serif;
+	font-family: 'lucida grande', sans-serif;
 	font-size: 13pt;
 	
 	margin: 0;
@@ -32,6 +32,11 @@ body {
 	margin: 1em 0;
 }
 
+#title {
+	font-family: 'helvetica neue', helvetica, 'lucida grande', verdana, sans-serif;
+	font-weight: lighter;
+}
+
 .p {
 	color: #000;
 	font-weight: bold;
@@ -59,7 +64,7 @@ h1 {
 }
 
 h2,h3,h4,h5,h6,th {
-	font-family: "Adelle Bold", Georgia, serif;
+	font-family: Georgia, Adelle, serif;
 }
 
 h3 {
