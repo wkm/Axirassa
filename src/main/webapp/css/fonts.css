@@ -1,23 +1,21 @@
 
 @font-face {
     font-family: 'Centro Sans Pro';
-    src: url('http://f.fontdeck.com/f/1/dDNET3NVME8AA8SBJeWxW4+gCiWtmWHQoo0DIRr67S5ixkvZghBGimFs.eot');
+    src: url('http://f.fontdeck.com/f/1/R0lrb2JxTnEAARpUrIS4n5gTviH/5Yio+5se5VWBNPZ+vAPnfM7AUT0ZzqwS+BcwW3E.eot');
     src: local('Centro Sans Pro Regular'),
-    url('http://f.fontdeck.com/f/1/dDNET3NVME8AA8SBJeWxW4+gCiWtmWHQoo0DIRr67S5ixkvZghBGimFs.woff') format('woff'),
-    url('http://f.fontdeck.com/f/1/dDNET3NVME8AA8SBJeWxW4+gCiWtmWHQoo0DIRr67S5ixkvZghBGimFs.ttf') format('opentype'),
-    url('http://f.fontdeck.com/f/1/dDNET3NVME8AA8SBJeWxW4+gCiWtmWHQoo0DIRr67S5ixkvZghBGimFs.svg#437') format('svg');
+    url('http://f.fontdeck.com/f/1/R0lrb2JxTnEAARpUrIS4n5gTviH/5Yio+5se5VWBNPZ+vAPnfM7AUT0ZzqwS+BcwW3E.woff') format('woff'),
+    url('http://f.fontdeck.com/f/1/R0lrb2JxTnEAARpUrIS4n5gTviH/5Yio+5se5VWBNPZ+vAPnfM7AUT0ZzqwS+BcwW3E.ttf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
 
 
 @font-face {
-    font-family: 'Adelle Bold';
-    src: url('http://f.fontdeck.com/f/1/RXpnYnVtTTgAA0x8Y5z3aeGA8cbwDWRenVvI4bzxMjuLgCW7k8MF38Ub.eot');
+    font-family: 'Adelle';
+    src: url('http://f.fontdeck.com/f/1/SEVqREJJR18AAWwyWstEf645RNvE3gP0LSwHof+j5JAZ1MieIwx6bJZro4d+YBzwIdQ.eot');
     src: local('Adelle Bold'),
-    url('http://f.fontdeck.com/f/1/RXpnYnVtTTgAA0x8Y5z3aeGA8cbwDWRenVvI4bzxMjuLgCW7k8MF38Ub.woff') format('woff'),
-    url('http://f.fontdeck.com/f/1/RXpnYnVtTTgAA0x8Y5z3aeGA8cbwDWRenVvI4bzxMjuLgCW7k8MF38Ub.ttf') format('opentype'),
-    url('http://f.fontdeck.com/f/1/RXpnYnVtTTgAA0x8Y5z3aeGA8cbwDWRenVvI4bzxMjuLgCW7k8MF38Ub.svg#1104') format('svg');
+    url('http://f.fontdeck.com/f/1/SEVqREJJR18AAWwyWstEf645RNvE3gP0LSwHof+j5JAZ1MieIwx6bJZro4d+YBzwIdQ.woff') format('woff'),
+    url('http://f.fontdeck.com/f/1/SEVqREJJR18AAWwyWstEf645RNvE3gP0LSwHof+j5JAZ1MieIwx6bJZro4d+YBzwIdQ.ttf') format('opentype');
     font-weight: bold;
     font-style: normal;
 }
@@ -25,11 +23,10 @@
 
 @font-face {
     font-family: 'Centro Sans Pro';
-    src: url('http://f.fontdeck.com/f/1/aHhWaHJuVFMAA5U/z3DaO0oML29eMeRbkknjdsjARoBm3AONWZKpOzkm.eot');
+    src: url('http://f.fontdeck.com/f/1/SkxtbWhMMnYAATTkQFNTq7Tm4a0QKBuPhmAXn51PcK8NCOA4HCfVclQ4vRh2u8OWdZY.eot');
     src: local('Centro Sans Pro Bold'),
-    url('http://f.fontdeck.com/f/1/aHhWaHJuVFMAA5U/z3DaO0oML29eMeRbkknjdsjARoBm3AONWZKpOzkm.woff') format('woff'),
-    url('http://f.fontdeck.com/f/1/aHhWaHJuVFMAA5U/z3DaO0oML29eMeRbkknjdsjARoBm3AONWZKpOzkm.ttf') format('opentype'),
-    url('http://f.fontdeck.com/f/1/aHhWaHJuVFMAA5U/z3DaO0oML29eMeRbkknjdsjARoBm3AONWZKpOzkm.svg#438') format('svg');
+    url('http://f.fontdeck.com/f/1/SkxtbWhMMnYAATTkQFNTq7Tm4a0QKBuPhmAXn51PcK8NCOA4HCfVclQ4vRh2u8OWdZY.woff') format('woff'),
+    url('http://f.fontdeck.com/f/1/SkxtbWhMMnYAATTkQFNTq7Tm4a0QKBuPhmAXn51PcK8NCOA4HCfVclQ4vRh2u8OWdZY.ttf') format('opentype');
     font-weight: bold;
     font-style: normal;
 }
