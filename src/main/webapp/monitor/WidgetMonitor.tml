@@ -5,5 +5,14 @@
 		<div class='t'>${responseTime}<span class='u'>ms</span></div>
 		<div class='sz'>${responseSize}<span class='u'>kb</span></div>
 	</div> -->
-	<t:AxSimplePlot name="widget"/>
+
+	<p>
+		Your Message:
+		<input id="text" onkeypress="dwr.util.onReturn(event, sendMessage)"/>
+		<input type="button" value="Send" onclick="sendMessage()"/>
+	</p>
+	<hr/>
+	<ul id="chatlog" style="list-style-type:none;">
+	</ul>
+
 </html>
