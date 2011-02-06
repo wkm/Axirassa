@@ -4,10 +4,14 @@
     "http://getahead.org/dwr//dwr30.dtd">
 <dwr>
 	<allow>
-		<create creator="new" javascript="TextChat">
-			<param name="class"   value="axirassa.webapp.ajax.TextChat"/>
+	    <!-- <filter class="org.directwebremoting.filter.AuditLogAjaxFilter"/> -->
+	
+		<create creator="new" scope="application">
+			<param name="class" value="axirassa.webapp.ajax.TextChat"/>
 		</create>
 		
-		<convert converter="bean" match="axirassa.webapp.ajax.*"/>
+		<!-- DISABLE ON PRODUCTION -->
+		<convert converter="exception" match="java.lang.Exception" />
+		<convert converter="bean" match="java.lang.StackTraceElement" />
 	</allow>
 </dwr>
