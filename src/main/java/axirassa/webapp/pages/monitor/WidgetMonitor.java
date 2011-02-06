@@ -5,14 +5,24 @@ import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.hibernate.Session;
 import org.tynamo.security.services.SecurityService;
 
 import axirassa.model.PingerEntity;
 
 @RequiresUser
-@Import(stylesheet = { "context:/css/axwidget.css" }, library = { "context:/dwr/engine.js" })
+@Import(stylesheet = { "context:/css/axwidget.css" }, library = { "${DWR.js}/engine.js", "${DWR.js}/util.js" })
 public class WidgetMonitor {
+	@Inject
+	private JavaScriptSupport jssupport;
+
+
+	void setupRender() {
+		jssupport.importJavaScriptLibrary("http://localhost:8080/axirassa/dwr/interface/TextChat.js");
+	}
+
+
 	@Inject
 	private Session session;
 

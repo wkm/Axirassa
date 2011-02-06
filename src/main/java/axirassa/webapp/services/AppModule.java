@@ -60,15 +60,18 @@ public class AppModule {
 		configuration.add(SecuritySymbols.LOGIN_URL, "/user/login");
 		configuration.add(SecuritySymbols.UNAUTHORIZED_URL, "/index");
 
-		configuration.add("DirectWebRemoting.version", "");
-		configuration.add("DirectWebRemoting.js", "classpath:${DirectWebRemoting.js.path}");
-		configuration.add("DirectWebRemoting.js.path", "org/directwebremoting");
+		configuration.add("DWR.version", "");
+		configuration.add("DWR.js", "classpath:${DWR.js.path}");
+		configuration.add("DWR.js.path", "org/directwebremoting");
+
+		configuration.add("DWR.class", "/dwr/interface/");
 	}
 
 
 	public static void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration,
-	        @Symbol("DirectWebRemoting.js.path") String dwrPath) {
-		configuration.add("DirectWebRemoting", dwrPath);
+	        @Symbol("DWR.js.path") String dwrPath, @Symbol("DWR.class") String dwrClassPath) {
+		configuration.add("DWR", dwrPath);
+		configuration.add("DWRClass", dwrClassPath);
 	}
 
 
