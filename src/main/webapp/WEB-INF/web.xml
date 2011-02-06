@@ -69,11 +69,21 @@ of where to look for pages, components and mixins. -->
     		<param-value>true</param-value>
     	</init-param>
     	
+    	<init-param>
+    		<param-name>initApplicationScopeCreatorsAtStartup</param-name>
+    		<param-value>true</param-value>
+    	</init-param>
+    	
     	<!-- use "full" streaming mode with DWR -->
     	<init-param>
     		<param-name>maxWaitAfterWrite</param-name>
     		<param-value>-1</param-value>
     	</init-param>
+    	
+    	<!-- <init-param>
+    		<param-name>accessLogLevel</param-name>
+    		<param-value>CALL</param-value>
+    	</init-param> -->
     	
     	<load-on-startup>true</load-on-startup>
     </servlet>
