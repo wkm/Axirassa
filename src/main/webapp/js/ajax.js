@@ -11,4 +11,15 @@ window.onload=function()
 {
 	dwr.engine.setActiveReverseAjax(true);
 	dwr.engine.setErrorHandler(errorHandler);    
+	
+	addDataPoint(50);
+	addDataPoint(60);
 };
+
+var x = 20;
+function addDataPoint(value) {
+	Tapestry.debug('adding point at: ' + value);
+	x = x + 10;
+	
+	axplot.addDataPoint(x, value);
+}

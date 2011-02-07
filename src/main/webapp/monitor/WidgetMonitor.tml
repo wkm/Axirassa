@@ -10,6 +10,10 @@
 		<h3 id="field">[getting time]</h3>
 		<h4 id="pollStatus">status</h4>
 		
-		<ul id="methods"></ul>
+		<table id="values">
+			<tr><th>Value</th></tr>
+		</table>
+		
+		<div id="plot"></div>
 	</p>
 </html>
