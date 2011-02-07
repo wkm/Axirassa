@@ -19,7 +19,7 @@ public class WidgetMonitor {
 
 
 	void setupRender() {
-		final String prefix = "http://localhost:8080/axirassa/dwr";
+		final String prefix = "http://localhost:8080/dwr";
 		jssupport.importJavaScriptLibrary(prefix + "/interface/TextChat.js");
 		jssupport.importJavaScriptLibrary(prefix + "/engine.js");
 		jssupport.importJavaScriptLibrary(prefix + "/util.js");
