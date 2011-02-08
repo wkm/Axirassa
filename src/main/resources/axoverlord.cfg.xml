@@ -26,8 +26,8 @@
     <target name="AxMessagingServer" 
             class="axirassa.util.EmbeddedMessagingServer" 
             autorestart="true">
-		<jvmoption name="Xmx" value="256m"/>
-		<jvmoption name="Xms" value="256m"/>   	
+		<jvmoption name="Xmx" value="512m"/>
+		<jvmoption name="Xms" value="512m"/>   	
     </target>
     
     <target name="AxControllerService" 
@@ -47,8 +47,7 @@
     <target name="AxPingerService"
             class="axirassa.services.runners.PingerServiceRunner"
             autorestart="true">
-		<jvmoption name="Xmx" value="32m"/>
-		<jvmoption name="Xms" value="32m"/>
+		<jvmoption name="Xmx" value="16m"/>
 	</target>
 	
 	
@@ -67,8 +66,8 @@
     	
     	<!-- wait for one second to let the server finish starting -->
     	
-    	<execute initialdelay="5000" target="AxControllerService" />
-    	<execute instances="8" target="AxPingerService" />
+    	<execute initialdelay="1000" target="AxControllerService" />
+    	<execute instances="32" target="AxPingerService" />
     	<execute target="AxInjectorService" />
     </group>
     
