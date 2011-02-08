@@ -1,6 +1,7 @@
 
 package axirassa.util;
 
+import org.apache.log4j.Logger;
 import org.hornetq.api.core.HornetQException;
 import org.hornetq.api.core.client.ClientConsumer;
 import org.hornetq.api.core.client.ClientSession;
@@ -15,6 +16,8 @@ import org.hornetq.api.core.client.ClientSession;
  * @author wiktor
  */
 public class MessagingTopic {
+	private static final Logger log = Logger.getRootLogger();
+
 	private final ClientSession session;
 	private String topicQueue;
 	private final String topicName;
@@ -25,8 +28,8 @@ public class MessagingTopic {
 		this.topicName = topicName;
 		session.createTemporaryQueue(topicName, getTopicQueueName());
 
-		System.out.println("Created queue: " + topicQueue);
-		System.out.println("\tsubscribed to: " + topicName);
+		log.debug("Created queue: " + topicQueue);
+		log.debug("\tsubscribed to: " + topicName);
 	}
 
 

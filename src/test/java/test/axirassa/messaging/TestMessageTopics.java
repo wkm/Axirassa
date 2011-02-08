@@ -2,7 +2,10 @@
 package test.axirassa.messaging;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
+import java.util.ArrayList;
 
 import org.hornetq.api.core.HornetQException;
 import org.hornetq.api.core.TransportConfiguration;
@@ -98,6 +101,28 @@ public class TestMessageTopics {
 
 		assertEquals("msg2", getMessageText(topic2Consumer1.receiveImmediate()));
 		assertEquals("msg2", getMessageText(account1Consumer.receiveImmediate()));
+
+		// test message sending... heh heh
+		int consumerCount = 10000;
+		int messageCount = 100;
+		long start = System.currentTimeMillis();
+		ArrayList<ClientConsumer> freakshow = new ArrayList<ClientConsumer>(10000);
+		for (int i = 0; i < consumerCount; i++)
+			freakshow.add(new MessagingTopic(session, topic3).createConsumer());
+		System.err.println("Created 10k consumers in: " + (System.currentTimeMillis() - start));
+
+		start = System.currentTimeMillis();
+		for (int i = 0; i < messageCount; i++)
+			producer.send(topic3, textMessage(session, "hi... you broke yet?"));
+		System.err.println("Sent 100 messages to 10k consumers in: " + (System.currentTimeMillis() - start));
+
+		// c c c consume those babies
+		start = System.currentTimeMillis();
+		for (int i = 0; i < messageCount; i++)
+			for (ClientConsumer consumer : freakshow)
+				assertNotNull(consumer.receiveImmediate());
+
+		System.err.println("Consumed 100 messages through 10000 consumers in: " + (System.currentTimeMillis() - start));
 
 		session.stop();
 	}
