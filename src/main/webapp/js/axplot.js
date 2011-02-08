@@ -20,6 +20,8 @@ function AxPlot(id, plotdata) {
 AxPlot.prototype.addDataPoint = function (x, y) {	
 	this.plotData.push([x,y]);
 	this.drawPlot();
+	
+	$(this.id + "_val").update(y+"<span class='u'>ms</span>");
 };
 
 AxPlot.prototype.drawPlot = function() {
@@ -32,7 +34,7 @@ AxPlot.prototype.drawPlot = function() {
 			{
 				shadowSize: 0,
 				grid: {
-					outlineWidth: .5
+					outlineWidth: 0
 				}
 			}
 	);

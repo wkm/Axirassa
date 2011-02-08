@@ -12,7 +12,7 @@ import org.tynamo.security.services.SecurityService;
 import axirassa.model.PingerEntity;
 
 @RequiresUser
-@Import(stylesheet = { "context:/css/axwidget.css" }, library = {
+@Import(stylesheet = { "context:/css/axwidget.css", "context:/css/axplot.css" }, library = {
         "${tapestry.scriptaculous}/prototype.js", "context:js/flotr.debug-0.2.0-alpha.js",
         "context:js/lib/canvas2image.js", "context:js/lib/canvastext.js", "context:/js/ajax.js",
         "context:/js/axplot.js" })

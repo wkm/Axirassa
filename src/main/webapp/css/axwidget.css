@@ -2,28 +2,54 @@
 	width: 480px;
 	height: 160px;
 	
-	border: 1px solid #eee;
 	padding: 0;
+	font-size: 8pt;
+	position: relative;
+}
+
+.axw .p {
+	width: 400px;
+	height: 160px;
+	background: #eee;
+}
+
+.axw .respTime {
+	height: 120px;
+}
+
+.axw .respSize {
+	height: 80px;
 }
 
 .axw .n {
 	font-weight: bold;
 	text-transform: uppercase;
-	font-size: 180%;
+	font-size: 20pt;
 	margin-top: -11px;
+	z-index: 1;
+	position: absolute;
+	top: 10px;
+	left: 15px;
 }
 
 .axw .t, .axw .sz {
-	font-size: 120%;
+	font-size: 18pt;
 	font-weight: bold;
 	text-align: right;
 	text-transform: uppercase;
-}
-.u {
-	color: #666;
-	font-size: 80%;
+	position: absolute;
+	left: 400px;
 }
 
 .axw .t {
-	height: 80px;
+	top: 50px;
+}
+
+.axw .sz {
+	top: 100px;
+}
+
+.u {
+	color: #666;
+	font-size: 80%;
 }
