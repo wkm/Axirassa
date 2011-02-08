@@ -6,8 +6,8 @@
 	<allow>
 	    <!-- <filter class="org.directwebremoting.filter.AuditLogAjaxFilter"/> -->
 	
-		<create creator="new" scope="application">
-			<param name="class" value="axirassa.webapp.ajax.TextChat"/>
+		<create creator="new">
+			<param name="class" value="axirassa.webapp.ajax.PingerLevelDataStream"/>
 		</create>
 		
 		<!-- DISABLE ON PRODUCTION -->
