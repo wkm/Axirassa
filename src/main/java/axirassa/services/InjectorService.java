@@ -1,9 +1,11 @@
 
 package axirassa.services;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.hibernate.Session;
+import org.hornetq.api.core.HornetQException;
 import org.hornetq.api.core.client.ClientConsumer;
 import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientSession;
@@ -20,6 +22,20 @@ import axirassa.util.AutoSerializingObject;
  * @author wiktor
  */
 public class InjectorService implements Service {
+
+	public static HttpStatisticsEntity rebuildMessage(ClientMessage message) throws HornetQException, IOException,
+	        ClassNotFoundException, InvalidMessageClassException {
+		byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
+		message.getBodyBuffer().readBytes(buffer);
+		message.acknowledge();
+
+		Object rawobject = AutoSerializingObject.fromBytes(buffer);
+		if (rawobject instanceof HttpStatisticsEntity) {
+			return (HttpStatisticsEntity) rawobject;
+		} else
+			throw new InvalidMessageClassException(HttpStatisticsEntity.class, rawobject);
+	}
+
 
 	private final ClientSession messagingSession;
 	private final Session databaseSession;
@@ -46,16 +62,7 @@ public class InjectorService implements Service {
 			if (message == null)
 				break;
 
-			byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
-			message.getBodyBuffer().readBytes(buffer);
-			message.acknowledge();
-
-			Object rawobject = AutoSerializingObject.fromBytes(buffer);
-			if (rawobject instanceof HttpStatisticsEntity) {
-				HttpStatisticsEntity statistics = (HttpStatisticsEntity) rawobject;
-				entities.add(statistics);
-			} else
-				throw new InvalidMessageClassException(HttpStatisticsEntity.class, rawobject);
+			entities.add(rebuildMessage(message));
 		}
 
 		consumer.close();
