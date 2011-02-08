@@ -52,7 +52,7 @@ public class PingerService implements Service {
 					PingerEntity request = (PingerEntity) rawobject;
 					HttpStatisticsEntity statistic = pinger.ping(request);
 
-					sendResponseMessage(producer, statistic);
+					sendResponseMessages(producer, statistic);
 				} else
 					throw new InvalidMessageClassException(PingerEntity.class, rawobject);
 			}
@@ -66,10 +66,22 @@ public class PingerService implements Service {
 	}
 
 
-	private void sendResponseMessage(ClientProducer producer, HttpStatisticsEntity statistic) throws IOException,
+	private void sendResponseMessages(ClientProducer producer, HttpStatisticsEntity statistic) throws IOException,
 	        HornetQException {
+		// send a message to the primary pinger response queue for injection
 		ClientMessage message = session.createMessage(false);
 		message.getBodyBuffer().writeBytes(statistic.toBytes());
 		producer.send(message);
+
+		// send a message to the broadcast address for this pinger
+		producer.send(getBroadcastAddress(statistic), message);
+	}
+
+
+	private String getBroadcastAddress(HttpStatisticsEntity statistic) {
+		String address = "ax.account." + statistic.getPinger().getUser().getId() + ".pinger."
+		        + statistic.getPinger().getId();
+		System.err.println("address: " + address);
+		return address;
 	}
 }
