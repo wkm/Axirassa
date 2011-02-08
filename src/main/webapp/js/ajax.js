@@ -21,5 +21,4 @@ function addDataPoint(value) {
 	x = x + 10;	
 	axplot.addDataPoint(x, value);
 	
-	
 }

@@ -29,12 +29,16 @@ AxPlot.prototype.drawPlot = function() {
 			$(this.id),
 			[{
 				data: this.plotData,
-				lines: { show:true }
+				lines: { show:true },
+				color: "#8e2800"
 			}],
 			{
 				shadowSize: 0,
 				grid: {
 					outlineWidth: 0
+				},
+				yaxis: {
+					min: 0
 				}
 			}
 	);
