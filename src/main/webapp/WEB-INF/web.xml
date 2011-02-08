@@ -44,6 +44,10 @@ of where to look for pages, components and mixins. -->
 		<param-value>true</param-value>
 	</context-param>
 	<context-param>
+		<param-name>tapestry.hibernate.early-startup</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
 		<param-name>tapestry.default-stylesheet</param-name>
 		<param-value>context:/css/main.css</param-value>
 	</context-param>
