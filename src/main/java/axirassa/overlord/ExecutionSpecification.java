@@ -85,7 +85,7 @@ public class ExecutionSpecification {
 		ExecutionMonitor monitor = new ExecutionMonitor(target, id, processbuilder);
 		monitor.setRemainingRestarts(-1);
 
-		Thread thread = new Thread(monitor);
+		Thread thread = new Thread(monitor, "overlord-monitor " + target + "[" + id + "]");
 		configuration.getOverlord().addExecutionInstance(thread, monitor);
 		thread.start();
 	}
