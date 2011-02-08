@@ -19,7 +19,7 @@ public class TextChat implements Runnable {
 
 	public TextChat() {
 		ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1, new DaemonThreadFactory());
-		executor.scheduleAtFixedRate(this, 1, 2, TimeUnit.SECONDS);
+		executor.scheduleAtFixedRate(this, 1, 1, TimeUnit.SECONDS);
 	}
 
 

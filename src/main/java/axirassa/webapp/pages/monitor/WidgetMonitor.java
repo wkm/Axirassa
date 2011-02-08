@@ -12,7 +12,10 @@ import org.tynamo.security.services.SecurityService;
 import axirassa.model.PingerEntity;
 
 @RequiresUser
-@Import(stylesheet = { "context:/css/axwidget.css" }, library = { "context:/js/ajax.js", "context:/js/axplot.js" })
+@Import(stylesheet = { "context:/css/axwidget.css" }, library = {
+        "${tapestry.scriptaculous}/prototype.js", "context:js/flotr.debug-0.2.0-alpha.js",
+        "context:js/lib/canvas2image.js", "context:js/lib/canvastext.js", "context:/js/ajax.js",
+        "context:/js/axplot.js" })
 public class WidgetMonitor {
 	@Inject
 	private JavaScriptSupport jssupport;
@@ -24,7 +27,7 @@ public class WidgetMonitor {
 		jssupport.importJavaScriptLibrary(prefix + "/engine.js");
 		jssupport.importJavaScriptLibrary(prefix + "/util.js");
 
-		jssupport.addScript("axplot = new AxPlot('%s')", "plot");
+		jssupport.addScript("axplot = new AxPlot('%s', [[10,20],[20,30],[30,10]])", "plot");
 	}
 
 

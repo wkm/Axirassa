@@ -18,8 +18,6 @@ window.onload=function()
 
 var x = 20;
 function addDataPoint(value) {
-	Tapestry.debug('adding point at: ' + value);
-	x = x + 10;
-	
+	x = x + 10;	
 	axplot.addDataPoint(x, value);
 }
