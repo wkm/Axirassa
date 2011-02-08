@@ -74,7 +74,7 @@ public class WidgetMonitor {
 
 
 	public void beginRender() {
-		jssupport.addScript("PingerLevelDataStream.subscribe(%d, null)", id);
+		jssupport.addScript("PingerLevelDataStream.subscribe(%d, %d, null)", pinger.getUser().getId(), id);
 	}
 
 

@@ -79,8 +79,8 @@ public class PingerService implements Service {
 
 
 	private String getBroadcastAddress(HttpStatisticsEntity statistic) {
-		String address = "ax.account." + statistic.getPinger().getUser().getId() + ".pinger."
-		        + statistic.getPinger().getId();
+		String address = PingerEntity.createBroadcastQueueName(statistic.getPinger().getUser().getId(), statistic
+		        .getPinger().getId());
 		System.err.println("address: " + address);
 		return address;
 	}

@@ -47,6 +47,11 @@ public class PingerEntity extends AutoSerializingObject implements Serializable 
 	}
 
 
+	public static String createBroadcastQueueName(Long userId, Long pingerId) {
+		return "ax.account." + userId + ".pinger." + pingerId;
+	}
+
+
 	//
 	// INSTANCE
 	//
