@@ -73,17 +73,13 @@ public class PingerLevelDataStream implements Runnable {
 			try {
 				log.info("#### awaiting message");
 				ClientMessage message = consumer.receive();
-				log.info("#### message received: " + message);
 				HttpStatisticsEntity stat = InjectorService.rebuildMessage(message);
 				PingerEntity pinger = stat.getPinger();
 
-				log.info("#### Pinger: " + pinger);
-
 				String scriptingSession = pingerMap.getSession(pinger.getId());
 				if (scriptingSession == null)
-					log.info("Ignoring HttpStatisticsEntity to unsubscribed pinger");
+					continue;
 				else {
-					log.info("Sending response time to " + scriptingSession);
 					streamData(scriptingSession, stat.getResponseTime());
 				}
 			} catch (InvalidMessageClassException e) {
