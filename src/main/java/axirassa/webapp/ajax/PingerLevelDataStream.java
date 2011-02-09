@@ -48,7 +48,7 @@ public class PingerLevelDataStream implements Runnable {
 	public synchronized void subscribe(long pingerId) {
 		ScriptSession session = WebContextFactory.get().getScriptSession();
 		log.info("Subscribing to " + pingerId + " from :" + session.getId());
-		pingerMap.addSessionPinger(pingerId, session);
+		pingerMap.addSessionPinger(pingerId, session.getId());
 	}
 
 
