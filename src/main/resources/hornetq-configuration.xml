@@ -9,10 +9,12 @@
             <factory-class>
                 org.hornetq.core.remoting.impl.netty.NettyConnectorFactory
             </factory-class>
-            <param key="host" value="localhost"/>
-            <param key="port" value="10127"/>
-            <param key="socket-ref" value="netty"/>
-            <param key="use-nio" value="true"/>
+            
+            <!--  these don't appear to be used -->
+            <param key="hornetq.remoting.netty.host" value="localhost"/>
+            <param key="hornetq.remoting.netty.port" value="5445"/>
+            <param key="hornetq.remoting.netty.socket-ref" value="netty"/>
+            <param key="hornetq.remoting.netty.use-nio" value="true"/>
         </connector>
     </connectors>
     

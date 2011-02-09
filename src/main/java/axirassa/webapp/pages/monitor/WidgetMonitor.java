@@ -12,17 +12,22 @@ import org.tynamo.security.services.SecurityService;
 import axirassa.model.PingerEntity;
 
 @RequiresUser
-@Import(stylesheet = { "context:/css/axwidget.css" }, library = { "context:/js/ajax.js" })
+@Import(stylesheet = { "context:/css/axwidget.css", "context:/css/axplot.css" }, library = {
+        "${tapestry.scriptaculous}/prototype.js", "context:js/flotr.debug-0.2.0-alpha.js",
+        "context:js/lib/canvas2image.js", "context:js/lib/canvastext.js", "context:/js/ajax.js",
+        "context:/js/axplot.js" })
 public class WidgetMonitor {
 	@Inject
 	private JavaScriptSupport jssupport;
 
 
 	void setupRender() {
-		final String prefix = "http://localhost:8080/axirassa/dwr";
-		jssupport.importJavaScriptLibrary(prefix + "/interface/TextChat.js");
+		final String prefix = "/dwr";
+		jssupport.importJavaScriptLibrary(prefix + "/interface/PingerLevelDataStream.js");
 		jssupport.importJavaScriptLibrary(prefix + "/engine.js");
 		jssupport.importJavaScriptLibrary(prefix + "/util.js");
+
+		jssupport.addScript("axplot = new AxPlot('%s', [[10,20],[20,30],[30,10]])", "plot");
 	}
 
 
@@ -65,6 +70,11 @@ public class WidgetMonitor {
 			return "Index";
 
 		return true;
+	}
+
+
+	public void beginRender() {
+		jssupport.addScript("PingerLevelDataStream.subscribe(%d, null)", id);
 	}
 
 

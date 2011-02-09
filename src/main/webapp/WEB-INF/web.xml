@@ -44,6 +44,10 @@ of where to look for pages, components and mixins. -->
 		<param-value>true</param-value>
 	</context-param>
 	<context-param>
+		<param-name>tapestry.hibernate.early-startup</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
 		<param-name>tapestry.default-stylesheet</param-name>
 		<param-value>context:/css/main.css</param-value>
 	</context-param>
@@ -56,10 +60,11 @@ of where to look for pages, components and mixins. -->
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     
-    <!-- Direct Web Remoting -->
+    
+    <!-- DIRECT WEB REMOTING SERVLET -->
     <servlet>
     	<servlet-name>dwr-invoker</servlet-name>
-    	<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+    	<servlet-class>axirassa.webapp.ajax.util.AxirassaDwrServlet</servlet-class>
     	<init-param>
     		<param-name>activeReverseAjaxEnabled</param-name>
     		<param-value>true</param-value>
@@ -80,12 +85,12 @@ of where to look for pages, components and mixins. -->
     		<param-value>-1</param-value>
     	</init-param>
     	
-    	<!-- <init-param>
+    	 <init-param>
     		<param-name>accessLogLevel</param-name>
     		<param-value>CALL</param-value>
-    	</init-param> -->
+    	</init-param>
     	
-    	<load-on-startup>true</load-on-startup>
+    	<load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
     	<servlet-name>dwr-invoker</servlet-name>
