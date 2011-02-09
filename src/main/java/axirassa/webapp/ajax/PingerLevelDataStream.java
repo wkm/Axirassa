@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 import org.directwebremoting.Browser;
 import org.directwebremoting.ScriptSessions;
+import org.directwebremoting.WebContextFactory;
 import org.hornetq.api.core.HornetQException;
 import org.hornetq.api.core.client.ClientConsumer;
 import org.hornetq.api.core.client.ClientMessage;
@@ -17,41 +18,89 @@ import axirassa.services.InjectorService;
 import axirassa.services.exceptions.InvalidMessageClassException;
 import axirassa.util.MessagingTools;
 import axirassa.util.MessagingTopic;
+import axirassa.webapp.ajax.util.DaemonThreadFactory;
 
-public class PingerLevelDataStream {
+public class PingerLevelDataStream implements Runnable {
 	protected static final Logger log = Logger.getRootLogger();
-	private long pingerId;
-	private long userId;
+	private static PingerLevelDataStream instance;
 
-	private MessagingTopic topic;
+	private transient PingerSessionMap pingerMap = new PingerSessionMap();
 
 
-	public void subscribe(long userId, long pingerId) throws InterruptedException, HornetQException,
-	        InvalidMessageClassException, IOException, ClassNotFoundException {
-		this.pingerId = pingerId;
-		this.userId = userId;
+	public static PingerLevelDataStream getInstance() {
+		if (instance == null)
+			instance = new PingerLevelDataStream();
 
-		ClientSession session = MessagingTools.getEmbeddedSession();
-		String address = PingerEntity.createBroadcastQueueName(userId, pingerId);
-		System.err.println("#### subscribing to " + address);
+		return instance;
+	}
 
-		topic = new MessagingTopic(session, address);
-		session.start();
-		ClientConsumer consumer = topic.createConsumer();
 
+	private PingerLevelDataStream() {
+		DaemonThreadFactory threadFactory = new DaemonThreadFactory();
+		Thread t = threadFactory.newThread(this);
+		t.start();
+	}
+
+
+	public synchronized void subscribe(long pingerId) {
+		String sessionId = WebContextFactory.get().getScriptSession().getId();
+		log.info("Subscribing to " + pingerId + " from :" + sessionId);
+		pingerMap.addSessionPinger(pingerId, sessionId);
+	}
+
+
+	public synchronized void unsubscribe(String session) {
+		log.info("Unsubscribing from " + session);
+		pingerMap.removeBySession(session);
+	}
+
+
+	@Override
+	public void run() {
+		ClientConsumer consumer = null;
+		try {
+			ClientSession session = MessagingTools.getEmbeddedSession();
+			MessagingTopic topic = new MessagingTopic(session, "ax.account.#");
+			consumer = topic.createConsumer();
+			session.start();
+		} catch (HornetQException e) {
+			log.error("Could not run PingerLevelDataStream ", e);
+			return;
+		}
+
+		log.info("Initializing PingerLevelDataStream");
 		while (true) {
-			System.err.println("#### awaiting message");
-			ClientMessage message = consumer.receive();
-			System.err.println("#### message received: " + message);
+			try {
+				log.info("#### awaiting message");
+				ClientMessage message = consumer.receive();
+				log.info("#### message received: " + message);
+				HttpStatisticsEntity stat = InjectorService.rebuildMessage(message);
+				PingerEntity pinger = stat.getPinger();
 
-			HttpStatisticsEntity entity = InjectorService.rebuildMessage(message);
-			streamData(entity.getResponseTime());
+				log.info("#### Pinger: " + pinger);
+
+				String scriptingSession = pingerMap.getSession(pinger.getId());
+				if (scriptingSession == null)
+					log.info("Ignoring HttpStatisticsEntity to unsubscribed pinger");
+				else {
+					log.info("Sending response time to " + scriptingSession);
+					streamData(scriptingSession, stat.getResponseTime());
+				}
+			} catch (InvalidMessageClassException e) {
+				log.error("Exception:", e);
+			} catch (HornetQException e) {
+				log.error("Exception:", e);
+			} catch (IOException e) {
+				log.error("Exception:", e);
+			} catch (ClassNotFoundException e) {
+				log.error("Exception:", e);
+			}
 		}
 	}
 
 
-	public void streamData(final int responseTime) {
-		Browser.withCurrentPage(new Runnable() {
+	private void streamData(String scriptingSession, final int responseTime) {
+		Browser.withSession(scriptingSession, new Runnable() {
 			@Override
 			public void run() {
 				ScriptSessions.addFunctionCall("addDataPoint", responseTime);
