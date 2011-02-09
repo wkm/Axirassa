@@ -2,6 +2,8 @@
 package axirassa.util;
 
 import java.util.HashSet;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.hornetq.api.core.TransportConfiguration;
 import org.hornetq.core.config.impl.FileConfiguration;
@@ -36,15 +38,34 @@ public class EmbeddedMessagingServer {
 		server.start();
 
 		System.out.println("Axirassa Embedded HornetQ server started.");
-		System.out.println("Queues:");
 
-		String[] queues = server.getHornetQServerControl().getQueueNames();
-		for (String queue : queues)
-			System.out.println("\t" + queue);
+		ServerQueueLister lister = new ServerQueueLister(server);
+
+		ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+		executor.scheduleAtFixedRate(lister, 1, 1, TimeUnit.MINUTES);
 	}
 
 
 	static public void main(String[] args) throws Exception {
 		start();
+	}
+}
+
+class ServerQueueLister implements Runnable {
+
+	private final HornetQServer server;
+
+
+	public ServerQueueLister(final HornetQServer server) {
+		this.server = server;
+	}
+
+
+	@Override
+	public void run() {
+		String[] queues = server.getHornetQServerControl().getQueueNames();
+		System.out.println("QUEUES:");
+		for (String queue : queues)
+			System.out.println("\t" + queue);
 	}
 }
