@@ -34,6 +34,7 @@ AxPlot.prototype.drawPlot = function() {
 			}],
 			{
 				shadowSize: 0,
+				points: {show: true},
 				grid: {
 					outlineWidth: 0
 				},

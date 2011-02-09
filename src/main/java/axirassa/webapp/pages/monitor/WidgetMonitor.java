@@ -22,7 +22,7 @@ public class WidgetMonitor {
 
 
 	void setupRender() {
-		final String prefix = "http://localhost:8080/dwr";
+		final String prefix = "/dwr";
 		jssupport.importJavaScriptLibrary(prefix + "/interface/PingerLevelDataStream.js");
 		jssupport.importJavaScriptLibrary(prefix + "/engine.js");
 		jssupport.importJavaScriptLibrary(prefix + "/util.js");
@@ -74,7 +74,7 @@ public class WidgetMonitor {
 
 
 	public void beginRender() {
-		jssupport.addScript("PingerLevelDataStream.subscribe(%d, %d, null)", pinger.getUser().getId(), id);
+		jssupport.addScript("PingerLevelDataStream.subscribe(%d, null)", id);
 	}
 
 

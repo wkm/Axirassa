@@ -13,7 +13,7 @@
 		
 		<div class='axw'>
 			<div class="n">gmail.com</div>
-			<div id='plot' class='p respTime'></div>
+			<div id='plot' style="width:480px;height:160px" class='p respTime'></div>
 			<div id='plot2' class='p respSize'></div>
 			<div id="plot_val" class='t'>30<span class='u'>ms</span></div>
 			<div id="plot_val2" class="sz">18<span class='u'>kb</span></div>
