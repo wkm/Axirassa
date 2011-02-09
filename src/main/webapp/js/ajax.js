@@ -18,8 +18,8 @@ window.onload=function()
 };
 
 var x = 20;
-function addDataPoint(value) {
+function addDataPoint(date, responseTime, responseSize) {
 	x = x + 10;	
-	axplot.addDataPoint(x, value);
-	
+	axplot.addDataPoint(x, responseTime);
+	$("pollStatus").update("Last update: "+date);
 }

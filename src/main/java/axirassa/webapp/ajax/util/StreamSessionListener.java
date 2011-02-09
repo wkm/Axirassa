@@ -10,6 +10,8 @@ public class StreamSessionListener implements ScriptSessionListener {
 
 	@Override
 	public void sessionCreated(ScriptSessionEvent ev) {
+		String sessionId = ev.getSession().getId();
+		PingerLevelDataStream.getInstance().subscribe(sessionId, ev);
 	}
 
 

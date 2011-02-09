@@ -25,6 +25,9 @@ public class InjectorService implements Service {
 
 	public static HttpStatisticsEntity rebuildMessage(ClientMessage message) throws HornetQException, IOException,
 	        ClassNotFoundException, InvalidMessageClassException {
+		if (message == null)
+			return null;
+
 		byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
 		message.getBodyBuffer().readBytes(buffer);
 		message.acknowledge();

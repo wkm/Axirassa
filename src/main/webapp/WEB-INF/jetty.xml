@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
 
+<!--  THIS APPEARS TO BE IGNORED -->
 <Configure id="Server" class="org.mortbay.jetty.Server">
 	<Set name="ThreadPool">
 		<New class="org.mortbay.thread.QueuedThreadPool">
@@ -17,7 +18,7 @@
 	
 	 <Call name="addConnector">
       <Arg>
-          <New class="org.mortbay.jetty.nio.SelectChannelConnector">
+          <New class="org.eclipse.jetty.nio.SelectChannelConnector">
             <!-- the ip address or domain to bind -->
             <Set name="host"><SystemProperty name="jetty.host" default="localhost" /></Set>
 

@@ -158,6 +158,13 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	<url>http://axirassa.com</url>
 	<issueManagement>
@@ -188,29 +195,6 @@
 		<finalName>axir</finalName>
 		<plugins>
 			<!-- Run the application using "mvn jetty:run" -->
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>maven-jetty-plugin</artifactId>
-				<version>6.1.9</version>
-				<configuration>
-					<requestLog implementation="org.mortbay.jetty.NCSARequestLog">
-						<append>true</append>
-					</requestLog>
-
-					<Set name="ThreadPool">
-						<New class="org.mortbay.thread.QueuedThreadPool">
-							<Set name="minThreads">10</Set>
-							<Set name="maxThreads">200</Set>
-							<Set name="lowThreads">20</Set>
-							<Set name="SpawnOrShrinkAt">2</Set>
-						</New>
-					</Set>
-
-<!-- 					<scanIntervalSeconds>1</scanIntervalSeconds>-->
-					<jettyConfg>src/main/webapp/WEB-INF/jetty.xml</jettyConfg>
-					<webDefaultXml>src/main/webapp/WEB-INF/webdefault.xml</webDefaultXml>
-				</configuration>
-			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2</version>
@@ -245,6 +229,32 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+			<plugin> 
+                <groupId>org.mortbay.jetty</groupId> 
+                <artifactId>jetty-maven-plugin</artifactId> 
+                <version>${jetty-release-version}</version> 
+                <dependencies> 
+                    <dependency> 
+                        <groupId>xalan</groupId> 
+                        <artifactId>xalan</artifactId> 
+                        <version>2.7.0</version> 
+                    </dependency> 
+                </dependencies> 
+                <configuration> 
+                    <connectors> 
+                        <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector"> 
+                            <host>0.0.0.0</host> 
+                            <port>8080</port> 
+                            <maxIdleTime>300000</maxIdleTime> 
+                            <acceptors>30</acceptors>
+                            <statsOn>true</statsOn>
+                        </connector> 
+                    </connectors> 
+                    <requestLog implementation="org.eclipse.jetty.server.NCSARequestLog"> 
+                        <append>true</append> 
+                    </requestLog> 
+                </configuration> 
+            </plugin>
 		</plugins>
 		<resources>
 		</resources>
@@ -320,5 +330,6 @@
 		<httpcomponents-release-version>4.1-beta1</httpcomponents-release-version>
 		<tapestry-security-release-version>0.3.0</tapestry-security-release-version>
 		<quartz-scheduler-release-version>1.8.4</quartz-scheduler-release-version>
+		<jetty-release-version>7.2.2.v20101205</jetty-release-version>
 	</properties>
 </project>

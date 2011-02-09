@@ -13,8 +13,6 @@
 			<param name="class" value="axirassa.webapp.ajax.PingerLevelDataStream"/>
 		</create>
 		
-		<filter class="axirassa.webapp.ajax.util.StreamCloseFilter" />
-		
 		<!-- DISABLE ON PRODUCTION -->
 		<convert converter="exception" match="java.lang.Exception" />
 		<convert converter="bean" match="java.lang.StackTraceElement" />

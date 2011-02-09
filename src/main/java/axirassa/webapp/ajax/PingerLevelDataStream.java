@@ -2,9 +2,12 @@
 package axirassa.webapp.ajax;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.directwebremoting.Browser;
+import org.directwebremoting.ScriptSession;
 import org.directwebremoting.ScriptSessions;
 import org.directwebremoting.WebContextFactory;
 import org.hornetq.api.core.HornetQException;
@@ -24,7 +27,7 @@ public class PingerLevelDataStream implements Runnable {
 	protected static final Logger log = Logger.getRootLogger();
 	private static PingerLevelDataStream instance;
 
-	private transient PingerSessionMap pingerMap = new PingerSessionMap();
+	private transient DataStreamSessionMap pingerMap = new DataStreamSessionMap();
 
 
 	public static PingerLevelDataStream getInstance() {
@@ -43,9 +46,9 @@ public class PingerLevelDataStream implements Runnable {
 
 
 	public synchronized void subscribe(long pingerId) {
-		String sessionId = WebContextFactory.get().getScriptSession().getId();
-		log.info("Subscribing to " + pingerId + " from :" + sessionId);
-		pingerMap.addSessionPinger(pingerId, sessionId);
+		ScriptSession session = WebContextFactory.get().getScriptSession();
+		log.info("Subscribing to " + pingerId + " from :" + session.getId());
+		pingerMap.addSessionPinger(pingerId, session);
 	}
 
 
@@ -71,17 +74,24 @@ public class PingerLevelDataStream implements Runnable {
 		log.info("Initializing PingerLevelDataStream");
 		while (true) {
 			try {
-				log.info("#### awaiting message");
 				ClientMessage message = consumer.receive();
 				HttpStatisticsEntity stat = InjectorService.rebuildMessage(message);
+				if (stat == null) {
+					log.warn("received null message");
+					continue;
+				}
+
 				PingerEntity pinger = stat.getPinger();
 
-				String scriptingSession = pingerMap.getSession(pinger.getId());
-				if (scriptingSession == null)
+				Set<String> scriptingSessions = pingerMap.getSessions(pinger.getId());
+				if (scriptingSessions == null)
 					continue;
-				else {
-					streamData(scriptingSession, stat.getResponseTime());
-				}
+				else
+					for (String scriptingSession : scriptingSessions) {
+						log.info("#### Pushing: " + stat.getResponseTime() + " to: " + scriptingSession);
+						streamData(scriptingSession, stat.getTimestamp(), stat.getResponseTime(),
+						           stat.getResponseSize());
+					}
 			} catch (InvalidMessageClassException e) {
 				log.error("Exception:", e);
 			} catch (HornetQException e) {
@@ -95,12 +105,23 @@ public class PingerLevelDataStream implements Runnable {
 	}
 
 
-	private void streamData(String scriptingSession, final int responseTime) {
+	private void streamData(String scriptingSession, final Date date, final int responseTime, final long responseSize) {
+		// ScriptSession session =
+		// ServerContextFactory.get().getScriptSessionById(scriptingSession);
+		// session.
+
 		Browser.withSession(scriptingSession, new Runnable() {
 			@Override
 			public void run() {
-				ScriptSessions.addFunctionCall("addDataPoint", responseTime);
+				ScriptSessions.addFunctionCall("addDataPoint", date, responseTime, responseSize);
 			}
 		});
+
+		// // TODO this should use Browser.session(...) but there's a bug in the
+		// // implementation
+		// ScriptSession session =
+		// ServerContextFactory.get().getScriptSessionById(scriptingSession);
+		// session.addScript(new ScriptBuffer("addDataPoint(" + responseTime +
+		// ")"));
 	}
 }
