@@ -14,6 +14,7 @@ import org.cometd.server.BayeuxServerImpl;
 import org.cometd.server.CometdServlet;
 
 import axirassa.webapp.ajax.TimeService;
+import axirassa.webapp.ajax.httpstream.HttpStreamingTransport;
 
 public class AxirassaAjaxServlet extends CometdServlet {
 	private static final long serialVersionUID = -4248590754241578096L;

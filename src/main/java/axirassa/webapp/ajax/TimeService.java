@@ -44,10 +44,10 @@ public class TimeService extends AbstractService {
 			@Override
 			public void run() {
 				while (true) {
-					// System.err.println("jPUBLISHING DATE");
+					System.err.println("PUBLISHING DATE");
 					channel.publish(new Date());
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(5000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

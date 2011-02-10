@@ -406,6 +406,8 @@ org.cometd.Cometd = function(name)
      */
     function _send(sync, messages, longpoll, extraPath)
     {
+    	console.warn("SENDING");
+    	
         // We must be sure that the messages have a clientId.
         // This is not guaranteed since the handshake may take time to return
         // (and hence the clientId is not known yet) and the application
@@ -602,6 +604,7 @@ org.cometd.Cometd = function(name)
      */
     function _handshake(handshakeProps)
     {
+    	console.warn("HANDSHAKE BABY");
         _clientId = null;
 
         _clearSubscriptions();
@@ -673,6 +676,7 @@ org.cometd.Cometd = function(name)
 
     function _delayedHandshake()
     {
+    	console.warn("DELAYED HANDSHAKE");
         _setStatus('handshaking');
 
         // We will call _handshake() which will reset _clientId, but we want to avoid

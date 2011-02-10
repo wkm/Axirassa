@@ -9,17 +9,19 @@ var ajax = {
 window.onload = function(){
 	dojox.cometd.configure({
 		url:"http://localhost:8080/push",
-		backoffIncrement: 100,
+		backoffIncrement: 10000,
 		maxBackoff: 3600 * 1000,
 		logLevel: 'debug'
 	});
 	dojox.cometd.handshake();
-	
+	console.log("attempting to subscribe");
 	var subscribe = dojox.cometd.subscribe("/ax/timeplease", function(msg){
+		console.log("received message from: /ax/timeplease");
 		$("pollStatus").update("Updated: "+msg.data);
 	});
 	
-//	dojox.cometd.publish('/ax/timeplease', 'yo dawg');
+	console.log("attempting to publish");
+	dojox.cometd.publish('/ax/timeplease', 'yo dawg');
 };
 
 var x = 20;

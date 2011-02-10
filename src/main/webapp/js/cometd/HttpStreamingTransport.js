@@ -26,6 +26,21 @@ org.cometd.HttpStreamingTransport = function() {
 				body: org.cometd.JSON.toJSON(envelope.messages),
 				onSuccess: function(response) {
 					self._debug('#### received response: ', response);
+					var success = false;
+					try {
+						var received = self.convertToMessages(response);
+						if(received.length === 0) {
+							self.transportFailure(envelope, request, 'no response', null);
+						} else {
+							success = true;
+							self.transportSuccess(envelope, request, received);
+						}
+					} catch (ex) {
+						self._debug(ex);
+						if(!success) {
+							self.transportFailure(envelope, request, 'bad response', ex);
+						}
+					}
 				},
 				onError: function(response) {
 					self._debug('#### received error: ', response);

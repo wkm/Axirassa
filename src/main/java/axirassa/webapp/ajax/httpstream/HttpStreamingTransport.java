@@ -1,7 +1,8 @@
 
-package axirassa.webapp.ajax.util;
+package axirassa.webapp.ajax.httpstream;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -9,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.cometd.bayeux.server.ServerMessage;
 import org.cometd.server.BayeuxServerImpl;
 import org.cometd.server.transport.HttpTransport;
 import org.eclipse.jetty.util.log.Logger;
@@ -19,7 +21,7 @@ public class HttpStreamingTransport extends HttpTransport {
 	private final ConcurrentHashMap<String, AtomicInteger> sessionMap = new ConcurrentHashMap<String, AtomicInteger>();
 
 
-	protected HttpStreamingTransport(BayeuxServerImpl bayeux, String name) {
+	public HttpStreamingTransport(BayeuxServerImpl bayeux, String name) {
 		super(bayeux, name);
 
 		setOptionPrefix(PREFIX);
@@ -38,7 +40,12 @@ public class HttpStreamingTransport extends HttpTransport {
 		for (Object arg : args)
 			sb.append(arg.toString()).append(' ');
 
-		getLogger().info(sb.toString());
+		System.err.println(sb.toString());
+	}
+
+
+	public ServerMessage.Mutable[] parseRequestMessages(HttpServletRequest request) throws IOException, ParseException {
+		return parseMessages(request);
 	}
 
 
@@ -51,15 +58,15 @@ public class HttpStreamingTransport extends HttpTransport {
 
 	@Override
 	public boolean accept(HttpServletRequest request) {
-		info("accepting request", request);
-		System.err.println("ACCEPTING REQUEST");
-		return false;
+		info("accepting request: ", request);
+		return "POST".equals(request.getMethod());
 	}
 
 
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		System.err.println("HANDLING REQUEST");
-		info("handling request", request, response);
+		HttpStreamingTransportHandler handler = new HttpStreamingTransportHandler(this, request, response);
+		handler.handle();
 	}
+
 }
