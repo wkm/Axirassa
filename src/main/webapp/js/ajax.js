@@ -1,20 +1,25 @@
-function errorHandler(message, ex) {
-	dwr.util.setValue("error", "<font color='red'>Cannot connect to server. Initializing retry logic.</font>", {escapeHtml:false});
-	setTimeout(function() { dwr.util.setValue("error", ""); }, 5000);
-};
-	  
-function updatePollStatus(pollStatus) {
-	dwr.util.setValue("pollStatus", pollStatus ? "<font color='green'>Online</font>" : "<font color='red'>Offline</font>", {escapeHtml:false});
+var ajax = {
+	_streamSubscription: null,
+	
+	_init: function() {
+		
+	}
 };
 
-window.onload=function()
-{
-	dwr.engine.setActiveReverseAjax(true);
-	dwr.engine.setNotifyServerOnPageUnload(true);
-	dwr.engine.setErrorHandler(errorHandler);
+window.onload = function(){
+	dojox.cometd.configure({
+		url:"http://localhost:8080/push",
+		backoffIncrement: 100,
+		maxBackoff: 3600 * 1000,
+		logLevel: 'debug'
+	});
+	dojox.cometd.handshake();
 	
-	addDataPoint(50);
-	addDataPoint(60);
+	var subscribe = dojox.cometd.subscribe("/ax/timeplease", function(msg){
+		$("pollStatus").update("Updated: "+msg.data);
+	});
+	
+//	dojox.cometd.publish('/ax/timeplease', 'yo dawg');
 };
 
 var x = 20;

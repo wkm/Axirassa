@@ -12,21 +12,24 @@ import org.tynamo.security.services.SecurityService;
 import axirassa.model.PingerEntity;
 
 @RequiresUser
-@Import(stylesheet = { "context:/css/axwidget.css", "context:/css/axplot.css" }, library = {
-        "${tapestry.scriptaculous}/prototype.js", "context:js/flotr.debug-0.2.0-alpha.js",
-        "context:js/lib/canvas2image.js", "context:js/lib/canvastext.js", "context:/js/ajax.js",
-        "context:/js/axplot.js" })
+@Import(
+        stylesheet = { "context:/css/axwidget.css", "context:/css/axplot.css" },
+        library = {
+                "context:/js/dojo/dojo.js", "${tapestry.scriptaculous}/prototype.js",
+                "context:js/flotr.debug-0.2.0-alpha.js", "context:js/lib/canvas2image.js",
+                "context:js/lib/canvastext.js", "context:/js/ajax.js", "context:/js/axplot.js",
+                "context:/js/cometd/cometd-namespace.js", "context:/js/cometd/Utils.js",
+                "context:/js/cometd/cometd-json.js", "context:/js/cometd/TransportRegistry.js",
+                "context:/js/cometd/RequestTransport.js", "context:/js/cometd/Transport.js",
+                "context:/js/cometd/LongPollingTransport.js", "context:/js/cometd/CallbackPollingTransport.js",
+                "context:/js/cometd/WebSocketTransport.js", "context:/js/cometd/Cometd.js",
+                "context:/js/cometd/dojocometd.js" })
 public class WidgetMonitor {
 	@Inject
 	private JavaScriptSupport jssupport;
 
 
 	void setupRender() {
-		final String prefix = "/dwr";
-		jssupport.importJavaScriptLibrary(prefix + "/interface/PingerLevelDataStream.js");
-		jssupport.importJavaScriptLibrary(prefix + "/engine.js");
-		jssupport.importJavaScriptLibrary(prefix + "/util.js");
-
 		jssupport.addScript("axplot = new AxPlot('%s', [[10,20],[20,30],[30,10]])", "plot");
 	}
 

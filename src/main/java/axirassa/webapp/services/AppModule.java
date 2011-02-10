@@ -145,6 +145,6 @@ public class AppModule {
 
 
 	public void contributeIgnoredPathsFilter(Configuration<String> configuration) {
-		configuration.add("/dwr/.*");
+		configuration.add("/push/.*");
 	}
 }
