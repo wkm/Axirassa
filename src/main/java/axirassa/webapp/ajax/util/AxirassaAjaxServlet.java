@@ -1,14 +1,9 @@
 
 package axirassa.webapp.ajax.util;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.servlet.GenericServlet;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletResponse;
 
 import org.cometd.bayeux.Message;
 import org.cometd.bayeux.server.BayeuxServer;
@@ -16,23 +11,27 @@ import org.cometd.bayeux.server.ServerMessage;
 import org.cometd.bayeux.server.ServerSession;
 import org.cometd.server.AbstractService;
 import org.cometd.server.BayeuxServerImpl;
+import org.cometd.server.CometdServlet;
 
 import axirassa.webapp.ajax.TimeService;
 
-public class AxirassaAjaxServlet extends GenericServlet {
+public class AxirassaAjaxServlet extends CometdServlet {
 	private static final long serialVersionUID = -4248590754241578096L;
 
 
 	public AxirassaAjaxServlet() {
+		super();
 	}
 
 
 	@Override
 	public void init() throws ServletException {
-		super.init();
-		final BayeuxServerImpl server = (BayeuxServerImpl) getServletContext().getAttribute(BayeuxServer.ATTRIBUTE);
+		final BayeuxServerImpl server = getBayeux();
+		getServletContext().setAttribute(BayeuxServer.ATTRIBUTE, server);
 
 		addStreamingTransport(server);
+
+		super.init();
 
 		new Monitor(server);
 		try {
@@ -42,6 +41,7 @@ public class AxirassaAjaxServlet extends GenericServlet {
 		}
 
 		System.err.println(server.dump());
+		System.err.println(server.getCurrentTransport());
 	}
 
 
@@ -84,6 +84,7 @@ public class AxirassaAjaxServlet extends GenericServlet {
 		public void monitorMeta(ServerSession session, ServerMessage message) {
 			// if (Log.isDebugEnabled())
 			System.out.println("META: " + message.toString());
+			System.out.println("DATA: " + message.getDataAsMap());
 		}
 
 
@@ -91,11 +92,4 @@ public class AxirassaAjaxServlet extends GenericServlet {
 			System.out.println("BLAST: " + message.toString());
 		}
 	}
-
-
-	@Override
-	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
-		((HttpServletResponse) res).sendError(503);
-	}
-
 }

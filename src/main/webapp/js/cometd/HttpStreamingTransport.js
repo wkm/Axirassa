@@ -21,20 +21,21 @@ org.cometd.HttpStreamingTransport = function() {
 			request.xhr = this.xhrSend({
 				transport: this,
 				url: envelope.url,
-				sync: evelope.sync,
+				sync: envelope.sync,
 				headers: this.getConfiguration().requestHeaders,
 				body: org.cometd.JSON.toJSON(envelope.messages),
 				onSuccess: function(response) {
-					self._debug('#### received response: '+response);
+					self._debug('#### received response: ', response);
 				},
 				onError: function(response) {
-					self._debug('#### received error: '+response);
+					self._debug('#### received error: ', response);
 				}
 			});
 		} catch(ex) {
 			_supportsCrossDomain = false;
 			this.setTimeout(function() {
 				self.transportFailure();
+				_self._debug("#### error: ", ex);
 			}, 0);
 		};
 	};

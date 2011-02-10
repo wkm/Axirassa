@@ -44,6 +44,7 @@ public class HttpStreamingTransport extends HttpTransport {
 
 	@Override
 	protected void init() {
+		super.init();
 		info("initializing");
 	}
 
@@ -51,12 +52,14 @@ public class HttpStreamingTransport extends HttpTransport {
 	@Override
 	public boolean accept(HttpServletRequest request) {
 		info("accepting request", request);
+		System.err.println("ACCEPTING REQUEST");
 		return false;
 	}
 
 
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		System.err.println("HANDLING REQUEST");
 		info("handling request", request, response);
 	}
 }
