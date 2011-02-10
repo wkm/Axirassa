@@ -2,6 +2,7 @@
 package axirassa.webapp.ajax.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletException;
@@ -31,6 +32,8 @@ public class AxirassaAjaxServlet extends GenericServlet {
 		super.init();
 		final BayeuxServerImpl server = (BayeuxServerImpl) getServletContext().getAttribute(BayeuxServer.ATTRIBUTE);
 
+		addStreamingTransport(server);
+
 		new Monitor(server);
 		try {
 			new TimeService(server);
@@ -39,6 +42,18 @@ public class AxirassaAjaxServlet extends GenericServlet {
 		}
 
 		System.err.println(server.dump());
+	}
+
+
+	private void addStreamingTransport(BayeuxServerImpl server) {
+		server.addTransport(new HttpStreamingTransport(server, HttpStreamingTransport.PREFIX));
+
+		ArrayList<String> allowedTransports = new ArrayList<String>(server.getAllowedTransports());
+		allowedTransports.add(0, HttpStreamingTransport.PREFIX);
+		server.setAllowedTransports(allowedTransports);
+
+		server.getLogger().info("KNOWN TRANSPORTS: " + server.getKnownTransportNames());
+		server.getLogger().info("ALLOWED TRANSPORTS: " + server.getAllowedTransports());
 	}
 
 
