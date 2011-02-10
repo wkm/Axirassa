@@ -271,9 +271,9 @@
                             <statsOn>true</statsOn>
                         </connector> 
                     </connectors> 
-                    <requestLog implementation="org.eclipse.jetty.server.NCSARequestLog"> 
+                    <!-- <requestLog implementation="org.eclipse.jetty.server.NCSARequestLog"> 
                         <append>true</append> 
-                    </requestLog> 
+                    </requestLog> --> 
                 </configuration> 
             </plugin>
 		</plugins>
