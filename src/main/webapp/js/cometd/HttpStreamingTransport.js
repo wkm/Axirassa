@@ -26,6 +26,7 @@ org.cometd.HttpStreamingTransport = function() {
 				body: org.cometd.JSON.toJSON(envelope.messages),
 				onSuccess: function(response) {
 					self._debug('#### received response: ', response);
+					console.log("ENVELOPE: ", envelope);
 					var success = false;
 					try {
 						var received = self.convertToMessages(response);

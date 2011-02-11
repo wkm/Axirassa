@@ -14,10 +14,13 @@ import org.cometd.bayeux.Message;
 import org.cometd.bayeux.server.ServerMessage;
 import org.cometd.server.BayeuxServerImpl;
 import org.cometd.server.ServerSessionImpl;
+import org.eclipse.jetty.continuation.Continuation;
+import org.eclipse.jetty.continuation.ContinuationSupport;
 
 public class HttpStreamingTransportHandler {
 
 	private final static String USER_AGENT_HEADER = "User-Agent";
+	private final static String SCHEDULER_ATTRIBUTE = "cometd.httpstreaming.scheduler";
 
 	private final HttpServletRequest request;
 	private final HttpServletResponse response;
@@ -34,8 +37,14 @@ public class HttpStreamingTransportHandler {
 	}
 
 
-	private void info(Object... info) {
-		transport.info(info);
+	private void info(Object... args) {
+		Object[] withPrefix = new Object[args.length + 2];
+		withPrefix[0] = Long.toHexString(hashCode());
+		withPrefix[1] = "   ";
+		for (int i = 0; i < args.length; i++)
+			withPrefix[i + 2] = args[i];
+
+		transport.info(withPrefix);
 	}
 
 
@@ -45,7 +54,38 @@ public class HttpStreamingTransportHandler {
 
 
 	public void handle() {
-		info("handling request: ", request);
+		System.out.println("\n\n\n\n\n\n");
+		Object schedulerAttribute = request.getAttribute(SCHEDULER_ATTRIBUTE);
+
+		if (schedulerAttribute == null) {
+			info("NO SCHEDULER");
+			handleNewSession();
+		} else {
+			if (!(schedulerAttribute instanceof HttpStreamingScheduler)) {
+				info("DANGER DANGER: scheduler attribute not a HttpStreamingScheduler");
+				return;
+			}
+
+			HttpStreamingScheduler scheduler = (HttpStreamingScheduler) schedulerAttribute;
+			handleResumedSession(scheduler);
+		}
+	}
+
+
+	private void handleResumedSession(HttpStreamingScheduler scheduler) {
+		info("HANDLING RESUMED SESSION");
+		serverSession = scheduler.getServerSession();
+		if (serverSession.isConnected()) {
+			info("starting serverSession interval timeout");
+			serverSession.startIntervalTimeout();
+		}
+
+		sendQueuedMessages();
+		suspendSession();
+	}
+
+
+	public void handleNewSession() {
 		try {
 			ServerMessage.Mutable[] messages = transport.parseRequestMessages(request);
 			if (messages == null) {
@@ -64,7 +104,6 @@ public class HttpStreamingTransportHandler {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			info("cleaning up HST handle");
 		}
 	}
 
@@ -92,29 +131,19 @@ public class HttpStreamingTransportHandler {
 					sendQueuedMessages();
 			}
 
+			// TODO not totally sure what this does, it appears to propagate
+			// /meta/* messages (see #extendSend)
 			reply = getBayeux().extendReply(serverSession, serverSession, reply);
 			sendReply(reply);
 
 			if (isHandshake) {
 				// immediately finish
 				writer.close();
+			} else {
+				suspendSession();
 			}
 
 			message.setAssociated(null);
-
-			if (!isHandshake && serverSession != null) {
-				// time to sleepy sleep
-				info("tranport timeout: ", transport.getTimeout());
-				long timeout = serverSession.calculateTimeout(transport.getTimeout());
-				info("setting timeout to: ", timeout);
-
-				if (serverSession.isConnected()) {
-					info("starting timeout....");
-					serverSession.startIntervalTimeout();
-				}
-			} else {
-				info("no server session");
-			}
 		}
 
 		// info("CLOSING WRITER TO FINISH SENDING");
@@ -124,12 +153,28 @@ public class HttpStreamingTransportHandler {
 	}
 
 
+	private void suspendSession() {
+		info("SUSPENDING SESSION");
+		long timeout = serverSession.calculateTimeout(transport.getTimeout());
+		info("TIMEOUT COMPUTED: " + timeout);
+
+		if (timeout > 0) {
+			info("PROCEEDING TO TIMEOUT");
+			Continuation continuation = ContinuationSupport.getContinuation(request);
+			continuation.setTimeout(timeout);
+			continuation.suspend(response);
+
+			HttpStreamingScheduler scheduler = new HttpStreamingScheduler(serverSession, continuation);
+			serverSession.setScheduler(scheduler);
+			request.setAttribute(SCHEDULER_ATTRIBUTE, scheduler);
+		}
+	}
+
+
 	private void sendQueuedMessages() {
 		if (serverSession != null) {
-			info("SENDING QUEUED MESSAGES");
 			final List<ServerMessage> queue = serverSession.takeQueue();
 			for (ServerMessage message : queue) {
-				info("QUEUED MESSAGE: ", message);
 				sendReply(message);
 			}
 		}
@@ -146,8 +191,11 @@ public class HttpStreamingTransportHandler {
 			return;
 
 		Map<String, Object> adviceFields = reply.asMutable().getAdvice(true);
-		adviceFields.put(Message.INTERVAL_FIELD, 10000);
-		serverSession.reAdvise();
+		// advise reconnecting after 60 seconds
+		adviceFields.put(Message.INTERVAL_FIELD, 60000);
+		adviceFields.put(Message.RECONNECT_FIELD, Message.RECONNECT_RETRY_VALUE);
+		if (serverSession != null)
+			serverSession.reAdvise();
 
 		writeMessage(reply.getJSON());
 	}
@@ -162,7 +210,7 @@ public class HttpStreamingTransportHandler {
 				writer = new JSONStreamPrintWriter(response.getWriter());
 
 			writer.write(message);
-			info("Wrote message: ", message);
+			info(" >>>> ", message);
 
 			flushResponse();
 		} catch (IOException e) {
@@ -186,7 +234,7 @@ public class HttpStreamingTransportHandler {
 		try {
 			writer.flush();
 			response.flushBuffer();
-			info("flushed response and HTTP buffer");
+			info(" >>>> [flushed]");
 		} catch (IOException e) {
 			info("Could not flush HTTP response buffer: ", e);
 		}
@@ -208,7 +256,6 @@ public class HttpStreamingTransportHandler {
 	 *         such sesion exists
 	 */
 	private ServerSessionImpl retrieveSession(String clientId) {
-		info("retreiving server session associated with: " + clientId);
 		return (ServerSessionImpl) getBayeux().getSession(clientId);
 	}
 
