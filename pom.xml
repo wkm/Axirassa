@@ -261,7 +261,10 @@
                         <version>2.7.0</version> 
                     </dependency> 
                 </dependencies> 
-                <configuration> 
+                <configuration>
+                	<useDirectBuffers>false</useDirectBuffers>
+                	<statsOn>true</statsOn>
+                	<!-- <scanIntervalSeconds>1</scanIntervalSeconds> -->
                     <connectors> 
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector"> 
                             <host>0.0.0.0</host> 
