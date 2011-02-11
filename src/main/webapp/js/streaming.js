@@ -1,7 +1,7 @@
 window.onload = function() {
 	var xmlhttp = new XMLHttpRequest;
 	var lastindex = 0;
-	
+	/*
 	xmlhttp.open("GET", "http://localhost:8080/stream/", true);
 	xmlhttp.onreadystatechange = function() {
 		console.log("stage changed ---> ", xmlhttp.readyState);
@@ -12,6 +12,23 @@ window.onload = function() {
 		lastindex = newindex;
 		
 		alert(text);
-	}
-	xmlhttp.send(null);
+	};
+	xmlhttp.send(null); */
+	
+	dojox.cometd.configure({
+		url: "http://localhost:8080/push",
+		logLevel: 'debug',
+		advice: {
+			timeout: 60000,
+			interval: 10000,
+			reconnect: 'retry'
+		}
+	});
+	dojox.cometd.handshake();
+	
+	console.log("attempting to subscribe");
+	var subscribe = dojox.cometd.subscribe("/ax/timeplease", function(msg){
+		console.log("$$$$$ MESSAGE RECEIVED BY CALLBACK UPDATING CONTENT")
+		dojo.byId("pollStatus").innerHTML = "Updated: " + msg.data;
+	});
 };

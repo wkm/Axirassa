@@ -33,5 +33,6 @@
 	<h3>Other</h3>
 	<ul>
 		<li><t:pagelink t:page="Credits">Credits</t:pagelink></li>
+		<li><a href="/streaming/">Streaming</a></li>
 	</ul>
 </html> 

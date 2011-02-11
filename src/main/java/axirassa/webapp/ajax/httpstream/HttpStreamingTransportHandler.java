@@ -4,11 +4,13 @@ package axirassa.webapp.ajax.httpstream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.cometd.bayeux.Channel;
+import org.cometd.bayeux.Message;
 import org.cometd.bayeux.server.ServerMessage;
 import org.cometd.server.BayeuxServerImpl;
 import org.cometd.server.ServerSessionImpl;
@@ -21,7 +23,7 @@ public class HttpStreamingTransportHandler {
 	private final HttpServletResponse response;
 	private ServerSessionImpl serverSession;
 	private final HttpStreamingTransport transport;
-	private JSONPrintWriter writer;
+	private JSONStreamPrintWriter writer;
 
 
 	public HttpStreamingTransportHandler(HttpStreamingTransport transport, HttpServletRequest request,
@@ -79,9 +81,11 @@ public class HttpStreamingTransportHandler {
 
 		ServerMessage reply = getBayeux().handle(serverSession, message);
 		if (reply != null) {
-			if (serverSession == null)
+			boolean isHandshake = false;
+			if (serverSession == null) {
+				isHandshake = true;
 				handleHandshake(reply);
-			else {
+			} else {
 				info("#### NOT A HANDSHAKE");
 
 				if (isConnectMessage || !isMetaConnectDeliveryOnly())
@@ -91,11 +95,30 @@ public class HttpStreamingTransportHandler {
 			reply = getBayeux().extendReply(serverSession, serverSession, reply);
 			sendReply(reply);
 
+			if (isHandshake) {
+				// immediately finish
+				writer.close();
+			}
+
 			message.setAssociated(null);
+
+			if (!isHandshake && serverSession != null) {
+				// time to sleepy sleep
+				info("tranport timeout: ", transport.getTimeout());
+				long timeout = serverSession.calculateTimeout(transport.getTimeout());
+				info("setting timeout to: ", timeout);
+
+				if (serverSession.isConnected()) {
+					info("starting timeout....");
+					serverSession.startIntervalTimeout();
+				}
+			} else {
+				info("no server session");
+			}
 		}
 
-		info("CLOSING WRITER TO FINISH SENDING");
-		finishResponse();
+		// info("CLOSING WRITER TO FINISH SENDING");
+		// finishResponse();
 
 		return serverSession;
 	}
@@ -122,6 +145,10 @@ public class HttpStreamingTransportHandler {
 		if (reply == null)
 			return;
 
+		Map<String, Object> adviceFields = reply.asMutable().getAdvice(true);
+		adviceFields.put(Message.INTERVAL_FIELD, 10000);
+		serverSession.reAdvise();
+
 		writeMessage(reply.getJSON());
 	}
 
@@ -132,7 +159,7 @@ public class HttpStreamingTransportHandler {
 
 		try {
 			if (writer == null)
-				writer = new JSONPrintWriter(response.getWriter());
+				writer = new JSONStreamPrintWriter(response.getWriter());
 
 			writer.write(message);
 			info("Wrote message: ", message);
@@ -159,6 +186,7 @@ public class HttpStreamingTransportHandler {
 		try {
 			writer.flush();
 			response.flushBuffer();
+			info("flushed response and HTTP buffer");
 		} catch (IOException e) {
 			info("Could not flush HTTP response buffer: ", e);
 		}
@@ -167,7 +195,7 @@ public class HttpStreamingTransportHandler {
 
 	private void handleHandshake(ServerMessage reply) {
 		info("handling handshake");
-		ServerSessionImpl serverSession = retrieveSession(reply.getClientId());
+		serverSession = retrieveSession(reply.getClientId());
 
 		// get the user agent
 		if (serverSession != null)

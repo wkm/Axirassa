@@ -55,8 +55,46 @@ org.cometd.HttpStreamingTransport = function() {
 		};
 	};
 	
-	_self.transportFailure = function() {
+	_self.xhrSend = function(packet) {
+		var xmlhttp = new XMLHttpRequest;
+		var lastindex = 0;
+		
+		console.log("!!!!! packet: ", packet);
+		xmlhttp.open("POST", packet.url, true);
+		xmlhttp.onreadystatechange = function() {
+			if(xmlhttp.readyState != 4) {
+				return;
+			}
+			
+			var newindex = xmlhttp.responseText.length;
+			var text = xmlhttp.responseText.substring(lastindex, newindex);
+			
+			
+			if(text.substring(0, 11) != "<<#START#>>" ||
+					text.substring(text.length-9, text.length) != "<<#END#>>") {
+				packet.onError(text); 
+			};
+			
+			text = text.substring(11, text.length-9);
+			text = text.split("<<#END#>><<#START#>>");
+			
+			console.log("!!!! # of segments: ", text.length);
+			for(var segment in text) {
+				console.log("!!!!\tfor segment: ", text[segment]);
+				packet.onSuccess(text[segment]);
+			}
+			
+			lastindex = newindex;
+		},
+		xmlhttp.send(packet.body);
+	};
+	
+	_self.transportFailure = function (envelope, request, msg, exception) {
 		console.log("TRANSPORT FAILURE");
+	};
+	
+	_self.transortSuccess = function (envelope, request, received){
+		console.log("!!!!! TRANSPORT SUCCESS");
 	};
 	
 	return _self;

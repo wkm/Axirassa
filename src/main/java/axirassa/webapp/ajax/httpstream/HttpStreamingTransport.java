@@ -3,7 +3,6 @@ package axirassa.webapp.ajax.httpstream;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +15,6 @@ import org.eclipse.jetty.util.log.Logger;
 
 public class HttpStreamingTransport extends HttpTransport {
 	public final static String PREFIX = "http-streaming";
-
-	private final ConcurrentHashMap<String, HttpStreamingTransportHandler> sessionMap = new ConcurrentHashMap<String, HttpStreamingTransportHandler>();
 
 
 	public HttpStreamingTransport(BayeuxServerImpl bayeux, String name) {
@@ -57,7 +54,6 @@ public class HttpStreamingTransport extends HttpTransport {
 
 	@Override
 	public boolean accept(HttpServletRequest request) {
-		info("accepting request: ", request);
 		return "POST".equals(request.getMethod());
 	}
 
