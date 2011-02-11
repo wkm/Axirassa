@@ -146,5 +146,6 @@ public class AppModule {
 
 	public void contributeIgnoredPathsFilter(Configuration<String> configuration) {
 		configuration.add("/push/.*");
+		configuration.add("/stream/.*");
 	}
 }

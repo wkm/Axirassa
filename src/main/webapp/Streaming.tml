@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<title>streaming test</title>
+		<script type="text/javascript" src="/js/dojo/dojo.js"></script>
+		<script type="text/javascript" src="/js/cometd/cometd-namespace.js"></script>
+		<script type="text/javascript" src="/js/cometd/Utils.js"></script>
+		<script type="text/javascript" src="/js/cometd/cometd-json.js"></script>
+		<script type="text/javascript" src="/js/cometd/TransportRegistry.js"></script>
+		<script type="text/javascript" src="/js/cometd/RequestTransport.js"></script>
+		<script type="text/javascript" src="/js/cometd/Transport.js"></script>
+		<script type="text/javascript" src="/js/cometd/LongPollingTransport.js"></script>
+		<script type="text/javascript" src="/js/cometd/CallbackPollingTransport.js"></script>
+		<script type="text/javascript" src="/js/cometd/WebSocketTransport.js"></script>
+		<script type="text/javascript" src="/js/cometd/Cometd.js"></script>
+		<script type="text/javascript" src="/js/cometd/dojocometd.js"></script>
+		<script type="text/javascript" src="/js/cometd/HttpStreamingTransport.js"></script>
+		<script type="text/javascript" src="/js/cometd/dojox_HttpStreamingTransport.js"></script>
+		<script type="text/javascript" src="/js/streaming.js"></script>
+	</head>
+	<body>
+		<h1>Streaming Test</h1>
+	</body>
+</html>

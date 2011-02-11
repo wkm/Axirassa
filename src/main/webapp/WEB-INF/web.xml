@@ -93,5 +93,15 @@ of where to look for pages, components and mixins. -->
     	<servlet-class>axirassa.webapp.ajax.util.AxirassaAjaxServlet</servlet-class>
     	<load-on-startup>4</load-on-startup>    
     </servlet> -->
+    
+    <servlet>
+    	<servlet-name>axirassaStreamTest</servlet-name>
+    	<servlet-class>axirassa.webapp.ajax.util.StreamTestServlet</servlet-class>
+    	<load-on-startup>5</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+    	<servlet-name>axirassaStreamTest</servlet-name>
+    	<url-pattern>/stream/*</url-pattern>
+    </servlet-mapping>
 </web-app> 
       
