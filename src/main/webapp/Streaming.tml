@@ -19,5 +19,6 @@
 	</head>
 	<body>
 		<h1>Streaming Test</h1>
+		<table id="data"></table>
 	</body>
 </html>

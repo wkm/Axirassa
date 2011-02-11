@@ -6,9 +6,12 @@ window.onload = function() {
 	xmlhttp.onreadystatechange = function() {
 		console.log("stage changed ---> ", xmlhttp.readyState);
 		var newindex = xmlhttp.responseText.length;
-		console.log("text: ", xmlhttp.responseText.substr(lastindex, newindex));
+		var text = xmlhttp.responseText.substr(lastindex, newindex);
+		console.log("text: ", text);
 		console.log("total bytes: ", newindex);
 		lastindex = newindex;
+		
+		alert(text);
 	}
 	xmlhttp.send(null);
 };
