@@ -4,7 +4,6 @@ package axirassa.webapp.ajax.httpstream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +17,7 @@ import org.eclipse.jetty.util.log.Logger;
 public class HttpStreamingTransport extends HttpTransport {
 	public final static String PREFIX = "http-streaming";
 
-	private final ConcurrentHashMap<String, AtomicInteger> sessionMap = new ConcurrentHashMap<String, AtomicInteger>();
+	private final ConcurrentHashMap<String, HttpStreamingTransportHandler> sessionMap = new ConcurrentHashMap<String, HttpStreamingTransportHandler>();
 
 
 	public HttpStreamingTransport(BayeuxServerImpl bayeux, String name) {
