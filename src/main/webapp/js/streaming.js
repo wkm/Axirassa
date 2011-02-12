@@ -17,7 +17,7 @@ window.onload = function() {
 	
 	dojox.cometd.configure({
 		url: "http://localhost:8080/push",
-		logLevel: 'debug',
+//		logLevel: 'debug',
 		advice: {
 			timeout: 60000,
 			interval: 10000,
@@ -28,7 +28,7 @@ window.onload = function() {
 	
 	console.log("attempting to subscribe");
 	var subscribe = dojox.cometd.subscribe("/ax/timeplease", function(msg){
-		console.log("$$$$$ MESSAGE RECEIVED BY CALLBACK UPDATING CONTENT")
+		console.error("$$$$$ MESSAGE RECEIVED BY CALLBACK UPDATING CONTENT");
 		dojo.byId("pollStatus").innerHTML = "Updated: " + msg.data;
 	});
 };

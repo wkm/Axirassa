@@ -24,7 +24,7 @@ public class HttpStreamingTransportHandler {
 	private static final String REQUEST_TICK_ATTRIBUTE = "cometd.httpstreaming.requesttick";
 
 	private final HttpServletRequest request;
-	private final HttpServletResponse response;
+	private HttpServletResponse response;
 	private ServerSessionImpl serverSession;
 	private final HttpStreamingTransport transport;
 	private JSONStreamPrintWriter writer;
@@ -58,11 +58,13 @@ public class HttpStreamingTransportHandler {
 	public void handle() {
 		System.out.println("\n\n\n\n\n\n");
 		Object schedulerAttribute = request.getAttribute(SCHEDULER_ATTRIBUTE);
+		info("schdulerAttribute: ", schedulerAttribute);
 
 		if (schedulerAttribute == null) {
 			info("NO SCHEDULER");
 			handleNewSession();
 		} else {
+			info("HANDLING RESUME");
 			if (!(schedulerAttribute instanceof HttpStreamingScheduler)) {
 				info("DANGER DANGER: scheduler attribute not a HttpStreamingScheduler");
 				return;
@@ -85,6 +87,11 @@ public class HttpStreamingTransportHandler {
 			}
 
 			HttpStreamingScheduler scheduler = (HttpStreamingScheduler) schedulerAttribute;
+			info("ContentType: ", response.getContentType());
+
+			response = (HttpServletResponse) scheduler.getContinuation().getServletResponse();
+			info("OtherContentType: ", response.getContentType());
+
 			handleResumedSession(scheduler);
 		}
 	}
@@ -110,6 +117,8 @@ public class HttpStreamingTransportHandler {
 				info("no messages");
 				return;
 			}
+
+			response.setContentType("application/json");
 
 			serverSession = null;
 
@@ -178,7 +187,6 @@ public class HttpStreamingTransportHandler {
 		info("TIMEOUT FOR: ", timeout);
 
 		if (timeout > 0) {
-			info("PROCEEDING TO TIMEOUT");
 			Continuation continuation = ContinuationSupport.getContinuation(request);
 			continuation.setTimeout(timeout);
 
@@ -186,14 +194,7 @@ public class HttpStreamingTransportHandler {
 
 			serverSession.setScheduler(scheduler);
 			request.setAttribute(SCHEDULER_ATTRIBUTE, scheduler);
-			info("CONTINUATION SUSPENDED");
-			if (continuation.isSuspended())
-				info("CONTINUATION ALREADY SUSPENDED");
-			if (continuation.isExpired())
-				info("CONTINUATION ALREADY EXPIRED");
-			if (continuation.isResumed())
-				info("CONTINUATION ALREADY RESUMED");
-
+			request.setAttribute(REQUEST_TICK_ATTRIBUTE, requestStartTick);
 			continuation.suspend(response);
 		}
 	}

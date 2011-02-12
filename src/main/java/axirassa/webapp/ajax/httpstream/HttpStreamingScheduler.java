@@ -49,6 +49,7 @@ public class HttpStreamingScheduler implements ContinuationListener, Scheduler {
 		System.out.println("CONTINUATION TIMEOUT");
 		// remove the scheduler, the client has to reconnect
 		serverSession.setScheduler(null);
+		continuation.resume();
 	}
 
 
@@ -63,15 +64,12 @@ public class HttpStreamingScheduler implements ContinuationListener, Scheduler {
 	@Override
 	public void schedule() {
 		System.out.println("SCHEDULER SCHEDULED");
-		if (continuation.isExpired())
-			System.out.println("!!! CONTINUATION EXPIRED");
-		if (continuation.isSuspended())
-			System.out.println("!!! CONTINUATION SUSPENDED");
-		if (continuation.isResumed())
-			System.out.println("!!! CONTINUATION RESUMED");
 		continuation.resume();
-		System.out.println("H H H HANDLING");
-		// handler.handleResumedSession(this);
+	}
+
+
+	public Continuation getContinuation() {
+		return continuation;
 	}
 
 }

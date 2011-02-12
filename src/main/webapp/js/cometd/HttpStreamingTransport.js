@@ -60,16 +60,23 @@ org.cometd.HttpStreamingTransport = function() {
 		var xmlhttp = new XMLHttpRequest;
 		var lastindex = 0;
 		
-		console.log("!!!!! packet: ", packet);
+		console.log("!!!!! packet: ", packet.body, packet);
 		xmlhttp.open("POST", packet.url, true);
 		xmlhttp.onreadystatechange = function() {
-			if(xmlhttp.readyState != 4) {
+			console.log("state change --> ", xmlhttp.readyState);
+			console.log("body: ", xmlhttp.responseText);
+			if(xmlhttp.readyState < 3) {
 				return;
 			}
 			
 			var newindex = xmlhttp.responseText.length;
-			var text = xmlhttp.responseText.substring(lastindex, newindex);
 			
+			if(lastindex == newindex) {
+				console.log("NO NEW CONTENT IN STATE CHANGE");
+				return;
+			}
+			
+			var text = xmlhttp.responseText.substring(lastindex, newindex);
 			
 			if(text.substring(0, 11) != "<<#START#>>" ||
 					text.substring(text.length-9, text.length) != "<<#END#>>") {
@@ -91,7 +98,7 @@ org.cometd.HttpStreamingTransport = function() {
 	};
 	
 	_self.transportFailure = function (envelope, request, msg, exception) {
-		console.log("TRANSPORT FAILURE");
+		console.error("TRANSPORT FAILURE");
 	};
 	
 	_self.transortSuccess = function (envelope, request, received){
