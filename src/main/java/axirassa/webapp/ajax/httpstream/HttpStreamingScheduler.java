@@ -56,8 +56,9 @@ public class HttpStreamingScheduler implements ContinuationListener, Scheduler {
 	@Override
 	public void cancel() {
 		System.out.println("CANCELING SCHEDULER");
-		// continuation.complete();
 
+		if (continuation.isSuspended() && !continuation.isExpired())
+			continuation.complete();
 	}
 
 

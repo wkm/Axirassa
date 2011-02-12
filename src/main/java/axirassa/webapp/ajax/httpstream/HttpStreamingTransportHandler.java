@@ -24,7 +24,7 @@ public class HttpStreamingTransportHandler {
 	private static final String REQUEST_TICK_ATTRIBUTE = "cometd.httpstreaming.requesttick";
 
 	private final HttpServletRequest request;
-	private HttpServletResponse response;
+	private final HttpServletResponse response;
 	private ServerSessionImpl serverSession;
 	private final HttpStreamingTransport transport;
 	private JSONStreamPrintWriter writer;
@@ -87,18 +87,12 @@ public class HttpStreamingTransportHandler {
 			}
 
 			HttpStreamingScheduler scheduler = (HttpStreamingScheduler) schedulerAttribute;
-			info("ContentType: ", response.getContentType());
-
-			response = (HttpServletResponse) scheduler.getContinuation().getServletResponse();
-			info("OtherContentType: ", response.getContentType());
-
 			handleResumedSession(scheduler);
 		}
 	}
 
 
 	public void handleResumedSession(HttpStreamingScheduler scheduler) {
-		info("HANDLING RESUMED SESSION");
 		serverSession = scheduler.getServerSession();
 		if (serverSession.isConnected()) {
 			info("starting serverSession interval timeout");
@@ -196,6 +190,9 @@ public class HttpStreamingTransportHandler {
 			request.setAttribute(SCHEDULER_ATTRIBUTE, scheduler);
 			request.setAttribute(REQUEST_TICK_ATTRIBUTE, requestStartTick);
 			continuation.suspend(response);
+			serverSession.setInterval(timeout);
+			serverSession.setTimeout(timeout);
+			info("serverSession timeout: ", serverSession.getTimeout(), "  interval: ", serverSession.getInterval());
 		}
 	}
 
