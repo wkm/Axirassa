@@ -1,6 +1,8 @@
 
 package axirassa.webapp.ajax;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -8,7 +10,6 @@ import org.cometd.bayeux.client.ClientSessionChannel;
 import org.cometd.bayeux.server.BayeuxServer;
 import org.cometd.bayeux.server.ConfigurableServerChannel;
 import org.cometd.bayeux.server.ServerChannel;
-import org.cometd.bayeux.server.ServerMessage;
 import org.cometd.bayeux.server.ServerSession;
 import org.cometd.server.AbstractService;
 
@@ -30,8 +31,6 @@ public class TimeService extends AbstractService {
 			}
 		};
 
-		addService("/ax/timeplease", "time");
-
 		System.err.println("####### INITIALIZING TIME SERVICE");
 		startTimeFilter();
 	}
@@ -40,14 +39,14 @@ public class TimeService extends AbstractService {
 	private void startTimeFilter() {
 		System.err.println("FORKING TIME FILTER THREAD");
 		final ClientSessionChannel channel = getLocalSession().getChannel("/ax/timeplease");
+		final DateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss.SS z");
 		Thread thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				while (true) {
-					System.err.println("PUBLISHING DATE");
-					channel.publish(new Date());
+					channel.publish(format.format(new Date()));
 					try {
-						Thread.sleep(5000);
+						Thread.sleep(200);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -56,15 +55,5 @@ public class TimeService extends AbstractService {
 		});
 
 		thread.start();
-	}
-
-
-	public void time(ServerSession remote, ServerMessage message) {
-		System.err.println("####### CALLING TIME SERVICE");
-		System.err.println("RECEIVED MESSAGE: " + message);
-		send(remote, "/ax/timeplease", "time is now 2", null);
-		remote.deliver(getServerSession(), "/ax/timeplease", new int[] { 12, 13, 14 }, null);
-		ClientSessionChannel channel = getLocalSession().getChannel("/ax/timeplease");
-		channel.publish(new Date());
 	}
 }

@@ -32,14 +32,16 @@ public class HttpStreamingTransport extends HttpTransport {
 
 
 	protected void info(Object... args) {
-		StringBuffer sb = new StringBuffer("#### HTTP STREAMING: ");
-		for (Object arg : args)
-			if (arg == null)
-				sb.append("null ");
-			else
-				sb.append(arg.toString()).append(' ');
+		if (getLogger().isDebugEnabled()) {
+			StringBuffer sb = new StringBuffer("#### HTTP STREAMING: ");
+			for (Object arg : args)
+				if (arg == null)
+					sb.append("null ");
+				else
+					sb.append(arg.toString()).append(' ');
 
-		System.err.println(sb.toString());
+			getLogger().debug(sb.toString());
+		}
 	}
 
 

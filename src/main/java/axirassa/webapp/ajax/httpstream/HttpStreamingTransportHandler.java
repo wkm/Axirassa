@@ -4,13 +4,11 @@ package axirassa.webapp.ajax.httpstream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.cometd.bayeux.Channel;
-import org.cometd.bayeux.Message;
 import org.cometd.bayeux.server.ServerMessage;
 import org.cometd.server.BayeuxServerImpl;
 import org.cometd.server.ServerSessionImpl;
@@ -56,7 +54,6 @@ public class HttpStreamingTransportHandler {
 
 
 	public void handle() {
-		System.out.println("\n\n\n\n\n\n");
 		Object schedulerAttribute = request.getAttribute(SCHEDULER_ATTRIBUTE);
 		info("schdulerAttribute: ", schedulerAttribute);
 
@@ -229,12 +226,12 @@ public class HttpStreamingTransportHandler {
 	private void sendReply(ServerMessage reply) {
 		if (reply == null)
 			return;
-
-		Map<String, Object> adviceFields = reply.asMutable().getAdvice(true);
-
-		adviceFields.put(Message.INTERVAL_FIELD, computeTimeout());
-		if (serverSession != null)
-			serverSession.reAdvise();
+		//
+		// Map<String, Object> adviceFields = reply.asMutable().getAdvice(true);
+		//
+		// adviceFields.put(Message.INTERVAL_FIELD, computeTimeout());
+		// if (serverSession != null)
+		// serverSession.reAdvise();
 
 		writeMessage(reply.getJSON());
 	}

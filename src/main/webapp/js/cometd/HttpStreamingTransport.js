@@ -25,8 +25,6 @@ org.cometd.HttpStreamingTransport = function() {
 				headers: this.getConfiguration().requestHeaders,
 				body: org.cometd.JSON.toJSON(envelope.messages),
 				onSuccess: function(response) {
-					self._debug('#### received response: ', response);
-					console.log("ENVELOPE: ", envelope);
 					var success = false;
 					try {
 						var received = self.convertToMessages(response);
@@ -60,11 +58,11 @@ org.cometd.HttpStreamingTransport = function() {
 		var xmlhttp = new XMLHttpRequest;
 		var lastindex = 0;
 		
-		console.log("!!!!! packet: ", packet.body, packet);
+//		console.log("!!!!! packet: ", packet.body, packet);
 		xmlhttp.open("POST", packet.url, true);
 		xmlhttp.onreadystatechange = function() {
-			console.log("state change --> ", xmlhttp.readyState);
-			console.log("body: ", xmlhttp.responseText);
+//			console.log("state change --> ", xmlhttp.readyState);
+//			console.log("body: ", xmlhttp.responseText);
 			if(xmlhttp.readyState < 3) {
 				return;
 			}
@@ -72,7 +70,7 @@ org.cometd.HttpStreamingTransport = function() {
 			var newindex = xmlhttp.responseText.length;
 			
 			if(lastindex == newindex) {
-				console.log("NO NEW CONTENT IN STATE CHANGE");
+//				console.log("NO NEW CONTENT IN STATE CHANGE");
 				return;
 			}
 			
@@ -86,9 +84,9 @@ org.cometd.HttpStreamingTransport = function() {
 			text = text.substring(11, text.length-9);
 			text = text.split("<<#END#>><<#START#>>");
 			
-			console.log("!!!! # of segments: ", text.length);
+//			console.log("!!!! # of segments: ", text.length);
 			for(var segment in text) {
-				console.log("!!!!\tfor segment: ", text[segment]);
+//				console.log("!!!!\tfor segment: ", text[segment]);
 				packet.onSuccess(text[segment]);
 			}
 			
@@ -98,11 +96,11 @@ org.cometd.HttpStreamingTransport = function() {
 	};
 	
 	_self.transportFailure = function (envelope, request, msg, exception) {
-		console.error("TRANSPORT FAILURE");
+//		console.error("TRANSPORT FAILURE");
 	};
 	
 	_self.transortSuccess = function (envelope, request, received){
-		console.log("!!!!! TRANSPORT SUCCESS");
+//		console.log("!!!!! TRANSPORT SUCCESS");
 	};
 	
 	return _self;

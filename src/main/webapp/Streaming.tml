@@ -19,7 +19,7 @@
 	</head>
 	<body>
 		<h1>Streaming Test</h1>
-		<h2 id="pollStatus">[poll status]</h2>
+		<h2 id="pollStatus" style="font-family: monospace;">[poll status]</h2>
 		<table id="data"></table>
 	</body>
 </html>

@@ -39,33 +39,37 @@ public class HttpStreamingScheduler implements ContinuationListener, Scheduler {
 
 	@Override
 	public void onComplete(Continuation continuation) {
-		System.out.println("CONTINUATION COMPLETE");
 		// nothing to do
 	}
 
 
 	@Override
 	public void onTimeout(Continuation continuation) {
-		System.out.println("CONTINUATION TIMEOUT");
 		// remove the scheduler, the client has to reconnect
 		serverSession.setScheduler(null);
-		continuation.resume();
 	}
 
 
 	@Override
 	public void cancel() {
-		System.out.println("CANCELING SCHEDULER");
+		if (continuation.isSuspended() && !continuation.isExpired()) {
+			System.out.println("continuation was suspended");
 
-		if (continuation.isSuspended() && !continuation.isExpired())
-			continuation.complete();
+			try {
+				continuation.complete();
+			} catch (Exception e) {
+				// ignore
+				System.out.println("Exception during scheduler #cancel: " + e.getMessage());
+			}
+		}
 	}
 
 
 	@Override
 	public void schedule() {
-		System.out.println("SCHEDULER SCHEDULED");
-		continuation.resume();
+		if (!continuation.isResumed()) {
+			continuation.resume();
+		}
 	}
 
 
