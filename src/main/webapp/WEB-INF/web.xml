@@ -67,7 +67,7 @@ of where to look for pages, components and mixins. -->
     	<servlet-class>axirassa.webapp.ajax.util.AxirassaAjaxServlet</servlet-class>
     	<init-param>
     		<param-name>timeout</param-name>
-    		<param-value>45000</param-value>
+    		<param-value>55000</param-value>
     	</init-param>
     	<init-param>
     		<param-name>logLevel</param-name>

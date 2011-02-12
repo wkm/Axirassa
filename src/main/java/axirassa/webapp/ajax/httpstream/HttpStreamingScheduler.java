@@ -8,13 +8,22 @@ import org.eclipse.jetty.continuation.ContinuationListener;
 
 public class HttpStreamingScheduler implements ContinuationListener, Scheduler {
 
+	// force a new request just before a minute passes (to keep middle-proxies
+	// happy)
+	public final static int MAX_SESSION_LENGTH = 55000;
+
 	private final ServerSessionImpl serverSession;
 	private final Continuation continuation;
 
+	private final HttpStreamingTransportHandler handler;
 
-	public HttpStreamingScheduler(ServerSessionImpl serverSession, Continuation continuation) {
+
+	public HttpStreamingScheduler(ServerSessionImpl serverSession, Continuation continuation,
+	        HttpStreamingTransportHandler handler) {
 		this.serverSession = serverSession;
 		this.continuation = continuation;
+		this.handler = handler;
+		continuation.addContinuationListener(this);
 	}
 
 
@@ -46,6 +55,7 @@ public class HttpStreamingScheduler implements ContinuationListener, Scheduler {
 	@Override
 	public void cancel() {
 		System.out.println("CANCELING SCHEDULER");
+		// continuation.complete();
 
 	}
 
@@ -53,7 +63,15 @@ public class HttpStreamingScheduler implements ContinuationListener, Scheduler {
 	@Override
 	public void schedule() {
 		System.out.println("SCHEDULER SCHEDULED");
+		if (continuation.isExpired())
+			System.out.println("!!! CONTINUATION EXPIRED");
+		if (continuation.isSuspended())
+			System.out.println("!!! CONTINUATION SUSPENDED");
+		if (continuation.isResumed())
+			System.out.println("!!! CONTINUATION RESUMED");
 		continuation.resume();
+		System.out.println("H H H HANDLING");
+		// handler.handleResumedSession(this);
 	}
 
 }

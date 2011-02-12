@@ -21,12 +21,14 @@ public class HttpStreamingTransportHandler {
 
 	private final static String USER_AGENT_HEADER = "User-Agent";
 	private final static String SCHEDULER_ATTRIBUTE = "cometd.httpstreaming.scheduler";
+	private static final String REQUEST_TICK_ATTRIBUTE = "cometd.httpstreaming.requesttick";
 
 	private final HttpServletRequest request;
 	private final HttpServletResponse response;
 	private ServerSessionImpl serverSession;
 	private final HttpStreamingTransport transport;
 	private JSONStreamPrintWriter writer;
+	private long requestStartTick = System.nanoTime();
 
 
 	public HttpStreamingTransportHandler(HttpStreamingTransport transport, HttpServletRequest request,
@@ -66,13 +68,29 @@ public class HttpStreamingTransportHandler {
 				return;
 			}
 
+			Object tick = request.getAttribute(REQUEST_TICK_ATTRIBUTE);
+			if (tick == null) {
+				info("NO REQUEST TICK");
+
+				// force the session to immediately reconnect
+				requestStartTick = 0;
+				return;
+			} else {
+				if ((tick instanceof Long))
+					requestStartTick = (Long) tick;
+				else {
+					info("REQUEST TICK OF WRONG TYPE");
+					requestStartTick = 0;
+				}
+			}
+
 			HttpStreamingScheduler scheduler = (HttpStreamingScheduler) schedulerAttribute;
 			handleResumedSession(scheduler);
 		}
 	}
 
 
-	private void handleResumedSession(HttpStreamingScheduler scheduler) {
+	public void handleResumedSession(HttpStreamingScheduler scheduler) {
 		info("HANDLING RESUMED SESSION");
 		serverSession = scheduler.getServerSession();
 		if (serverSession.isConnected()) {
@@ -139,6 +157,7 @@ public class HttpStreamingTransportHandler {
 			if (isHandshake) {
 				// immediately finish
 				writer.close();
+				info(" >>>> [closed]");
 			} else {
 				suspendSession();
 			}
@@ -155,19 +174,42 @@ public class HttpStreamingTransportHandler {
 
 	private void suspendSession() {
 		info("SUSPENDING SESSION");
-		long timeout = serverSession.calculateTimeout(transport.getTimeout());
-		info("TIMEOUT COMPUTED: " + timeout);
+		long timeout = computeTimeout();
+		info("TIMEOUT FOR: ", timeout);
 
 		if (timeout > 0) {
 			info("PROCEEDING TO TIMEOUT");
 			Continuation continuation = ContinuationSupport.getContinuation(request);
 			continuation.setTimeout(timeout);
-			continuation.suspend(response);
 
-			HttpStreamingScheduler scheduler = new HttpStreamingScheduler(serverSession, continuation);
+			HttpStreamingScheduler scheduler = new HttpStreamingScheduler(serverSession, continuation, this);
+
 			serverSession.setScheduler(scheduler);
 			request.setAttribute(SCHEDULER_ATTRIBUTE, scheduler);
+			info("CONTINUATION SUSPENDED");
+			if (continuation.isSuspended())
+				info("CONTINUATION ALREADY SUSPENDED");
+			if (continuation.isExpired())
+				info("CONTINUATION ALREADY EXPIRED");
+			if (continuation.isResumed())
+				info("CONTINUATION ALREADY RESUMED");
+
+			continuation.suspend(response);
 		}
+	}
+
+
+	private long computeTimeout() {
+		long baseTimeout = transport.getTimeout();
+
+		long delta = (System.nanoTime() - requestStartTick) / 1000000;
+		if (delta > baseTimeout)
+			return 0;
+
+		if (delta < 0)
+			return baseTimeout;
+
+		return baseTimeout - delta;
 	}
 
 
@@ -191,9 +233,8 @@ public class HttpStreamingTransportHandler {
 			return;
 
 		Map<String, Object> adviceFields = reply.asMutable().getAdvice(true);
-		// advise reconnecting after 60 seconds
-		adviceFields.put(Message.INTERVAL_FIELD, 60000);
-		adviceFields.put(Message.RECONNECT_FIELD, Message.RECONNECT_RETRY_VALUE);
+
+		adviceFields.put(Message.INTERVAL_FIELD, computeTimeout());
 		if (serverSession != null)
 			serverSession.reAdvise();
 
