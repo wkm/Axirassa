@@ -30,7 +30,7 @@ public class InstrumentedHttpClient extends DefaultHttpClient {
 	private boolean isInstrumented;
 	private boolean isStatisticInvalid;
 
-	private StringBuilder responseContent;
+	private String responseContent;
 
 
 	public InstrumentedHttpClient() {
@@ -75,7 +75,7 @@ public class InstrumentedHttpClient extends DefaultHttpClient {
 			HttpEntity entity = response.getEntity();
 
 			if (entity != null) {
-				readInputStreamBuffer(entity.getContent());
+				responseContent = readInputStreamBuffer(entity.getContent());
 			}
 
 			responseTick = System.nanoTime();
@@ -87,17 +87,20 @@ public class InstrumentedHttpClient extends DefaultHttpClient {
 	}
 
 
-	private void readInputStreamBuffer(InputStream input) throws IOException {
+	public static String readInputStreamBuffer(InputStream input) throws IOException {
 		InputStreamReader reader = new InputStreamReader(input);
-		responseContent = new StringBuilder(input.available());
+		StringBuilder sb = new StringBuilder(input.available());
 
 		char[] buffer = new char[4096];
 		int length;
 		while ((length = reader.read(buffer)) != -1)
-			responseContent.append(buffer, 0, length);
+			sb.append(buffer, 0, length);
 
 		reader.close();
 		input.close();
+
+		return sb.toString();
+
 	}
 
 
@@ -125,7 +128,7 @@ public class InstrumentedHttpClient extends DefaultHttpClient {
 
 
 	public String getResponseContent() {
-		return responseContent.toString();
+		return responseContent;
 	}
 
 }
