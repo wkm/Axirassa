@@ -52,5 +52,14 @@
     		<address>Notify.Email.Response</address>
     		<durable>true</durable>
     	</queue>
+    	
+    	<queue name="Notify.Voice.Request">
+    		<address>Notify.Voice.Request</address>
+    		<durable>true</durable>
+    	</queue>
+    	<queue name="Notify.Voice.Response">
+    		<address>Notify.Voice.Response</address>
+    		<durable>true</durable>
+    	</queue>
     </queues>
 </configuration>
