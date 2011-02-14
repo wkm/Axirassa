@@ -1,13 +1,11 @@
 
 package axirassa.webapp.pages;
 
-import java.util.Date;
+import org.apache.tapestry5.annotations.Import;
 
 /**
  * Start page of application axir.
  */
+@Import(stylesheet = { "context:/css/fonts.css", "context:/css/form.css", "context:/css/main.css" })
 public class Index {
-	public Date getCurrentTime() {
-		return new Date();
-	}
 }

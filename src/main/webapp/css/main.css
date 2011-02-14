@@ -1,101 +1,191 @@
 @CHARSET "UTF-8";
 
+
+/*
+ * base blue: 54,57,66
+ * deep red: 209,4,0
+ * darker red: 174,3,0
+ * golden: 247,188,34
+ * dark gold: 117,89,16
+ */
+
 body {
-	font-family: 'lucida grande', sans-serif;
+	font-family: 'centro sans pro','lucida grande', sans-serif;
 	font-size: 13pt;
 	
 	margin: 0;
 	padding: 0;
+	color: black;
 	background: #fff;
-	color: #223;
 }
 
-#header {
-	margin-top: 2em;
-	margin-left: 50px;
-	font-size: 20pt;
-	
-	text-transform: uppercase;
-}
-
-#header a {
+.header a {
 	text-decoration: none;
+	color: inherit;
+	border: 0;
 }
 
-#headerbar {
-	font-size: 11pt;
-	width: 45em;
-	text-align: right;
-	
-	color: #333;
-	
-	margin: 1em 0;
-}
-
-#title {
-	font-family: 'helvetica neue', helvetica, 'lucida grande', verdana, sans-serif;
-	font-weight: lighter;
-}
-
-.p {
-	color: #000;
-	font-weight: bold;
-	text-shadow: none;
-}
-
-.ax {
-	font-weight: bold;
-	color: rgb(163, 40, 10);
-}
-
-#subtitle {
-	color: #333;
-	font-size: 13pt;
-	font-weight: normal;
-	text-shadow: none;
+a {
+	text-decoration: none;
+	color: inherit;
 }
 
 h1 {
-	font-family: sans;
-	font-size: 16pt;
+	font-size: 70pt;
 	font-weight: normal;
-	color: rgb(125, 12, 15);
-	margin-bottom: 1em;
+	color: rgb(174,3,0);
+	margin: 0;
+	padding: 0;
 }
 
-h2,h3,h4,h5,h6,th {
-	font-family: Georgia, Adelle, serif;
+.the {
+	font-family: Adelle, Times, serif;
+	font-size: 24pt;
+	text-transform: uppercase;
+	margin-bottom: -1em;
+	padding-left: .8em;
+}
+
+h1,h3,h4,h5,h6,th {
+	font-family: Adelle, Georgia, serif;
+}
+
+h2 {
+	font-family: Edita, Times, serif;
+	font-style: italic;
+	margin-top: -1em;
+	
 }
 
 h3 {
-	font-size: 16pt;
+	font-size: 24pt;
+	text-transform: uppercase;
 }
 
-#content {
-	padding-top: 1.5em;
-	padding-left: 40px;
-	padding-bottom: 1.5em;
-	
-	min-height: 25em;
-	
-	border-left: 10px solid rgb(125, 12, 15);
-	
-	clear: both;
+.header {
+	margin-top: 150px;
+	margin-left: 150px;
+	color: rgb(54, 57, 66);
 }
 
-#footer {
-	clear: both;
+.impact {
+	font-size: 20pt;
 	
+	margin-top: 2em;
+	padding: 20px 0;
+	padding-left: 150px;
+	background: rgb(174,3,0);
+	color: #fff;
+	
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.impact p {
+	max-width: 25em;
 	margin: 0;
-	margin-left: 50px;
-	padding-top: 4px;
-	font-size: 70%;
+}
+
+.impact strong {
+	color: #fff;
+	background: #222;
+	padding: 0 .4em;
+}
+
+.subimpact {
+	font-size: 20pt;
+	max-width: 25em;
+}
+
+abbr {
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-size: 90%;
+}
+.servicetiers {
+	clear:both;
+}
+
+.tier {
+	border: 1px solid #eee; 
+	float: left;
+	width: 10em;
+	height: 15em;
+	margin: 0 .25em;
+	margin-top: 3px;
+	font-size: 12pt;
+	
+	padding: 1em;
+}
+
+.tier .price { text-align: center; font-size: 28pt; font-weight: bold; margin-bottom: 0;}
+.tier ul {
+	margin-top: 0;
+}
+
+.sep {
+	margin-top: 6em;
+	clear: both;
+}
+
+.for {
+	text-align: center;
+	font-family: Edita, Times, Serif;
+	font-style: italic;
+	font-weight: bold;
+	font-size: 16pt;
 	color: #333;
+	margin-top: -.4em;
+}
+
+.size {
+	text-align: center;
+	font-size: 16pt;
+	font-weight: bold;
+}
+
+.primary .for {
+	color: rgb(174,3,0);
+}
+
+.reset { clear:both; }
+
+.freetier {
+	margin: 1em .25em;
+	width: 61.5em;
+	padding: .5em;
+	background: #eee;
+	border: 1px solid #ddd;
+}
+
+.primary {
+	border: 5px solid rgb(174, 3, 0);
+	margin-top: 0;
+}
+
+.body {
+	margin-left: 150px;
 }
 
 ul {
 	list-style-type: square;
 }
+
+p a {
+	text-decoration: none;
+	color: rgb(174,3,0);
+	border-bottom: 2px solid rgb(174,3,0);
+}
+
+p a:after {
+	content: ' \2192';
+}
+
+
+
+
+
+
 
 /*
  * debugging support
