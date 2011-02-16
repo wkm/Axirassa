@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.tapestry5.SymbolConstants;
+import org.apache.tapestry5.internal.services.DocumentLinkerImpl;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
@@ -115,6 +116,8 @@ public class AppModule {
 				}
 			}
 		};
+		
+		DocumentLinkerImpl
 	}
 
 

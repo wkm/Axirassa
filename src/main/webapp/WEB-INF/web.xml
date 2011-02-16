@@ -32,10 +32,6 @@ of where to look for pages, components and mixins. -->
     	<param-value>true</param-value>
     </context-param>
 	<context-param>
-		<param-name>tapestry.production-mode</param-name>
-		<param-value>false</param-value>
-	</context-param>
-	<context-param>
 		<param-name>tapestry.page-pool.hard-limit</param-name>
 		<param-value>200</param-value>
 	</context-param>
