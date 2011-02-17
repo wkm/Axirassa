@@ -62,6 +62,6 @@ public class LoginUser {
 
 
 	String onSuccess() {
-		return "Index";
+		return "MonitorConsole";
 	}
 }

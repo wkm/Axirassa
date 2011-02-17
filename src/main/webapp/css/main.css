@@ -68,6 +68,23 @@ h3 {
 	color: rgb(54, 57, 66);
 }
 
+.mini {
+	background: rgb(174,3,0);
+	color: #fff;
+	
+	margin: 0;	
+	padding-left: 150px;
+	padding-top: 2px;
+}
+
+.mini h1 {
+	color: #fff;
+	font-size: 24pt;
+}
+
+.mini h2 {
+}
+
 .impact {
 	font-size: 20pt;
 	
@@ -274,4 +291,8 @@ th {
 
 .types {
 	font-size: 10pt;
+}
+
+.footer {
+	clear: both;
 }

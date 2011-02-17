@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!--  <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> -->
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -30,68 +30,12 @@
 			</p>
 			<p>
 				Monthly plans for startups start at just $3, increasing with infrastructure
-				size. <t:pagelink page="User/Register">Examine pricing</t:pagelink>
+				size. <t:pagelink page="Account/Pricing">Examine pricing</t:pagelink>
 			</p>
+			
+			<p><t:pagelink page="User/Login">Login</t:pagelink></p>
 		</div> 
-	
-		<div class="sep">
-			<h3>Monthly Service Tiers</h3>
-		</div>
 		
-		<p>
-			Pricing is based on the number of monitors. A single monitor will continually validate: one 
-			webpage over one protocol; a mail server with one protocol.
-		</p>
-		<p><i>Move to a separate page.</i></p>
-		
-		<div class="servicetiers">
-			<a href="#">
-				<div class="tier">
-					<div class="price">$3</div>
-					<div class="for">for</div>
-					<div class="size">3 monitors</div>
-					<p>A monitor each for your home-page, receiving e-mail, and sending e-mail.</p>
-				</div>
-			</a>
-			
-			<a href="#">
-				<div class="tier">
-					<div class="price">$9</div>
-					<div class="for">for</div>
-					<div class="size">10 monitors</div>
-					<p>For the growing site. Monitor , multiple mail protocols.</p>
-				</div>
-			</a>
-			
-			<a href="#">
-				<div class="tier primary">
-					<div class="price">$30</div>
-					<div class="for">for</div>
-					<div class="size">50 monitors</div>
-					<p>For the medium sized company. Monitor load-balanced servers</p>
-				</div>
-			</a>
-			
-			<a href="#">
-				<div class="tier">
-					<div class="price">$100</div>
-					<div class="for">for</div>
-					<div class="size">200 monitors</div>
-					<p>For the </p>
-				</div>
-			</a>
-			
-			<a href="#">
-				<div class="tier">
-					<div class="price">Bigger?</div>
-					<p>Let's start a conversation.</p>
-				</div>
-			</a>
-			<div class="reset"></div>
-		</div>
-		<div class="freetier">
-			A completely free tier providing one monitor is also available.
-		</div>
 		
 		<div class="sep">
 			<h3>Feature Highlight</h3>
@@ -102,8 +46,8 @@
 		<h4>Maximum frequency verification</h4>
 		<p>All tiers support minute-level reporting: the highest monitoring resolution available. </p>
 		
-		<h4>Unlimited <abbr>SMS</abbr>, e-mail, and phonecall notifications</h4>
-		<p>All tiers include unlimited <abbr>SMS</abbr>, e-mail, and phonecall notifications of </p>
+		<h4>Unlimited <abbr>SMS</abbr>, e-mail, and phone-call notifications</h4>
+		<p>All tiers include unlimited <abbr>SMS</abbr>, e-mail, and phone-call notifications of </p>
 		<h4>Monitoring locations across the world</h4>
 		<h4>Beautiful, customizable reports</h4>
 		<h4>Automatic escalation</h4>
