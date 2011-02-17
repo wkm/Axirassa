@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html t:type="layout" t:pageTitle="Control Panel" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<t:loop source="pingers" value="pinger">
+		<t:AxMonitorWidget t:pingerId="${pinger.id}"/>
+	</t:loop>
+</html>
