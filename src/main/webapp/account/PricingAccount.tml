@@ -47,7 +47,7 @@
 		<t:pagelink page="user/register" context="literal:tier.free">
 			<div class="tier">
 				<div class="price">Bigger?</div>
-				<p>Let's start a conversation.</p>
+				<p>Let's start a conversation. Monitors for less than $0.45.</p>
 			</div>
 		</t:pagelink>
 		<div class="reset"></div>

@@ -12,4 +12,6 @@
 		 
 		<t:axsubmit label="Login"/>
 	</t:axform>
+	
+	<p>Forgot your password?</p>
 </html> 
