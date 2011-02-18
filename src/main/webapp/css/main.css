@@ -153,7 +153,7 @@ abbr {
 	float: left;
 	width: 10em;
 	height: 15em;
-	margin: 0 .25em;
+	margin: 4px .25em 0 0;
 	margin-top: 4px;
 	font-size: 12pt;
 	
@@ -207,6 +207,10 @@ abbr {
 
 ul {
 	list-style-type: square;
+}
+
+p {
+	max-width: 35em;
 }
 
 p a {
