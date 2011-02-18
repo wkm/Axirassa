@@ -39,7 +39,7 @@ public class ControllerServiceRunner {
 		JobDetail job = new JobDetail(ControllerJobs.EVERY_MINUTE.toString(), JOB_GROUP, ControllerServiceJob.class);
 		job.setJobDataMap(datamap);
 
-		Trigger trigger = new CronTrigger(ControllerJobs.EVERY_MINUTE.toString(), JOB_GROUP, "0/60 * * * * ?");
+		Trigger trigger = new CronTrigger(ControllerJobs.EVERY_MINUTE.toString(), JOB_GROUP, "0/15 * * * * ?");
 
 		scheduler.scheduleJob(job, trigger);
 		return;
