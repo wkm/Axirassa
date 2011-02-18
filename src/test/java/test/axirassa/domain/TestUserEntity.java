@@ -38,7 +38,9 @@ public class TestUserEntity extends AbstractDomainTest {
 		session.beginTransaction();
 		UserEntity user = new UserEntity();
 		user.setEMail("foo@bar.com");
+		long start = System.currentTimeMillis();
 		user.createPassword("password");
+		System.out.println("PASSWORD IN: " + (System.currentTimeMillis() - start));
 		addEntity(user);
 		session.getTransaction().commit();
 	}
