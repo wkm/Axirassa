@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html t:type="layout" t:pageTitle="Privacy" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<h3>Privacy Terms</h3>
+	<h4>Private Data</h4>
+	<h5>Passwords</h5>
+	<p>
+		Account passwords are not stored in plain text. Each password is 
+		"peppered" with an application-wide 256 bit secret, further salted
+		with a unique, randomly generated 256 bit string and then hashed
+		through 4096 iterations of <abbr>SHA</abbr>-512.
+	</p>
+	
+	<h5>Billing Information</h5>
+	<p>
+		Billing information is stored on Braintree's PCI compliant servers.
+	</p>
+	
+	<h5>E-Mail Addresses</h5>
+	<p>
+		We will never share your e-mail address.
+	</p>
+</html>
