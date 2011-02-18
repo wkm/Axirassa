@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div class="axw">
-	<div class="n">${pingerId}</div>
+	<div class="n">${pingerName}</div>
 </div>

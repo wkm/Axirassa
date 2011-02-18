@@ -13,6 +13,7 @@ import org.cometd.server.AbstractService;
 import org.cometd.server.BayeuxServerImpl;
 import org.cometd.server.CometdServlet;
 
+import axirassa.webapp.ajax.PingerStreamingService;
 import axirassa.webapp.ajax.TimeService;
 import axirassa.webapp.ajax.httpstream.HttpStreamingTransport;
 
@@ -37,6 +38,7 @@ public class AxirassaAjaxServlet extends CometdServlet {
 		new Monitor(server);
 		try {
 			new TimeService(server);
+			new PingerStreamingService(server);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

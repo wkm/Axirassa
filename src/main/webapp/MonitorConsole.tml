@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html t:type="layout" t:pageTitle="Control Panel" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<head>
+		<style type="text/css">
+			.body { padding-left: 30px; }
+		</style>
+		<script type="text/javascript" src="/js/dojo/dojo.js"></script>
+		<script type="text/javascript" src="/js/cometd/cometd-namespace.js"></script>
+		<script type="text/javascript" src="/js/cometd/Utils.js"></script>
+		<script type="text/javascript" src="/js/cometd/cometd-json.js"></script>
+		<script type="text/javascript" src="/js/cometd/TransportRegistry.js"></script>
+		<script type="text/javascript" src="/js/cometd/RequestTransport.js"></script>
+		<script type="text/javascript" src="/js/cometd/Transport.js"></script>
+		<script type="text/javascript" src="/js/cometd/LongPollingTransport.js"></script>
+		<script type="text/javascript" src="/js/cometd/CallbackPollingTransport.js"></script>
+		<script type="text/javascript" src="/js/cometd/WebSocketTransport.js"></script>
+		<script type="text/javascript" src="/js/cometd/Cometd.js"></script>
+		<script type="text/javascript" src="/js/cometd/dojocometd.js"></script>
+		<script type="text/javascript" src="/js/cometd/HttpStreamingTransport.js"></script>
+		<script type="text/javascript" src="/js/cometd/dojox_HttpStreamingTransport.js"></script>
+	</head>
+
 	<t:loop source="pingers" value="pinger">
 		<t:AxMonitorWidget t:pingerId="${pinger.id}"/>
 	</t:loop>

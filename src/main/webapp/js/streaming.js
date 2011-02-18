@@ -1,11 +1,6 @@
 window.onload = function() {	
 	dojox.cometd.configure({
-		url: "/push",
-		logLevel: 'debug',
-		advice: {
-			timeout: 60000,
-			reconnect: 'retry'
-		}
+		url: "/push"
 	});
 	dojox.cometd.handshake();
 	
