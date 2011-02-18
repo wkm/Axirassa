@@ -1,7 +1,6 @@
 
 package axirassa.util;
 
-import java.math.BigInteger;
 import java.security.SecureRandom;
 
 /**
@@ -37,7 +36,8 @@ public class RandomStringGenerator {
 	 *         number.
 	 */
 	public String randomString(int length) {
-		int bits = length * 5;
-		return new BigInteger(bits, random).toString(32);
+		byte[] buffer = new byte[length];
+		random.nextBytes(buffer);
+		return new String(buffer);
 	}
 }
