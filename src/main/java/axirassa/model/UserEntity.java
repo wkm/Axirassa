@@ -65,9 +65,12 @@ public class UserEntity extends AutoSerializingObject implements Serializable {
 
 	public static byte[] hashPasswordWithSalt(String password, byte[] salt) {
 		MessageDigest msgdigest = MessageDigestProvider.generate();
+
+		// for (int i = 0; i < 4096; i++) {
 		msgdigest.update(MessageDigestProvider.salt());
 		msgdigest.update(salt);
 		msgdigest.update(password.getBytes());
+		// }
 
 		return msgdigest.digest();
 	}
@@ -135,7 +138,8 @@ public class UserEntity extends AutoSerializingObject implements Serializable {
 
 
 	private String createSalt() {
-		return RandomStringGenerator.getInstance().randomString(16);
+		// 32 * 8 = 256 bits
+		return RandomStringGenerator.getInstance().randomString(32);
 	}
 
 
