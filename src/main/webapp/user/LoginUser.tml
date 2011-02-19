@@ -13,5 +13,5 @@
 		<t:axsubmit label="Login"/>
 	</t:axform>
 	
-	<p>Forgot your password?</p>
+	<p><t:pagelink t:page="User/ResetPassword">Forgot your password?</t:pagelink></p>
 </html> 

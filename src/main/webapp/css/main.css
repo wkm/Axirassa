@@ -66,6 +66,10 @@ h3 {
 	padding-left: 150px;
 }
 
+.body {
+	min-height: 35em;
+}
+
 .header {
 	margin-top: 150px;
 	color: rgb(54, 57, 66);
