@@ -208,7 +208,6 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	// SIGN UP DATE
 	@Basic
 	@Temporal(TemporalType.TIMESTAMP)
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "signupdate")
 	private Date signupdate;
 
