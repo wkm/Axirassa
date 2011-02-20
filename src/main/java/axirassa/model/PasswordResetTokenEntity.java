@@ -17,12 +17,15 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
+import axirassa.model.interceptor.EntityPreSave;
 import axirassa.util.RandomStringGenerator;
 
 @Entity
 @Table(name = "PasswordResetTokens")
-public class PasswordResetTokenEntity implements Serializable {
+public class PasswordResetTokenEntity implements Serializable, EntityPreSave {
 	private static final long serialVersionUID = -3839405383706605089L;
 
 
@@ -67,9 +70,6 @@ public class PasswordResetTokenEntity implements Serializable {
 
 
 	public String getToken() {
-		if (token == null)
-			token = RandomStringGenerator.getInstance().randomStringToken(64);
-
 		return token;
 	}
 
@@ -89,6 +89,7 @@ public class PasswordResetTokenEntity implements Serializable {
 
 
 	@Basic(optional = false)
+	@Generated(GenerationTime.INSERT)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date expiration;
 
@@ -99,9 +100,16 @@ public class PasswordResetTokenEntity implements Serializable {
 
 
 	public Date getExpiration() {
+		return expiration;
+	}
+
+
+	@Override
+	public void preSave() {
+		if (token == null)
+			token = RandomStringGenerator.getInstance().randomStringToken(64);
+
 		if (expiration == null)
 			expiration = new Date();
-
-		return expiration;
 	}
 }

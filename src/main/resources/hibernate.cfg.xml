@@ -63,5 +63,10 @@
 		<mapping resource="axirassa/model/PasswordResetTokenEntityQueries.hbm.xml" />
 		
 		<mapping resource="axirassa/services/sentinel/model/SentinelQueries.hbm.xml" />
+		
+		<!-- Events & Interceptors -->
+		<event type="save">
+			<listener class="axirassa.model.interceptor.EntityOnSaveInterceptor" />
+		</event>
 	</session-factory>
 </hibernate-configuration>
