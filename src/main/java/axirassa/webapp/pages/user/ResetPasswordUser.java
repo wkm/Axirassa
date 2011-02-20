@@ -6,6 +6,7 @@ import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
+import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 
@@ -45,8 +46,15 @@ public class ResetPasswordUser {
 	}
 
 
-	String onSuccess() {
+	@CommitAfter
+	Object onSuccess() {
+		UserEntity user = UserEntity.getUserByEmail(session, email);
 		PasswordResetTokenEntity token = new PasswordResetTokenEntity();
-		token.setPinger(pinger)
+		token.setUser(user);
+
+		session.save(token);
+		System.out.println("SAVING TOKEN: " + token.getToken());
+
+		return "User/PasswordResetSent";
 	}
 }
