@@ -20,7 +20,7 @@ public class TestUserEntity extends AbstractDomainTest {
 		user.setEMail("foo@mail.com");
 		user.setSalt("tweedledee");
 		user.createPassword("blah");
-		addEntity(user);
+		session.save(user);
 
 		assertTrue(user.matchPassword("blah"));
 		assertFalse(user.matchPassword("blah "));
@@ -41,7 +41,7 @@ public class TestUserEntity extends AbstractDomainTest {
 		long start = System.currentTimeMillis();
 		user.createPassword("password");
 		System.out.println("PASSWORD IN: " + (System.currentTimeMillis() - start));
-		addEntity(user);
+		session.save(user);
 		session.getTransaction().commit();
 	}
 }
