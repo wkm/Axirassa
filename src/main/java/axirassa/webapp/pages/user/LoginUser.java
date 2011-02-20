@@ -39,11 +39,9 @@ public class LoginUser {
 	private AxForm form;
 
 
-	void onValidateFromForm() throws NoSaltException {
-		if (email == null || password == null) {
-			showInvalidLoginMessage();
+	public void onValidate() throws NoSaltException {
+		if (email == null || password == null)
 			return;
-		}
 
 		Subject subject = security.getSubject();
 		try {
