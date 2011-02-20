@@ -3,6 +3,7 @@
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<link rel="stylesheet" type="text/css" href="/css/fonts.css" />
 </head>
 <body>
 	<div class="header">

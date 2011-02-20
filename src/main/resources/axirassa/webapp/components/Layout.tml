@@ -2,7 +2,7 @@
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<head>
 		<title>${pageTitle} :: axirassa webpresence monitoring</title>
-		<!-- <link rel="stylesheet" type="text/css" href="${asset:context:/css/yui_reset.css}" /> -->
+		<link rel="stylesheet" type="text/css" href="/css/fonts.css" />
 	</head>
 	<body>
 		<div class='header mini'>
