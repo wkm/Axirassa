@@ -1,8 +1,12 @@
 
 package axirassa.services.email;
 
-public enum EmailTemplate {
-	USER_VERIFY_ACCOUNT("account/VerifyAccountEmail");
+import java.io.Serializable;
+
+public enum EmailTemplate implements Serializable {
+
+	USER_VERIFY_ACCOUNT("account/VerifyAccountEmail"),
+	USER_RESET_PASSWORD("account/ResetPasswordEmail");
 
 	public static final String BASE_LOCATION = "/axirassa/webapp/emails/";
 
@@ -20,6 +24,6 @@ public enum EmailTemplate {
 
 
 	public String getFullLocation() {
-		return BASE_LOCATION + location + ".html";
+		return BASE_LOCATION + location;
 	}
 }
