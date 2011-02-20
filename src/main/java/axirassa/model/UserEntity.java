@@ -67,11 +67,11 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	public static byte[] hashPasswordWithSalt(String password, byte[] salt) {
 		MessageDigest msgdigest = MessageDigestProvider.generate();
 
-		// for (int i = 0; i < 4096; i++) {
-		msgdigest.update(MessageDigestProvider.salt());
-		msgdigest.update(salt);
-		msgdigest.update(password.getBytes());
-		// }
+		for (int i = 0; i < 4096; i++) {
+			msgdigest.update(MessageDigestProvider.salt());
+			msgdigest.update(salt);
+			msgdigest.update(password.getBytes());
+		}
 
 		return msgdigest.digest();
 	}
