@@ -220,6 +220,13 @@ ul {
 
 p {
 	max-width: 35em;
+	margin-bottom: 1em;
+}
+
+hr {
+	width: 35em;
+	text-align: left;
+	border: 1px solid #ee;
 }
 
 p a {
