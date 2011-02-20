@@ -36,13 +36,15 @@ h1 {
 	color: rgb(174,3,0);
 	margin: 0;
 	padding: 0;
+	
+	text-shadow: #700 1px 1px 1px;
 }
 
 .the {
 	font-family: Adelle, Times, serif;
 	font-size: 24pt;
 	text-transform: uppercase;
-	margin-bottom: -1em;
+	margin-bottom: -1.2em;
 	padding-left: .8em;
 }
 
@@ -93,6 +95,8 @@ h3 {
 	padding-left: 150px;
 	padding-top: 2px;
 	border-bottom: 1px solid #700;
+	
+	text-shadow: #700 1px 1px 1px;
 }
 
 .mini h1 {
@@ -107,6 +111,7 @@ h1 .title {
 	font-size: 75%;
 	padding-left: 7px;
 	color: #fff;
+	text-shadow: none;
 }
 
 .mini h2 {
