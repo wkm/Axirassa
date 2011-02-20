@@ -23,13 +23,14 @@ import org.hibernate.Session;
 import org.hibernate.annotations.NaturalId;
 
 import axirassa.model.exception.NoSaltException;
+import axirassa.model.interceptor.EntityPreSave;
 import axirassa.util.AutoSerializingObject;
 import axirassa.util.MessageDigestProvider;
 import axirassa.util.RandomStringGenerator;
 
 @Entity
 @Table(name = "Users")
-public class UserEntity extends AutoSerializingObject implements Serializable {
+public class UserEntity extends AutoSerializingObject implements Serializable, EntityPreSave {
 	private static final long serialVersionUID = 1375674968928774909L;
 
 
@@ -250,5 +251,12 @@ public class UserEntity extends AutoSerializingObject implements Serializable {
 	 */
 	public Set<String> roles() {
 		return Collections.singleton("user");
+	}
+
+
+	@Override
+	public void preSave() {
+		if (signupdate == null)
+			signupdate = new Date();
 	}
 }
