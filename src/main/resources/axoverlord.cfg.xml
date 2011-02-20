@@ -50,6 +50,12 @@
 		<jvmoption name="Xmx" value="16m"/>
 	</target>
 	
+	<target name="AxEmailService"
+	        class="axirassa.services.runners.EmailServiceRunner"
+	        autorestart="true">
+		<jvmoption name="Xmx" value="16m"/>        
+	</target>
+	
 	
 	
 	<!-- ################################################################ -->
@@ -67,8 +73,17 @@
     	<!-- wait for one second to let the server finish starting -->
     	
     	<execute initialdelay="1000" target="AxControllerService" />
-    	<execute instances="32" target="AxPingerService" />
+    	<execute target="AxPingerService" instances="32" />
     	<execute target="AxInjectorService" />
+    	<execute target="AxEmailService" />
+    </group>
+    
+    <group name="messaging">
+    	<execute target="AxMessagingServer" />
+    </group>
+    
+    <group name="email">
+    	<execute target="AxEmailService" initaldelay="1000" />
     </group>
     
     <!--
