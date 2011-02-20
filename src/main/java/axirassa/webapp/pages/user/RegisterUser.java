@@ -16,6 +16,7 @@ import org.hibernate.Session;
 import axirassa.model.UserEntity;
 import axirassa.model.exception.NoSaltException;
 import axirassa.webapp.components.AxForm;
+import axirassa.webapp.components.AxPasswordField;
 import axirassa.webapp.components.AxTextField;
 
 @Secure
@@ -45,6 +46,12 @@ public class RegisterUser {
 	private AxTextField emailField;
 
 	@Component
+	private AxTextField confirmEmailField;
+
+	@Component
+	private AxPasswordField confirmPasswordField;
+
+	@Component
 	private AxForm form;
 
 
@@ -56,6 +63,15 @@ public class RegisterUser {
 			return new JSONObject().put("error", "The email '" + emailvalue + "' is taken");
 
 		return new JSONObject();
+	}
+
+
+	public void onValidate() {
+		if (password != null && confirmemail != null && !password.equals(confirmpassword))
+			form.recordError(confirmPasswordField, "Passwords do not match");
+
+		if (email != null && confirmemail != null && !email.equals(confirmemail))
+			form.recordError(confirmEmailField, "E-mails do not match");
 	}
 
 
