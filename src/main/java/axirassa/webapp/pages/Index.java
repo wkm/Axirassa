@@ -8,7 +8,7 @@ import org.tynamo.security.services.SecurityService;
 /**
  * Start page of application axir.
  */
-@Import(stylesheet = { "context:/css/fonts.css", "context:/css/form.css", "context:/css/main.css" })
+@Import(stylesheet = { "context:/css/form.css", "context:/css/main.css" })
 public class Index {
 	@Inject
 	private SecurityService security;
