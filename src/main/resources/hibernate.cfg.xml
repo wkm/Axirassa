@@ -67,6 +67,7 @@
 		<!-- Events & Interceptors -->
 		<event type="save">
 			<listener class="axirassa.model.interceptor.EntityOnSaveInterceptor" />
+			<listener class="org.hibernate.event.def.DefaultSaveEventListener" />
 		</event>
 	</session-factory>
 </hibernate-configuration>
