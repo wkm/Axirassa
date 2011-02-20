@@ -4,11 +4,11 @@
 		<t:errors/>
 	
 		<t:axtextfield t:id="emailField" t:value="email" t:name="E-mail" t:mixins="ajaxValidator" t:validate='required,email'/>
-		<t:axtextfield t:value="confirmemail" t:name="Confirm e-mail" t:validate='required'/>
+		<t:axtextfield t:id="confirmEmailField" t:value="confirmemail" t:name="Confirm e-mail" t:validate='required'/>
 		
 		<t:axformvspace/>
 		<t:axpasswordfield t:value="password" t:name="Password" t:validate='required' />
-		<t:axpasswordfield t:value="confirmpassword" t:name="Confirm password" t:validate='required'/> 
+		<t:axpasswordfield t:id="confirmPasswordField" t:value="confirmpassword" t:name="Confirm password" t:validate='required'/> 
 		<t:axsubmit label="Register"/>
 	</t:axform>
 </html>
