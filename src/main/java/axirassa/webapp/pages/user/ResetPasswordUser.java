@@ -66,7 +66,7 @@ public class ResetPasswordUser {
 		EmailRequestMessage request = new EmailRequestMessage(EmailTemplate.USER_RESET_PASSWORD);
 
 		request.setToAddress(email);
-		request.addAttribute("axlink", "http://axirassa.com/user/createpassword/" + token.getToken());
+		request.addAttribute("axlink", "http://axirassa.com/user/changepassword/" + token.getToken());
 
 		ClientSession messagingSession = MessagingTools.getEmbeddedSession();
 		ClientProducer producer = messagingSession.createProducer(Messaging.NOTIFY_EMAIL_REQUEST);
