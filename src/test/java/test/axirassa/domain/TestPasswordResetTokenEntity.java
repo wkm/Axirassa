@@ -25,7 +25,5 @@ public class TestPasswordResetTokenEntity extends AbstractDomainTest {
 		addEntity(token2);
 
 		session.getTransaction().commit();
-
-		System.out.println("TOKEN: " + token1.getToken());
 	}
 }
