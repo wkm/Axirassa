@@ -7,6 +7,7 @@ import org.apache.tapestry5.annotations.Log;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
+import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
@@ -58,18 +59,14 @@ public class RegisterUser {
 	}
 
 
+	@CommitAfter
 	public String onSuccess() throws NoSaltException {
-		UserEntity newuser = new UserEntity();
+		UserEntity user = new UserEntity();
 
-		newuser.setEMail(email);
-		newuser.createPassword(password);
+		user.setEMail(email);
+		user.createPassword(password);
 
-		// we can ignore confirmemail and confirmpassword because validation
-		// will have already required them to be identical.
-
-		session.beginTransaction();
-		session.save(newuser);
-		session.getTransaction().commit();
+		session.persist(user);
 
 		return "Index";
 	}

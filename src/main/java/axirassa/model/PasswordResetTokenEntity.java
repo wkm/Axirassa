@@ -17,8 +17,6 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
 
 import axirassa.model.interceptor.EntityPreSave;
 import axirassa.util.RandomStringGenerator;
@@ -89,7 +87,6 @@ public class PasswordResetTokenEntity implements Serializable, EntityPreSave {
 
 
 	@Basic(optional = false)
-	@Generated(GenerationTime.INSERT)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date expiration;
 
