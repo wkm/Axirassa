@@ -18,19 +18,18 @@ public class EmailTemplateFactory {
 	static {
 		for (EmailTemplate name : EmailTemplate.values()) {
 			for (EmailTemplateType type : EmailTemplateType.values()) {
-				InputStream stream = System.class.getResourceAsStream(name.getFullLocation() + type);
+				String templateLocation = name.getFullLocation() + type.getExtension();
+				InputStream stream = System.class.getResourceAsStream(templateLocation);
 				if (stream == null)
-					throw new ExceptionInInitializerError("Cannot find resource: " + name.getFullLocation());
+					throw new ExceptionInInitializerError("Cannot find resource: " + templateLocation);
 
-				String templateBody;
 				try {
-					templateBody = StringUtilities.stringFromStream(stream);
+					String templateBody = StringUtilities.stringFromStream(stream);
+					StringTemplate template = new StringTemplate(templateBody, DefaultTemplateLexer.class);
+					instance.addStringTemplate(name, type, template);
 				} catch (IOException e) {
 					throw new ExceptionInInitializerError(e);
 				}
-
-				StringTemplate template = new StringTemplate(templateBody, DefaultTemplateLexer.class);
-				instance.addStringTemplate(name, type, template);
 			}
 		}
 	}

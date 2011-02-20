@@ -1,22 +1,23 @@
 
 package axirassa.services.email;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import org.antlr.stringtemplate.StringTemplate;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.tapestry5.json.JSONObject;
+import org.hornetq.api.core.HornetQException;
+import org.hornetq.api.core.client.ClientConsumer;
+import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientSession;
+import org.hornetq.utils.json.JSONException;
 
+import axirassa.config.Messaging;
+import axirassa.messaging.EmailRequestMessage;
 import axirassa.services.Service;
-import axirassa.services.pinger.InstrumentedHttpClient;
+import axirassa.util.AutoSerializingObject;
 
 public class EmailService implements Service {
 	private final ClientSession messagingSession;
+	private final DefaultHttpClient httpClient = new DefaultHttpClient();
 
 
 	public EmailService(ClientSession messagingSession) {
@@ -24,43 +25,40 @@ public class EmailService implements Service {
 	}
 
 
-	private final static String token = "b0ee8591-9e0e-45b6-a7ed-ff1ec9586725";
-
-	private final static String content = "{'From': 'alert@axirassa.com', 'To': 'wiktor@zanoccio.com', 'Subject':'Server [zanoccio.com] HTTP downtime alert (12 minutes)', 'TextBody':'The server zanoccio.com has been down with a 404 message for 12 minutes.'}";
-
-
 	@Override
-	public void execute() throws IllegalStateException, IOException {
-		DefaultHttpClient httpClient = new DefaultHttpClient();
-		HttpPost request = new HttpPost("http://api.postmarkapp.com/email");
+	public void execute() throws IllegalStateException, IOException, HornetQException {
+		messagingSession.start();
 
-		request.addHeader("Accept", "application/json");
-		request.addHeader("X-Postmark-Server-Token", token);
+		ClientConsumer consumer = messagingSession.createConsumer(Messaging.NOTIFY_EMAIL_REQUEST);
 
-		StringTemplate template = EmailTemplateFactory.getTemplateInstance(EmailTemplate.USER_VERIFY_ACCOUNT);
+		while (true) {
+			try {
+				ClientMessage message = consumer.receive();
+				message.acknowledge();
 
-		JSONObject json = new JSONObject();
+				System.out.println("Received message: " + message);
 
-		json.put("From", "alert@axirassa.com");
-		json.put("To", "wmacura@gmail.com");
-		json.put("Subject", "Password Reset --- Axirassa Server Monitor");
+				byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
+				message.getBodyBuffer().readBytes(buffer);
 
-		// fill out
-		template.setAttribute("email", "wmacura@gmail.com");
-		template.setAttribute("axlink",
-		                      "http://axirassa.com/user/confirmemail/asd87as89789981ad897a7878efadf6a7d57ad7f98afef");
-		json.put("HtmlBody", template.toString());
+				Object rawobject;
 
-		InputStreamEntity requestBody = new InputStreamEntity(new ByteArrayInputStream(json.toString()
-		        .getBytes("UTF-8")), -1);
-		requestBody.setContentType("application/json");
+				rawobject = AutoSerializingObject.fromBytes(buffer);
 
-		request.setEntity(requestBody);
+				if (rawobject instanceof EmailRequestMessage) {
+					EmailRequestMessage emailRequest = (EmailRequestMessage) rawobject;
 
-		HttpResponse response = httpClient.execute(request);
+					EmailTemplateComposer composer = new EmailTemplateComposer(emailRequest.getTemplate());
+					composer.setAttributes(emailRequest.getAttibuteMap());
 
-		System.out.println("RESPONSE:");
-		System.out.println(InstrumentedHttpClient.readInputStreamBuffer(response.getEntity().getContent()));
-
+					EmailSender sender = new EmailSender(composer, emailRequest.getToAddress());
+					sender.send(httpClient);
+				}
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
