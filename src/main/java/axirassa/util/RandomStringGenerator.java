@@ -36,8 +36,19 @@ public class RandomStringGenerator {
 	 */
 	public String randomString(int length) {
 		byte[] buffer = new byte[length];
+
+		for (int i = 0; i < buffer.length; i++) {
+			if (buffer[i] == 0)
+				buffer[i] = randomNonZeroByte();
+		}
+
 		random.nextBytes(buffer);
 		return new String(buffer);
+	}
+
+
+	public byte randomNonZeroByte() {
+		return (byte) (random.nextInt(254) + 1);
 	}
 
 
