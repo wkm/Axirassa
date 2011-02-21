@@ -2,16 +2,14 @@
 package axirassa.messaging;
 
 import java.io.Serializable;
-import java.util.HashMap;
 
 import axirassa.services.email.EmailTemplate;
-import axirassa.util.AutoSerializingObject;
+import axirassa.services.util.TemplateFillingMessage;
 
-public class EmailRequestMessage extends AutoSerializingObject implements Serializable {
+public class EmailRequestMessage extends TemplateFillingMessage implements Serializable {
 	private static final long serialVersionUID = 6734725672623808704L;
 	private final EmailTemplate template;
 	private String toAddress;
-	private final HashMap<String, Object> attributeMap = new HashMap<String, Object>();
 
 
 	public EmailRequestMessage(EmailTemplate template) {
@@ -32,15 +30,4 @@ public class EmailRequestMessage extends AutoSerializingObject implements Serial
 	public String getToAddress() {
 		return toAddress;
 	}
-
-
-	public void addAttribute(String key, Object value) {
-		attributeMap.put(key, value);
-	}
-
-
-	public HashMap<String, Object> getAttibuteMap() {
-		return attributeMap;
-	}
-
 }
