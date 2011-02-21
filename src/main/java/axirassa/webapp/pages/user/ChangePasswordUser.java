@@ -34,7 +34,7 @@ public class ChangePasswordUser {
 	private AxForm form;
 
 
-	public void onValidate() {
+	public void onValidateFromForm() {
 
 	}
 

@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.tapestry5.ValueEncoder;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.util.EnumValueEncoder;
 import org.hibernate.Session;
@@ -49,7 +50,8 @@ public class CreateMonitor {
 	private final List<PingerFrequency> frequencies = Arrays.asList(PingerFrequency.values());
 
 
-	public String onSuccess() {
+	@CommitAfter
+	public Object onSuccess() {
 		// save the pinger
 		PingerEntity pinger = new PingerEntity();
 		pinger.setUrl(url);
@@ -67,12 +69,10 @@ public class CreateMonitor {
 
 		pinger.setMonitorType(monitortypes);
 
-		session.beginTransaction();
 		for (MonitorTypeEntity monitor : monitortypes)
 			session.save(monitor);
 		session.save(pinger);
-		session.getTransaction().commit();
 
-		return "Monitor/List";
+		return ListMonitor.class;
 	}
 }

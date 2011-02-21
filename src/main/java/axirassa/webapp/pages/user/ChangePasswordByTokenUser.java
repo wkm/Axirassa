@@ -61,7 +61,7 @@ public class ChangePasswordByTokenUser {
 	}
 
 
-	public void onValidate() {
+	public void onValidateFromForm() {
 		if (newPassword != null && confirmPassword != null && !newPassword.equals(confirmPassword))
 			form.recordError(confirmPasswordField, "Passwords do not match");
 	}
@@ -79,7 +79,6 @@ public class ChangePasswordByTokenUser {
 			session.delete(tokenEntity);
 		}
 
-		// return SettingsUser.class;
-		return "User/Settings";
+		return SettingsUser.class;
 	}
 }

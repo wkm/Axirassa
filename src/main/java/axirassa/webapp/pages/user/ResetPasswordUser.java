@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
@@ -36,15 +35,13 @@ public class ResetPasswordUser {
 	private PageRenderLinkSource linkSource;
 
 	@Property
-	@Persist
 	private String email;
 
 	@Component
 	private AxForm form;
 
 
-	void onValidate() {
-		System.out.println("EMAIL: " + email);
+	public void onValidateFromForm() {
 		if (email == null) {
 			showInvalidEmailMessage();
 			return;
@@ -62,7 +59,7 @@ public class ResetPasswordUser {
 
 
 	@CommitAfter
-	Object onSuccess() throws HornetQException, IOException {
+	public Object onSuccessFromForm() throws HornetQException, IOException {
 		UserEntity user = UserEntity.getUserByEmail(session, email);
 		PasswordResetTokenEntity token = new PasswordResetTokenEntity();
 		token.setUser(user);
@@ -84,6 +81,6 @@ public class ResetPasswordUser {
 		producer.close();
 		messagingSession.close();
 
-		return "User/PasswordResetSent";
+		return PasswordResetSentUser.class;
 	}
 }

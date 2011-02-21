@@ -6,8 +6,8 @@ import org.apache.tapestry5.Field;
 import org.apache.tapestry5.FormValidationControl;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.ValidationDecorator;
-import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Import;
+import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -21,7 +21,7 @@ public class AxForm implements FormValidationControl {
 	@Inject
 	private Environment environment;
 
-	@Component(publishParameters = "autofocus,clientValidation,context,tracker,validationId,zone")
+	@InjectComponent
 	private Form form;
 
 	@Parameter(defaultPrefix = BindingConstants.LITERAL)

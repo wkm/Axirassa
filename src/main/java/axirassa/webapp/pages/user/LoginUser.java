@@ -15,6 +15,7 @@ import org.tynamo.security.services.SecurityService;
 
 import axirassa.model.exception.NoSaltException;
 import axirassa.webapp.components.AxForm;
+import axirassa.webapp.pages.MonitorConsole;
 
 @Secure
 @RequiresGuest
@@ -39,7 +40,7 @@ public class LoginUser {
 	private AxForm form;
 
 
-	public void onValidate() throws NoSaltException {
+	public void onValidateFromForm() throws NoSaltException {
 		if (email == null || password == null)
 			return;
 
@@ -59,7 +60,7 @@ public class LoginUser {
 	}
 
 
-	String onSuccess() {
-		return "MonitorConsole";
+	public Object onSuccessFromForm() {
+		return MonitorConsole.class;
 	}
 }

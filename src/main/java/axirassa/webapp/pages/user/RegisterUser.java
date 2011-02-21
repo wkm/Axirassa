@@ -18,6 +18,7 @@ import axirassa.model.exception.NoSaltException;
 import axirassa.webapp.components.AxForm;
 import axirassa.webapp.components.AxPasswordField;
 import axirassa.webapp.components.AxTextField;
+import axirassa.webapp.pages.Index;
 
 @Secure
 @RequiresGuest
@@ -66,7 +67,7 @@ public class RegisterUser {
 	}
 
 
-	public void onValidate() {
+	public void onValidateFromForm() {
 		if (password != null && confirmemail != null && !password.equals(confirmpassword))
 			form.recordError(confirmPasswordField, "Passwords do not match");
 
@@ -76,7 +77,7 @@ public class RegisterUser {
 
 
 	@CommitAfter
-	public String onSuccess() throws NoSaltException {
+	public Object onSuccessFromForm() throws NoSaltException {
 		UserEntity user = new UserEntity();
 
 		user.setEMail(email);
@@ -84,6 +85,6 @@ public class RegisterUser {
 
 		session.persist(user);
 
-		return "Index";
+		return Index.class;
 	}
 }
