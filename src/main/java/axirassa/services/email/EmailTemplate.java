@@ -1,9 +1,9 @@
 
 package axirassa.services.email;
 
-import java.io.Serializable;
+import axirassa.services.util.TemplateEnumeration;
 
-public enum EmailTemplate implements Serializable {
+public enum EmailTemplate implements TemplateEnumeration {
 
 	USER_VERIFY_ACCOUNT("account/VerifyAccountEmail", "account@axirassa.com"),
 	USER_RESET_PASSWORD("account/ResetPasswordEmail", "account@axirassa.com");
@@ -20,6 +20,7 @@ public enum EmailTemplate implements Serializable {
 	}
 
 
+	@Override
 	public String getLocation() {
 		return location;
 	}
@@ -30,6 +31,7 @@ public enum EmailTemplate implements Serializable {
 	}
 
 
+	@Override
 	public String getFullLocation() {
 		return BASE_LOCATION + location;
 	}

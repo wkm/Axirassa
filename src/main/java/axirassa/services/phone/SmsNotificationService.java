@@ -1,11 +1,12 @@
 
 package axirassa.services.phone;
 
-import org.apache.xerces.dom3.as.ASObject;
+import org.hornetq.api.core.client.ClientConsumer;
 import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientSession;
 
-import axirassa.messaging.EmailRequestMessage;
+import axirassa.config.Messaging;
+import axirassa.messaging.SmsRequestMessage;
 import axirassa.services.Service;
 import axirassa.util.AutoSerializingObject;
 
@@ -21,21 +22,28 @@ public class SmsNotificationService implements Service {
 	@Override
 	public void execute() throws Exception {
 		messagingSession.start();
-		
-		while(true) {
+
+		ClientConsumer consumer = messagingSession.createConsumer(Messaging.NOTIFY_SMS_REQUEST);
+
+		while (true) {
 			try {
-				ClientMessage message = consume.receive();
-				
-				System.out.println("Received Sms message: "+message);
-				
+				ClientMessage message = consumer.receive();
+
+				System.out.println("Received Sms message: " + message);
+
 				byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
 				message.getBodyBuffer().readBytes(buffer);
-				
+
 				Object rawobject = AutoSerializingObject.fromBytes(buffer);
-				
-				if(rawobject instanceof SmsRequestMessage) {
+
+				if (rawobject instanceof SmsRequestMessage) {
 					SmsRequestMessage smsRequest = (SmsRequestMessage) rawobject;
 				}
+
+				message.acknowledge();
+				messagingSession.commit();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
 		}
 	}

@@ -1,7 +1,9 @@
 
 package axirassa.services.email;
 
-public enum EmailTemplateType {
+import axirassa.services.util.TemplateTypeEnumeration;
+
+public enum EmailTemplateType implements TemplateTypeEnumeration {
 	HTML(".html"),
 	TEXT(".txt"),
 	SUBJECT(".subject");
@@ -14,6 +16,7 @@ public enum EmailTemplateType {
 	}
 
 
+	@Override
 	public String getExtension() {
 		return extension;
 	}
