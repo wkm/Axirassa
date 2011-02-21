@@ -50,8 +50,20 @@
 		<jvmoption name="Xmx" value="16m"/>
 	</target>
 	
-	<target name="AxEmailService"
+	<target name="AxEmailNotificationService"
 	        class="axirassa.services.runners.EmailServiceRunner"
+	        autorestart="true">
+		<jvmoption name="Xmx" value="16m"/>        
+	</target>
+	
+	<target name="AxSmsNotificationService"
+	        class="axirassa.services.runners.SmsNotificationServiceRunner"
+	        autorestart="true">
+		<jvmoption name="Xmx" value="16m"/>        
+	</target>
+	
+	<target name="AxVoiceNotificationService"
+	        class="axirassa.services.runners.VoiceNotificationServiceRunner"
 	        autorestart="true">
 		<jvmoption name="Xmx" value="16m"/>        
 	</target>
@@ -67,30 +79,21 @@
 	<!-- ################################################################ -->
 	<!-- EXECUTION GROUPS                                                 -->
 	<!-- ################################################################ --> 
+
     <group name="master">
-        <execute target="AxSentinelAgent"/>
-        <!-- <execute>AxSentinelQ</execute>
-        <execute>AxMessageQ</execute> -->
-    </group>
-    
-    <group name="devel">
     	<execute target="AxMessagingServer" />
     	
     	<!-- wait for one second to let the server finish starting -->
     	
-    	<execute initialdelay="1000" target="AxControllerService" />
+    	<execute target="AxControllerService" initialdelay="1000"  />
     	<execute target="AxPingerService" instances="32" />
     	<execute target="AxInjectorService" />
-    	<execute target="AxEmailService" />
+    	
+    	<execute target="AxEmailNotificationService" />
+    	<execute target="AxVoiceNotificationService" />
+    	<execute target="AxSmsNotificationService" />
+    	
     	<execute target="AxDatabaseCleanerService" />
-    </group>
-    
-    <group name="messaging">
-    	<execute target="AxMessagingServer" />
-    </group>
-    
-    <group name="email">
-    	<execute target="AxEmailService" initaldelay="1000" />
     </group>
     
     <!--

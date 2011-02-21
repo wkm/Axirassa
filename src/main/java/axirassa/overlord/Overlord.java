@@ -33,7 +33,7 @@ public class Overlord {
 		overlord.addShutdownHooks();
 
 		if (parameters.length <= 0)
-			overlord.execute(new String[] { "devel" });
+			overlord.execute(new String[] { "master" });
 		else
 			overlord.execute(parameters);
 	}

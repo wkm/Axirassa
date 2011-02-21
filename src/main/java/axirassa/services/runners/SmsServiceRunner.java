@@ -2,7 +2,7 @@
 package axirassa.services.runners;
 
 import axirassa.services.Service;
-import axirassa.services.sms.SmsService;
+import axirassa.services.phone.SmsService;
 
 public class SmsServiceRunner {
 	public static void main(String[] args) throws Exception {

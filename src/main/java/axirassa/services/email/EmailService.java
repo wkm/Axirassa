@@ -40,9 +40,7 @@ public class EmailService implements Service {
 				byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
 				message.getBodyBuffer().readBytes(buffer);
 
-				Object rawobject;
-
-				rawobject = AutoSerializingObject.fromBytes(buffer);
+				Object rawobject = AutoSerializingObject.fromBytes(buffer);
 
 				if (rawobject instanceof EmailRequestMessage) {
 					EmailRequestMessage emailRequest = (EmailRequestMessage) rawobject;
