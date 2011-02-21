@@ -12,12 +12,12 @@ import axirassa.model.HttpStatisticsEntity;
 import axirassa.model.PingerEntity;
 import axirassa.services.exceptions.AxirassaServiceException;
 
-public class HTTPPinger {
+public class HttpPinger {
 
 	private final InstrumentedHttpClient client;
 
 
-	public HTTPPinger() {
+	public HttpPinger() {
 		client = new InstrumentedHttpClient();
 	}
 

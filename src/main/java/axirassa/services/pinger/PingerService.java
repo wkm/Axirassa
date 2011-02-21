@@ -20,13 +20,13 @@ import axirassa.util.AutoSerializingObject;
 public class PingerService implements Service {
 
 	private final ClientSession session;
-	private final HTTPPinger pinger;
+	private final HttpPinger pinger;
 
 
 	public PingerService(ClientSession consumeSession) {
 		this.session = consumeSession;
 
-		pinger = new HTTPPinger();
+		pinger = new HttpPinger();
 	}
 
 
@@ -42,7 +42,6 @@ public class PingerService implements Service {
 		try {
 			while (true) {
 				ClientMessage message = consumer.receive();
-				message.acknowledge();
 
 				byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
 				message.getBodyBuffer().readBytes(buffer);
@@ -55,6 +54,9 @@ public class PingerService implements Service {
 					sendResponseMessages(producer, statistic);
 				} else
 					throw new InvalidMessageClassException(PingerEntity.class, rawobject);
+
+				message.acknowledge();
+				session.commit();
 			}
 		} finally {
 			if (consumer != null)
