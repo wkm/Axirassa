@@ -49,9 +49,20 @@ public class PingerService implements Service {
 				Object rawobject = AutoSerializingObject.fromBytes(buffer);
 				if (rawobject instanceof PingerEntity) {
 					PingerEntity request = (PingerEntity) rawobject;
-					HttpStatisticsEntity statistic = pinger.ping(request);
+					try {
+						HttpStatisticsEntity statistic = pinger.ping(request);
+						sendResponseMessages(producer, statistic);
+					} catch (IOException e) {
+						HttpStatisticsEntity statistic = new HttpStatisticsEntity();
+						statistic.setPinger(request);
+						statistic.setLatency(0);
+						statistic.setResponseSize(0);
+						statistic.setResponseTime(0);
+						statistic.setStatusCode(-1);
+						sendResponseMessages(producer, statistic);
 
-					sendResponseMessages(producer, statistic);
+						System.err.println("MESSAGE: " + e.getMessage());
+					}
 				} else
 					throw new InvalidMessageClassException(PingerEntity.class, rawobject);
 
