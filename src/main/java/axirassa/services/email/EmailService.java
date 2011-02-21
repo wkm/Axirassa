@@ -34,7 +34,6 @@ public class EmailService implements Service {
 		while (true) {
 			try {
 				ClientMessage message = consumer.receive();
-				message.acknowledge();
 
 				System.out.println("Received message: " + message);
 
@@ -54,6 +53,9 @@ public class EmailService implements Service {
 					EmailSender sender = new EmailSender(composer, emailRequest.getToAddress());
 					sender.send(httpClient);
 				}
+
+				message.acknowledge();
+				messagingSession.commit();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (JSONException e) {

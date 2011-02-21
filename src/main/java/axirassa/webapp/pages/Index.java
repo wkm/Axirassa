@@ -16,7 +16,7 @@ public class Index {
 
 	Object onActivate() {
 		if (security.isUser())
-			return "MonitorConsole";
+			return MonitorConsole.class;
 		else
 			return true;
 	}

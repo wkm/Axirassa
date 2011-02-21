@@ -2,6 +2,7 @@
 package axirassa.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +45,9 @@ public class PasswordResetTokenEntity implements Serializable, EntityPreSave {
 
 	public static int removeExpiredTokens(Session session) {
 		Query query = session.getNamedQuery("remove_expired_tokens");
+		query.setTimestamp("date", new Date());
+		System.out.println("DATE: " + (new Date()));
+		System.out.println("query: " + query.getQueryString());
 		int updateCount = query.executeUpdate();
 		return updateCount;
 	}
@@ -108,12 +112,19 @@ public class PasswordResetTokenEntity implements Serializable, EntityPreSave {
 	}
 
 
+	private Date createExpiration() {
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.HOUR, 24);
+		return now.getTime();
+	}
+
+
 	@Override
 	public void preSave() {
 		if (token == null)
 			token = RandomStringGenerator.getInstance().randomStringToken(64);
 
 		if (expiration == null)
-			expiration = new Date();
+			expiration = createExpiration();
 	}
 }
