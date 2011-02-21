@@ -49,18 +49,18 @@ public class PingerStreamingService extends AbstractService {
 		consumer = topic.createConsumer();
 
 		messagingSession.start();
-		System.out.println("Starting pinger service");
+		// System.out.println("Starting pinger service");
 
 		while (true) {
 			try {
-				System.out.println("Awaiting message");
+				// System.out.println("Awaiting message");
 				ClientMessage message = consumer.receive();
 				HttpStatisticsEntity stat = InjectorService.rebuildMessage(message);
 				if (stat == null) {
 					System.err.println("received null message");
 					continue;
 				}
-				System.out.println("Received message.");
+				// System.out.println("Received message.");
 
 				PingerEntity pinger = stat.getPinger();
 
@@ -74,7 +74,8 @@ public class PingerStreamingService extends AbstractService {
 				jsonMessage.put("TransferTime", stat.getResponseTime());
 				jsonMessage.put("ResponseSize", stat.getResponseSize());
 
-				System.out.println("Publishing: " + jsonMessage.toCompactString());
+				// System.out.println("Publishing: " +
+				// jsonMessage.toCompactString());
 				channel.publish(jsonMessage.toCompactString());
 			} catch (InvalidMessageClassException e) {
 				System.err.println(e);
