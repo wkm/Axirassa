@@ -34,6 +34,7 @@ public class PasswordResetTokenEntity implements Serializable, EntityPreSave {
 	public static PasswordResetTokenEntity getByToken(Session session, String token) {
 		Query query = session.getNamedQuery("password_reset_token");
 		query.setString("token", token);
+		query.setTimestamp("date", new Date());
 
 		List<PasswordResetTokenEntity> results = query.list();
 		if (results.size() < 1)
