@@ -80,7 +80,7 @@ h3 {
 .headerbar {
 	font-size: 11pt;
 	
-	padding-left: 150px;
+	padding: 1px 0 1px 150px;
 	background: #222;
 	color: #fff;
 	border-bottom: 1px solid #000;
