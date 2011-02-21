@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html t:type="layout" t:pageTitle="Change Password" 
+<html t:type="layout" t:pageTitle="Settings" 
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 
-	<h3>User Settings</h3>      
-      
+	<h3>User Settings</h3>
+	
+	<h4>E-Mail addresses</h4>
+	<h4>Phone numbers</h4>
+	<h4>Password</h4>
+	     
 </html>

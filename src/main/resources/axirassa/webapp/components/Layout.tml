@@ -19,7 +19,9 @@
         </div>
         <t:security.user>
 	        <div class="headerbar">
-	        	You're logged in as <strong>${username}</strong>. <t:pagelink t:page="user/logout">logout</t:pagelink>
+	        	You are logged in as <strong>${username}</strong>. |
+	        	<t:pagelink t:page="user/settings">settings</t:pagelink> |
+	        	<t:pagelink t:page="user/logout">logout</t:pagelink>
 	        </div>
         </t:security.user>
         <div class="body">	
