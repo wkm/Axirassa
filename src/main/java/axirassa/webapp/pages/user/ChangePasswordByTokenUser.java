@@ -12,6 +12,7 @@ import axirassa.model.PasswordResetTokenEntity;
 import axirassa.model.UserEntity;
 import axirassa.webapp.components.AxForm;
 import axirassa.webapp.components.AxPasswordField;
+import axirassa.webapp.pages.Index;
 
 public class ChangePasswordByTokenUser {
 
@@ -45,6 +46,11 @@ public class ChangePasswordByTokenUser {
 	private AxForm form;
 
 
+	public Object onActivate() {
+		return Index.class;
+	}
+
+
 	public Object onActivate(String token) {
 		this.token = token;
 		tokenEntity = PasswordResetTokenEntity.getByToken(session, token);
@@ -61,14 +67,23 @@ public class ChangePasswordByTokenUser {
 	}
 
 
+	public Object onPassivate() {
+		System.out.println("passivating");
+		return token;
+	}
+
+
 	public void onValidateFromForm() {
+		System.out.println("validating form");
 		if (newPassword != null && confirmPassword != null && !newPassword.equals(confirmPassword))
 			form.recordError(confirmPasswordField, "Passwords do not match");
 	}
 
 
 	@CommitAfter
-	public Object onSuccessFromForm(String token) {
+	public Object onSuccessFromForm() {
+		System.out.println("form success");
+
 		if (user == null)
 			return true;
 
@@ -79,6 +94,6 @@ public class ChangePasswordByTokenUser {
 			session.delete(tokenEntity);
 		}
 
-		return SettingsUser.class;
+		return LoginUser.class;
 	}
 }
