@@ -13,6 +13,7 @@ import axirassa.model.PingerEntity;
 import axirassa.services.exceptions.AxirassaServiceException;
 
 public class HttpPinger {
+	private final static String USER_AGENT = "Mozilla/5.0 (axirassa-pinger 0.5; en-us)";
 
 	private final InstrumentedHttpClient client;
 
@@ -24,7 +25,10 @@ public class HttpPinger {
 
 	public HttpStatisticsEntity ping(PingerEntity entity) throws ClientProtocolException, IOException,
 	        AxirassaServiceException {
+
 		HttpGet get = new HttpGet(entity.getUrl());
+		get.setHeader("User-Agent", USER_AGENT);
+
 		HttpResponse response = client.executeWithInstrumentation(get);
 
 		System.out.println("Latency: " + client.getLatency() + "ms  Response: " + client.getResponseTime()
