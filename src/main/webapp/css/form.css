@@ -67,6 +67,11 @@ div.t-error {
 	clear: both;
 }
 
+.ax_field p {
+	font-size: 70%;
+	color: #333;
+}
+
 .ax_input {
 	float: left;
 }

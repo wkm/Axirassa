@@ -5,25 +5,25 @@
 	<h3>User Settings</h3>
 	
 	<h4>E-Mail addresses</h4>
-	<p>
+	<t:AxFieldDescription>
 		This is the e-mail address you use to identify yourself:
-	</p>
+	</t:AxFieldDescription>
+	<t:AxForm
 	
-	<p>
+	<t:AxFieldDescription>
 		Additional alert e-mail addresses. You are limited to four additional
 		addresses. You should not use this feature to notify other people,
 		instead you can ((invite)) an unlimited number of people to this account.
-	</p>
+	</t:AxFieldDescription>
 	<h4>Phone numbers</h4>
-	<p>
+	<t:AxFieldDescription>
 		These are phone numbers which will be alerted when a monitor alerts. As
 		with e-mail addresses, you should ((invite)) other people if you want
 		them to be alerted. ((terrible language))
-	</p>
+	</t:AxFieldDescription>
 	
 	<h4>Password</h4>
 	<p>
 		Change your password:
 	</p>
-	     
 </html>
