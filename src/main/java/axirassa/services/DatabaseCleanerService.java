@@ -23,9 +23,14 @@ public class DatabaseCleanerService implements Service {
 
 	private void removeExpiredTokens() {
 		session.beginTransaction();
-		System.out.println("Removing expired tokens");
+
 		int removed = PasswordResetTokenEntity.removeExpiredTokens(session);
 		System.out.println("Removed " + removed + " expired password tokens");
+
+		// removed = PhoneNumberTokenEntity.removeExpiredTokens(session);
+		// System.out.println("Removed " + removed +
+		// " expired phone number tokens");
+
 		session.getTransaction().commit();
 	}
 }

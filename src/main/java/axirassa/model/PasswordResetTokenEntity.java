@@ -84,7 +84,7 @@ public class PasswordResetTokenEntity implements Serializable, EntityPreSave {
 	}
 
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private UserEntity user;
 
 

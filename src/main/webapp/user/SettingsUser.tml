@@ -8,7 +8,9 @@
 	<t:AxFieldDescription>
 		This is the e-mail address you use to identify yourself:
 	</t:AxFieldDescription>
-	<t:AxForm
+	<t:AxForm t:id="primaryEmailForm">
+	
+	</t:AxForm>
 	
 	<t:AxFieldDescription>
 		Additional alert e-mail addresses. You are limited to four additional
@@ -17,7 +19,7 @@
 	</t:AxFieldDescription>
 	<h4>Phone numbers</h4>
 	<t:AxFieldDescription>
-		These are phone numbers which will be alerted when a monitor alerts. As
+		These are phone numbers which will be notified when a monitor alerts. As
 		with e-mail addresses, you should ((invite)) other people if you want
 		them to be alerted. ((terrible language))
 	</t:AxFieldDescription>
