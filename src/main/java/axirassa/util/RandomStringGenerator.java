@@ -31,6 +31,11 @@ public class RandomStringGenerator {
 	}
 
 
+	public static String makeRandomStringToken(int length) {
+		return getInstance().randomStringToken(length);
+	}
+
+
 	/**
 	 * @return a string of the given length containing random bytes
 	 */
