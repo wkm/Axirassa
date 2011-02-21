@@ -10,7 +10,7 @@
  */
 
 body {
-	font-family: 'centro sans pro','lucida grande', sans-serif;
+	font-family: 'lucida grande', sans-serif;
 	font-size: 13pt;
 	
 	margin: 0;
@@ -220,7 +220,11 @@ ul {
 
 p {
 	max-width: 35em;
-	margin-bottom: 1em;
+	margin-bottom: 2em;
+}
+
+p + p {
+	margin-top: -1em;
 }
 
 hr {

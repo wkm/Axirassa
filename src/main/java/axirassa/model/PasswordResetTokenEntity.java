@@ -42,6 +42,13 @@ public class PasswordResetTokenEntity implements Serializable, EntityPreSave {
 	}
 
 
+	public static int removeExpiredTokens(Session session) {
+		Query query = session.getNamedQuery("remove_expired_tokens");
+		int updateCount = query.executeUpdate();
+		return updateCount;
+	}
+
+
 	@Id
 	@Basic(optional = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)

@@ -12,6 +12,7 @@ label {
 	display: block;
 	float: left;
 	width: 10em; 
+	color: #222;
 }
 
 .input {
@@ -76,6 +77,10 @@ div.t-error {
 .submit {
 	margin-top: 1em;
 	margin-left: 30em;
+}
+
+.check {
+	margin-left: 10em;
 }
 
 .ax_frmlbl {

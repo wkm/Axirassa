@@ -10,6 +10,7 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
 import org.hornetq.api.core.client.ClientMessage;
@@ -31,6 +32,9 @@ public class ResetPasswordUser {
 	@Inject
 	private Session session;
 
+	@Inject
+	private PageRenderLinkSource linkSource;
+
 	@Property
 	@Persist
 	private String email;
@@ -39,7 +43,8 @@ public class ResetPasswordUser {
 	private AxForm form;
 
 
-	void onValidateFromForm() {
+	void onValidate() {
+		System.out.println("EMAIL: " + email);
 		if (email == null) {
 			showInvalidEmailMessage();
 			return;
@@ -66,7 +71,10 @@ public class ResetPasswordUser {
 		EmailRequestMessage request = new EmailRequestMessage(EmailTemplate.USER_RESET_PASSWORD);
 
 		request.setToAddress(email);
-		request.addAttribute("axlink", "http://axirassa.com/user/changepassword/" + token.getToken());
+
+		String link = linkSource.createPageRenderLinkWithContext(ChangePasswordByTokenUser.class, token.getToken())
+		        .toAbsoluteURI(true);
+		request.addAttribute("axlink", link);
 
 		ClientSession messagingSession = MessagingTools.getEmbeddedSession();
 		ClientProducer producer = messagingSession.createProducer(Messaging.NOTIFY_EMAIL_REQUEST);
