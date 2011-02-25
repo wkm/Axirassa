@@ -7,11 +7,11 @@
 		<t:axpasswordfield t:value="password" t:name="Password" t:validate="required"/>
 		<div class="ax_field">
 			<t:checkbox class='input check' t:value="rememberme" t:id="remembermebox"/>
-			<t:label t:for="remembermebox">remember me?</t:label>
+			<t:label t:for="remembermebox">Stay logged in?</t:label>
 		</div>
 		 
 		<t:axsubmit label="Login"/>
 	</t:axform>
 	
-	<p><t:pagelink t:page="User/ResetPassword">Forgot your password?</t:pagelink></p>
+	<p><t:pagelink t:page="User/ResetPassword">Forgot your password?</t:pagelink> | <t:pagelink t:page="User/Register">Register for an account</t:pagelink></p>
 </html> 

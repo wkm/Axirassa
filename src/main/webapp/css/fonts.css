@@ -50,3 +50,23 @@
     font-weight: bold;
     font-style: italic;
 }
+
+@font-face {
+    font-family: 'Beau Sans Pro Black Italic';
+    src: url('http://f.fontdeck.com/f/1/REFKeTJsU1UAAxWIOksIr6X/WNppp0e14IAzwfg6FPjT9vTzi7dffGwm.eot');
+    src: local('Beau Sans Pro Black Italic'),
+    url('http://f.fontdeck.com/f/1/REFKeTJsU1UAAxWIOksIr6X/WNppp0e14IAzwfg6FPjT9vTzi7dffGwm.woff') format('woff'),
+    url('http://f.fontdeck.com/f/1/REFKeTJsU1UAAxWIOksIr6X/WNppp0e14IAzwfg6FPjT9vTzi7dffGwm.ttf') format('opentype');
+    font-weight: 800;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Beau Sans Pro Black';
+    src: url('http://f.fontdeck.com/f/1/Q3BCaFVWZzcAA+GzgFYlL2zsPtEuHdGlnWdfCW7QfsNoJMp1EHKfdZWn.eot');
+    src: local('Beau Sans Pro Black'),
+    url('http://f.fontdeck.com/f/1/Q3BCaFVWZzcAA+GzgFYlL2zsPtEuHdGlnWdfCW7QfsNoJMp1EHKfdZWn.woff') format('woff'),
+    url('http://f.fontdeck.com/f/1/Q3BCaFVWZzcAA+GzgFYlL2zsPtEuHdGlnWdfCW7QfsNoJMp1EHKfdZWn.ttf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+}

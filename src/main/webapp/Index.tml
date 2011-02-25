@@ -4,25 +4,26 @@
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<link rel="stylesheet" type="text/css" href="/css/fonts.css" />
+	<title>axirassa e-mail &amp; web server infrastructure monitoring</title>
 </head>
-<body>
+<body class="connectedworld">
 	<div class="header">
 		<a href="/">
 			<div class="the">the</div>
 			<h1>axirassa</h1>
-			<h2>website &amp; e&#8209;mail monitoring service.</h2>
+			<h2>website <span class='amp'>&amp;</span> e&#8209;mail monitoring</h2>
 		</a>
 	</div>
 	
 	<div class="impact">
 		<p>
-			Start monitoring the <strong>reliability</strong> and <strong>performance</strong> of the
-			website and e-mail infrastructure vital to your success.
+			Start monitoring the <strong>reliability</strong> and<br/>
+			<strong class='overhangL'>performance</strong> of the website and e-mail<br/>
+			infrastructure vital to your success.<br/>
 		</p>
 	</div>
 	
 		<div class="body">
-			
 		<div class="subimpact">
 			<p>
 				Axirassa uses a network of monitoring locations across the world to continually 
@@ -44,6 +45,10 @@
 		
 		<h4>World-class realtime status console.</h4>
 		<p></p>
+		
+		<h4>Fine-grained alert triggering</h4>
+		<p>Trigger on page content; response time; latency; or </p>
+		
 		<h4>Maximum frequency verification</h4>
 		<p>All tiers support minute-level reporting: the highest monitoring resolution available. </p>
 		
@@ -83,5 +88,6 @@
 		
 		mpmetrics.track('impression');
 	</script>
+	<img class="bg" src="/media/background.png"/>
 </body>
 </html> 

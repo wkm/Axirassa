@@ -7,7 +7,7 @@
 		Account passwords are not stored in plain text. Each password is 
 		"peppered" with an application-wide 256 bit secret, further salted
 		with a unique, randomly generated 256 bit string and then hashed
-		through 4096 iterations of <abbr>SHA</abbr>-512.
+		through 4096 iterations of <acronym title="Secure Hash Algorithm">SHA</acronym>-512.
 	</p>
 	
 	<h5>Billing Information</h5>

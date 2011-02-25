@@ -8,15 +8,32 @@
  * golden: 247,188,34
  * dark gold: 117,89,16
  */
+ 
+@import url("http://f.fontdeck.com/s/css/DNoIHP+J0nvF7wpQPSkOwipeHN0/localhost/5017.css");
 
 body {
-	font-family: 'lucida grande', sans-serif;
+	font-family: 'helvetica neue', helvetica, tahoma, verdana, sans-serif;
 	font-size: 13pt;
+	
+	text-rendering: optimizeLegibility;
 	
 	margin: 0;
 	padding: 0;
 	color: black;
-	background: #fff;
+	background: url('/media/bg.png');
+}
+
+.connectedWorld {
+	background: #fff url('/media/background.png') no-repeat;
+}
+
+.bg {
+	z-index: -1;
+	position: absolute;
+	top: 0;
+	left: 0;
+	
+	display: none;
 }
 
 .header a {
@@ -31,37 +48,45 @@ a {
 }
 
 h1 {
-	font-size: 70pt;
+	font-size: 72pt;
 	font-weight: normal;
-	color: rgb(174,3,0);
+	color: rgb(173, 51, 51);
 	margin: 0;
-	padding: 0;
+	margin-left: -4px;
+	padding: 0;	
+	text-transform: lowercase;
 	
 	text-shadow: #700 1px 1px 1px;
 }
 
 .the {
-	font-family: Adelle, Times, serif;
+	font-family: "din display pro medium", Times, serif;
 	font-size: 24pt;
-	text-transform: uppercase;
+	text-transform: lowercase;
+	display: none;
 	margin-bottom: -1.2em;
 	padding-left: .8em;
 }
 
 h1,h3,h4,h5,h6,th {
-	font-family: Adelle, Georgia, serif;
+	font-family: "din display pro black", "Beau Sans Pro Black", Georgia, serif;
 }
 
 h2 {
+	font-family: "din display pro medium", Times, serif;
+	margin-top: -1.3em;
+	font-size: 20pt;
+}
+
+h2 .amp {
 	font-family: Edita, Times, serif;
 	font-style: italic;
-	margin-top: -1em;
-	
 }
 
 h3 {
 	font-size: 24pt;
 	text-transform: uppercase;
+	margin-left: -1px;
 }
 
 .header, .headerbar, .body, .footer {
@@ -73,7 +98,7 @@ h3 {
 }
 
 .header {
-	margin-top: 150px;
+	margin-top: 225px;
 	color: rgb(54, 57, 66);
 }
 
@@ -88,10 +113,10 @@ h3 {
 }
 
 .mini {
-	background: rgb(174,3,0);
+	background: rgb(190, 53, 51);
 	color: #fff;
 	
-	margin: 0;	
+	margin: 0;
 	padding-left: 150px;
 	padding-top: 2px;
 	border-bottom: 1px solid #700;
@@ -101,14 +126,14 @@ h3 {
 
 .mini h1 {
 	color: #fff;
-	font-size: 24pt;
+	font-size: 20pt;
+	margin: 0;
 }
 
 h1 .title {
 	font-family: 'centro sans pro', 'lucida grande', 'verdana', sans-serif;
 	font-weight: bold;
 	text-transform: uppercase;
-	font-size: 75%;
 	padding-left: 7px;
 	color: #fff;
 	text-shadow: none;
@@ -125,7 +150,7 @@ h1 .title {
 	margin-top: 2em;
 	padding: 20px 0;
 	padding-left: 150px;
-	background: rgb(174,3,0);
+	background: rgba(153, 0, 0, .8);
 	color: #fff;
 	
 	text-transform: uppercase;
@@ -143,16 +168,27 @@ h1 .title {
 	padding: 0 .4em;
 }
 
+.overhangL {
+	margin-left: -11px;
+}
+
 .subimpact {
 	font-size: 20pt;
 	max-width: 25em;
 }
 
-abbr {
+abbr,acronym {
 	text-transform: uppercase;
 	letter-spacing: 0.1em;
-	font-size: 90%;
+	font-size: 85%;
 }
+
+acronym {
+	border-bottom: 1px dashed #333;
+	cursor: help;
+}
+
+
 .servicetiers {
 	clear:both;
 }
@@ -239,7 +275,13 @@ p a {
 	border-bottom: 2px solid rgb(174,3,0);
 }
 
-p a:after {
+p a:hover {
+	color: #700;
+	border-bottom: 2px solid #700;
+	background: #fbb;
+}
+
+/*p a:after {
 	content: ' \2192';
 }
 
@@ -248,7 +290,7 @@ p a:after {
 
 
 
-table {
+*/table {
 	border-collapse: collapse;
 }
 

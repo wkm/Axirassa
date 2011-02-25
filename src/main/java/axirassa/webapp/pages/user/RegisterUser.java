@@ -61,9 +61,14 @@ public class RegisterUser {
 		String emailvalue = request.getParameter("param");
 
 		if (UserEntity.isEmailRegistered(session, emailvalue))
-			return new JSONObject().put("error", "The email '" + emailvalue + "' is taken");
+			return new JSONObject().put("error", emailTakenMessage(emailvalue));
 
 		return new JSONObject();
+	}
+
+
+	private String emailTakenMessage(String email) {
+		return "The email '" + email + "' is taken";
 	}
 
 
@@ -73,6 +78,9 @@ public class RegisterUser {
 
 		if (email != null && confirmemail != null && !email.equals(confirmemail))
 			form.recordError(confirmEmailField, "E-mails do not match");
+
+		if (UserEntity.isEmailRegistered(session, email))
+			form.recordError(emailField, emailTakenMessage(email));
 	}
 
 

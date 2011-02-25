@@ -1,14 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html t:type="layout" t:pageTitle="Register" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<t:axform t:id="form" t:title="Register for Monitoring">
+		<p>
+			Start monitoring your site in less than a minute.
+		</p>
+	
 		<t:errors/>
 	
 		<t:axtextfield t:id="emailField" t:value="email" t:name="E-mail" t:mixins="ajaxValidator" t:validate='required,email'/>
 		<t:axtextfield t:id="confirmEmailField" t:value="confirmemail" t:name="Confirm e-mail" t:validate='required'/>
+		<t:AxFieldDescription>
+			We will send an e-mail to verify your e-mail address.
+		</t:AxFieldDescription>
 		
 		<t:axformvspace/>
 		<t:axpasswordfield t:value="password" t:name="Password" t:validate='required' />
-		<t:axpasswordfield t:id="confirmPasswordField" t:value="confirmpassword" t:name="Confirm password" t:validate='required'/> 
+		<t:axpasswordfield t:id="confirmPasswordField" t:value="confirmpassword" t:name="Confirm password" t:validate='required'/>
+		<t:AxFieldDescription>
+			You should use a password with more than six letters and a mixture of numbers, letters, 
+			symbols, uppercase and lowercase.
+		</t:AxFieldDescription>
+		
+		<p>
+			By registering for Axirassa you confirm you have read and agreed to our 
+			<t:pageLink page="support/privacy">privacy notice</t:pageLink> and our
+			<t:pageLink page="support/TermsOfUse">terms of use</t:pageLink>.
+		</p>
+		 
 		<t:axsubmit label="Register"/>
 	</t:axform>
 </html>

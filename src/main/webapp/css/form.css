@@ -13,6 +13,7 @@ label {
 	float: left;
 	width: 10em; 
 	color: #222;
+	padding-top: 4px;
 }
 
 .input {
@@ -68,8 +69,9 @@ div.t-error {
 }
 
 .ax_field p {
-	font-size: 70%;
-	color: #333;
+	font-size: 80%;
+	color: #111;
+	margin-left: 179px;
 }
 
 .ax_input {
@@ -87,6 +89,7 @@ div.t-error {
 }
 
 .check {
+	margin-top: 7px;
 	margin-left: 10em;
 }
 
