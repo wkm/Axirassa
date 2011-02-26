@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtilities {
 	/**
@@ -39,4 +41,18 @@ public class StringUtilities {
 		return sb.toString();
 	}
 
+
+	public static String removeLeadingWhitespace(String content) {
+		Pattern pattern = Pattern.compile("(?m)^([ \t]*)(.*)$");
+		Matcher matcher = pattern.matcher(content);
+
+		StringBuilder stripped = new StringBuilder();
+
+		while (matcher.find()) {
+			stripped.append(matcher.group(2));
+			stripped.append('\n');
+		}
+
+		return stripped.toString().trim();
+	}
 }
