@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE axirassa-test-fixture PUBLIC
+ "-//AxirassaTestFixture/Axirassa Test Fixture DTD 1.0//END"
+ "classpath://axirassa/util/test/AxirassaTestFixture-1.0.dtd">
+<fixtures>
+	<fixture name="resetPasswordSubject">
+		E-Mail Address Verification
+	</fixture>
+	<fixture name="resetPasswordHtml">
+		
+	</fixture>
+	<fixture name="resetPasswordText">
+	
+	</fixture>
+</fixtures>
