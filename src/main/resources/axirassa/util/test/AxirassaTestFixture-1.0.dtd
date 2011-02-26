@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT fixtures (fixture+)>
+
+<!ELEMENT fixture (#PCDATA)>
+<!ATTLIST fixture
+	name CDATA #REQUIRED
+>
