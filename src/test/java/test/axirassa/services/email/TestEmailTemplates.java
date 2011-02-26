@@ -10,9 +10,9 @@ import axirassa.services.email.EmailTemplateComposer;
 import axirassa.util.test.WithFixtureData;
 import freemarker.template.TemplateException;
 
-public class TestEmailTemplateComposer extends WithFixtureData {
+public class TestEmailTemplates extends WithFixtureData {
 	@Test
-	public void composeEmail() throws TemplateException, IOException {
+	public void resetPassword() throws TemplateException, IOException {
 		EmailTemplateComposer composer = new EmailTemplateComposer(EmailTemplate.USER_RESET_PASSWORD);
 
 		composer.addAttribute("recipient", "who@foo.com");

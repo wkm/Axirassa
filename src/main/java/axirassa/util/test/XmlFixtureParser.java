@@ -66,7 +66,7 @@ public class XmlFixtureParser {
 		String name = nameAttribute.getTextContent();
 		String content = fixtureNode.getTextContent();
 
-		content = StringUtilities.removeLeadingWhitespace(content);
+		content = StringUtilities.removeLeadingWhitespace(content).trim();
 
 		fixtures.put(name, content);
 	}

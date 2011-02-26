@@ -1,23 +1,17 @@
-<html>
-	<body>
-		<div style="font-family: 'lucida grande', verdana, sans-serif; width: 45em; margin: 20px 0 0 20px; border: 1px solid #ddd;">
-			<h1 style="color:#fff;background:rgb(174,3,0);margin:0; padding-left: 100px; border-bottom: 1px solid #700;">axirassa</h1>
-			<div style="padding-left:100px;min-height:25em;">
-				<h2>Did you request your password reset?</h2>
-				<p>
-					If so, please click this link to choose a new password:
-				</p>
-				<p style="font-family: monospace; background: #eee; border: 1px solid #ccc; width: 40em;">
-					<a href="$axlink$">$axlink$</a>
-				</p>
-				<p>
-					If you didn't request your password reset, please disregard this e-mail and your password will remain unchanged.
-				</p>
-			</div>
-			<div style="padding: 5px 0 5px 100px; background: #fafafa; border-top: 1px solid #eee; font-size: 9pt; color: #333;">
-				Sent to $recipient$<br> 
-				by <a href="http://axirassa.com">Axirassa, LLC.</a><br>
-			</div>
-		</div>
-	</body>
-</html>
+[#ftl]
+[#import "/components.ftl" as lib]
+[#compress]
+	[@lib.BaseHtmlEmail]
+		<h2>Did you request your password reset?</h2>
+		<p> 
+			If so, please click this link to choose a new password:
+		</p>
+		
+		[@lib.HtmlEmailLink link="${axlink}" /]
+		
+		<p>
+			If you didn't request your password reset, please disregard this e-mail
+			and your password will remain unchanged.
+		</p>
+	[/@lib.BaseHtmlEmail]
+[/#compress]

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE axirassa-test-fixture PUBLIC
+ "-//AxirassaTestFixture/Axirassa Test Fixture DTD 1.0//END"
+ "classpath://axirassa/util/test/AxirassaTestFixture-1.0.dtd">
+<fixtures>
+	<fixture name="resetPasswordSubject">
+		Password Reset
+	</fixture>
+	<fixture name="resetPasswordHtml">
+		<![CDATA[
+		<html>
+		<body>
+		<div style="font-family: 'lucida grande', verdana, sans-serif; width: 45em; margin: 20px 0 0 20px; border: 1px solid #ddd;">
+		<h1 style="color:#fff;background:rgb(174,3,0);margin:0; padding-left: 100px; border-bottom: 1px solid #700;">axirassa</h1>
+		<div style="padding-left:100px;min-height:25em;">
+		<h2>Did you request your password reset?</h2>
+		<p>
+		If so, please click this link to choose a new password:
+		</p>
+		<p style="font-family: monospace; background: #eee; border: 1px solid #ccc; width: 40em;">
+		<a href="http://locallinker.com">http://locallinker.com</a>
+		</p>
+		<p>
+		If you didn't request your password reset, please disregard this e-mail
+		and your password will remain unchanged.
+		</p>
+		</div>
+		<div style="padding: 5px 0 5px 100px; background: #fafafa; border-top: 1px solid #eee; font-size: 9pt; color: #333;">
+		Sent to who@foo.com<br>
+		by <a href="http://axirassa.com">Axirassa, LLC.</a><br>
+		</div>
+		</div>
+		</body>
+		</html>
+		]]>
+	</fixture>
+	<fixture name="resetPasswordText">
+		Did you request your password reset?
+			
+		If so, please click this link to choose a new password:
+			
+		http://locallinker.com
+			
+		If you didn't request your password reset, please disregard this e-mail and your password will remain unchanged.
+		
+		Thank you.
+		_________________________________________________
+		Sent to who@foo.com
+		by Axirassa, LLC. 
+	</fixture>
+</fixtures>

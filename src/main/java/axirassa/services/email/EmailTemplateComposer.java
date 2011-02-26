@@ -2,11 +2,9 @@
 package axirassa.services.email;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 public class EmailTemplateComposer {
@@ -30,27 +28,17 @@ public class EmailTemplateComposer {
 
 
 	public String composeSubject() throws TemplateException, IOException {
-		Template template = EmailTemplateFactory.getTemplateInstance(this.template, EmailTemplateType.SUBJECT);
-		return executeTemplate(template);
+		return EmailTemplateFactory.instance.getText(template, EmailTemplateType.SUBJECT, attributes);
 	}
 
 
 	public String composeHtml() throws IOException, TemplateException {
-		Template template = EmailTemplateFactory.getTemplateInstance(this.template, EmailTemplateType.HTML);
-		return executeTemplate(template);
+		return EmailTemplateFactory.instance.getText(template, EmailTemplateType.HTML, attributes);
 	}
 
 
 	public String composeText() throws IOException, TemplateException {
-		Template template = EmailTemplateFactory.getTemplateInstance(this.template, EmailTemplateType.TEXT);
-		return executeTemplate(template);
-	}
-
-
-	private String executeTemplate(Template template) throws TemplateException, IOException {
-		StringWriter writer = new StringWriter();
-		template.process(attributes, writer);
-		return writer.toString();
+		return EmailTemplateFactory.instance.getText(template, EmailTemplateType.TEXT, attributes);
 	}
 
 

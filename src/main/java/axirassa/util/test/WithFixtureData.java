@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.InputStream;
 import java.util.Map;
 
+import zanoccio.javakit.StringUtilities;
 import axirassa.util.test.exception.XmlFixtureParsingException;
 
 public class WithFixtureData {
@@ -66,6 +67,6 @@ public class WithFixtureData {
 
 
 	public void assertFixtureEquals(String fixture, String actual) {
-		assertEquals(getFixture(fixture), actual);
+		assertEquals(getFixture(fixture), StringUtilities.removeLeadingWhitespace(actual));
 	}
 }
