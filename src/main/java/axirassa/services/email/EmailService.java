@@ -14,6 +14,7 @@ import axirassa.config.Messaging;
 import axirassa.messaging.EmailRequestMessage;
 import axirassa.services.Service;
 import axirassa.util.AutoSerializingObject;
+import freemarker.template.TemplateException;
 
 public class EmailService implements Service {
 	private final ClientSession messagingSession;
@@ -57,6 +58,8 @@ public class EmailService implements Service {
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (TemplateException e) {
 				e.printStackTrace();
 			}
 		}

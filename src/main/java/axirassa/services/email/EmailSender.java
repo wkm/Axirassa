@@ -4,7 +4,6 @@ package axirassa.services.email;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import org.antlr.stringtemplate.StringTemplate;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -14,6 +13,7 @@ import org.hornetq.utils.json.JSONException;
 import org.hornetq.utils.json.JSONObject;
 
 import zanoccio.javakit.StringUtilities;
+import freemarker.template.TemplateException;
 
 public class EmailSender {
 	public static final String EMAIL_WEBAPP = "http://api.postmarkapp.com/email";
@@ -29,7 +29,7 @@ public class EmailSender {
 	}
 
 
-	public void send(HttpClient client) throws JSONException, ClientProtocolException, IOException {
+	public void send(HttpClient client) throws JSONException, ClientProtocolException, IOException, TemplateException {
 		HttpPost request = new HttpPost(EMAIL_WEBAPP);
 
 		request.addHeader("Accept", "application/json");
@@ -40,17 +40,15 @@ public class EmailSender {
 		json.put("From", composer.getEmailTemplate().getFromAddress());
 		json.put("To", toAddress);
 
-		StringTemplate html = composer.composeHtml();
-		StringTemplate text = composer.composeText();
-		StringTemplate subject = composer.composeSubject();
+		composer.addAttribute("recipient", toAddress);
 
-		html.setAttribute("recipient", toAddress);
-		text.setAttribute("recipient", toAddress);
-		subject.setAttribute("recipient", toAddress);
+		String html = composer.composeHtml();
+		String text = composer.composeText();
+		String subject = composer.composeSubject();
 
-		json.put("Subject", subject.toString());
-		json.put("HtmlBody", html.toString());
-		json.put("TextBody", text.toString());
+		json.put("Subject", subject);
+		json.put("HtmlBody", html);
+		json.put("TextBody", text);
 
 		System.out.println(json.toString());
 

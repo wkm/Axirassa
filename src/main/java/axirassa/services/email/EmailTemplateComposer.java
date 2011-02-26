@@ -1,10 +1,13 @@
 
 package axirassa.services.email;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.antlr.stringtemplate.StringTemplate;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 public class EmailTemplateComposer {
 	private final EmailTemplate template;
@@ -21,24 +24,33 @@ public class EmailTemplateComposer {
 	}
 
 
-	public StringTemplate composeSubject() {
-		StringTemplate instance = EmailTemplateFactory.getTemplateInstance(template, EmailTemplateType.SUBJECT);
-		instance.setAttributes(attributes);
-		return instance;
+	public void addAttribute(String key, Object value) {
+		attributes.put(key, value);
 	}
 
 
-	public StringTemplate composeHtml() {
-		StringTemplate instance = EmailTemplateFactory.getTemplateInstance(template, EmailTemplateType.HTML);
-		instance.setAttributes(attributes);
-		return instance;
+	public String composeSubject() throws TemplateException, IOException {
+		Template template = EmailTemplateFactory.getTemplateInstance(this.template, EmailTemplateType.SUBJECT);
+		return executeTemplate(template);
 	}
 
 
-	public StringTemplate composeText() {
-		StringTemplate instance = EmailTemplateFactory.getTemplateInstance(template, EmailTemplateType.TEXT);
-		instance.setAttributes(attributes);
-		return instance;
+	public String composeHtml() throws IOException, TemplateException {
+		Template template = EmailTemplateFactory.getTemplateInstance(this.template, EmailTemplateType.HTML);
+		return executeTemplate(template);
+	}
+
+
+	public String composeText() throws IOException, TemplateException {
+		Template template = EmailTemplateFactory.getTemplateInstance(this.template, EmailTemplateType.TEXT);
+		return executeTemplate(template);
+	}
+
+
+	private String executeTemplate(Template template) throws TemplateException, IOException {
+		StringWriter writer = new StringWriter();
+		template.process(attributes, writer);
+		return writer.toString();
 	}
 
 
