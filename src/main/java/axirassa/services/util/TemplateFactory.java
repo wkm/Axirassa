@@ -6,27 +6,35 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 import org.antlr.stringtemplate.StringTemplate;
-import org.antlr.stringtemplate.language.DefaultTemplateLexer;
+import org.antlr.stringtemplate.StringTemplateGroup;
 
 import zanoccio.javakit.StringUtilities;
 import axirassa.services.exceptions.UnknownTemplateError;
 
 public abstract class TemplateFactory<Template extends TemplateEnumeration, TemplateType extends TemplateTypeEnumeration> {
 
+	private final StringTemplateGroup templateGroup;
 	private final HashMap<TemplateTypeKey<Template, TemplateType>, StringTemplate> templates = new HashMap<TemplateTypeKey<Template, TemplateType>, StringTemplate>();
+
+
+	public TemplateFactory(String groupName) {
+		templateGroup = new StringTemplateGroup(groupName);
+	}
 
 
 	public void buildInstances(Template[] templates, TemplateType[] types) {
 		for (Template template : templates) {
 			for (TemplateType type : types) {
-				String templateLocation = template.getFullLocation() + type.getExtension();
+				String templateLocation = template.getFullLocation() + "." + type.getExtension();
 				InputStream stream = System.class.getResourceAsStream(templateLocation);
 				if (stream == null)
 					throw new ExceptionInInitializerError("Cannot find resource: " + templateLocation);
 
 				try {
 					String templateBody = StringUtilities.stringFromStream(stream);
-					StringTemplate strTemplate = new StringTemplate(templateBody, DefaultTemplateLexer.class);
+					StringTemplate strTemplate;
+					strTemplate = templateGroup.defineTemplate(template.getLocation() + "_" + type.getExtension(),
+					                                           templateBody);
 					addStringTemplate(template, type, strTemplate);
 				} catch (IOException e) {
 					throw new ExceptionInInitializerError(e);
@@ -48,6 +56,12 @@ public abstract class TemplateFactory<Template extends TemplateEnumeration, Temp
 			throw new UnknownTemplateError(template);
 
 		return baseTemplate.getInstanceOf();
+	}
+
+
+	@Override
+	public String toString() {
+		return templateGroup.getTemplateNames().toString();
 	}
 }
 

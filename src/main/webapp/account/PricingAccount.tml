@@ -2,12 +2,22 @@
 <html t:type="layout" t:pageTitle="Pricing" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<h3>Monthly Service Tiers</h3>
 	
-	<div class="servicetiers">
-		<p>
-			Pricing is based on the number of monitors. A single monitor will continually validate: one 
-			webpage over one protocol; a mail server with one protocol.
-		</p>
+	<p>
+		Pricing is based on the number of monitors. A single monitor will continually validate: one 
+		webpage over one protocol; a mail server with one protocol.
+	</p>
 	
+	<p>
+		All tiers include unlimited e-mail, voice, and <abbr>SMS</abbr> notifications of server
+		alerts.
+	</p>
+	
+	<p>
+		You can upgrade, downgrade, and cancel at any time. We will prorate all applicable
+		charges.
+	</p>
+	
+	<div class="servicetiers">
 		<t:pagelink page="user/register" context="literal:tier.3mon">
 			<div class="tier">
 				<div class="price">$3</div>
@@ -53,6 +63,8 @@
 		<div class="reset"></div>
 	</div>
 	<div class="freetier">
-		A completely free tier providing one monitor is also available.
+		It is our pleasure to also offer a complementary tier providing one monitor and
+		the same unlimited <abbr>SMS</abbr> and voice notifications of our paid
+		tiers. 
 	</div>
 </html>

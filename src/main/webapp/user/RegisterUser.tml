@@ -17,16 +17,17 @@
 		<t:axpasswordfield t:value="password" t:name="Password" t:validate='required' />
 		<t:axpasswordfield t:id="confirmPasswordField" t:value="confirmpassword" t:name="Confirm password" t:validate='required'/>
 		<t:AxFieldDescription>
-			You should use a password with more than six letters and a mixture of numbers, letters, 
+			While we do not place any special limitations on your choice of password, we recommend you use 
+			a password with more than six characters and a mixture of numbers, letters, 
 			symbols, uppercase and lowercase.
 		</t:AxFieldDescription>
-		
-		<p>
-			By registering for Axirassa you confirm you have read and agreed to our 
-			<t:pageLink page="support/privacy">privacy notice</t:pageLink> and our
-			<t:pageLink page="support/TermsOfUse">terms of use</t:pageLink>.
-		</p>
 		 
 		<t:axsubmit label="Register"/>
 	</t:axform>
+	
+	<p>
+		<strong>Important Note: </strong> by registering for Axirassa you confirm you have read and agreed to our 
+		<t:pageLink page="support/privacy">privacy notice</t:pageLink> and our
+		<t:pageLink page="support/TermsOfUse">terms of use</t:pageLink>.
+	</p>
 </html>

@@ -24,7 +24,7 @@ body {
 }
 
 .connectedWorld {
-	background: #fff url('/media/background.png') no-repeat;
+	background: url('/media/background.png') no-repeat;
 }
 
 .bg {
@@ -70,6 +70,7 @@ h1 {
 
 h1,h3,h4,h5,h6,th {
 	font-family: "din display pro black", "Beau Sans Pro Black", Georgia, serif;
+	margin-bottom: 0;
 }
 
 h2 {
@@ -87,6 +88,11 @@ h3 {
 	font-size: 24pt;
 	text-transform: uppercase;
 	margin-left: -1px;
+}
+
+h4 {
+	font-family: "din display pro light", tahoma, sans-serif;
+	font-size: 16pt;
 }
 
 .header, .headerbar, .body, .footer {
@@ -117,8 +123,8 @@ h3 {
 	color: #fff;
 	
 	margin: 0;
+	margin-top: -5px;
 	padding-left: 150px;
-	padding-top: 2px;
 	border-bottom: 1px solid #700;
 	
 	text-shadow: #700 1px 1px 1px;
@@ -126,7 +132,7 @@ h3 {
 
 .mini h1 {
 	color: #fff;
-	font-size: 20pt;
+	font-size: 26pt;
 	margin: 0;
 }
 
@@ -137,6 +143,7 @@ h1 .title {
 	padding-left: 7px;
 	color: #fff;
 	text-shadow: none;
+	font-size: 20pt;
 }
 
 .mini h2 {
@@ -194,13 +201,17 @@ acronym {
 }
 
 .tier {
-	border: 1px solid #eee; 
+	border: 1px solid #eee;
+	border-radius: 3px;
+	 
 	float: left;
 	width: 10em;
 	height: 15em;
 	margin: 4px .25em 0 0;
 	margin-top: 4px;
 	font-size: 12pt;
+	
+	background: #fff;
 	
 	padding: 1em;
 }
@@ -256,7 +267,9 @@ ul {
 
 p {
 	max-width: 35em;
+	margin-top: 0;
 	margin-bottom: 2em;
+	line-height: 140%;
 }
 
 p + p {

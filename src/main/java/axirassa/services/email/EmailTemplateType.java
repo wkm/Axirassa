@@ -4,9 +4,9 @@ package axirassa.services.email;
 import axirassa.services.util.TemplateTypeEnumeration;
 
 public enum EmailTemplateType implements TemplateTypeEnumeration {
-	HTML(".html"),
-	TEXT(".txt"),
-	SUBJECT(".subject");
+	HTML("html"),
+	TEXT("text"),
+	SUBJECT("subject");
 
 	private String extension;
 

@@ -53,8 +53,7 @@ div.t-error {
 	margin: 0 10px;
 	padding: 2px 5px;
 	
-	-moz-border-radius: 2px 2px 0 0;
-	-webkit-border-radius: 2px 2px 0 0;
+	border-radius: 2px 2px 0 0;
 	
 	border-bottom: rgb(247, 242, 137);
 	

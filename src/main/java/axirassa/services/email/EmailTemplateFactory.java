@@ -7,6 +7,11 @@ import axirassa.services.util.TemplateFactory;
 
 public class EmailTemplateFactory extends TemplateFactory<EmailTemplate, EmailTemplateType> {
 
+	public EmailTemplateFactory() {
+		super("email");
+	}
+
+
 	public static final EmailTemplateFactory instance = new EmailTemplateFactory();
 
 	static {
