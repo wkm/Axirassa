@@ -9,17 +9,24 @@ import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
+import org.apache.tapestry5.ioc.ScopeConstants;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Local;
-import org.apache.tapestry5.ioc.annotations.Symbol;
+import org.apache.tapestry5.ioc.annotations.Scope;
+import org.apache.tapestry5.ioc.services.PerthreadManager;
+import org.apache.tapestry5.ioc.services.PropertyShadowBuilder;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.RequestFilter;
 import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
 import org.hibernate.Session;
+import org.hornetq.api.core.HornetQException;
+import org.hornetq.api.core.client.ClientSession;
 import org.slf4j.Logger;
 import org.tynamo.security.SecuritySymbols;
+
+import axirassa.util.MessagingTools;
 
 /**
  * This module is automatically included as part of the Tapestry IoC Registry,
@@ -59,19 +66,6 @@ public class AppModule {
 		// tapestry-security configuration
 		configuration.add(SecuritySymbols.LOGIN_URL, "/user/login");
 		configuration.add(SecuritySymbols.UNAUTHORIZED_URL, "/index");
-
-		configuration.add("DWR.version", "");
-		configuration.add("DWR.js", "classpath:${DWR.js.path}");
-		configuration.add("DWR.js.path", "org/directwebremoting");
-
-		configuration.add("DWR.class", "/dwr/interface/");
-	}
-
-
-	public static void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration,
-	        @Symbol("DWR.js.path") String dwrPath, @Symbol("DWR.class") String dwrClassPath) {
-		configuration.add("DWR", dwrPath);
-		configuration.add("DWRClass", dwrClassPath);
 	}
 
 
@@ -116,6 +110,22 @@ public class AppModule {
 			}
 		};
 
+	}
+
+
+	@Scope(ScopeConstants.PERTHREAD)
+	public static HornetQSessionManager buildHornetQSessionManager(PerthreadManager perthreadManager)
+	        throws HornetQException {
+		HornetQSessionManager service = new HornetQSessionManager();
+		perthreadManager.addThreadCleanupListener(service);
+		return service;
+	}
+
+
+	public static ClientSession buildClientSession(HornetQSessionManager sessionManager,
+	        PropertyShadowBuilder propertyShadowBuilder) throws HornetQException {
+		propertyShadowBuilder.build(sessionManager, "session", ClientSession.class);
+		return MessagingTools.getEmbeddedSession();
 	}
 
 
