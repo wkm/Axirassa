@@ -21,7 +21,6 @@ import axirassa.messaging.EmailRequestMessage;
 import axirassa.model.PasswordResetTokenEntity;
 import axirassa.model.UserEntity;
 import axirassa.services.email.EmailTemplate;
-import axirassa.util.MessagingTools;
 import axirassa.webapp.components.AxForm;
 
 @Secure
@@ -33,6 +32,9 @@ public class ResetPasswordUser {
 
 	@Inject
 	private PageRenderLinkSource linkSource;
+
+	@Inject
+	private ClientSession messagingSession;
 
 	@Property
 	private String email;
@@ -73,7 +75,6 @@ public class ResetPasswordUser {
 		        .toAbsoluteURI(true);
 		request.addAttribute("axlink", link);
 
-		ClientSession messagingSession = MessagingTools.getEmbeddedSession();
 		ClientProducer producer = messagingSession.createProducer(Messaging.NOTIFY_EMAIL_REQUEST);
 		ClientMessage message = messagingSession.createMessage(true);
 		message.getBodyBuffer().writeBytes(request.toBytes());
