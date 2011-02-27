@@ -25,7 +25,30 @@
 	</t:AxFieldDescription>
 	
 	<h4>Password</h4>
-	<p>
-		Change your password:
-	</p>
+	<p>We will send an e-mail notifying you of a successful password change.</p>
+	<t:AxForm t:id="passwordForm">
+		<t:Errors />
+	
+		<t:AxPasswordField
+			t:id="currentPasswordField"
+			t:name="Current password" 
+			t:validate="required" 
+			t:value="currentPassword"
+		/>
+		<t:AxFormVSpace />
+		
+		<t:AxPasswordField 
+			t:name="New password" 
+			t:validate="required" 
+			t:value="newPassword" 
+		/>
+		<t:AxPasswordField 
+			t:id="confirmPasswordField"
+			t:name="Confirm password" 
+			t:validate="required" 
+			t:value="confirmPassword"
+		/>
+		
+		<t:AxSubmit label="Change password" />
+	</t:AxForm>
 </html>
