@@ -5,8 +5,9 @@ import axirassa.services.util.TemplateEnumeration;
 
 public enum EmailTemplate implements TemplateEnumeration {
 
-	USER_VERIFY_ACCOUNT("account/VerifyAccountEmail", "account@axirassa.com"),
-	USER_RESET_PASSWORD("account/ResetPasswordEmail", "account@axirassa.com");
+	USER_VERIFY_ACCOUNT("account/VerifyAccountEmail", EmailSenderAddress.ACCOUNT),
+	USER_RESET_PASSWORD("account/ResetPasswordEmail", EmailSenderAddress.ACCOUNT),
+	USER_CHANGE_PASSWORD("account/PasswordChangeEmail", EmailSenderAddress.ACCOUNT);
 
 	public static final String BASE_LOCATION = "/axirassa/webapp/emails/";
 
@@ -14,9 +15,9 @@ public enum EmailTemplate implements TemplateEnumeration {
 	private final String fromAddress;
 
 
-	EmailTemplate(String location, String fromAddress) {
+	EmailTemplate(String location, EmailSenderAddress fromAddress) {
 		this.location = location;
-		this.fromAddress = fromAddress;
+		this.fromAddress = fromAddress.getAddress();
 	}
 
 
