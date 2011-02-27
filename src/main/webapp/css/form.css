@@ -20,7 +20,20 @@ label {
 	float: left;
 	font-size: 13pt;
 	clear:both;
-	}
+}
+
+.notification {
+	color: #222;
+	font-weight: bold;
+	background: #eee;
+	border: 1px solid #ddd;
+	border-radius: 2px;
+	
+	width: 600px;
+	padding: 2px 5px;
+	
+	margin-bottom: .5em;
+}
 
 .txtinput {
 	font-family: Verdana,sans-serif;
@@ -44,9 +57,15 @@ label {
 }
 
 div.t-error {
+	padding: 5px;
+	margin-left: 65px;
 	width: 40em;
 	margin-bottom: 1em;
 	font-size: 70%;
+}
+
+input.t-error {
+	border-bottom-color: rgb(180, 100, 0);
 }
 
 .errorMsg {
@@ -54,8 +73,7 @@ div.t-error {
 	padding: 2px 5px;
 	
 	border-radius: 2px 2px 0 0;
-	
-	border-bottom: rgb(247, 242, 137);
+	border-bottom: 0;
 	
 	float: left; 
 	clear: both;
