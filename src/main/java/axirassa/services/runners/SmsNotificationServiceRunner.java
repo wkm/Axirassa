@@ -7,7 +7,7 @@ import axirassa.services.Service;
 import axirassa.services.phone.SmsNotificationService;
 import axirassa.util.MessagingTools;
 
-public class SmsServiceRunner {
+public class SmsNotificationServiceRunner {
 	public static void main(String[] args) throws Exception {
 		ClientSession session = MessagingTools.getEmbeddedSession();
 		Service service = new SmsNotificationService(session);
