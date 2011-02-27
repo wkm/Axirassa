@@ -11,6 +11,11 @@
  
 @import url("http://f.fontdeck.com/s/css/DNoIHP+J0nvF7wpQPSkOwipeHN0/localhost/5017.css");
 
+html,body { height: 100%; }
+
+#wrap {min-height: 100%;}
+
+
 body {
 	font-family: 'helvetica neue', helvetica, tahoma, verdana, sans-serif;
 	font-size: 13pt;
@@ -101,6 +106,8 @@ h4 {
 
 .body {
 	min-height: 35em;
+	
+	padding-bottom: 40px;
 }
 
 .header {
@@ -336,12 +343,26 @@ th {
 	font-size: 10pt;
 }
 
-.footer {
-	clear: both;
+#footer {	
 	font-size: 10pt;
 	border-top: 1px solid #ccc;
 	background: #eee;
-	padding-bottom: 100px;
+	
+	clear: both;
+	position: relative;
+	margin-top: -40px;
+	height: 24px;
+	padding: 10px;
+	padding-left: 150px;
+}
+
+#footer a {
+	color: #700;
+	border-bottom: 1px solid #300;
+}
+
+#footer a:hover {
+	border-bottom: 2px solid #600;
 }
 
 

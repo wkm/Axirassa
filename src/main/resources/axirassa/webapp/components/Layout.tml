@@ -3,33 +3,41 @@
 	<head>
 		<title>${pageTitle} :: axirassa webpresence monitoring</title>
 		<link rel="stylesheet" type="text/css" href="/css/fonts.css" />
+		
+		<!--[if !IE 7]>
+			<style type="text/css">
+				#wrap {display:table; height:100%;}
+			</style>
+		<![endif]-->
 	</head>
 	<body>
-		<div class='header mini'>
-			<t:security.user>
-				<t:pagelink t:page="MonitorConsole">
-					<h1>axirassa <span class="title">${pageTitle}</span></h1>
-				</t:pagelink>
-			</t:security.user>
-			<t:security.guest>
-				<t:pagelink t:page="Index">
-					<h1>axirassa</h1>
-				</t:pagelink>
-			</t:security.guest>
-        </div>
-        <t:security.user>
-	        <div class="headerbar">
-	        	You are logged in as <strong>${username}</strong>. |
-	        	<t:pagelink t:page="user/settings">settings</t:pagelink> |
-	        	<t:pagelink t:page="user/logout">logout</t:pagelink>
+		<div id="wrap">
+			<div class='header mini'>
+				<t:security.user>
+					<t:pagelink t:page="MonitorConsole">
+						<h1>axirassa <span class="title">${pageTitle}</span></h1>
+					</t:pagelink>
+				</t:security.user>
+				<t:security.guest>
+					<t:pagelink t:page="Index">
+						<h1>axirassa</h1>
+					</t:pagelink>
+				</t:security.guest>
 	        </div>
-        </t:security.user>
-        <div class="body">	
-	        
-			<t:body/>
+	        <t:security.user>
+		        <div class="headerbar">
+		        	You are logged in as <strong>${username}</strong>. |
+		        	<t:pagelink t:page="user/settings">settings</t:pagelink> |
+		        	<t:pagelink t:page="user/logout">logout</t:pagelink>
+		        </div>
+	        </t:security.user>
+	        <div class="body">	
+		        
+				<t:body/>
+			</div>
 		</div>
 		
-		<div class="footer">
+		<div id="footer">
 			Copyright 2011 &#8212; Axirassa, LLC. | <t:pagelink t:page="support/privacy">Privacy</t:pagelink> | <t:pagelink t:page="support/termsOfUse">Terms Of Use</t:pagelink>
 		</div>
 		<script type='text/javascript'>
