@@ -17,7 +17,7 @@ public class DatabaseCleanerServiceRunner {
 		scheduler.start();
 
 		JobDetail job = new JobDetail(JOB, JOB_GROUP, DatabaseCleanerServiceJob.class);
-		Trigger trigger = new CronTrigger(JOB, JOB_GROUP, "0 * * * * ?");
+		Trigger trigger = new CronTrigger(JOB, JOB_GROUP, "0 0 * * * ?");
 		scheduler.scheduleJob(job, trigger);
 		return;
 	}
