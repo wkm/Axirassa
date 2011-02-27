@@ -35,12 +35,12 @@
     	</queue>
     	
     	<!-- NOTIFICATION QUEUES; these are quite low traffic -->
-    	<queue name="Notify.SMS.Request">
-    		<address>Notify.SMS.Request</address>
+    	<queue name="Notify.Sms.Request">
+    		<address>Notify.Sms.Request</address>
     		<durable>true</durable>
     	</queue>
-    	<queue name="Notify.SMS.Response">
-    		<address>Notify.SMS.Response</address>
+    	<queue name="Notify.Sms.Response">
+    		<address>Notify.Sms.Response</address>
     		<durable>true</durable>
     	</queue>
     	
