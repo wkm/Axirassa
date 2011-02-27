@@ -1,20 +1,30 @@
 
 package axirassa.services.phone;
 
-import org.antlr.stringtemplate.StringTemplate;
+import java.io.IOException;
 
 import axirassa.services.util.TemplateFactory;
+import freemarker.template.Template;
 
 public class PhoneTemplateFactory extends TemplateFactory<PhoneTemplate, PhoneTemplateType> {
 
-	public static final PhoneTemplateFactory instance = new PhoneTemplateFactory();
-	static {
-		instance.buildInstances(PhoneTemplate.values(), PhoneTemplateType.values());
+	public PhoneTemplateFactory() throws IOException {
+		super(PhoneTemplate.BASE_LOCATION);
 	}
 
 
-	public static StringTemplate getTemplateInstance(PhoneTemplate template, PhoneTemplateType type) {
-		return instance.getInstance(template, type);
+	public static final PhoneTemplateFactory instance;
+	static {
+		try {
+			instance = new PhoneTemplateFactory();
+		} catch (IOException e) {
+			throw new ExceptionInInitializerError(e);
+		}
+	}
+
+
+	public static Template getTemplateInstance(PhoneTemplate template, PhoneTemplateType type) throws IOException {
+		return instance.getTemplate(template, type);
 	}
 
 }

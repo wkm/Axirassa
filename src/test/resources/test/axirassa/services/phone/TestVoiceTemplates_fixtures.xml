@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE axirassa-test-fixture PUBLIC
+ "-//AxirassaTestFixture/Axirassa Test Fixture DTD 1.0//END"
+ "classpath://axirassa/util/test/AxirassaTestFixture-1.0.dtd">
+<fixtures>
+	<fixture name="verifyPhoneNumber">
+		This is Ax-ih-rassa Server Monitoring.
+
+		Please enter the following confirmation code to verify this phone number.
+		
+		45-68-94-32
+	</fixture>
+</fixtures>
