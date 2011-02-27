@@ -90,7 +90,7 @@
     	<execute target="AxInjectorService" />
     	
     	<execute target="AxEmailNotificationService" />
-    	<execute target="AxVoiceNotificationService" />
+    	<!-- <execute target="AxVoiceNotificationService" /> -->
     	<execute target="AxSmsNotificationService" />
     	
     	<execute target="AxDatabaseCleanerService" />
