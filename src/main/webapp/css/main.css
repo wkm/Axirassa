@@ -375,6 +375,12 @@ div.t-exception-report {
 	font-size: 80%;
 }
 
+h1.t-exception-report {
+	text-transform: uppercase;
+	font-size: 28pt;
+	margin-left: 25px;
+}
+
 .t-exception-report ul li {
 	margin-bottom: 1em;
 }
@@ -387,11 +393,12 @@ div.t-exception-report dl dt {
 }
 
 .t-location-outer {
-	background: #eee;
+	background: #fafafa;
+	border: 1px solid #eee;
 }
 
 .t-location-content {
-	font-family: monaco;
+	font-family: menlo, consolas, 'courier new', monospace;
 	font-size: 10pt;
 }
 
@@ -420,6 +427,35 @@ ul.t-stack-trace li {
 	padding: 0;
 }
 
+
+div.t-env-data-section {
+	font-size: 14pt;
+	font-weight: bold;
+	margin-top: 2em;
+	margin-left: 3em;
+}
+
 .t-omitted-frame {
 	display: none;
+}
+
+.t-env-data h2 {
+	margin-left: 1em;
+	margin-top: 1em;
+}
+
+.t-env-data dl {
+	margin-left: 5em;
+	font-size: 10pt;
+}
+
+.t-env-data dl dt {
+	font-weight: bold;
+	font-family: menlo, consolas, monospace;
+}
+
+.t-env-data dl dd {
+	font-family: menlo, consolas, monospace;
+	margin-bottom: .5em;
+	line-height: 145%;
 }
