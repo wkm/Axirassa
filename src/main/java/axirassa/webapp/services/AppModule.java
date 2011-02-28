@@ -125,6 +125,12 @@ public class AppModule {
 	}
 
 
+	@Scope(ScopeConstants.PERTHREAD)
+	public EmailNotifyService buildEmailNotifyService(MessagingSession messagingSession) throws HornetQException {
+		return new EmailNotifyService(messagingSession);
+	}
+
+
 	/**
 	 * This is a contribution to the RequestHandler service configuration. This
 	 * is how we extend Tapestry using the timing filter. A common use for this
