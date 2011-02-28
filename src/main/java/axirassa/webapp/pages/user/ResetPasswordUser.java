@@ -80,7 +80,6 @@ public class ResetPasswordUser {
 		message.getBodyBuffer().writeBytes(request.toBytes());
 		producer.send(message);
 		producer.close();
-		messagingSession.close();
 
 		return PasswordResetSentUser.class;
 	}
