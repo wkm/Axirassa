@@ -2,6 +2,7 @@
 package axirassa.webapp.pages.user;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.tapestry5.PersistenceConstants;
@@ -16,6 +17,7 @@ import org.hornetq.api.core.HornetQException;
 import org.tynamo.security.services.SecurityService;
 
 import axirassa.model.UserEntity;
+import axirassa.model.UserPhoneNumberEntity;
 import axirassa.model.exception.NoSaltException;
 import axirassa.services.email.EmailTemplate;
 import axirassa.webapp.components.AxForm;
@@ -40,6 +42,21 @@ public class SettingsUser {
 	@Inject
 	private MessagingSession messagingSession;
 
+	@Property
+	@Persist
+	private UserEntity user;
+
+
+	public Object onActivate() {
+		String email = (String) security.getSubject().getPrincipal();
+		user = UserEntity.getUserByEmail(session, email);
+
+		phoneNumbers = UserPhoneNumberEntity.getPhoneNumbersByUser(session, user);
+
+		return true;
+	}
+
+
 	//
 	// Primary E-Mail
 	//
@@ -48,6 +65,15 @@ public class SettingsUser {
 
 	@Component
 	private AxTextField primaryEmailField;
+
+	//
+	// Phone Numbers
+	//
+	@Property
+	private List<UserPhoneNumberEntity> phoneNumbers;
+
+	@Property
+	private UserPhoneNumberEntity phoneNumber;
 
 	//
 	// Password
@@ -85,8 +111,6 @@ public class SettingsUser {
 
 
 	private void validateCurrentPassword() throws NoSaltException {
-		String email = (String) security.getSubject().getPrincipal();
-		UserEntity user = UserEntity.getUserByEmail(session, email);
 		if (!user.matchPassword(currentPassword))
 			passwordForm.recordError(currentPasswordField, "Incorrect password");
 	}
@@ -94,9 +118,6 @@ public class SettingsUser {
 
 	@CommitAfter
 	public Object onSuccessFromPasswordForm() throws IOException, HornetQException {
-		String email = (String) security.getSubject().getPrincipal();
-		UserEntity user = UserEntity.getUserByEmail(session, email);
-
 		user.createPassword(newPassword);
 		passwordChanged = true;
 

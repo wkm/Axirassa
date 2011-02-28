@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html t:type="layout" t:pageTitle="Settings" 
-      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+      xmlns:p="tapestry:parameter">
 
 	<h3>User Settings</h3>
 	
@@ -23,20 +24,53 @@
 		instead you can ((invite)) an unlimited number of people to this account.
 	</t:AxFieldDescription>
 	
+	
+	
 	<h4>Phone numbers</h4>
 	<t:AxFieldDescription>
 		These are phone numbers which will be notified when a monitor alerts. As
 		with e-mail addresses, you should ((invite)) other people if you want
 		them to be alerted. ((terrible language))
 	</t:AxFieldDescription>
-	<table>
-		<tr><th>Phone Number</th><th>Verified</th><th>Voice</th><th>Text-Message</th></tr>
-		<tr>
-			<td>1-800-WOLFRAM</td><td>yes</td><td>voice</td><td> </td>
-		</tr>
-	</table>
+	<p>
+		<table class="data fixed">
+			<tr><th></th><th>Phone Number</th><th>Verified</th><th>Voice</th><th>SMS</th></tr>
+			<t:loop source="phoneNumbers" value="phoneNumber">
+				<tr>
+					<td class='tight'>
+						<img src="/media/btn-delete.gif" title="delete phone number" alt="delete phone number" />
+					</td>
+					<td>${phoneNumber.formattedPhoneNumber}</td>
+					<td class='img'>
+						<t:if test="${phoneNumber.confirmed}">
+								<img src="/media/check.gif" alt="verified" />
+							<p:else>
+								<img src="/media/alert.gif" alt="not-verified"/>
+							</p:else>
+						</t:if>
+					</td>
+					<td class='img'>
+						<t:if test="${phoneNumber.acceptingVoice}">
+							<img src="/media/phone.gif" alt="phone calls"/>
+							<p:else>
+								- no -
+							</p:else>
+						</t:if>
+					</td>
+					<td class='img'>
+						<t:if test="${phoneNumber.acceptingSms}">
+							<img src="/media/address.gif" alt="SMS" />
+						</t:if>
+					</td>
+				</tr>
+			</t:loop>
+		</table>
+	</p>
 	
-	<t:PageLink t:page="user/AddPhoneNumber">Add phone number</t:PageLink>
+	
+	
+	
+	<t:PageLink t:page="user/AddPhoneNumber"><img src="/media/add.gif" />Add phone number</t:PageLink>
 	
 	<h4>Password</h4>
 	<p>We will send an e-mail notifying you of a successful password change.</p>
