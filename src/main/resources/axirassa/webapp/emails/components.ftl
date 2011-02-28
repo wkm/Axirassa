@@ -28,3 +28,7 @@ by Axirassa, LLC.
 		<a href="${link}">${link}</a>
 	</p>
 [/#macro]
+
+[#macro EmailAddress email]
+	<tt><a href="mailto:${email}">${email}</a></tt>
+[/#macro]

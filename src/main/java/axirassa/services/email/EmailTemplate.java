@@ -7,7 +7,8 @@ public enum EmailTemplate implements TemplateEnumeration {
 
 	USER_VERIFY_ACCOUNT("account/VerifyAccountEmail", EmailSenderAddress.ACCOUNT),
 	USER_RESET_PASSWORD("account/ResetPasswordEmail", EmailSenderAddress.ACCOUNT),
-	USER_CHANGE_PASSWORD("account/PasswordChangeEmail", EmailSenderAddress.ACCOUNT);
+	USER_CHANGE_PASSWORD("account/PasswordChangeEmail", EmailSenderAddress.ACCOUNT),
+	USER_PRIMARY_EMAIL_CHANGED("account/PrimaryEmailChangedEmail", EmailSenderAddress.ACCOUNT);
 
 	public static final String BASE_LOCATION = "/axirassa/webapp/emails/";
 
