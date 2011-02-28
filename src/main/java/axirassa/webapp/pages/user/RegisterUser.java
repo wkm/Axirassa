@@ -90,7 +90,7 @@ public class RegisterUser {
 		if (email != null && confirmemail != null && !email.equals(confirmemail))
 			form.recordError(confirmEmailField, "E-mails do not match");
 
-		if (UserEntity.isEmailRegistered(session, email))
+		if (email != null && UserEntity.isEmailRegistered(session, email))
 			form.recordError(emailField, emailTakenMessage(email));
 	}
 
