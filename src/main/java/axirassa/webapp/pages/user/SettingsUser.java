@@ -13,18 +13,15 @@ import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
-import org.hornetq.api.core.client.ClientMessage;
-import org.hornetq.api.core.client.ClientProducer;
 import org.tynamo.security.services.SecurityService;
 
-import axirassa.config.Messaging;
-import axirassa.messaging.EmailRequestMessage;
 import axirassa.model.UserEntity;
 import axirassa.model.exception.NoSaltException;
 import axirassa.services.email.EmailTemplate;
 import axirassa.webapp.components.AxForm;
 import axirassa.webapp.components.AxPasswordField;
 import axirassa.webapp.components.AxTextField;
+import axirassa.webapp.services.EmailNotifyService;
 import axirassa.webapp.services.MessagingSession;
 
 @Secure
@@ -36,6 +33,9 @@ public class SettingsUser {
 
 	@Inject
 	private Session session;
+
+	@Inject
+	private EmailNotifyService emailNotify;
 
 	@Inject
 	private MessagingSession messagingSession;
@@ -100,13 +100,9 @@ public class SettingsUser {
 		user.createPassword(newPassword);
 		passwordChanged = true;
 
-		EmailRequestMessage notification = new EmailRequestMessage(EmailTemplate.USER_CHANGE_PASSWORD);
-		notification.setToAddress(user.getEMail());
-
-		ClientProducer producer = messagingSession.createProducer(Messaging.NOTIFY_EMAIL_REQUEST);
-		ClientMessage message = messagingSession.createMessage(true);
-		message.getBodyBuffer().writeBytes(notification.toBytes());
-		producer.send(message);
+		emailNotify.startMessage(EmailTemplate.USER_CHANGE_PASSWORD);
+		emailNotify.setToAddress(user.getEMail());
+		emailNotify.send();
 
 		return this;
 	}

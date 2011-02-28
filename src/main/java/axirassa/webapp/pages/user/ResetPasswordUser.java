@@ -12,16 +12,12 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
-import org.hornetq.api.core.client.ClientMessage;
-import org.hornetq.api.core.client.ClientProducer;
 
-import axirassa.config.Messaging;
-import axirassa.messaging.EmailRequestMessage;
 import axirassa.model.PasswordResetTokenEntity;
 import axirassa.model.UserEntity;
 import axirassa.services.email.EmailTemplate;
 import axirassa.webapp.components.AxForm;
-import axirassa.webapp.services.MessagingSession;
+import axirassa.webapp.services.EmailNotifyService;
 
 @Secure
 @RequiresGuest
@@ -34,7 +30,7 @@ public class ResetPasswordUser {
 	private PageRenderLinkSource linkSource;
 
 	@Inject
-	private MessagingSession messagingSession;
+	private EmailNotifyService emailNotify;
 
 	@Property
 	private String email;
@@ -67,19 +63,13 @@ public class ResetPasswordUser {
 		token.setUser(user);
 		session.save(token);
 
-		EmailRequestMessage request = new EmailRequestMessage(EmailTemplate.USER_RESET_PASSWORD);
-
-		request.setToAddress(email);
-
 		String link = linkSource.createPageRenderLinkWithContext(ChangePasswordByTokenUser.class, token.getToken())
 		        .toAbsoluteURI(true);
-		request.addAttribute("axlink", link);
 
-		ClientProducer producer = messagingSession.createProducer(Messaging.NOTIFY_EMAIL_REQUEST);
-		ClientMessage message = messagingSession.createMessage(true);
-		message.getBodyBuffer().writeBytes(request.toBytes());
-		producer.send(message);
-		producer.close();
+		emailNotify.startMessage(EmailTemplate.USER_RESET_PASSWORD);
+		emailNotify.setToAddress(email);
+		emailNotify.addAttribute("axlink", link);
+		emailNotify.send();
 
 		return PasswordResetSentUser.class;
 	}
