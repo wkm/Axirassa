@@ -8,7 +8,7 @@
 	<!-- EXECUTION TARGET CLASSES                                         -->
 	<!-- ################################################################ -->
     <target name="AxSentinelAgent" class="axirassa.services.sentinel.SentinelService" autorestart="true">
-    	<!-- JVM options --> 
+    	<!-- JVM options -->
         <jvmoption name="Xmx" value="32M"/>
         <jvmoption name="Xms" value="32M"/>
         <jvmoption name="Xss" value="1024K"/>
