@@ -113,16 +113,15 @@ public class AppModule {
 	@Scope(ScopeConstants.PERTHREAD)
 	public static MessagingSessionManager buildMessagingSessionManager(PerthreadManager perthreadManager)
 	        throws HornetQException {
-		MessagingSessionManagerImpl service = new MessagingSessionManagerImpl();
-		perthreadManager.addThreadCleanupListener(service);
-		return service;
+		MessagingSessionManagerImpl sessionManager = new MessagingSessionManagerImpl();
+		perthreadManager.addThreadCleanupListener(sessionManager);
+		return sessionManager;
 	}
 
 
 	public static MessagingSession buildMessagingSession(MessagingSessionManager sessionManager,
 	        PropertyShadowBuilder propertyShadowBuilder) throws HornetQException {
-		propertyShadowBuilder.build(sessionManager, "session", MessagingSession.class);
-		return sessionManager.getSession();
+		return propertyShadowBuilder.build(sessionManager, "session", MessagingSession.class);
 	}
 
 
