@@ -27,6 +27,8 @@ import org.tynamo.security.SecuritySymbols;
 
 import axirassa.webapp.services.internal.EmailNotifyServiceImpl;
 import axirassa.webapp.services.internal.MessagingSessionManagerImpl;
+import axirassa.webapp.services.internal.SmsNotifyServiceImpl;
+import axirassa.webapp.services.internal.VoiceNotifyServiceImpl;
 
 /**
  * This module is automatically included as part of the Tapestry IoC Registry,
@@ -131,6 +133,18 @@ public class AppModule {
 	@Scope(ScopeConstants.PERTHREAD)
 	public EmailNotifyService buildEmailNotifyService(MessagingSession messagingSession) throws HornetQException {
 		return new EmailNotifyServiceImpl(messagingSession);
+	}
+
+
+	@Scope(ScopeConstants.PERTHREAD)
+	public SmsNotifyService buildSmsNotifyService(MessagingSession messagingSession) throws HornetQException {
+		return new SmsNotifyServiceImpl(messagingSession);
+	}
+
+
+	@Scope(ScopeConstants.PERTHREAD)
+	public VoiceNotifyService buildVoiceNotifyService(MessagingSession messagingSession) throws HornetQException {
+		return new VoiceNotifyServiceImpl(messagingSession);
 	}
 
 
