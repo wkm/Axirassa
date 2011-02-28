@@ -127,7 +127,7 @@ public class AppModule {
 
 	@Scope(ScopeConstants.PERTHREAD)
 	public EmailNotifyService buildEmailNotifyService(MessagingSession messagingSession) throws HornetQException {
-		return new EmailNotifyService(messagingSession);
+		return new EmailNotifyServiceImpl(messagingSession);
 	}
 
 
