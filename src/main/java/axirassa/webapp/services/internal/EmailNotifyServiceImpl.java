@@ -26,29 +26,20 @@ public class EmailNotifyServiceImpl implements EmailNotifyService {
 	}
 
 
-	/* (non-Javadoc)
-     * @see axirassa.webapp.services.EmailNotifyService#startMessage(axirassa.services.email.EmailTemplate)
-     */
 	@Override
-    public void startMessage(EmailTemplate template) {
+	public void startMessage(EmailTemplate template) {
 		request = new EmailRequestMessage(template);
 	}
 
 
-	/* (non-Javadoc)
-     * @see axirassa.webapp.services.EmailNotifyService#addAttribute(java.lang.String, java.lang.String)
-     */
 	@Override
-    public void addAttribute(String key, String value) {
+	public void addAttribute(String key, String value) {
 		request.addAttribute(key, value);
 	}
 
 
-	/* (non-Javadoc)
-     * @see axirassa.webapp.services.EmailNotifyService#send()
-     */
 	@Override
-    public void send() throws HornetQException, IOException {
+	public void send() throws HornetQException, IOException {
 		ClientMessage message = messagingSession.createMessage(true);
 		message.getBodyBuffer().writeBytes(request.toBytes());
 		producer.send(message);
@@ -57,11 +48,8 @@ public class EmailNotifyServiceImpl implements EmailNotifyService {
 	}
 
 
-	/* (non-Javadoc)
-     * @see axirassa.webapp.services.EmailNotifyService#setToAddress(java.lang.String)
-     */
 	@Override
-    public void setToAddress(String email) {
+	public void setToAddress(String email) {
 		request.setToAddress(email);
 	}
 }
