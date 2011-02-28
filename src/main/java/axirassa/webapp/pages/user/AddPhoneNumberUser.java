@@ -62,6 +62,7 @@ public class AddPhoneNumberUser {
 
 	public Object onSuccess() throws HornetQException, IOException {
 		smsNotify.startMessage(PhoneTemplate.USER_VERIFY_PHONE_NUMBER);
+		smsNotify.setPhoneNumber(phoneNumber);
 		smsNotify.addAttribute("code", RandomStringGenerator.makeRandomStringToken(8));
 		smsNotify.addAttribute("user", "who@foo.com");
 		smsNotify.send();

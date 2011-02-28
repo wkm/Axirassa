@@ -43,6 +43,8 @@ public abstract class TropoSender {
 		json.put("phoneNumber", phoneNumber);
 		json.put("messageBody", message);
 
+		System.out.println("REQUEST: " + json);
+
 		InputStreamEntity requestBody = new InputStreamEntity(new ByteArrayInputStream(json.toCompactString()
 		        .getBytes("UTF-8")), -1);
 		requestBody.setContentType("application/json");
