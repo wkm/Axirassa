@@ -6,7 +6,6 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.subject.Subject;
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
 import org.apache.tapestry5.corelib.components.Checkbox;
@@ -23,7 +22,6 @@ public class LoginUser {
 	@Inject
 	private SecurityService security;
 
-	@Persist
 	@Property
 	private String email;
 

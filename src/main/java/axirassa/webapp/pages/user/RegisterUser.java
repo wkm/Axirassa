@@ -6,7 +6,6 @@ import java.io.IOException;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Log;
-import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
@@ -36,11 +35,9 @@ public class RegisterUser {
 	@Inject
 	private EmailNotifyService emailPost;
 
-	@Persist
 	@Property
 	private String email;
 
-	@Persist
 	@Property
 	private String confirmemail;
 
