@@ -2,6 +2,7 @@
 package axirassa.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -11,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 import axirassa.util.AutoSerializingObject;
 
 @Entity
@@ -18,9 +22,18 @@ import axirassa.util.AutoSerializingObject;
 public class UserPhoneNumberEntity extends AutoSerializingObject implements Serializable {
 	private static final long serialVersionUID = 1344815747977623929L;
 
+
 	//
 	// Static
 	//
+
+	public static List<UserPhoneNumberEntity> getPhoneNumbersByUser(Session session, UserEntity user) {
+		Query query = session.getNamedQuery("user_phonenumbers");
+		query.setEntity("user", user);
+
+		return query.list();
+	}
+
 
 	//
 	// Instance
@@ -45,6 +58,17 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 	@ManyToOne(optional = false)
 	private UserEntity user;
 
+
+	public UserEntity getUser() {
+		return user;
+	}
+
+
+	public void setUser(UserEntity user) {
+		this.user = user;
+	}
+
+
 	@Basic(optional = false)
 	private String phoneNumber;
 
@@ -56,6 +80,23 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+
+	public String getFormattedPhoneNumber() {
+		StringBuilder formatted = new StringBuilder();
+
+		formatted.append('(');
+		formatted.append(phoneNumber.substring(0, 3));
+		formatted.append(") ");
+		formatted.append(phoneNumber.substring(3, 6));
+		formatted.append("-");
+		formatted.append(phoneNumber.substring(6));
+
+		if (extension != null)
+			formatted.append(" x").append(extension);
+
+		return formatted.toString();
 	}
 
 

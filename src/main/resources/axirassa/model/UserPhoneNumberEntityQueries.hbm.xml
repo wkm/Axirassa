@@ -3,5 +3,8 @@
       "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
       "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="axirasa.model">
-	<!-- phone numbers by user -->
+	<query name="user_phonenumbers">
+		from UserPhoneNumberEntity
+		where user = :user
+	</query>
 </hibernate-mapping>
