@@ -1,6 +1,8 @@
 
 package axirassa.services.phone;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.hornetq.api.core.client.ClientConsumer;
 import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientSession;
@@ -12,10 +14,12 @@ import axirassa.util.AutoSerializingObject;
 
 public class SmsNotificationService implements Service {
 	private final ClientSession messagingSession;
+	private final HttpClient httpClient;
 
 
 	public SmsNotificationService(ClientSession messagingSession) {
 		this.messagingSession = messagingSession;
+		this.httpClient = new DefaultHttpClient();
 	}
 
 
@@ -38,6 +42,14 @@ public class SmsNotificationService implements Service {
 
 				if (rawobject instanceof SmsRequestMessage) {
 					SmsRequestMessage smsRequest = (SmsRequestMessage) rawobject;
+					System.out.println("ATTRIBUTES: " + smsRequest.getAttibuteMap());
+
+					String text = PhoneTemplateFactory.instance.getText(smsRequest.getTemplate(),
+					                                                    PhoneTemplateType.SMS,
+					                                                    smsRequest.getAttibuteMap());
+
+					SendSMS sender = new SendSMS(smsRequest.getPhoneNumber(), text);
+					sender.send(httpClient);
 				}
 
 				message.acknowledge();
