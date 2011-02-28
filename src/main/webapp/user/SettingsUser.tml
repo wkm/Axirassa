@@ -29,6 +29,14 @@
 		with e-mail addresses, you should ((invite)) other people if you want
 		them to be alerted. ((terrible language))
 	</t:AxFieldDescription>
+	<table>
+		<tr><th>Phone Number</th><th>Verified</th><th>Voice</th><th>Text-Message</th></tr>
+		<tr>
+			<td>1-800-WOLFRAM</td><td>yes</td><td>voice</td><td> </td>
+		</tr>
+	</table>
+	
+	<t:PageLink t:page="user/AddPhoneNumber">Add phone number</t:PageLink>
 	
 	<h4>Password</h4>
 	<p>We will send an e-mail notifying you of a successful password change.</p>
