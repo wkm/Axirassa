@@ -1,13 +1,18 @@
 
 package axirassa.webapp.pages.user;
 
+import java.io.IOException;
+
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
 import org.apache.tapestry5.beaneditor.Validate;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.hornetq.api.core.HornetQException;
 
+import axirassa.services.phone.PhoneTemplate;
+import axirassa.util.RandomStringGenerator;
 import axirassa.webapp.components.AxCheckbox;
 import axirassa.webapp.components.AxForm;
 import axirassa.webapp.services.SmsNotifyService;
@@ -55,7 +60,12 @@ public class AddPhoneNumberUser {
 	}
 
 
-	public Object onSuccess() {
+	public Object onSuccess() throws HornetQException, IOException {
+		smsNotify.startMessage(PhoneTemplate.USER_VERIFY_PHONE_NUMBER);
+		smsNotify.addAttribute("code", RandomStringGenerator.makeRandomStringToken(8));
+		smsNotify.addAttribute("user", "who@foo.com");
+		smsNotify.send();
+
 		return this;
 	}
 }
