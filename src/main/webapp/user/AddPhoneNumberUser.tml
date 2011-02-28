@@ -5,8 +5,7 @@
 		<t:AxTextField
 			t:id="phoneNumberField"
 			t:value="phoneNumber" 
-			t:name="Phone number" 
-			t:validate="required" 
+			t:name="Phone number"
 		/>
 		<t:AxFieldDescription>
 			You may specify a phone number with any syntax, including using letters

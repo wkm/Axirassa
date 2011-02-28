@@ -74,7 +74,7 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 
 
 	@Basic(optional = false)
-	private boolean confirmed;
+	private boolean confirmed = false;
 
 
 	public boolean isConfirmed() {
@@ -88,7 +88,7 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 
 
 	@Basic(optional = false)
-	private boolean acceptingVoice;
+	private boolean acceptingVoice = false;
 
 
 	public boolean isAcceptingVoice() {
@@ -102,7 +102,7 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 
 
 	@Basic(optional = false)
-	private boolean acceptingSms;
+	private boolean acceptingSms = false;
 
 
 	public boolean isAcceptingSms() {
