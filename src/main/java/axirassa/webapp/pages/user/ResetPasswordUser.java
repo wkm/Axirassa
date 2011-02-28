@@ -14,7 +14,6 @@ import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
 import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientProducer;
-import org.hornetq.api.core.client.ClientSession;
 
 import axirassa.config.Messaging;
 import axirassa.messaging.EmailRequestMessage;
@@ -22,6 +21,7 @@ import axirassa.model.PasswordResetTokenEntity;
 import axirassa.model.UserEntity;
 import axirassa.services.email.EmailTemplate;
 import axirassa.webapp.components.AxForm;
+import axirassa.webapp.services.MessagingSession;
 
 @Secure
 @RequiresGuest
@@ -34,7 +34,7 @@ public class ResetPasswordUser {
 	private PageRenderLinkSource linkSource;
 
 	@Inject
-	private ClientSession messagingSession;
+	private MessagingSession messagingSession;
 
 	@Property
 	private String email;

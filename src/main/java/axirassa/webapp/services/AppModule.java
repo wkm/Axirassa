@@ -22,11 +22,8 @@ import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
 import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
-import org.hornetq.api.core.client.ClientSession;
 import org.slf4j.Logger;
 import org.tynamo.security.SecuritySymbols;
-
-import axirassa.util.MessagingTools;
 
 /**
  * This module is automatically included as part of the Tapestry IoC Registry,
@@ -114,18 +111,18 @@ public class AppModule {
 
 
 	@Scope(ScopeConstants.PERTHREAD)
-	public static HornetQSessionManager buildHornetQSessionManager(PerthreadManager perthreadManager)
+	public static MessagingSessionManager buildMessagingSessionManager(PerthreadManager perthreadManager)
 	        throws HornetQException {
-		HornetQSessionManager service = new HornetQSessionManager();
+		MessagingSessionManagerImpl service = new MessagingSessionManagerImpl();
 		perthreadManager.addThreadCleanupListener(service);
 		return service;
 	}
 
 
-	public static ClientSession buildClientSession(HornetQSessionManager sessionManager,
+	public static MessagingSession buildMessagingSession(MessagingSessionManager sessionManager,
 	        PropertyShadowBuilder propertyShadowBuilder) throws HornetQException {
-		propertyShadowBuilder.build(sessionManager, "session", ClientSession.class);
-		return MessagingTools.getEmbeddedSession();
+		propertyShadowBuilder.build(sessionManager, "session", MessagingSession.class);
+		return sessionManager.getSession();
 	}
 
 

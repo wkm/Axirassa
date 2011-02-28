@@ -15,7 +15,6 @@ import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
 import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientProducer;
-import org.hornetq.api.core.client.ClientSession;
 import org.tynamo.security.services.SecurityService;
 
 import axirassa.config.Messaging;
@@ -26,6 +25,7 @@ import axirassa.services.email.EmailTemplate;
 import axirassa.webapp.components.AxForm;
 import axirassa.webapp.components.AxPasswordField;
 import axirassa.webapp.components.AxTextField;
+import axirassa.webapp.services.MessagingSession;
 
 @Secure
 @RequiresAuthentication
@@ -38,7 +38,7 @@ public class SettingsUser {
 	private Session session;
 
 	@Inject
-	private ClientSession messagingSession;
+	private MessagingSession messagingSession;
 
 	//
 	// Primary E-Mail
