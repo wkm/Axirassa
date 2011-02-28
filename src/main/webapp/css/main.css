@@ -304,29 +304,40 @@ p a:hover {
 	background: #fbb;
 }
 
-/*p a:after {
-	content: ' \2192';
+
+
+
+
+table {
+	border-collapse: collapse;
+	background: #fff;
 }
 
+table.fixed {
+	margin-left: 5em;
+}
 
+table.fixed td {
+	min-width: 5em;
+}
 
-
-
-
-*/table {
-	border-collapse: collapse;
+table.fixed td.tight {
+	min-width: 0;
 }
 
 td,th {
 	padding: 0px 15px;
-	font-size: 80%;
 }
 
+td.img {
+	text-align: center;
+	color: #999;
+}
 
 th {
 	color: #333;
-	text-align: left;
-	border-bottom: 1px solid #eee;
+	text-align: center;
+	border-bottom: 2px solid #ddd;
 }
 
 .url {
