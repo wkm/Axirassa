@@ -18,7 +18,7 @@ public class TemplateFillingMessage extends AutoSerializingObject {
 
 
 	public void addAttributes(Map<String, Object> attributes) {
-		attributeMap.putAll(attributeMap);
+		attributeMap.putAll(attributes);
 	}
 
 
