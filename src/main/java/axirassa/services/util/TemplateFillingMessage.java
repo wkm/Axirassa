@@ -2,6 +2,7 @@
 package axirassa.services.util;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import axirassa.util.AutoSerializingObject;
 
@@ -13,6 +14,11 @@ public class TemplateFillingMessage extends AutoSerializingObject {
 
 	public void addAttribute(String key, Object value) {
 		attributeMap.put(key, value);
+	}
+
+
+	public void addAttributes(Map<String, Object> attributes) {
+		attributeMap.putAll(attributeMap);
 	}
 
 
