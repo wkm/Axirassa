@@ -8,10 +8,11 @@ public class SmsRequestMessage extends TemplateFillingMessage {
 	private static final long serialVersionUID = 6558222308712420947L;
 
 	private final PhoneTemplate template;
-	private String phoneNumber;
+	private final String phoneNumber;
 
 
-	public SmsRequestMessage(PhoneTemplate template) {
+	public SmsRequestMessage(String phoneNumber, PhoneTemplate template) {
+		this.phoneNumber = phoneNumber;
 		this.template = template;
 	}
 
