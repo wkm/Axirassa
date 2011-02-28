@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html t:type="layout" t:pageTitle="Register" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<t:AxForm t:id="form" t:title="Add a Phone Number">
+		<t:Errors/>
+		<t:AxTextField
+			t:id="phoneNumberField"
+			t:value="phoneNumber" 
+			t:name="Phone number" 
+			t:validate="required" 
+		/>
+		<t:AxFieldDescription>
+			You may specify a phone number with any syntax, including using letters
+			as commonly seen in <abbr>1-800</abbr> mnemonics.<br/><strong>Please note that
+			international numbers are not currently supported</strong>.
+		</t:AxFieldDescription>
+		
+		<t:AxTextField 
+			class="short"
+			t:id="extensionField" 
+			t:value="extension" 
+			t:name="Extension" 
+		/>
+		<t:AxFieldDescription>
+			An optional extension to dial. You may use <tt>-</tt> (dash) to
+			indicate a one-second pause. For example: <tt>12-8412</tt><br/>
+			<strong>Note that text messages may not be sent to phone numbers with
+			extensions. </strong>
+		</t:AxFieldDescription>
+		
+		<h4>Notification method:</h4>
+		<t:AxCheckbox 
+			t:id="acceptsVoiceField"
+			t:value="acceptsVoice" 
+			t:name="phone call"
+		/>
+		<t:AxCheckbox
+			t:id="acceptsTextField"
+			t:value="acceptsText" 
+			t:name="text message"
+		/>
+		
+		<t:AxSubmit label="Add number" />
+	</t:AxForm>
+</html>
