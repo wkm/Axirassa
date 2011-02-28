@@ -1,21 +1,34 @@
 
 package axirassa.webapp.pages.user;
 
-import org.apache.shiro.authz.annotation.RequiresUser;
+import java.io.IOException;
+
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.tapestry5.PersistenceConstants;
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
+import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
+import org.hornetq.api.core.HornetQException;
+import org.hornetq.api.core.client.ClientMessage;
+import org.hornetq.api.core.client.ClientProducer;
 import org.hornetq.api.core.client.ClientSession;
 import org.tynamo.security.services.SecurityService;
 
+import axirassa.config.Messaging;
+import axirassa.messaging.EmailRequestMessage;
 import axirassa.model.UserEntity;
+import axirassa.model.exception.NoSaltException;
+import axirassa.services.email.EmailTemplate;
 import axirassa.webapp.components.AxForm;
 import axirassa.webapp.components.AxPasswordField;
+import axirassa.webapp.components.AxTextField;
 
 @Secure
-@RequiresUser
+@RequiresAuthentication
 public class SettingsUser {
 
 	@Inject
@@ -26,6 +39,15 @@ public class SettingsUser {
 
 	@Inject
 	private ClientSession messagingSession;
+
+	//
+	// Primary E-Mail
+	//
+	@Property
+	private String primaryEmail;
+
+	@Component
+	private AxTextField primaryEmailField;
 
 	//
 	// Password
@@ -48,8 +70,12 @@ public class SettingsUser {
 	@Component
 	private AxForm passwordForm;
 
+	@Property
+	@Persist(PersistenceConstants.FLASH)
+	private boolean passwordChanged;
 
-	public void onValidateFromPasswordForm() {
+
+	public void onValidateFromPasswordForm() throws NoSaltException {
 		if (currentPassword != null)
 			validateCurrentPassword();
 
@@ -58,16 +84,31 @@ public class SettingsUser {
 	}
 
 
-	private void validateCurrentPassword() {
+	private void validateCurrentPassword() throws NoSaltException {
 		String email = (String) security.getSubject().getPrincipal();
 		UserEntity user = UserEntity.getUserByEmail(session, email);
-
+		if (!user.matchPassword(currentPassword))
+			passwordForm.recordError(currentPasswordField, "Incorrect password");
 	}
 
 
-	public Object onActionFromPasswordForm() {
-		System.out.println("Action from password form");
-		return true;
+	@CommitAfter
+	public Object onSuccessFromPasswordForm() throws IOException, HornetQException {
+		String email = (String) security.getSubject().getPrincipal();
+		UserEntity user = UserEntity.getUserByEmail(session, email);
+
+		user.createPassword(newPassword);
+		passwordChanged = true;
+
+		EmailRequestMessage notification = new EmailRequestMessage(EmailTemplate.USER_CHANGE_PASSWORD);
+		notification.setToAddress(user.getEMail());
+
+		ClientProducer producer = messagingSession.createProducer(Messaging.NOTIFY_EMAIL_REQUEST);
+		ClientMessage message = messagingSession.createMessage(true);
+		message.getBodyBuffer().writeBytes(notification.toBytes());
+		producer.send(message);
+
+		return this;
 	}
 
 }
