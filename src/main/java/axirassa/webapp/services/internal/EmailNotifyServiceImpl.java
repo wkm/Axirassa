@@ -1,5 +1,5 @@
 
-package axirassa.webapp.services;
+package axirassa.webapp.services.internal;
 
 import java.io.IOException;
 
@@ -10,6 +10,8 @@ import org.hornetq.api.core.client.ClientProducer;
 import axirassa.config.Messaging;
 import axirassa.messaging.EmailRequestMessage;
 import axirassa.services.email.EmailTemplate;
+import axirassa.webapp.services.EmailNotifyService;
+import axirassa.webapp.services.MessagingSession;
 
 public class EmailNotifyServiceImpl implements EmailNotifyService {
 	private final MessagingSession messagingSession;

@@ -1,9 +1,11 @@
 
-package axirassa.webapp.services;
+package axirassa.webapp.services.internal;
 
 import org.hornetq.api.core.HornetQException;
 
 import axirassa.util.MessagingTools;
+import axirassa.webapp.services.MessagingSession;
+import axirassa.webapp.services.MessagingSessionManager;
 
 public class MessagingSessionManagerImpl implements MessagingSessionManager {
 
