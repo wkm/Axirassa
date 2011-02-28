@@ -25,6 +25,9 @@ import org.hornetq.api.core.HornetQException;
 import org.slf4j.Logger;
 import org.tynamo.security.SecuritySymbols;
 
+import axirassa.webapp.services.internal.EmailNotifyServiceImpl;
+import axirassa.webapp.services.internal.MessagingSessionManagerImpl;
+
 /**
  * This module is automatically included as part of the Tapestry IoC Registry,
  * it's a good place to configure and extend Tapestry, or to place your own
