@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import org.hornetq.api.core.HornetQException;
+import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientProducer;
 
 import axirassa.config.Messaging;
+import axirassa.messaging.SmsRequestMessage;
 import axirassa.services.phone.PhoneTemplate;
 import axirassa.webapp.services.MessagingSession;
 import axirassa.webapp.services.SmsNotifyService;
@@ -17,7 +19,7 @@ public class SmsNotifyServiceImpl implements SmsNotifyService {
 	private final ClientProducer producer;
 
 	private PhoneTemplate template;
-	private final HashMap<String, String> attributes = new HashMap<String, String>();
+	private final HashMap<String, Object> attributes = new HashMap<String, Object>();
 	private String phoneNumber;
 
 
@@ -29,8 +31,13 @@ public class SmsNotifyServiceImpl implements SmsNotifyService {
 
 	@Override
 	public void startMessage(PhoneTemplate template) {
-		attributes.clear();
+		reset();
 		this.template = template;
+	}
+
+
+	private void reset() {
+		attributes.clear();
 	}
 
 
@@ -48,7 +55,14 @@ public class SmsNotifyServiceImpl implements SmsNotifyService {
 
 	@Override
 	public void send() throws HornetQException, IOException {
+		ClientMessage message = messagingSession.createMessage(true);
 
+		SmsRequestMessage request = new SmsRequestMessage(phoneNumber, template);
+		request.addAttributes(attributes);
+
+		message.getBodyBuffer().writeBytes(request.toBytes());
+		producer.send(message);
+
+		reset();
 	}
-
 }
