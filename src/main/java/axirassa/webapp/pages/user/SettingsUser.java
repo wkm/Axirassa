@@ -51,6 +51,8 @@ public class SettingsUser {
 		String email = (String) security.getSubject().getPrincipal();
 		user = UserEntity.getUserByEmail(session, email);
 
+		primaryEmail = email;
+
 		phoneNumbers = UserPhoneNumberEntity.getPhoneNumbersByUser(session, user);
 
 		return true;
