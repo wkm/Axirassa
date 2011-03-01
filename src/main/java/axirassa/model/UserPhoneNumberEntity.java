@@ -35,6 +35,18 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 	}
 
 
+	public static UserPhoneNumberEntity getById(Session session, Long id) {
+		Query query = session.getNamedQuery("phonenumber_by_id");
+		query.setLong("id", id);
+
+		List<UserPhoneNumberEntity> list = query.list();
+		if (list.size() == 0)
+			return null;
+		else
+			return list.iterator().next();
+	}
+
+
 	//
 	// Instance
 	//
