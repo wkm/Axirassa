@@ -6,7 +6,8 @@
 	<!-- get all tokens associated with a phone number -->
 	<query name="tokens_by_phoneNumber">
 		from PhoneNumberTokenEntity as token
-		where token.phoneNumberEntity = :phoneNumber
+		where 
+			token.phoneNumberEntity = :phoneNumber
 	</query>
 
 	<!-- get phone number by token -->
