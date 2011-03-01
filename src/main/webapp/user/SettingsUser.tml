@@ -75,7 +75,7 @@
 			</t:loop>
 			<t:if test="hasPhoneNumbers" negate="true">
 				<td colspan="5" class='img' style="padding: 30px 0;" >
-					(No phone numbers assigned yet. <t:pagelink t:page="user/AddPhoneNumber">Add one!</t:pagelink>)
+					(No phone numbers associated yet. <t:pagelink t:page="user/AddPhoneNumber">Add one!</t:pagelink>)
 				</td>
 			</t:if>
 		</table>
