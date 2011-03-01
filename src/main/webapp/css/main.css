@@ -271,6 +271,11 @@ emphasis {
 	margin-top: 0;
 }
 
+.display {
+	font-size: 36pt;
+	margin: 1em 0 1em 3em;
+}
+
 ul {
 	list-style-type: square;
 }
@@ -332,6 +337,10 @@ td,th {
 td.img {
 	text-align: center;
 	color: #999;
+}
+
+td img {
+	padding-top: 6px;
 }
 
 th {
