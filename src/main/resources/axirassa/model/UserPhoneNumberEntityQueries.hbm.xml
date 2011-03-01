@@ -5,11 +5,13 @@
 <hibernate-mapping package="axirasa.model">
 	<query name="phonenumber_by_id">
 		from UserPhoneNumberEntity
-		where id = :id
+		where 
+			id = :id
 	</query>
 
 	<query name="user_phonenumbers">
 		from UserPhoneNumberEntity
-		where user = :user
+		where 
+			user = :user
 	</query>
 </hibernate-mapping>
