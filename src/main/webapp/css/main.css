@@ -9,6 +9,7 @@
  * dark gold: 117,89,16
  */
  
+@import url("http://f.fontdeck.com/s/css/DNoIHP+J0nvF7wpQPSkOwipeHN0/devel.axirassa.com/5017.css");
 @import url("http://f.fontdeck.com/s/css/DNoIHP+J0nvF7wpQPSkOwipeHN0/localhost/5017.css");
 
 html,body { height: 100%; }
@@ -29,7 +30,13 @@ body {
 }
 
 .connectedWorld {
-	background: url('/media/background.png') no-repeat;
+	position: absolute;
+	width: 100%;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	background: transparent url('/media/background.png') no-repeat;
+	z-index: -1;
 }
 
 .bg {

@@ -6,7 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="/css/fonts.css" />
 	<title>axirassa e-mail &amp; web server infrastructure monitoring</title>
 </head>
-<body class="connectedworld">
+<body>
 	<div class="header">
 		<a href="/">
 			<div class="the">the</div>
@@ -88,6 +88,6 @@
 		
 		mpmetrics.track('impression');
 	</script>
-	<img class="bg" src="/media/background.png"/>
+	<div class="connectedworld"><img src="/media/background.png" /></div>
 </body>
 </html> 
