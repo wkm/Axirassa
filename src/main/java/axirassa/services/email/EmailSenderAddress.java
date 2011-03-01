@@ -3,7 +3,8 @@ package axirassa.services.email;
 
 public enum EmailSenderAddress {
 	ACCOUNT("account@axirassa.com"),
-	ALERT("alert@axirassa.com");
+	ALERT("alert@axirassa.com"),
+	INTERNAL("internal@axirassa.com");
 
 	private final String address;
 
