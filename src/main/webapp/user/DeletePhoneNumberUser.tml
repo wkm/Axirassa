@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html t:type="layout" t:pageTitle="Register" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<t:AxForm t:id="form" t:title="Delete Phone Number">
+		<div class='display'>
+			${phoneNumber.formattedPhoneNumber}
+		</div>
+		<p>Are you sure you want to delete this phone number? This cannot be undone.</p>
+		<t:AxSubmit t:id="cancelChanges" label="Cancel" />
+		<t:AxSubmit t:id="delete" label="Delete" />
+	</t:AxForm>
+</html>
