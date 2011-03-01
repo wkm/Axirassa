@@ -54,6 +54,10 @@ public class SettingsUser {
 		primaryEmail = email;
 
 		phoneNumbers = UserPhoneNumberEntity.getPhoneNumbersByUser(session, user);
+		if (phoneNumbers.size() > 0)
+			hasPhoneNumbers = true;
+		else
+			hasPhoneNumbers = false;
 
 		return true;
 	}
@@ -71,6 +75,9 @@ public class SettingsUser {
 	//
 	// Phone Numbers
 	//
+	@Property
+	private boolean hasPhoneNumbers;
+
 	@Property
 	private List<UserPhoneNumberEntity> phoneNumbers;
 

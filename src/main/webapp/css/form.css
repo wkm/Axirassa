@@ -20,6 +20,11 @@ label.long {
 	width: 30em;
 }
 
+
+.short {
+	width: 10em;
+}
+
 .input {
 	float: left;
 	font-size: 13pt;
