@@ -93,7 +93,7 @@ public class AddPhoneNumberUser {
 		session.save(phoneNumberEntity);
 
 		PhoneNumberTokenEntity phoneNumberTokenEntity = new PhoneNumberTokenEntity();
-		phoneNumberTokenEntity.setPhoneNumber(phoneNumberEntity);
+		phoneNumberTokenEntity.setPhoneNumberEntity(phoneNumberEntity);
 		session.save(phoneNumberTokenEntity);
 
 		if (acceptsText)
