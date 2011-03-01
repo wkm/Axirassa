@@ -6,46 +6,52 @@
 	<h3>User Settings</h3>
 	
 	<h4>E-mail addresses</h4>
-	<p>
-		This is the e-mail address you use to identify yourself:
-	</p>
-	<t:AxForm t:id="primaryEmailForm">
+	
+	<t:AxForm t:id="primaryEmailForm" autofocus="false">
 		<t:AxTextField
 			t:id="primaryEmailField"
 			t:name="Primary e-mail"
 			t:validate="required"
 			t:value="primaryEmail"
 		/>
+		<t:AxFieldDescription>
+			This is the e-mail address you use to identify yourself.
+		</t:AxFieldDescription>
 	</t:AxForm>
 	
-	<t:AxFieldDescription>
+	<p>
 		Additional alert e-mail addresses. You are limited to four additional
 		addresses. You should not use this feature to notify other people,
 		instead you can ((invite)) an unlimited number of people to this account.
-	</t:AxFieldDescription>
+	</p>
 	
 	
 	
 	<h4>Phone numbers</h4>
-	<t:AxFieldDescription>
+	<p>
 		These are phone numbers which will be notified when a monitor alerts. As
 		with e-mail addresses, you should ((invite)) other people if you want
 		them to be alerted. ((terrible language))
-	</t:AxFieldDescription>
+	</p>
 	<p>
 		<table class="data fixed">
 			<tr><th></th><th>Phone Number</th><th>Verified</th><th>Voice</th><th>SMS</th></tr>
 			<t:loop source="phoneNumbers" value="phoneNumber">
 				<tr>
 					<td class='tight'>
-						<img src="/media/btn-delete.gif" title="delete phone number" alt="delete phone number" />
+						<t:pagelink t:page="user/DeletePhoneNumber" t:context="${phoneNumber.id}">
+							<img src="/media/btn-delete.gif" title="delete phone number" alt="delete phone number" />
+						</t:pagelink>
 					</td>
 					<td>${phoneNumber.formattedPhoneNumber}</td>
 					<td class='img'>
 						<t:if test="${phoneNumber.confirmed}">
 								<img src="/media/check.gif" alt="verified" />
+								
 							<p:else>
-								<img src="/media/alert.gif" alt="not-verified"/>
+								<t:pagelink t:page="user/VerifyPhoneNumber" t:context="${phoneNumber.id}">
+									<img src="/media/alert.gif" alt="not-verified"/>
+								</t:pagelink>
 							</p:else>
 						</t:if>
 					</td>
@@ -60,6 +66,9 @@
 					<td class='img'>
 						<t:if test="${phoneNumber.acceptingSms}">
 							<img src="/media/address.gif" alt="SMS" />
+							<p:else>
+								- no -
+							</p:else>
 						</t:if>
 					</td>
 				</tr>
@@ -70,7 +79,7 @@
 	
 	
 	
-	<t:PageLink t:page="user/AddPhoneNumber"><img src="/media/add.gif" />Add phone number</t:PageLink>
+	<t:PageLink t:page="user/AddPhoneNumber"><img src="/media/add.gif" /> Add phone number</t:PageLink>
 	
 	<h4>Password</h4>
 	<p>We will send an e-mail notifying you of a successful password change.</p>
