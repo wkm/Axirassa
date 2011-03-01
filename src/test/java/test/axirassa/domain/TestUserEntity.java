@@ -9,7 +9,6 @@ import org.junit.Test;
 import axirassa.model.UserEntity;
 import axirassa.model.exception.NoSaltException;
 import axirassa.util.AbstractDomainTest;
-import axirassa.util.Meta;
 
 public class TestUserEntity extends AbstractDomainTest {
 	@Test
@@ -28,8 +27,6 @@ public class TestUserEntity extends AbstractDomainTest {
 		assertFalse(user.matchPassword("tweedle"));
 
 		session.getTransaction().commit();
-
-		Meta.inspect(user);
 	}
 
 
