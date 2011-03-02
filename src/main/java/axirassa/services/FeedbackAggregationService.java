@@ -52,8 +52,6 @@ public class FeedbackAggregationService implements Service {
 			session.getTransaction().commit();
 		} else
 			session.getTransaction().rollback();
-
-		messagingSession.close();
 	}
 
 

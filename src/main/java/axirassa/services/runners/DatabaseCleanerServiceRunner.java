@@ -13,25 +13,26 @@ import axirassa.util.MessagingTools;
 
 public class DatabaseCleanerServiceRunner {
 	public static String JOB_GROUP = "AxDatabaseCleaner";
-	public static String JOB = "EVERY_HOUR";
+	public static String DB_CLEAN = "DB_CLEAN";
+	public static String FEEDBACK_SEND = "FEEDBACK_SEND";
 
 
 	public static void main(String[] args) throws Exception {
 		Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 		scheduler.start();
 
-		JobDetail dbCleanJob = new JobDetail(JOB, JOB_GROUP, DatabaseCleanerServiceJob.class);
-		Trigger dbCleanTrigger = new CronTrigger(JOB, JOB_GROUP, "0 0 * * * ?");
+		JobDetail dbCleanJob = new JobDetail(DB_CLEAN, JOB_GROUP, DatabaseCleanerServiceJob.class);
+		Trigger dbCleanTrigger = new CronTrigger(DB_CLEAN, JOB_GROUP, "0 0 * * * ?");
 		scheduler.scheduleJob(dbCleanJob, dbCleanTrigger);
 
 		JobDataMap datamap = new JobDataMap();
 		datamap.put(FeedbackAggregationServiceJob.DATABASE_SESSION, HibernateTools.getLightweightSession());
 		datamap.put(FeedbackAggregationServiceJob.MESSAGING_SESSION, MessagingTools.getEmbeddedSession());
 
-		JobDetail feedbackJob = new JobDetail(JOB, JOB_GROUP, FeedbackAggregationServiceJob.class);
+		JobDetail feedbackJob = new JobDetail(FEEDBACK_SEND, JOB_GROUP, FeedbackAggregationServiceJob.class);
 		feedbackJob.setJobDataMap(datamap);
 
-		Trigger feedbackTrigger = new CronTrigger(JOB, JOB_GROUP, "0 0/1 * * * ?");
+		Trigger feedbackTrigger = new CronTrigger(FEEDBACK_SEND, JOB_GROUP, "0 0/1 * * * ?");
 		scheduler.scheduleJob(feedbackJob, feedbackTrigger);
 
 		return;

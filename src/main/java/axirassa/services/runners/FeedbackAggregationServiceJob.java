@@ -3,6 +3,7 @@ package axirassa.services.runners;
 
 import org.hibernate.Session;
 import org.hornetq.api.core.client.ClientSession;
+import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -10,12 +11,13 @@ import org.quartz.JobExecutionException;
 import axirassa.services.FeedbackAggregationService;
 import axirassa.services.Service;
 
-public class FeedbackAggregationServiceJob {
+public class FeedbackAggregationServiceJob implements Job {
 
 	public static final String DATABASE_SESSION = "session.database";
 	public static final String MESSAGING_SESSION = "session.messaging";
 
 
+	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		try {
 			JobDataMap datamap = context.getJobDetail().getJobDataMap();
