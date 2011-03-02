@@ -11,7 +11,6 @@ import axirassa.services.Service;
 import axirassa.util.HibernateTools;
 
 public class DatabaseCleanerServiceJob implements Job {
-
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		try {
@@ -23,5 +22,4 @@ public class DatabaseCleanerServiceJob implements Job {
 			throw new JobExecutionException(e);
 		}
 	}
-
 }
