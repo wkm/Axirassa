@@ -14,7 +14,6 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
-import org.tynamo.security.services.SecurityService;
 
 import axirassa.model.PhoneNumberTokenEntity;
 import axirassa.model.UserEntity;
@@ -23,6 +22,7 @@ import axirassa.services.phone.PhoneTemplate;
 import axirassa.util.RandomStringGenerator;
 import axirassa.webapp.components.AxCheckbox;
 import axirassa.webapp.components.AxForm;
+import axirassa.webapp.services.AxirassaSecurityService;
 import axirassa.webapp.services.SmsNotifyService;
 import axirassa.webapp.services.VoiceNotifyService;
 
@@ -30,7 +30,7 @@ import axirassa.webapp.services.VoiceNotifyService;
 @RequiresUser
 public class AddPhoneNumberUser {
 	@Inject
-	private SecurityService security;
+	private AxirassaSecurityService security;
 
 	@Inject
 	private VoiceNotifyService voiceNotify;
@@ -81,7 +81,7 @@ public class AddPhoneNumberUser {
 
 	@CommitAfter
 	public Object onSuccess() throws HornetQException, IOException {
-		UserEntity user = UserEntity.getUserByEmail(session, (String) security.getSubject().getPrincipal());
+		UserEntity user = UserEntity.getUserByEmail(session, security.getEmail());
 
 		UserPhoneNumberEntity phoneNumberEntity = new UserPhoneNumberEntity();
 		phoneNumberEntity.setUser(user);

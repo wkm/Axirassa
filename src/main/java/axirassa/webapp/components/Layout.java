@@ -6,12 +6,13 @@ import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.tynamo.security.services.SecurityService;
+
+import axirassa.webapp.services.AxirassaSecurityService;
 
 @Import(stylesheet = { "context:/css/form.css" })
 public class Layout {
 	@Inject
-	private SecurityService security;
+	private AxirassaSecurityService security;
 
 	@Parameter(required = true, defaultPrefix = BindingConstants.LITERAL)
 	private String pageTitle;
@@ -35,7 +36,7 @@ public class Layout {
 		Subject subject = security.getSubject();
 
 		if (subject.isRemembered() || subject.isAuthenticated())
-			return (String) security.getSubject().getPrincipal();
+			return security.getEmail();
 
 		return null;
 	}

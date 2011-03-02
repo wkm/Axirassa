@@ -7,9 +7,9 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.hibernate.Session;
-import org.tynamo.security.services.SecurityService;
 
 import axirassa.model.PingerEntity;
+import axirassa.webapp.services.AxirassaSecurityService;
 
 @RequiresUser
 @Import(stylesheet = { "context:/css/axwidget.css", "context:/css/axplot.css" }, library = {
@@ -35,7 +35,7 @@ public class WidgetMonitor {
 	private Session session;
 
 	@Inject
-	private SecurityService security;
+	private AxirassaSecurityService security;
 
 	private PingerEntity pinger;
 
@@ -64,9 +64,9 @@ public class WidgetMonitor {
 
 		setPinger(entity);
 
-		String username = (String) security.getSubject().getPrincipal();
+		String email = security.getEmail();
 
-		if (!pinger.getUser().getEmail().equals(username))
+		if (!pinger.getUser().getEmail().equals(email))
 			return "Index";
 
 		return true;

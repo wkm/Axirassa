@@ -3,7 +3,8 @@ package axirassa.webapp.pages;
 
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.tynamo.security.services.SecurityService;
+
+import axirassa.webapp.services.AxirassaSecurityService;
 
 /**
  * Start page of application axir.
@@ -11,7 +12,7 @@ import org.tynamo.security.services.SecurityService;
 @Import(stylesheet = { "context:/css/form.css", "context:/css/main.css" })
 public class Index {
 	@Inject
-	private SecurityService security;
+	private AxirassaSecurityService security;
 
 
 	Object onActivate() {

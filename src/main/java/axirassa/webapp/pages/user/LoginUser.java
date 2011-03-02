@@ -10,17 +10,17 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
 import org.apache.tapestry5.corelib.components.Checkbox;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.tynamo.security.services.SecurityService;
 
 import axirassa.model.exception.NoSaltException;
 import axirassa.webapp.components.AxForm;
 import axirassa.webapp.pages.MonitorConsole;
+import axirassa.webapp.services.AxirassaSecurityService;
 
 @Secure
 @RequiresGuest
 public class LoginUser {
 	@Inject
-	private SecurityService security;
+	private AxirassaSecurityService security;
 
 	@Property
 	private String email;

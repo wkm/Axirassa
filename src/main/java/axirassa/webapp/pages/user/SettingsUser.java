@@ -14,7 +14,6 @@ import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
-import org.tynamo.security.services.SecurityService;
 
 import axirassa.model.UserEntity;
 import axirassa.model.UserPhoneNumberEntity;
@@ -23,6 +22,7 @@ import axirassa.services.email.EmailTemplate;
 import axirassa.webapp.components.AxForm;
 import axirassa.webapp.components.AxPasswordField;
 import axirassa.webapp.components.AxTextField;
+import axirassa.webapp.services.AxirassaSecurityService;
 import axirassa.webapp.services.EmailNotifyService;
 import axirassa.webapp.services.MessagingSession;
 
@@ -31,7 +31,7 @@ import axirassa.webapp.services.MessagingSession;
 public class SettingsUser {
 
 	@Inject
-	private SecurityService security;
+	private AxirassaSecurityService security;
 
 	@Inject
 	private Session session;
@@ -48,7 +48,7 @@ public class SettingsUser {
 
 
 	public Object onActivate() {
-		String email = (String) security.getSubject().getPrincipal();
+		String email = security.getEmail();
 		user = UserEntity.getUserByEmail(session, email);
 
 		primaryEmail = email;

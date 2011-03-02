@@ -9,10 +9,10 @@ import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
 import org.hibernate.Session;
-import org.tynamo.security.services.SecurityService;
 
 import axirassa.model.FeedbackEntity;
 import axirassa.model.UserEntity;
+import axirassa.webapp.services.AxirassaSecurityService;
 
 public class AxFeedbackForm {
 	@Inject
@@ -22,7 +22,7 @@ public class AxFeedbackForm {
 	private Session session;
 
 	@Inject
-	private SecurityService security;
+	private AxirassaSecurityService security;
 
 	@Component
 	private TextField feedbackField;
@@ -41,7 +41,7 @@ public class AxFeedbackForm {
 		feedbackEntity.setComment(feedback);
 
 		if (security.isUser()) {
-			String email = (String) security.getSubject().getPrincipal();
+			String email = security.getEmail();
 			UserEntity user = UserEntity.getUserByEmail(session, email);
 			feedbackEntity.setUser(user);
 		}

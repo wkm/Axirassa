@@ -1,6 +1,7 @@
 
 package axirassa.webapp.services.internal;
 
+import org.apache.shiro.subject.Subject;
 import org.tynamo.security.services.SecurityService;
 
 import axirassa.webapp.services.AxirassaSecurityService;
@@ -16,26 +17,32 @@ public class AxirassaSecurityServiceImpl implements AxirassaSecurityService {
 
 
 	@Override
-    public boolean isAuthenticated() {
+	public boolean isAuthenticated() {
 		return security.isAuthenticated();
 	}
 
 
 	@Override
-    public boolean isGuest() {
+	public boolean isGuest() {
 		return security.isGuest();
 	}
 
 
 	@Override
-    public boolean isUser() {
+	public boolean isUser() {
 		return security.isUser();
 	}
 
 
 	@Override
-    public String getEmail() {
+	public String getEmail() {
 		return (String) security.getSubject().getPrincipal();
+	}
+
+
+	@Override
+	public Subject getSubject() {
+		return security.getSubject();
 	}
 
 }
