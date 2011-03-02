@@ -36,19 +36,23 @@ public class FeedbackAggregationService implements Service {
 		// get feedback
 		List<FeedbackEntity> feedback = FeedbackEntity.getAllFeedback(session);
 
-		// try to send it
-		notifyService.startMessage(EmailTemplate.AGGREGATED_FEEDBACK);
-		notifyService.setToAddress("feedback@axirassa.com");
-		notifyService.addAttribute("feedback", feedback);
-		notifyService.addAttribute("feedbackCount", feedback.size());
-		notifyService.send();
+		if (feedback.size() > 0) {
+			// try to send it
+			notifyService.startMessage(EmailTemplate.AGGREGATED_FEEDBACK);
+			notifyService.setToAddress("feedback@axirassa.com");
+			notifyService.addAttribute("feedback", feedback);
+			notifyService.addAttribute("feedbackCount", feedback.size());
+			notifyService.send();
 
-		// delete feedback
-		for (FeedbackEntity entity : feedback) {
-			session.delete(entity);
-		}
+			// delete feedback
+			for (FeedbackEntity entity : feedback) {
+				session.delete(entity);
+			}
 
-		session.getTransaction().commit();
+			session.getTransaction().commit();
+		} else
+			session.getTransaction().rollback();
+
 		messagingSession.close();
 	}
 
