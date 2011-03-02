@@ -1,8 +1,8 @@
 <#macro BaseHtmlEmail>
 	<html>
 		<body>
-			<div style="font-family: 'lucida grande', verdana, sans-serif; width: 45em; margin: 20px 0 0 20px; border: 1px solid #ddd;">
-				<h1 style="color:#fff;background:rgb(174,3,0);margin:0; padding-left: 100px; border-bottom: 1px solid #700;">axirassa</h1>
+			<div style="font-family: 'lucida grande', verdana, sans-serif; width: 45em; margin: 0; border: 1px solid #ddd;">
+				<h1 style="color:#fff;background:rgb(174,3,0);margin:0; padding: 25px 5px; border-bottom: 1px solid #700;">axirassa</h1>
 				<div style="padding-left:100px;min-height:25em;">
 					<#nested>
 				</div>
