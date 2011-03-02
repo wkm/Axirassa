@@ -24,7 +24,9 @@ import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
 import org.slf4j.Logger;
 import org.tynamo.security.SecuritySymbols;
+import org.tynamo.security.services.SecurityService;
 
+import axirassa.webapp.services.internal.AxirassaSecurityServiceImpl;
 import axirassa.webapp.services.internal.EmailNotifyServiceImpl;
 import axirassa.webapp.services.internal.MessagingSessionManagerImpl;
 import axirassa.webapp.services.internal.SmsNotifyServiceImpl;
@@ -145,6 +147,11 @@ public class AppModule {
 	@Scope(ScopeConstants.PERTHREAD)
 	public VoiceNotifyService buildVoiceNotifyService(MessagingSession messagingSession) throws HornetQException {
 		return new VoiceNotifyServiceImpl(messagingSession);
+	}
+
+
+	public AxirassaSecurityService buildAxirassaSecurityService(SecurityService security) {
+		return new AxirassaSecurityServiceImpl(security);
 	}
 
 
