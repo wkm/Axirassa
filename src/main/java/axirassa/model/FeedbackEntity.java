@@ -115,7 +115,7 @@ public class FeedbackEntity implements Serializable, EntityPreSave {
 
 
 	public String getFormattedDate() {
-		SimpleDateFormat format = new SimpleDateFormat("%h:%m:%s %a");
+		SimpleDateFormat format = new SimpleDateFormat("h:m:s a");
 		return format.format(getDate());
 	}
 
