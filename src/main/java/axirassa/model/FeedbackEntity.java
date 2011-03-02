@@ -2,6 +2,7 @@
 package axirassa.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -110,6 +111,12 @@ public class FeedbackEntity implements Serializable, EntityPreSave {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+
+	public String getFormattedDate() {
+		SimpleDateFormat format = new SimpleDateFormat("%h:%m:%s %a");
+		return format.format(getDate());
 	}
 
 
