@@ -1,2 +1,2 @@
 [#ftl]
-Aggregated Feedback ${feedbackCount}
+Aggregated Feedback (${feedbackCount} messages)
