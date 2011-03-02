@@ -12,7 +12,7 @@ public interface EmailNotifyService {
 	public abstract void startMessage(EmailTemplate template);
 
 
-	public abstract void addAttribute(String key, String value);
+	public abstract void addAttribute(String key, Object value);
 
 
 	public abstract void send() throws HornetQException, IOException;

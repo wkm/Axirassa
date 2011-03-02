@@ -33,7 +33,7 @@ public class EmailNotifyServiceImpl implements EmailNotifyService {
 
 
 	@Override
-	public void addAttribute(String key, String value) {
+	public void addAttribute(String key, Object value) {
 		request.addAttribute(key, value);
 	}
 
