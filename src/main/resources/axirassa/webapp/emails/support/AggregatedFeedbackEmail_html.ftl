@@ -12,7 +12,7 @@
 					<i>~ ${item.user.email}</i>
 				[/#if]
 				<br/>
-				<span class="font-size: 80%; color: #666;">${item.useragent}</span>
+				<span style="font-size: 80%; color: #666;">${item.useragent}</span>
 			</p>
 		[/#list]	
 	[/@lib.BaseHtmlEmail]
