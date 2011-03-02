@@ -50,8 +50,6 @@ public class EmailSender {
 		json.put("HtmlBody", html);
 		json.put("TextBody", text);
 
-		System.out.println(json.toString());
-
 		InputStreamEntity requestBody = new InputStreamEntity(new ByteArrayInputStream(json.toString()
 		        .getBytes("UTF-8")), -1);
 
