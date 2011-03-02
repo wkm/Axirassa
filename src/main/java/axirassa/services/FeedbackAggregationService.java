@@ -9,6 +9,8 @@ import org.hornetq.api.core.client.ClientSession;
 
 import axirassa.model.FeedbackEntity;
 import axirassa.services.email.EmailTemplate;
+import axirassa.util.HibernateTools;
+import axirassa.util.MessagingTools;
 import axirassa.webapp.services.EmailNotifyService;
 import axirassa.webapp.services.MessagingSession;
 import axirassa.webapp.services.internal.EmailNotifyServiceImpl;
@@ -42,9 +44,18 @@ public class FeedbackAggregationService implements Service {
 		notifyService.send();
 
 		// delete feedback
-		// TODO
+		for (FeedbackEntity entity : feedback) {
+			session.delete(entity);
+		}
 
 		session.getTransaction().commit();
 		messagingSession.close();
+	}
+
+
+	public static void main(String[] args) throws Exception {
+		Service service = new FeedbackAggregationService(HibernateTools.getLightweightSession(),
+		        MessagingTools.getEmbeddedSession());
+		service.execute();
 	}
 }
