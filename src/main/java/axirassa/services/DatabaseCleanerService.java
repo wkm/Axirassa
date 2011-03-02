@@ -4,6 +4,8 @@ package axirassa.services;
 import org.hibernate.Session;
 
 import axirassa.model.PasswordResetTokenEntity;
+import axirassa.util.HibernateTools;
+import axirassa.util.MessagingTools;
 
 public class DatabaseCleanerService implements Service {
 
@@ -18,6 +20,14 @@ public class DatabaseCleanerService implements Service {
 	@Override
 	public void execute() throws Exception {
 		removeExpiredTokens();
+		aggregateAndSendFeedback();
+	}
+
+
+	private void aggregateAndSendFeedback() throws Exception {
+		FeedbackAggregationService service = new FeedbackAggregationService(session,
+		        MessagingTools.getEmbeddedSession());
+		service.execute();
 	}
 
 
@@ -32,5 +42,10 @@ public class DatabaseCleanerService implements Service {
 		// " expired phone number tokens");
 
 		session.getTransaction().commit();
+	}
+
+
+	public static void main(String[] args) throws Exception {
+		new DatabaseCleanerService(HibernateTools.getLightweightSession()).execute();
 	}
 }
