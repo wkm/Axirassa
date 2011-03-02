@@ -66,7 +66,7 @@ public class WidgetMonitor {
 
 		String username = (String) security.getSubject().getPrincipal();
 
-		if (!pinger.getUser().getEMail().equals(username))
+		if (!pinger.getUser().getEmail().equals(username))
 			return "Index";
 
 		return true;

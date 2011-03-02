@@ -16,7 +16,7 @@ public class TestUserEntity extends AbstractDomainTest {
 		session.beginTransaction();
 
 		UserEntity user = new UserEntity();
-		user.setEMail("foo@mail.com");
+		user.setEmail("foo@mail.com");
 		user.setSalt("tweedledee");
 		user.createPassword("blah");
 		session.save(user);
@@ -34,7 +34,7 @@ public class TestUserEntity extends AbstractDomainTest {
 	public void userAutomaticSalting() throws NoSaltException {
 		session.beginTransaction();
 		UserEntity user = new UserEntity();
-		user.setEMail("foo@bar.com");
+		user.setEmail("foo@bar.com");
 		long start = System.currentTimeMillis();
 		user.createPassword("password");
 		System.out.println("PASSWORD IN: " + (System.currentTimeMillis() - start));

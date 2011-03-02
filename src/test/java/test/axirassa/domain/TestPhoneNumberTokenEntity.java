@@ -14,7 +14,7 @@ public class TestPhoneNumberTokenEntity extends AbstractDomainTest {
 		session.beginTransaction();
 
 		UserEntity user = new UserEntity();
-		user.setEMail("foo@who.com");
+		user.setEmail("foo@who.com");
 		user.createPassword("blah");
 		session.save(user);
 

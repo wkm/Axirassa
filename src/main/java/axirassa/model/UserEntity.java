@@ -229,12 +229,12 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	private String email;
 
 
-	public String getEMail() {
+	public String getEmail() {
 		return email;
 	}
 
 
-	public void setEMail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 
 		if (name == null)

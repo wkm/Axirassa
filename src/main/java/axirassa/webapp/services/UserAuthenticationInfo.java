@@ -14,7 +14,7 @@ public class UserAuthenticationInfo implements SaltedAuthenticationInfo {
 
 
 	public static UserAuthenticationInfo createInfoFromModel(UserEntity user) {
-		return new UserAuthenticationInfo(user.getEMail(), user.getPassword(), user.getSalt());
+		return new UserAuthenticationInfo(user.getEmail(), user.getPassword(), user.getSalt());
 	}
 
 

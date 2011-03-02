@@ -23,12 +23,12 @@ public class TestUserCredentialsMatcher {
 	public static void createUsers() throws NoSaltException {
 		session.beginTransaction();
 		UserEntity u1 = new UserEntity();
-		u1.setEMail("charles@gmail.com");
+		u1.setEmail("charles@gmail.com");
 		u1.createPassword("password");
 		session.save(u1);
 
 		UserEntity u2 = new UserEntity();
-		u2.setEMail("edgar@gmail.com");
+		u2.setEmail("edgar@gmail.com");
 		u2.createPassword("Edgar's Awesomeness!");
 		session.save(u2);
 		session.getTransaction().commit();

@@ -17,7 +17,7 @@ public class TestFeedback extends AbstractDomainTest {
 		session.beginTransaction();
 
 		UserEntity user = new UserEntity();
-		user.setEMail("who@foo.com");
+		user.setEmail("who@foo.com");
 		user.createPassword("password");
 		session.save(user);
 

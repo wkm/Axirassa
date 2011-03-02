@@ -97,9 +97,9 @@ public class AddPhoneNumberUser {
 		session.save(phoneNumberTokenEntity);
 
 		if (acceptsText)
-			sendCodeBySms(user.getEMail(), phoneNumberTokenEntity.getToken());
+			sendCodeBySms(user.getEmail(), phoneNumberTokenEntity.getToken());
 		else
-			sendCodeByVoice(user.getEMail(), phoneNumberTokenEntity.getToken());
+			sendCodeByVoice(user.getEmail(), phoneNumberTokenEntity.getToken());
 
 		Link link = linkSource.createPageRenderLinkWithContext(VerifyPhoneNumberUser.class, phoneNumberEntity);
 		return link;

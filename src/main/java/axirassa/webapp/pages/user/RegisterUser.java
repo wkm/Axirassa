@@ -96,7 +96,7 @@ public class RegisterUser {
 		emailPost.send();
 
 		UserEntity user = new UserEntity();
-		user.setEMail(email);
+		user.setEmail(email);
 		user.createPassword(password);
 
 		session.persist(user);
