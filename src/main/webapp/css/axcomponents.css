@@ -62,7 +62,6 @@
 	font-weight: bold;
 	
 	font-size: 10pt;
-	text-transform: lowercase;
 	
 	padding-left: 5px;
 	
@@ -70,13 +69,13 @@
 }
 
 .axo_open:before {
-	content: url("/axirassa/media/openerdown.png");
+	content: url("/media/openerdown.png");
 	padding-right: 5px;
 	padding-top: 5px;
 }
 
 .axo_closed:before {
-	content: url("/axirassa/media/openerup.png");
+	content: url("/media/openerup.png");
 	padding-right: 5px;
 }
 

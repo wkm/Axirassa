@@ -22,7 +22,7 @@ public class AxOpener {
 
 
 	public static String generateID() {
-		return "opener_" + RandomStringGenerator.getInstance().randomString(5);
+		return "opener_" + RandomStringGenerator.makeRandomStringToken(5);
 	}
 
 

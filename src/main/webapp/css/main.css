@@ -107,6 +107,11 @@ h4 {
 	font-size: 16pt;
 }
 
+h5 {
+	font-size: 10pt;
+	margin:0;
+}
+
 .header, .headerbar, .body, .footer {
 	padding-left: 150px;
 }
@@ -368,6 +373,18 @@ th {
 }
 
 .types {
+	font-size: 10pt;
+}
+
+#debugFooter {
+	clear:both;
+	margin-top: 3em;
+	
+	background: #eee;
+	border: 1px solid #ddd;
+	max-width: 45em;
+	padding: 5px;
+	
 	font-size: 10pt;
 }
 

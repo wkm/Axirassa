@@ -31,18 +31,19 @@
 		        	<t:pagelink t:page="user/logout">logout</t:pagelink>
 		        </div>
 	        </t:security.user>
-	        <div class="body">	
-		        
+	        <div class="body">
 				<t:body/>
+				
+				<t:AxDebugFooter />
 			</div>
-		</div>
-		
+		</div>		
 		<div id="footer">
 			Copyright 2011 &#8212; Axirassa, LLC. 
 			| <t:PageLink t:page="support/privacy">Privacy</t:PageLink> 
 			| <t:PageLink t:page="support/termsOfUse">Terms Of Use</t:PageLink>
 			| <t:AxFeedbackForm />
 		</div>
+		
 		<script type='text/javascript'>
 			var mp_protocol = (('https:' == document.location.protocol) ? 'https://' : 'http://'); 
 			document.write(unescape('%3Cscript src="' + mp_protocol + 'api.mixpanel.com/site_media/js/api/mixpanel.js" type="text/javascript"%3E%3C/script%3E')); 
