@@ -66,6 +66,19 @@ public class VerifyPhoneNumberUser {
 	}
 
 
+	public Object onActionFromSendVoice(Long phoneNumberId) throws AxirassaSecurityException {
+		phoneNumberEntity = UserPhoneNumberEntity.getByIdWithUser(database, phoneNumberId);
+		security.verifyOwnership(phoneNumberEntity);
+
+		if (!phoneNumberEntity.isAcceptingVoice())
+			return false;
+
+		System.out.println("SENT VIA VOICE");
+
+		return true;
+	}
+
+
 	public Object onActivate(Long phoneNumberId) throws AxirassaSecurityException {
 		this.phoneNumberId = phoneNumberId;
 		phoneNumberEntity = UserPhoneNumberEntity.getByIdWithUser(database, phoneNumberId);

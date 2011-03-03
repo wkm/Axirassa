@@ -21,12 +21,14 @@
 		
 		<p>
 			<t:if test="phoneNumberEntity.acceptingSms">
-				<t:actionlink t:id="sendSms" t:context="${phoneNumberEntity.id}">
+				<t:actionlink t:mixins="AxButton" t:id="sendSms" t:context="${phoneNumberEntity.id}">
 					Send me an SMS
 				</t:actionlink>
 			</t:if>
 			<t:if test="phoneNumberEntity.acceptingVoice" >
-				Call me
+				<t:actionlink t:mixins="AxButton" t:id="sendVoice" t:context="${phoneNumberEntity.id}">
+					Call me
+				</t:actionlink>
 			</t:if>
 		</p>
 		
