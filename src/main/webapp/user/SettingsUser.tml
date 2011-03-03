@@ -92,7 +92,7 @@
 	
 	
 	
-	<t:PageLink t:page="user/AddPhoneNumber"><img src="/media/add.gif" /> Add phone number</t:PageLink>
+	<t:PageLink t:mixins="AxButton" t:page="user/AddPhoneNumber"><img src="/media/add.gif" /> Add phone number</t:PageLink>
 	
 	<h4 class='divider'>Password</h4>
 	<p>We will send an e-mail notifying you of a successful password change.</p>
