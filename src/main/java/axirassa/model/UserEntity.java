@@ -163,7 +163,7 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 			salt = createSalt();
 
 		try {
-			this.password = hashPassword(password);
+			setPassword(hashPassword(password));
 		} catch (NoSaltException e) {
 			e.printStackTrace();
 		}
