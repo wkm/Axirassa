@@ -20,7 +20,6 @@ public class AxDebugFooter {
 
 
 	public void setupRender() {
-		System.out.println("setting headers: " + request.getHeaderNames());
 		headers = request.getHeaderNames();
 	}
 }
