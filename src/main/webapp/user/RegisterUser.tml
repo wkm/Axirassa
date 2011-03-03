@@ -18,7 +18,7 @@
 		<t:axpasswordfield t:id="confirmPasswordField" t:value="confirmpassword" t:name="Confirm password" t:validate='required'/>
 		<t:AxFieldDescription>
 			While we do not place any special limitations on your choice of password, we recommend you use 
-			a password with more than six characters and a mixture of numbers, letters, 
+			more than six characters and a mixture of numbers, letters, 
 			symbols, uppercase and lowercase.
 		</t:AxFieldDescription>
 		 
