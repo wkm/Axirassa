@@ -103,14 +103,20 @@ h3 {
 }
 
 h4 {
-	font-family: "din display pro light", tahoma, sans-serif;
-	font-size: 16pt;
+	font-family: "helvetica neue", tahoma, sans-serif;
+	font-size: 14pt;
+	margin-bottom: .5em;
+}
+
+.divider {
+	margin-top: 5em;
 }
 
 h5 {
 	font-size: 10pt;
 	margin:0;
 }
+
 
 .header, .headerbar, .body, .footer {
 	padding-left: 150px;
@@ -300,12 +306,6 @@ p {
 
 p + p {
 	margin-top: -1em;
-}
-
-hr {
-	width: 35em;
-	text-align: left;
-	border: 1px solid #ee;
 }
 
 p a {
