@@ -35,7 +35,7 @@
 		</p>
 		<p>
 			Monthly plans start at just $3 for startups, increasing with infrastructure
-			size. <t:pagelink page="Account/Pricing">Examine pricing</t:pagelink>
+			size. <t:pagelink t:mixins="AxButton" page="Account/Pricing">Examine pricing</t:pagelink>
 		</p>
 	</div>
 	
