@@ -11,13 +11,16 @@ input {
 label {
 	display: block;
 	float: left;
-	width: 10em; 
-	color: #222;
+	width: 9em;
+	margin-right: 1em; 
+	color: #000;
+	text-align: right;
 	padding-top: 4px;
 }
 
 label.long {
 	width: 30em;
+	text-align: left;
 }
 
 
@@ -116,7 +119,7 @@ input.t-error {
 
 .check {
 	margin-top: 7px;
-	margin-left: 10em;
+	margin-left: 10.5em;
 }
 
 .ax_frmlbl {
