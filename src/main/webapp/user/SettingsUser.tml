@@ -16,8 +16,8 @@
 			t:enabled="false"
 		/>
 		<t:AxFieldDescription>
-			This is the e-mail address you use to identify yourself.
-			<emphasis>You cannot change your primary e-mail address yet.</emphasis>
+			This is the e-mail address you use to identify yourself.<br/>
+			You cannot change your primary e-mail address at this time.
 		</t:AxFieldDescription>
 	</t:AxForm>
 	
@@ -35,7 +35,7 @@
 	</p>
 	
 	
-	<h4>Phone numbers</h4>
+	<h4 class="divider">Phone numbers</h4>
 	<p>
 		These are phone numbers which will be notified when a monitor alerts. As
 		with e-mail addresses, you should ((invite)) other people if you want
@@ -94,7 +94,7 @@
 	
 	<t:PageLink t:page="user/AddPhoneNumber"><img src="/media/add.gif" /> Add phone number</t:PageLink>
 	
-	<h4>Password</h4>
+	<h4 class='divider'>Password</h4>
 	<p>We will send an e-mail notifying you of a successful password change.</p>
 	<t:AxForm t:id="passwordForm">
 		<t:if test="passwordChanged">
