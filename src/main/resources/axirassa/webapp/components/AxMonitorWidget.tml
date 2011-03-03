@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div class="axw" id="${plotId}">
-	<div class="n">${pingerName} [${pinger.id}]</div>
+	<div class="n">${pingerName}</div>
 </div>
