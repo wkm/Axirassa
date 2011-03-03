@@ -7,6 +7,10 @@
 	<title>axirassa e-mail &amp; web server infrastructure monitoring</title>
 </head>
 <body>
+	<div class="headerbar">
+		<t:pagelink page="User/Login">Login to your account</t:pagelink>
+	</div>
+
 	<div class="header">
 		<a href="/">
 			<div class="the">the</div>
@@ -23,42 +27,65 @@
 		</p>
 	</div>
 	
-		<div class="body">
-		<div class="subimpact">
-			<p>
-				Axirassa uses a network of monitoring locations across the world to continually 
-				verify the performance and global availability of your website and e&#8209;mail servers
-				to your customers.
-			</p>
-			<p>
-				Monthly plans start at just $3 for startups, increasing with infrastructure
-				size. <t:pagelink page="Account/Pricing">Examine pricing</t:pagelink>
-			</p>
-			
-			<p><t:pagelink page="User/Login">Login</t:pagelink></p>
-		</div> 
+	<div class="subimpact">
+		<p>
+			Axirassa uses a network of monitoring locations across the world to continually 
+			verify the performance and global availability of your website and e&#8209;mail servers
+			to your customers.
+		</p>
+		<p>
+			Monthly plans start at just $3 for startups, increasing with infrastructure
+			size. <t:pagelink page="Account/Pricing">Examine pricing</t:pagelink>
+		</p>
+	</div>
+	
+	<div class="featuread">	
+		<h3>World-class realtime status console.</h3>
+		<p>
+			Using our status console, you can monitor the performance
+			of your website infrastructure in <strong>real-time</strong>
+			on any modern browser; including iPhone, BlackBerry(*), etc.
+		</p>
+		
+		<h3>Fine-grained alert triggering</h3>
+		<p>
+			Axirassa does more than just verify your site it up. We can alert
+			you when you site starts to slow down; if your content changes;
+					
+		</p>
+		
+		<h3>Maximum frequency verification</h3>
+		<p>
+			All tiers support minute-level reporting: the highest monitoring 
+			resolution available. This ensures you are immediately notified
+			when your website is unavailable, and you start losing money.
+		</p>
+		
+		<h3>Unlimited <abbr>SMS</abbr>, e-mail, and phone-call notifications</h3>
+		<p><strong>All tiers</strong> include unlimited <abbr>SMS</abbr>, e-mail, and phone-call notifications of </p>
+		<h3>Monitoring locations across the world (**)</h3>
+		<p>
+			Axirassa has multiple monitoring locations in the United States
+			and Europe, ensuring your site remains globally accessible 24/7.
+		</p>
+		
+		<h3>Beautiful, customizable reports</h3>
 		
 		
-		<div class="sep">
-			<h3>Feature Highlight</h3>
-		</div>
+		<h3>Automatic escalation</h3>
+		<p>
+			A scenario: Axirassa sends an e-mail when your website first becomes
+			inaccessible; calling your systems administrator when it's still down
+			five minutes later; finally escalating to the <abbr>CTO</abbr> if it's
+			still down an hour later.
+		</p>
 		
-		<h4>World-class realtime status console.</h4>
-		<p></p>
+		<p>
+			With Axirassa, you can <strong>fully customize</strong> escalation plans. Including
+			black-out times and rotating schedules.
+		</p>
 		
-		<h4>Fine-grained alert triggering</h4>
-		<p>Trigger on page content; response time; latency; or </p>
-		
-		<h4>Maximum frequency verification</h4>
-		<p>All tiers support minute-level reporting: the highest monitoring resolution available. </p>
-		
-		<h4>Unlimited <abbr>SMS</abbr>, e-mail, and phone-call notifications</h4>
-		<p>All tiers include unlimited <abbr>SMS</abbr>, e-mail, and phone-call notifications of </p>
-		<h4>Monitoring locations across the world</h4>
-		<h4>Beautiful, customizable reports</h4>
-		<h4>Automatic escalation</h4>
-		
-		<h4>Permanent data retention</h4>
+		<h3>Permanent data retention</h3>
 		<p>
 			Your response time data is stored for as long as you have an account.
 		</p>

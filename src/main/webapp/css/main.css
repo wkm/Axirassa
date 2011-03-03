@@ -126,6 +126,24 @@ h5 {
 	padding-bottom: 40px;
 }
 
+.featuread {
+	background: #222;
+	color: #fff;
+	
+	padding-left: 150px;
+	border-top: #000 2px solid;
+}
+
+
+.featuread > h3 {
+	text-shadow: #222 1px 1px 1px;
+}
+
+
+.tight {
+	min-height: 0;
+}
+
 .header {
 	margin-top: 50px;
 	color: rgb(54, 57, 66);
@@ -203,9 +221,14 @@ h1 .title {
 }
 
 .subimpact {
-	margin-top: 2em;
+	margin-top: 1em;
 	font-size: 18pt;
 	max-width: 25em;
+	margin-left: 150px;
+}
+
+.subimpact > p {
+	margin:0;
 }
 
 abbr,acronym {
