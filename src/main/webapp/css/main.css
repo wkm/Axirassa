@@ -121,7 +121,7 @@ h5 {
 }
 
 .header {
-	margin-top: 225px;
+	margin-top: 50px;
 	color: rgb(54, 57, 66);
 }
 
@@ -197,7 +197,8 @@ h1 .title {
 }
 
 .subimpact {
-	font-size: 20pt;
+	margin-top: 2em;
+	font-size: 18pt;
 	max-width: 25em;
 }
 
