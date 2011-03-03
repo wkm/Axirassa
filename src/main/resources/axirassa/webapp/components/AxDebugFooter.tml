@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<div id="debugfooter">
-		<t:AxOpener open="true" header="Debugging Data">
+		<t:AxOpener open="false" header="Debugging Data">
 			<dl>
 				<t:loop source="headers" value="header">
 					<dt>${header}</dt>
