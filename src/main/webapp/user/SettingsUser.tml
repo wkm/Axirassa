@@ -13,9 +13,11 @@
 			t:name="Primary e-mail"
 			t:validate="required"
 			t:value="primaryEmail"
+			t:enabled="false"
 		/>
 		<t:AxFieldDescription>
 			This is the e-mail address you use to identify yourself.
+			<emphasis>You cannot change your primary e-mail address yet.</emphasis>
 		</t:AxFieldDescription>
 	</t:AxForm>
 	
@@ -24,7 +26,13 @@
 		addresses. You should not use this feature to notify other people,
 		instead you can ((invite)) an unlimited number of people to this account.
 	</p>
-	
+	<p>
+		<table class="data fixed">
+			<tr>
+				<th>E-mail</th><th>Verified</th>
+			</tr>
+		</table>
+	</p>
 	
 	
 	<h4>Phone numbers</h4>
