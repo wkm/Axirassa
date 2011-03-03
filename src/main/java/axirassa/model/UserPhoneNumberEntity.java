@@ -19,7 +19,7 @@ import axirassa.util.AutoSerializingObject;
 
 @Entity
 @Table(name = "UserPhoneNumbers")
-public class UserPhoneNumberEntity extends AutoSerializingObject implements Serializable {
+public class UserPhoneNumberEntity extends AutoSerializingObject implements Serializable, EntityWithUser {
 	private static final long serialVersionUID = 1344815747977623929L;
 
 
@@ -35,7 +35,7 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 	}
 
 
-	public static UserPhoneNumberEntity getById(Session session, Long id) {
+	public static UserPhoneNumberEntity getByIdWithUser(Session session, Long id) {
 		Query query = session.getNamedQuery("phonenumber_by_id");
 		query.setLong("id", id);
 
@@ -71,6 +71,7 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 	private UserEntity user;
 
 
+	@Override
 	public UserEntity getUser() {
 		return user;
 	}

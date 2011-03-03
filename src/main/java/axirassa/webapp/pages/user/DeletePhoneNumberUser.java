@@ -13,11 +13,16 @@ import org.hibernate.Session;
 import axirassa.model.PhoneNumberTokenEntity;
 import axirassa.model.UserPhoneNumberEntity;
 import axirassa.webapp.components.AxSubmit;
+import axirassa.webapp.services.AxirassaSecurityService;
+import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 
 @RequiresAuthentication
 public class DeletePhoneNumberUser {
 	@Inject
 	private Session session;
+
+	@Inject
+	private AxirassaSecurityService security;
 
 	@Property
 	private UserPhoneNumberEntity phoneNumber;
@@ -34,8 +39,9 @@ public class DeletePhoneNumberUser {
 	}
 
 
-	public Object onActivate(Long phoneNumberId) {
-		phoneNumber = UserPhoneNumberEntity.getById(session, phoneNumberId);
+	public Object onActivate(Long phoneNumberId) throws AxirassaSecurityException {
+		phoneNumber = UserPhoneNumberEntity.getByIdWithUser(session, phoneNumberId);
+		security.verifyOwnership(phoneNumber);
 
 		if (phoneNumber == null)
 			return SettingsUser.class;

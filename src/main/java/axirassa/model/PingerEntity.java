@@ -23,7 +23,7 @@ import axirassa.util.AutoSerializingObject;
 
 @Entity
 @Table(name = "Pingers")
-public class PingerEntity extends AutoSerializingObject implements Serializable {
+public class PingerEntity extends AutoSerializingObject implements Serializable, EntityWithUser {
 	private static final long serialVersionUID = -6709719920544228167L;
 
 
@@ -77,6 +77,7 @@ public class PingerEntity extends AutoSerializingObject implements Serializable 
 	private UserEntity user;
 
 
+	@Override
 	public UserEntity getUser() {
 		return user;
 	}
