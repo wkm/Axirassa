@@ -14,7 +14,6 @@ import org.hornetq.api.core.HornetQException;
 
 import axirassa.model.UserPhoneNumberEntity;
 import axirassa.services.phone.PhoneTemplate;
-import axirassa.util.RandomStringGenerator;
 import axirassa.webapp.components.AxForm;
 import axirassa.webapp.components.AxTextField;
 import axirassa.webapp.services.AxirassaSecurityService;
@@ -117,7 +116,7 @@ public class VerifyPhoneNumberUser {
 		voice.startMessage(PhoneTemplate.USER_VERIFY_PHONE_NUMBER);
 		voice.setPhoneNumber(phoneNumberEntity.getPhoneNumber());
 		voice.setExtension(phoneNumberEntity.getExtension());
-		voice.addAttribute("code", RandomStringGenerator.makeRandomStringToken(8));
+		voice.addAttribute("code", token);
 		voice.addAttribute("user", security.getEmail());
 		voice.send();
 	}

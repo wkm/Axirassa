@@ -8,11 +8,13 @@ public class VoiceRequestMessage extends TemplateFillingMessage {
 	private static final long serialVersionUID = 5054354656690374716L;
 
 	private final PhoneTemplate template;
-	private String phoneNumber;
-	private String extension;
+	private final String phoneNumber;
+	private final String extension;
 
 
-	public VoiceRequestMessage(PhoneTemplate template) {
+	public VoiceRequestMessage(String phoneNumber, String extension, PhoneTemplate template) {
+		this.phoneNumber = phoneNumber;
+		this.extension = extension;
 		this.template = template;
 	}
 

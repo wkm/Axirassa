@@ -2,7 +2,7 @@
 package axirassa.services.phone;
 
 public class SendVoice extends TropoSender {
-	public SendVoice(String number, String message) {
+	public SendVoice(String number, String extension, String message) {
 		setPhoneNumber(number);
 		setMessage(message);
 	}
