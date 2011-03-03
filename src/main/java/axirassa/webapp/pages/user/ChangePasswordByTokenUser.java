@@ -17,7 +17,7 @@ import axirassa.webapp.pages.Index;
 public class ChangePasswordByTokenUser {
 
 	@Inject
-	private Session session;
+	private Session database;
 
 	@Property
 	@Persist
@@ -53,7 +53,7 @@ public class ChangePasswordByTokenUser {
 
 	public Object onActivate(String token) {
 		this.token = token;
-		tokenEntity = PasswordResetTokenEntity.getByToken(session, token);
+		tokenEntity = PasswordResetTokenEntity.getByToken(database, token);
 
 		if (tokenEntity == null) {
 			isTokenInvalid = true;
@@ -90,8 +90,8 @@ public class ChangePasswordByTokenUser {
 		if (!isTokenInvalid) {
 			System.out.println("saving");
 			user.createPassword(newPassword);
-			session.update(user);
-			session.delete(tokenEntity);
+			database.update(user);
+			database.delete(tokenEntity);
 		}
 
 		return LoginUser.class;
