@@ -27,6 +27,8 @@
 			</t:if>
 		</p>
 		
+		<t:errors/>
+		
 		<t:AxTextField 
 			t:id="verificationCodeField"
 			t:name="Verification code"

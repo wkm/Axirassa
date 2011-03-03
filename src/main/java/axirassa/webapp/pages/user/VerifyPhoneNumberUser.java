@@ -59,8 +59,8 @@ public class VerifyPhoneNumberUser {
 		phoneNumberEntity = UserPhoneNumberEntity.getByIdWithUser(database, phoneNumberId);
 		security.verifyOwnership(phoneNumberEntity);
 
-		if (!phoneNumberEntity.getUser().getEmail().equals(security.getEmail()))
-			return false;
+		if (phoneNumberEntity.isConfirmed())
+			return SettingsUser.class;
 
 		return true;
 	}
