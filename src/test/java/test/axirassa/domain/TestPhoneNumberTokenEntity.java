@@ -1,9 +1,11 @@
 
 package test.axirassa.domain;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Test;
 
-import axirassa.model.PhoneNumberTokenEntity;
 import axirassa.model.UserEntity;
 import axirassa.model.UserPhoneNumberEntity;
 import axirassa.util.AbstractDomainTest;
@@ -23,14 +25,11 @@ public class TestPhoneNumberTokenEntity extends AbstractDomainTest {
 		phoneNumber.setUser(user);
 		session.save(phoneNumber);
 
-		PhoneNumberTokenEntity token = new PhoneNumberTokenEntity();
-		token.setPhoneNumberEntity(phoneNumber);
-		session.save(token);
+		assertNotNull(phoneNumber.getToken());
+
+		phoneNumber.setToken("A1B2C3D4");
+		assertEquals("A1-B2-C3-D4", phoneNumber.getFormattedToken());
 
 		session.getTransaction().commit();
-
-		System.out.println("phoneNumber: " + phoneNumber.getId());
-
-		System.out.println("NUMBERS: " + PhoneNumberTokenEntity.getTokensByPhoneNumber(session, phoneNumber));
 	}
 }

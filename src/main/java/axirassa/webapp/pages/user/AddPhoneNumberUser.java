@@ -15,7 +15,6 @@ import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
 
-import axirassa.model.PhoneNumberTokenEntity;
 import axirassa.model.UserEntity;
 import axirassa.model.UserPhoneNumberEntity;
 import axirassa.webapp.components.AxCheckbox;
@@ -81,10 +80,6 @@ public class AddPhoneNumberUser {
 		phoneNumberEntity.setAcceptingVoice(acceptsVoice);
 		phoneNumberEntity.setConfirmed(false);
 		session.save(phoneNumberEntity);
-
-		PhoneNumberTokenEntity phoneNumberTokenEntity = new PhoneNumberTokenEntity();
-		phoneNumberTokenEntity.setPhoneNumberEntity(phoneNumberEntity);
-		session.save(phoneNumberTokenEntity);
 
 		Link link = linkSource.createPageRenderLinkWithContext(VerifyPhoneNumberUser.class, phoneNumberEntity.getId());
 		return link;

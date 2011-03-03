@@ -15,11 +15,13 @@ import javax.persistence.Table;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import axirassa.model.interceptor.EntityPreSave;
 import axirassa.util.AutoSerializingObject;
+import axirassa.util.RandomStringGenerator;
 
 @Entity
 @Table(name = "UserPhoneNumbers")
-public class UserPhoneNumberEntity extends AutoSerializingObject implements Serializable, EntityWithUser {
+public class UserPhoneNumberEntity extends AutoSerializingObject implements Serializable, EntityPreSave, EntityWithUser {
 	private static final long serialVersionUID = 1344815747977623929L;
 
 
@@ -166,6 +168,48 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 
 	public void setAcceptingSms(boolean acceptingSms) {
 		this.acceptingSms = acceptingSms;
+	}
+
+
+	@Basic(optional = false)
+	private String token;
+
+
+	public String getToken() {
+		return token;
+	}
+
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+
+	public String getFormattedToken() {
+		StringBuilder sb = new StringBuilder();
+
+		int spanLength = 2;
+		for (int i = 0; i < token.length(); i += spanLength) {
+			if (i != 0)
+				sb.append("-");
+
+			sb.append(token.substring(i, i + spanLength));
+		}
+
+		return sb.toString();
+	}
+
+
+	public String createToken() {
+		String tokenStr = RandomStringGenerator.makeRandomStringToken(8);
+		return tokenStr.toUpperCase();
+	}
+
+
+	@Override
+	public void preSave() {
+		if (token == null)
+			token = createToken();
 	}
 
 }

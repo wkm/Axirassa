@@ -46,7 +46,6 @@
 		<mapping class="axirassa.model.MonitorTypeEntity" />
 		<mapping class="axirassa.model.PasswordResetTokenEntity" />
 		<mapping class="axirassa.model.UserPhoneNumberEntity" />
-		<mapping class="axirassa.model.PhoneNumberTokenEntity" />
 		<mapping class="axirassa.model.FeedbackEntity" />
 		
 		<mapping class="axirassa.model.HttpStatisticsEntity" />
@@ -65,7 +64,6 @@
 		<mapping resource="axirassa/model/PingerEntityQueries.hbm.xml" />
 		<mapping resource="axirassa/model/PasswordResetTokenEntityQueries.hbm.xml" />
 		<mapping resource="axirassa/model/UserPhoneNumberEntityQueries.hbm.xml" />
-		<mapping resource="axirassa/model/PhoneNumberTokenEntityQueries.hbm.xml" />
 		<mapping resource="axirassa/model/FeedbackEntityQueries.hbm.xml" />
 		
 		<mapping resource="axirassa/services/sentinel/model/SentinelQueries.hbm.xml" />
