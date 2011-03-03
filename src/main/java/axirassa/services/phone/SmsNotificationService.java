@@ -32,9 +32,6 @@ public class SmsNotificationService implements Service {
 		while (true) {
 			try {
 				ClientMessage message = consumer.receive();
-
-				System.out.println("Received Sms message: " + message);
-
 				byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
 				message.getBodyBuffer().readBytes(buffer);
 
@@ -42,8 +39,6 @@ public class SmsNotificationService implements Service {
 
 				if (rawobject instanceof SmsRequestMessage) {
 					SmsRequestMessage smsRequest = (SmsRequestMessage) rawobject;
-					System.out.println("ATTRIBUTES: " + smsRequest.getAttibuteMap());
-
 					String text = PhoneTemplateFactory.instance.getText(smsRequest.getTemplate(),
 					                                                    PhoneTemplateType.SMS,
 					                                                    smsRequest.getAttibuteMap());
