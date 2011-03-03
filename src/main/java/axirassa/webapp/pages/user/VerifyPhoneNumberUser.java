@@ -7,6 +7,7 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
@@ -14,6 +15,7 @@ import org.hornetq.api.core.HornetQException;
 import axirassa.model.UserPhoneNumberEntity;
 import axirassa.services.phone.PhoneTemplate;
 import axirassa.util.RandomStringGenerator;
+import axirassa.webapp.components.AxForm;
 import axirassa.webapp.components.AxTextField;
 import axirassa.webapp.services.AxirassaSecurityService;
 import axirassa.webapp.services.SmsNotifyService;
@@ -42,41 +44,15 @@ public class VerifyPhoneNumberUser {
 	private UserPhoneNumberEntity phoneNumberEntity;
 
 	@Component
+	private AxForm form;
+
+	@Component
 	private AxTextField verificationCodeField;
 
 	@Property
 	private String verificationCode;
 
-	@Property
-	private boolean isUsingSmsVerification;
-
 	private Long phoneNumberId;
-
-
-	public Object onActionFromSendSMS(Long phoneNumberId) throws AxirassaSecurityException {
-		phoneNumberEntity = UserPhoneNumberEntity.getByIdWithUser(database, phoneNumberId);
-		security.verifyOwnership(phoneNumberEntity);
-
-		if (!phoneNumberEntity.isAcceptingSms())
-			return false;
-
-		System.out.println("SENT VIA SMS");
-
-		return true;
-	}
-
-
-	public Object onActionFromSendVoice(Long phoneNumberId) throws AxirassaSecurityException {
-		phoneNumberEntity = UserPhoneNumberEntity.getByIdWithUser(database, phoneNumberId);
-		security.verifyOwnership(phoneNumberEntity);
-
-		if (!phoneNumberEntity.isAcceptingVoice())
-			return false;
-
-		System.out.println("SENT VIA VOICE");
-
-		return true;
-	}
 
 
 	public Object onActivate(Long phoneNumberId) throws AxirassaSecurityException {
@@ -87,17 +63,53 @@ public class VerifyPhoneNumberUser {
 		if (!phoneNumberEntity.getUser().getEmail().equals(security.getEmail()))
 			return false;
 
-		if (phoneNumberEntity.isAcceptingSms())
-			isUsingSmsVerification = true;
-		else
-			isUsingSmsVerification = false;
-
 		return true;
 	}
 
 
 	public Object onPassivate() {
 		return phoneNumberId;
+	}
+
+
+	public Object onActionFromSendSMS(Long phoneNumberId) throws AxirassaSecurityException, HornetQException,
+	        IOException {
+		phoneNumberEntity = UserPhoneNumberEntity.getByIdWithUser(database, phoneNumberId);
+		security.verifyOwnership(phoneNumberEntity);
+
+		if (!phoneNumberEntity.isAcceptingSms())
+			return false;
+
+		sendCodeBySms(phoneNumberEntity.getFormattedToken());
+
+		return true;
+	}
+
+
+	public Object onActionFromSendVoice(Long phoneNumberId) throws AxirassaSecurityException, HornetQException,
+	        IOException {
+		phoneNumberEntity = UserPhoneNumberEntity.getByIdWithUser(database, phoneNumberId);
+		security.verifyOwnership(phoneNumberEntity);
+
+		if (!phoneNumberEntity.isAcceptingVoice())
+			return false;
+
+		sendCodeByVoice(phoneNumberEntity.getFormattedToken());
+
+		return true;
+	}
+
+
+	public void onValidateFromForm() {
+		if (!verificationCode.equals(phoneNumberEntity.getToken()))
+			form.recordError(verificationCodeField, "Verification code not matched");
+	}
+
+
+	@CommitAfter
+	public Object onSuccessFromForm() {
+		phoneNumberEntity.setConfirmed(true);
+		return SettingsUser.class;
 	}
 
 

@@ -10,13 +10,8 @@
 			${phoneNumberEntity.formattedPhoneNumber}
 		</p>
 		<p>
-			Do you have this phone handy? We're going to 
-			<t:if test="isUsingSmsVerification">
-					send you a verification code.
-				<p:else>
-					call you with the verification code.
-				</p:else>
-			</t:if>
+			Do you have this phone handy? We're going to use it
+			to give you a verification code.
 		</p>
 		
 		<p>
