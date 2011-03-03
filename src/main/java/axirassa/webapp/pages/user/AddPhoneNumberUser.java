@@ -18,25 +18,15 @@ import org.hornetq.api.core.HornetQException;
 import axirassa.model.PhoneNumberTokenEntity;
 import axirassa.model.UserEntity;
 import axirassa.model.UserPhoneNumberEntity;
-import axirassa.services.phone.PhoneTemplate;
-import axirassa.util.RandomStringGenerator;
 import axirassa.webapp.components.AxCheckbox;
 import axirassa.webapp.components.AxForm;
 import axirassa.webapp.services.AxirassaSecurityService;
-import axirassa.webapp.services.SmsNotifyService;
-import axirassa.webapp.services.VoiceNotifyService;
 
 @Secure
 @RequiresUser
 public class AddPhoneNumberUser {
 	@Inject
 	private AxirassaSecurityService security;
-
-	@Inject
-	private VoiceNotifyService voiceNotify;
-
-	@Inject
-	private SmsNotifyService smsNotify;
 
 	@Inject
 	private Session session;
@@ -96,31 +86,7 @@ public class AddPhoneNumberUser {
 		phoneNumberTokenEntity.setPhoneNumberEntity(phoneNumberEntity);
 		session.save(phoneNumberTokenEntity);
 
-		if (acceptsText)
-			sendCodeBySms(user.getEmail(), phoneNumberTokenEntity.getToken());
-		else
-			sendCodeByVoice(user.getEmail(), phoneNumberTokenEntity.getToken());
-
-		Link link = linkSource.createPageRenderLinkWithContext(VerifyPhoneNumberUser.class, phoneNumberEntity);
+		Link link = linkSource.createPageRenderLinkWithContext(VerifyPhoneNumberUser.class, phoneNumberEntity.getId());
 		return link;
-	}
-
-
-	private void sendCodeByVoice(String userEmail, String token) throws HornetQException, IOException {
-		voiceNotify.startMessage(PhoneTemplate.USER_VERIFY_PHONE_NUMBER);
-		voiceNotify.setPhoneNumber(phoneNumber);
-		voiceNotify.setExtension(extension);
-		voiceNotify.addAttribute("code", RandomStringGenerator.makeRandomStringToken(8));
-		voiceNotify.addAttribute("user", userEmail);
-		voiceNotify.send();
-	}
-
-
-	private void sendCodeBySms(String userEmail, String token) throws HornetQException, IOException {
-		smsNotify.startMessage(PhoneTemplate.USER_VERIFY_PHONE_NUMBER);
-		smsNotify.setPhoneNumber(phoneNumber);
-		smsNotify.addAttribute("code", token);
-		smsNotify.addAttribute("user", userEmail);
-		smsNotify.send();
 	}
 }
