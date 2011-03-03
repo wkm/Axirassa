@@ -13,6 +13,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 
 import axirassa.model.exception.NoSaltException;
 import axirassa.webapp.components.AxForm;
+import axirassa.webapp.components.AxTextField;
 import axirassa.webapp.pages.MonitorConsole;
 import axirassa.webapp.services.AxirassaSecurityService;
 
@@ -32,10 +33,20 @@ public class LoginUser {
 	private boolean rememberme;
 
 	@Component
+	private AxTextField emailField;
+
+	@Component
 	private Checkbox remembermebox;
 
 	@Component
 	private AxForm form;
+
+
+	public void onActivate() {
+		if (security.isUser()) {
+			email = security.getEmail();
+		}
+	}
 
 
 	public void onValidateFromForm() throws NoSaltException {

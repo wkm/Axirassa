@@ -9,7 +9,7 @@
 	
 		<t:errors/>
 
-		<t:axtextfield t:value="email" t:name="E-mail" t:validate="required,email" />
+		<t:axtextfield t:id="emailField" t:value="email" t:name="E-mail" t:validate="required,email" />
 		<t:axpasswordfield t:value="password" t:name="Password" t:validate="required"/>
 		
 		<t:security.guest>
