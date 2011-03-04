@@ -33,9 +33,9 @@
 		
 		
 		<!-- Debugging -->
-		<!-- <property name="show_sql">true</property> -->
+		<property name="show_sql">false</property>
 		<property name="format_sql">true</property>
-		<property name="hbm2ddl.auto">update</property>
+		<property name="hbm2ddl.auto">validate</property>
 		
 		
 		<!-- Mappings -->
@@ -44,11 +44,14 @@
 		<mapping class="axirassa.model.AccountUserEntity" />
 		<mapping class="axirassa.model.PingerEntity" />
 		<mapping class="axirassa.model.MonitorTypeEntity" />
+		<mapping class="axirassa.model.PasswordResetTokenEntity" />
+		<mapping class="axirassa.model.UserPhoneNumberEntity" />
+		<mapping class="axirassa.model.FeedbackEntity" />
 		
 		<mapping class="axirassa.model.HttpStatisticsEntity" />
 		
-		<mapping class="axirassa.model.SentinelMachineEntity" />
 		
+		<mapping class="axirassa.model.SentinelMachineEntity" />
 		<mapping class="axirassa.services.sentinel.model.SentinelCPUStatisticEntity" />
 		<mapping class="axirassa.services.sentinel.model.SentinelMemoryStatisticEntity" />
 		<mapping class="axirassa.services.sentinel.model.SentinelDiskUsageStatisticEntity" />
@@ -56,8 +59,19 @@
 		<mapping class="axirassa.services.sentinel.model.SentinelNetworkStatisticEntity" />
 		<mapping class="axirassa.services.sentinel.model.SentinelNetworkIOStatisticEntity" />
 		
+		<!-- Queries -->
 		<mapping resource="axirassa/model/UserEntityQueries.hbm.xml" />
 		<mapping resource="axirassa/model/PingerEntityQueries.hbm.xml" />
+		<mapping resource="axirassa/model/PasswordResetTokenEntityQueries.hbm.xml" />
+		<mapping resource="axirassa/model/UserPhoneNumberEntityQueries.hbm.xml" />
+		<mapping resource="axirassa/model/FeedbackEntityQueries.hbm.xml" />
+		
 		<mapping resource="axirassa/services/sentinel/model/SentinelQueries.hbm.xml" />
+		
+		<!-- Events & Interceptors -->
+		<event type="save">
+			<listener class="axirassa.model.interceptor.EntityOnSaveInterceptor" />
+			<listener class="org.hibernate.event.def.DefaultSaveEventListener" />
+		</event>
 	</session-factory>
 </hibernate-configuration>

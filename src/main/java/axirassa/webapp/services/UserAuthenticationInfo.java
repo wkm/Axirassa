@@ -14,7 +14,7 @@ public class UserAuthenticationInfo implements SaltedAuthenticationInfo {
 
 
 	public static UserAuthenticationInfo createInfoFromModel(UserEntity user) {
-		return new UserAuthenticationInfo(user.getEMail(), user.getPassword(), user.getSalt());
+		return new UserAuthenticationInfo(user.getEmail(), user.getPassword(), user.getSalt());
 	}
 
 
@@ -28,6 +28,8 @@ public class UserAuthenticationInfo implements SaltedAuthenticationInfo {
 
 
 	public UserAuthenticationInfo(String email, byte[] password, String salt) {
+		System.out.println("CREATING USER AUTH INFO FOR: " + email + " w/ salt: " + salt);
+
 		this.email = email;
 		this.password = password;
 		this.salt = salt;

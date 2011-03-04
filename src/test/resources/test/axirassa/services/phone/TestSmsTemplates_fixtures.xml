@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE axirassa-test-fixture PUBLIC
+ "-//AxirassaTestFixture/Axirassa Test Fixture DTD 1.0//END"
+ "classpath://axirassa/util/test/AxirassaTestFixture-1.0.dtd">
+<fixtures>
+	<fixture name="verifyPhoneNumber">
+		Axirassa Server Monitoring -- phone number confirmation code 45-68-94-32
+		This phone number provided by who@foo.com
+	</fixture>
+</fixtures>

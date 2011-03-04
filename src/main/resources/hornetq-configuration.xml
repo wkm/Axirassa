@@ -23,6 +23,7 @@
     
     <!-- QUEUES -->
     <queues>
+    	<!-- PINGER QUEUES: these are very high traffic -->
     	<queue name="Pinger.Request">
     		<address>Pinger.Request</address>
     		<durable>true</durable>
@@ -31,6 +32,34 @@
     	<queue name="Pinger.Response">
     		<address>Pinger.Response</address>
     		<durable>false</durable>
+    	</queue>
+    	
+    	<!-- NOTIFICATION QUEUES; these are quite low traffic -->
+    	<queue name="Notify.Sms.Request">
+    		<address>Notify.Sms.Request</address>
+    		<durable>true</durable>
+    	</queue>
+    	<queue name="Notify.Sms.Response">
+    		<address>Notify.Sms.Response</address>
+    		<durable>true</durable>
+    	</queue>
+    	
+    	<queue name="Notify.Email.Request">
+    		<address>Notify.Email.Request</address>
+    		<durable>true</durable>
+    	</queue>
+    	<queue name="Notify.Email.Response">
+    		<address>Notify.Email.Response</address>
+    		<durable>true</durable>
+    	</queue>
+    	
+    	<queue name="Notify.Voice.Request">
+    		<address>Notify.Voice.Request</address>
+    		<durable>true</durable>
+    	</queue>
+    	<queue name="Notify.Voice.Response">
+    		<address>Notify.Voice.Response</address>
+    		<durable>true</durable>
     	</queue>
     </queues>
 </configuration>

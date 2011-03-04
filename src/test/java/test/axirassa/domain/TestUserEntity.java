@@ -9,7 +9,6 @@ import org.junit.Test;
 import axirassa.model.UserEntity;
 import axirassa.model.exception.NoSaltException;
 import axirassa.util.AbstractDomainTest;
-import axirassa.util.Meta;
 
 public class TestUserEntity extends AbstractDomainTest {
 	@Test
@@ -17,10 +16,10 @@ public class TestUserEntity extends AbstractDomainTest {
 		session.beginTransaction();
 
 		UserEntity user = new UserEntity();
-		user.setEMail("foo@mail.com");
+		user.setEmail("foo@mail.com");
 		user.setSalt("tweedledee");
 		user.createPassword("blah");
-		addEntity(user);
+		session.save(user);
 
 		assertTrue(user.matchPassword("blah"));
 		assertFalse(user.matchPassword("blah "));
@@ -28,8 +27,6 @@ public class TestUserEntity extends AbstractDomainTest {
 		assertFalse(user.matchPassword("tweedle"));
 
 		session.getTransaction().commit();
-
-		Meta.inspect(user);
 	}
 
 
@@ -37,9 +34,11 @@ public class TestUserEntity extends AbstractDomainTest {
 	public void userAutomaticSalting() throws NoSaltException {
 		session.beginTransaction();
 		UserEntity user = new UserEntity();
-		user.setEMail("foo@bar.com");
+		user.setEmail("foo@bar.com");
+		long start = System.currentTimeMillis();
 		user.createPassword("password");
-		addEntity(user);
+		System.out.println("PASSWORD IN: " + (System.currentTimeMillis() - start));
+		session.save(user);
 		session.getTransaction().commit();
 	}
 }

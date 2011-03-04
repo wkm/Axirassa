@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html t:type="layout" t:pageTitle="Verify Phone Number" 
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+	xmlns:p="tapestry:parameter">
+	<t:AxForm t:id="form" t:title="Verify Phone Number">
+		<p>
+			Please double check this phone number:
+		</p>
+		<p class='display'>
+			${phoneNumberEntity.formattedPhoneNumber}
+		</p>
+		<p>
+			Do you have this phone handy? We're going to use it
+			to give you a verification code.
+		</p>
+		
+		<p>
+			<t:if test="phoneNumberEntity.acceptingSms">
+				<t:actionlink t:mixins="AxButton" t:id="sendSms" t:context="${phoneNumberEntity.id}">
+					Send me an SMS
+				</t:actionlink>
+			</t:if>
+			<t:if test="phoneNumberEntity.acceptingVoice" >
+				<t:actionlink t:mixins="AxButton" t:id="sendVoice" t:context="${phoneNumberEntity.id}">
+					Call me
+				</t:actionlink>
+			</t:if>
+		</p>
+		
+		<t:errors/>
+		
+		<t:AxTextField 
+			t:id="verificationCodeField"
+			t:name="Verification code"
+			t:validate="required"
+			t:value="verificationCode"
+		/>
+		<t:AxSubmit label="Validate" />
+	</t:AxForm>
+</html>

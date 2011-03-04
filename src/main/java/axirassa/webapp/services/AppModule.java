@@ -9,17 +9,28 @@ import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
+import org.apache.tapestry5.ioc.ScopeConstants;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Local;
-import org.apache.tapestry5.ioc.annotations.Symbol;
+import org.apache.tapestry5.ioc.annotations.Scope;
+import org.apache.tapestry5.ioc.services.PerthreadManager;
+import org.apache.tapestry5.ioc.services.PropertyShadowBuilder;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.RequestFilter;
 import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
 import org.hibernate.Session;
+import org.hornetq.api.core.HornetQException;
 import org.slf4j.Logger;
 import org.tynamo.security.SecuritySymbols;
+import org.tynamo.security.services.SecurityService;
+
+import axirassa.webapp.services.internal.AxirassaSecurityServiceImpl;
+import axirassa.webapp.services.internal.EmailNotifyServiceImpl;
+import axirassa.webapp.services.internal.MessagingSessionManagerImpl;
+import axirassa.webapp.services.internal.SmsNotifyServiceImpl;
+import axirassa.webapp.services.internal.VoiceNotifyServiceImpl;
 
 /**
  * This module is automatically included as part of the Tapestry IoC Registry,
@@ -59,19 +70,6 @@ public class AppModule {
 		// tapestry-security configuration
 		configuration.add(SecuritySymbols.LOGIN_URL, "/user/login");
 		configuration.add(SecuritySymbols.UNAUTHORIZED_URL, "/index");
-
-		configuration.add("DWR.version", "");
-		configuration.add("DWR.js", "classpath:${DWR.js.path}");
-		configuration.add("DWR.js.path", "org/directwebremoting");
-
-		configuration.add("DWR.class", "/dwr/interface/");
-	}
-
-
-	public static void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration,
-	        @Symbol("DWR.js.path") String dwrPath, @Symbol("DWR.class") String dwrClassPath) {
-		configuration.add("DWR", dwrPath);
-		configuration.add("DWRClass", dwrClassPath);
 	}
 
 
@@ -115,6 +113,45 @@ public class AppModule {
 				}
 			}
 		};
+
+	}
+
+
+	@Scope(ScopeConstants.PERTHREAD)
+	public static MessagingSessionManager buildMessagingSessionManager(PerthreadManager perthreadManager)
+	        throws HornetQException {
+		MessagingSessionManagerImpl sessionManager = new MessagingSessionManagerImpl();
+		perthreadManager.addThreadCleanupListener(sessionManager);
+		return sessionManager;
+	}
+
+
+	public static MessagingSession buildMessagingSession(MessagingSessionManager sessionManager,
+	        PropertyShadowBuilder propertyShadowBuilder) throws HornetQException {
+		return propertyShadowBuilder.build(sessionManager, "session", MessagingSession.class);
+	}
+
+
+	@Scope(ScopeConstants.PERTHREAD)
+	public EmailNotifyService buildEmailNotifyService(MessagingSession messagingSession) throws HornetQException {
+		return new EmailNotifyServiceImpl(messagingSession);
+	}
+
+
+	@Scope(ScopeConstants.PERTHREAD)
+	public SmsNotifyService buildSmsNotifyService(MessagingSession messagingSession) throws HornetQException {
+		return new SmsNotifyServiceImpl(messagingSession);
+	}
+
+
+	@Scope(ScopeConstants.PERTHREAD)
+	public VoiceNotifyService buildVoiceNotifyService(MessagingSession messagingSession) throws HornetQException {
+		return new VoiceNotifyServiceImpl(messagingSession);
+	}
+
+
+	public AxirassaSecurityService buildAxirassaSecurityService(SecurityService security) {
+		return new AxirassaSecurityServiceImpl(security);
 	}
 
 

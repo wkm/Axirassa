@@ -23,13 +23,14 @@ import org.hibernate.Session;
 import org.hibernate.annotations.NaturalId;
 
 import axirassa.model.exception.NoSaltException;
+import axirassa.model.interceptor.EntityPreSave;
 import axirassa.util.AutoSerializingObject;
 import axirassa.util.MessageDigestProvider;
 import axirassa.util.RandomStringGenerator;
 
 @Entity
 @Table(name = "Users")
-public class UserEntity extends AutoSerializingObject implements Serializable {
+public class UserEntity extends AutoSerializingObject implements Serializable, EntityPreSave {
 	private static final long serialVersionUID = 1375674968928774909L;
 
 
@@ -65,9 +66,12 @@ public class UserEntity extends AutoSerializingObject implements Serializable {
 
 	public static byte[] hashPasswordWithSalt(String password, byte[] salt) {
 		MessageDigest msgdigest = MessageDigestProvider.generate();
-		msgdigest.update(MessageDigestProvider.salt());
-		msgdigest.update(salt);
-		msgdigest.update(password.getBytes());
+
+		for (int i = 0; i < 4096; i++) {
+			msgdigest.update(MessageDigestProvider.salt());
+			msgdigest.update(salt);
+			msgdigest.update(password.getBytes());
+		}
 
 		return msgdigest.digest();
 	}
@@ -135,7 +139,8 @@ public class UserEntity extends AutoSerializingObject implements Serializable {
 
 
 	private String createSalt() {
-		return RandomStringGenerator.getInstance().randomString(16);
+		// 32 * 8 = 256 bits
+		return RandomStringGenerator.getInstance().randomString(32);
 	}
 
 
@@ -158,7 +163,7 @@ public class UserEntity extends AutoSerializingObject implements Serializable {
 			salt = createSalt();
 
 		try {
-			this.password = hashPassword(password);
+			setPassword(hashPassword(password));
 		} catch (NoSaltException e) {
 			e.printStackTrace();
 		}
@@ -203,7 +208,6 @@ public class UserEntity extends AutoSerializingObject implements Serializable {
 	// SIGN UP DATE
 	@Basic
 	@Temporal(TemporalType.TIMESTAMP)
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "signupdate")
 	private Date signupdate;
 
@@ -225,12 +229,12 @@ public class UserEntity extends AutoSerializingObject implements Serializable {
 	private String email;
 
 
-	public String getEMail() {
+	public String getEmail() {
 		return email;
 	}
 
 
-	public void setEMail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 
 		if (name == null)
@@ -246,5 +250,12 @@ public class UserEntity extends AutoSerializingObject implements Serializable {
 	 */
 	public Set<String> roles() {
 		return Collections.singleton("user");
+	}
+
+
+	@Override
+	public void preSave() {
+		if (signupdate == null)
+			signupdate = new Date();
 	}
 }

@@ -1,25 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<head>
-		<title>${pageTitle} :: axirassa webpresence monitoring</title>
-		<!-- <link rel="stylesheet" type="text/css" href="${asset:context:/css/yui_reset.css}" /> -->
+		<title>${pageTitle} :: Axirassa Website &amp; E-Mail Monitoring</title>
+		
+		<!--[if !IE 7]>
+			<style type="text/css">
+				#wrap {display:table; height:100%;}
+			</style>
+		<![endif]-->
 	</head>
 	<body>
-		<div id='header'>
-			<t:pagelink t:page="Index">
-				<div id='title'><span class='ax'>axirassa</span><span class='p'> webpresence monitoring</span></div>
-			</t:pagelink>
-        </div>
-        <t:security.user>
-	        <div id="headerbar">
-	        	You're logged in as <strong>${username}</strong>. <t:pagelink t:page="user/logout">logout</t:pagelink>
+		<div id="wrap">
+			<div class='header mini'>
+				<t:security.user>
+					<t:pagelink t:page="MonitorConsole">
+						<h1>axirassa <span class="title">${pageTitle}</span></h1>
+					</t:pagelink>
+				</t:security.user>
+				<t:security.guest>
+					<t:pagelink t:page="Index">
+						<h1>axirassa</h1>
+					</t:pagelink>
+				</t:security.guest>
 	        </div>
-        </t:security.user>
-        <div id ="content">
-			<t:body/>
-		</div>
+	        <t:security.user>
+		        <div class="headerbar">
+		        	You are logged in as <strong>${username}</strong> |
+		        	<t:pagelink t:page="user/settings">settings</t:pagelink> |
+		        	<t:pagelink t:page="user/logout">logout</t:pagelink>
+		        </div>
+	        </t:security.user>
+	        <div class="body">
+				<t:body/>
+				
+				<t:AxDebugFooter />
+			</div>
+		</div>		
 		<div id="footer">
-			Copyright 2010 -- Zanoccio, LLC. All Rights Reserved.
+			Copyright 2011 &#8212; Axirassa, LLC. 
+			| <t:PageLink t:page="support/privacy">Privacy</t:PageLink> 
+			| <t:PageLink t:page="support/termsOfUse">Terms Of Use</t:PageLink>
+			| <t:AxFeedbackForm />
 		</div>
+		
+		<script type='text/javascript'>
+			var mp_protocol = (('https:' == document.location.protocol) ? 'https://' : 'http://'); 
+			document.write(unescape('%3Cscript src="' + mp_protocol + 'api.mixpanel.com/site_media/js/api/mixpanel.js" type="text/javascript"%3E%3C/script%3E')); 
+		</script>
+		<script type='text/javascript'> 
+			try {  var mpmetrics = new MixpanelLib('b17a18817dfb40f5a950fa5660dcff41'); } catch(err) { null_fn = function () {}; var mpmetrics = {  track: null_fn,  track_funnel: null_fn,  register: null_fn,  register_once: null_fn, register_funnel: null_fn }; }
+			mpmetrics.track('impression');
+		</script>
 	</body>
 </html>

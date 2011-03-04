@@ -11,19 +11,48 @@ input {
 label {
 	display: block;
 	float: left;
-	width: 10em; 
+	width: 9em;
+	margin-right: 1em; 
+	color: #000;
+	text-align: right;
+	padding-top: 4px;
+}
+
+label.long {
+	width: 30em;
+	text-align: left;
+}
+
+
+.short {
+	width: 10em;
 }
 
 .input {
 	float: left;
 	font-size: 13pt;
 	clear:both;
-	}
+}
+
+.notification {
+	color: #222;
+	font-weight: bold;
+	background: #eee;
+	border: 1px solid #ddd;
+	border-radius: 2px;
+	
+	width: 600px;
+	padding: 2px 5px;
+	
+	margin-bottom: .5em;
+}
 
 .txtinput {
 	font-family: Verdana,sans-serif;
 	border: 1px solid #ddd;
 	border-bottom-color: #aaa;
+	
+	border-radius: 2px;
 	
 	width: 25em;
 	padding: 2px 3px;
@@ -40,19 +69,23 @@ label {
 }
 
 div.t-error {
+	padding: 5px;
+	margin-left: 65px;
 	width: 40em;
 	margin-bottom: 1em;
 	font-size: 70%;
+}
+
+input.t-error {
+	border-bottom-color: rgb(180, 100, 0);
 }
 
 .errorMsg {
 	margin: 0 10px;
 	padding: 2px 5px;
 	
-	-moz-border-radius: 2px 2px 0 0;
-	-webkit-border-radius: 2px 2px 0 0;
-	
-	border-bottom: rgb(247, 242, 137);
+	border-radius: 2px 2px 0 0;
+	border-bottom: 0;
 	
 	float: left; 
 	clear: both;
@@ -62,6 +95,12 @@ div.t-error {
 
 .ax_field ul {
 	clear: both;
+}
+
+.ax_field p {
+	font-size: 80%;
+	color: #111;
+	margin-left: 179px;
 }
 
 .ax_input {
@@ -76,6 +115,11 @@ div.t-error {
 .submit {
 	margin-top: 1em;
 	margin-left: 30em;
+}
+
+.check {
+	margin-top: 7px;
+	margin-left: 10.5em;
 }
 
 .ax_frmlbl {

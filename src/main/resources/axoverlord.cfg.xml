@@ -8,7 +8,7 @@
 	<!-- EXECUTION TARGET CLASSES                                         -->
 	<!-- ################################################################ -->
     <target name="AxSentinelAgent" class="axirassa.services.sentinel.SentinelService" autorestart="true">
-    	<!-- JVM options --> 
+    	<!-- JVM options -->
         <jvmoption name="Xmx" value="32M"/>
         <jvmoption name="Xms" value="32M"/>
         <jvmoption name="Xss" value="1024K"/>
@@ -50,25 +50,53 @@
 		<jvmoption name="Xmx" value="16m"/>
 	</target>
 	
+	<target name="AxEmailNotificationService"
+	        class="axirassa.services.runners.EmailServiceRunner"
+	        autorestart="true">
+		<jvmoption name="Xmx" value="16m"/>        
+	</target>
+	
+	<target name="AxSmsNotificationService"
+	        class="axirassa.services.runners.SmsNotificationServiceRunner"
+	        autorestart="true">
+		<jvmoption name="Xmx" value="16m"/>        
+	</target>
+	
+	<target name="AxVoiceNotificationService"
+	        class="axirassa.services.runners.VoiceNotificationServiceRunner"
+	        autorestart="true">
+		<jvmoption name="Xmx" value="16m"/>        
+	</target>
+	
+	<target name="AxDatabaseCleanerService"
+			class="axirassa.services.runners.DatabaseCleanerServiceRunner"
+			autorestart="true">
+		<jvmoption name="Xmx" value="16m" />
+	</target>
+	
+	<target name="AxDatabaseMigrate" class="axirassa.services.DatabaseMigrateService" />
+	<target name="AxDatabaseDelta" class="axirassa.services.DatabaseDeltaService" />
+	
 	
 	
 	<!-- ################################################################ -->
 	<!-- EXECUTION GROUPS                                                 -->
 	<!-- ################################################################ --> 
+
     <group name="master">
-        <execute target="AxSentinelAgent"/>
-        <!-- <execute>AxSentinelQ</execute>
-        <execute>AxMessageQ</execute> -->
-    </group>
-    
-    <group name="devel">
     	<execute target="AxMessagingServer" />
     	
     	<!-- wait for one second to let the server finish starting -->
     	
-    	<execute initialdelay="1000" target="AxControllerService" />
-    	<execute instances="32" target="AxPingerService" />
+    	<execute target="AxControllerService" initialdelay="1000"  />
+    	<execute target="AxPingerService" instances="32" />
     	<execute target="AxInjectorService" />
+    	
+    	<execute target="AxEmailNotificationService" />
+    	<execute target="AxVoiceNotificationService" />
+    	<execute target="AxSmsNotificationService" />
+    	
+    	<execute target="AxDatabaseCleanerService" />
     </group>
     
     <!--

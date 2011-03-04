@@ -1,7 +1,6 @@
 
 package axirassa.util;
 
-import java.math.BigInteger;
 import java.security.SecureRandom;
 
 /**
@@ -32,12 +31,48 @@ public class RandomStringGenerator {
 	}
 
 
+	public static String makeRandomStringToken(int length) {
+		return getInstance().randomStringToken(length);
+	}
+
+
 	/**
-	 * @return a string of the given length containing a base-32 encoded random
-	 *         number.
+	 * @return a string of the given length containing random bytes
 	 */
 	public String randomString(int length) {
-		int bits = length * 5;
-		return new BigInteger(bits, random).toString(32);
+		byte[] buffer = new byte[length];
+
+		for (int i = 0; i < buffer.length; i++) {
+			if (buffer[i] == 0)
+				buffer[i] = randomNonZeroByte();
+		}
+
+		random.nextBytes(buffer);
+		return new String(buffer);
+	}
+
+
+	public byte randomNonZeroByte() {
+		return (byte) (random.nextInt(254) + 1);
+	}
+
+
+	public String randomStringToken(int length) {
+		byte[] buffer = new byte[length];
+		int index = 0;
+		while (index < length) {
+			long value = random.nextLong();
+
+			if (value < 0)
+				value = -value;
+
+			String str = Long.toString(value, 32);
+			byte[] byteString = str.getBytes();
+
+			for (int i = 0; i < byteString.length && index < length; i++, index++)
+				buffer[index] = byteString[i];
+		}
+
+		return new String(buffer);
 	}
 }

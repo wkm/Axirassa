@@ -42,7 +42,7 @@ public class MessagingTopic {
 
 
 	private void createTopicQueueName() {
-		topicQueue = "topic_" + RandomStringGenerator.makeRandomString(30) + "_" + topicName;
+		topicQueue = "topic_" + RandomStringGenerator.makeRandomStringToken(30) + "_" + topicName;
 	}
 
 

@@ -5,7 +5,11 @@
 			${name}
 		</t:label>
 		<div class="ax_input">
-			<t:textfield class='input txtinput' t:label="${label}" t:value="text" t:id="txtfield"/>
+			<t:textfield 
+				class='input txtinput' 
+				t:label="${label}" 
+				t:id="txtfield"
+			/>
 		</div>
 	</div>
-</t:container>
+</t:container> 

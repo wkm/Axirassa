@@ -6,9 +6,11 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import axirassa.overlord.exceptions.NoOverlordConfigurationException;
 import axirassa.overlord.exceptions.OverlordException;
+import axirassa.overlord.exceptions.UnknownExecutionTargetException;
 import axirassa.overlord.os.AbstractOverlordSystemSupport;
 import axirassa.overlord.os.OverlordSystemSupport;
 
@@ -33,7 +35,7 @@ public class Overlord {
 		overlord.addShutdownHooks();
 
 		if (parameters.length <= 0)
-			overlord.execute(new String[] { "devel" });
+			overlord.execute(new String[] { "master" });
 		else
 			overlord.execute(parameters);
 	}
@@ -64,12 +66,36 @@ public class Overlord {
 		XMLConfigurationParser configparser = new XMLConfigurationParser(configfile, configstream, configuration);
 		configparser.parse();
 
+		List<ExecutionGroup> groups = new ArrayList<ExecutionGroup>();
+
 		for (String groupname : parameters) {
-			ExecutionGroup group = configuration.getExecutionGroup(groupname);
+			ExecutionGroup group;
+			if (groupname.matches("t:.*")) {
+				String targetName = groupname.substring(2);
+
+				ExecutionTarget target = configuration.getExecutionTarget(targetName);
+				if (target == null)
+					throw new UnknownExecutionTargetException(targetName, null);
+
+				ExecutionSpecification spec = new ExecutionSpecification(configuration, target);
+				spec.setInstances(1);
+
+				group = new ExecutionGroup("target_" + targetName);
+				group.addExecutionSpecification(spec);
+			} else {
+				group = configuration.getExecutionGroup(groupname);
+			}
 
 			if (group != null)
-				group.execute();
+				groups.add(group);
+			else {
+				System.err.println("Unknown Execution Group: " + group);
+				return;
+			}
 		}
+
+		for (ExecutionGroup group : groups)
+			group.execute();
 	}
 
 

@@ -5,10 +5,12 @@
 <hibernate-mapping package="axirasa.model">
 	<query name="user_is_email_registered">
 		select user.email from UserEntity as user
-		where user.email = :email
+		where 
+			user.email = :email
 	</query>
 	<query name="user_by_email">
 		from UserEntity
-		where email = :email
+		where 
+			email = :email
 	</query>
 </hibernate-mapping>

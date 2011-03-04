@@ -19,7 +19,7 @@
 	</head>
 	<body>
 		<h1>Streaming Test</h1>
-		<h2 id="pollStatus" style="font-family: monospace;">[poll status]</h2>
-		<table id="data"></table>
+		<p id="pollStatus1" style="font-family: monospace;">[poll status #1]</p>
+		<p id="pollStatus2" style="font-family: monospace;">[poll status #2]</p>
 	</body>
 </html>

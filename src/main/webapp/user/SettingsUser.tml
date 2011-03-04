@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html t:type="layout" t:pageTitle="Settings" 
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+      xmlns:p="tapestry:parameter">
+
+	<h3>User Settings</h3>
+	
+	<h4>E-mail addresses</h4>
+	
+	<t:AxForm t:id="primaryEmailForm" autofocus="false">
+		<t:AxTextField
+			t:id="primaryEmailField"
+			t:name="Primary e-mail"
+			t:validate="required"
+			t:value="primaryEmail"
+			t:enabled="false"
+		/>
+		<t:AxFieldDescription>
+			This is the e-mail address you use to identify yourself.<br/>
+			You cannot change your primary e-mail address at this time.
+		</t:AxFieldDescription>
+	</t:AxForm>
+	
+	<p>
+		Additional alert e-mail addresses. You are limited to four additional
+		addresses. You should not use this feature to notify other people,
+		instead you can ((invite)) an unlimited number of people to this account.
+	</p>
+	<p>
+		<table class="data fixed">
+			<tr>
+				<th>E-mail</th><th>Verified</th>
+			</tr>
+		</table>
+	</p>
+	
+	
+	<h4 class="divider">Phone numbers</h4>
+	<p>
+		These are phone numbers which will be notified when a monitor alerts. As
+		with e-mail addresses, you should ((invite)) other people if you want
+		them to be alerted. ((terrible language))
+	</p>
+	<p>
+		<table class="data fixed">
+			<tr><th></th><th>Phone Number</th><th>Verified</th><th>Voice</th><th>SMS</th></tr>
+			<t:loop source="phoneNumbers" value="phoneNumber">
+				<tr>
+					<td class='tight'>
+						<t:pagelink t:page="user/DeletePhoneNumber" t:context="${phoneNumber.id}">
+							<img src="/media/btn-delete.gif" title="delete phone number" alt="delete phone number" />
+						</t:pagelink>
+					</td>
+					<td>${phoneNumber.formattedPhoneNumber}</td>
+					<td class='img'>
+						<t:if test="${phoneNumber.confirmed}">
+								<img src="/media/check.gif" alt="verified" />
+								
+							<p:else>
+								<t:pagelink t:page="user/VerifyPhoneNumber" t:context="${phoneNumber.id}">
+									<img src="/media/alert.gif" alt="not-verified"/>
+								</t:pagelink>
+							</p:else>
+						</t:if>
+					</td>
+					<td class='img'>
+						<t:if test="${phoneNumber.acceptingVoice}">
+							<img src="/media/phone.gif" alt="phone calls"/>
+							<p:else>
+								- no -
+							</p:else>
+						</t:if>
+					</td>
+					<td class='img'>
+						<t:if test="${phoneNumber.acceptingSms}">
+							<img src="/media/address.gif" alt="SMS" />
+							<p:else>
+								- no -
+							</p:else>
+						</t:if>
+					</td>
+				</tr>
+			</t:loop>
+			<t:if test="hasPhoneNumbers" negate="true">
+				<td colspan="5" class='img' style="padding: 30px 0;" >
+					(No phone numbers associated yet. <t:pagelink t:page="user/AddPhoneNumber">Add one!</t:pagelink>)
+				</td>
+			</t:if>
+		</table>
+	</p>
+	
+	
+	
+	
+	<t:PageLink t:mixins="AxButton" t:page="user/AddPhoneNumber"><img src="/media/add.gif" /> Add phone number</t:PageLink>
+	
+	<h4 class='divider'>Password</h4>
+	<p>We will send an e-mail notifying you of a successful password change.</p>
+	<t:AxForm t:id="passwordForm">
+		<t:if test="passwordChanged">
+			<t:AxNotification>
+				Your password was successfully changed.
+			</t:AxNotification>
+		</t:if>
+	
+		<t:Errors />
+	
+		<t:AxPasswordField
+			t:id="currentPasswordField"
+			t:name="Current password" 
+			t:validate="required" 
+			t:value="currentPassword"
+		/>
+		<t:AxFormVSpace />
+		
+		<t:AxPasswordField 
+			t:name="New password" 
+			t:validate="required" 
+			t:value="newPassword" 
+		/>
+		<t:AxPasswordField 
+			t:id="confirmPasswordField"
+			t:name="Confirm password" 
+			t:validate="required" 
+			t:value="confirmPassword"
+		/>
+		
+		<t:AxSubmit label="Change password" />
+	</t:AxForm>
+</html>

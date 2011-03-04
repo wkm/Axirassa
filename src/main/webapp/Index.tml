@@ -1,38 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html t:type="layout" t:pageTitle="Hello" 
-	  xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
-	<h3>Actions</h3>
-	<ul>
-		<t:security.guest>
-			<li><t:pagelink t:page="User/Register">Register</t:pagelink></li>
-			<li><t:pagelink t:page="User/Login">Login</t:pagelink></li>
-		</t:security.guest>
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>axirassa e-mail &amp; web server infrastructure monitoring</title>
+</head>
+<body>
+	<div class="headerbar">
+		<t:pagelink page="User/Login">Login to your account</t:pagelink>
+	</div>
+
+	<div class="header">
+		<a href="/">
+			<h1>axirassa</h1>
+			<h2>website and e&#8209;mail monitoring</h2>
+		</a>
+	</div>
+	
+	<div class="impact">
+		<p>
+			Start monitoring the <strong>reliability</strong> and<br/>
+			<strong class='overhangL'>performance</strong> of the website and e-mail<br/>
+			infrastructure vital to your success.<br/>
+		</p>
+	</div>
+	
+	<div class="subimpact">
+		<p>
+			Axirassa uses a network of monitoring locations across the world to continually 
+			verify the performance and global availability of your website and e&#8209;mail servers
+			to your customers.
+		</p>
+		<p>
+			Monthly plans start at just $3 for startups, increasing with infrastructure
+			size. <t:pagelink t:mixins="AxButton" page="Account/Pricing">Examine pricing</t:pagelink>
+		</p>
+	</div>
+	
+	<div class="featuread">	
+		<h3>World-class realtime status console.</h3>
+		<p>
+			Using our status console, you can monitor the performance
+			of your website infrastructure in <strong>real-time</strong>
+			on any modern browser; including iPhone, BlackBerry(*), etc.
+		</p>
 		
-		<t:security.user>
-			<li><t:pagelink t:page="User/Logout">Logout</t:pagelink></li>
-		</t:security.user>
-	</ul>
+		<h3>Fine-grained alert triggering</h3>
+		<p>
+			Axirassa does more than just verify your site it up. We can alert
+			you when you site starts to slow down; if your content changes;
+					
+		</p>
+		
+		<h3>Maximum frequency verification</h3>
+		<p>
+			All tiers support minute-level reporting: the highest monitoring 
+			resolution available. This ensures you are immediately notified
+			when your website is unavailable, and you start losing money.
+		</p>
+		
+		<h3>Unlimited <abbr>SMS</abbr>, e-mail, and phone-call notifications</h3>
+		<p><strong>All tiers</strong> include unlimited <abbr>SMS</abbr>, e-mail, and phone-call notifications of </p>
+		<h3>Monitoring locations across the world (**)</h3>
+		<p>
+			Axirassa has multiple monitoring locations in the United States
+			and Europe, ensuring your site remains globally accessible 24/7.
+		</p>
+		
+		<h3>Beautiful, customizable reports</h3>
+		
+		
+		<h3>Automatic escalation</h3>
+		<p>
+			A scenario: Axirassa sends an e-mail when your website first becomes
+			inaccessible; calling your systems administrator when it's still down
+			five minutes later; finally escalating to the <abbr>CTO</abbr> if it's
+			still down an hour later.
+		</p>
+		
+		<p>
+			With Axirassa, you can <strong>fully customize</strong> escalation plans. Including
+			black-out times and rotating schedules.
+		</p>
+		
+		<h3>Permanent data retention</h3>
+		<p>
+			Your response time data is stored for as long as you have an account.
+		</p>
+		
+		<div class="footer">
+			
+		</div>
+	</div>
 	
-	<h3>Pingers</h3>
-	<t:security.guest>
-		<p>Login to access pinger actions.</p>
-	</t:security.guest>
-	<t:security.user>
-		<ul>
-			<li><t:pagelink t:page="Monitor/Create">Create</t:pagelink></li>
-			<li><t:pagelink t:page="Monitor/List">List</t:pagelink></li>
-		</ul>
-	</t:security.user>
-	
-	<h3>Utilities</h3>
-	<ul>
-		<li><t:pagelink t:page="Sentinel">Sentinel</t:pagelink></li>
-		<li><t:pagelink t:page="Hibernate/Statistics">Hibernate Statistics</t:pagelink></li>
-	</ul>
-	
-	<h3>Other</h3>
-	<ul>
-		<li><t:pagelink t:page="Credits">Credits</t:pagelink></li>
-		<li><a href="/streaming/">Streaming</a></li>
-	</ul>
+	<script type='text/javascript'>
+		var mp_protocol = (('https:' == document.location.protocol) ? 'https://' : 'http://');
+		document.write(unescape('%3Cscript src="' + mp_protocol + 'api.mixpanel.com/site_media/js/api/mixpanel.js" type="text/javascript"%3E%3C/script%3E'));
+	</script>
+	<script type='text/javascript'> 
+		try { 
+			var mpmetrics = new MixpanelLib('b17a18817dfb40f5a950fa5660dcff41');
+		} catch(err) {
+			null_fn = function () {}; 
+			var mpmetrics = {  
+				track: null_fn,  
+				track_funnel: null_fn,  
+				register: null_fn,  
+				register_once: null_fn, 
+				register_funnel: null_fn 
+			}; 
+		}
+		
+		mpmetrics.track('impression');
+	</script>
+	<div class="connectedworld"><img src="/media/background.png" /></div>
+</body>
 </html> 

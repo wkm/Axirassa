@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html t:type="layout" t:pageTitle="Settings" 
+      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+
+	<h3>Alert</h3>
+	<code><pre>
+
+	Alert on ZANOCCIO.COM
+	
+	Summary:
+		Site recorded as down because of 404 at 8:29:27pm
+		Site stopped reporting 404 at 9:30:26pm, 1 hour, 59 seconds later.
+		
+		Alert was confirmed resolved at 10:30:26pm without further incident.
+		
+		5 people were alerted.
+		
+		This effects uptime for Zanoccio.com as follows:
+		
+			For February - down 0.1369 percentage points to 99.8631% (good)
+			For 2011     - down 0.0115 percentage points to 99.9885% (very good)
+			
+		
+	Transcript:	
+	February 20, 2011
+	 	 8:29:27 PM -- monitor request received
+		            -- HTTP request posted
+                    -- 404 received
+
+         8:30:27 PM -- verification request received
+                    -- HTTP request posted
+                    -- 404 received, initiating alert
+		
+	---- Alert Initiated ------------------------------------
+	     8:29:27 PM -- Notification to [sysgroup] started
+	                -- wmacura+1@gmail.com
+	                --   SMS sent to  217 689 1005
+	                --   Called  217 689 1005, no answer
+	
+	    ( 30 monitor requests, confirming 404 )
+	    
+	     8:59:27 PM -- Escalation to [CTO] started
+	                -- E-mail sent to .....
+	               
+		( 31 monitor requests, confirming 404 )
+		
+		 9:30:26 PM -- monitor request received
+		            -- HTTP request posted
+		            -- 202 received, site appears backup
+		
+		( 60 monitor requests, confirming 202 )
+		
+	---- Alert Resolved -------------------------------------
+		10:30:26 PM -- alert confirmed resolved.
+	</pre></code>
+</html>

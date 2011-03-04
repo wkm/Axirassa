@@ -2,11 +2,19 @@
 package axirassa.webapp.components;
 
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.TextField;
 
 public class AxTextField extends AxAbstractTextInput {
-	@Component(publishParameters = "annotationProvider,clientId,disabled,nulls,translate,validate,value")
+	@Component(
+	        publishParameters = "annotationProvider,clientId,disabled,nulls,translate,value",
+	        parameters = { "validate=inherit:validate" })
 	private TextField txtfield;
+
+	@Parameter(defaultPrefix = "validate")
+	@Property
+	private String validate;
 
 
 	public TextField getTextField() {

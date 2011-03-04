@@ -186,6 +186,27 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>stringtemplate</artifactId>
+			<version>3.2.1</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.16</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.liquibase.ext</groupId>
+			<artifactId>liquibase-hibernate</artifactId>
+			<version>2.0.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	<url>http://axirassa.com</url>
 	<issueManagement>
@@ -274,11 +295,19 @@
                             <statsOn>true</statsOn>
                         </connector> 
                     </connectors> 
-                    <!-- <requestLog implementation="org.eclipse.jetty.server.NCSARequestLog"> 
+                    <requestLog implementation="org.eclipse.jetty.server.NCSARequestLog"> 
                         <append>true</append> 
-                    </requestLog> --> 
+                    </requestLog>
                 </configuration> 
             </plugin>
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>2.0.1</version>
+				<configuration>
+					<propertyFile>src/main/resources/liquibase.properties</propertyFile>
+				</configuration>
+			</plugin>
 		</plugins>
 		<resources>
 		</resources>
@@ -347,7 +376,7 @@
 
 		<tapestry-release-version>5.2.4</tapestry-release-version>
 		<hornetq-release-version>2.1.2.Final</hornetq-release-version>
-		<hibernate-release-version>3.6.0.Final</hibernate-release-version>
+		<hibernate-release-version>3.6.1.Final</hibernate-release-version>
 		<netty-release-version>3.2.2.Final</netty-release-version>
 		<bouncycastle-release-version>1.45</bouncycastle-release-version>
 		<jms-release-version>1.1</jms-release-version>

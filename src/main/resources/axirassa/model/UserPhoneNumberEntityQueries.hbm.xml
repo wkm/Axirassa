@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+      "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="axirasa.model">
+	<query name="phonenumber_by_id">
+		from UserPhoneNumberEntity as phonenumber
+		left join fetch phonenumber.user
+		where 
+			phonenumber.id = :id
+	</query>
+
+	<query name="user_phonenumbers">
+		from UserPhoneNumberEntity
+		where 
+			user = :user
+	</query>
+</hibernate-mapping>

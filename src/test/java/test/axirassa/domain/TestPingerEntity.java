@@ -19,7 +19,7 @@ public class TestPingerEntity extends AbstractDomainTest {
 	@Test
 	public void testPingerSize() throws IOException {
 		UserEntity user = new UserEntity();
-		user.setEMail("foo@mail.com");
+		user.setEmail("foo@mail.com");
 		user.createPassword("password");
 
 		MonitorTypeEntity type = new MonitorTypeEntity();

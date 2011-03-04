@@ -6,23 +6,23 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.subject.Subject;
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
 import org.apache.tapestry5.corelib.components.Checkbox;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.tynamo.security.services.SecurityService;
 
 import axirassa.model.exception.NoSaltException;
 import axirassa.webapp.components.AxForm;
+import axirassa.webapp.components.AxTextField;
+import axirassa.webapp.pages.MonitorConsole;
+import axirassa.webapp.services.AxirassaSecurityService;
 
 @Secure
 @RequiresGuest
 public class LoginUser {
 	@Inject
-	private SecurityService security;
+	private AxirassaSecurityService security;
 
-	@Persist
 	@Property
 	private String email;
 
@@ -33,17 +33,25 @@ public class LoginUser {
 	private boolean rememberme;
 
 	@Component
+	private AxTextField emailField;
+
+	@Component
 	private Checkbox remembermebox;
 
 	@Component
 	private AxForm form;
 
 
-	void onValidateFromForm() throws NoSaltException {
-		if (email == null || password == null) {
-			showInvalidLoginMessage();
-			return;
+	public void onActivate() {
+		if (security.isUser()) {
+			email = security.getEmail();
 		}
+	}
+
+
+	public void onValidateFromForm() throws NoSaltException {
+		if (email == null || password == null)
+			return;
 
 		Subject subject = security.getSubject();
 		try {
@@ -61,7 +69,7 @@ public class LoginUser {
 	}
 
 
-	String onSuccess() {
-		return "Index";
+	public Object onSuccessFromForm() {
+		return MonitorConsole.class;
 	}
 }

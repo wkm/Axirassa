@@ -21,16 +21,10 @@ public class AbstractDomainTest {
 		config.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost/axir_test");
 		config.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		config.setProperty("hibernate.show_sql", "true");
-
 		HibernateTools.setSessionFactory(config.buildSessionFactory());
 
 		session = HibernateTools.getLightweightSession();
 
 		return session;
-	}
-
-
-	public static void addEntity(Object entity) {
-		session.save(entity);
 	}
 }
