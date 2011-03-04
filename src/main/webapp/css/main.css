@@ -198,6 +198,7 @@ h1 .title {
 }
 
 .impact {
+	font-family: DINWeb, 'lucida grande', verdana, sans-serif;
 	font-size: 20pt;
 	
 	margin-top: 2em;
@@ -218,7 +219,7 @@ h1 .title {
 .impact strong {
 	color: #fff;
 	background: rgb(36, 43, 51);
-	padding: 0 .4em;
+	padding: 0 .4em .1em .4em;
 }
 
 .overhangL {
