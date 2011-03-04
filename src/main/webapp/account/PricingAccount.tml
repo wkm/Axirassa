@@ -21,7 +21,6 @@
 		<t:pagelink page="user/register" context="literal:tier.3mon">
 			<div class="tier">
 				<div class="price">$3</div>
-				<div class="for">for</div>
 				<div class="size">3 monitors</div>
 				<p>A monitor each for your home-page, receiving e-mail, and sending e-mail.</p>
 			</div>
@@ -30,7 +29,6 @@
 		<t:pagelink page="user/register" context="literal:tier.3mon">
 			<div class="tier">
 				<div class="price">$9</div>
-				<div class="for">for</div>
 				<div class="size">10 monitors</div>
 				<p>For the growing site. Monitor , multiple mail protocols.</p>
 			</div>
@@ -39,7 +37,6 @@
 		<t:pagelink page="user/register" context="literal:tier.3mon">
 			<div class="tier primary">
 				<div class="price">$30</div>
-				<div class="for">for</div>
 				<div class="size">50 monitors</div>
 				<p>For the medium sized company. Monitor load-balanced servers</p>
 			</div>
@@ -48,7 +45,6 @@
 		<t:pagelink page="user/register" context="literal:tier.3mon">
 			<div class="tier">
 				<div class="price">$100</div>
-				<div class="for">for</div>
 				<div class="size">200 monitors</div>
 				<p>For the </p>
 			</div>

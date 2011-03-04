@@ -9,12 +9,12 @@
 	font-weight: bold;
 	font-size: 10pt;
 	text-shadow: #eee 1px 1px 1px;
-	color: #333;
+	color: rgb(36, 43, 51);
 	
 	margin: 5px;
 	
 	background: #fafafa;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f3f3f3), to(#fff));
+	background: -webkit-gradient(linear, left top, left bottom, from(#ddd), to(#fff));
 	
 	text-transform: uppercase;
 }
@@ -27,16 +27,16 @@
 }
 
 .button:hover {
-	border-color: #700;
+	border-color: rgb(207, 144, 0);
 	cursor: pointer;
 	
-	background: rgb(190, 53, 51);
-	background: -webkit-gradient(linear, left top, left bottom, from(rgb(210, 73, 71)), to(rgb(190, 53, 51)))
+	background: rgb(230, 160, 0);
+	background: -webkit-gradient(linear, left top, left bottom, from(rgb(255, 178, 0)), to(rgb(230, 160, 0)))
 }
 
 .button:hover > .innerbutton {
-	border-color: #666;
+	border-color: rgb(255, 178, 0);
 	
 	color: #fff;
-	text-shadow: #a00 1px 1px 2px;
+	text-shadow: rgb(207, 144, 0) 1px 1px 1px;
 }

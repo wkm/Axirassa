@@ -174,14 +174,14 @@ h5 {
 	margin-top: -5px;
 	padding-left: 150px;
 	border-bottom: 1px solid rgb(89, 108, 127);
-	
-	text-shadow: rgb(89, 108, 127) 1px 1px 1px;
 }
 
 .mini h1 {
 	color: rgb(36, 43, 51);
 	font-size: 26pt;
 	margin: 0;
+	
+	text-shadow: none;
 }
 
 h1 .title {
@@ -257,7 +257,7 @@ emphasis {
 }
 
 .tier {
-	border: 1px solid #eee;
+	border: 1px solid rgb(18, 21, 26);
 	border-radius: 3px;
 	 
 	float: left;
@@ -267,12 +267,12 @@ emphasis {
 	margin-top: 4px;
 	font-size: 12pt;
 	
-	background: #fff;
+	background: rgb(48, 56, 68);
 	
 	padding: 1em;
 }
 
-.tier .price { text-align: center; font-size: 28pt; font-weight: bold; margin-bottom: 0;}
+.tier .price { font-family: DINWeb, sans-serif; text-align: center; font-size: 28pt; font-weight: bold; margin-bottom: 0;}
 .tier ul {
 	margin-top: 0;
 }
@@ -282,24 +282,10 @@ emphasis {
 	clear: both;
 }
 
-.for {
-	text-align: center;
-	font-family: Edita, Times, Serif;
-	font-style: italic;
-	font-weight: bold;
-	font-size: 16pt;
-	color: #333;
-	margin-top: -.4em;
-}
-
 .size {
 	text-align: center;
 	font-size: 16pt;
 	font-weight: bold;
-}
-
-.primary .for {
-	color: rgb(174,3,0);
 }
 
 .reset { clear:both; }
@@ -308,12 +294,12 @@ emphasis {
 	margin: 1em .25em;
 	width: 61.5em;
 	padding: .5em;
-	background: #eee;
-	border: 1px solid #ddd;
+	background: rgb(48, 56, 68);
+	border: 1px solid rgb(18, 21, 26);
 }
 
 .primary {
-	border: 5px solid rgb(174, 3, 0);
+	border: 5px solid rgb(255, 178, 0);
 	margin-top: 0;
 }
 
@@ -339,14 +325,14 @@ p + p {
 
 p a {
 	text-decoration: none;
-	color: rgb(174,3,0);
-	border-bottom: 2px solid rgb(174,3,0);
+	color: rgb(255, 178, 0);
+	border-bottom: 2px solid rgb(255, 178, 0);
 }
 
 p a:hover {
-	color: #700;
-	border-bottom: 2px solid #700;
-	background: #fbb;
+	color: rgb(18, 21, 26);
+	border-bottom: 2px solid rgb(18, 21, 26);
+	background: rgb(255, 178, 0);
 }
 
 
@@ -355,7 +341,6 @@ p a:hover {
 
 table {
 	border-collapse: collapse;
-	background: #fff;
 }
 
 table.fixed {
@@ -384,9 +369,9 @@ td img {
 }
 
 th {
-	color: #333;
+	color: ;
 	text-align: center;
-	border-bottom: 2px solid #ddd;
+	border-bottom: 2px solid rgb(18, 21, 26);
 }
 
 .url {
@@ -410,8 +395,8 @@ th {
 	clear:both;
 	margin-top: 3em;
 	
-	background: #eee;
-	border: 1px solid #ddd;
+	background: rgb(48, 56, 68);
+	border: 1px solid rgb(18, 21, 26);
 	max-width: 45em;
 	padding: 5px;
 	
@@ -420,8 +405,8 @@ th {
 
 #footer {	
 	font-size: 10pt;
-	border-top: 1px solid #ccc;
-	background: #eee;
+	border-top: 1px solid rgb(18, 21, 26);
+	background: #222;
 	
 	clear: both;
 	position: relative;

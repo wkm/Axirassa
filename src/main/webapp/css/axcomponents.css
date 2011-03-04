@@ -80,5 +80,5 @@
 }
 
 .axo_header:hover {
-	background: #eee;
+	background: rgba(255, 255, 255, .1);
 }

@@ -13,7 +13,7 @@ label {
 	float: left;
 	width: 9em;
 	margin-right: 1em; 
-	color: #000;
+	color: #fff;
 	text-align: right;
 	padding-top: 4px;
 }
@@ -99,7 +99,7 @@ input.t-error {
 
 .ax_field p {
 	font-size: 80%;
-	color: #111;
+	color: #ddd;
 	margin-left: 179px;
 }
 
