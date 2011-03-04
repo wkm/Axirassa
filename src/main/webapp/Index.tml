@@ -112,6 +112,5 @@
 		
 		mpmetrics.track('impression');
 	</script>
-	<div class="connectedworld"><img src="/media/background.png" /></div>
 </body>
 </html> 

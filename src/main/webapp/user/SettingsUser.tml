@@ -43,16 +43,11 @@
 	</p>
 	<p>
 		<table class="data fixed">
-			<tr><th></th><th>Phone Number</th><th>Verified</th><th>Voice</th><th>SMS</th></tr>
+			<tr><th>Phone Number</th><th>Verified</th><th>Voice</th><th>SMS</th><th></th></tr>
 			<t:loop source="phoneNumbers" value="phoneNumber">
 				<tr>
-					<td class='tight'>
-						<t:pagelink t:page="user/DeletePhoneNumber" t:context="${phoneNumber.id}">
-							<img src="/media/btn-delete.gif" title="delete phone number" alt="delete phone number" />
-						</t:pagelink>
-					</td>
-					<td>${phoneNumber.formattedPhoneNumber}</td>
-					<td class='img'>
+					<td style="width: 10em;"><b>${phoneNumber.formattedPhoneNumber}</b></td>
+					<td class='img tight'>
 						<t:if test="${phoneNumber.confirmed}">
 								<img src="/media/check.gif" alt="verified" />
 								
@@ -63,7 +58,7 @@
 							</p:else>
 						</t:if>
 					</td>
-					<td class='img'>
+					<td class='img tight'>
 						<t:if test="${phoneNumber.acceptingVoice}">
 							<img src="/media/phone.gif" alt="phone calls"/>
 							<p:else>
@@ -71,13 +66,18 @@
 							</p:else>
 						</t:if>
 					</td>
-					<td class='img'>
+					<td class='img tight'>
 						<t:if test="${phoneNumber.acceptingSms}">
 							<img src="/media/address.gif" alt="SMS" />
 							<p:else>
 								- no -
 							</p:else>
 						</t:if>
+					</td>
+					<td class='tight'>
+						<t:pagelink t:page="user/DeletePhoneNumber" t:context="${phoneNumber.id}">
+							<img src="/media/delete.gif" title="delete phone number" alt="delete phone number" />
+						</t:pagelink>
 					</td>
 				</tr>
 			</t:loop>

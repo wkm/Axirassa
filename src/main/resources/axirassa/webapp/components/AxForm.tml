@@ -7,5 +7,6 @@
 		<table class='form'>
 			<t:body/>
 		</table>
+		<div class="reset"></div>
 	</t:form>
 </t:container>
