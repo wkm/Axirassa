@@ -35,7 +35,7 @@
 		<!-- Debugging -->
 		<property name="show_sql">false</property>
 		<property name="format_sql">true</property>
-		<property name="hbm2ddl.auto">update</property>
+		<property name="hbm2ddl.auto">validate</property>
 		
 		
 		<!-- Mappings -->
