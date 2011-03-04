@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--  <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> -->
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<link rel="stylesheet" type="text/css" href="/css/fonts.css" />
 	<title>axirassa e-mail &amp; web server infrastructure monitoring</title>
 </head>
 <body>
@@ -15,7 +13,7 @@
 		<a href="/">
 			<div class="the">the</div>
 			<h1>axirassa</h1>
-			<h2>website <span class='amp'>&amp;</span> e&#8209;mail monitoring</h2>
+			<h2>website and e&#8209;mail monitoring</h2>
 		</a>
 	</div>
 	

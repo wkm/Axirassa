@@ -9,23 +9,35 @@
  * dark gold: 117,89,16
  */
  
-@import url("http://f.fontdeck.com/s/css/DNoIHP+J0nvF7wpQPSkOwipeHN0/devel.axirassa.com/5017.css");
-@import url("http://f.fontdeck.com/s/css/DNoIHP+J0nvF7wpQPSkOwipeHN0/localhost/5017.css");
+@font-face {
+	font-family: DINWeb;
+	src: url(DINWeb-Medium.eot);
+	src: url(DINWeb-Medium.woff) format('woff'),
+		 url(DINWeb-Medium.ttf) format('opentype');
+}
 
+@font-face {
+	font-family: DINWeb;
+	src: url(DINWeb-Bold.eot);
+	src: url(DINWeb-Bold.woff) format('woff'),
+		 url(DINWeb-Bold.ttf) format('opentype');
+}
+ 
 html,body { height: 100%; }
 
 #wrap {min-height: 100%;}
 
 
 body {
-	font-family: 'helvetica neue', helvetica, tahoma, verdana, sans-serif;
+	font-family: DINWebMedium,'helvetica neue', helvetica, tahoma, verdana, sans-serif;
 	font-size: 13pt;
 	
 	text-rendering: optimizeLegibility;
 	
 	margin: 0;
 	padding: 0;
-	color: black;
+	color: #fff;
+	background: rgb(36, 43, 51);
 	background: url('/media/bg.png');
 }
 
@@ -62,17 +74,17 @@ a {
 h1 {
 	font-size: 76pt;
 	font-weight: normal;
-	color: rgb(173, 51, 51);
+	color: rgb(255, 178, 0);
 	margin: 0;
 	margin-left: -4px;
 	padding: 0;	
 	text-transform: lowercase;
 	
-	text-shadow: #700 1px 1px 1px;
+	text-shadow: rgb(125, 87, 0) 1px 1px 1px;
 }
 
 .the {
-	font-family: "din display pro medium", Times, serif;
+	font-family: DINWeb, Times, serif;
 	font-size: 24pt;
 	text-transform: lowercase;
 	display: none;
@@ -81,19 +93,14 @@ h1 {
 }
 
 h1,h3,h4,h5,h6,th {
-	font-family: "din display pro bold", Georgia, serif;
+	font-family: DINWeb, Georgia, serif;
 	margin-bottom: 0;
 }
 
 h2 {
-	font-family: "din display pro medium", Times, serif;
+	font-family: DINWeb, Times, serif;
 	margin-top: -1.3em;
 	font-size: 20pt;
-}
-
-h2 .amp {
-	font-family: Edita, Times, serif;
-	font-style: italic;
 }
 
 h3 {
@@ -146,7 +153,7 @@ h5 {
 
 .header {
 	margin-top: 50px;
-	color: rgb(54, 57, 66);
+	color: #fff;
 }
 
 .headerbar {
@@ -160,29 +167,27 @@ h5 {
 }
 
 .mini {
-	background: rgb(190, 53, 51);
-	color: #fff;
+	background: rgb(255, 178, 0);
+	color: rgb(36, 43, 51);
 	
 	margin: 0;
 	margin-top: -5px;
 	padding-left: 150px;
-	border-bottom: 1px solid #700;
+	border-bottom: 1px solid rgb(89, 108, 127);
 	
-	text-shadow: #700 1px 1px 1px;
+	text-shadow: rgb(89, 108, 127) 1px 1px 1px;
 }
 
 .mini h1 {
-	color: #fff;
+	color: rgb(36, 43, 51);
 	font-size: 26pt;
 	margin: 0;
 }
 
 h1 .title {
-	font-family: 'Din Display Pro Black', 'lucida grande', 'verdana', sans-serif;
+	font-family: DINWeb, 'lucida grande', 'verdana', sans-serif;
 	text-transform: uppercase;
-	font-weight: 100;
 	padding-left: 7px;
-	color: #fff;
 	text-shadow: none;
 	font-size: 20pt;
 }
@@ -198,8 +203,8 @@ h1 .title {
 	margin-top: 2em;
 	padding: 20px 0;
 	padding-left: 150px;
-	background: rgba(153, 0, 0, .8);
-	color: #fff;
+	background: rgb(255, 178, 0);
+	color: rgb(36, 43, 51);
 	
 	text-transform: uppercase;
 	font-weight: bold;
@@ -212,7 +217,7 @@ h1 .title {
 
 .impact strong {
 	color: #fff;
-	background: #222;
+	background: rgb(36, 43, 51);
 	padding: 0 .4em;
 }
 
