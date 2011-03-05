@@ -51,22 +51,12 @@
 		<mapping class="axirassa.model.HttpStatisticsEntity" />
 		
 		
-		<mapping class="axirassa.model.SentinelMachineEntity" />
-		<mapping class="axirassa.services.sentinel.model.SentinelCPUStatisticEntity" />
-		<mapping class="axirassa.services.sentinel.model.SentinelMemoryStatisticEntity" />
-		<mapping class="axirassa.services.sentinel.model.SentinelDiskUsageStatisticEntity" />
-		<mapping class="axirassa.services.sentinel.model.SentinelDiskIOStatisticEntity" />
-		<mapping class="axirassa.services.sentinel.model.SentinelNetworkStatisticEntity" />
-		<mapping class="axirassa.services.sentinel.model.SentinelNetworkIOStatisticEntity" />
-		
 		<!-- Queries -->
 		<mapping resource="axirassa/model/UserEntityQueries.hbm.xml" />
 		<mapping resource="axirassa/model/PingerEntityQueries.hbm.xml" />
 		<mapping resource="axirassa/model/PasswordResetTokenEntityQueries.hbm.xml" />
 		<mapping resource="axirassa/model/UserPhoneNumberEntityQueries.hbm.xml" />
 		<mapping resource="axirassa/model/FeedbackEntityQueries.hbm.xml" />
-		
-		<mapping resource="axirassa/services/sentinel/model/SentinelQueries.hbm.xml" />
 		
 		<!-- Events & Interceptors -->
 		<event type="save">
