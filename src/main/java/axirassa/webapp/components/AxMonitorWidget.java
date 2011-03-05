@@ -10,7 +10,9 @@ import org.hibernate.Session;
 
 import axirassa.model.PingerEntity;
 
-@Import(stylesheet = { "context:/css/axwidget.css" }, library = "context:/js/axwidget.js")
+@Import(
+        stylesheet = { "context:/css/axwidget.css" },
+        library = { "context:/js/dojo/dojo.js", "context:/js/axwidget.js" })
 public class AxMonitorWidget {
 
 	@Inject

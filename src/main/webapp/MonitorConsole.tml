@@ -23,4 +23,5 @@
 	<t:loop source="pingers" value="pinger">
 		<t:AxMonitorWidget t:pingerId="${pinger.id}"/>
 	</t:loop>
+	<div class="reset"></div>
 </html>
