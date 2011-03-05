@@ -11,7 +11,7 @@
 /Users/wiktor/.m2/repository/org/hibernate/javax/persistence/hibernate-jpa-2.0-api/1.0.0.Final/hibernate-jpa-2.0-api-1.0.0.Final.jar:\
 /Users/wiktor/Code/X/target/classes \
 	--driver=org.postgresql.Driver \
-	--url=jdbc:postgresql://localhost/axir_test \
+	--url=jdbc:postgresql://localhost/axir_devel \
 	--username=axir \
 	--password=petula87112 \
 diffChangeLog \
