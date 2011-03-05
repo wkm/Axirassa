@@ -121,11 +121,13 @@ public class XMLConfigurationParser {
 	private ExecutionTarget createExecutionTarget(Node node) throws OverlordException {
 		NamedNodeMap attributes = node.getAttributes();
 
-		Node namenode = attributes.getNamedItem(XMLName.NAME.toString());
-		Node classnode = attributes.getNamedItem(XMLName.CLASS.toString());
+		Node nameNode = attributes.getNamedItem(XMLName.NAME.toString());
+		Node classNode = attributes.getNamedItem(XMLName.CLASS.toString());
+		Node autorestartNode = attributes.getNamedItem(XMLName.AUTORESTART.toString());
 
-		String name = namenode.getTextContent();
-		String classname = classnode.getTextContent();
+		String name = nameNode.getTextContent();
+		String classname = classNode.getTextContent();
+		boolean autorestart = Boolean.parseBoolean(autorestartNode.getTextContent());
 
 		ExecutionTarget target = null;
 
@@ -138,6 +140,8 @@ public class XMLConfigurationParser {
 		// apply any options
 		TargetOptions options = createExecutionTargetOptions(node.getChildNodes());
 		target.setOptions(options);
+
+		target.setAutoRestart(autorestart);
 
 		return target;
 	}

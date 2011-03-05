@@ -14,7 +14,8 @@ public enum XMLName {
 	NAME,
 	CLASS,
 	VALUE,
-	INITIALDELAY;
+	INITIALDELAY,
+	AUTORESTART;
 
 	@Override
 	public String toString() {

@@ -8,6 +8,7 @@ public class ExecutionTarget {
 	private final String name;
 	private final Class<? extends Object> klass;
 	private TargetOptions options;
+	private boolean autoRestart;
 
 
 	public static String canonicalizeName(String name) {
@@ -56,6 +57,16 @@ public class ExecutionTarget {
 
 	public void setOptions(TargetOptions jvmoptions) {
 		this.options = jvmoptions;
+	}
+
+
+	public boolean isAutoRestart() {
+		return autoRestart;
+	}
+
+
+	public void setAutoRestart(boolean autoRestart) {
+		this.autoRestart = autoRestart;
 	}
 
 }

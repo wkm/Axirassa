@@ -60,6 +60,9 @@ public class ExecutionMonitor implements Runnable {
 				remainingRestarts--;
 
 				process.waitFor();
+
+				if (!target.isAutoRestart())
+					return;
 			} catch (InterruptedException e) {
 				System.out.println("ExecutionMonitor interrupted.");
 				return;
