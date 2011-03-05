@@ -28,6 +28,10 @@ public class DatabaseMigrateService {
 
 		ResourceAccessor resourceAccessor = new ClassLoaderResourceAccessor(classloader);
 		Liquibase liquibase = new Liquibase(MASTER_CHANGELOG, resourceAccessor, target);
+
+		System.out.println("\n\n\n\n\n\n\n\n");
+		System.out.println("LIQUIBASE EXECUTING DATABASE MIGRATION");
+		System.out.println("=============================================");
 		liquibase.update("");
 	}
 }
