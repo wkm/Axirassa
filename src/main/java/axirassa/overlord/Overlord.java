@@ -30,7 +30,6 @@ public class Overlord {
 
 
 	public static void main(String[] parameters) throws OverlordException, IOException, InterruptedException {
-		System.out.println("Ax|Overlord Starting");
 		Overlord overlord = new Overlord();
 		overlord.addShutdownHooks();
 
@@ -55,9 +54,6 @@ public class Overlord {
 		URL configfile = ClassLoader.getSystemResource(CONFIGURATION_FILE);
 		if (configfile == null)
 			throw new NoOverlordConfigurationException(CONFIGURATION_FILE);
-
-		System.out.println("Overlord configuration found at: " + configfile.getPath());
-
 		InputStream configstream = ClassLoader.getSystemResourceAsStream(CONFIGURATION_FILE);
 
 		configuration = new OverlordConfiguration(this);

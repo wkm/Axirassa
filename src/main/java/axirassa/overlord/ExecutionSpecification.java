@@ -37,7 +37,6 @@ public class ExecutionSpecification {
 
 	public void execute() throws IOException, InterruptedException {
 		if (initialDelay > 0) {
-			System.out.println("Pausing for " + initialDelay + "ms");
 			Thread.sleep(initialDelay);
 		}
 
@@ -67,7 +66,6 @@ public class ExecutionSpecification {
 
 		// set the library path, if applicable
 		if (target.getOptions().needsLibraries()) {
-			System.out.println("NEEDS LIBRARIES");
 			NativeLibraryProvider libprovider = configuration.getOverlord().getNativeLibraryProvider();
 
 			String path = libprovider.getLibraryPath();
