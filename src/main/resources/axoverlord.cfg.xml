@@ -74,7 +74,7 @@
 		<jvmoption name="Xmx" value="16m" />
 	</target>
 	
-	<target name="AxDatabaseMigrate" class="axirassa.services.DatabaseMigrateService" />
+	<!-- <target name="AxDatabaseMigrate" class="axirassa.services.DatabaseMigrateService" /> -->
 	<target name="AxDatabaseDelta" class="axirassa.services.DatabaseDeltaService" />
 	
 	
