@@ -50,7 +50,7 @@ label.long {
 .txtinput {
 	font-family: Verdana,sans-serif;
 	border: 1px solid rgb(48, 56, 68);
-	border-bottom-color: #aaa;
+	border-bottom-color: rgb(18, 21, 26);
 	
 	border-radius: 2px;
 	
