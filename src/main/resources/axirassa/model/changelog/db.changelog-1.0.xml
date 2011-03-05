@@ -156,7 +156,7 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="password" type="bytea(255)">
+            <column name="password" type="bytea">
                 <constraints nullable="false"/>
             </column>
             <column name="salt" type="varchar(255)">
