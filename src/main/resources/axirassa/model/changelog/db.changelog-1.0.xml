@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="wiktor (generated)" id="1299311738031-1">
+        <createTable tableName="Accounts">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="AccountsPK"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-2">
+        <createTable tableName="AccountUsers">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="AccountUsersPK"/>
+            </column>
+            <column name="role" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_id" type="bigint"/>
+            <column name="user_user_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-3">
+        <createTable tableName="feedback">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="feedbackPK"/>
+            </column>
+            <column name="comment" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="useragent" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_user_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-4">
+        <createTable tableName="HttpStatistics">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="HttpStatisticPK"/>
+            </column>
+            <column name="latency" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="responseSize" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="responseTime" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="statusCode" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="timestamp" type="datetime"/>
+            <column name="uncompressedSize" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pinger_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-5">
+        <createTable tableName="MonitorTypes">
+            <column name="type_id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="MonitorTypesPK"/>
+            </column>
+            <column name="type" type="int4">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-6">
+        <createTable tableName="PasswordResetTokens">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PasswordResetPK"/>
+            </column>
+            <column name="expiration" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-7">
+        <createTable tableName="Pingers">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PingersPK"/>
+            </column>
+            <column name="frequency" type="int4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="URL" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-8">
+        <createTable tableName="Pingers_MonitorTypes">
+            <column name="Pingers_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="monitorType_type_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-9">
+        <createTable tableName="UserPhoneNumbers">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="UserPhoneNumbPK"/>
+            </column>
+            <column name="acceptingSms" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="acceptingVoice" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="confirmed" type="bool">
+                <constraints nullable="false"/>
+            </column>
+            <column name="extension" type="varchar(255)"/>
+            <column name="phoneNumber" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-10">
+        <createTable tableName="Users">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="UsersPK"/>
+            </column>
+            <column name="active" type="bool"/>
+            <column name="confirmed" type="bool"/>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="bytea(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="salt" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="signupdate" type="datetime"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-11">
+        <addPrimaryKey columnNames="Pingers_id, monitorType_type_id" tableName="Pingers_MonitorTypes"/>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-12">
+        <createIndex indexName="UK1474AF2A6CFCC295" tableName="Pingers_MonitorTypes">
+            <column name="monitorType_type_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-13">
+        <createIndex indexName="_UniqueKey" tableName="Users">
+            <column name="email"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-14">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="AccountUsers" constraintName="FK4A4BBBFBE0AFED6A" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="Accounts" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-15">
+        <addForeignKeyConstraint baseColumnNames="user_user_id" baseTableName="AccountUsers" constraintName="FK4A4BBBFB233383BC" deferrable="false" initiallyDeferred="false" referencedColumnNames="user_id" referencedTableName="Users" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-16">
+        <addForeignKeyConstraint baseColumnNames="user_user_id" baseTableName="feedback" constraintName="FKF495EB85233383BC" deferrable="false" initiallyDeferred="false" referencedColumnNames="user_id" referencedTableName="Users" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-17">
+        <addForeignKeyConstraint baseColumnNames="pinger_id" baseTableName="HttpStatistics" constraintName="FKAB7B57EB5C9123F0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="Pingers" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-18">
+        <addForeignKeyConstraint baseColumnNames="user_user_id" baseTableName="PasswordResetTokens" constraintName="FK7408AE0E233383BC" deferrable="false" initiallyDeferred="false" referencedColumnNames="user_id" referencedTableName="Users" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-19">
+        <addForeignKeyConstraint baseColumnNames="user_user_id" baseTableName="Pingers" constraintName="FK415DD294233383BC" deferrable="false" initiallyDeferred="false" referencedColumnNames="user_id" referencedTableName="Users" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-20">
+        <addForeignKeyConstraint baseColumnNames="monitorType_type_id" baseTableName="Pingers_MonitorTypes" constraintName="FK1474AF2A1508FD59" deferrable="false" initiallyDeferred="false" referencedColumnNames="type_id" referencedTableName="MonitorTypes" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-21">
+        <addForeignKeyConstraint baseColumnNames="Pingers_id" baseTableName="Pingers_MonitorTypes" constraintName="FK1474AF2AC13BCEBB" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="Pingers" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-22">
+        <addForeignKeyConstraint baseColumnNames="user_user_id" baseTableName="UserPhoneNumbers" constraintName="FK356BC87233383BC" deferrable="false" initiallyDeferred="false" referencedColumnNames="user_id" referencedTableName="Users" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1299311738031-23">
+        <dropSequence schemaName="public" sequenceName="hibernate_sequence"/>
+    </changeSet>
+</databaseChangeLog>
