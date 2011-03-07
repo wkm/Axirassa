@@ -15,14 +15,10 @@ public class DatabaseValidationService {
 
 		Session session = HibernateTools.getLightweightSession();
 
-		System.out.println("Entity types: ");
-		for (ClassMetadata classmeta : classes.values())
-			System.out.println("\t" + classmeta.getEntityName());
-
 		System.out.println("Deep-validating each type: ");
 		for (ClassMetadata classmeta : classes.values()) {
 			System.out.println("\t" + classmeta.getEntityName());
-			Query query = session.createQuery("from " + classmeta.getEntityName());
+			Query query = session.createQuery("from " + classmeta.getEntityName() + " fetch all properties");
 			query.setMaxResults(0);
 			query.list();
 			System.out.println("\t\tVALID");
