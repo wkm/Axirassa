@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html t:type="layout" t:pageTitle="Register" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<t:AxForm t:id="form" t:title="Add Alternate E-Mail Address">
+		<p>
+			We will send an e-mail with a link to confirm this address.
+		</p>
+		<t:Errors/>
+		<t:AxTextField
+			t:id="emailField"
+			t:value="email" 
+			t:name="E-mail address"
+		/>
+		
+		<t:AxTextField
+			t:id="emailConfirmField"
+			t:value="emailConfirm"
+			t:name="Confirm"
+		/>	
+		
+		<t:AxSubmit label="Add e-mail address" />
+	</t:AxForm>
+</html>

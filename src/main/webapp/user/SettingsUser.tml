@@ -27,11 +27,32 @@
 		instead you can ((invite)) an unlimited number of people to this account.
 	</p>
 	<p>
-		<table class="data fixed">
+		<table class="fixed">
 			<tr>
-				<th>E-mail</th><th>Verified</th>
+				<th>E-mail</th><th>Verified</th><th></th>
+				<t:loop source="emails" value="email">
+					<tr>
+						<td style="width: 20em"><b>${email.email}</b></td>
+						<td class='img tight'>
+							<t:if test="${email.verified}">
+								<img src="/media/check.gif" alt="verified" />
+									
+								<p:else>
+									<img src="/media/alert.gif" alt="not-verified"/>
+								</p:else>
+							</t:if>
+						</td>
+						<td class='img tight'>
+							<t:pagelink t:page="user/DeleteEmailAddress" t:context="${email.id}">
+								<img src="/media/delete.gif" title="delete e-mail address" alt="delete e-mail address" />
+							</t:pagelink>
+						</td>
+					</tr>
+				</t:loop>
 			</tr>
 		</table>
+		
+		<t:pagelink t:mixins="AxButton" t:page="User/AddEmailAddress"><img src="/media/add.gif" /> Add E-Mail Address</t:pagelink>
 	</p>
 	
 	
@@ -42,7 +63,7 @@
 		them to be alerted. ((terrible language))
 	</p>
 	<p>
-		<table class="data fixed">
+		<table class="fixed">
 			<tr><th>Phone Number</th><th>Verified</th><th>Voice</th><th>SMS</th><th></th></tr>
 			<t:loop source="phoneNumbers" value="phoneNumber">
 				<tr>

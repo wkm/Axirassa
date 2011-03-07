@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="wiktor (generated)" id="1299482228393-1">
+        <createTable tableName="useremailaddressentity">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="UserEmailAddrPK"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="token" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet author="wiktor (generated)" id="1299482228393-6">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="useremailaddressentity" constraintName="FK279A5E06C843EC30" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="userentity" referencesUniqueColumn="false"/>
+    </changeSet>
+</databaseChangeLog>

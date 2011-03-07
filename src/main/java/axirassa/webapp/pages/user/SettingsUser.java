@@ -15,6 +15,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
 
+import axirassa.model.UserEmailAddressEntity;
 import axirassa.model.UserEntity;
 import axirassa.model.UserPhoneNumberEntity;
 import axirassa.model.exception.NoSaltException;
@@ -59,6 +60,12 @@ public class SettingsUser {
 		else
 			hasPhoneNumbers = false;
 
+		emails = UserEmailAddressEntity.getEmailsByUser(session, user);
+		if (emails.size() > 0)
+			hasAlternateEmails = true;
+		else
+			hasAlternateEmails = false;
+
 		return true;
 	}
 
@@ -71,6 +78,18 @@ public class SettingsUser {
 
 	@Component
 	private AxTextField primaryEmailField;
+
+	//
+	// E-Mails
+	//
+	@Property
+	private boolean hasAlternateEmails;
+
+	@Property
+	private List<UserEmailAddressEntity> emails;
+
+	@Property
+	private UserEmailAddressEntity email;
 
 	//
 	// Phone Numbers
