@@ -1,24 +1,32 @@
 
 package axirassa.services;
 
-import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.metadata.ClassMetadata;
 
-import axirassa.model.UserEntity;
 import axirassa.util.HibernateTools;
 
 public class DatabaseValidationService {
 	public static void main(String[] args) {
-		Session session = HibernateTools.getLightweightSession();
-		Query query = session.createQuery("from UserEntity");
-		List<UserEntity> users = query.list();
+		Map<String, ClassMetadata> classes = HibernateTools.getSessionFactory().getAllClassMetadata();
 
-		System.out.println("VALIDATED");
-		System.out.println("Users:");
-		for (UserEntity user : users)
-			System.out.println(user.getEmail());
+		Session session = HibernateTools.getLightweightSession();
+
+		System.out.println("Entity types: ");
+		for (ClassMetadata classmeta : classes.values())
+			System.out.println("\t" + classmeta.getEntityName());
+
+		System.out.println("Deep-validating each type: ");
+		for (ClassMetadata classmeta : classes.values()) {
+			System.out.println("\t" + classmeta.getEntityName());
+			Query query = session.createQuery("from " + classmeta.getEntityName());
+			query.setMaxResults(0);
+			query.list();
+			System.out.println("\t\tVALID");
+		}
 
 		return;
 	}
