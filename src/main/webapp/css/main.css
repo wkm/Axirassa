@@ -464,8 +464,8 @@ div.t-exception-report dl dt {
 }
 
 .t-location-outer {
-	background: #fafafa;
-	border: 1px solid #eee;
+	background: rgb(48, 56, 68);
+	border: 1px solid rgb(18, 21, 26);
 }
 
 .t-location-content {
