@@ -127,7 +127,7 @@
             <column name="${tbl.PingerEntity}_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="monitorType_id" type="bigint">
+            <column name="monitortype_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -187,11 +187,11 @@
     
     
     <changeSet author="wiktor (generated)" id="1299464227994-11">
-        <addPrimaryKey columnNames="${tbl.PingerEntity}_id, monitorType_id" tableName="${tbl.PingerEntity}_${tbl.MonitorTypeEntity}"/>
+        <addPrimaryKey columnNames="${tbl.PingerEntity}_id, monitortype_id" tableName="${tbl.PingerEntity}_${tbl.MonitorTypeEntity}"/>
     </changeSet>
     <changeSet author="wiktor (generated)" id="1299464227994-12">
         <createIndex indexName="UK1474AF2AC149A6" tableName="${tbl.PingerEntity}_${tbl.MonitorTypeEntity}">
-            <column name="monitorType_id"/>
+            <column name="monitortype_id"/>
         </createIndex>
     </changeSet>
     <changeSet author="wiktor (generated)" id="1299464227994-13">
@@ -218,7 +218,7 @@
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="${tbl.PingerEntity}" constraintName="FK415DD294C843EC30" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="${tbl.UserEntity}" referencesUniqueColumn="false"/>
     </changeSet>
     <changeSet author="wiktor (generated)" id="1299464227994-20">
-        <addForeignKeyConstraint baseColumnNames="monitorType_id" baseTableName="${tbl.PingerEntity}_${tbl.MonitorTypeEntity}" constraintName="FK1474AF2AA8CD846A" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="${tbl.MonitorTypeEntity}" referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="monitortype_id" baseTableName="${tbl.PingerEntity}_${tbl.MonitorTypeEntity}" constraintName="FK1474AF2AA8CD846A" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="${tbl.MonitorTypeEntity}" referencesUniqueColumn="false"/>
     </changeSet>
     <changeSet author="wiktor (generated)" id="1299464227994-21">
         <addForeignKeyConstraint baseColumnNames="${tbl.PingerEntity}_id" baseTableName="${tbl.PingerEntity}_${tbl.MonitorTypeEntity}" constraintName="FK1474AF2AC13BCEBB" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="${tbl.PingerEntity}" referencesUniqueColumn="false"/>
