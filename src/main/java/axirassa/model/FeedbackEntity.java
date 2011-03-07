@@ -30,7 +30,7 @@ public class FeedbackEntity implements Serializable, EntityPreSave {
 	//
 
 	public static List<FeedbackEntity> getAllFeedback(Session session) {
-		Query query = session.getNamedQuery("feedback_with_users");
+		Query query = session.getNamedQuery("unposted_feedback_with_users");
 		return query.list();
 	}
 
