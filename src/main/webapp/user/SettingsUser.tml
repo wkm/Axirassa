@@ -32,6 +32,8 @@
 				<th>E-mail</th><th>Verified</th>
 			</tr>
 		</table>
+		
+		<t:pagelink t:mixins="AxButton" t:page="User/AddEmailAddress"><img src="/media/add.gif" /> Add E-Mail Address</t:pagelink>
 	</p>
 	
 	
