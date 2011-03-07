@@ -79,25 +79,11 @@
 			<version>${httpcomponents-release-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.hyperic</groupId>
-			<artifactId>sigar</artifactId>
-			<version>1.6.3.82</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.jnetpcap</groupId>
 			<artifactId>jnetpcap</artifactId>
 			<version>1.3b1-2</version>
 			<scope>system</scope>
 			<systemPath>${basedir}/src/main/libraries/jnetpcap-1.3b1-2.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.directwebremoting</groupId>
-			<artifactId>dwr</artifactId>
-			<version>3.0.M1</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/libraries/dwr-3.0.M1-direct.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -183,13 +169,6 @@
 			<groupId>org.cometd.java</groupId>
 			<artifactId>cometd-java-client</artifactId>
 			<version>${cometd-release-version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.antlr</groupId>
-			<artifactId>stringtemplate</artifactId>
-			<version>3.2.1</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

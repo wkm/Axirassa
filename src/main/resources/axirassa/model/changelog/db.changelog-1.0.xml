@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-    <changeSet author="wiktor (generated)" id="1299314445927-1">
-        <createTable tableName="accounts">
+	<property name="tbl.AccountEntity" value="accountentity"/>
+	<property name="tbl.AccountUserEntity" value="accountuserentity"/>
+	<property name="tbl.FeedbackEntity" value="feedbackentity"/>
+	<property name="tbl.HttpStatisticsEntity" value="httpstatisticsentity"/>
+	<property name="tbl.MonitorTypeEntity" value="monitortypeentity"/>
+	<property name="tbl.PasswordResetTokenEntity" value="passwordresettokenentity" />
+	<property name="tbl.PingerEntity" value="pingerentity" />
+	<property name="tbl.UserPhoneNumberEntity" value="userphonenumberentity" />
+	<property name="tbl.UserEntity" value="userentity" />
+
+    <changeSet author="wiktor (generated)" id="1299464227994-1">
+        <createTable tableName="${tbl.AccountEntity}">
             <column name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="AccountsPK"/>
             </column>
@@ -10,8 +20,8 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-2">
-        <createTable tableName="accountusers">
+    <changeSet author="wiktor (generated)" id="1299464227994-2">
+        <createTable tableName="${tbl.AccountUserEntity}">
             <column name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="AccountUsersPK"/>
             </column>
@@ -19,11 +29,11 @@
                 <constraints nullable="false"/>
             </column>
             <column name="account_id" type="bigint"/>
-            <column name="user_user_id" type="bigint"/>
+            <column name="user_id" type="bigint"/>
         </createTable>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-3">
-        <createTable tableName="feedback">
+    <changeSet author="wiktor (generated)" id="1299464227994-3">
+        <createTable tableName="${tbl.FeedbackEntity}">
             <column name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="feedbackPK"/>
             </column>
@@ -36,38 +46,37 @@
             <column name="useragent" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="user_user_id" type="bigint"/>
+            <column name="user_id" type="bigint"/>
         </createTable>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-4">
-        <createTable tableName="httpstatistics">
+    
+    <changeSet author="wiktor (generated)" id="1299464227994-4">
+        <createTable tableName="${tbl.HttpStatisticsEntity}">
             <column name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="HttpStatisticPK"/>
             </column>
             <column name="latency" type="int4">
                 <constraints nullable="false"/>
             </column>
-            <column name="responseSize" type="bigint">
+            <column name="responsesize" type="bigint"/>
+            <column name="responsetime" type="int4">
                 <constraints nullable="false"/>
             </column>
-            <column name="responseTime" type="int4">
-                <constraints nullable="false"/>
-            </column>
-            <column name="statusCode" type="int4">
+            <column name="statuscode" type="int4">
                 <constraints nullable="false"/>
             </column>
             <column name="timestamp" type="datetime"/>
-            <column name="uncompressedSize" type="bigint">
-                <constraints nullable="false"/>
-            </column>
+            <column name="uncompressedsize" type="bigint"/>
             <column name="pinger_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-5">
-        <createTable tableName="monitortypes">
-            <column name="type_id" type="bigint">
+    
+    
+    <changeSet author="wiktor (generated)" id="1299464227994-5">
+        <createTable tableName="${tbl.MonitorTypeEntity}">
+            <column name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="MonitorTypesPK"/>
             </column>
             <column name="type" type="int4">
@@ -75,8 +84,10 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-6">
-        <createTable tableName="passwordresettokens">
+    
+    
+    <changeSet author="wiktor (generated)" id="1299464227994-6">
+        <createTable tableName="${tbl.PasswordResetTokenEntity}">
             <column name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="PasswordResetPK"/>
             </column>
@@ -86,66 +97,74 @@
             <column name="token" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="user_user_id" type="bigint">
+            <column name="user_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-7">
-        <createTable tableName="pingers">
+    
+    
+    <changeSet author="wiktor (generated)" id="1299464227994-7">
+        <createTable tableName="${tbl.PingerEntity}">
             <column name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="PingersPK"/>
             </column>
             <column name="frequency" type="int4">
                 <constraints nullable="false"/>
             </column>
-            <column name="URL" type="varchar(255)">
+            <column name="url" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="user_user_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-8">
-        <createTable tableName="pingers_monitortypes">
-            <column name="Pingers_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="monitorType_type_id" type="bigint">
+            <column name="user_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-9">
-        <createTable tableName="userphonenumbers">
+    
+    
+    <changeSet author="wiktor (generated)" id="1299464227994-8">
+        <createTable tableName="${tbl.PingerEntity}_${tbl.MonitorTypeEntity}">
+            <column name="${tbl.PingerEntity}_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="monitortype_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
+    
+    <changeSet author="wiktor (generated)" id="1299464227994-9">
+        <createTable tableName="${tbl.UserPhoneNumberEntity}">
             <column name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="UserPhoneNumbPK"/>
             </column>
-            <column name="acceptingSms" type="bool">
+            <column name="acceptingsms" type="bool">
                 <constraints nullable="false"/>
             </column>
-            <column name="acceptingVoice" type="bool">
+            <column name="acceptingvoice" type="bool">
                 <constraints nullable="false"/>
             </column>
             <column name="confirmed" type="bool">
                 <constraints nullable="false"/>
             </column>
             <column name="extension" type="varchar(255)"/>
-            <column name="phoneNumber" type="varchar(255)">
+            <column name="phonenumber" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="token" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="user_user_id" type="bigint">
+            <column name="user_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-10">
-        <createTable tableName="users">
-            <column name="user_id" type="bigint">
+    
+    
+    <changeSet author="wiktor (generated)" id="1299464227994-10">
+        <createTable tableName="${tbl.UserEntity}">
+            <column name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="UsersPK"/>
             </column>
             <column name="active" type="bool"/>
@@ -165,47 +184,49 @@
             <column name="signupdate" type="datetime"/>
         </createTable>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-11">
-        <addPrimaryKey columnNames="Pingers_id, monitorType_type_id" tableName="pingers_monitortypes"/>
+    
+    
+    <changeSet author="wiktor (generated)" id="1299464227994-11">
+        <addPrimaryKey columnNames="${tbl.PingerEntity}_id, monitortype_id" tableName="${tbl.PingerEntity}_${tbl.MonitorTypeEntity}"/>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-12">
-        <createIndex indexName="UK1474AF2A6CFCC295" tableName="pingers_monitortypes">
-            <column name="monitorType_type_id"/>
+    <changeSet author="wiktor (generated)" id="1299464227994-12">
+        <createIndex indexName="UK1474AF2AC149A6" tableName="${tbl.PingerEntity}_${tbl.MonitorTypeEntity}">
+            <column name="monitortype_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-13">
-        <createIndex indexName="_UniqueKey" tableName="users">
+    <changeSet author="wiktor (generated)" id="1299464227994-13">
+        <createIndex indexName="_UniqueKey" tableName="${tbl.UserEntity}">
             <column name="email"/>
         </createIndex>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-14">
-        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="accountusers" constraintName="FK4A4BBBFBE0AFED6A" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="accounts" referencesUniqueColumn="false"/>
+    <changeSet author="wiktor (generated)" id="1299464227994-14">
+        <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="${tbl.AccountUserEntity}" constraintName="FK4A4BBBFBE0AFED6A" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="${tbl.AccountEntity}" referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-15">
-        <addForeignKeyConstraint baseColumnNames="user_user_id" baseTableName="accountusers" constraintName="FK4A4BBBFB233383BC" deferrable="false" initiallyDeferred="false" referencedColumnNames="user_id" referencedTableName="users" referencesUniqueColumn="false"/>
+    <changeSet author="wiktor (generated)" id="1299464227994-15">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="${tbl.AccountUserEntity}" constraintName="FK4A4BBBFBC843EC30" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="${tbl.UserEntity}" referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-16">
-        <addForeignKeyConstraint baseColumnNames="user_user_id" baseTableName="feedback" constraintName="FKF495EB85233383BC" deferrable="false" initiallyDeferred="false" referencedColumnNames="user_id" referencedTableName="users" referencesUniqueColumn="false"/>
+    <changeSet author="wiktor (generated)" id="1299464227994-16">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="${tbl.FeedbackEntity}" constraintName="FKF495EB85C843EC30" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="${tbl.UserEntity}" referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-17">
-        <addForeignKeyConstraint baseColumnNames="pinger_id" baseTableName="httpstatistics" constraintName="FKAB7B57EB5C9123F0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="pingers" referencesUniqueColumn="false"/>
+    <changeSet author="wiktor (generated)" id="1299464227994-17">
+        <addForeignKeyConstraint baseColumnNames="pinger_id" baseTableName="${tbl.HttpStatisticsEntity}" constraintName="FKAB7B57EB5C9123F0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="${tbl.PingerEntity}" referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-18">
-        <addForeignKeyConstraint baseColumnNames="user_user_id" baseTableName="passwordresettokens" constraintName="FK7408AE0E233383BC" deferrable="false" initiallyDeferred="false" referencedColumnNames="user_id" referencedTableName="users" referencesUniqueColumn="false"/>
+    <changeSet author="wiktor (generated)" id="1299464227994-18">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="${tbl.PasswordResetTokenEntity}" constraintName="FK7408AE0EC843EC30" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="${tbl.UserEntity}" referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-19">
-        <addForeignKeyConstraint baseColumnNames="user_user_id" baseTableName="pingers" constraintName="FK415DD294233383BC" deferrable="false" initiallyDeferred="false" referencedColumnNames="user_id" referencedTableName="users" referencesUniqueColumn="false"/>
+    <changeSet author="wiktor (generated)" id="1299464227994-19">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="${tbl.PingerEntity}" constraintName="FK415DD294C843EC30" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="${tbl.UserEntity}" referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-20">
-        <addForeignKeyConstraint baseColumnNames="monitorType_type_id" baseTableName="pingers_monitortypes" constraintName="FK1474AF2A1508FD59" deferrable="false" initiallyDeferred="false" referencedColumnNames="type_id" referencedTableName="monitortypes" referencesUniqueColumn="false"/>
+    <changeSet author="wiktor (generated)" id="1299464227994-20">
+        <addForeignKeyConstraint baseColumnNames="monitortype_id" baseTableName="${tbl.PingerEntity}_${tbl.MonitorTypeEntity}" constraintName="FK1474AF2AA8CD846A" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="${tbl.MonitorTypeEntity}" referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-21">
-        <addForeignKeyConstraint baseColumnNames="Pingers_id" baseTableName="pingers_monitortypes" constraintName="FK1474AF2AC13BCEBB" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="pingers" referencesUniqueColumn="false"/>
+    <changeSet author="wiktor (generated)" id="1299464227994-21">
+        <addForeignKeyConstraint baseColumnNames="${tbl.PingerEntity}_id" baseTableName="${tbl.PingerEntity}_${tbl.MonitorTypeEntity}" constraintName="FK1474AF2AC13BCEBB" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="${tbl.PingerEntity}" referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet author="wiktor (generated)" id="1299314445927-22">
-        <addForeignKeyConstraint baseColumnNames="user_user_id" baseTableName="userphonenumbers" constraintName="FK356BC87233383BC" deferrable="false" initiallyDeferred="false" referencedColumnNames="user_id" referencedTableName="users" referencesUniqueColumn="false"/>
+    <changeSet author="wiktor (generated)" id="1299464227994-22">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="${tbl.UserPhoneNumberEntity}" constraintName="FK356BC87C843EC30" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="${tbl.UserEntity}" referencesUniqueColumn="false"/>
     </changeSet>
-    
+   
     <changeSet author="wiktor" id="1299314445927-23">
     	<createSequence sequenceName="hibernate_sequence" />
     </changeSet>

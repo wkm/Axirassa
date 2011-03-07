@@ -7,5 +7,6 @@
 	>
 
 	<include file="axirassa/model/changelog/db.changelog-1.0.xml" />
+	<include file="axirassa/model/changelog/db.changelog-1.0.1-permanentFeedback.xml" />
 
 </databaseChangeLog>

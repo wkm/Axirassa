@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -20,7 +19,6 @@ import axirassa.util.AutoSerializingObject;
 import axirassa.util.RandomStringGenerator;
 
 @Entity
-@Table(name = "UserPhoneNumbers")
 public class UserPhoneNumberEntity extends AutoSerializingObject implements Serializable, EntityPreSave, EntityWithUser {
 	private static final long serialVersionUID = 1344815747977623929L;
 
