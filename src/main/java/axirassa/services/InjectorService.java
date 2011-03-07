@@ -55,7 +55,6 @@ public class InjectorService implements Service {
 	@Override
 	public void execute() throws Exception {
 		ClientConsumer consumer = messagingSession.createConsumer(Messaging.PINGER_RESPONSE_QUEUE);
-		System.out.println("Starting messaging session");
 		messagingSession.start();
 
 		ArrayList<HttpStatisticsEntity> entities = new ArrayList<HttpStatisticsEntity>();
@@ -70,8 +69,6 @@ public class InjectorService implements Service {
 
 		consumer.close();
 		messagingSession.stop();
-
-		System.out.println("Consumed " + entities.size() + " entities");
 
 		databaseSession.beginTransaction();
 		int entityCounter = 0;
