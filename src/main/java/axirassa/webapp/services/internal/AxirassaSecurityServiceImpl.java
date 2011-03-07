@@ -2,9 +2,11 @@
 package axirassa.webapp.services.internal;
 
 import org.apache.shiro.subject.Subject;
+import org.hibernate.Session;
 import org.tynamo.security.services.SecurityService;
 
 import axirassa.model.EntityWithUser;
+import axirassa.model.UserEntity;
 import axirassa.webapp.services.AxirassaSecurityService;
 import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 
@@ -55,6 +57,16 @@ public class AxirassaSecurityServiceImpl implements AxirassaSecurityService {
 
 		if (!getEmail().equals(entity.getUser().getEmail()))
 			throw new AxirassaSecurityException();
+	}
+
+
+	@Override
+	public UserEntity getUserEntity(Session database) {
+		String email = getEmail();
+		if (email == null)
+			return null;
+
+		return UserEntity.getUserByEmail(database, getEmail());
 	}
 
 }
