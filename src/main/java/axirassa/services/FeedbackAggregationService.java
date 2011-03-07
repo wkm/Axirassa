@@ -46,7 +46,8 @@ public class FeedbackAggregationService implements Service {
 
 			// delete feedback
 			for (FeedbackEntity entity : feedback) {
-				session.delete(entity);
+				entity.setPosted(true);
+				session.update(entity);
 			}
 
 			session.getTransaction().commit();

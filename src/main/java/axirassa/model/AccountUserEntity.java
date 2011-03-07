@@ -12,13 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 @Entity
-@Table(name = "AccountUsers")
 public class AccountUserEntity implements Serializable {
 	private static final long serialVersionUID = -1634641083458982998L;
 

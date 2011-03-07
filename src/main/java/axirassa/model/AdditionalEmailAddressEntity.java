@@ -6,13 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import axirassa.model.interceptor.EntityPreSave;
 import axirassa.util.AutoSerializingObject;
 
 @Entity
-@Table(name = "AdditionalEmailAddresses")
 public class AdditionalEmailAddressEntity extends AutoSerializingObject implements EntityPreSave, EntityWithUser {
 
 	//
