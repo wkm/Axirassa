@@ -9,12 +9,10 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -29,7 +27,6 @@ import axirassa.util.MessageDigestProvider;
 import axirassa.util.RandomStringGenerator;
 
 @Entity
-@Table(name = "Users")
 public class UserEntity extends AutoSerializingObject implements Serializable, EntityPreSave {
 	private static final long serialVersionUID = 1375674968928774909L;
 
@@ -92,7 +89,6 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	@Id
 	@Basic(optional = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "user_id")
 	private Long id;
 
 
@@ -108,7 +104,6 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 
 	// NAME
 	@Basic(optional = false)
-	@Column(name = "name")
 	private String name;
 
 
@@ -124,7 +119,6 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 
 	// SALT
 	@Basic(optional = false)
-	@Column(name = "salt")
 	private String salt;
 
 
@@ -146,7 +140,6 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 
 	// PASSWORD
 	@Basic(optional = false)
-	@Column(name = "password")
 	private byte[] password;
 
 
@@ -208,7 +201,6 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	// SIGN UP DATE
 	@Basic
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "signupdate")
 	private Date signupdate;
 
 
@@ -225,7 +217,6 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	// EMAIL
 	@NaturalId
 	@Basic(optional = false)
-	@Column(name = "email")
 	private String email;
 
 

@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -22,7 +21,6 @@ import org.hibernate.Session;
 import axirassa.model.interceptor.EntityPreSave;
 
 @Entity
-@Table(name = "feedback")
 public class FeedbackEntity implements Serializable, EntityPreSave {
 	private static final long serialVersionUID = 1535970389033283812L;
 
@@ -117,6 +115,20 @@ public class FeedbackEntity implements Serializable, EntityPreSave {
 	public String getFormattedDate() {
 		SimpleDateFormat format = new SimpleDateFormat("h:m:s a");
 		return format.format(getDate());
+	}
+
+
+	@Basic(optional = false)
+	private boolean posted;
+
+
+	public boolean isPosted() {
+		return posted;
+	}
+
+
+	public void setPosted(boolean posted) {
+		this.posted = posted;
 	}
 
 

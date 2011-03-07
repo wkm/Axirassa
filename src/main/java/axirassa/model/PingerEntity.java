@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -22,7 +20,6 @@ import org.hibernate.Session;
 import axirassa.util.AutoSerializingObject;
 
 @Entity
-@Table(name = "Pingers")
 public class PingerEntity extends AutoSerializingObject implements Serializable, EntityWithUser {
 	private static final long serialVersionUID = -6709719920544228167L;
 
@@ -90,7 +87,6 @@ public class PingerEntity extends AutoSerializingObject implements Serializable,
 
 	// URL
 	@Basic(optional = false)
-	@Column(name = "URL")
 	private String url;
 
 
@@ -108,7 +104,6 @@ public class PingerEntity extends AutoSerializingObject implements Serializable,
 	 * The number of seconds between checks
 	 */
 	@Basic(optional = false)
-	@Column(name = "frequency")
 	private int frequency;
 
 
