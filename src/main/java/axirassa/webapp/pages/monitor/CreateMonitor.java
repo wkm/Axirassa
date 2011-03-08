@@ -62,8 +62,6 @@ public class CreateMonitor {
 
 		if (httpMonitor)
 			monitortypes.add(new MonitorTypeEntity(MonitorType.HTTP));
-		if (httpsMonitor)
-			monitortypes.add(new MonitorTypeEntity(MonitorType.HTTPS));
 		if (icmpMonitor)
 			monitortypes.add(new MonitorTypeEntity(MonitorType.ICMP_PING));
 
