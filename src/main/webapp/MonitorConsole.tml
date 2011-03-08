@@ -20,6 +20,11 @@
 		<script type="text/javascript" src="/js/cometd/dojox_HttpStreamingTransport.js"></script>
 	</head>
 
+	<t:pagelink t:mixins="AxButton" t:page="monitor/create">
+		<img src="/media/add.gif" /> Add Monitor
+	</t:pagelink>
+	<div class="reset"></div>
+	
 	<t:loop source="pingers" value="pinger">
 		<t:AxMonitorWidget t:pingerId="${pinger.id}"/>
 	</t:loop>
