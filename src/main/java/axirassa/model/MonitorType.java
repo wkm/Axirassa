@@ -3,6 +3,8 @@ package axirassa.model;
 
 public enum MonitorType {
 	HTTP,
-	HTTPS,
-	ICMP_PING;
+	ICMP_PING,
+	IMAP,
+	POP,
+	SMTP;
 }
