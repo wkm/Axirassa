@@ -2,8 +2,9 @@
 package axirassa.model;
 
 public enum UserRole {
-	ADMINISTRATOR,
+	OWNER,
+	ADMIN,
 	BILLING,
 	TECHINCAL,
-	PUBLIC;
+	VIEWER;
 }
