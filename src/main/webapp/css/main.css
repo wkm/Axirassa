@@ -29,7 +29,7 @@ html,body { height: 100%; }
 
 
 body {
-	font-family: DINWebMedium,'helvetica neue', helvetica, tahoma, verdana, sans-serif;
+	font-family: 'helvetica neue', helvetica, tahoma, verdana, sans-serif;
 	font-size: 13pt;
 	
 	text-rendering: optimizeLegibility;
