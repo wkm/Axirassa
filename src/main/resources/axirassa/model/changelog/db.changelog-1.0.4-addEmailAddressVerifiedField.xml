@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+	<!--  add the column -->
     <changeSet author="wiktor (generated)" id="1299484490617-1">
-    
-    	<!--  add the column -->
         <addColumn tableName="useremailaddressentity">
             <column name="verified" type="bool" defaultValueBoolean="false"/>
         </addColumn>
+    </changeSet>
+    
+    <!-- fix lack of not null constraint on the UserEmailAddressEntity.verified field  -->
+	<changeSet author="wiktor (generated)" id="1299549059336-2">
+        <addNotNullConstraint columnDataType="bool" columnName="verified" tableName="useremailaddressentity"/>
+        <dropDefaultValue tableName="useremailaddressentity" columnName="verified"/>
     </changeSet>
 </databaseChangeLog>

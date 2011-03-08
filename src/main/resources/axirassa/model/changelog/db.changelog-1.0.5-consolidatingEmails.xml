@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+    <!-- we're moving all e-mail addresses into a single table (where previously 
+    	 identifier e-mail addresses were kept inside the UserEntity table) -->
+    
+    <changeSet author="wiktor (generated)" id="1299549059336-1">
+    
+    	<!-- add a primary flag column -->
+        <addColumn tableName="useremailaddressentity">
+            <column name="primaryemail" type="bool" />
+        </addColumn>
+        
+        <!-- set all existing e-mails as not primary -->
+        <update tableName="useremailaddressentity">
+        	<column name="primaryemail" valueBoolean="false" />
+        </update>
+        
+        <!-- make the flag not null -->
+        <addNotNullConstraint tableName="useremailaddressentity" columnName="primaryemail"/>
+    </changeSet>
+    
+    <!-- ensure all e-mail addresses are unique by using an index -->
+    <changeSet author="wiktor (generated)" id="1299549059336-4">
+        <createIndex indexName="_uniqueEmailKey" tableName="useremailaddressentity">
+            <column name="email"/>
+        </createIndex>
+    </changeSet>
+    
+    <!-- copy  -->
+    <changeSet author="wiktor" id="1299549059336-4b">
+    	<sql>
+    		INSERT INTO UserEmailAddressEntity
+    			(id, email, token, user_id, verified, primaryEmail)
+ 			SELECT 
+				-- generate a unique ID
+				nextval('hibernate_sequence'), 
+			
+				-- extract the user's e-mail
+				UserEntity.email, 
+			
+				-- a random token
+				to_char((10*10^32 * random()), '999999999999999999999999999999999'),
+			
+				-- the user's existing ID
+				UserEntity.id,
+			
+				-- make all of these e-mails validated
+				true,
+			
+				-- yes these are primary emails
+				true
+			FROM UserEntity
+    	</sql>
+    </changeSet>
+    
+    <!-- drop the unique index for user entities -->
+    <changeSet author="wiktor (generated)" id="1299549059336-5">
+        <dropIndex indexName="_uniquekey" tableName="userentity" />
+    </changeSet>
+    
+    <!-- drop all e-mail addresses from the userentity table -->
+    <changeSet author="wiktor (generated)" id="1299549059336-6">
+        <dropColumn columnName="email" tableName="userentity" />
+    </changeSet>
+    
+    <!-- drop the unused name field for users -->
+    <changeSet author="wiktor" id="1299549059336-7">
+    	<dropColumn columnName="name" tableName="userentity" />
+    </changeSet>
+</databaseChangeLog>

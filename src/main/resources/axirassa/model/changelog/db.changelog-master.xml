@@ -11,5 +11,6 @@
 	<include file="axirassa/model/changelog/db.changelog-1.0.2-userEmailAddresses.xml" />
 	<include file="axirassa/model/changelog/db.changelog-1.0.3-fixHttpStatisticsNullability.xml" />
 	<include file="axirassa/model/changelog/db.changelog-1.0.4-addEmailAddressVerifiedField.xml" />
+	<include file="axirassa/model/changelog/db.changelog-1.0.5-consolidatingEmails.xml" />
 
 </databaseChangeLog>

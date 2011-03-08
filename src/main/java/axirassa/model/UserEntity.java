@@ -18,7 +18,6 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.annotations.NaturalId;
 
 import axirassa.model.exception.NoSaltException;
 import axirassa.model.interceptor.EntityPreSave;
@@ -99,21 +98,6 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-
-	// NAME
-	@Basic(optional = false)
-	private String name;
-
-
-	public String getName() {
-		return name;
-	}
-
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 
@@ -211,25 +195,6 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 
 	public void setSignUpDate(Date signupdate) {
 		this.signupdate = signupdate;
-	}
-
-
-	// EMAIL
-	@NaturalId
-	@Basic(optional = false)
-	private String email;
-
-
-	public String getEmail() {
-		return email;
-	}
-
-
-	public void setEmail(String email) {
-		this.email = email;
-
-		if (name == null)
-			name = email;
 	}
 
 

@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.annotations.NaturalId;
 
 import axirassa.model.interceptor.EntityPreSave;
 import axirassa.util.AutoSerializingObject;
@@ -76,6 +77,20 @@ public class UserEmailAddressEntity extends AutoSerializingObject implements Ent
 	}
 
 
+	@Basic(optional = false)
+	private boolean primaryEmail;
+
+
+	public boolean isPrimaryEmail() {
+		return primaryEmail;
+	}
+
+
+	public void setPrimaryEmail(boolean primaryEmail) {
+		this.primaryEmail = primaryEmail;
+	}
+
+
 	@ManyToOne(optional = false)
 	private UserEntity user;
 
@@ -91,6 +106,7 @@ public class UserEmailAddressEntity extends AutoSerializingObject implements Ent
 	}
 
 
+	@NaturalId
 	@Basic(optional = false)
 	private String email;
 
