@@ -48,7 +48,7 @@ label.long {
 }
 
 .txtinput {
-	font-family: Verdana,sans-serif;
+	font-family: Verdana, sans-serif;
 	border: 1px solid rgb(48, 56, 68);
 	border-bottom-color: rgb(18, 21, 26);
 	
@@ -64,8 +64,8 @@ label.long {
 .t-error, .errorMsg {
 	font-weight: bold;
 	
-	border: 1px solid rgb(232, 148, 0);
-	background: rgb(247, 242, 137);
+	border: 1px solid rgb(219, 65, 5);
+	background: rgb(255, 90, 10);
 }
 
 div.t-error {
