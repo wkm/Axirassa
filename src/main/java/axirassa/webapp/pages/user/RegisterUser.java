@@ -30,10 +30,10 @@ public class RegisterUser {
 	private Request request;
 
 	@Inject
-	private Session session;
+	private Session database;
 
 	@Inject
-	private EmailNotifyService emailPost;
+	private EmailNotifyService emailer;
 
 	@Property
 	private String email;
@@ -64,7 +64,7 @@ public class RegisterUser {
 	public JSONObject onAJAXValidateFromEmailField() {
 		String emailvalue = request.getParameter("param");
 
-		if (UserEntity.isEmailRegistered(session, emailvalue))
+		if (UserEntity.isEmailRegistered(database, emailvalue))
 			return new JSONObject().put("error", emailTakenMessage(emailvalue));
 
 		return new JSONObject();
@@ -83,23 +83,22 @@ public class RegisterUser {
 		if (email != null && confirmemail != null && !email.equals(confirmemail))
 			form.recordError(confirmEmailField, "E-mails do not match");
 
-		if (email != null && UserEntity.isEmailRegistered(session, email))
+		if (email != null && UserEntity.isEmailRegistered(database, email))
 			form.recordError(emailField, emailTakenMessage(email));
 	}
 
 
 	@CommitAfter
 	public Object onSuccessFromForm() throws NoSaltException, HornetQException, IOException {
-		emailPost.startMessage(EmailTemplate.USER_VERIFY_ACCOUNT);
-		emailPost.setToAddress(email);
-		emailPost.addAttribute("axlink", "http://localhost:8080/");
-		emailPost.send();
+		emailer.startMessage(EmailTemplate.USER_VERIFY_ACCOUNT);
+		emailer.setToAddress(email);
+		emailer.addAttribute("axlink", "http://localhost:8080/");
+		emailer.send();
 
 		UserEntity user = new UserEntity();
-		user.setEmail(email);
 		user.createPassword(password);
 
-		session.persist(user);
+		database.persist(user);
 
 		return LoginUser.class;
 	}
