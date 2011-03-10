@@ -4,13 +4,15 @@
       "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="axirasa.model">
 	<query name="user_is_email_registered">
-		select user.email from UserEntity as user
-		where 
-			user.email = :email
+		from UserEmailAddressEntity
+		where
+			email = :email
 	</query>
 	<query name="user_by_email">
-		from UserEntity
-		where 
-			email = :email
+		select email.user
+		from UserEmailAddressEntity as email
+		where
+			email.email = :email and
+			email.primaryEmail = true
 	</query>
 </hibernate-mapping>

@@ -53,12 +53,14 @@
 		
 		
 		<!-- Queries -->
+		<!-- 
 		<mapping resource="axirassa/model/UserEntityQueries.hbm.xml" />
 		<mapping resource="axirassa/model/PingerEntityQueries.hbm.xml" />
 		<mapping resource="axirassa/model/PasswordResetTokenEntityQueries.hbm.xml" />
 		<mapping resource="axirassa/model/UserPhoneNumberEntityQueries.hbm.xml" />
 		<mapping resource="axirassa/model/UserEmailAddressEntityQueries.hbm.xml" />
 		<mapping resource="axirassa/model/FeedbackEntityQueries.hbm.xml" />
+	    -->
 		
 		<!-- Events & Interceptors -->
 		<event type="save">

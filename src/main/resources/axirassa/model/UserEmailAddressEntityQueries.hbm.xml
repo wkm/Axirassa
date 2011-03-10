@@ -13,6 +13,12 @@
 		where 
 			user = :user
 	</query>
+	<query name="user_primary_email">
+		from UserEmailAddressEntity
+		where
+			user = :user,
+			primaryEmail = true			
+	</query>
 	<query name="email_by_token">
 		from UserEmailAddressEntity
 		where
