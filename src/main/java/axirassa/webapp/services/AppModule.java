@@ -6,13 +6,16 @@ import java.io.IOException;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.tapestry5.SymbolConstants;
+import org.apache.tapestry5.hibernate.HibernateTransactionAdvisor;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.MethodAdviceReceiver;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ScopeConstants;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Local;
+import org.apache.tapestry5.ioc.annotations.Match;
 import org.apache.tapestry5.ioc.annotations.Scope;
 import org.apache.tapestry5.ioc.services.PerthreadManager;
 import org.apache.tapestry5.ioc.services.PropertyShadowBuilder;
@@ -26,6 +29,14 @@ import org.slf4j.Logger;
 import org.tynamo.security.SecuritySymbols;
 import org.tynamo.security.services.SecurityService;
 
+import axirassa.dao.FeedbackDAO;
+import axirassa.dao.FeedbackDAOImpl;
+import axirassa.dao.PasswordResetTokenDAO;
+import axirassa.dao.PasswordResetTokenDAOImpl;
+import axirassa.dao.PingerDAO;
+import axirassa.dao.PingerDAOImpl;
+import axirassa.dao.UserEmailAddressDAO;
+import axirassa.dao.UserEmailAddressDAOImpl;
 import axirassa.webapp.services.internal.AxirassaSecurityServiceImpl;
 import axirassa.webapp.services.internal.EmailNotifyServiceImpl;
 import axirassa.webapp.services.internal.MessagingSessionManagerImpl;
@@ -51,6 +62,20 @@ public class AppModule {
 		// invoking the constructor.
 
 		binder.bind(AuthorizingRealm.class, EntityRealm.class);
+	}
+
+
+	public static void bindDAOs(ServiceBinder binder) {
+		binder.bind(FeedbackDAO.class, FeedbackDAOImpl.class);
+		binder.bind(PasswordResetTokenDAO.class, PasswordResetTokenDAOImpl.class);
+		binder.bind(PingerDAO.class, PingerDAOImpl.class);
+		binder.bind(UserEmailAddressDAO.class, UserEmailAddressDAOImpl.class);
+	}
+
+
+	@Match("*DAO")
+	public static void adviceTransactions(HibernateTransactionAdvisor advisor, MethodAdviceReceiver receiver) {
+		advisor.addTransactionCommitAdvice(receiver);
 	}
 
 

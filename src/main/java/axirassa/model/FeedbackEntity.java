@@ -4,7 +4,6 @@ package axirassa.model;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -15,25 +14,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-
 import axirassa.model.interceptor.EntityPreSave;
 
 @Entity
 public class FeedbackEntity implements Serializable, EntityPreSave {
 	private static final long serialVersionUID = 1535970389033283812L;
-
-
-	//
-	// STATIC
-	//
-
-	public static List<FeedbackEntity> getAllFeedback(Session session) {
-		Query query = session.getNamedQuery("unposted_feedback_with_users");
-		return query.list();
-	}
-
 
 	//
 	// INSTANCE

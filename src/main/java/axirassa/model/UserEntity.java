@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.security.MessageDigest;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -16,9 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-
 import axirassa.model.exception.NoSaltException;
 import axirassa.model.interceptor.EntityPreSave;
 import axirassa.util.AutoSerializingObject;
@@ -28,36 +24,6 @@ import axirassa.util.RandomStringGenerator;
 @Entity
 public class UserEntity extends AutoSerializingObject implements Serializable, EntityPreSave {
 	private static final long serialVersionUID = 1375674968928774909L;
-
-
-	//
-	// Static
-	//
-
-	public static boolean isEmailRegistered(Session session, String email) {
-		Query query = session.getNamedQuery("user_is_email_registered");
-		query.setString("email", email);
-
-		List results = query.list();
-		boolean isregistered = false;
-		if (results.size() > 0)
-			return true;
-
-		return isregistered;
-	}
-
-
-	public static UserEntity getUserByEmail(Session session, String email) {
-		Query query = session.getNamedQuery("user_by_email");
-		query.setString("email", email);
-
-		List<UserEntity> users = query.list();
-
-		if (users.size() <= 0)
-			return null;
-
-		return users.iterator().next();
-	}
 
 
 	public static byte[] hashPasswordWithSalt(String password, byte[] salt) {

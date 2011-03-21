@@ -1,8 +1,6 @@
 
 package axirassa.model;
 
-import java.util.List;
-
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,8 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.annotations.NaturalId;
 
 import axirassa.model.interceptor.EntityPreSave;
@@ -21,42 +17,6 @@ import axirassa.util.RandomStringGenerator;
 @Entity
 public class UserEmailAddressEntity extends AutoSerializingObject implements EntityPreSave, EntityWithUser {
 	private static final long serialVersionUID = 4776151084882073597L;
-
-
-	//
-	// Static
-	//
-
-	public static UserEmailAddressEntity getByIdWithUser(Session database, long id) {
-		Query query = database.getNamedQuery("email_by_id");
-		query.setLong("id", id);
-
-		List<UserEmailAddressEntity> emails = query.list();
-		if (emails.size() > 0)
-			return emails.iterator().next();
-		else
-			return null;
-	}
-
-
-	public static List<UserEmailAddressEntity> getEmailsByUser(Session database, UserEntity user) {
-		Query query = database.getNamedQuery("user_emails");
-		query.setEntity("user", user);
-		return query.list();
-	}
-
-
-	public static UserEmailAddressEntity getByToken(Session database, String token) {
-		Query query = database.getNamedQuery("email_by_token");
-		query.setString("token", token);
-
-		List<UserEmailAddressEntity> email = query.list();
-		if (email.size() == 0)
-			return null;
-		else
-			return email.iterator().next();
-	}
-
 
 	//
 	// Instance
