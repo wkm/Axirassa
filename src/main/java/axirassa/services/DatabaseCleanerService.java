@@ -1,20 +1,20 @@
 
 package axirassa.services;
 
+import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 
-import axirassa.model.PasswordResetTokenEntity;
-import axirassa.util.HibernateTools;
+import axirassa.dao.PasswordResetTokenDAO;
 import axirassa.util.MessagingTools;
+import axirassa.util.TapestryTools;
 
 public class DatabaseCleanerService implements Service {
 
-	private final Session session;
+	@Inject
+	private Session database;
 
-
-	public DatabaseCleanerService(Session session) {
-		this.session = session;
-	}
+	@Inject
+	private PasswordResetTokenDAO passwordTokens;
 
 
 	@Override
@@ -25,27 +25,23 @@ public class DatabaseCleanerService implements Service {
 
 
 	private void aggregateAndSendFeedback() throws Exception {
-		FeedbackAggregationService service = new FeedbackAggregationService(session,
+		FeedbackAggregationService service = new FeedbackAggregationService(database,
 		        MessagingTools.getEmbeddedSession());
 		service.execute();
 	}
 
 
 	private void removeExpiredTokens() {
-		session.beginTransaction();
+		database.beginTransaction();
 
-		int removed = PasswordResetTokenEntity.removeExpiredTokens(session);
+		int removed = passwordTokens.removeExpiredTokens();
 		System.out.println("Removed " + removed + " expired password tokens");
 
-		// removed = PhoneNumberTokenEntity.removeExpiredTokens(session);
-		// System.out.println("Removed " + removed +
-		// " expired phone number tokens");
-
-		session.getTransaction().commit();
+		database.getTransaction().commit();
 	}
 
 
 	public static void main(String[] args) throws Exception {
-		new DatabaseCleanerService(HibernateTools.getLightweightSession()).execute();
+		DatabaseCleanerService service = TapestryTools.autobuild(DatabaseCleanerService.class);
 	}
 }

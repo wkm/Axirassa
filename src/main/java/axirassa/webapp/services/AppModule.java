@@ -17,6 +17,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Local;
 import org.apache.tapestry5.ioc.annotations.Match;
 import org.apache.tapestry5.ioc.annotations.Scope;
+import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.apache.tapestry5.ioc.services.PerthreadManager;
 import org.apache.tapestry5.ioc.services.PropertyShadowBuilder;
 import org.apache.tapestry5.services.Request;
@@ -29,6 +30,7 @@ import org.slf4j.Logger;
 import org.tynamo.security.SecuritySymbols;
 import org.tynamo.security.services.SecurityService;
 
+import axirassa.dao.DAOModule;
 import axirassa.dao.FeedbackDAO;
 import axirassa.dao.FeedbackDAOImpl;
 import axirassa.dao.PasswordResetTokenDAO;
@@ -48,6 +50,7 @@ import axirassa.webapp.services.internal.VoiceNotifyServiceImpl;
  * it's a good place to configure and extend Tapestry, or to place your own
  * service definitions.
  */
+@SubModule({ DAOModule.class })
 public class AppModule {
 	@Inject
 	private Session session;
@@ -62,10 +65,7 @@ public class AppModule {
 		// invoking the constructor.
 
 		binder.bind(AuthorizingRealm.class, EntityRealm.class);
-	}
 
-
-	public static void bindDAOs(ServiceBinder binder) {
 		binder.bind(FeedbackDAO.class, FeedbackDAOImpl.class);
 		binder.bind(PasswordResetTokenDAO.class, PasswordResetTokenDAOImpl.class);
 		binder.bind(PingerDAO.class, PingerDAOImpl.class);
@@ -74,7 +74,7 @@ public class AppModule {
 
 
 	@Match("*DAO")
-	public static void adviceTransactions(HibernateTransactionAdvisor advisor, MethodAdviceReceiver receiver) {
+	public static void adviseTransactions(HibernateTransactionAdvisor advisor, MethodAdviceReceiver receiver) {
 		advisor.addTransactionCommitAdvice(receiver);
 	}
 

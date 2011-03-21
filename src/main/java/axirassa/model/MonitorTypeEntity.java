@@ -15,6 +15,7 @@ public class MonitorTypeEntity implements Serializable {
 
 
 	public MonitorTypeEntity() {
+		// simple pojo
 	}
 
 

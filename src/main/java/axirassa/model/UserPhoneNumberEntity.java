@@ -2,7 +2,6 @@
 package axirassa.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -11,9 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-
 import axirassa.model.interceptor.EntityPreSave;
 import axirassa.util.AutoSerializingObject;
 import axirassa.util.RandomStringGenerator;
@@ -21,31 +17,6 @@ import axirassa.util.RandomStringGenerator;
 @Entity
 public class UserPhoneNumberEntity extends AutoSerializingObject implements Serializable, EntityPreSave, EntityWithUser {
 	private static final long serialVersionUID = 1344815747977623929L;
-
-
-	//
-	// Static
-	//
-
-	public static List<UserPhoneNumberEntity> getPhoneNumbersByUser(Session session, UserEntity user) {
-		Query query = session.getNamedQuery("user_phonenumbers");
-		query.setEntity("user", user);
-
-		return query.list();
-	}
-
-
-	public static UserPhoneNumberEntity getByIdWithUser(Session session, Long id) {
-		Query query = session.getNamedQuery("phonenumber_by_id");
-		query.setLong("id", id);
-
-		List<UserPhoneNumberEntity> list = query.list();
-		if (list.size() == 0)
-			return null;
-		else
-			return list.iterator().next();
-	}
-
 
 	//
 	// Instance
