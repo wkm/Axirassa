@@ -1,6 +1,8 @@
-
 package axirassa.webapp.components;
 
+
+import axirassa.dao.PingerDAO;
+import axirassa.model.PingerEntity;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
@@ -8,11 +10,10 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.hibernate.Session;
 
-import axirassa.model.PingerEntity;
 
 @Import(
-        stylesheet = { "context:/css/axwidget.css" },
-        library = { "context:/js/dojo/dojo.js", "context:/js/axwidget.js" })
+		stylesheet = { "context:/css/axwidget.css" },
+		library = { "context:/js/dojo/dojo.js", "context:/js/axwidget.js" })
 public class AxMonitorWidget {
 
 	@Inject
@@ -20,6 +21,10 @@ public class AxMonitorWidget {
 
 	@Inject
 	private JavaScriptSupport jssupport;
+
+	@Inject
+	private PingerDAO pingerDAO;
+
 
 	@Parameter(required = true, defaultPrefix = "literal")
 	@Property
@@ -35,26 +40,26 @@ public class AxMonitorWidget {
 	private String pingerName;
 
 
-	void setupRender() {
+	void setupRender () {
 		jssupport.addScript("AxPlot('%s', %d)", getPlotId(), pingerId);
 
-		System.out.println("hunging for pinger");
-		pinger = PingerEntity.findPingerById(session, pingerId);
+		pinger = pingerDAO.findPingerById(pingerId);
 		if (pinger == null) {
 			System.err.println("UNKNOWN PINGER ID");
 			return;
 		}
 
+		// temporary hack to fix 
 		pingerName = pinger.getUrl().replace("http://", "");
 	}
 
 
-	public void setPlotId(String plotId) {
+	public void setPlotId (String plotId) {
 		this.plotId = plotId;
 	}
 
 
-	public String getPlotId() {
+	public String getPlotId () {
 		if (plotId == null)
 			plotId = "pinger_" + pingerId;
 
