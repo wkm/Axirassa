@@ -1,8 +1,12 @@
-
 package axirassa.webapp.pages.user;
 
-import java.io.IOException;
 
+import axirassa.dao.UserDAO;
+import axirassa.model.PasswordResetTokenEntity;
+import axirassa.model.UserEntity;
+import axirassa.services.email.EmailTemplate;
+import axirassa.webapp.components.AxForm;
+import axirassa.webapp.services.EmailNotifyService;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Property;
@@ -13,18 +17,18 @@ import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
 
-import axirassa.model.PasswordResetTokenEntity;
-import axirassa.model.UserEntity;
-import axirassa.services.email.EmailTemplate;
-import axirassa.webapp.components.AxForm;
-import axirassa.webapp.services.EmailNotifyService;
+import java.io.IOException;
+
 
 @Secure
 @RequiresGuest
 public class ResetPasswordUser {
 
 	@Inject
-	private Session session;
+	private Session database;
+
+	@Inject
+	private UserDAO userDAO;
 
 	@Inject
 	private PageRenderLinkSource linkSource;
@@ -39,32 +43,32 @@ public class ResetPasswordUser {
 	private AxForm form;
 
 
-	public void onValidateFromForm() {
+	public void onValidateFromForm () {
 		if (email == null) {
 			showInvalidEmailMessage();
 			return;
 		}
 
-		UserEntity entity = UserEntity.getUserByEmail(session, email);
+		UserEntity entity = userDAO.getUserByEmail(email);
 		if (entity == null)
 			showInvalidEmailMessage();
 	}
 
 
-	private void showInvalidEmailMessage() {
+	private void showInvalidEmailMessage () {
 		form.recordError("No user associated with that e-mail.");
 	}
 
 
 	@CommitAfter
-	public Object onSuccessFromForm() throws HornetQException, IOException {
-		UserEntity user = UserEntity.getUserByEmail(session, email);
+	public Object onSuccessFromForm () throws HornetQException, IOException {
+		UserEntity user = userDAO.getUserByEmail(email);
 		PasswordResetTokenEntity token = new PasswordResetTokenEntity();
 		token.setUser(user);
-		session.save(token);
+		database.save(token);
 
 		String link = linkSource.createPageRenderLinkWithContext(ChangePasswordByTokenUser.class, token.getToken())
-		        .toAbsoluteURI(true);
+				.toAbsoluteURI(true);
 
 		emailNotify.startMessage(EmailTemplate.USER_RESET_PASSWORD);
 		emailNotify.setToAddress(email);

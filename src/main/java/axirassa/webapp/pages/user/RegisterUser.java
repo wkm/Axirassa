@@ -1,8 +1,14 @@
-
 package axirassa.webapp.pages.user;
 
-import java.io.IOException;
 
+import axirassa.dao.UserDAO;
+import axirassa.model.UserEntity;
+import axirassa.model.exception.NoSaltException;
+import axirassa.services.email.EmailTemplate;
+import axirassa.webapp.components.AxForm;
+import axirassa.webapp.components.AxPasswordField;
+import axirassa.webapp.components.AxTextField;
+import axirassa.webapp.services.EmailNotifyService;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Log;
@@ -15,13 +21,8 @@ import org.apache.tapestry5.services.Request;
 import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
 
-import axirassa.model.UserEntity;
-import axirassa.model.exception.NoSaltException;
-import axirassa.services.email.EmailTemplate;
-import axirassa.webapp.components.AxForm;
-import axirassa.webapp.components.AxPasswordField;
-import axirassa.webapp.components.AxTextField;
-import axirassa.webapp.services.EmailNotifyService;
+import java.io.IOException;
+
 
 @Secure
 @RequiresGuest
@@ -31,6 +32,9 @@ public class RegisterUser {
 
 	@Inject
 	private Session database;
+
+	@Inject
+	private UserDAO userDAO;
 
 	@Inject
 	private EmailNotifyService emailer;
@@ -61,35 +65,35 @@ public class RegisterUser {
 
 
 	@Log
-	public JSONObject onAJAXValidateFromEmailField() {
+	public JSONObject onAJAXValidateFromEmailField () {
 		String emailvalue = request.getParameter("param");
 
-		if (UserEntity.isEmailRegistered(database, emailvalue))
+		if (userDAO.isEmailRegistered(emailvalue))
 			return new JSONObject().put("error", emailTakenMessage(emailvalue));
 
 		return new JSONObject();
 	}
 
 
-	private String emailTakenMessage(String email) {
+	private String emailTakenMessage (String email) {
 		return "The email '" + email + "' is taken";
 	}
 
 
-	public void onValidateFromForm() {
+	public void onValidateFromForm () {
 		if (password != null && confirmemail != null && !password.equals(confirmpassword))
 			form.recordError(confirmPasswordField, "Passwords do not match");
 
 		if (email != null && confirmemail != null && !email.equals(confirmemail))
 			form.recordError(confirmEmailField, "E-mails do not match");
 
-		if (email != null && UserEntity.isEmailRegistered(database, email))
+		if (email != null && userDAO.isEmailRegistered(email))
 			form.recordError(emailField, emailTakenMessage(email));
 	}
 
 
 	@CommitAfter
-	public Object onSuccessFromForm() throws NoSaltException, HornetQException, IOException {
+	public Object onSuccessFromForm () throws NoSaltException, HornetQException, IOException {
 		emailer.startMessage(EmailTemplate.USER_VERIFY_ACCOUNT);
 		emailer.setToAddress(email);
 		emailer.addAttribute("axlink", "http://localhost:8080/");

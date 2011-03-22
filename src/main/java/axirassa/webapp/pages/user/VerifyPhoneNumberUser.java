@@ -1,8 +1,15 @@
-
 package axirassa.webapp.pages.user;
 
-import java.io.IOException;
 
+import axirassa.dao.UserPhoneNumberDAO;
+import axirassa.model.UserPhoneNumberEntity;
+import axirassa.services.phone.PhoneTemplate;
+import axirassa.webapp.components.AxForm;
+import axirassa.webapp.components.AxTextField;
+import axirassa.webapp.services.AxirassaSecurityService;
+import axirassa.webapp.services.SmsNotifyService;
+import axirassa.webapp.services.VoiceNotifyService;
+import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
@@ -12,19 +19,16 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
 
-import axirassa.model.UserPhoneNumberEntity;
-import axirassa.services.phone.PhoneTemplate;
-import axirassa.webapp.components.AxForm;
-import axirassa.webapp.components.AxTextField;
-import axirassa.webapp.services.AxirassaSecurityService;
-import axirassa.webapp.services.SmsNotifyService;
-import axirassa.webapp.services.VoiceNotifyService;
-import axirassa.webapp.services.exceptions.AxirassaSecurityException;
+import java.io.IOException;
+
 
 @RequiresAuthentication
 public class VerifyPhoneNumberUser {
 	@Inject
 	private Session database;
+
+	@Inject
+	private UserPhoneNumberDAO userPhoneNumberDAO;
 
 	@Inject
 	private AxirassaSecurityService security;
@@ -54,9 +58,9 @@ public class VerifyPhoneNumberUser {
 	private Long phoneNumberId;
 
 
-	public Object onActivate(Long phoneNumberId) throws AxirassaSecurityException {
+	public Object onActivate (Long phoneNumberId) throws AxirassaSecurityException {
 		this.phoneNumberId = phoneNumberId;
-		phoneNumberEntity = UserPhoneNumberEntity.getByIdWithUser(database, phoneNumberId);
+		phoneNumberEntity = userPhoneNumberDAO.getByIdWithUser(phoneNumberId);
 		security.verifyOwnership(phoneNumberEntity);
 
 		if (phoneNumberEntity.isConfirmed())
@@ -66,14 +70,14 @@ public class VerifyPhoneNumberUser {
 	}
 
 
-	public Object onPassivate() {
+	public Object onPassivate () {
 		return phoneNumberId;
 	}
 
 
-	public Object onActionFromSendSMS(Long phoneNumberId) throws AxirassaSecurityException, HornetQException,
-	        IOException {
-		phoneNumberEntity = UserPhoneNumberEntity.getByIdWithUser(database, phoneNumberId);
+	public Object onActionFromSendSMS (Long phoneNumberId) throws AxirassaSecurityException, HornetQException,
+	                                                              IOException {
+		phoneNumberEntity = userPhoneNumberDAO.getByIdWithUser(phoneNumberId);
 		security.verifyOwnership(phoneNumberEntity);
 
 		if (!phoneNumberEntity.isAcceptingSms())
@@ -85,9 +89,9 @@ public class VerifyPhoneNumberUser {
 	}
 
 
-	public Object onActionFromSendVoice(Long phoneNumberId) throws AxirassaSecurityException, HornetQException,
-	        IOException {
-		phoneNumberEntity = UserPhoneNumberEntity.getByIdWithUser(database, phoneNumberId);
+	public Object onActionFromSendVoice (Long phoneNumberId) throws AxirassaSecurityException, HornetQException,
+	                                                                IOException {
+		phoneNumberEntity = userPhoneNumberDAO.getByIdWithUser(phoneNumberId);
 		security.verifyOwnership(phoneNumberEntity);
 
 		if (!phoneNumberEntity.isAcceptingVoice())
@@ -99,20 +103,20 @@ public class VerifyPhoneNumberUser {
 	}
 
 
-	public void onValidateFromForm() {
+	public void onValidateFromForm () {
 		if (!verificationCode.equals(phoneNumberEntity.getToken()))
 			form.recordError(verificationCodeField, "Verification code not matched");
 	}
 
 
 	@CommitAfter
-	public Object onSuccessFromForm() {
+	public Object onSuccessFromForm () {
 		phoneNumberEntity.setConfirmed(true);
 		return SettingsUser.class;
 	}
 
 
-	private void sendCodeByVoice(String token) throws HornetQException, IOException {
+	private void sendCodeByVoice (String token) throws HornetQException, IOException {
 		voice.startMessage(PhoneTemplate.USER_VERIFY_PHONE_NUMBER);
 		voice.setPhoneNumber(phoneNumberEntity.getPhoneNumber());
 		voice.setExtension(phoneNumberEntity.getExtension());
@@ -122,7 +126,7 @@ public class VerifyPhoneNumberUser {
 	}
 
 
-	private void sendCodeBySms(String token) throws HornetQException, IOException {
+	private void sendCodeBySms (String token) throws HornetQException, IOException {
 		sms.startMessage(PhoneTemplate.USER_VERIFY_PHONE_NUMBER);
 		sms.setPhoneNumber(phoneNumberEntity.getPhoneNumber());
 		sms.addAttribute("code", token);

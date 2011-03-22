@@ -1,6 +1,12 @@
-
 package axirassa.webapp.pages.user;
 
+
+import axirassa.dao.PasswordResetTokenDAO;
+import axirassa.model.PasswordResetTokenEntity;
+import axirassa.model.UserEntity;
+import axirassa.webapp.components.AxForm;
+import axirassa.webapp.components.AxPasswordField;
+import axirassa.webapp.pages.Index;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
@@ -8,16 +14,14 @@ import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 
-import axirassa.model.PasswordResetTokenEntity;
-import axirassa.model.UserEntity;
-import axirassa.webapp.components.AxForm;
-import axirassa.webapp.components.AxPasswordField;
-import axirassa.webapp.pages.Index;
 
 public class ChangePasswordByTokenUser {
 
 	@Inject
 	private Session database;
+
+	@Inject
+	private PasswordResetTokenDAO passwordResetTokenDAO;
 
 	@Property
 	@Persist
@@ -46,14 +50,14 @@ public class ChangePasswordByTokenUser {
 	private AxForm form;
 
 
-	public Object onActivate() {
+	public Object onActivate () {
 		return Index.class;
 	}
 
 
-	public Object onActivate(String token) {
+	public Object onActivate (String token) {
 		this.token = token;
-		tokenEntity = PasswordResetTokenEntity.getByToken(database, token);
+		tokenEntity = passwordResetTokenDAO.getByToken(token);
 
 		if (tokenEntity == null) {
 			isTokenInvalid = true;
@@ -67,13 +71,13 @@ public class ChangePasswordByTokenUser {
 	}
 
 
-	public Object onPassivate() {
+	public Object onPassivate () {
 		System.out.println("passivating");
 		return token;
 	}
 
 
-	public void onValidateFromForm() {
+	public void onValidateFromForm () {
 		System.out.println("validating form");
 		if (newPassword != null && confirmPassword != null && !newPassword.equals(confirmPassword))
 			form.recordError(confirmPasswordField, "Passwords do not match");
@@ -81,7 +85,7 @@ public class ChangePasswordByTokenUser {
 
 
 	@CommitAfter
-	public Object onSuccessFromForm() {
+	public Object onSuccessFromForm () {
 		System.out.println("form success");
 
 		if (user == null)

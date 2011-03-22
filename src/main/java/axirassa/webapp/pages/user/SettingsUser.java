@@ -1,20 +1,9 @@
-
 package axirassa.webapp.pages.user;
 
-import java.io.IOException;
-import java.util.List;
 
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.tapestry5.PersistenceConstants;
-import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Persist;
-import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.annotations.Secure;
-import org.apache.tapestry5.hibernate.annotations.CommitAfter;
-import org.apache.tapestry5.ioc.annotations.Inject;
-import org.hibernate.Session;
-import org.hornetq.api.core.HornetQException;
-
+import axirassa.dao.UserDAO;
+import axirassa.dao.UserEmailAddressDAO;
+import axirassa.dao.UserPhoneNumberDAO;
 import axirassa.model.UserEmailAddressEntity;
 import axirassa.model.UserEntity;
 import axirassa.model.UserPhoneNumberEntity;
@@ -26,6 +15,20 @@ import axirassa.webapp.components.AxTextField;
 import axirassa.webapp.services.AxirassaSecurityService;
 import axirassa.webapp.services.EmailNotifyService;
 import axirassa.webapp.services.MessagingSession;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.tapestry5.PersistenceConstants;
+import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.Persist;
+import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.annotations.Secure;
+import org.apache.tapestry5.hibernate.annotations.CommitAfter;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.hibernate.Session;
+import org.hornetq.api.core.HornetQException;
+
+import java.io.IOException;
+import java.util.List;
+
 
 @Secure
 @RequiresAuthentication
@@ -38,6 +41,16 @@ public class SettingsUser {
 	private Session session;
 
 	@Inject
+	private UserDAO userDAO;
+
+	@Inject
+	private UserPhoneNumberDAO userPhoneNumberDAO;
+
+	@Inject
+	private UserEmailAddressDAO userEmailAddressDAO;
+
+
+	@Inject
 	private EmailNotifyService emailNotify;
 
 	@Inject
@@ -48,19 +61,19 @@ public class SettingsUser {
 	private UserEntity user;
 
 
-	public Object onActivate() {
+	public Object onActivate () {
 		String email = security.getEmail();
-		user = UserEntity.getUserByEmail(session, email);
+		user = userDAO.getUserByEmail(email);
 
 		primaryEmail = email;
 
-		phoneNumbers = UserPhoneNumberEntity.getPhoneNumbersByUser(session, user);
+		phoneNumbers = userPhoneNumberDAO.getPhoneNumbersByUser(user);
 		if (phoneNumbers.size() > 0)
 			hasPhoneNumbers = true;
 		else
 			hasPhoneNumbers = false;
 
-		emails = UserEmailAddressEntity.getEmailsByUser(session, user);
+		emails = userEmailAddressDAO.getEmailsByUser(user);
 		if (emails.size() > 0)
 			hasAlternateEmails = true;
 		else
@@ -129,7 +142,7 @@ public class SettingsUser {
 	private boolean passwordChanged;
 
 
-	public void onValidateFromPasswordForm() throws NoSaltException {
+	public void onValidateFromPasswordForm () throws NoSaltException {
 		if (currentPassword != null)
 			validateCurrentPassword();
 
@@ -138,14 +151,14 @@ public class SettingsUser {
 	}
 
 
-	private void validateCurrentPassword() throws NoSaltException {
+	private void validateCurrentPassword () throws NoSaltException {
 		if (!user.matchPassword(currentPassword))
 			passwordForm.recordError(currentPasswordField, "Incorrect password");
 	}
 
 
 	@CommitAfter
-	public Object onSuccessFromPasswordForm() throws IOException, HornetQException {
+	public Object onSuccessFromPasswordForm () throws IOException, HornetQException {
 		user.createPassword(newPassword);
 		passwordChanged = true;
 

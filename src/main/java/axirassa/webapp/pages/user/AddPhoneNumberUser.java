@@ -1,8 +1,12 @@
-
 package axirassa.webapp.pages.user;
 
-import java.io.IOException;
 
+import axirassa.dao.UserDAO;
+import axirassa.model.UserEntity;
+import axirassa.model.UserPhoneNumberEntity;
+import axirassa.webapp.components.AxCheckbox;
+import axirassa.webapp.components.AxForm;
+import axirassa.webapp.services.AxirassaSecurityService;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.tapestry5.Link;
 import org.apache.tapestry5.annotations.Component;
@@ -15,11 +19,8 @@ import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
 
-import axirassa.model.UserEntity;
-import axirassa.model.UserPhoneNumberEntity;
-import axirassa.webapp.components.AxCheckbox;
-import axirassa.webapp.components.AxForm;
-import axirassa.webapp.services.AxirassaSecurityService;
+import java.io.IOException;
+
 
 @Secure
 @RequiresUser
@@ -28,7 +29,10 @@ public class AddPhoneNumberUser {
 	private AxirassaSecurityService security;
 
 	@Inject
-	private Session session;
+	private Session database;
+
+	@Inject
+	private UserDAO userDAO;
 
 	@Inject
 	private PageRenderLinkSource linkSource;
@@ -59,7 +63,7 @@ public class AddPhoneNumberUser {
 	private String token;
 
 
-	public void onValidateFromForm() {
+	public void onValidateFromForm () {
 		if (extension != null && acceptsText == true)
 			form.recordError(acceptsTextField, "Text messages may not be sent to phone numbers with extensions");
 
@@ -69,8 +73,8 @@ public class AddPhoneNumberUser {
 
 
 	@CommitAfter
-	public Object onSuccess() throws HornetQException, IOException {
-		UserEntity user = UserEntity.getUserByEmail(session, security.getEmail());
+	public Object onSuccess () throws HornetQException, IOException {
+		UserEntity user = userDAO.getUserByEmail(security.getEmail());
 
 		UserPhoneNumberEntity phoneNumberEntity = new UserPhoneNumberEntity();
 		phoneNumberEntity.setUser(user);
@@ -79,7 +83,7 @@ public class AddPhoneNumberUser {
 		phoneNumberEntity.setAcceptingSms(acceptsText);
 		phoneNumberEntity.setAcceptingVoice(acceptsVoice);
 		phoneNumberEntity.setConfirmed(false);
-		session.save(phoneNumberEntity);
+		database.save(phoneNumberEntity);
 
 		Link link = linkSource.createPageRenderLinkWithContext(VerifyPhoneNumberUser.class, phoneNumberEntity.getId());
 		return link;
