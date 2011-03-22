@@ -17,7 +17,7 @@ public class PasswordResetTokenDAOImpl implements PasswordResetTokenDAO {
 
 
 	@Override
-	public PasswordResetTokenEntity getByToken(String token) {
+	public PasswordResetTokenEntity getByToken (String token) {
 		Query query = database.getNamedQuery("password_reset_token");
 		query.setString("token", token);
 		query.setTimestamp("date", new Date());
@@ -31,7 +31,7 @@ public class PasswordResetTokenDAOImpl implements PasswordResetTokenDAO {
 
 
 	@Override
-	public int removeExpiredTokens() {
+	public int removeExpiredTokens () {
 		Query query = database.getNamedQuery("remove_expired_tokens");
 		query.setTimestamp("date", new Date());
 		System.out.println("DATE: " + (new Date()));

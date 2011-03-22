@@ -18,7 +18,7 @@ public class FeedbackAggregationServiceJob implements Job {
 
 
 	@Override
-	public void execute(JobExecutionContext context) throws JobExecutionException {
+	public void execute (JobExecutionContext context) throws JobExecutionException {
 		try {
 			JobDataMap datamap = context.getJobDetail().getJobDataMap();
 

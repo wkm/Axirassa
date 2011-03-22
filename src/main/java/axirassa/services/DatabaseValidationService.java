@@ -12,7 +12,7 @@ import org.hibernate.type.Type;
 import axirassa.util.HibernateTools;
 
 public class DatabaseValidationService {
-	public static void main(String[] args) {
+	public static void main (String[] args) {
 		Map<String, ClassMetadata> classes = HibernateTools.getSessionFactory().getAllClassMetadata();
 
 		Session session = HibernateTools.getLightweightSession();

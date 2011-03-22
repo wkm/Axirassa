@@ -1,5 +1,12 @@
+
 package axirassa.services;
 
+import java.util.List;
+
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.hibernate.Session;
+import org.hornetq.api.core.HornetQException;
+import org.hornetq.api.core.client.ClientSession;
 
 import axirassa.dao.FeedbackDAO;
 import axirassa.model.FeedbackEntity;
@@ -10,21 +17,14 @@ import axirassa.webapp.services.EmailNotifyService;
 import axirassa.webapp.services.MessagingSession;
 import axirassa.webapp.services.internal.EmailNotifyServiceImpl;
 import axirassa.webapp.services.internal.MessagingSessionImpl;
-import org.apache.tapestry5.ioc.annotations.Inject;
-import org.hibernate.Session;
-import org.hornetq.api.core.HornetQException;
-import org.hornetq.api.core.client.ClientSession;
-
-import java.util.List;
-
 
 public class FeedbackAggregationService implements Service {
 	@Inject
 	private FeedbackDAO feedbackDAO;
 
-	private final Session            session;
+	private final Session session;
 	private final EmailNotifyService notifyService;
-	private final MessagingSession   messagingSession;
+	private final MessagingSession messagingSession;
 
 
 	public FeedbackAggregationService (Session session, ClientSession messaging) throws HornetQException {
@@ -63,8 +63,7 @@ public class FeedbackAggregationService implements Service {
 
 	public static void main (String[] args) throws Exception {
 		Service service = new FeedbackAggregationService(HibernateTools.getLightweightSession(),
-		                                                 MessagingTools.getEmbeddedSession()
-		);
+		        MessagingTools.getEmbeddedSession());
 		service.execute();
 	}
 }
