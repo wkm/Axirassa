@@ -5,8 +5,8 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 
 import axirassa.dao.PasswordResetTokenDAO;
+import axirassa.ioc.IocStandalone;
 import axirassa.util.MessagingTools;
-import axirassa.util.TapestryTools;
 
 public class DatabaseCleanerService implements Service {
 
@@ -18,20 +18,20 @@ public class DatabaseCleanerService implements Service {
 
 
 	@Override
-	public void execute() throws Exception {
+	public void execute () throws Exception {
 		removeExpiredTokens();
 		aggregateAndSendFeedback();
 	}
 
 
-	private void aggregateAndSendFeedback() throws Exception {
+	private void aggregateAndSendFeedback () throws Exception {
 		FeedbackAggregationService service = new FeedbackAggregationService(database,
 		        MessagingTools.getEmbeddedSession());
 		service.execute();
 	}
 
 
-	private void removeExpiredTokens() {
+	private void removeExpiredTokens () {
 		database.beginTransaction();
 
 		int removed = passwordTokens.removeExpiredTokens();
@@ -41,7 +41,8 @@ public class DatabaseCleanerService implements Service {
 	}
 
 
-	public static void main(String[] args) throws Exception {
-		DatabaseCleanerService service = TapestryTools.autobuild(DatabaseCleanerService.class);
+	public static void main (String[] args) throws Exception {
+		DatabaseCleanerService service = IocStandalone.autobuild(DatabaseCleanerService.class);
+		service.execute();
 	}
 }
