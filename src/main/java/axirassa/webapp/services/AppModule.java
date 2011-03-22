@@ -1,14 +1,23 @@
+
 package axirassa.webapp.services;
 
+import java.io.IOException;
 
-import axirassa.dao.*;
-import axirassa.webapp.services.internal.*;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.hibernate.HibernateTransactionAdvisor;
-import org.apache.tapestry5.ioc.*;
-import org.apache.tapestry5.ioc.annotations.*;
+import org.apache.tapestry5.ioc.Configuration;
+import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.MethodAdviceReceiver;
+import org.apache.tapestry5.ioc.OrderedConfiguration;
+import org.apache.tapestry5.ioc.ScopeConstants;
+import org.apache.tapestry5.ioc.ServiceBinder;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.ioc.annotations.Local;
+import org.apache.tapestry5.ioc.annotations.Match;
+import org.apache.tapestry5.ioc.annotations.Scope;
+import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.apache.tapestry5.ioc.services.PerthreadManager;
 import org.apache.tapestry5.ioc.services.PropertyShadowBuilder;
 import org.apache.tapestry5.services.Request;
@@ -21,14 +30,28 @@ import org.slf4j.Logger;
 import org.tynamo.security.SecuritySymbols;
 import org.tynamo.security.services.SecurityService;
 
-import java.io.IOException;
-
+import axirassa.dao.FeedbackDAO;
+import axirassa.dao.FeedbackDAOImpl;
+import axirassa.dao.PasswordResetTokenDAO;
+import axirassa.dao.PasswordResetTokenDAOImpl;
+import axirassa.dao.PingerDAO;
+import axirassa.dao.PingerDAOImpl;
+import axirassa.dao.UserDAO;
+import axirassa.dao.UserEmailAddressDAO;
+import axirassa.dao.UserEmailAddressDAOImpl;
+import axirassa.ioc.DAOModule;
+import axirassa.webapp.services.internal.AxirassaSecurityServiceImpl;
+import axirassa.webapp.services.internal.EmailNotifyServiceImpl;
+import axirassa.webapp.services.internal.MessagingSessionManagerImpl;
+import axirassa.webapp.services.internal.SmsNotifyServiceImpl;
+import axirassa.webapp.services.internal.VoiceNotifyServiceImpl;
 
 /**
- * This module is automatically included as part of the Tapestry IoC Registry, it's a good place to configure and extend
- * Tapestry, or to place your own service definitions.
+ * This module is automatically included as part of the Tapestry IoC Registry,
+ * it's a good place to configure and extend Tapestry, or to place your own
+ * service definitions.
  */
-@SubModule( { DAOModule.class })
+@SubModule({ DAOModule.class })
 public class AppModule {
 	@Inject
 	private Session database;
@@ -80,19 +103,23 @@ public class AppModule {
 
 
 	/**
-	 * This is a service definition, the service will be named "TimingFilter". The interface, RequestFilter, is used within
-	 * the RequestHandler service pipeline, which is built from the RequestHandler service configuration. Tapestry IoC is
-	 * responsible for passing in an appropriate Logger instance. Requests for static resources are handled at a higher
-	 * level, so this filter will only be invoked for Tapestry related requests.
+	 * This is a service definition, the service will be named "TimingFilter".
+	 * The interface, RequestFilter, is used within the RequestHandler service
+	 * pipeline, which is built from the RequestHandler service configuration.
+	 * Tapestry IoC is responsible for passing in an appropriate Logger
+	 * instance. Requests for static resources are handled at a higher level, so
+	 * this filter will only be invoked for Tapestry related requests.
 	 * <p/>
 	 * <p/>
-	 * Service builder methods are useful when the implementation is inline as an inner class (as here) or require some
-	 * other kind of special initialization. In most cases, use the static bind() method instead.
+	 * Service builder methods are useful when the implementation is inline as
+	 * an inner class (as here) or require some other kind of special
+	 * initialization. In most cases, use the static bind() method instead.
 	 * <p/>
 	 * <p/>
-	 * If this method was named "build", then the service id would be taken from the service interface and would be
-	 * "RequestFilter". Since Tapestry already defines a service named "RequestFilter" we use an explicit service id that
-	 * we can reference inside the contribution method.
+	 * If this method was named "build", then the service id would be taken from
+	 * the service interface and would be "RequestFilter". Since Tapestry
+	 * already defines a service named "RequestFilter" we use an explicit
+	 * service id that we can reference inside the contribution method.
 	 */
 	public RequestFilter buildTimingFilter (final Logger log) {
 		return new RequestFilter() {
@@ -121,7 +148,7 @@ public class AppModule {
 
 	@Scope(ScopeConstants.PERTHREAD)
 	public static MessagingSessionManager buildMessagingSessionManager (PerthreadManager perthreadManager)
-			throws HornetQException {
+	        throws HornetQException {
 		MessagingSessionManagerImpl sessionManager = new MessagingSessionManagerImpl();
 		perthreadManager.addThreadCleanupListener(sessionManager);
 		return sessionManager;
@@ -129,7 +156,7 @@ public class AppModule {
 
 
 	public static MessagingSession buildMessagingSession (MessagingSessionManager sessionManager,
-	                                                      PropertyShadowBuilder propertyShadowBuilder) throws HornetQException {
+	        PropertyShadowBuilder propertyShadowBuilder) throws HornetQException {
 		return propertyShadowBuilder.build(sessionManager, "session", MessagingSession.class);
 	}
 
@@ -158,9 +185,11 @@ public class AppModule {
 
 
 	/**
-	 * This is a contribution to the RequestHandler service configuration. This is how we extend Tapestry using the timing
-	 * filter. A common use for this kind of filter is transaction management or security. The @Local annotation selects
-	 * the desired service by type, but only from the same module. Without @Local, there would be an error due to the other
+	 * This is a contribution to the RequestHandler service configuration. This
+	 * is how we extend Tapestry using the timing filter. A common use for this
+	 * kind of filter is transaction management or security. The @Local
+	 * annotation selects the desired service by type, but only from the same
+	 * module. Without @Local, there would be an error due to the other
 	 * service(s) that implement RequestFilter (defined in other modules).
 	 */
 	public void contributeRequestHandler (OrderedConfiguration<RequestFilter> configuration, @Local RequestFilter filter) {
