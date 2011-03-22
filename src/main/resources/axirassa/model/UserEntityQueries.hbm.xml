@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC
-      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-      "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="axirasa.model">
-	<query name="user_is_email_registered">
-		from UserEmailAddressEntity
-		where
-			email = :email
-	</query>
-	<query name="user_by_email">
-		select email.user
-		from UserEmailAddressEntity as email
-		where
-			email.email = :email and
-			email.primaryEmail = true
-	</query>
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="axirassa.model">
+    <query name="user_is_email_registered">
+        from UserEmailAddressEntity
+        where
+        email = :email
+    </query>
+    <query name="user_by_email">
+        select email.user
+        from UserEmailAddressEntity as email
+        where
+        email.email = :email and
+        email.primaryEmail = true
+    </query>
 </hibernate-mapping>

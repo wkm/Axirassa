@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC
-      "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-      "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="axirasa.model">
-	<query name="unposted_feedback_with_users">
-		select feedback
-		from FeedbackEntity as feedback
-		left join fetch feedback.user
-		where feedback.posted = false
-	</query>
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="axirassa.model">
+    <query name="unposted_feedback_with_users">
+        select feedback
+        from FeedbackEntity as feedback
+        left join fetch feedback.user
+        where feedback.posted = false
+    </query>
 </hibernate-mapping>
