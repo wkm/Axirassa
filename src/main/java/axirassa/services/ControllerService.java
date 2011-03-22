@@ -20,26 +20,27 @@ import axirassa.model.PingerEntity;
  */
 public class ControllerService implements Service {
 
-	private final ClientSession messagingSession;
-	private final Session databaseSession;
+	private final ClientSession messaging;
+
+	private final Session database;
 
 
-	public ControllerService(ClientSession messagingSession, Session databaseSession) {
-		this.messagingSession = messagingSession;
-		this.databaseSession = databaseSession;
+	public ControllerService (ClientSession messaging, Session database) {
+		this.messaging = messaging;
+		this.database = database;
 	}
 
 
 	@Override
-	public void execute() throws Exception {
-		ClientProducer producer = messagingSession.createProducer(Messaging.PINGER_REQUEST_QUEUE);
+	public void execute () throws Exception {
+		ClientProducer producer = messaging.createProducer(Messaging.PINGER_REQUEST_QUEUE);
 
-		Query query = databaseSession.getNamedQuery("pingers_by_frequency");
+		Query query = database.getNamedQuery("pingers_by_frequency");
 		query.setInteger("frequency", 3600);
 
 		List<PingerEntity> pingers = query.list();
 		for (PingerEntity pinger : pingers) {
-			ClientMessage message = messagingSession.createMessage(false);
+			ClientMessage message = messaging.createMessage(false);
 			message.getBodyBuffer().writeBytes(pinger.toBytes());
 			producer.send(message);
 		}
