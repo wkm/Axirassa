@@ -15,7 +15,7 @@ public class FeedbackDAOImpl implements FeedbackDAO {
 
 
 	@Override
-	public List<FeedbackEntity> getAllFeedback() {
+	public List<FeedbackEntity> getAllFeedback () {
 		Query query = database.getNamedQuery("unposted_feedback_with_users");
 		return query.list();
 	}
