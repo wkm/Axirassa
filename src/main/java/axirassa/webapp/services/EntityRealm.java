@@ -1,43 +1,38 @@
-
 package axirassa.webapp.services;
 
-import org.apache.shiro.authc.AccountException;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.UsernamePasswordToken;
+
+import axirassa.dao.UserDAO;
+import axirassa.model.UserEntity;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.hibernate.Session;
 
-import axirassa.model.UserEntity;
 
 /**
- * Based on suggestion from
- * http://permalink.gmane.org/gmane.comp.java.tynamo.user/155
- * 
+ * Based on suggestion from http://permalink.gmane.org/gmane.comp.java.tynamo.user/155
+ *
  * @author wiktor
  */
 public class EntityRealm extends AuthorizingRealm {
 	public static final String REALM_NAME = "axirassarealm";
 
-	private final Session session;
+	private final UserDAO userDAO;
 
 
-	public EntityRealm(Session session) {
+	public EntityRealm (UserDAO userDAO) {
 		super(new MemoryConstrainedCacheManager());
 
-		this.session = session;
+		this.userDAO = userDAO;
 		setName(REALM_NAME);
 		setAuthenticationTokenClass(UsernamePasswordToken.class);
 	}
 
 
 	@Override
-	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+	protected AuthorizationInfo doGetAuthorizationInfo (PrincipalCollection principals) {
 		if (principals.isEmpty())
 			return null;
 
@@ -45,13 +40,13 @@ public class EntityRealm extends AuthorizingRealm {
 		if (principals.fromRealm(REALM_NAME).size() <= 0)
 			return null;
 
-		String email = (String) principals.fromRealm(REALM_NAME).iterator().next();
+		String email = ( String ) principals.fromRealm(REALM_NAME).iterator().next();
 
 		// no e-mail, no credentials
 		if (email == null)
 			return null;
 
-		UserEntity user = UserEntity.getUserByEmail(session, email);
+		UserEntity user = userDAO.getUserByEmail(email);
 		if (user == null)
 			return null;
 
@@ -60,8 +55,8 @@ public class EntityRealm extends AuthorizingRealm {
 
 
 	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-		UsernamePasswordToken uptoken = (UsernamePasswordToken) token;
+	protected AuthenticationInfo doGetAuthenticationInfo (AuthenticationToken token) throws AuthenticationException {
+		UsernamePasswordToken uptoken = ( UsernamePasswordToken ) token;
 
 		String email = uptoken.getUsername();
 
@@ -69,7 +64,7 @@ public class EntityRealm extends AuthorizingRealm {
 			throw new AccountException("empty username for realm: " + REALM_NAME);
 
 		// verify account exists
-		UserEntity user = UserEntity.getUserByEmail(session, email);
+		UserEntity user = userDAO.getUserByEmail(email);
 
 		// retrieve the password and salt
 		byte[] password = user.getPassword();
