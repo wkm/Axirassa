@@ -5,23 +5,23 @@
 <hibernate-mapping package="axirassa.model">
     <query name="email_by_id">
         from UserEmailAddressEntity
-        where
-        id = :id
+	    where
+	        id = :id
     </query>
     <query name="user_emails">
         from UserEmailAddressEntity
-        where
-        user = :user
+	    where
+	        user = :user
     </query>
     <query name="user_primary_email">
         from UserEmailAddressEntity
         where
-        user = :user,
-        primaryEmail = true
+	        user = :user
+	        and primaryEmail = true
     </query>
     <query name="email_by_token">
         from UserEmailAddressEntity
-        where
-        token = :token
+	    where
+	        token = :token
     </query>
 </hibernate-mapping>
