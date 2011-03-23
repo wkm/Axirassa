@@ -13,14 +13,18 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import axirassa.util.AutoSerializingObject;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class PingerEntity extends AutoSerializingObject implements Serializable, EntityWithUser {
 	private static final long serialVersionUID = -6709719920544228167L;
 
 
-	public static String createBroadcastQueueName(Long userId, Long pingerId) {
+	public static String createBroadcastQueueName (Long userId, Long pingerId) {
 		return "ax.account." + userId + ".pinger." + pingerId;
 	}
 
@@ -35,12 +39,12 @@ public class PingerEntity extends AutoSerializingObject implements Serializable,
 	private Long id;
 
 
-	public Long getId() {
+	public Long getId () {
 		return id;
 	}
 
 
-	public void setId(Long id) {
+	public void setId (Long id) {
 		this.id = id;
 	}
 
@@ -51,12 +55,12 @@ public class PingerEntity extends AutoSerializingObject implements Serializable,
 
 
 	@Override
-	public UserEntity getUser() {
+	public UserEntity getUser () {
 		return user;
 	}
 
 
-	public void setUser(UserEntity user) {
+	public void setUser (UserEntity user) {
 		this.user = user;
 	}
 
@@ -66,12 +70,12 @@ public class PingerEntity extends AutoSerializingObject implements Serializable,
 	private String url;
 
 
-	public void setUrl(String url) {
+	public void setUrl (String url) {
 		this.url = url;
 	}
 
 
-	public String getUrl() {
+	public String getUrl () {
 		return url;
 	}
 
@@ -83,17 +87,17 @@ public class PingerEntity extends AutoSerializingObject implements Serializable,
 	private int frequency;
 
 
-	public void setFrequency(int frequency) {
+	public void setFrequency (int frequency) {
 		this.frequency = frequency;
 	}
 
 
-	public void setFrequency(PingerFrequency frequency) {
+	public void setFrequency (PingerFrequency frequency) {
 		this.frequency = frequency.getInterval();
 	}
 
 
-	public int getFrequency() {
+	public int getFrequency () {
 		return frequency;
 	}
 
@@ -102,12 +106,12 @@ public class PingerEntity extends AutoSerializingObject implements Serializable,
 	public Set<MonitorTypeEntity> monitorType;
 
 
-	public Set<MonitorTypeEntity> getMonitorType() {
+	public Set<MonitorTypeEntity> getMonitorType () {
 		return monitorType;
 	}
 
 
-	public void setMonitorType(Set<MonitorTypeEntity> monitorType) {
+	public void setMonitorType (Set<MonitorTypeEntity> monitorType) {
 		this.monitorType = monitorType;
 	}
 }

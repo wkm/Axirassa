@@ -14,9 +14,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import axirassa.util.AutoSerializingObject;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.NONE)
 public class HttpStatisticsEntity extends AutoSerializingObject implements Serializable {
 	private static final long serialVersionUID = 8808442777520544095L;
 
@@ -33,12 +37,12 @@ public class HttpStatisticsEntity extends AutoSerializingObject implements Seria
 	private PingerEntity pinger;
 
 
-	public void setPinger(PingerEntity pinger) {
+	public void setPinger (PingerEntity pinger) {
 		this.pinger = pinger;
 	}
 
 
-	public PingerEntity getPinger() {
+	public PingerEntity getPinger () {
 		return pinger;
 	}
 
@@ -47,12 +51,12 @@ public class HttpStatisticsEntity extends AutoSerializingObject implements Seria
 	private int statusCode;
 
 
-	public void setStatusCode(int statusCode) {
+	public void setStatusCode (int statusCode) {
 		this.statusCode = statusCode;
 	}
 
 
-	public int getStatusCode() {
+	public int getStatusCode () {
 		return statusCode;
 	}
 
@@ -61,12 +65,12 @@ public class HttpStatisticsEntity extends AutoSerializingObject implements Seria
 	private int latency;
 
 
-	public void setLatency(int latency) {
+	public void setLatency (int latency) {
 		this.latency = latency;
 	}
 
 
-	public int getLatency() {
+	public int getLatency () {
 		return latency;
 	}
 
@@ -75,12 +79,12 @@ public class HttpStatisticsEntity extends AutoSerializingObject implements Seria
 	private int responseTime;
 
 
-	public void setResponseTime(int responseTime) {
+	public void setResponseTime (int responseTime) {
 		this.responseTime = responseTime;
 	}
 
 
-	public int getResponseTime() {
+	public int getResponseTime () {
 		return responseTime;
 	}
 
@@ -89,12 +93,12 @@ public class HttpStatisticsEntity extends AutoSerializingObject implements Seria
 	private long responseSize;
 
 
-	public void setResponseSize(long responseSize) {
+	public void setResponseSize (long responseSize) {
 		this.responseSize = responseSize;
 	}
 
 
-	public long getResponseSize() {
+	public long getResponseSize () {
 		return responseSize;
 	}
 
@@ -103,22 +107,22 @@ public class HttpStatisticsEntity extends AutoSerializingObject implements Seria
 	private long uncompressedSize;
 
 
-	public void setUncompressedSize(long uncompressedSize) {
+	public void setUncompressedSize (long uncompressedSize) {
 		this.uncompressedSize = uncompressedSize;
 	}
 
 
-	public long getUncompressedSize() {
+	public long getUncompressedSize () {
 		return uncompressedSize;
 	}
 
 
-	public void setTimestamp(Date timestamp) {
+	public void setTimestamp (Date timestamp) {
 		this.timestamp = timestamp;
 	}
 
 
-	public Date getTimestamp() {
+	public Date getTimestamp () {
 		return timestamp;
 	}
 }

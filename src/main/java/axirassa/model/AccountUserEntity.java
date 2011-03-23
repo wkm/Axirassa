@@ -13,10 +13,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class AccountUserEntity implements Serializable {
 	private static final long serialVersionUID = -1634641083458982998L;
 
@@ -26,12 +29,12 @@ public class AccountUserEntity implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long getid() {
+	public Long getid () {
 		return id;
 	}
 
 
-	public void setId(Long id) {
+	public void setId (Long id) {
 		this.id = id;
 	}
 
@@ -42,12 +45,12 @@ public class AccountUserEntity implements Serializable {
 
 	@OneToOne(targetEntity = AccountEntity.class, fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.PERSIST })
-	public AccountEntity getAccount() {
+	public AccountEntity getAccount () {
 		return account;
 	}
 
 
-	public void setAccount(AccountEntity account) {
+	public void setAccount (AccountEntity account) {
 		this.account = account;
 	}
 
@@ -58,12 +61,12 @@ public class AccountUserEntity implements Serializable {
 
 	@OneToOne(targetEntity = UserEntity.class, fetch = FetchType.LAZY)
 	@Cascade({ CascadeType.PERSIST })
-	public UserEntity getUser() {
+	public UserEntity getUser () {
 		return user;
 	}
 
 
-	public void setUser(UserEntity user) {
+	public void setUser (UserEntity user) {
 		this.user = user;
 	}
 
@@ -74,12 +77,12 @@ public class AccountUserEntity implements Serializable {
 
 	@Basic(optional = false)
 	@Enumerated(EnumType.STRING)
-	public UserRole getRole() {
+	public UserRole getRole () {
 		return role;
 	}
 
 
-	public void setRole(UserRole role) {
+	public void setRole (UserRole role) {
 		this.role = role;
 	}
 }

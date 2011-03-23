@@ -10,11 +10,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import axirassa.model.interceptor.EntityPreSave;
 import axirassa.util.AutoSerializingObject;
 import axirassa.util.RandomStringGenerator;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserPhoneNumberEntity extends AutoSerializingObject implements Serializable, EntityPreSave, EntityWithUser {
 	private static final long serialVersionUID = 1344815747977623929L;
 
@@ -28,12 +32,12 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 	private Long id;
 
 
-	public Long getId() {
+	public Long getId () {
 		return id;
 	}
 
 
-	public void setId(Long id) {
+	public void setId (Long id) {
 		this.id = id;
 	}
 
@@ -43,12 +47,12 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 
 
 	@Override
-	public UserEntity getUser() {
+	public UserEntity getUser () {
 		return user;
 	}
 
 
-	public void setUser(UserEntity user) {
+	public void setUser (UserEntity user) {
 		this.user = user;
 	}
 
@@ -57,17 +61,17 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 	private String phoneNumber;
 
 
-	public String getPhoneNumber() {
+	public String getPhoneNumber () {
 		return phoneNumber;
 	}
 
 
-	public void setPhoneNumber(String phoneNumber) {
+	public void setPhoneNumber (String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 
 
-	public String getFormattedPhoneNumber() {
+	public String getFormattedPhoneNumber () {
 		StringBuilder formatted = new StringBuilder();
 
 		formatted.append('(');
@@ -88,12 +92,12 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 	private String extension;
 
 
-	public String getExtension() {
+	public String getExtension () {
 		return extension;
 	}
 
 
-	public void setExtension(String extension) {
+	public void setExtension (String extension) {
 		this.extension = extension;
 	}
 
@@ -102,12 +106,12 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 	private boolean confirmed = false;
 
 
-	public boolean isConfirmed() {
+	public boolean isConfirmed () {
 		return confirmed;
 	}
 
 
-	public void setConfirmed(boolean confirmed) {
+	public void setConfirmed (boolean confirmed) {
 		this.confirmed = confirmed;
 	}
 
@@ -116,12 +120,12 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 	private boolean acceptingVoice = false;
 
 
-	public boolean isAcceptingVoice() {
+	public boolean isAcceptingVoice () {
 		return acceptingVoice;
 	}
 
 
-	public void setAcceptingVoice(boolean acceptingVoice) {
+	public void setAcceptingVoice (boolean acceptingVoice) {
 		this.acceptingVoice = acceptingVoice;
 	}
 
@@ -130,12 +134,12 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 	private boolean acceptingSms = false;
 
 
-	public boolean isAcceptingSms() {
+	public boolean isAcceptingSms () {
 		return acceptingSms;
 	}
 
 
-	public void setAcceptingSms(boolean acceptingSms) {
+	public void setAcceptingSms (boolean acceptingSms) {
 		this.acceptingSms = acceptingSms;
 	}
 
@@ -144,17 +148,17 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 	private String token;
 
 
-	public String getToken() {
+	public String getToken () {
 		return token;
 	}
 
 
-	public void setToken(String token) {
+	public void setToken (String token) {
 		this.token = token;
 	}
 
 
-	public String getFormattedToken() {
+	public String getFormattedToken () {
 		StringBuilder sb = new StringBuilder();
 
 		int spanLength = 2;
@@ -169,14 +173,14 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 	}
 
 
-	public String createToken() {
+	public String createToken () {
 		String tokenStr = RandomStringGenerator.makeRandomStringToken(8);
 		return tokenStr.toUpperCase();
 	}
 
 
 	@Override
-	public void preSave() {
+	public void preSave () {
 		if (token == null)
 			token = createToken();
 	}

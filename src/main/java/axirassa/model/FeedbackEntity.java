@@ -14,9 +14,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import axirassa.model.interceptor.EntityPreSave;
 
+/**
+ * @author wiktor
+ */
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.NONE)
 public class FeedbackEntity implements Serializable, EntityPreSave {
 	private static final long serialVersionUID = 1535970389033283812L;
 
@@ -30,12 +37,12 @@ public class FeedbackEntity implements Serializable, EntityPreSave {
 	private Long id;
 
 
-	public Long getId() {
+	public Long getId () {
 		return id;
 	}
 
 
-	public void setId(Long id) {
+	public void setId (Long id) {
 		this.id = id;
 	}
 
@@ -44,12 +51,12 @@ public class FeedbackEntity implements Serializable, EntityPreSave {
 	private String comment;
 
 
-	public String getComment() {
+	public String getComment () {
 		return comment;
 	}
 
 
-	public void setComment(String comment) {
+	public void setComment (String comment) {
 		this.comment = comment;
 	}
 
@@ -58,12 +65,12 @@ public class FeedbackEntity implements Serializable, EntityPreSave {
 	private String useragent;
 
 
-	public String getUseragent() {
+	public String getUseragent () {
 		return useragent;
 	}
 
 
-	public void setUseragent(String useragent) {
+	public void setUseragent (String useragent) {
 		this.useragent = useragent;
 	}
 
@@ -72,12 +79,12 @@ public class FeedbackEntity implements Serializable, EntityPreSave {
 	private UserEntity user;
 
 
-	public UserEntity getUser() {
+	public UserEntity getUser () {
 		return user;
 	}
 
 
-	public void setUser(UserEntity user) {
+	public void setUser (UserEntity user) {
 		this.user = user;
 	}
 
@@ -87,17 +94,17 @@ public class FeedbackEntity implements Serializable, EntityPreSave {
 	private Date date;
 
 
-	public Date getDate() {
+	public Date getDate () {
 		return date;
 	}
 
 
-	public void setDate(Date date) {
+	public void setDate (Date date) {
 		this.date = date;
 	}
 
 
-	public String getFormattedDate() {
+	public String getFormattedDate () {
 		SimpleDateFormat format = new SimpleDateFormat("h:m:s a");
 		return format.format(getDate());
 	}
@@ -107,18 +114,18 @@ public class FeedbackEntity implements Serializable, EntityPreSave {
 	private boolean posted;
 
 
-	public boolean isPosted() {
+	public boolean isPosted () {
 		return posted;
 	}
 
 
-	public void setPosted(boolean posted) {
+	public void setPosted (boolean posted) {
 		this.posted = posted;
 	}
 
 
 	@Override
-	public void preSave() {
+	public void preSave () {
 		if (date == null)
 			date = new Date();
 	}

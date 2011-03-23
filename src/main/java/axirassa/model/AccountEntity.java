@@ -9,7 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class AccountEntity implements Serializable {
 	private static final long serialVersionUID = -6937561064726878987L;
 
@@ -20,12 +24,12 @@ public class AccountEntity implements Serializable {
 	@Id
 	@Basic(optional = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long getId() {
+	public Long getId () {
 		return id;
 	}
 
 
-	public void setId(Long id) {
+	public void setId (Long id) {
 		this.id = id;
 	}
 
@@ -35,12 +39,12 @@ public class AccountEntity implements Serializable {
 
 
 	@Basic(optional = false)
-	public String getName() {
+	public String getName () {
 		return name;
 	}
 
 
-	public void setName(String name) {
+	public void setName (String name) {
 		this.name = name;
 	}
 

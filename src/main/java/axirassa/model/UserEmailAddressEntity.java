@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NaturalId;
 
 import axirassa.model.interceptor.EntityPreSave;
@@ -15,6 +17,7 @@ import axirassa.util.AutoSerializingObject;
 import axirassa.util.RandomStringGenerator;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserEmailAddressEntity extends AutoSerializingObject implements EntityPreSave, EntityWithUser {
 	private static final long serialVersionUID = 4776151084882073597L;
 
@@ -27,12 +30,12 @@ public class UserEmailAddressEntity extends AutoSerializingObject implements Ent
 	private Long id;
 
 
-	public Long getId() {
+	public Long getId () {
 		return id;
 	}
 
 
-	public void setId(Long id) {
+	public void setId (Long id) {
 		this.id = id;
 	}
 
@@ -41,12 +44,12 @@ public class UserEmailAddressEntity extends AutoSerializingObject implements Ent
 	private boolean primaryEmail;
 
 
-	public boolean isPrimaryEmail() {
+	public boolean isPrimaryEmail () {
 		return primaryEmail;
 	}
 
 
-	public void setPrimaryEmail(boolean primaryEmail) {
+	public void setPrimaryEmail (boolean primaryEmail) {
 		this.primaryEmail = primaryEmail;
 	}
 
@@ -56,12 +59,12 @@ public class UserEmailAddressEntity extends AutoSerializingObject implements Ent
 
 
 	@Override
-	public UserEntity getUser() {
+	public UserEntity getUser () {
 		return user;
 	}
 
 
-	public void setUser(UserEntity user) {
+	public void setUser (UserEntity user) {
 		this.user = user;
 	}
 
@@ -71,12 +74,12 @@ public class UserEmailAddressEntity extends AutoSerializingObject implements Ent
 	private String email;
 
 
-	public String getEmail() {
+	public String getEmail () {
 		return email;
 	}
 
 
-	public void setEmail(String email) {
+	public void setEmail (String email) {
 		this.email = email;
 	}
 
@@ -85,12 +88,12 @@ public class UserEmailAddressEntity extends AutoSerializingObject implements Ent
 	private String token;
 
 
-	public String getToken() {
+	public String getToken () {
 		return token;
 	}
 
 
-	public void setToken(String token) {
+	public void setToken (String token) {
 		this.token = token;
 	}
 
@@ -99,18 +102,18 @@ public class UserEmailAddressEntity extends AutoSerializingObject implements Ent
 	private boolean verified;
 
 
-	public boolean isVerified() {
+	public boolean isVerified () {
 		return verified;
 	}
 
 
-	public void setVerified(boolean verified) {
+	public void setVerified (boolean verified) {
 		this.verified = verified;
 	}
 
 
 	@Override
-	public void preSave() {
+	public void preSave () {
 		if (token == null)
 			token = RandomStringGenerator.makeRandomStringToken(36);
 	}

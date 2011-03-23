@@ -15,6 +15,9 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import axirassa.model.exception.NoSaltException;
 import axirassa.model.interceptor.EntityPreSave;
 import axirassa.util.AutoSerializingObject;
@@ -22,11 +25,12 @@ import axirassa.util.MessageDigestProvider;
 import axirassa.util.RandomStringGenerator;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserEntity extends AutoSerializingObject implements Serializable, EntityPreSave {
 	private static final long serialVersionUID = 1375674968928774909L;
 
 
-	public static byte[] hashPasswordWithSalt(String password, byte[] salt) {
+	public static byte[] hashPasswordWithSalt (String password, byte[] salt) {
 		MessageDigest msgdigest = MessageDigestProvider.generate();
 
 		for (int i = 0; i < 4096; i++) {
@@ -56,8 +60,15 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	public Long getId() { return id; }
-	public void setId(Long id) { this.id = id; }
+
+	public Long getId () {
+		return id;
+	}
+
+
+	public void setId (Long id) {
+		this.id = id;
+	}
 
 
 	// SALT
@@ -65,17 +76,17 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	private String salt;
 
 
-	public String getSalt() {
+	public String getSalt () {
 		return salt;
 	}
 
 
-	public void setSalt(String salt) {
+	public void setSalt (String salt) {
 		this.salt = salt;
 	}
 
 
-	private String createSalt() {
+	private String createSalt () {
 		// 32 * 8 = 256 bits
 		return RandomStringGenerator.getInstance().randomString(32);
 	}
@@ -86,7 +97,7 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	private byte[] password;
 
 
-	public byte[] getPassword() {
+	public byte[] getPassword () {
 		return password;
 	}
 
@@ -94,7 +105,7 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	/**
 	 * Sets the password for this UserEntity by salting and encrypting it
 	 */
-	public void createPassword(String password) {
+	public void createPassword (String password) {
 		if (salt == null)
 			salt = createSalt();
 
@@ -110,12 +121,12 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	 * directly set the password, but without altering the salt. Use
 	 * {@link #createPassword(String)} to create a salt.
 	 */
-	public void setPassword(byte[] password) throws NoSaltException {
+	public void setPassword (byte[] password) throws NoSaltException {
 		this.password = password;
 	}
 
 
-	public byte[] hashPassword(String password) throws NoSaltException {
+	public byte[] hashPassword (String password) throws NoSaltException {
 		if (salt == null)
 			throw new NoSaltException(this);
 
@@ -127,7 +138,7 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	 * @return gives true if the given password matches the recorded password
 	 *         for this user when salted and encrypted.
 	 */
-	public boolean matchPassword(String password) throws NoSaltException {
+	public boolean matchPassword (String password) throws NoSaltException {
 		byte[] hashed = hashPassword(password);
 
 		if (hashed.length != this.password.length)
@@ -147,12 +158,12 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	private Date signupdate;
 
 
-	public Date getSignUpDate() {
+	public Date getSignUpDate () {
 		return signupdate;
 	}
 
 
-	public void setSignUpDate(Date signupdate) {
+	public void setSignUpDate (Date signupdate) {
 		this.signupdate = signupdate;
 	}
 
@@ -163,13 +174,13 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	 * a placeholder function which just returns <"user"> until we have a need
 	 * for actual roles
 	 */
-	public Set<String> roles() {
+	public Set<String> roles () {
 		return Collections.singleton("user");
 	}
 
 
 	@Override
-	public void preSave() {
+	public void preSave () {
 		if (signupdate == null)
 			signupdate = new Date();
 	}

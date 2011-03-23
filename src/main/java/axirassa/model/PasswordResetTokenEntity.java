@@ -14,10 +14,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import axirassa.model.interceptor.EntityPreSave;
 import axirassa.util.RandomStringGenerator;
 
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class PasswordResetTokenEntity implements Serializable, EntityPreSave {
 	private static final long serialVersionUID = -3839405383706605089L;
 
@@ -27,12 +31,12 @@ public class PasswordResetTokenEntity implements Serializable, EntityPreSave {
 	private Long id;
 
 
-	public void setId(Long id) {
+	public void setId (Long id) {
 		this.id = id;
 	}
 
 
-	public Long getId() {
+	public Long getId () {
 		return id;
 	}
 
@@ -41,12 +45,12 @@ public class PasswordResetTokenEntity implements Serializable, EntityPreSave {
 	private String token;
 
 
-	public void setToken(String token) {
+	public void setToken (String token) {
 		this.token = token;
 	}
 
 
-	public String getToken() {
+	public String getToken () {
 		return token;
 	}
 
@@ -55,12 +59,12 @@ public class PasswordResetTokenEntity implements Serializable, EntityPreSave {
 	private UserEntity user;
 
 
-	public UserEntity getUser() {
+	public UserEntity getUser () {
 		return user;
 	}
 
 
-	public void setUser(UserEntity user) {
+	public void setUser (UserEntity user) {
 		this.user = user;
 	}
 
@@ -70,17 +74,17 @@ public class PasswordResetTokenEntity implements Serializable, EntityPreSave {
 	private Date expiration;
 
 
-	public void setExpiration(Date expiration) {
+	public void setExpiration (Date expiration) {
 		this.expiration = expiration;
 	}
 
 
-	public Date getExpiration() {
+	public Date getExpiration () {
 		return expiration;
 	}
 
 
-	private Date createExpiration() {
+	private Date createExpiration () {
 		Calendar now = Calendar.getInstance();
 		now.add(Calendar.HOUR, 24);
 		return now.getTime();
@@ -88,7 +92,7 @@ public class PasswordResetTokenEntity implements Serializable, EntityPreSave {
 
 
 	@Override
-	public void preSave() {
+	public void preSave () {
 		if (token == null)
 			token = RandomStringGenerator.getInstance().randomStringToken(64);
 
