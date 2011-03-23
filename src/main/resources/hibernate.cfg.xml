@@ -1,70 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC
-	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-	<session-factory>
-		<!-- Database Connection -->
-		<property name="connection.driver_class">org.postgresql.Driver</property>
-		<property name="connection.url">jdbc:postgresql://localhost/axir_devel</property>
-		<property name="connection.user">axir</property>
-		<property name="connection.password">petula87112</property>
-		
-		<property name="connection.autoReconnect">true</property>
-		<property name="connection.autoReconnectForPools">true</property>
-		 
-		<property name="hibernate.c3p0.min_size">5</property>
-		<property name="hibernate.c3p0.max_size">30</property>
-		<property name="hibernate.c3p0.timeout">1800</property>
-		<property name="hibernate.c3p0.max_statements">50</property>
-		
-		
-		<property name="hibernate.generate_statistics">true</property>
-		
-		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-		
-		
-		<!-- Session Management -->
-		<property name="current_session_context_class">thread</property>
-		
-		
-		<!-- Cache -->
-		<property name="cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
-		
-		
-		<!-- Debugging -->
-		<property name="show_sql">false</property>
-		<property name="format_sql">true</property>
-		<property name="hbm2ddl.auto">validate</property>
-		
-		
-		<!-- Mappings -->
-		<mapping class="axirassa.model.UserEntity" />
-		<mapping class="axirassa.model.AccountEntity" />
-		<mapping class="axirassa.model.AccountUserEntity" />
-		<mapping class="axirassa.model.PingerEntity" />
-		<mapping class="axirassa.model.MonitorTypeEntity" />
-		<mapping class="axirassa.model.PasswordResetTokenEntity" />
-		<mapping class="axirassa.model.UserPhoneNumberEntity" />
-		<mapping class="axirassa.model.UserEmailAddressEntity" />
-		<mapping class="axirassa.model.FeedbackEntity" />
-		
-		<mapping class="axirassa.model.HttpStatisticsEntity" />
-		
-		
-		<!-- Queries -->
-		<mapping resource="axirassa/model/UserEntityQueries.hbm.xml" />
-		<mapping resource="axirassa/model/PingerEntityQueries.hbm.xml" />
-		<mapping resource="axirassa/model/PasswordResetTokenEntityQueries.hbm.xml" />
-		<mapping resource="axirassa/model/UserPhoneNumberEntityQueries.hbm.xml" />
-		<mapping resource="axirassa/model/UserEmailAddressEntityQueries.hbm.xml" />
-		<mapping resource="axirassa/model/FeedbackEntityQueries.hbm.xml" />
-	    
-		
-		<!-- Events & Interceptors -->
-		<event type="save">
-			<listener class="axirassa.model.interceptor.EntityOnSaveInterceptor" />
-			<listener class="org.hibernate.event.def.DefaultSaveEventListener" />
-		</event>
-	</session-factory>
+ <session-factory name="">
+  <property name="hibernate.connection.autoReconnect">true</property>
+  <property name="hibernate.connection.autoReconnectForPools">true</property>
+  <property name="hibernate.c3p0.min_size">5</property>
+  <property name="hibernate.c3p0.max_size">30</property>
+  <property name="hibernate.c3p0.timeout">1800</property>
+  <property name="hibernate.c3p0.max_statements">50</property>
+  <property name="hibernate.generate_statistics">true</property>
+  <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+  <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+  <property name="hibernate.connection.url">jdbc:postgresql://localhost/axir_devel</property>
+  <property name="hibernate.connection.username">axir</property>
+  <property name="hibernate.connection.password">petula87112</property>
+  <property name="hibernate.hbm2ddl.auto">validate</property>
+  <property name="hibernate.show_sql">false</property>
+  <property name="hibernate.format_sql">true</property>
+  <property name="hibernate.use_sql_comments">true</property>
+  <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+  <property name="hibernate.current_session_context_class">thread</property>
+  <property name="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</property>
+  <property name="hibernate.cache.use_second_level_cache">true</property>
+  <property name="hibernate.cache.use_query_cache">true</property>
+  <property name="hibernate.cache.use_structured_entries">true</property>
+  <property name="hibernate.cache.use_minimal_puts">false</property>
+  <!-- Mappings -->
+  <mapping class="axirassa.model.UserEntity"/>
+  <mapping class="axirassa.model.AccountEntity"/>
+  <mapping class="axirassa.model.AccountUserEntity"/>
+  <mapping class="axirassa.model.PingerEntity"/>
+  <mapping class="axirassa.model.MonitorTypeEntity"/>
+  <mapping class="axirassa.model.PasswordResetTokenEntity"/>
+  <mapping class="axirassa.model.UserPhoneNumberEntity"/>
+  <mapping class="axirassa.model.UserEmailAddressEntity"/>
+  <mapping class="axirassa.model.FeedbackEntity"/>
+  <mapping class="axirassa.model.HttpStatisticsEntity"/>
+  <!-- Queries -->
+  <mapping resource="axirassa/model/UserEntityQueries.hbm.xml"/>
+  <mapping resource="axirassa/model/PingerEntityQueries.hbm.xml"/>
+  <mapping resource="axirassa/model/PasswordResetTokenEntityQueries.hbm.xml"/>
+  <mapping resource="axirassa/model/UserPhoneNumberEntityQueries.hbm.xml"/>
+  <mapping resource="axirassa/model/UserEmailAddressEntityQueries.hbm.xml"/>
+  <mapping resource="axirassa/model/FeedbackEntityQueries.hbm.xml"/>
+  <!-- Events & Interceptors -->
+  <event type="save">
+   <listener class="axirassa.model.interceptor.EntityOnSaveInterceptor"/>
+   <listener class="org.hibernate.event.def.DefaultSaveEventListener"/>
+  </event>
+ </session-factory>
 </hibernate-configuration>
