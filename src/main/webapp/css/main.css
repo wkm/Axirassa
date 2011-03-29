@@ -7,6 +7,13 @@
  * darker red: 174,3,0
  * golden: 247,188,34
  * dark gold: 117,89,16
+ 
+ * white        rgb(245, 245, 245)
+ * light gray   rgb(153, 142, 143)
+ * yellow       rgb(174, 122,   0)
+ * light blue   rgb(146, 125, 136)
+ * purple       rgb(100,  85, 103)
+ * red          rgb(152,  60,  52)          
  */
  
 @font-face {
@@ -36,9 +43,9 @@ body {
 	
 	margin: 0;
 	padding: 0;
-	color: #fff;
-	background-color: rgb(36, 43, 51);
-	background: url('/media/bg.png');
+	color: #000;
+	background-color: #fdfdfd;
+	/* background: url('/media/bg.png'); */
 }
 
 .connectedWorld {
@@ -74,13 +81,13 @@ a {
 h1 {
 	font-size: 76pt;
 	font-weight: normal;
-	color: rgb(255, 178, 0);
+	color: rgb(173, 51, 51);
 	margin: 0;
 	margin-left: -4px;
 	padding: 0;	
 	text-transform: lowercase;
 	
-	text-shadow: rgb(125, 87, 0) 1px 1px 1px;
+	text-shadow: #700 1px 1px 1px;
 }
 
 .the {
@@ -154,7 +161,7 @@ h5 {
 
 .header {
 	margin-top: 50px;
-	color: #fff;
+	color: rgb(54, 57, 66);
 }
 
 .headerbar {
@@ -168,21 +175,20 @@ h5 {
 }
 
 .mini {
-	background: rgb(255, 178, 0);
-	color: rgb(36, 43, 51);
+	background: rgb(190, 53, 51);
+	color: #fff;
 	
 	margin: 0;
 	margin-top: -5px;
 	padding-left: 150px;
-	border-bottom: 1px solid rgb(89, 108, 127);
+	border-bottom: 1px solid #700;
+	text-shadow: #700 1px 1px 1px;
 }
 
 .mini h1 {
-	color: rgb(36, 43, 51);
+	color: #fff;
 	font-size: 26pt;
 	margin: 0;
-	
-	text-shadow: none;
 }
 
 h1 .title {
@@ -191,6 +197,7 @@ h1 .title {
 	padding-left: 7px;
 	text-shadow: none;
 	font-size: 20pt;
+	color: #fff;
 }
 
 .mini h2 {
@@ -205,8 +212,8 @@ h1 .title {
 	margin-top: 2em;
 	padding: 20px 0;
 	padding-left: 150px;
-	background: rgb(255, 178, 0);
-	color: rgb(36, 43, 51);
+	background: rgba(153, 0, 0, .8);
+	color: #fff;
 	
 	text-transform: uppercase;
 	font-weight: bold;
@@ -219,7 +226,7 @@ h1 .title {
 
 .impact strong {
 	color: #fff;
-	background: rgb(36, 43, 51);
+	background: #222;
 	padding: 0 .4em .1em .4em;
 }
 
@@ -258,7 +265,7 @@ emphasis {
 }
 
 .tier {
-	border: 1px solid rgb(18, 21, 26);
+	border: 1px solid #eee;
 	border-radius: 3px;
 	 
 	float: left;
@@ -268,7 +275,7 @@ emphasis {
 	margin-top: 4px;
 	font-size: 12pt;
 	
-	background: rgb(48, 56, 68);
+	background: #fff;
 	
 	padding: 1em;
 }
@@ -295,12 +302,12 @@ emphasis {
 	margin: 1em .25em;
 	width: 61.5em;
 	padding: .5em;
-	background: rgb(48, 56, 68);
-	border: 1px solid rgb(18, 21, 26);
+	background: #eee;
+	border: 1px solid #ddd;
 }
 
 .primary {
-	border: 5px solid rgb(255, 178, 0);
+	border: 5px solid rgb(174, 3, 0);
 	margin-top: 0;
 }
 
@@ -326,8 +333,8 @@ p + p {
 
 p a {
 	text-decoration: none;
-	color: rgb(255, 178, 0);
-	border-bottom: 2px solid rgb(255, 178, 0);
+	color: #700;
+	border-bottom: 2px solid #700;
 }
 
 p a:hover {
@@ -342,6 +349,7 @@ p a:hover {
 
 table {
 	border-collapse: collapse;
+	background: #fff;
 }
 
 table.fixed {
@@ -370,9 +378,9 @@ td img {
 }
 
 th {
-	color: ;
+	color: #333;
 	text-align: center;
-	border-bottom: 2px solid rgb(18, 21, 26);
+	border-bottom: 2px solid #ddd;
 }
 
 .url {
@@ -396,8 +404,8 @@ th {
 	clear:both;
 	margin-top: 3em;
 	
-	background: rgb(48, 56, 68);
-	border: 1px solid rgb(18, 21, 26);
+	background: #eee;
+	border: 1px solid #ddd;
 	max-width: 45em;
 	padding: 5px;
 	
@@ -406,8 +414,8 @@ th {
 
 #footer {	
 	font-size: 10pt;
-	border-top: 1px solid rgb(18, 21, 26);
-	background: #222;
+	border-top: 1px solid #ccc;
+	background: #eee;
 	
 	clear: both;
 	position: relative;
@@ -465,8 +473,8 @@ div.t-exception-report dl dt {
 }
 
 .t-location-outer {
-	background: rgb(48, 56, 68);
-	border: 1px solid rgb(18, 21, 26);
+	background: #fafafa;
+	border: 1px solid #eee;
 }
 
 .t-location-content {

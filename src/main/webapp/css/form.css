@@ -13,7 +13,7 @@ label {
 	float: left;
 	width: 9em;
 	margin-right: 1em; 
-	color: #fff;
+	color: #000;
 	text-align: right;
 	padding-top: 4px;
 }
@@ -49,8 +49,8 @@ label.long {
 
 .txtinput {
 	font-family: Verdana, sans-serif;
-	border: 1px solid rgb(48, 56, 68);
-	border-bottom-color: rgb(18, 21, 26);
+	border: 1px solid #ddd;
+	border-bottom-color: #aaa;
 	
 	border-radius: 2px;
 	
@@ -64,8 +64,8 @@ label.long {
 .t-error, .errorMsg {
 	font-weight: bold;
 	
-	border: 1px solid rgb(219, 65, 5);
-	background: rgb(255, 90, 10);
+	border: 1px solid rgb(232, 148, 0);
+	background: rgb(247, 242, 137);
 }
 
 div.t-error {
@@ -99,7 +99,7 @@ input.t-error {
 
 .ax_field p {
 	font-size: 80%;
-	color: #ddd;
+	color: #111;
 	margin-left: 179px;
 }
 
