@@ -6,7 +6,7 @@
 </head>
 <body>
 	<div class="headerbar">
-		<t:pagelink page="User/Login">Login to your account</t:pagelink>
+		<t:pagelink t:mixins="AxButton" page="User/Login">Login to your account</t:pagelink>
 	</div>
 
 	<div class="header">
