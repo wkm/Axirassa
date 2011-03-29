@@ -1,28 +1,20 @@
+
 package axirassa.webapp.pages.user;
 
-
-import axirassa.dao.UserDAO;
-import axirassa.model.UserEntity;
-import axirassa.model.exception.NoSaltException;
-import axirassa.services.email.EmailTemplate;
-import axirassa.webapp.components.AxForm;
-import axirassa.webapp.components.AxPasswordField;
-import axirassa.webapp.components.AxTextField;
-import axirassa.webapp.services.EmailNotifyService;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Log;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
-import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
-import org.hibernate.Session;
-import org.hornetq.api.core.HornetQException;
 
-import java.io.IOException;
-
+import axirassa.dao.UserDAO;
+import axirassa.model.flows.CreateUserFlow;
+import axirassa.webapp.components.AxForm;
+import axirassa.webapp.components.AxPasswordField;
+import axirassa.webapp.components.AxTextField;
 
 @Secure
 @RequiresGuest
@@ -31,13 +23,10 @@ public class RegisterUser {
 	private Request request;
 
 	@Inject
-	private Session database;
-
-	@Inject
 	private UserDAO userDAO;
 
 	@Inject
-	private EmailNotifyService emailer;
+	private CreateUserFlow createUserFlow;
 
 	@Property
 	private String email;
@@ -92,17 +81,10 @@ public class RegisterUser {
 	}
 
 
-	@CommitAfter
-	public Object onSuccessFromForm () throws NoSaltException, HornetQException, IOException {
-		emailer.startMessage(EmailTemplate.USER_VERIFY_ACCOUNT);
-		emailer.setToAddress(email);
-		emailer.addAttribute("axlink", "http://localhost:8080/");
-		emailer.send();
-
-		UserEntity user = new UserEntity();
-		user.createPassword(password);
-
-		database.persist(user);
+	public Object onSuccessFromForm () {
+		createUserFlow.setEmail(email);
+		createUserFlow.setPassword(password);
+		createUserFlow.execute();
 
 		return LoginUser.class;
 	}

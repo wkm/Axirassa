@@ -1,5 +1,18 @@
+
 package axirassa.webapp.pages.user;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.tapestry5.PersistenceConstants;
+import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.Persist;
+import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.annotations.Secure;
+import org.apache.tapestry5.hibernate.annotations.CommitAfter;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.hornetq.api.core.HornetQException;
 
 import axirassa.dao.UserDAO;
 import axirassa.dao.UserEmailAddressDAO;
@@ -14,21 +27,6 @@ import axirassa.webapp.components.AxPasswordField;
 import axirassa.webapp.components.AxTextField;
 import axirassa.webapp.services.AxirassaSecurityService;
 import axirassa.webapp.services.EmailNotifyService;
-import axirassa.webapp.services.MessagingSession;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
-import org.apache.tapestry5.PersistenceConstants;
-import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Persist;
-import org.apache.tapestry5.annotations.Property;
-import org.apache.tapestry5.annotations.Secure;
-import org.apache.tapestry5.hibernate.annotations.CommitAfter;
-import org.apache.tapestry5.ioc.annotations.Inject;
-import org.hibernate.Session;
-import org.hornetq.api.core.HornetQException;
-
-import java.io.IOException;
-import java.util.List;
-
 
 @Secure
 @RequiresAuthentication
@@ -36,9 +34,6 @@ public class SettingsUser {
 
 	@Inject
 	private AxirassaSecurityService security;
-
-	@Inject
-	private Session session;
 
 	@Inject
 	private UserDAO userDAO;
@@ -49,12 +44,8 @@ public class SettingsUser {
 	@Inject
 	private UserEmailAddressDAO userEmailAddressDAO;
 
-
 	@Inject
 	private EmailNotifyService emailNotify;
-
-	@Inject
-	private MessagingSession messagingSession;
 
 	@Property
 	@Persist

@@ -43,7 +43,7 @@ public class TestUserCredentialsMatcher {
 		UserCredentialsMatcher matcher = new UserCredentialsMatcher(session);
 		UserAuthenticationInfo authinfo;
 
-		authinfo = UserAuthenticationInfo.createInfoFromModel(UserEntity.getUserByEmail(session, "charles@gmail.com"));
+		authinfo = UserAuthenticationInfo.createInfoFromEntity(UserEntity.getUserByEmail(session, "charles@gmail.com"));
 
 		UsernamePasswordToken token1 = new UsernamePasswordToken("charles@gmail.com", "password");
 		assertTrue(matcher.doCredentialsMatch(token1, authinfo));

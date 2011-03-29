@@ -3,9 +3,13 @@ package test.axirassa.domain;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
+import org.apache.tapestry5.ioc.annotations.Inject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import axirassa.dao.FeedbackDAO;
 import axirassa.ioc.IocTestRunner;
 import axirassa.model.FeedbackEntity;
 import axirassa.model.UserEmailAddressEntity;
@@ -15,11 +19,8 @@ import axirassa.util.AbstractDomainTest;
 @RunWith(IocTestRunner.class)
 public class TestFeedback extends AbstractDomainTest {
 
-	@Test
-	public void simpletest () {
-		assertEquals("one", "one");
-		assertEquals("two", "two");
-	}
+	@Inject
+	private FeedbackDAO feedbackDAO;
 
 
 	@Test
@@ -49,8 +50,8 @@ public class TestFeedback extends AbstractDomainTest {
 
 		session.getTransaction().commit();
 
-		// List<FeedbackEntity> feedbacks = feedbackDAO.getAllFeedback();
-		// assertEquals(feedbacks.size(), 2);
+		List<FeedbackEntity> feedbacks = feedbackDAO.getAllFeedback();
+		assertEquals(2, feedbacks.size());
 	}
 
 }

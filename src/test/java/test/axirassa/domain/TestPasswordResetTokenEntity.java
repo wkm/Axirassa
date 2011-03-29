@@ -2,14 +2,17 @@
 package test.axirassa.domain;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import axirassa.ioc.IocTestRunner;
 import axirassa.model.PasswordResetTokenEntity;
 import axirassa.model.UserEntity;
 import axirassa.util.AbstractDomainTest;
 
+@RunWith(IocTestRunner.class)
 public class TestPasswordResetTokenEntity extends AbstractDomainTest {
 	@Test
-	public void testAutoGeneration() {
+	public void testAutoGeneration () {
 		session.beginTransaction();
 		UserEntity user = new UserEntity();
 		user.setEmail("who@foo.com");

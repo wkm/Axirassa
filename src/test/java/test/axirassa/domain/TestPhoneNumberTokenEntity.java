@@ -5,14 +5,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import axirassa.ioc.IocTestRunner;
 import axirassa.model.UserEntity;
 import axirassa.model.UserPhoneNumberEntity;
 import axirassa.util.AbstractDomainTest;
 
+@RunWith(IocTestRunner.class)
 public class TestPhoneNumberTokenEntity extends AbstractDomainTest {
 	@Test
-	public void getTokensByPhoneNumber() {
+	public void getTokensByPhoneNumber () {
 		session.beginTransaction();
 
 		UserEntity user = new UserEntity();

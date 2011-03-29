@@ -6,16 +6,13 @@ import java.io.IOException;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.tapestry5.SymbolConstants;
-import org.apache.tapestry5.hibernate.HibernateTransactionAdvisor;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
-import org.apache.tapestry5.ioc.MethodAdviceReceiver;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ScopeConstants;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Local;
-import org.apache.tapestry5.ioc.annotations.Match;
 import org.apache.tapestry5.ioc.annotations.Scope;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.apache.tapestry5.ioc.services.PerthreadManager;
@@ -30,16 +27,9 @@ import org.slf4j.Logger;
 import org.tynamo.security.SecuritySymbols;
 import org.tynamo.security.services.SecurityService;
 
-import axirassa.dao.FeedbackDAO;
-import axirassa.dao.FeedbackDAOImpl;
-import axirassa.dao.PasswordResetTokenDAO;
-import axirassa.dao.PasswordResetTokenDAOImpl;
-import axirassa.dao.PingerDAO;
-import axirassa.dao.PingerDAOImpl;
 import axirassa.dao.UserDAO;
-import axirassa.dao.UserEmailAddressDAO;
-import axirassa.dao.UserEmailAddressDAOImpl;
 import axirassa.ioc.DAOModule;
+import axirassa.ioc.FlowsModule;
 import axirassa.webapp.services.internal.AxirassaSecurityServiceImpl;
 import axirassa.webapp.services.internal.EmailNotifyServiceImpl;
 import axirassa.webapp.services.internal.MessagingSessionManagerImpl;
@@ -51,7 +41,7 @@ import axirassa.webapp.services.internal.VoiceNotifyServiceImpl;
  * it's a good place to configure and extend Tapestry, or to place your own
  * service definitions.
  */
-@SubModule({ DAOModule.class })
+@SubModule({ DAOModule.class, FlowsModule.class })
 public class AppModule {
 	@Inject
 	private Session database;
@@ -61,25 +51,7 @@ public class AppModule {
 
 
 	public static void bind (ServiceBinder binder) {
-		// binder.bind(MyServiceInterface.class, MyServiceImpl.class);
-
-		// Make bind() calls on the binder object to define most IoC services.
-		// Use service builder methods (example below) when the implementation
-		// is provided inline, or requires more initialization than simply
-		// invoking the constructor.
-
 		binder.bind(AuthorizingRealm.class, EntityRealm.class);
-
-		binder.bind(FeedbackDAO.class, FeedbackDAOImpl.class);
-		binder.bind(PasswordResetTokenDAO.class, PasswordResetTokenDAOImpl.class);
-		binder.bind(PingerDAO.class, PingerDAOImpl.class);
-		binder.bind(UserEmailAddressDAO.class, UserEmailAddressDAOImpl.class);
-	}
-
-
-	@Match("*DAO")
-	public static void adviseTransactions (HibernateTransactionAdvisor advisor, MethodAdviceReceiver receiver) {
-		advisor.addTransactionCommitAdvice(receiver);
 	}
 
 

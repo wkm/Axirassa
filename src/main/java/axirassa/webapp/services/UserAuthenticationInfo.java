@@ -13,7 +13,7 @@ public class UserAuthenticationInfo implements SaltedAuthenticationInfo {
 	private static final long serialVersionUID = -239215165106391271L;
 
 
-	public static UserAuthenticationInfo createInfoFromModel(UserEntity user) {
+	public static UserAuthenticationInfo createInfoFromEntity(UserEntity user) {
 		return new UserAuthenticationInfo(user.getEmail(), user.getPassword(), user.getSalt());
 	}
 

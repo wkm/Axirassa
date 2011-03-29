@@ -5,14 +5,17 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import axirassa.ioc.IocTestRunner;
 import axirassa.model.UserEntity;
 import axirassa.model.exception.NoSaltException;
 import axirassa.util.AbstractDomainTest;
 
+@RunWith(IocTestRunner.class)
 public class TestUserEntity extends AbstractDomainTest {
 	@Test
-	public void userPassword() throws NoSaltException {
+	public void userPassword () throws NoSaltException {
 		session.beginTransaction();
 
 		UserEntity user = new UserEntity();
@@ -31,7 +34,7 @@ public class TestUserEntity extends AbstractDomainTest {
 
 
 	@Test
-	public void userAutomaticSalting() throws NoSaltException {
+	public void userAutomaticSalting () throws NoSaltException {
 		session.beginTransaction();
 		UserEntity user = new UserEntity();
 		user.setEmail("foo@bar.com");

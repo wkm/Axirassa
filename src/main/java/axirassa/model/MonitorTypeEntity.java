@@ -9,17 +9,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.NONE)
 public class MonitorTypeEntity implements Serializable {
 	private static final long serialVersionUID = -2890867580447534180L;
 
 
-	public MonitorTypeEntity() {
+	public MonitorTypeEntity () {
 		// simple pojo
 	}
 
 
-	public MonitorTypeEntity(MonitorType type) {
+	public MonitorTypeEntity (MonitorType type) {
 		this.setType(type);
 	}
 
@@ -30,12 +34,12 @@ public class MonitorTypeEntity implements Serializable {
 	private Long id;
 
 
-	public void setId(Long id) {
+	public void setId (Long id) {
 		this.id = id;
 	}
 
 
-	public Long getId() {
+	public Long getId () {
 		return id;
 	}
 
@@ -44,12 +48,12 @@ public class MonitorTypeEntity implements Serializable {
 	private MonitorType type;
 
 
-	public void setType(MonitorType type) {
+	public void setType (MonitorType type) {
 		this.type = type;
 	}
 
 
-	public MonitorType getType() {
+	public MonitorType getType () {
 		return type;
 	}
 
