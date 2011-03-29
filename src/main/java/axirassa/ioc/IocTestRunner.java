@@ -3,6 +3,7 @@ package axirassa.ioc;
 
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
+import org.mockito.MockitoAnnotations;
 
 public class IocTestRunner extends BlockJUnit4ClassRunner {
 
@@ -13,6 +14,9 @@ public class IocTestRunner extends BlockJUnit4ClassRunner {
 
 	@Override
 	public Object createTest () {
-		return IocStandalone.autobuild(getTestClass().getJavaClass());
+		Object test = IocStandalone.autobuild(getTestClass().getJavaClass());
+		MockitoAnnotations.initMocks(test);
+
+		return test;
 	}
 }
