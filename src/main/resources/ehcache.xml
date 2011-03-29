@@ -2,8 +2,8 @@
 <ehcache 
 	xmlns:xsi="http://wwww.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
-	maxBytesOnHeap="250m"
-	maxBytesOffHeap="4g" 
+	maxBytesOnHeap="125m"
+	maxBytesOffHeap="1g" 
 	maxBytesOnDisk="10g"
 >
 	
