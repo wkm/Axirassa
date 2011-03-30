@@ -52,6 +52,8 @@ public class AppModule {
 
 	public static void bind (ServiceBinder binder) {
 		binder.bind(AuthorizingRealm.class, EntityRealm.class);
+
+        binder.bind(AxirassaSecurityService.class, AxirassaSecurityServiceImpl.class);
 	}
 
 
@@ -148,11 +150,6 @@ public class AppModule {
 	@Scope(ScopeConstants.PERTHREAD)
 	public VoiceNotifyService buildVoiceNotifyService (MessagingSession messagingSession) throws HornetQException {
 		return new VoiceNotifyServiceImpl(messagingSession);
-	}
-
-
-	public AxirassaSecurityService buildAxirassaSecurityService (SecurityService security) {
-		return new AxirassaSecurityServiceImpl(security);
 	}
 
 
