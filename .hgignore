@@ -8,3 +8,4 @@ syntax: regexp
 ^data/journal$
 ^.*/\.DS_Store$
 ^.*\.class$
+^.*\.orig$
