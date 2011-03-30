@@ -39,4 +39,6 @@ public interface UserEmailAddressDAO {
 	 * @return the user associated with this e-mail.
 	 */
 	public UserEntity getUserByEmail(String email);
+
+    UserEmailAddressEntity getPrimaryEmail (UserEntity user);
 }
