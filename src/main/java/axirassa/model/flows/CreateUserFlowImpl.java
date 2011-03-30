@@ -1,4 +1,3 @@
-
 package axirassa.model.flows;
 
 import java.io.IOException;
@@ -18,64 +17,80 @@ import axirassa.webapp.services.EmailNotifyService;
 
 public class CreateUserFlowImpl implements CreateUserFlow {
 
-	@Inject
-	private Logger logger;
+    @Inject
+    private Logger logger;
 
-	@Inject
-	private Session database;
+    @Inject
+    private Session database;
 
-	@Inject
-	private PageRenderLinkSource linkSource;
+    @Inject
+    private PageRenderLinkSource linkSource;
 
-	@Inject
-	private EmailNotifyService emailer;
+    @Inject
+    private EmailNotifyService emailer;
 
-	private String email;
+    private String email;
 
+    private UserEntity userEntity;
 
-	@Override
-	public void setEmail (String email) {
-		this.email = email;
-	}
+    private UserEmailAddressEntity primaryEmailEntity;
 
-
-	private String password;
-
-
-	@Override
-	public void setPassword (String password) {
-		this.password = password;
-	}
+    @Override
+    public void setEmail (String email) {
+        this.email = email;
+    }
 
 
-	@Override
-	@CommitAfter
-	public void execute () {
-		System.out.println("PERSISTING USER");
+    private String password;
 
-		UserEntity user = new UserEntity();
-		user.createPassword(password);
+    @Override
+    public void setPassword (String password) {
+        this.password = password;
+    }
 
-		UserEmailAddressEntity emailEntity = new UserEmailAddressEntity();
-		emailEntity.setEmail(email);
-		emailEntity.setPrimaryEmail(true);
-		emailEntity.setUser(user);
 
-		database.persist(user);
-		database.persist(emailEntity);
+    @Override
+    @CommitAfter
+    public void execute () {
+        System.out.println("PERSISTING USER");
 
-		String link = linkSource.createPageRenderLinkWithContext(VerifyEmailUser.class, emailEntity.getToken())
-		        .toAbsoluteURI(true);
+        userEntity = new UserEntity();
+        userEntity.createPassword(password);
 
-		emailer.startMessage(EmailTemplate.USER_VERIFY_ACCOUNT);
-		emailer.setToAddress(email);
-		emailer.addAttribute("axlink", link);
-		try {
-			emailer.send();
-		} catch (HornetQException e) {
-			logger.error("Fatal messaging error", e);
-		} catch (IOException e) {
-			logger.error("Fatal I/O error", e);
-		}
-	}
+        primaryEmailEntity = new UserEmailAddressEntity();
+        primaryEmailEntity.setEmail(email);
+        primaryEmailEntity.setPrimaryEmail(true);
+        primaryEmailEntity.setUser(userEntity);
+
+        database.persist(userEntity);
+        database.persist(primaryEmailEntity);
+
+        String link = linkSource.createPageRenderLinkWithContext(VerifyEmailUser.class, primaryEmailEntity.
+                getToken()).toAbsoluteURI(true);
+
+        emailer.startMessage(EmailTemplate.USER_VERIFY_ACCOUNT);
+        emailer.setToAddress(email);
+        emailer.addAttribute("axlink", link);
+        try {
+            emailer.send();
+        } catch (HornetQException e) {
+            logger.error("Fatal messaging error", e);
+        } catch (IOException e) {
+            logger.error("Fatal I/O error", e);
+        }
+    }
+
+
+    @Override
+    public UserEntity getUserEntity () {
+        return userEntity;
+    }
+
+
+    @Override
+    public UserEmailAddressEntity getPrimaryEmailEntity () {
+        return primaryEmailEntity;
+    }
+
+
 }
