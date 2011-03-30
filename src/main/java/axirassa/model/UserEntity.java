@@ -184,4 +184,8 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 		if (signupdate == null)
 			signupdate = new Date();
 	}
+
+    public String getPrimaryEmail () {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
 }

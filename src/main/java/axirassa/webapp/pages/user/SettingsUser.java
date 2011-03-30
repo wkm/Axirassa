@@ -53,10 +53,8 @@ public class SettingsUser {
 
 
 	public Object onActivate () {
-		String email = security.getEmail();
-		user = userDAO.getUserByEmail(email);
-
-		primaryEmail = email;
+        primaryEmail = security.getEmail();
+		user = userDAO.getUserByEmail(primaryEmail);
 
 		phoneNumbers = userPhoneNumberDAO.getPhoneNumbersByUser(user);
 		if (phoneNumbers.size() > 0)

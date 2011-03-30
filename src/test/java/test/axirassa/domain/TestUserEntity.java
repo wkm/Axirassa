@@ -1,4 +1,3 @@
-
 package test.axirassa.domain;
 
 import static org.junit.Assert.assertFalse;
@@ -10,38 +9,44 @@ import org.junit.runner.RunWith;
 import axirassa.ioc.IocTestRunner;
 import axirassa.model.UserEntity;
 import axirassa.model.exception.NoSaltException;
+import axirassa.model.flows.CreateUserFlow;
 import axirassa.util.AbstractDomainTest;
+import org.apache.tapestry5.ioc.annotations.Inject;
 
 @RunWith(IocTestRunner.class)
 public class TestUserEntity extends AbstractDomainTest {
-	@Test
-	public void userPassword () throws NoSaltException {
-		session.beginTransaction();
 
-		UserEntity user = new UserEntity();
-		user.setEmail("foo@mail.com");
-		user.setSalt("tweedledee");
-		user.createPassword("blah");
-		session.save(user);
+    @Inject
+    private CreateUserFlow createUserFlow;
 
-		assertTrue(user.matchPassword("blah"));
-		assertFalse(user.matchPassword("blah "));
-		assertFalse(user.matchPassword("blah123"));
-		assertFalse(user.matchPassword("tweedle"));
+    @Test
+    public void userPassword () throws NoSaltException {
+        session.beginTransaction();
 
-		session.getTransaction().commit();
-	}
+        createUserFlow.setEmail("who@foo.com");
+        createUserFlow.setPassword("password");
+        createUserFlow.execute();
+        UserEntity user = createUserFlow.getUserEntity();
+
+        assertTrue(user.matchPassword("blah"));
+        assertFalse(user.matchPassword("blah "));
+        assertFalse(user.matchPassword("blah123"));
+        assertFalse(user.matchPassword("tweedle"));
+
+        session.getTransaction().commit();
+    }
 
 
-	@Test
-	public void userAutomaticSalting () throws NoSaltException {
-		session.beginTransaction();
-		UserEntity user = new UserEntity();
-		user.setEmail("foo@bar.com");
-		long start = System.currentTimeMillis();
-		user.createPassword("password");
-		System.out.println("PASSWORD IN: " + (System.currentTimeMillis() - start));
-		session.save(user);
-		session.getTransaction().commit();
-	}
+    @Test
+    public void userAutomaticSalting () throws NoSaltException {
+        session.beginTransaction();
+        UserEntity user = new UserEntity();
+        long start = System.currentTimeMillis();
+        user.createPassword("password");
+        System.out.println("PASSWORD IN: " + (System.currentTimeMillis() - start));
+        session.save(user);
+        session.getTransaction().commit();
+    }
+
+
 }

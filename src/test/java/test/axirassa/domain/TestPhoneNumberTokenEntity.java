@@ -10,17 +10,25 @@ import org.junit.runner.RunWith;
 import axirassa.ioc.IocTestRunner;
 import axirassa.model.UserEntity;
 import axirassa.model.UserPhoneNumberEntity;
+import axirassa.model.flows.CreateUserFlow;
 import axirassa.util.AbstractDomainTest;
+import org.apache.tapestry5.ioc.annotations.Inject;
 
 @RunWith(IocTestRunner.class)
 public class TestPhoneNumberTokenEntity extends AbstractDomainTest {
+    @Inject
+    CreateUserFlow createUserFlow;
+    
 	@Test
 	public void getTokensByPhoneNumber () {
 		session.beginTransaction();
 
-		UserEntity user = new UserEntity();
-		user.setEmail("foo@who.com");
-		user.createPassword("blah");
+        
+        createUserFlow.setEmail("foo@who.com");
+        createUserFlow.setPassword("blah");
+        createUserFlow.execute();
+        
+		UserEntity user = createUserFlow.getUserEntity();
 		session.save(user);
 
 		UserPhoneNumberEntity phoneNumber = new UserPhoneNumberEntity();

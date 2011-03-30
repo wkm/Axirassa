@@ -2,8 +2,9 @@
 package test.axirassa.flows;
 
 import axirassa.ioc.IocTestRunner;
+import org.junit.runner.RunWith;
 
-@WithRunner(IocTestRunner.class)
+@RunWith(IocTestRunner.class)
 public class TestCreateUserFlow {
 
 }
