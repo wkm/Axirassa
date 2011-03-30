@@ -152,7 +152,7 @@ public class SettingsUser {
 		passwordChanged = true;
 
 		emailNotify.startMessage(EmailTemplate.USER_CHANGE_PASSWORD);
-		emailNotify.setToAddress(user.getEmail());
+		emailNotify.setToAddress(userEmailAddressDAO.getPrimaryEmail(user).getEmail());
 		emailNotify.send();
 
 		return this;
