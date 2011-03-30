@@ -1,38 +1,54 @@
-
 package test.axirassa.domain;
 
+import axirassa.dao.PasswordResetTokenDAO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import axirassa.ioc.IocTestRunner;
 import axirassa.model.PasswordResetTokenEntity;
+import axirassa.model.UserEmailAddressEntity;
 import axirassa.model.UserEntity;
+import axirassa.model.flows.CreateUserFlow;
 import axirassa.util.AbstractDomainTest;
+import org.apache.tapestry5.ioc.annotations.Inject;
 
 @RunWith(IocTestRunner.class)
 public class TestPasswordResetTokenEntity extends AbstractDomainTest {
-	@Test
-	public void testAutoGeneration () {
-		session.beginTransaction();
-		UserEntity user = new UserEntity();
-		user.setEmail("who@foo.com");
-		user.createPassword("password");
-		session.save(user);
 
-		PasswordResetTokenEntity token1 = new PasswordResetTokenEntity();
-		token1.setUser(user);
-		session.save(token1);
+    @Inject
+    private PasswordResetTokenDAO passwordResetTokenDAO;
+    
+    @Inject
+    private CreateUserFlow createUserFlow;
 
-		PasswordResetTokenEntity token2 = new PasswordResetTokenEntity();
-		token2.setUser(user);
-		session.save(token2);
+    @Test
+    public void testAutoGeneration () {
+        session.beginTransaction();
+        
+        
+        createUserFlow.setEmail("who@foo.com");
+        createUserFlow.setPassword("password");
+        createUserFlow.execute();
+        
+        UserEntity user = createUserFlow.getUserEntity();
+        UserEmailAddressEntity emailAddress = createUserFlow.getPrimaryEmailEntity();
 
-		String tok1 = token1.getToken();
-		String tok2 = token2.getToken();
+        PasswordResetTokenEntity token1 = new PasswordResetTokenEntity();
+        token1.setUser(user);
+        session.save(token1);
 
-		session.getTransaction().commit();
+        PasswordResetTokenEntity token2 = new PasswordResetTokenEntity();
+        token2.setUser(user);
+        session.save(token2);
 
-		token1 = PasswordResetTokenEntity.getByToken(session, tok1);
-		token2 = PasswordResetTokenEntity.getByToken(session, tok2);
-	}
+        String tok1 = token1.getToken();
+        String tok2 = token2.getToken();
+
+        session.getTransaction().commit();
+
+        token1 = passwordResetTokenDAO.getByToken(tok1);
+        token2 = passwordResetTokenDAO.getByToken(tok2);
+    }
+
+
 }
