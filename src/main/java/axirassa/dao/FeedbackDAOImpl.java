@@ -9,6 +9,10 @@ import org.hibernate.Session;
 
 import axirassa.model.FeedbackEntity;
 
+/**
+ * Implementation of a DAO for feedback in Axirassa.
+ * @author wiktor
+ */
 public class FeedbackDAOImpl implements FeedbackDAO {
 	@Inject
 	private Session database;
