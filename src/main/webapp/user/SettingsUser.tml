@@ -29,10 +29,11 @@
 	<p>
 		<table class="fixed">
 			<tr>
-				<th>E-mail</th><th>Verified</th><th></th>
+				<th></th><th>E-mail</th><th>Verified</th><th></th>
 				<t:loop source="emails" value="email">
 					<tr>
-						<td style="width: 20em"><b>${email.email}</b></td>
+                        <td>${email.primaryEmail}</td>
+						<td style="width: 20em">${email.email}</td>
 						<td class='img tight'>
 							<t:if test="${email.verified}">
 								<img src="/media/check.gif" alt="verified" />
