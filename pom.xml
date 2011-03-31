@@ -91,12 +91,6 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
-		<!-- <dependency>
-			<groupId>jetty</groupId>
-			<artifactId>javax.servlet</artifactId>
-			<version>5.1.12</version>
-			<scope>test</scope>
-		</dependency> -->
         <dependency>
             <groupId>org.apache.tapestry</groupId>
             <artifactId>tapestry-test</artifactId>
@@ -224,7 +218,7 @@
             <email>wiktor@zanoccio.com</email>
             <organization>Zanoccio, LLC.</organization>
             <organizationUrl>http://zanoccio.com</organizationUrl>
-            <timezone>CST</timezone>
+            <timezone>MST</timezone>
             <roles>
                 <role>Lead</role>
             </roles>
@@ -314,14 +308,7 @@
         </resources>
     </build>
 
-    <reporting>
-    </reporting>
-
     <repositories>
-		<!-- This can be commented out when the tapestry-release-version is a not 
-			a snapshot. The non-snapshot Tapestry artifacts are distributed through the 
-			central repository at ibiblio. -->
-
         <repository>
             <snapshots>
                 <enabled>false</enabled>
@@ -336,11 +323,6 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
-        <repository>
-            <id>tapestry-snapshots</id>
-            <url>http://tapestry.formos.com/maven-snapshot-repository/</url>
-        </repository>
-
         <repository>
             <id>codehaus.snapshots</id>
             <url>http://snapshots.repository.codehaus.org</url>
@@ -361,15 +343,6 @@
     </repositories>
 
     <pluginRepositories>
-
-		<!-- As above, this can be commented out when access to the snapshot version 
-			of a Tapestry Maven plugin is not required. -->
-        <pluginRepository>
-            <id>tapestry-snapshots</id>
-            <url>http://tapestry.formos.com/maven-snapshot-repository/</url>
-        </pluginRepository>
-
-
     </pluginRepositories>
 
     <properties>
