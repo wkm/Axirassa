@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?> 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<head>
 		<title>${pageTitle} :: Axirassa Website &amp; E-Mail Monitoring</title>
