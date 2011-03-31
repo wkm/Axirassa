@@ -2,7 +2,6 @@
 package axirassa.webapp.services;
 
 import org.apache.shiro.subject.Subject;
-import org.hibernate.Session;
 
 import axirassa.model.EntityWithUser;
 import axirassa.model.UserEntity;
@@ -17,7 +16,7 @@ public interface AxirassaSecurityService {
 	 * Returns the {@link UserEntity} associated with the authenticated user, or
 	 * null if the user is not authenticated.
 	 */
-	public abstract UserEntity getUserEntity(Session database);
+	public abstract UserEntity getUserEntity();
 
 
 	public abstract boolean isUser();

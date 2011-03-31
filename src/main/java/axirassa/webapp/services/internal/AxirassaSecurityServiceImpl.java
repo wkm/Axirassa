@@ -19,6 +19,9 @@ public class AxirassaSecurityServiceImpl implements AxirassaSecurityService {
     private SecurityService security;
 
     @Inject
+    private Session database;
+
+    @Inject
     private UserDAO userDAO;
 
     @Inject
@@ -68,7 +71,7 @@ public class AxirassaSecurityServiceImpl implements AxirassaSecurityService {
 
 
     @Override
-    public UserEntity getUserEntity (Session database) {
+    public UserEntity getUserEntity () {
         String email = getEmail();
         if (email == null)
             return null;
