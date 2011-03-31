@@ -12,12 +12,14 @@
         from UserEmailAddressEntity
 	    where
 	        user = :user
+        order by
+            primaryEmail desc
     </query>
     <query name="user_primary_email">
         from UserEmailAddressEntity
         where
-	        user = :user
-	        and primaryEmail = true
+	        user = :user and
+	        primaryEmail = true
     </query>
     <query name="email_by_token">
         from UserEmailAddressEntity
