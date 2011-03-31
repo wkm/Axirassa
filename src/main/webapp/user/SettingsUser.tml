@@ -26,35 +26,35 @@
 		addresses. You should not use this feature to notify other people,
 		instead you can ((invite)) an unlimited number of people to this account.
 	</p>
-	<p>
-		<table class="fixed">
-			<tr>
-				<th></th><th>E-mail</th><th>Verified</th><th></th>
-				<t:loop source="emails" value="email">
-					<tr>
-                        <td>${email.primaryEmail}</td>
-						<td style="width: 20em">${email.email}</td>
-						<td class='img tight'>
-							<t:if test="${email.verified}">
-								<img src="/media/check.gif" alt="verified" />
-									
-								<p:else>
-									<img src="/media/alert.gif" alt="not-verified"/>
-								</p:else>
-							</t:if>
-						</td>
-						<td class='img tight'>
-							<t:pagelink t:page="user/DeleteEmailAddress" t:context="${email.id}">
-								<img src="/media/delete.gif" title="delete e-mail address" alt="delete e-mail address" />
-							</t:pagelink>
-						</td>
-					</tr>
-				</t:loop>
-			</tr>
-		</table>
-		
-		<t:pagelink t:mixins="AxButton" t:page="User/AddEmailAddress"><img src="/media/add.gif" /> Add E-Mail Address</t:pagelink>
-	</p>
+
+    <table class="fixed">
+        <tr>
+            <th></th><th>E-mail</th><th>Verified</th><th></th>
+            <t:loop source="emails" value="email">
+                <tr>
+                    <td>${email.primaryEmail}</td>
+                    <td style="width: 20em">${email.email}</td>
+                    <td class='img tight'>
+                        <t:if test="${email.verified}">
+                            <img src="/media/check.gif" alt="verified" />
+
+                            <p:else>
+                                <img src="/media/alert.gif" alt="not-verified"/>
+                            </p:else>
+                        </t:if>
+                    </td>
+                    <td class='img tight'>
+                        <t:pagelink t:page="user/DeleteEmailAddress" t:context="${email.id}">
+                            <img src="/media/delete.gif" title="delete e-mail address" alt="delete e-mail address" />
+                        </t:pagelink>
+                    </td>
+                </tr>
+            </t:loop>
+        </tr>
+    </table>
+
+    <t:pagelink t:mixins="AxButton" t:page="User/AddEmailAddress"><img src="/media/add.gif" /> Add E-Mail Address</t:pagelink>
+
 	
 	
 	<h4 class="divider">Phone numbers</h4>
@@ -63,53 +63,53 @@
 		with e-mail addresses, you should ((invite)) other people if you want
 		them to be alerted. ((terrible language))
 	</p>
-	<p>
-		<table class="fixed">
-			<tr><th>Phone Number</th><th>Verified</th><th>Voice</th><th>SMS</th><th></th></tr>
-			<t:loop source="phoneNumbers" value="phoneNumber">
-				<tr>
-					<td style="width: 10em;"><b>${phoneNumber.formattedPhoneNumber}</b></td>
-					<td class='img tight'>
-						<t:if test="${phoneNumber.confirmed}">
-								<img src="/media/check.gif" alt="verified" />
-								
-							<p:else>
-								<t:pagelink t:page="user/VerifyPhoneNumber" t:context="${phoneNumber.id}">
-									<img src="/media/alert.gif" alt="not-verified"/>
-								</t:pagelink>
-							</p:else>
-						</t:if>
-					</td>
-					<td class='img tight'>
-						<t:if test="${phoneNumber.acceptingVoice}">
-							<img src="/media/phone.gif" alt="phone calls"/>
-							<p:else>
-								- no -
-							</p:else>
-						</t:if>
-					</td>
-					<td class='img tight'>
-						<t:if test="${phoneNumber.acceptingSms}">
-							<img src="/media/address.gif" alt="SMS" />
-							<p:else>
-								- no -
-							</p:else>
-						</t:if>
-					</td>
-					<td class='tight'>
-						<t:pagelink t:page="user/DeletePhoneNumber" t:context="${phoneNumber.id}">
-							<img src="/media/delete.gif" title="delete phone number" alt="delete phone number" />
-						</t:pagelink>
-					</td>
-				</tr>
-			</t:loop>
-			<t:if test="hasPhoneNumbers" negate="true">
-				<td colspan="5" class='img' style="padding: 30px 0;" >
-					(No phone numbers associated yet. <t:pagelink t:page="user/AddPhoneNumber">Add one!</t:pagelink>)
-				</td>
-			</t:if>
-		</table>
-	</p>
+	
+    <table class="fixed">
+        <tr><th>Phone Number</th><th>Verified</th><th>Voice</th><th>SMS</th><th></th></tr>
+        <t:loop source="phoneNumbers" value="phoneNumber">
+            <tr>
+                <td style="width: 10em;"><b>${phoneNumber.formattedPhoneNumber}</b></td>
+                <td class='img tight'>
+                    <t:if test="${phoneNumber.confirmed}">
+                            <img src="/media/check.gif" alt="verified" />
+
+                        <p:else>
+                            <t:pagelink t:page="user/VerifyPhoneNumber" t:context="${phoneNumber.id}">
+                                <img src="/media/alert.gif" alt="not-verified"/>
+                            </t:pagelink>
+                        </p:else>
+                    </t:if>
+                </td>
+                <td class='img tight'>
+                    <t:if test="${phoneNumber.acceptingVoice}">
+                        <img src="/media/phone.gif" alt="phone calls"/>
+                        <p:else>
+                            - no -
+                        </p:else>
+                    </t:if>
+                </td>
+                <td class='img tight'>
+                    <t:if test="${phoneNumber.acceptingSms}">
+                        <img src="/media/address.gif" alt="SMS" />
+                        <p:else>
+                            - no -
+                        </p:else>
+                    </t:if>
+                </td>
+                <td class='tight'>
+                    <t:pagelink t:page="user/DeletePhoneNumber" t:context="${phoneNumber.id}">
+                        <img src="/media/delete.gif" title="delete phone number" alt="delete phone number" />
+                    </t:pagelink>
+                </td>
+            </tr>
+        </t:loop>
+        <t:if test="hasPhoneNumbers" negate="true">
+            <td colspan="5" class='img' style="padding: 30px 0;" >
+                (No phone numbers associated yet. <t:pagelink t:page="user/AddPhoneNumber">Add one!</t:pagelink>)
+            </td>
+        </t:if>
+    </table>
+	
 	
 	
 	
