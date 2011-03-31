@@ -64,7 +64,7 @@ public class AddEmailAddressUser {
 
 	@CommitAfter
 	public Object onSuccessFromForm() throws HornetQException, IOException {
-		UserEntity user = security.getUserEntity(database);
+		UserEntity user = security.getUserEntity();
 
 		UserEmailAddressEntity emailEntity = new UserEmailAddressEntity();
 		emailEntity.setUser(user);
