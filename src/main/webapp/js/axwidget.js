@@ -9,22 +9,22 @@ var colorTheme = new dojox.charting.Theme({
 		fill: 'inherit'
 	},
 	plotarea: {
-		fill: 'rgba(36,43,51,0)'
+		fill: 'rgba(255,255,255,0)'
 	},
 	axis: {
 		stroke: {
-			color: 'rgb(18, 21, 26)'
+			color: '#aaa'
 		},
 		tick: {
-			color: 'rgb(18, 21, 26)',
+			color: '#333',
 			position: 'center',
-			fontColor: '#aaa'
+			fontColor: '#333'
 		}
 	},
 	seriesThemes: [
-	    {stroke: {color: 'rgb(255,178,0)'}},
-	    {stroke: {color: 'rgb(48,56,68)'}},
-	    {stroke: {color: 'rgb(18,21,26)'}}
+	    {stroke: {color: '#ddd'}},
+	    {stroke: {color: 'rgb(174,3,0)'}},
+	    {stroke: {color: '#ccc'}}
 	]
 });
 
@@ -65,17 +65,19 @@ function AxPlot(id, pingerId) {
 	
 	var chart = new dojox.charting.Chart2D(id);
 	chart.setTheme(colorTheme);
-	chart.addPlot('default', {
+	chart.addPlot('smooth', {
 		type: 'Lines',
 		lines: true,
-		labelOffset: -30
+		labelOffset: -30,
+        tension: 3
 	});
+    chart.addPlot('raw', {type: 'Lines', lines: true});
 	
 	chart.addAxis('x');
 	chart.addAxis('y', {vertical:true});
 	
-	chart.addSeries('Response Time', json['responseTime']);
-	chart.addSeries('Response Size', json['responseSize']);
+	chart.addSeries('Response Time', json['responseTime'], {plot:'smooth'});
+	chart.addSeries('Response Size', json['responseSize'], {plot:'raw'});
 	
 	chart.render();
 	
