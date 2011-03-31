@@ -1,4 +1,3 @@
-
 package axirassa.webapp.pages.user;
 
 import java.io.IOException;
@@ -14,7 +13,6 @@ import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hornetq.api.core.HornetQException;
 
-import axirassa.dao.UserDAO;
 import axirassa.dao.UserEmailAddressDAO;
 import axirassa.dao.UserPhoneNumberDAO;
 import axirassa.model.UserEmailAddressEntity;
@@ -24,7 +22,6 @@ import axirassa.model.exception.NoSaltException;
 import axirassa.services.email.EmailTemplate;
 import axirassa.webapp.components.AxForm;
 import axirassa.webapp.components.AxPasswordField;
-import axirassa.webapp.components.AxTextField;
 import axirassa.webapp.services.AxirassaSecurityService;
 import axirassa.webapp.services.EmailNotifyService;
 
@@ -32,130 +29,118 @@ import axirassa.webapp.services.EmailNotifyService;
 @RequiresAuthentication
 public class SettingsUser {
 
-	@Inject
-	private AxirassaSecurityService security;
+    @Inject
+    private AxirassaSecurityService security;
 
-	@Inject
-	private UserDAO userDAO;
+    @Inject
+    private UserPhoneNumberDAO userPhoneNumberDAO;
 
-	@Inject
-	private UserPhoneNumberDAO userPhoneNumberDAO;
+    @Inject
+    private UserEmailAddressDAO userEmailAddressDAO;
 
-	@Inject
-	private UserEmailAddressDAO userEmailAddressDAO;
+    @Inject
+    private EmailNotifyService emailNotify;
 
-	@Inject
-	private EmailNotifyService emailNotify;
+    @Property
+    @Persist
+    private UserEntity user;
 
-	@Property
-	@Persist
-	private UserEntity user;
+    public Object onActivate () {
+        user = security.getUserEntity();
 
+        phoneNumbers = userPhoneNumberDAO.getPhoneNumbersByUser(user);
+        if (phoneNumbers.size() > 0)
+            hasPhoneNumbers = true;
+        else
+            hasPhoneNumbers = false;
 
-	public Object onActivate () {
-        primaryEmail = security.getEmail();
-		user = userDAO.getUserByEmail(primaryEmail);
+        emails = userEmailAddressDAO.getEmailsByUser(user);
+        if (emails.size() > 0)
+            hasAlternateEmails = true;
+        else
+            hasAlternateEmails = false;
 
-		phoneNumbers = userPhoneNumberDAO.getPhoneNumbersByUser(user);
-		if (phoneNumbers.size() > 0)
-			hasPhoneNumbers = true;
-		else
-			hasPhoneNumbers = false;
+        return true;
+    }
 
-		emails = userEmailAddressDAO.getEmailsByUser(user);
-		if (emails.size() > 0)
-			hasAlternateEmails = true;
-		else
-			hasAlternateEmails = false;
+    //
+    // E-Mails
+    //
 
-		return true;
-	}
+    @Property
+    private boolean hasAlternateEmails;
 
+    @Property
+    private List<UserEmailAddressEntity> emails;
 
-	//
-	// Primary E-Mail
-	//
-	@Property
-	private String primaryEmail;
+    @Property
+    private UserEmailAddressEntity email;
 
-	@Component
-	private AxTextField primaryEmailField;
+    //
+    // Phone Numbers
+    //
+    @Property
+    private boolean hasPhoneNumbers;
 
-	//
-	// E-Mails
-	//
-	@Property
-	private boolean hasAlternateEmails;
+    @Property
+    private List<UserPhoneNumberEntity> phoneNumbers;
 
-	@Property
-	private List<UserEmailAddressEntity> emails;
+    @Property
+    private UserPhoneNumberEntity phoneNumber;
 
-	@Property
-	private UserEmailAddressEntity email;
+    //
+    // Password
+    //
+    @Property
+    private String currentPassword;
 
-	//
-	// Phone Numbers
-	//
-	@Property
-	private boolean hasPhoneNumbers;
+    @Property
+    private String newPassword;
 
-	@Property
-	private List<UserPhoneNumberEntity> phoneNumbers;
+    @Property
+    private String confirmPassword;
 
-	@Property
-	private UserPhoneNumberEntity phoneNumber;
+    @Component
+    private AxPasswordField currentPasswordField;
 
-	//
-	// Password
-	//
-	@Property
-	private String currentPassword;
+    @Component
+    private AxPasswordField confirmPasswordField;
 
-	@Property
-	private String newPassword;
+    @Component
+    private AxForm passwordForm;
 
-	@Property
-	private String confirmPassword;
+    @Property
+    @Persist(PersistenceConstants.FLASH)
+    private boolean passwordChanged;
 
-	@Component
-	private AxPasswordField currentPasswordField;
+    public void onValidateFromPasswordForm () throws NoSaltException {
+        if (currentPassword != null)
+            validateCurrentPassword();
 
-	@Component
-	private AxPasswordField confirmPasswordField;
-
-	@Component
-	private AxForm passwordForm;
-
-	@Property
-	@Persist(PersistenceConstants.FLASH)
-	private boolean passwordChanged;
+        if (newPassword != null && confirmPassword != null && !newPassword.
+                equals(confirmPassword))
+            passwordForm.recordError(confirmPasswordField, "Passwords do not match");
+    }
 
 
-	public void onValidateFromPasswordForm () throws NoSaltException {
-		if (currentPassword != null)
-			validateCurrentPassword();
-
-		if (newPassword != null && confirmPassword != null && !newPassword.equals(confirmPassword))
-			passwordForm.recordError(confirmPasswordField, "Passwords do not match");
-	}
+    private void validateCurrentPassword () throws NoSaltException {
+        if (!user.matchPassword(currentPassword))
+            passwordForm.recordError(currentPasswordField, "Incorrect password");
+    }
 
 
-	private void validateCurrentPassword () throws NoSaltException {
-		if (!user.matchPassword(currentPassword))
-			passwordForm.recordError(currentPasswordField, "Incorrect password");
-	}
+    @CommitAfter
+    public Object onSuccessFromPasswordForm () throws IOException, HornetQException {
+        user.createPassword(newPassword);
+        passwordChanged = true;
 
+        emailNotify.startMessage(EmailTemplate.USER_CHANGE_PASSWORD);
+        emailNotify.setToAddress(userEmailAddressDAO.getPrimaryEmail(user).
+                getEmail());
+        emailNotify.send();
 
-	@CommitAfter
-	public Object onSuccessFromPasswordForm () throws IOException, HornetQException {
-		user.createPassword(newPassword);
-		passwordChanged = true;
+        return this;
+    }
 
-		emailNotify.startMessage(EmailTemplate.USER_CHANGE_PASSWORD);
-		emailNotify.setToAddress(userEmailAddressDAO.getPrimaryEmail(user).getEmail());
-		emailNotify.send();
-
-		return this;
-	}
 
 }
