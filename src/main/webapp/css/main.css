@@ -45,7 +45,7 @@ body {
 	padding: 0;
 	color: #000;
 	background-color: #fdfdfd;
-	/* background: url('/media/bg.png'); */
+	background: url('/media/bg.png');
 }
 
 .connectedWorld {
