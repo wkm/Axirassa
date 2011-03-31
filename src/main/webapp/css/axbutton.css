@@ -9,7 +9,7 @@
 	font-weight: bold;
 	font-size: 10pt;
 	text-shadow: #eee 1px 1px 1px;
-	color: rgb(36, 43, 51);
+	color: #333;
 	
 	margin: 5px;
 	
@@ -27,16 +27,16 @@
 }
 
 .button:hover {
-	border-color: rgb(207, 144, 0);
+	border-color: #700;
 	cursor: pointer;
 	
-	background: rgb(230, 160, 0);
-	background: -webkit-gradient(linear, left top, left bottom, from(rgb(255, 178, 0)), to(rgb(230, 160, 0)))
+	background: rgb(190, 53, 51);
+	background: -webkit-gradient(linear, left top, left bottom, from(rgb(210, 73, 71)), to(rgb(190, 53, 51)))
 }
 
 .button:hover > .innerbutton {
-	border-color: rgb(255, 178, 0);
+	border-color: #666;
 	
 	color: #fff;
-	text-shadow: rgb(207, 144, 0) 1px 1px 1px;
+	text-shadow: #a00 1px 1px 1px;
 }
