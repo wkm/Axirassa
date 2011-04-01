@@ -22,9 +22,9 @@ var colorTheme = new dojox.charting.Theme({
 		}
 	},
 	seriesThemes: [
-	    {stroke: {color: '#ddd'}},
+	    {stroke: {color: '#eee'}},
 	    {stroke: {color: 'rgb(174,3,0)'}},
-	    {stroke: {color: '#ccc'}}
+	    {stroke: {color: '#fafafa'}}
 	]
 });
 
@@ -62,9 +62,8 @@ function weightedMovingAverage(data, length) {
 
 function randomData(length) {
 	var data = new Array(length);
-
 	for(var i = 0; i < length; i++)
-		data[i] = Math.floor(Math.random()*1000);
+		data[i] = 500 - 50 * Math.log(100 * Math.random());
 	return data;
 }
 
@@ -104,13 +103,12 @@ function AxPlot(id, pingerId) {
 	chart.addPlot('smooth', {
 		type: 'Lines',
 		lines: true,
-		labelOffset: -30,
         tension: 2
 	});
     chart.addPlot('raw', {type: 'Lines', lines: true});
 	
 	chart.addAxis('x');
-	chart.addAxis('y', {vertical:true});
+	chart.addAxis('y', {vertical:true, min: 0});
 	
 	chart.addSeries('Response Time', json['responseTime'], {plot:'smooth'});
 	chart.addSeries('Response Size', json['responseSize'], {plot:'raw'});
