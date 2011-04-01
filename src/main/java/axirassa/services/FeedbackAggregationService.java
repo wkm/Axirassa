@@ -5,33 +5,29 @@ import java.util.List;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
-import org.hornetq.api.core.HornetQException;
-import org.hornetq.api.core.client.ClientSession;
 
 import axirassa.dao.FeedbackDAO;
+import axirassa.ioc.IocStandalone;
 import axirassa.model.FeedbackEntity;
 import axirassa.services.email.EmailTemplate;
 import axirassa.util.HibernateTools;
 import axirassa.util.MessagingTools;
 import axirassa.webapp.services.EmailNotifyService;
 import axirassa.webapp.services.MessagingSession;
-import axirassa.webapp.services.internal.EmailNotifyServiceImpl;
-import axirassa.webapp.services.internal.MessagingSessionImpl;
 
 public class FeedbackAggregationService implements Service {
-	@Inject
+
+    @Inject
 	private FeedbackDAO feedbackDAO;
 
-	private final Session session;
-	private final EmailNotifyService notifyService;
-	private final MessagingSession messagingSession;
+    @Inject
+	private Session session;
 
+    @Inject
+	private EmailNotifyService notifyService;
 
-	public FeedbackAggregationService (Session session, ClientSession messaging) throws HornetQException {
-		this.session = session;
-		this.messagingSession = new MessagingSessionImpl(messaging);
-		this.notifyService = new EmailNotifyServiceImpl(messagingSession);
-	}
+    @Inject
+	private MessagingSession messagingSession;
 
 
 	@Override
@@ -62,8 +58,7 @@ public class FeedbackAggregationService implements Service {
 
 
 	public static void main (String[] args) throws Exception {
-		Service service = new FeedbackAggregationService(HibernateTools.getLightweightSession(),
-		        MessagingTools.getEmbeddedSession());
+        Service service = IocStandalone.autobuild(FeedbackAggregationService.class);
 		service.execute();
 	}
 }
