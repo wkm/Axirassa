@@ -1,8 +1,7 @@
 
 package axirassa.services.runners;
 
-import org.hibernate.Session;
-import org.hornetq.api.core.client.ClientSession;
+import axirassa.ioc.IocStandalone;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -21,11 +20,8 @@ public class FeedbackAggregationServiceJob implements Job {
 	public void execute (JobExecutionContext context) throws JobExecutionException {
 		try {
 			JobDataMap datamap = context.getJobDetail().getJobDataMap();
-
-			ClientSession messaging = (ClientSession) datamap.get(MESSAGING_SESSION);
-			Session database = (Session) datamap.get(DATABASE_SESSION);
-
-			Service service = new FeedbackAggregationService(database, messaging);
+            // TODO use datamap to populate services for injection
+            Service service = IocStandalone.autobuild(FeedbackAggregationService.class);
 			service.execute();
 		} catch (Exception e) {
 			throw new JobExecutionException(e);
