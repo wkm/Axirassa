@@ -28,6 +28,38 @@ var colorTheme = new dojox.charting.Theme({
 	]
 });
 
+
+function weightedMovingAverage(data, length) {
+    if(data.length < length)
+        return undefined;
+
+    var averages = new Array(data.length - length + 1);
+
+    var denominator = length * (length + 1) / 2;
+    var numerator = 0, total = 0;
+
+    // compute initial weighting
+    for(var i = length - 1; i >= 0; i--) {
+        numerator += (i+1) * data[i];
+        total += data[i];
+
+        averages[0] = numerator / denominator;
+    }
+
+    // now the weighted
+    var previousTotal, previousNumerator;
+    for(i = 1; i < averages.length; i++) {
+        previousTotal = total;
+        previousNumerator = numerator;
+
+        total = previousTotal + data[i + length - 1] - data[i - 1];
+        numerator = previousNumerator + length * data[i + length - 1] - previousTotal;
+        averages[i] = numerator / denominator;
+    }
+
+    return averages;
+}
+
 function randomData(length) {
 	var data = new Array(length);
 
@@ -58,9 +90,13 @@ function inspect(object, depth) {
 }
 
 function AxPlot(id, pingerId) {
+    var data = randomData(200);
+    var smoothed = weightedMovingAverage(data, 10);
+    data = data.slice(10);
+
 	var json = {
-		responseTime: randomData(60),
-		responseSize: randomData(60)
+		responseTime: smoothed,
+		responseSize: data
 	};
 	
 	var chart = new dojox.charting.Chart2D(id);
@@ -69,7 +105,7 @@ function AxPlot(id, pingerId) {
 		type: 'Lines',
 		lines: true,
 		labelOffset: -30,
-        tension: 3
+        tension: 2
 	});
     chart.addPlot('raw', {type: 'Lines', lines: true});
 	
