@@ -12,6 +12,7 @@ public class IocStandalone {
             RegistryBuilder builder = new RegistryBuilder();
             builder.add(DAOModule.class);
             builder.add(FlowsModule.class);
+            builder.add(MessagingModule.class);
 
             registry = builder.build();
             registry.performRegistryStartup();
