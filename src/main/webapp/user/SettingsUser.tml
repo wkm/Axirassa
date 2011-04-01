@@ -3,27 +3,29 @@
       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
       xmlns:p="tapestry:parameter">
 
-	<h3>User Settings</h3>
+    <h3>User Settings</h3>
 	
-	<h4>E-mail addresses</h4>
+    <h4>E-mail addresses</h4>
 
     <p>
-		Additional alert e-mail addresses. You are limited to four additional
-		addresses. You should not use this feature to notify other people,
-		instead you can ((invite)) an unlimited number of people to this account.
-	</p>
+		You are limited to five e-mail addresses per account. Each address should 
+        belong to you. To alert other people, you can invite an unlimited number
+        of people to your monitor group.
+    </p>
 
     <table class="fixed">
         <tr>
-            <th>E-mail</th><th>Verified</th><th></th>
+            <th>E-mail</th>
+            <th>Verified</th>
+            <th></th>
             <t:loop source="emails" value="email">
                 <tr>
-                    <td>${email.primaryEmail}</td>
                     <td style="width: 20em">
                         <t:if test="${email.primaryEmail}">
-                                <b>${email.email}</b>
+                            <b>${email.email}</b>
                             <p:else>
                                 ${email.email}
+                                <t:pagelink t:page="user/MakePrimaryEmailAddress" t:context="${email.id}">(make primary address)</t:pagelink>
                             </p:else>
                         </t:if>
                     </td>
@@ -37,34 +39,56 @@
                         </t:if>
                     </td>
                     <td class='img tight'>
+                        <t:if test="${email.primaryEmail}" negate="true">
                         <t:pagelink t:page="user/DeleteEmailAddress" t:context="${email.id}">
                             <img src="/media/delete.gif" title="delete e-mail address" alt="delete e-mail address" />
                         </t:pagelink>
+                        </t:if>
                     </td>
                 </tr>
+
+                <t:if test="${email.primaryEmail}">
+                    <tr>
+                        <td colspan="3">
+                            <t:AxFieldDescription>
+                                This is the e-mail address you use to identify yourself and at which you will receive billing invoices, if applicable.
+                            </t:AxFieldDescription>
+                        </td>
+                    </tr>
+                </t:if>
             </t:loop>
         </tr>
     </table>
 
-    <t:pagelink t:mixins="AxButton" t:page="User/AddEmailAddress"><img src="/media/add.gif" /> Add E-Mail Address</t:pagelink>
+    <t:pagelink t:mixins="AxButton" t:page="User/AddEmailAddress">
+        <img src="/media/add.gif" /> Add E-Mail Address
+    </t:pagelink>
 
 	
 	
-	<h4 class="divider">Phone numbers</h4>
-	<p>
+    <h4 class="divider">Phone numbers</h4>
+    <p>
 		These are phone numbers which will be notified when a monitor alerts. As
 		with e-mail addresses, you should ((invite)) other people if you want
 		them to be alerted. ((terrible language))
-	</p>
+    </p>
 	
     <table class="fixed">
-        <tr><th>Phone Number</th><th>Verified</th><th>Voice</th><th>SMS</th><th></th></tr>
+        <tr>
+            <th>Phone Number</th>
+            <th>Verified</th>
+            <th>Voice</th>
+            <th>SMS</th>
+            <th></th>
+        </tr>
         <t:loop source="phoneNumbers" value="phoneNumber">
             <tr>
-                <td style="width: 10em;"><b>${phoneNumber.formattedPhoneNumber}</b></td>
+                <td style="width: 10em;">
+                    <b>${phoneNumber.formattedPhoneNumber}</b>
+                </td>
                 <td class='img tight'>
                     <t:if test="${phoneNumber.confirmed}">
-                            <img src="/media/check.gif" alt="verified" />
+                        <img src="/media/check.gif" alt="verified" />
 
                         <p:else>
                             <t:pagelink t:page="user/VerifyPhoneNumber" t:context="${phoneNumber.id}">
@@ -98,7 +122,8 @@
         </t:loop>
         <t:if test="hasPhoneNumbers" negate="true">
             <td colspan="5" class='img' style="padding: 30px 0;" >
-                (No phone numbers associated yet. <t:pagelink t:page="user/AddPhoneNumber">Add one!</t:pagelink>)
+                (No phone numbers associated yet.
+                <t:pagelink t:page="user/AddPhoneNumber">Add one!</t:pagelink>)
             </td>
         </t:if>
     </table>
@@ -107,39 +132,41 @@
 	
 	
 	
-	<t:PageLink t:mixins="AxButton" t:page="user/AddPhoneNumber"><img src="/media/add.gif" /> Add phone number</t:PageLink>
+    <t:PageLink t:mixins="AxButton" t:page="user/AddPhoneNumber">
+        <img src="/media/add.gif" /> Add phone number
+    </t:PageLink>
 	
-	<h4 class='divider'>Password</h4>
-	<p>We will send an e-mail notifying you of a successful password change.</p>
-	<t:AxForm t:id="passwordForm">
-		<t:if test="passwordChanged">
-			<t:AxNotification>
+    <h4 class='divider'>Password</h4>
+    <p>We will send an e-mail notifying you of a successful password change.</p>
+    <t:AxForm t:id="passwordForm">
+        <t:if test="passwordChanged">
+            <t:AxNotification>
 				Your password was successfully changed.
-			</t:AxNotification>
-		</t:if>
+            </t:AxNotification>
+        </t:if>
 	
-		<t:Errors />
+        <t:Errors />
 	
-		<t:AxPasswordField
+        <t:AxPasswordField
 			t:id="currentPasswordField"
 			t:name="Current password" 
 			t:validate="required" 
 			t:value="currentPassword"
 		/>
-		<t:AxFormVSpace />
+        <t:AxFormVSpace />
 		
-		<t:AxPasswordField 
+        <t:AxPasswordField
 			t:name="New password" 
 			t:validate="required" 
 			t:value="newPassword" 
 		/>
-		<t:AxPasswordField 
+        <t:AxPasswordField
 			t:id="confirmPasswordField"
 			t:name="Confirm password" 
 			t:validate="required" 
 			t:value="confirmPassword"
 		/>
 		
-		<t:AxSubmit label="Change password" />
-	</t:AxForm>
+        <t:AxSubmit label="Change password" />
+    </t:AxForm>
 </html>
