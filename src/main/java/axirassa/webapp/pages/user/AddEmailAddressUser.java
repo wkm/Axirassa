@@ -39,14 +39,11 @@ public class AddEmailAddressUser {
 	private AxForm form;
 
 	@Component
-	private AxTextField emailField;
-
-	@Component
 	private AxTextField emailConfirmField;
 
 	@Property
 	private String email;
-
+    
 	@Property
 	private String emailConfirm;
 
