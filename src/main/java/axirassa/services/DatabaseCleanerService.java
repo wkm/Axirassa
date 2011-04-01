@@ -25,8 +25,7 @@ public class DatabaseCleanerService implements Service {
 
 
 	private void aggregateAndSendFeedback () throws Exception {
-		FeedbackAggregationService service = new FeedbackAggregationService(database,
-		        MessagingTools.getEmbeddedSession());
+        FeedbackAggregationService service = IocStandalone.autobuild(FeedbackAggregationService.class);
 		service.execute();
 	}
 
