@@ -30,6 +30,7 @@ import org.tynamo.security.services.SecurityService;
 import axirassa.dao.UserDAO;
 import axirassa.ioc.DAOModule;
 import axirassa.ioc.FlowsModule;
+import axirassa.ioc.MessagingModule;
 import axirassa.webapp.services.internal.AxirassaSecurityServiceImpl;
 import axirassa.webapp.services.internal.EmailNotifyServiceImpl;
 import axirassa.webapp.services.internal.MessagingSessionManagerImpl;
@@ -41,7 +42,7 @@ import axirassa.webapp.services.internal.VoiceNotifyServiceImpl;
  * it's a good place to configure and extend Tapestry, or to place your own
  * service definitions.
  */
-@SubModule({ DAOModule.class, FlowsModule.class })
+@SubModule({ DAOModule.class, FlowsModule.class, MessagingModule.class })
 public class AppModule {
 	@Inject
 	private Session database;
@@ -118,40 +119,6 @@ public class AppModule {
 		};
 
 	}
-
-
-	@Scope(ScopeConstants.PERTHREAD)
-	public static MessagingSessionManager buildMessagingSessionManager (PerthreadManager perthreadManager)
-	        throws HornetQException {
-		MessagingSessionManagerImpl sessionManager = new MessagingSessionManagerImpl();
-		perthreadManager.addThreadCleanupListener(sessionManager);
-		return sessionManager;
-	}
-
-
-	public static MessagingSession buildMessagingSession (MessagingSessionManager sessionManager,
-	        PropertyShadowBuilder propertyShadowBuilder) throws HornetQException {
-		return propertyShadowBuilder.build(sessionManager, "session", MessagingSession.class);
-	}
-
-
-	@Scope(ScopeConstants.PERTHREAD)
-	public EmailNotifyService buildEmailNotifyService (MessagingSession messagingSession) throws HornetQException {
-		return new EmailNotifyServiceImpl(messagingSession);
-	}
-
-
-	@Scope(ScopeConstants.PERTHREAD)
-	public SmsNotifyService buildSmsNotifyService (MessagingSession messagingSession) throws HornetQException {
-		return new SmsNotifyServiceImpl(messagingSession);
-	}
-
-
-	@Scope(ScopeConstants.PERTHREAD)
-	public VoiceNotifyService buildVoiceNotifyService (MessagingSession messagingSession) throws HornetQException {
-		return new VoiceNotifyServiceImpl(messagingSession);
-	}
-
 
 	/**
 	 * This is a contribution to the RequestHandler service configuration. This
