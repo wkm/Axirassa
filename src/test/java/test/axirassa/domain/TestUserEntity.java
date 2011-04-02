@@ -6,14 +6,14 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import axirassa.ioc.IocTestRunner;
+import axirassa.ioc.IocIntegrationTestRunner;
 import axirassa.model.UserEntity;
 import axirassa.model.exception.NoSaltException;
 import axirassa.model.flows.CreateUserFlow;
 import axirassa.util.AbstractDomainTest;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
-@RunWith(IocTestRunner.class)
+@RunWith(IocIntegrationTestRunner.class)
 public class TestUserEntity extends AbstractDomainTest {
 
     @Inject

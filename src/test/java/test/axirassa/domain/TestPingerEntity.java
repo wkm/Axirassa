@@ -8,7 +8,7 @@ import java.util.Collections;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import axirassa.ioc.IocTestRunner;
+import axirassa.ioc.IocIntegrationTestRunner;
 import axirassa.model.MonitorType;
 import axirassa.model.MonitorTypeEntity;
 import axirassa.model.PingerEntity;
@@ -18,7 +18,7 @@ import axirassa.model.flows.CreateUserFlow;
 import axirassa.util.AbstractDomainTest;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
-@RunWith(IocTestRunner.class)
+@RunWith(IocIntegrationTestRunner.class)
 public class TestPingerEntity extends AbstractDomainTest {
 
     @Inject

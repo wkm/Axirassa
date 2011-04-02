@@ -7,14 +7,14 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import axirassa.ioc.IocTestRunner;
+import axirassa.ioc.IocIntegrationTestRunner;
 import axirassa.model.UserEntity;
 import axirassa.model.UserPhoneNumberEntity;
 import axirassa.model.flows.CreateUserFlow;
 import axirassa.util.AbstractDomainTest;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
-@RunWith(IocTestRunner.class)
+@RunWith(IocIntegrationTestRunner.class)
 public class TestPhoneNumberTokenEntity extends AbstractDomainTest {
     @Inject
     CreateUserFlow createUserFlow;

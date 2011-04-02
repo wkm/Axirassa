@@ -5,9 +5,9 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
 import org.mockito.MockitoAnnotations;
 
-public class IocTestRunner extends BlockJUnit4ClassRunner {
+public class IocIntegrationTestRunner extends BlockJUnit4ClassRunner {
 
-	public IocTestRunner (Class<?> classObject) throws InitializationError {
+	public IocIntegrationTestRunner (Class<?> classObject) throws InitializationError {
 		super(classObject);
 	}
 

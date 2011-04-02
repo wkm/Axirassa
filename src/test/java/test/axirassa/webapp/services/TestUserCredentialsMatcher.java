@@ -1,7 +1,7 @@
 package test.axirassa.webapp.services;
 
 import axirassa.dao.UserDAO;
-import axirassa.ioc.IocTestRunner;
+import axirassa.ioc.IocIntegrationTestRunner;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -19,7 +19,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 
-@RunWith(IocTestRunner.class)
+@RunWith(IocIntegrationTestRunner.class)
 public class TestUserCredentialsMatcher {
 
     @Inject

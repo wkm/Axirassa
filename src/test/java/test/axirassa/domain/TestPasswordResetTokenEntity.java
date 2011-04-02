@@ -4,7 +4,7 @@ import axirassa.dao.PasswordResetTokenDAO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import axirassa.ioc.IocTestRunner;
+import axirassa.ioc.IocIntegrationTestRunner;
 import axirassa.model.PasswordResetTokenEntity;
 import axirassa.model.UserEmailAddressEntity;
 import axirassa.model.UserEntity;
@@ -12,7 +12,7 @@ import axirassa.model.flows.CreateUserFlow;
 import axirassa.util.AbstractDomainTest;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
-@RunWith(IocTestRunner.class)
+@RunWith(IocIntegrationTestRunner.class)
 public class TestPasswordResetTokenEntity extends AbstractDomainTest {
 
     @Inject

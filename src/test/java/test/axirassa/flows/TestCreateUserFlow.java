@@ -1,6 +1,6 @@
 package test.axirassa.flows;
 
-import axirassa.ioc.IocTestRunner;
+import axirassa.ioc.IocIntegrationTestRunner;
 import axirassa.model.UserEntity;
 import axirassa.model.flows.CreateUserFlow;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertFalse;
 
-@RunWith(IocTestRunner.class)
+@RunWith(IocIntegrationTestRunner.class)
 public class TestCreateUserFlow {
 
     @Inject

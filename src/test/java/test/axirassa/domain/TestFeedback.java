@@ -10,13 +10,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import axirassa.dao.FeedbackDAO;
-import axirassa.ioc.IocTestRunner;
+import axirassa.ioc.IocIntegrationTestRunner;
 import axirassa.model.FeedbackEntity;
 import axirassa.model.UserEmailAddressEntity;
 import axirassa.model.UserEntity;
 import axirassa.util.AbstractDomainTest;
 
-@RunWith(IocTestRunner.class)
+@RunWith(IocIntegrationTestRunner.class)
 public class TestFeedback extends AbstractDomainTest {
 
 	@Inject
