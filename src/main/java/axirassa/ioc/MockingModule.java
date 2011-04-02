@@ -6,8 +6,6 @@ import axirassa.webapp.services.MessagingSession;
 import axirassa.webapp.services.MessagingSessionManager;
 import axirassa.webapp.services.SmsNotifyService;
 import axirassa.webapp.services.VoiceNotifyService;
-import org.apache.tapestry5.ioc.ScopeConstants;
-import org.apache.tapestry5.ioc.annotations.Scope;
 import org.hibernate.Session;
 import static org.mockito.Mockito.mock;
 
@@ -17,10 +15,6 @@ import static org.mockito.Mockito.mock;
  * @author wiktor
  */
 public class MockingModule {
-
-    public MockingModule () {
-        System.err.println("CREATING MOCKING MODULE");
-    }
 
     public static void contributeServiceOverride(MappedConfiguration<Class, Object> configuration) {
         configuration.add(Session.class, mock(Session.class));
