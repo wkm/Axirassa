@@ -1,29 +1,30 @@
 .axwo {
     float: left;
-    padding: 0 10px 10px 0;
+    padding: 0 15px 15px 0;
+    position: relative;
+
+    width: 480px;
 }
 
 .axw {	
 	font-size: 8pt;
-	position: relative;
-    width: 480px;
+    width: 400px;
 	height: 100px;
-
-    background: #fff;
+    position: relative;
+    top: 0;
+    left: 0;
 }
 
-.axw .respTime {
+.axwo > .respTime {
 	height: 120px;
 }
 
-.axw .respSize {
+.axwo > .respSize {
 	height: 80px;
 }
 
-.axw .n {
-	font-weight: bold;
-	text-transform: uppercase;
-	font-size: 20pt;
+.axwo > .n {
+	font-size: 18pt;
 	margin-top: -11px;
 	z-index: 1;
 	position: absolute;
@@ -31,24 +32,29 @@
 	left: 5px;
 }
 
-.axw .t, .axw .sz {
+.axwo > .t, .axwo > .sz {
 	font-size: 18pt;
-	font-weight: bold;
 	text-align: right;
 	text-transform: uppercase;
 	position: absolute;
 	left: 400px;
 }
 
-.axw .t {
+.axwo > .t {
 	top: 50px;
 }
 
-.axw .sz {
+.axwo > .sz {
 	top: 100px;
 }
 
 .u {
 	color: #666;
 	font-size: 80%;
+}
+
+.axstat {
+    position: absolute;
+    right: 50px;
+    top: 5px;
 }
