@@ -1,19 +1,15 @@
-.axw {
-	float: left;
-	
-	width: 480px;
-	height: 160px;
-	
-	padding: 0 10px 10px 0;
-	font-size: 8pt;
-	position: relative;
-
-    background: #fff;
+.axwo {
+    float: left;
+    padding: 0 10px 10px 0;
 }
 
-.axw .p {
-	width: 400px;
-	height: 160px;
+.axw {	
+	font-size: 8pt;
+	position: relative;
+    width: 480px;
+	height: 100px;
+
+    background: #fff;
 }
 
 .axw .respTime {
