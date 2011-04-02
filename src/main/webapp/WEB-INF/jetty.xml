@@ -2,6 +2,7 @@
 <!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
 
 <!--  THIS APPEARS TO BE IGNORED -->
+<!-- yeah, no shit sherlock, it's ignored if you launch with jetty:run -->
 <Configure id="Server" class="org.mortbay.jetty.Server">
 	<Set name="ThreadPool">
 		<New class="org.mortbay.thread.QueuedThreadPool">
@@ -11,7 +12,16 @@
 			<Set name="SpawnOrShrinkAt">2</Set>
 		</New>
 	</Set>
-	
+
+    <Set name="sessionHandler">
+        <New class="org.mortbay.jetty.servlet.SessionHandler">
+            <Arg>
+                <New class="org.mortbay.jetty.servlet.HashSessionManager">
+                    <Set name="actualMaxInactiveInterval">1209600</Set> <!-- two weeks 14 * 24 * 60 * 60 -->
+                </New>
+            </Arg>
+        </New>
+    </Set>
 	
     <Set name="sendServerVersion">false</Set>
     <Set name="sendDateHeader">false</Set>
