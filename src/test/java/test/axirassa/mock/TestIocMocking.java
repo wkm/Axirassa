@@ -8,9 +8,7 @@ import org.hibernate.Session;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.*;
 
 /**
  *
@@ -27,17 +25,14 @@ public class TestIocMocking {
 
     @Test
     public void testMocking () {
-        System.err.println("DATABASE: " + database);
+        // test
         database.beginTransaction();
-        System.err.println("DATABASE: " + database);
         database.beginTransaction();
-
         emailer.startMessage(EmailTemplate.AGGREGATED_FEEDBACK);
-        System.err.println("EMAILER: "+emailer);
-        
-        // database should be a mock object
-        when(database.save(any())).thenThrow(new ExceptionInInitializerError("saved"));
-        database.save("object");
+
+        // verify
+        verify(database, times(2)).beginTransaction();
+        verify(emailer).startMessage(EmailTemplate.AGGREGATED_FEEDBACK);
     }
 
 
