@@ -98,7 +98,7 @@ function AxPlot(id, pingerId) {
 		responseSize: data
 	};
 	
-	var chart = new dojox.charting.Chart2D(id);
+	var chart = new dojox.charting.Chart2D(id + "_plot");
 	chart.setTheme(colorTheme);
 	chart.addPlot('smooth', {
 		type: 'Lines',
@@ -106,9 +106,6 @@ function AxPlot(id, pingerId) {
         tension: 2
 	});
     chart.addPlot('raw', {type: 'Lines', lines: true});
-	
-	chart.addAxis('x');
-	chart.addAxis('y', {vertical:true, min: 0});
 	
 	chart.addSeries('Response Time', json['responseTime'], {plot:'smooth'});
 	chart.addSeries('Response Size', json['responseSize'], {plot:'raw'});
