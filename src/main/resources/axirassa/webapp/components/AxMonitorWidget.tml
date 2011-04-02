@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<div class="axw" id="${plotId}">
-	<div class="n">${pingerName}</div>
+<div class="axwo">
+    <div class="axw" id="${plotId}">
+        <div class="n">${pingerName}</div>
+    </div>
 </div>
