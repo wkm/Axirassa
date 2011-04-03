@@ -3,9 +3,12 @@ package test.axirassa.domain;
 
 import static org.junit.Assert.assertEquals;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -14,41 +17,43 @@ import axirassa.ioc.IocIntegrationTestRunner;
 import axirassa.model.FeedbackEntity;
 import axirassa.model.UserEmailAddressEntity;
 import axirassa.model.UserEntity;
-import axirassa.util.AbstractDomainTest;
 
 @RunWith(IocIntegrationTestRunner.class)
-public class TestFeedback extends AbstractDomainTest {
+public class TestFeedback {
+
+	@Inject
+	private Session database;
 
 	@Inject
 	private FeedbackDAO feedbackDAO;
 
 
 	@Test
-	public void feedback () {
-		session.beginTransaction();
+	public void feedback () throws HibernateException, SQLException {
+		database.beginTransaction();
 
 		UserEntity user = new UserEntity();
 		user.createPassword("password");
-		session.save(user);
+		database.save(user);
 
 		UserEmailAddressEntity email = new UserEmailAddressEntity();
 		email.setEmail("who@foo.com");
 		email.setUser(user);
 		email.setPrimaryEmail(true);
-		session.save(email);
+		database.save(email);
 
 		FeedbackEntity feedback1 = new FeedbackEntity();
 		feedback1.setComment("hi this is a great site");
 		feedback1.setUseragent("axirassa-pinger");
-		session.save(feedback1);
+		database.save(feedback1);
 
 		FeedbackEntity feedback2 = new FeedbackEntity();
 		feedback2.setUser(user);
 		feedback2.setComment("hi this site sucks");
 		feedback2.setUseragent("troll-browser");
-		session.save(feedback2);
+		database.save(feedback2);
 
-		session.getTransaction().commit();
+		database.getTransaction().commit();
 
 		List<FeedbackEntity> feedbacks = feedbackDAO.getAllFeedback();
 		assertEquals(2, feedbacks.size());

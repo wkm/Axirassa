@@ -1,3 +1,4 @@
+
 package test.axirassa.domain;
 
 import static org.junit.Assert.assertTrue;
@@ -5,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.Collections;
 
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.hibernate.Session;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -15,42 +18,43 @@ import axirassa.model.PingerEntity;
 import axirassa.model.PingerFrequency;
 import axirassa.model.UserEntity;
 import axirassa.model.flows.CreateUserFlow;
-import axirassa.util.AbstractDomainTest;
-import org.apache.tapestry5.ioc.annotations.Inject;
 
 @RunWith(IocIntegrationTestRunner.class)
-public class TestPingerEntity extends AbstractDomainTest {
+public class TestPingerEntity {
 
-    @Inject
-    private CreateUserFlow createUserFlow;
+	@Inject
+	private CreateUserFlow createUserFlow;
 
-    @Test
-    public void testPingerSize () throws IOException {
-        createUserFlow.setEmail("foo@mail.com");
-        createUserFlow.setPassword("password");
-        createUserFlow.execute();
+	@Inject
+	private Session database;
 
-        UserEntity user = createUserFlow.getUserEntity();
 
-        MonitorTypeEntity type = new MonitorTypeEntity();
-        type.setType(MonitorType.HTTP);
+	@Test
+	public void testPingerSize () throws IOException {
+		createUserFlow.setEmail("foo@mail.com");
+		createUserFlow.setPassword("password");
+		createUserFlow.execute();
 
-        PingerEntity pinger = new PingerEntity();
-        pinger.setFrequency(PingerFrequency.MINUTE);
-        pinger.setMonitorType(Collections.singleton(type));
-        pinger.setUrl("www.google.com");
-        pinger.setUser(user);
+		UserEntity user = createUserFlow.getUserEntity();
 
-        session.beginTransaction();
-        session.save(user);
-        // create many of these pingers
-        for (int i = 0; i < 100; i++)
-            session.save(pinger);
-        session.save(type);
-        session.getTransaction().commit();
+		MonitorTypeEntity type = new MonitorTypeEntity();
+		type.setType(MonitorType.HTTP);
 
-        assertTrue(pinger.toBytes().length < 1500);
-    }
+		PingerEntity pinger = new PingerEntity();
+		pinger.setFrequency(PingerFrequency.MINUTE);
+		pinger.setMonitorType(Collections.singleton(type));
+		pinger.setUrl("www.google.com");
+		pinger.setUser(user);
 
+		database.beginTransaction();
+		database.save(user);
+		// create many of these pingers
+		for (int i = 0; i < 100; i++)
+			database.save(pinger);
+		database.save(type);
+		database.getTransaction().commit();
+
+		assertTrue(pinger.toBytes().length < 1500);
+	}
 
 }
