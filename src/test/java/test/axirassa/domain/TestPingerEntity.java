@@ -31,11 +31,9 @@ public class TestPingerEntity {
 
 	@Test
 	public void testPingerSize () throws IOException {
-		createUserFlow.setEmail("foo@mail.com");
-		createUserFlow.setPassword("password");
-		createUserFlow.execute();
-
-		UserEntity user = createUserFlow.getUserEntity();
+		UserEntity user = new UserEntity();
+		user.createPassword("password");
+		database.persist(user);
 
 		MonitorTypeEntity type = new MonitorTypeEntity();
 		type.setType(MonitorType.HTTP);
