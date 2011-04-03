@@ -29,16 +29,16 @@ public class TestHornet {
 
 
 	@Test
-	public void test() throws JMSException, HornetQException {
+	public void test () throws JMSException, HornetQException {
 		ClientSessionFactory factory = HornetQClient.createClientSessionFactory(new TransportConfiguration(
 		        NettyConnectorFactory.class.getName()));
 
 		ClientSession session = factory.createSession();
 
-		session.createQueue("example", "example", true);
+		session.createQueue("example", "example", false);
 
 		ClientProducer producer = session.createProducer("example");
-		ClientMessage message = session.createMessage(true);
+		ClientMessage message = session.createMessage(false);
 
 		message.getBodyBuffer().writeString("Hello");
 

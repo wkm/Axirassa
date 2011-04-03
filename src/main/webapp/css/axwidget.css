@@ -1,59 +1,60 @@
-.axw {
-	float: left;
-	
-	width: 480px;
-	height: 160px;
-	
-	padding: 0;
-	margin: 0 10px 10px 0;
+.axwo {
+    float: left;
+    padding: 0 15px 15px 0;
+    position: relative;
+
+    width: 480px;
+}
+
+.axw {	
 	font-size: 8pt;
-	position: relative;
+    width: 400px;
+	height: 100px;
+    position: relative;
+    top: 0;
+    left: 0;
 }
 
-.axw .p {
-	width: 400px;
-	height: 160px;
-}
-
-.axw .respTime {
+.axwo > .respTime {
 	height: 120px;
 }
 
-.axw .respSize {
+.axwo > .respSize {
 	height: 80px;
 }
 
-.axw .n {
-	font-weight: bold;
-	text-transform: uppercase;
-	font-size: 20pt;
+.axwo > .n {
+	font-size: 18pt;
 	margin-top: -11px;
 	z-index: 1;
 	position: absolute;
 	top: 10px;
 	left: 5px;
-
-    text-shadow: #aaa -1px -1px 0px;
 }
 
-.axw .t, .axw .sz {
-	font-size: 18pt;
-	font-weight: bold;
+.axwo > .t, .axwo > .sz {
+	font-size: 14pt;
 	text-align: right;
 	text-transform: uppercase;
 	position: absolute;
 	left: 400px;
 }
 
-.axw .t {
+.axwo > .t {
 	top: 50px;
 }
 
-.axw .sz {
+.axwo > .sz {
 	top: 100px;
 }
 
 .u {
 	color: #666;
 	font-size: 80%;
+}
+
+.axstat {
+    position: absolute;
+    right: 50px;
+    top: 5px;
 }

@@ -7,13 +7,24 @@ public class IocStandalone {
 
     public static Registry registry = null;
 
-    public static void init () {
-        if (registry == null) {
-            RegistryBuilder builder = new RegistryBuilder();
-            builder.add(DAOModule.class);
-            builder.add(FlowsModule.class);
-            builder.add(MessagingModule.class);
+    public static RegistryBuilder initRegistryBuilder () {
+        RegistryBuilder builder = new RegistryBuilder();
+        builder.add(DAOModule.class);
+        builder.add(FlowsModule.class);
+        builder.add(MessagingModule.class);
+        builder.add(LoggingModule.class);
 
+        return builder;
+    }
+
+
+    public static void init () {
+        init(initRegistryBuilder());
+    }
+
+
+    public static void init (RegistryBuilder builder) {
+        if (registry == null) {
             registry = builder.build();
             registry.performRegistryStartup();
         }

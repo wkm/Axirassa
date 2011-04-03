@@ -16,6 +16,8 @@ import org.hornetq.api.core.client.ClientSession;
 import org.hornetq.api.core.client.ClientSessionFactory;
 import org.hornetq.api.core.client.HornetQClient;
 import org.hornetq.core.remoting.impl.netty.NettyConnectorFactory;
+import org.junit.AfterClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import axirassa.util.EmbeddedMessagingServer;
@@ -31,14 +33,14 @@ public class TestMessageTopics {
 	}
 
 
-	private ClientMessage textMessage(ClientSession session, String txt) {
+	private ClientMessage textMessage (ClientSession session, String txt) {
 		ClientMessage msg = session.createMessage(false);
 		msg.getBodyBuffer().writeString(txt);
 		return msg;
 	}
 
 
-	private String getMessageText(ClientMessage msg) {
+	private String getMessageText (ClientMessage msg) {
 		if (msg == null)
 			return null;
 		System.out.println("Disassembling message: " + msg + " buff: " + msg.getBodyBuffer().capacity());
@@ -47,7 +49,8 @@ public class TestMessageTopics {
 
 
 	@Test
-	public void test() throws HornetQException {
+	@Ignore
+	public void test () throws HornetQException {
 		ClientSessionFactory factory = HornetQClient.createClientSessionFactory(new TransportConfiguration(
 		        NettyConnectorFactory.class.getName()));
 		ClientSession session = factory.createSession();
@@ -128,10 +131,16 @@ public class TestMessageTopics {
 	}
 
 
-	public void speedTest(ClientSession session, ClientProducer producer, String topic) throws HornetQException {
+	public void speedTest (ClientSession session, ClientProducer producer, String topic) throws HornetQException {
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < 50000; i++)
 			producer.send(topic, textMessage(session, "hello topic1"));
 		System.err.println("Finit after: " + (System.currentTimeMillis() - start));
+	}
+
+
+	@AfterClass
+	public static void shutdownServer () throws Exception {
+		EmbeddedMessagingServer.stop();
 	}
 }

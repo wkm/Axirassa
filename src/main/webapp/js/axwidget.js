@@ -22,17 +22,48 @@ var colorTheme = new dojox.charting.Theme({
 		}
 	},
 	seriesThemes: [
-	    {stroke: {color: '#ddd'}},
+	    {stroke: {color: '#eee'}},
 	    {stroke: {color: 'rgb(174,3,0)'}},
-	    {stroke: {color: '#ccc'}}
+	    {stroke: {color: '#fafafa'}}
 	]
 });
 
+
+function weightedMovingAverage(data, length) {
+    if(data.length < length)
+        return undefined;
+
+    var averages = new Array(data.length - length + 1);
+
+    var denominator = length * (length + 1) / 2;
+    var numerator = 0, total = 0;
+
+    // compute initial weighting
+    for(var i = length - 1; i >= 0; i--) {
+        numerator += (i+1) * data[i];
+        total += data[i];
+
+        averages[0] = numerator / denominator;
+    }
+
+    // now the weighted
+    var previousTotal, previousNumerator;
+    for(i = 1; i < averages.length; i++) {
+        previousTotal = total;
+        previousNumerator = numerator;
+
+        total = previousTotal + data[i + length - 1] - data[i - 1];
+        numerator = previousNumerator + length * data[i + length - 1] - previousTotal;
+        averages[i] = numerator / denominator;
+    }
+
+    return averages;
+}
+
 function randomData(length) {
 	var data = new Array(length);
-
 	for(var i = 0; i < length; i++)
-		data[i] = Math.floor(Math.random()*1000);
+		data[i] = 500 - 50 * Math.log(100 * Math.random());
 	return data;
 }
 
@@ -58,23 +89,23 @@ function inspect(object, depth) {
 }
 
 function AxPlot(id, pingerId) {
+    var data = randomData(200);
+    var smoothed = weightedMovingAverage(data, 10);
+    data = data.slice(10);
+
 	var json = {
-		responseTime: randomData(60),
-		responseSize: randomData(60)
+		responseTime: smoothed,
+		responseSize: data
 	};
 	
-	var chart = new dojox.charting.Chart2D(id);
+	var chart = new dojox.charting.Chart2D(id + "_plot");
 	chart.setTheme(colorTheme);
 	chart.addPlot('smooth', {
 		type: 'Lines',
 		lines: true,
-		labelOffset: -30,
-        tension: 3
+        tension: 2
 	});
     chart.addPlot('raw', {type: 'Lines', lines: true});
-	
-	chart.addAxis('x');
-	chart.addAxis('y', {vertical:true});
 	
 	chart.addSeries('Response Time', json['responseTime'], {plot:'smooth'});
 	chart.addSeries('Response Size', json['responseSize'], {plot:'raw'});
