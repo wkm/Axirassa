@@ -121,22 +121,21 @@ function AxPlot(id, pingerId) {
 	
 	console.log("SUBSCRIBING TO: "+ pingerId);
 	dojox.cometd.subscribe("/ax/pinger/"+pingerId, function(msg){
-		console.log("Received data point: "+msg);
-		dojo.byId(id).innerHTML = "Last data point: "+msg.data;
+		console.log("Received data point: for ["+pingerId+"] " + msg.data);
+		dojo.byId(id + "_time").innerHTML = msg.data;
+		dojo.byId(id + "_sz").innerHTML = msg.data['responseSize'] + "<span class='u'>b</span>";
+		dojo.byId(id + "_t").innerHtml = msg.data['responseTime'] + "<span class='u'>ms</span>";
 	});
-//	dojox.cometd.subscribe("/ax/timeplease", function(msg) {
-//		dojo.byId(id + "_time").innerHTML = msg.data;
-//	});
+	dojox.cometd.subscribe("/ax/timeplease", function(msg) {
+		dojo.byId(id + "_timestamp").innerHTML = msg.data;
+	});
 }
 function connectStreaming() {
 	if(!connected) {
-		console.log("CONFIGURING AND HANDSHAKING");
 		dojox.cometd.configure({
 			url: "/push"
 		});
 		dojox.cometd.handshake();
 		connected=true;
-	} else {
-		console.log("ALREADY CONNECTED");
 	}
 }
