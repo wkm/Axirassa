@@ -1,5 +1,12 @@
+
 package axirassa.webapp.ajax.httpstream;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.cometd.bayeux.Channel;
 import org.cometd.bayeux.server.ServerMessage;
@@ -8,29 +15,22 @@ import org.cometd.server.ServerSessionImpl;
 import org.eclipse.jetty.continuation.Continuation;
 import org.eclipse.jetty.continuation.ContinuationSupport;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.List;
-
-
 public class HttpStreamingTransportHandler {
 
-	private final static String USER_AGENT_HEADER      = "User-Agent";
-	private final static String SCHEDULER_ATTRIBUTE    = "cometd.httpstreaming.scheduler";
+	private final static String USER_AGENT_HEADER = "User-Agent";
+	private final static String SCHEDULER_ATTRIBUTE = "cometd.httpstreaming.scheduler";
 	private static final String REQUEST_TICK_ATTRIBUTE = "cometd.httpstreaming.requesttick";
 
-	private final HttpServletRequest     request;
-	private final HttpServletResponse    response;
-	private       ServerSessionImpl      serverSession;
+	private final HttpServletRequest request;
+	private final HttpServletResponse response;
+	private ServerSessionImpl serverSession;
 	private final HttpStreamingTransport transport;
-	private       JSONStreamPrintWriter  writer;
+	private JSONStreamPrintWriter writer;
 	private long requestStartTick = System.nanoTime();
 
 
 	public HttpStreamingTransportHandler (HttpStreamingTransport transport, HttpServletRequest request,
-	                                      HttpServletResponse response) {
+	        HttpServletResponse response) {
 		this.transport = transport;
 		this.request = request;
 		this.response = response;
@@ -77,14 +77,14 @@ public class HttpStreamingTransportHandler {
 				return;
 			} else {
 				if ((tick instanceof Long))
-					requestStartTick = ( Long ) tick;
+					requestStartTick = (Long) tick;
 				else {
 					info("REQUEST TICK OF WRONG TYPE");
 					requestStartTick = 0;
 				}
 			}
 
-			HttpStreamingScheduler scheduler = ( HttpStreamingScheduler ) schedulerAttribute;
+			HttpStreamingScheduler scheduler = (HttpStreamingScheduler) schedulerAttribute;
 			handleResumedSession(scheduler);
 		}
 	}
@@ -137,7 +137,7 @@ public class HttpStreamingTransportHandler {
 			serverSession = null;
 		}
 
-		ServerMessage reply = getBayeux().handle(serverSession, message);
+		ServerMessage.Mutable reply = getBayeux().handle(serverSession, message);
 		if (reply != null) {
 			boolean isHandshake = false;
 			if (serverSession == null) {
@@ -165,9 +165,6 @@ public class HttpStreamingTransportHandler {
 
 			message.setAssociated(null);
 		}
-
-		// info("CLOSING WRITER TO FINISH SENDING");
-		// finishResponse();
 
 		return serverSession;
 	}
@@ -289,15 +286,17 @@ public class HttpStreamingTransportHandler {
 
 
 	/**
-	 * @return the ServerSession associated with the given clientId, null if no such sesion exists
+	 * @return the ServerSession associated with the given clientId, null if no
+	 *         such sesion exists
 	 */
 	private ServerSessionImpl retrieveSession (String clientId) {
-		return ( ServerSessionImpl ) getBayeux().getSession(clientId);
+		return (ServerSessionImpl) getBayeux().getSession(clientId);
 	}
 
 
 	/**
-	 * @return true if the given clientId does not match the given serverSession.
+	 * @return true if the given clientId does not match the given
+	 *         serverSession.
 	 */
 	private boolean isClientSessionMismatch (String clientId, ServerSessionImpl serverSession) {
 		return clientId != null && !clientId.equals(serverSession.getId());
