@@ -33,6 +33,8 @@ public class TestPhoneNumberTokenEntity {
 
 		UserEmailAddressEntity email = new UserEmailAddressEntity();
 		email.setEmail("who@foo.com");
+		email.setPrimaryEmail(true);
+		email.setUser(user);
 
 		database.persist(user);
 		database.persist(email);
