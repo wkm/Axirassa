@@ -113,7 +113,7 @@ function AxPlot(id, pingerId) {
 	chart.render();
 	
 	
-	/*if(!connected) {
+	if(!connected) {
 		connectStreaming();
 	} else {
 		console.log("already connected");
@@ -123,12 +123,20 @@ function AxPlot(id, pingerId) {
 	dojox.cometd.subscribe("/ax/pinger/"+pingerId, function(msg){
 		console.log("Received data point: "+msg);
 		dojo.byId(id).innerHTML = "Last data point: "+msg.data;
-	});*/
+	});
+//	dojox.cometd.subscribe("/ax/timeplease", function(msg) {
+//		dojo.byId(id + "_time").innerHTML = msg.data;
+//	});
 }
 function connectStreaming() {
-	/*console.log("CONFIGURING AND HANDSHAKING");
-	dojox.cometd.configure({
-		url: "/push"
-	});
-	dojox.cometd.handshake();*/
+	if(!connected) {
+		console.log("CONFIGURING AND HANDSHAKING");
+		dojox.cometd.configure({
+			url: "/push"
+		});
+		dojox.cometd.handshake();
+		connected=true;
+	} else {
+		console.log("ALREADY CONNECTED");
+	}
 }
