@@ -4,10 +4,14 @@
  "classpath://axirassa/util/test/AxirassaTestFixture-1.0.dtd">
 <fixtures>
 	<fixture name="verifyPhoneNumber">
+		<![CDATA[
+		<speak>
 		This is Ax-ih-rassa Server Monitoring.
-
 		Please enter the following confirmation code to verify this phone number.
-		
-		45-68-94-32
+		<emphasis level="strong"><prosody rate="slow">45-68-94-32</prosody></emphasis>
+		Again,
+		<emphasis level="strong"><prosody rate="slow">45-68-94-32</prosody></emphasis>
+		</speak>
+		]]>
 	</fixture>
 </fixtures>
