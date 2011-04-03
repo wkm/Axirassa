@@ -357,6 +357,6 @@
         <tapestry-security-release-version>0.3.0</tapestry-security-release-version>
         <quartz-scheduler-release-version>1.8.4</quartz-scheduler-release-version>
         <jetty-release-version>7.2.2.v20101205</jetty-release-version>
-        <cometd-release-version>2.0.0</cometd-release-version>
+        <cometd-release-version>2.1.0</cometd-release-version>
     </properties>
 </project>
