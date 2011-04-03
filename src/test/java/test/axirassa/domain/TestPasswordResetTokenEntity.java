@@ -11,16 +11,12 @@ import axirassa.ioc.IocIntegrationTestRunner;
 import axirassa.model.PasswordResetTokenEntity;
 import axirassa.model.UserEmailAddressEntity;
 import axirassa.model.UserEntity;
-import axirassa.model.flows.CreateUserFlow;
 
 @RunWith(IocIntegrationTestRunner.class)
 public class TestPasswordResetTokenEntity {
 
 	@Inject
 	private PasswordResetTokenDAO passwordResetTokenDAO;
-
-	@Inject
-	private CreateUserFlow createUserFlow;
 
 	@Inject
 	private Session database;
@@ -30,12 +26,15 @@ public class TestPasswordResetTokenEntity {
 	public void testAutoGeneration () {
 		database.beginTransaction();
 
-		createUserFlow.setEmail("who@foo.com");
-		createUserFlow.setPassword("password");
-		createUserFlow.execute();
+		UserEntity user = new UserEntity();
+		user.createPassword("password");
+		database.persist(user);
 
-		UserEntity user = createUserFlow.getUserEntity();
-		UserEmailAddressEntity emailAddress = createUserFlow.getPrimaryEmailEntity();
+		UserEmailAddressEntity emailAddress = new UserEmailAddressEntity();
+		emailAddress.setEmail("who@foo.com");
+		emailAddress.setUser(user);
+		emailAddress.setPrimaryEmail(true);
+		database.persist(emailAddress);
 
 		PasswordResetTokenEntity token1 = new PasswordResetTokenEntity();
 		token1.setUser(user);
