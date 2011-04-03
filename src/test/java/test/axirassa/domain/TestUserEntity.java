@@ -25,7 +25,7 @@ public class TestUserEntity {
 		database.beginTransaction();
 
 		UserEntity user = new UserEntity();
-		user.createPassword("password");
+		user.createPassword("blah");
 
 		assertTrue(user.matchPassword("blah"));
 		assertFalse(user.matchPassword("blah "));
@@ -43,7 +43,7 @@ public class TestUserEntity {
 		long start = System.currentTimeMillis();
 		user.createPassword("password");
 		System.out.println("PASSWORD IN: " + (System.currentTimeMillis() - start));
-		database.save(user);
+		database.persist(user);
 		database.getTransaction().commit();
 	}
 
