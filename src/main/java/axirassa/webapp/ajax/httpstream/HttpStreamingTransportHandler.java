@@ -20,6 +20,7 @@ public class HttpStreamingTransportHandler {
 	private final static String USER_AGENT_HEADER = "User-Agent";
 	private final static String SCHEDULER_ATTRIBUTE = "cometd.httpstreaming.scheduler";
 	private static final String REQUEST_TICK_ATTRIBUTE = "cometd.httpstreaming.requesttick";
+	private static final long JETTY_TIMEOUT_BUFFER = 30 * 1000;
 
 	private final HttpServletRequest request;
 	private final HttpServletResponse response;
@@ -58,6 +59,19 @@ public class HttpStreamingTransportHandler {
 		Object schedulerAttribute = request.getAttribute(SCHEDULER_ATTRIBUTE);
 		info("schdulerAttribute: ", schedulerAttribute);
 
+		Continuation continuation = ContinuationSupport.getContinuation(request);
+		// continuation states
+		System.err.println("CONTINUATION STATES:");
+		if (continuation.isInitial())
+			System.err.println("\t >>>> initial");
+		if (continuation.isExpired())
+			System.err.println("\t >>>> expired");
+		if (continuation.isResumed())
+			System.err.println("\t >>>> resumed");
+		if (continuation.isSuspended())
+			System.err.println("\t >>>> suspended");
+		System.err.println("\n");
+
 		if (schedulerAttribute == null) {
 			info("NO SCHEDULER");
 			handleNewSession();
@@ -92,10 +106,9 @@ public class HttpStreamingTransportHandler {
 
 	public void handleResumedSession (HttpStreamingScheduler scheduler) {
 		serverSession = scheduler.getServerSession();
-		if (serverSession.isConnected()) {
-			info("starting serverSession interval timeout");
+
+		if (serverSession.isConnected())
 			serverSession.startIntervalTimeout();
-		}
 
 		sendQueuedMessages();
 		suspendSession();
@@ -113,6 +126,8 @@ public class HttpStreamingTransportHandler {
 			response.setContentType("application/json");
 
 			serverSession = null;
+
+			// padInitialReply();
 
 			// process each message
 			for (ServerMessage.Mutable message : messages) {
@@ -161,6 +176,7 @@ public class HttpStreamingTransportHandler {
 				info(" >>>> [closed]");
 			} else {
 				suspendSession();
+				info(" >>>> [suspended] ");
 			}
 
 			message.setAssociated(null);
@@ -177,16 +193,26 @@ public class HttpStreamingTransportHandler {
 
 		if (timeout > 0) {
 			Continuation continuation = ContinuationSupport.getContinuation(request);
-			continuation.setTimeout(timeout);
+			continuation.setTimeout(timeout + JETTY_TIMEOUT_BUFFER);
 
-			HttpStreamingScheduler scheduler = new HttpStreamingScheduler(serverSession, continuation, this);
+			HttpStreamingScheduler scheduler = (HttpStreamingScheduler) serverSession.getAttribute("SCHEDULER");
+			if (scheduler == null) {
+				System.err.println("!!!!! CREATING NEW SCHEDULER");
+				scheduler = new HttpStreamingScheduler(serverSession, continuation, this);
+				serverSession.setInterval(timeout);
+				serverSession.setTimeout(timeout);
+				serverSession.setScheduler(scheduler);
 
-			serverSession.setScheduler(scheduler);
+				serverSession.setAttribute("SCHEDULER", scheduler);
+			} else {
+				System.err.println("!!!!! SCHCULEDER ALREADY EXISTS");
+			}
+
 			request.setAttribute(SCHEDULER_ATTRIBUTE, scheduler);
 			request.setAttribute(REQUEST_TICK_ATTRIBUTE, requestStartTick);
+
 			continuation.suspend(response);
-			serverSession.setInterval(timeout);
-			serverSession.setTimeout(timeout);
+
 			info("serverSession timeout: ", serverSession.getTimeout(), "  interval: ", serverSession.getInterval());
 		}
 	}
@@ -235,6 +261,21 @@ public class HttpStreamingTransportHandler {
 	}
 
 
+	/**
+	 * send some white space down the front of the reply to get the continuation
+	 * into a non-inital state.
+	 */
+	private void padInitialReply () {
+		try {
+			info("PADDED INTIAL REPLY");
+			response.getWriter().write("                        ");
+		} catch (IOException e) {
+			System.out.println("Could not write message: ");
+			e.printStackTrace(System.err);
+		}
+	}
+
+
 	private void writeMessage (String message) {
 		if (message == null)
 			return;
@@ -248,7 +289,8 @@ public class HttpStreamingTransportHandler {
 
 			flushResponse();
 		} catch (IOException e) {
-			info("Could not successfully write message: ", e);
+			System.out.println("Could not successfully write message: ");
+			e.printStackTrace(System.err);
 		}
 	}
 

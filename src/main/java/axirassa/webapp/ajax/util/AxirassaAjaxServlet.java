@@ -63,9 +63,12 @@ public class AxirassaAjaxServlet extends CometdServlet {
 	@Override
 	protected void service (HttpServletRequest request, HttpServletResponse response) throws ServletException,
 	        IOException {
-		System.err.println("SERVICING: " + request);
-		System.err.println("TRANSPORTS: " + getTransports());
-		super.service(request, response);
+		try {
+			super.service(request, response);
+		} catch (IllegalStateException e) {
+			System.err.println("IGNORING EXCEPTION:");
+			e.printStackTrace();
+		}
 	}
 
 

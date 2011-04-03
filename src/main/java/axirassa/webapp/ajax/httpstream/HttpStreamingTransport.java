@@ -54,6 +54,12 @@ public class HttpStreamingTransport extends HttpTransport {
 
 
 	@Override
+	public long getInterval () {
+		return 55000;
+	}
+
+
+	@Override
 	protected void init () {
 		super.init();
 		info("initializing");
