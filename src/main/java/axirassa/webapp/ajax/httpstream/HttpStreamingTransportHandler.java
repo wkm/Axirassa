@@ -74,6 +74,8 @@ public class HttpStreamingTransportHandler {
 
 		if (schedulerAttribute == null) {
 			info("NO SCHEDULER");
+			// the session doesn't have any scheduler associated with it, so it
+			// must be new
 			handleNewSession();
 		} else {
 			info("HANDLING RESUME");
@@ -130,9 +132,11 @@ public class HttpStreamingTransportHandler {
 			// padInitialReply();
 
 			// process each message
-			for (ServerMessage.Mutable message : messages) {
+			for (ServerMessage.Mutable message : messages)
 				serverSession = processMessage(message);
-			}
+
+			if (messages.length > 1)
+				suspendSession();
 		} catch (ParseException e) {
 			info("ERROR PARSING JSON: " + e.getMessage(), e.getCause());
 		} catch (IOException e) {
@@ -174,9 +178,6 @@ public class HttpStreamingTransportHandler {
 				// immediately finish
 				writer.close();
 				info(" >>>> [closed]");
-			} else {
-				suspendSession();
-				info(" >>>> [suspended] ");
 			}
 
 			message.setAssociated(null);
@@ -199,13 +200,13 @@ public class HttpStreamingTransportHandler {
 			if (scheduler == null) {
 				System.err.println("!!!!! CREATING NEW SCHEDULER");
 				scheduler = new HttpStreamingScheduler(serverSession, continuation, this);
-				serverSession.setInterval(timeout);
 				serverSession.setTimeout(timeout);
 				serverSession.setScheduler(scheduler);
 
 				serverSession.setAttribute("SCHEDULER", scheduler);
 			} else {
-				System.err.println("!!!!! SCHCULEDER ALREADY EXISTS");
+				System.err.println("!!!!! SCHEDULER ALREADY EXISTS");
+				serverSession.setTimeout(timeout);
 			}
 
 			request.setAttribute(SCHEDULER_ATTRIBUTE, scheduler);
@@ -214,6 +215,10 @@ public class HttpStreamingTransportHandler {
 			continuation.suspend(response);
 
 			info("serverSession timeout: ", serverSession.getTimeout(), "  interval: ", serverSession.getInterval());
+		} else {
+			Continuation continuation = ContinuationSupport.getContinuation(request);
+			continuation.suspend(response);
+			continuation.complete();
 		}
 	}
 

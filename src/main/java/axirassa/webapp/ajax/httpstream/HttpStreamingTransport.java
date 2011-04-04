@@ -49,13 +49,20 @@ public class HttpStreamingTransport extends HttpTransport {
 
 	@Override
 	public long getMaxInterval () {
-		return 60000;
+		// mark the client lost after two minutes
+		return 120000;
 	}
 
 
 	@Override
 	public long getInterval () {
 		return 55000;
+	}
+
+
+	@Override
+	public long getMaxLazyTimeout () {
+		return 100;
 	}
 
 

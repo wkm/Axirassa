@@ -20,16 +20,16 @@ import axirassa.util.MessagingTools;
 import axirassa.util.MessagingTopic;
 
 public class PingerStreamingService extends AbstractService {
-	public PingerStreamingService(BayeuxServer server) {
+	public PingerStreamingService (BayeuxServer server) {
 		super(server, "pingerService", 5);
 		spawnPingerService();
 	}
 
 
-	private void spawnPingerService() {
+	private void spawnPingerService () {
 		Thread thread = new Thread(new Runnable() {
 			@Override
-			public void run() {
+			public void run () {
 				try {
 					pingerService();
 				} catch (HornetQException e) {
@@ -42,7 +42,7 @@ public class PingerStreamingService extends AbstractService {
 	}
 
 
-	private void pingerService() throws HornetQException {
+	private void pingerService () throws HornetQException {
 		ClientSession messagingSession = MessagingTools.getEmbeddedSession();
 		ClientConsumer consumer = null;
 		MessagingTopic topic = new MessagingTopic(messagingSession, "ax.account.#");
@@ -53,14 +53,14 @@ public class PingerStreamingService extends AbstractService {
 
 		while (true) {
 			try {
-				// System.out.println("Awaiting message");
 				ClientMessage message = consumer.receive();
 				HttpStatisticsEntity stat = InjectorService.rebuildMessage(message);
 				if (stat == null) {
 					System.err.println("received null message");
 					continue;
 				}
-				// System.out.println("Received message.");
+
+				System.out.println("RECEIVED MESSAGE: " + stat);
 
 				PingerEntity pinger = stat.getPinger();
 
@@ -74,14 +74,18 @@ public class PingerStreamingService extends AbstractService {
 				jsonMessage.put("TransferTime", stat.getResponseTime());
 				jsonMessage.put("ResponseSize", stat.getResponseSize());
 
-				// System.out.println("Publishing: " +
-				// jsonMessage.toCompactString());
 				channel.publish(jsonMessage.toCompactString());
+				System.out.println("\t >>>> [ published ]");
 			} catch (InvalidMessageClassException e) {
 				System.err.println(e);
 			} catch (IOException e) {
 				System.err.println(e);
 			} catch (ClassNotFoundException e) {
+				System.err.println(e);
+			} catch (IllegalStateException e) {
+				System.err.println("IGNORING EXCEPTION FROM PINGER STREAMING SERVICE: ");
+				e.printStackTrace(System.err);
+			} catch (Exception e) {
 				System.err.println(e);
 			}
 		}
