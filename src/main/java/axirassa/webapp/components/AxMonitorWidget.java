@@ -9,12 +9,12 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONArray;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
-import org.apache.tapestry5.util.TextStreamResponse;
 import org.hibernate.Session;
 
 import axirassa.dao.PingerDAO;
 import axirassa.model.HttpStatisticsEntity;
 import axirassa.model.PingerEntity;
+import axirassa.util.JSONResponse;
 import axirassa.webapp.services.AxirassaSecurityService;
 import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 
@@ -64,7 +64,7 @@ public class AxMonitorWidget {
 	}
 
 
-	public Object onAction (long pingerId) throws AxirassaSecurityException {
+	public JSONResponse onAction (long pingerId) throws AxirassaSecurityException {
 		System.err.println("ATTEMPTING TO HANDLE ACTION");
 
 		pinger = pingerDAO.findPingerById(pingerId);
@@ -80,7 +80,7 @@ public class AxMonitorWidget {
 			array.put(line);
 		}
 
-		return new TextStreamResponse("text/plain", array.toCompactString());
+		return new JSONResponse(array);
 	}
 
 
