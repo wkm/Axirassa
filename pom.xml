@@ -354,7 +354,7 @@
         <bouncycastle-release-version>1.45</bouncycastle-release-version>
         <jms-release-version>1.1</jms-release-version>
         <httpcomponents-release-version>4.1-beta1</httpcomponents-release-version>
-        <tapestry-security-release-version>0.3.0</tapestry-security-release-version>
+        <tapestry-security-release-version>0.3.1</tapestry-security-release-version>
         <quartz-scheduler-release-version>1.8.4</quartz-scheduler-release-version>
         <jetty-release-version>7.2.2.v20101205</jetty-release-version>
         <cometd-release-version>2.1.0</cometd-release-version>
