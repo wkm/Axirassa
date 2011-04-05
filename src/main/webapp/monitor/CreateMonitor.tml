@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html t:type="layout" t:pageTitle="Create Pinger" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<h3>1. Monitor</h3>
+	<p>URL; type of monitor (HTTP, HTTPS, IMAP, ICMP, etc.); monitor frequency</p>
 	<t:axform t:title="Create Pinger">
 		<t:axtextfield t:value="url" t:name="URL" t:validate="required"/>
 		<t:axformvspace/>
@@ -30,4 +32,10 @@
 		
 		<t:AxSubmit label="Create" />
 	</t:axform>
+	
+	<h3>2. Triggers</h3>
+	<p>Status Code (404); Page Content ("You broke reddit!"); </p>
+	
+	<h3>3. Alert Schedule</h3>
+	<p>E-Mail; SMS; Phonecall</p>
 </html>
