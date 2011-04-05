@@ -59,6 +59,8 @@
 		<jvmoption name="Xmx" value="16m" />
 	</target>
 	
+		
+	<!-- TOOLS -->
 	<target 
 		name="AxDatabaseMigrate" 
 		class="axirassa.services.DatabaseMigrateService" 
@@ -77,6 +79,11 @@
 		autorestart="false"
 	/>
 	
+	<target
+		name="AxInsertPingers"
+		class="axirassa.tools.CreatePingersFromFile"
+		autorestart="false"
+	/>
 	
 	
 	<!-- ################################################################ -->
