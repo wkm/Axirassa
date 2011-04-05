@@ -2,6 +2,7 @@
 package axirassa.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Basic;
@@ -124,5 +125,12 @@ public class HttpStatisticsEntity extends AutoSerializingObject implements Seria
 
 	public Date getTimestamp () {
 		return timestamp;
+	}
+
+
+	public long getTimestampInMillis () {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(getTimestamp());
+		return calendar.getTimeInMillis();
 	}
 }
