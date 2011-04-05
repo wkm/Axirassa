@@ -13,7 +13,6 @@ import axirassa.dao.PingerDAO;
 import axirassa.dao.UserDAO;
 import axirassa.ioc.IocStandalone;
 import axirassa.model.PingerEntity;
-import axirassa.model.PingerFrequency;
 import axirassa.model.UserEntity;
 
 public class CreatePingersFromFile {
@@ -61,7 +60,7 @@ public class CreatePingersFromFile {
 			PingerEntity pinger = new PingerEntity();
 			pinger.setUrl(line);
 			pinger.setUser(user);
-			pinger.setFrequency(PingerFrequency.MINUTE);
+			pinger.setFrequency(3600);
 
 			database.persist(pinger);
 		}
