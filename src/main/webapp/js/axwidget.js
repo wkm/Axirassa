@@ -109,14 +109,14 @@ function AxPlot(id, pingerId) {
 				chart.addPlot('smooth', {
 					type: 'Lines',
 					lines: true,
-			        tension: 3
+			        tension: 5
 				});
 			    chart.addPlot('raw', {type: 'Lines', lines: true, vAxis: 'y'});
 				
 			    chart.addAxis("y", {
 			    	vertical: true, 
 			    	includeZero: true, 
-			    	max: 2000,
+			    	max: 5000,
 			    	minorTicks: false,
 			    	majorTicks: [0, 1000],
 			    	labels: [{value: 0, text:'0s'}, {value: 1000, text:'1s'}]
