@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html t:type="Layout" t:pageTitle="Security Violation" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<h1>Security Violation Exception</h1>
+	<p>
+		Security violation exception has been trapped. Please try again. 
+	</p>
+</html>
