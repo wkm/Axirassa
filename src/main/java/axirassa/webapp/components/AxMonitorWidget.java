@@ -1,6 +1,7 @@
 
 package axirassa.webapp.components;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.tapestry5.annotations.Import;
@@ -64,7 +65,7 @@ public class AxMonitorWidget {
 	}
 
 
-	public JSONResponse onAction (long pingerId) throws AxirassaSecurityException {
+	public JSONResponse onAction (long pingerId) throws AxirassaSecurityException, IOException {
 		System.err.println("ATTEMPTING TO HANDLE ACTION");
 
 		pinger = pingerDAO.findPingerById(pingerId);

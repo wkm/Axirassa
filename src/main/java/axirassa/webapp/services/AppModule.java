@@ -141,4 +141,5 @@ public class AppModule {
 		configuration.add("/push/.*");
 		configuration.add("/stream/.*");
 	}
+
 }
