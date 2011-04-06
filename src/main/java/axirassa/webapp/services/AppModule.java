@@ -9,33 +9,23 @@ import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
-import org.apache.tapestry5.ioc.ScopeConstants;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Local;
-import org.apache.tapestry5.ioc.annotations.Scope;
 import org.apache.tapestry5.ioc.annotations.SubModule;
-import org.apache.tapestry5.ioc.services.PerthreadManager;
-import org.apache.tapestry5.ioc.services.PropertyShadowBuilder;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.RequestFilter;
 import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
 import org.hibernate.Session;
-import org.hornetq.api.core.HornetQException;
 import org.slf4j.Logger;
 import org.tynamo.security.SecuritySymbols;
-import org.tynamo.security.services.SecurityService;
 
 import axirassa.dao.UserDAO;
 import axirassa.ioc.DAOModule;
 import axirassa.ioc.FlowsModule;
 import axirassa.ioc.MessagingModule;
 import axirassa.webapp.services.internal.AxirassaSecurityServiceImpl;
-import axirassa.webapp.services.internal.EmailNotifyServiceImpl;
-import axirassa.webapp.services.internal.MessagingSessionManagerImpl;
-import axirassa.webapp.services.internal.SmsNotifyServiceImpl;
-import axirassa.webapp.services.internal.VoiceNotifyServiceImpl;
 
 /**
  * This module is automatically included as part of the Tapestry IoC Registry,
@@ -54,7 +44,7 @@ public class AppModule {
 	public static void bind (ServiceBinder binder) {
 		binder.bind(AuthorizingRealm.class, EntityRealm.class);
 
-        binder.bind(AxirassaSecurityService.class, AxirassaSecurityServiceImpl.class);
+		binder.bind(AxirassaSecurityService.class, AxirassaSecurityServiceImpl.class);
 	}
 
 
@@ -119,6 +109,7 @@ public class AppModule {
 		};
 
 	}
+
 
 	/**
 	 * This is a contribution to the RequestHandler service configuration. This
