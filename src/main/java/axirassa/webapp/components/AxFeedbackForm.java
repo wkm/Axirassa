@@ -1,10 +1,6 @@
+
 package axirassa.webapp.components;
 
-
-import axirassa.dao.UserDAO;
-import axirassa.model.FeedbackEntity;
-import axirassa.model.UserEntity;
-import axirassa.webapp.services.AxirassaSecurityService;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.Form;
@@ -14,6 +10,11 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
 import org.hibernate.Session;
 
+import axirassa.dao.UserDAO;
+import axirassa.model.FeedbackEntity;
+import axirassa.model.UserEntity;
+import axirassa.webapp.services.AxirassaSecurityService;
+import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 
 public class AxFeedbackForm {
 	@Inject
@@ -39,14 +40,13 @@ public class AxFeedbackForm {
 
 
 	@CommitAfter
-	public Object onSuccessFromFeedbackForm () {
+	public Object onSuccessFromFeedbackForm() throws AxirassaSecurityException {
 		System.err.println("Hi from action");
 		FeedbackEntity feedbackEntity = new FeedbackEntity();
 		feedbackEntity.setComment(feedback);
 
 		if (security.isUser()) {
-			String email = security.getEmail();
-			UserEntity user = userDAO.getUserByEmail(email);
+			UserEntity user = security.getUserEntity();
 			feedbackEntity.setUser(user);
 		}
 

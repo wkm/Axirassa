@@ -15,8 +15,10 @@ public interface AxirassaSecurityService {
 	/**
 	 * Returns the {@link UserEntity} associated with the authenticated user, or
 	 * null if the user is not authenticated.
+	 * 
+	 * @throws AxirassaSecurityException
 	 */
-	public abstract UserEntity getUserEntity();
+	public abstract UserEntity getUserEntity() throws AxirassaSecurityException;
 
 
 	public abstract boolean isUser();

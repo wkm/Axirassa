@@ -13,6 +13,7 @@ import axirassa.dao.UserDAO;
 import axirassa.model.PingerEntity;
 import axirassa.model.UserEntity;
 import axirassa.webapp.services.AxirassaSecurityService;
+import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 
 @RequiresUser
 public class MonitorConsole {
@@ -32,8 +33,9 @@ public class MonitorConsole {
 	private PingerEntity pinger;
 
 
-	public void onActivate () {
-		UserEntity user = userDAO.getUserByEmail(security.getEmail());
+	public void onActivate() throws AxirassaSecurityException {
+		UserEntity user = security.getUserEntity();
+
 		Query query = session.createQuery("from PingerEntity where user=:user");
 		// query.setMaxResults(1);
 		query.setEntity("user", user);

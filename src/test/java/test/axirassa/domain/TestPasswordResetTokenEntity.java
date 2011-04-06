@@ -1,6 +1,7 @@
 
 package test.axirassa.domain;
 
+import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.junit.Test;
@@ -23,18 +24,17 @@ public class TestPasswordResetTokenEntity {
 
 
 	@Test
-	public void testAutoGeneration () {
-		database.beginTransaction();
-
+	@CommitAfter
+	public void testAutoGeneration() {
 		UserEntity user = new UserEntity();
 		user.createPassword("password");
-		database.persist(user);
+		database.save(user);
 
 		UserEmailAddressEntity emailAddress = new UserEmailAddressEntity();
 		emailAddress.setEmail("who@foo.com");
 		emailAddress.setUser(user);
 		emailAddress.setPrimaryEmail(true);
-		database.persist(emailAddress);
+		database.save(emailAddress);
 
 		PasswordResetTokenEntity token1 = new PasswordResetTokenEntity();
 		token1.setUser(user);
@@ -46,8 +46,6 @@ public class TestPasswordResetTokenEntity {
 
 		String tok1 = token1.getToken();
 		String tok2 = token2.getToken();
-
-		database.getTransaction().commit();
 
 		token1 = passwordResetTokenDAO.getByToken(tok1);
 		token2 = passwordResetTokenDAO.getByToken(tok2);
