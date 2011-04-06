@@ -21,6 +21,7 @@ import axirassa.model.UserPhoneNumberEntity;
 import axirassa.webapp.components.AxCheckbox;
 import axirassa.webapp.components.AxForm;
 import axirassa.webapp.services.AxirassaSecurityService;
+import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 
 @Secure
 @RequiresUser
@@ -63,7 +64,7 @@ public class AddPhoneNumberUser {
 	private String token;
 
 
-	public void onValidateFromForm() {
+	public void onValidateFromForm () {
 		if (extension != null && acceptsText == true)
 			form.recordError(acceptsTextField, "Text messages may not be sent to phone numbers with extensions");
 
@@ -73,7 +74,7 @@ public class AddPhoneNumberUser {
 
 
 	@CommitAfter
-	public Object onSuccess() throws HornetQException, IOException {
+	public Object onSuccess () throws HornetQException, IOException, AxirassaSecurityException {
 		UserEntity user = security.getUserEntity();
 
 		UserPhoneNumberEntity phoneNumberEntity = new UserPhoneNumberEntity();
