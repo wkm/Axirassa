@@ -3,6 +3,7 @@ package axirassa.services;
 
 import java.util.List;
 
+import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hornetq.api.core.client.ClientMessage;
@@ -20,15 +21,11 @@ import axirassa.model.PingerEntity;
  */
 public class ControllerService implements Service {
 
-	private final ClientSession messaging;
+	@Inject
+	private ClientSession messaging;
 
-	private final Session database;
-
-
-	public ControllerService (ClientSession messaging, Session database) {
-		this.messaging = messaging;
-		this.database = database;
-	}
+	@Inject
+	private Session database;
 
 
 	@Override
