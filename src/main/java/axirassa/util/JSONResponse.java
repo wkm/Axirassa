@@ -15,7 +15,8 @@ import org.apache.tapestry5.services.Response;
 /**
  * Based on:
  * http://tapestry.1045711.n5.nabble.com/JSON-GZip-compression-td2845041.html
- * http://tapestry.1045711.n5.nabble.com/T5-2-Tapestry-IoC-Configuration-remove-td2840319.html
+ * http://tapestry.1045711.n5.nabble.com/T5-2-Tapestry-IoC-Configuration-remove-
+ * td2840319.html
  * 
  * @author wiktor
  */
@@ -59,8 +60,6 @@ public class JSONResponse implements StreamResponse {
 		gzip.close();
 
 		dataForSending = outStream.toByteArray();
-		System.out
-		        .println("%%%%%%%%%%%% JSONResponse compressed from: " + data.length + " to " + dataForSending.length);
 	}
 
 
