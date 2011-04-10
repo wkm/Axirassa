@@ -33,11 +33,11 @@ public class MonitorConsole {
 	private PingerEntity pinger;
 
 
-	public void onActivate() throws AxirassaSecurityException {
+	public void onActivate () throws AxirassaSecurityException {
 		UserEntity user = security.getUserEntity();
 
 		Query query = session.createQuery("from PingerEntity where user=:user");
-		// query.setMaxResults(1);
+		query.setMaxResults(1);
 		query.setEntity("user", user);
 
 		pingers = query.list();

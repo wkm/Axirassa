@@ -28,8 +28,18 @@ import axirassa.overlord.os.OverlordSystemSupport;
 public class Overlord {
 	private static final String CONFIGURATION_FILE = "axoverlord.cfg.xml";
 
+	private Integer execId = 0;
 
-	public static void main(String[] parameters) throws OverlordException, IOException, InterruptedException {
+
+	public int getNextExecID () {
+		synchronized (execId) {
+			execId++;
+			return execId;
+		}
+	}
+
+
+	public static void main (String[] parameters) throws OverlordException, IOException, InterruptedException {
 		Overlord overlord = new Overlord();
 		overlord.addShutdownHooks();
 
@@ -48,7 +58,7 @@ public class Overlord {
 	private final NativeLibraryProvider libprovider = new NativeLibraryProvider();
 
 
-	public void execute(String[] parameters) throws OverlordException, IOException, InterruptedException {
+	public void execute (String[] parameters) throws OverlordException, IOException, InterruptedException {
 		OverlordSystemSupport systemsupport = AbstractOverlordSystemSupport.getSystemSupport();
 
 		URL configfile = ClassLoader.getSystemResource(CONFIGURATION_FILE);
@@ -95,27 +105,27 @@ public class Overlord {
 	}
 
 
-	public Collection<ExecutionInstance> getExecutionInstances() {
+	public Collection<ExecutionInstance> getExecutionInstances () {
 		return instances;
 	}
 
 
-	public NativeLibraryProvider getNativeLibraryProvider() {
+	public NativeLibraryProvider getNativeLibraryProvider () {
 		return libprovider;
 	}
 
 
-	public void addShutdownHooks() {
+	public void addShutdownHooks () {
 		Runtime.getRuntime().addShutdownHook(new OverlordDynamicShutdownHook(this));
 	}
 
 
-	public void addExecutionInstance(Thread thread, ExecutionMonitor monitor) {
+	public void addExecutionInstance (Thread thread, ExecutionMonitor monitor) {
 		instances.add(new ExecutionInstance(thread, monitor));
 	}
 
 
-	public void killInstances() {
+	public void killInstances () {
 		for (ExecutionInstance instance : instances)
 			if (instance.getThread().isAlive()) {
 				instance.getThread().interrupt();
@@ -129,18 +139,18 @@ class ExecutionInstance {
 	private final ExecutionMonitor monitor;
 
 
-	public ExecutionInstance(Thread thread, ExecutionMonitor monitor) {
+	public ExecutionInstance (Thread thread, ExecutionMonitor monitor) {
 		this.thread = thread;
 		this.monitor = monitor;
 	}
 
 
-	public Thread getThread() {
+	public Thread getThread () {
 		return thread;
 	}
 
 
-	public ExecutionMonitor getMonitor() {
+	public ExecutionMonitor getMonitor () {
 		return monitor;
 	}
 }

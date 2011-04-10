@@ -4,11 +4,6 @@
 	<head>
 		<title>${pageTitle} :: Axirassa Website &amp; E-Mail Monitoring</title>
 		<link rel="icon" type="image/png" href="/media/axirassa.png" />
-		<!--[if !IE 7]>
-			<style type="text/css">
-				#wrap {display:table; height:100%;}
-			</style>
-		<![endif]-->
 	</head>
 	<body>
 		<div id="wrap">

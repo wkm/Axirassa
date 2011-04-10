@@ -51,7 +51,7 @@ public class AxMonitorWidget {
 
 
 	void setupRender () {
-		jssupport.addScript("AxPlot('%s', %d)", getPlotId(), pingerId);
+		jssupport.addScript("AxPlot(%d)", pingerId);
 
 		pinger = pingerDAO.findPingerById(pingerId);
 		if (pinger == null) {
@@ -91,10 +91,7 @@ public class AxMonitorWidget {
 
 
 	public String getPlotId () {
-		if (plotId == null)
-			plotId = "pinger_" + pingerId;
-
-		return plotId;
+		return pingerId.toString();
 	}
 
 }

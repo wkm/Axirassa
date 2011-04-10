@@ -16,13 +16,13 @@ public class ExecutionSpecification {
 	private int initialDelay = 0;
 
 
-	public ExecutionSpecification(OverlordConfiguration configuraton, ExecutionTarget target) {
+	public ExecutionSpecification (OverlordConfiguration configuraton, ExecutionTarget target) {
 		this.configuration = configuraton;
 		this.target = target;
 	}
 
 
-	public void setInstances(int count) {
+	public void setInstances (int count) {
 		if (count < 1)
 			return;
 
@@ -30,24 +30,25 @@ public class ExecutionSpecification {
 	}
 
 
-	public int getInstances() {
+	public int getInstances () {
 		return instances;
 	}
 
 
-	public void execute() throws IOException, InterruptedException {
+	public void execute () throws IOException, InterruptedException {
 		if (initialDelay > 0) {
 			Thread.sleep(initialDelay);
 		}
 
 		for (int i = 0; i < instances; i++) {
-			System.out.printf("  %s %d -- %s\n", target.getName(), i, target.getTargetClass().getCanonicalName());
-			executeInstance(i);
+			int execId = configuration.getOverlord().getNextExecID();
+			System.out.printf("  %s %d -- %s\n", target.getName(), execId, target.getTargetClass().getCanonicalName());
+			executeInstance(execId);
 		}
 	}
 
 
-	private void executeInstance(int id) throws IOException {
+	private void executeInstance (int id) throws IOException {
 		provideLibraries();
 
 		CommandLine cli = new CommandLine(configuration.getJavaExecutable());
@@ -89,7 +90,7 @@ public class ExecutionSpecification {
 	}
 
 
-	private void provideLibraries() throws IOException {
+	private void provideLibraries () throws IOException {
 		Collection<String> libraries = target.getOptions().getLibraries();
 		NativeLibraryProvider libprovider = configuration.getOverlord().getNativeLibraryProvider();
 
@@ -98,12 +99,12 @@ public class ExecutionSpecification {
 	}
 
 
-	public void setInitialDelay(int initialDelay) {
+	public void setInitialDelay (int initialDelay) {
 		this.initialDelay = initialDelay;
 	}
 
 
-	public int getInitialDelay() {
+	public int getInitialDelay () {
 		return initialDelay;
 	}
 }

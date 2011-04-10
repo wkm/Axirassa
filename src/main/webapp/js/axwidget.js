@@ -33,6 +33,8 @@ var colorTheme = new dojox.charting.Theme({
 function weightedMovingAverage(data, length) {
     if(data.length < length)
         return undefined;
+    
+    console.log("computing weighted average");
 
     var averages = new Array(data.length - length + 1);
 
@@ -40,12 +42,14 @@ function weightedMovingAverage(data, length) {
     var numerator = 0, total = 0;
 
     // compute initial weighting
-    for(var i = length - 1; i >= 0; i--) {
-        numerator += (i+1) * data[i];
-        total += data[i];
-
-        averages[0] = numerator / denominator;
+    var i;
+    for(i = length - 1; i >= 0; i--) {
+        numerator += (i+1) * data[i][1];
+        total += data[i][1];
     }
+    console.log("COMPUTING AVERAGE");
+    averages[0] = [data[i+1][0], numerator / denominator];
+    console.log("Averages: ", averages);
 
     // now the weighted
     var previousTotal, previousNumerator;
@@ -53,10 +57,13 @@ function weightedMovingAverage(data, length) {
         previousTotal = total;
         previousNumerator = numerator;
 
-        total = previousTotal + data[i + length - 1] - data[i - 1];
-        numerator = previousNumerator + length * data[i + length - 1] - previousTotal;
-        averages[i] = numerator / denominator;
+        total = previousTotal + data[i + length - 1][1] - data[i - 1][1];
+        numerator = previousNumerator + length * data[i + length - 1][1] - previousTotal;
+        console.log("SETTING TO: ", [data[i - 1][0], numerator / denominator]);
+        averages[i] = [data[i - 1][0], numerator / denominator];
     }
+    
+    console.log(averages);
 
     return averages;
 }
@@ -89,10 +96,10 @@ function inspect(object, depth) {
 	}
 }
 
-function AxPlot(id, pingerId) {
+function AxPlot(id) {
 	// pull the original data
 	dojo.xhrGet({
-			url: '/monitorconsole.axmonitorwidget/'+pingerId,
+			url: '/monitorconsole.axmonitorwidget/'+id,
 			handleAs: 'json',
 			load: function(data) {
 				var chart = new dojox.charting.Chart2D(id + "_plot");
@@ -100,8 +107,9 @@ function AxPlot(id, pingerId) {
 				var i;
 				var responseSize = [];
 				for(i = 0; i < data.length; i++) {
-					responseSize[i] = data[i][1];
+					responseSize[i] = [data[i][0], data[i][1]];
 				}
+				
 				var smoother = weightedMovingAverage(responseSize, 5);
 				responseSize = responseSize.slice(5);
 				
@@ -122,31 +130,22 @@ function AxPlot(id, pingerId) {
 			    	labels: [{value: 0, text:'0s'}, {value: 1000, text:'1s'}]
 			    });
 			    
-				chart.addSeries('Response Time', smoother, {plot:'smooth'});
-				chart.addSeries('Response Size', responseSize, {plot:'raw'});
+				chart.addSeries('time.smooth', smoother, {plot:'smooth'});
+				chart.addSeries('time.raw', responseSize, {plot:'raw'});
 				
 				chart.render();
+				
+				// remove spinner
 				dojo.destroy(id+"_spin");
 			}
 	});
-	
-    var data = randomData(200);
-    var smoothed = weightedMovingAverage(data, 10);
-    data = data.slice(10);
 
-	var json = {
-		responseTime: smoothed,
-		responseSize: data
-	};
 	
-	
-	
-	
-	if(!connected) {
-		connectStreaming();
-	} else {
-		console.log("already connected");
-	}
+//	if(!connected) {
+//		connectStreaming();
+//	} else {
+//		console.log("already connected");
+//	}
 //	
 //	console.log("SUBSCRIBING TO: "+ pingerId);
 //	dojox.cometd.subscribe("/ax/pinger/"+pingerId, function(msg){

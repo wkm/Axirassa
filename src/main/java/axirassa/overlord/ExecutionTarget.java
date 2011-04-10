@@ -7,29 +7,29 @@ import axirassa.overlord.exceptions.OverlordException;
 public class ExecutionTarget {
 	private final String name;
 	private final Class<? extends Object> klass;
-	private TargetOptions options;
+	private ExecutionTargetOptions options;
 	private boolean autoRestart;
 
 
-	public static String canonicalizeName(String name) {
+	public static String canonicalizeName (String name) {
 		return name.toLowerCase();
 	}
 
 
-	public ExecutionTarget(String name, String classname) throws ClassNotFoundException, OverlordException {
+	public ExecutionTarget (String name, String classname) throws ClassNotFoundException, OverlordException {
 		if (!OverlordUtilities.isValidName(name))
 			throw new InvalidOverlordNameException(name);
 
 		this.name = name;
 		this.klass = Class.forName(classname);
-		this.options = new TargetOptions();
+		this.options = new ExecutionTargetOptions();
 	}
 
 
 	/**
 	 * @return the given name of this execution target
 	 */
-	public String getName() {
+	public String getName () {
 		return name;
 	}
 
@@ -40,32 +40,32 @@ public class ExecutionTarget {
 	 * 
 	 *         The canonical name must be unique within the configuration.
 	 */
-	public String getCanonicalName() {
+	public String getCanonicalName () {
 		return name.toLowerCase();
 	}
 
 
-	public TargetOptions getOptions() {
+	public ExecutionTargetOptions getOptions () {
 		return options;
 	}
 
 
-	public Class<? extends Object> getTargetClass() {
+	public Class<? extends Object> getTargetClass () {
 		return klass;
 	}
 
 
-	public void setOptions(TargetOptions jvmoptions) {
+	public void setOptions (ExecutionTargetOptions jvmoptions) {
 		this.options = jvmoptions;
 	}
 
 
-	public boolean isAutoRestart() {
+	public boolean isAutoRestart () {
 		return autoRestart;
 	}
 
 
-	public void setAutoRestart(boolean autoRestart) {
+	public void setAutoRestart (boolean autoRestart) {
 		this.autoRestart = autoRestart;
 	}
 
