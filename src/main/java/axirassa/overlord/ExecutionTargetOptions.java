@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-public class TargetOptions {
+public class ExecutionTargetOptions {
 
 	public enum JVMOption {
 		XMX("Xmx"),
