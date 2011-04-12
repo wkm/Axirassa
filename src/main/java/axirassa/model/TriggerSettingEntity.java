@@ -41,7 +41,6 @@ public class TriggerSettingEntity {
 	@Setter
 	@Basic(optional = false)
 	private TriggerSettingType type;
-
 	
 	@Getter
 	@Setter
