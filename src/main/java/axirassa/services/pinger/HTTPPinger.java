@@ -54,8 +54,7 @@ public class HttpPinger {
 	}
 
 
-	public HttpStatisticsEntity ping (PingerEntity entity) throws ClientProtocolException, IOException,
-	        AxirassaServiceException {
+	public HttpStatisticsEntity ping (PingerEntity entity) throws IOException, AxirassaServiceException {
 
 		resetTriggers();
 
@@ -88,8 +87,6 @@ public class HttpPinger {
 			e.printStackTrace(System.err);
 			addTrigger(new PingerErrorTrigger(e));
 		}
-
-		System.out.println("TRIGGERS: " + triggers);
 
 		return statistic;
 	}
