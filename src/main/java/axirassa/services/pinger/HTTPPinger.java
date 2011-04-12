@@ -15,6 +15,8 @@ import org.apache.http.client.methods.HttpGet;
 import axirassa.model.HttpStatisticsEntity;
 import axirassa.model.PingerEntity;
 import axirassa.services.exceptions.AxirassaServiceException;
+import axirassa.trigger.PingerErrorTrigger;
+import axirassa.trigger.ProtocolErrorTrigger;
 import axirassa.trigger.StatusCodeTrigger;
 import axirassa.trigger.Trigger;
 import axirassa.trigger.UnknownHostTrigger;
@@ -80,6 +82,10 @@ public class HttpPinger {
 			addTrigger(new StatusCodeTrigger(statistic.getStatusCode()));
 		} catch (UnknownHostException e) {
 			addTrigger(new UnknownHostTrigger());
+		} catch (ClientProtocolException e) {
+			addTrigger(new ProtocolErrorTrigger(e));
+		} catch (Exception e) {
+			addTrigger(new PingerErrorTrigger(e));
 		}
 
 		System.out.println("TRIGGERS: " + triggers);
