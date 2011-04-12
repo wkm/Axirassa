@@ -3,9 +3,10 @@ package axirassa.services.pinger;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -14,6 +15,7 @@ import org.apache.http.client.methods.HttpGet;
 import axirassa.model.HttpStatisticsEntity;
 import axirassa.model.PingerEntity;
 import axirassa.services.exceptions.AxirassaServiceException;
+import axirassa.trigger.StatusCodeTrigger;
 import axirassa.trigger.Trigger;
 import axirassa.trigger.UnknownHostTrigger;
 
@@ -22,7 +24,7 @@ public class HttpPinger {
 
 	private final InstrumentedHttpClient client;
 
-	private List<Trigger> triggers;
+	private HashMap<Class<? extends Trigger>, Trigger> triggers;
 
 
 	public HttpPinger () {
@@ -31,12 +33,22 @@ public class HttpPinger {
 
 
 	public void resetTriggers () {
-		triggers = new ArrayList<Trigger>();
+		triggers = new LinkedHashMap<Class<? extends Trigger>, Trigger>();
 	}
 
 
 	public void addTrigger (Trigger trigger) {
-		triggers.add(trigger);
+		triggers.put(trigger.getClass(), trigger);
+	}
+
+
+	public Collection<Trigger> getTriggers () {
+		return triggers.values();
+	}
+
+
+	public <T> T getTrigger (Class<? extends T> classObject) {
+		return (T) triggers.get(classObject);
 	}
 
 
@@ -48,11 +60,12 @@ public class HttpPinger {
 		HttpGet get = new HttpGet(entity.getUrl());
 		get.setHeader("User-Agent", USER_AGENT);
 
+		HttpStatisticsEntity statistic = null;
+
 		try {
 			HttpResponse response = client.executeWithInstrumentation(get);
 
-			HttpStatisticsEntity statistic = new HttpStatisticsEntity();
-
+			statistic = new HttpStatisticsEntity();
 			statistic.setTimestamp(new Date());
 			statistic.setPinger(entity);
 			statistic.setLatency(client.getLatency());
@@ -61,22 +74,22 @@ public class HttpPinger {
 			statistic.setResponseSize(client.getResponseContent().length());
 			statistic.setUncompressedSize(0);
 
-			System.out.println("Latency: " + client.getLatency() + "ms  Response: " + client.getResponseTime()
-			        + "ms  URL: " + entity.getUrl());
+			System.out.printf("Latency: %dms Response: %dms Status: [%d] URL: %s\n", statistic.getLatency(),
+			                  statistic.getResponseTime(), statistic.getStatusCode(), statistic.getPinger().getUrl());
 
-			return statistic;
+			addTrigger(new StatusCodeTrigger(statistic.getStatusCode()));
 		} catch (UnknownHostException e) {
 			addTrigger(new UnknownHostTrigger());
 		}
 
 		System.out.println("TRIGGERS: " + triggers);
 
-		return null;
+		return statistic;
 	}
 
 
 	public static void main (String[] args) throws ClientProtocolException, IOException, AxirassaServiceException {
-		String url = "http://whoisatthisfoo.com/";
+		String url = "http://zanoccio.com/WhoIsAtThisFoo";
 		System.out.println("Pinger URL: " + url);
 
 		HttpPinger httpPinger = new HttpPinger();
