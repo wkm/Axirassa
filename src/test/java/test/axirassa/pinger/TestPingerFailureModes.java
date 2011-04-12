@@ -3,7 +3,6 @@ package test.axirassa.pinger;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 
@@ -15,6 +14,7 @@ import org.junit.Test;
 import axirassa.model.PingerEntity;
 import axirassa.services.exceptions.AxirassaServiceException;
 import axirassa.services.pinger.HttpPinger;
+import axirassa.trigger.ProtocolErrorTrigger;
 import axirassa.trigger.StatusCodeTrigger;
 import axirassa.trigger.Trigger;
 
@@ -61,11 +61,32 @@ public class TestPingerFailureModes {
 
 	@Test
 	public void testUnknownHost () throws ClientProtocolException, IOException, AxirassaServiceException {
-		HttpPinger pinger = new HttpPinger();
-		pinger.ping(testPinger("/status/403"));
-		assertNotNull(pinger.getTrigger(StatusCodeTrigger.class));
-		assertEquals(403, pinger.getTrigger(StatusCodeTrigger.class).getCode());
+		Class<? extends StatusCodeTrigger> codeTrigger = StatusCodeTrigger.class;
 
-		// pinger.ping(testPinger())
+		HttpPinger pinger = new HttpPinger();
+
+		// 403
+		pinger.ping(testPinger("/status/403"));
+		assertTriggers(pinger, StatusCodeTrigger.class);
+		assertEquals(403, pinger.getTrigger(codeTrigger).getCode());
+
+		// 200
+		pinger.ping(testPinger("/status/200"));
+		assertTriggers(pinger, StatusCodeTrigger.class);
+		assertEquals(200, pinger.getTrigger(codeTrigger).getCode());
+
+		// 301
+		pinger.ping(testPinger("/status/301"));
+		assertTriggers(pinger, ProtocolErrorTrigger.class);
+
+		// 502
+		pinger.ping(testPinger("/status/502"));
+		assertTriggers(pinger, StatusCodeTrigger.class);
+		assertEquals(502, pinger.getTrigger(codeTrigger).getCode());
+
+		// 503
+		pinger.ping(testPinger("/status/503"));
+		assertTriggers(pinger, StatusCodeTrigger.class);
+		assertEquals(503, pinger.getTrigger(codeTrigger).getCode());
 	}
 }
