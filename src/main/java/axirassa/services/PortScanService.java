@@ -11,41 +11,32 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class PortScanService implements Service {
 
 	public static final int THREADS = 5;
 	public static final int LO_PORT = 0;
 	public static final int HI_PORT = 10; // 65536
 
+	@Setter
+	@Getter
 	private String address;
-	private final Set<Integer> openports;
+
+	@Getter
+	private final Set<Integer> openPorts;
 	private final LinkedList<Integer> portqueue;
 	private Thread[] threads;
 
 
-	public PortScanService() {
+	public PortScanService () {
 		portqueue = new LinkedList<Integer>();
-		openports = new HashSet<Integer>();
+		openPorts = new HashSet<Integer>();
 	}
-
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-
-	public String getAddress() {
-		return address;
-	}
-
-
-	public Set<Integer> getOpenPorts() {
-		return openports;
-	}
-
 
 	@Override
-	public void execute() throws UnknownHostException, InterruptedException {
+	public void execute () throws UnknownHostException, InterruptedException {
 		InetAddress address = InetAddress.getByName(this.address);
 		threads = new Thread[THREADS];
 
@@ -72,13 +63,13 @@ public class PortScanService implements Service {
 		private final InetAddress address;
 
 
-		public PortScanWorker(InetAddress address) {
+		public PortScanWorker (InetAddress address) {
 			this.address = address;
 		}
 
 
 		@Override
-		public void run() {
+		public void run () {
 			// Socket socket = new Socket();
 
 			// try {
@@ -114,8 +105,8 @@ public class PortScanService implements Service {
 					socket.connect(new InetSocketAddress(address, port), 4000);
 					socket.close();
 
-					synchronized (openports) {
-						openports.add(port);
+					synchronized (openPorts) {
+						openPorts.add(port);
 					}
 				} catch (SocketTimeoutException e) {
 				} catch (IOException e) {

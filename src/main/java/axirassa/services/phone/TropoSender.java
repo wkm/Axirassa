@@ -4,6 +4,9 @@ package axirassa.services.phone;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -16,24 +19,19 @@ import axirassa.services.pinger.InstrumentedHttpClient;
 public abstract class TropoSender {
 	public static final String TROPO_API_URL = "https://api.tropo.com/1.0/sessions";
 
+	@Getter
+	@Setter
 	private String phoneNumber;
+
+	@Getter
+	@Setter
 	private String message;
 
 
-	public abstract String getToken();
+	public abstract String getToken ();
 
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-
-	public void send(HttpClient httpClient) throws ClientProtocolException, IOException {
+	public void send (HttpClient httpClient) throws ClientProtocolException, IOException {
 		HttpPost request = new HttpPost(TROPO_API_URL);
 
 		request.addHeader("Accept", "application/json");
