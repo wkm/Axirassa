@@ -1,13 +1,24 @@
 
 package axirassa.overlord;
 
+import lombok.Getter;
+import lombok.Setter;
 import axirassa.overlord.exceptions.InvalidOverlordNameException;
 import axirassa.overlord.exceptions.OverlordException;
 
 public class ExecutionTarget {
+	@Getter
 	private final String name;
-	private final Class<? extends Object> klass;
+
+	@Getter
+	private final Class<? extends Object> targetClass;
+
+	@Setter
+	@Getter
 	private ExecutionTargetOptions options;
+
+	@Setter
+	@Getter
 	private boolean autoRestart;
 
 
@@ -21,16 +32,8 @@ public class ExecutionTarget {
 			throw new InvalidOverlordNameException(name);
 
 		this.name = name;
-		this.klass = Class.forName(classname);
+		this.targetClass = Class.forName(classname);
 		this.options = new ExecutionTargetOptions();
-	}
-
-
-	/**
-	 * @return the given name of this execution target
-	 */
-	public String getName () {
-		return name;
 	}
 
 
@@ -43,30 +46,4 @@ public class ExecutionTarget {
 	public String getCanonicalName () {
 		return name.toLowerCase();
 	}
-
-
-	public ExecutionTargetOptions getOptions () {
-		return options;
-	}
-
-
-	public Class<? extends Object> getTargetClass () {
-		return klass;
-	}
-
-
-	public void setOptions (ExecutionTargetOptions jvmoptions) {
-		this.options = jvmoptions;
-	}
-
-
-	public boolean isAutoRestart () {
-		return autoRestart;
-	}
-
-
-	public void setAutoRestart (boolean autoRestart) {
-		this.autoRestart = autoRestart;
-	}
-
 }

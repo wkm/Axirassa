@@ -3,6 +3,9 @@ package axirassa.model.flows;
 
 import java.io.IOException;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.InjectResource;
@@ -31,26 +34,19 @@ public class CreateUserFlowImpl implements CreateUserFlow {
 	@Inject
 	private EmailNotifyService emailer;
 
+	@Getter
+	@Setter
 	private String email;
 
+	@Getter
 	private UserEntity userEntity;
 
+	@Getter
 	private UserEmailAddressEntity primaryEmailEntity;
 
-
-	@Override
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-
+	@Getter
+	@Setter
 	private String password;
-
-
-	@Override
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 
 	@Override
@@ -83,17 +79,4 @@ public class CreateUserFlowImpl implements CreateUserFlow {
 			logger.error("Fatal I/O error", e);
 		}
 	}
-
-
-	@Override
-	public UserEntity getUserEntity() {
-		return userEntity;
-	}
-
-
-	@Override
-	public UserEmailAddressEntity getPrimaryEmailEntity() {
-		return primaryEmailEntity;
-	}
-
 }

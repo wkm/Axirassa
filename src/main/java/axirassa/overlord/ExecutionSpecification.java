@@ -5,14 +5,22 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class ExecutionSpecification {
 	//
 	// Class Instances
 	//
 
 	private final OverlordConfiguration configuration;
+	
+	@Getter
 	private int instances;
 	private final ExecutionTarget target;
+	
+	@Getter
+	@Setter
 	private int initialDelay = 0;
 
 
@@ -27,11 +35,6 @@ public class ExecutionSpecification {
 			return;
 
 		instances = count;
-	}
-
-
-	public int getInstances () {
-		return instances;
 	}
 
 
@@ -96,15 +99,5 @@ public class ExecutionSpecification {
 
 		for (String library : libraries)
 			libprovider.provideLibrary(library);
-	}
-
-
-	public void setInitialDelay (int initialDelay) {
-		this.initialDelay = initialDelay;
-	}
-
-
-	public int getInitialDelay () {
-		return initialDelay;
 	}
 }

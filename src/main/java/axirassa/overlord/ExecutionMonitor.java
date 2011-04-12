@@ -4,6 +4,8 @@ package axirassa.overlord;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import lombok.Getter;
+import lombok.Setter;
 import axirassa.overlord.exceptions.ExceptionInMonitorError;
 
 /**
@@ -13,16 +15,20 @@ import axirassa.overlord.exceptions.ExceptionInMonitorError;
  */
 public class ExecutionMonitor implements Runnable {
 	private final ExecutionTarget target;
+
 	private final int id;
 
 	private final boolean limitedRestarts = false;
+
+	@Setter
+	@Getter
 	private int remainingRestarts = 0;
 	private int startCount = 0;
 	private final ProcessBuilder builder;
 	private Process process;
 
 
-	public ExecutionMonitor(ExecutionTarget target, int id, ProcessBuilder builder) {
+	public ExecutionMonitor (ExecutionTarget target, int id, ProcessBuilder builder) {
 		this.target = target;
 		this.id = id;
 
@@ -30,18 +36,8 @@ public class ExecutionMonitor implements Runnable {
 	}
 
 
-	public void setRemainingRestarts(int remainingRestarts) {
-		this.remainingRestarts = remainingRestarts;
-	}
-
-
-	public int getRemainingRestarts() {
-		return remainingRestarts;
-	}
-
-
 	@Override
-	public void run() {
+	public void run () {
 		while (remainingRestarts > 0 || limitedRestarts == false) {
 			try {
 				System.out.printf(toString() + " STARTING [%d]: " + builder.command() + "\n", startCount);
@@ -75,7 +71,7 @@ public class ExecutionMonitor implements Runnable {
 	}
 
 
-	public void killProcess() {
+	public void killProcess () {
 		if (process == null)
 			return;
 
@@ -84,7 +80,7 @@ public class ExecutionMonitor implements Runnable {
 	}
 
 
-	private String getId() {
+	private String getId () {
 		return target.getName() + '[' + id + ']';
 	}
 }
