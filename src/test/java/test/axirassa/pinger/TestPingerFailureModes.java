@@ -37,7 +37,7 @@ public class TestPingerFailureModes {
 
 	public static PingerEntity testPinger (String url) {
 		PingerEntity entity = new PingerEntity();
-		entity.setUrl("http://localhost:" + server.PORT_NUMBER + url);
+		entity.setUrl("http://localhost:" + PingerTestServer.PORT_NUMBER + url);
 
 		return entity;
 	}
