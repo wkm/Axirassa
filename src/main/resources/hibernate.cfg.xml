@@ -27,17 +27,24 @@
   <property name="hibernate.cache.use_structured_entries">true</property>
   <property name="hibernate.cache.use_minimal_puts">false</property>
   <property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</property>
+  
   <!-- Mappings -->
-  <mapping class="axirassa.model.UserEntity"/>
-  <mapping class="axirassa.model.AccountEntity"/>
-  <mapping class="axirassa.model.AccountUserEntity"/>
-  <mapping class="axirassa.model.PingerEntity"/>
-  <mapping class="axirassa.model.MonitorTypeEntity"/>
-  <mapping class="axirassa.model.PasswordResetTokenEntity"/>
-  <mapping class="axirassa.model.UserPhoneNumberEntity"/>
-  <mapping class="axirassa.model.UserEmailAddressEntity"/>
-  <mapping class="axirassa.model.FeedbackEntity"/>
-  <mapping class="axirassa.model.HttpStatisticsEntity"/>
+  <mapping class="axirassa.model.UserEntity" />
+  <mapping class="axirassa.model.AccountEntity" />
+  <mapping class="axirassa.model.AccountUserEntity" />
+  <mapping class="axirassa.model.PingerEntity" />
+  <mapping class="axirassa.model.MonitorTypeEntity" />
+  <mapping class="axirassa.model.PasswordResetTokenEntity" />
+  <mapping class="axirassa.model.UserPhoneNumberEntity" />
+  <mapping class="axirassa.model.UserEmailAddressEntity" />
+  <mapping class="axirassa.model.FeedbackEntity" />
+  <mapping class="axirassa.model.HttpStatisticsEntity" />
+  <mapping class="axirassa.model.TriggerTemplateEntity" />
+  <mapping class="axirassa.model.TriggerSettingEntity" />
+  <mapping class="axirassa.model.TriggerTemplateSettingEntity" />
+  <mapping class="axirassa.model.TriggerTemplateEnumerationSettingEntity" />
+  <mapping class="axirassa.model.TriggerTemplateQuantitySettingEntity" />
+  
   <!-- Queries -->
   <mapping resource="axirassa/model/UserEntityQueries.hbm.xml"/>
   <mapping resource="axirassa/model/PingerEntityQueries.hbm.xml"/>
@@ -45,6 +52,7 @@
   <mapping resource="axirassa/model/UserPhoneNumberEntityQueries.hbm.xml"/>
   <mapping resource="axirassa/model/UserEmailAddressEntityQueries.hbm.xml"/>
   <mapping resource="axirassa/model/FeedbackEntityQueries.hbm.xml"/>
+  
   <!-- Events & Interceptors -->
   <event type="save">
    <listener class="axirassa.model.interceptor.EntityOnSaveInterceptor"/>
