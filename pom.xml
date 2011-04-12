@@ -205,6 +205,12 @@
             <type>pom</type>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+        	<groupId>org.restlet.jee</groupId>
+        	<artifactId>org.restlet</artifactId>
+        	<version>2.0.0</version>
+        	<scope>test</scope>
+        </dependency>
     </dependencies>
     <url>http://axirassa.com</url>
     <issueManagement>
@@ -338,6 +344,10 @@
             <id>apache</id>
             <name>Apache</name>
             <url>http://ftp.cica.es/mirrors/maven2</url>
+        </repository>
+        <repository>
+        	<id>maven-restlet</id>
+        	<url>http://maven.restlet.org/</url>
         </repository>
     </repositories>
 
