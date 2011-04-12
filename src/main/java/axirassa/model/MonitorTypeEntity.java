@@ -9,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -29,32 +32,15 @@ public class MonitorTypeEntity implements Serializable {
 
 
 	@Id
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-
-	public void setId (Long id) {
-		this.id = id;
-	}
-
-
-	public Long getId () {
-		return id;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private MonitorType type;
-
-
-	public void setType (MonitorType type) {
-		this.type = type;
-	}
-
-
-	public MonitorType getType () {
-		return type;
-	}
 
 }

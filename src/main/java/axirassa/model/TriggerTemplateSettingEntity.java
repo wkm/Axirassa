@@ -10,6 +10,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -17,14 +20,20 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 abstract public class TriggerTemplateSettingEntity {
-	@Id
+	@Id	
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
+	
+	@Getter
+	@Setter
 	@OneToOne
 	private TriggerSettingEntity setting;
-
+	
+	@Getter
+	@Setter
 	@OneToOne
 	private TriggerTemplateEntity template;
 

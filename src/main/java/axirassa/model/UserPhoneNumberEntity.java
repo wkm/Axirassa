@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -27,48 +30,24 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 	//
 
 	@Id
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 
-	public Long getId () {
-		return id;
-	}
-
-
-	public void setId (Long id) {
-		this.id = id;
-	}
-
-
+	@Getter
+	@Setter
 	@ManyToOne(optional = false)
 	private UserEntity user;
 
 
-	@Override
-	public UserEntity getUser () {
-		return user;
-	}
-
-
-	public void setUser (UserEntity user) {
-		this.user = user;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private String phoneNumber;
 
-
-	public String getPhoneNumber () {
-		return phoneNumber;
-	}
-
-
-	public void setPhoneNumber (String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
 
 
 	public String getFormattedPhoneNumber () {
@@ -87,75 +66,34 @@ public class UserPhoneNumberEntity extends AutoSerializingObject implements Seri
 		return formatted.toString();
 	}
 
-
+	@Getter
+	@Setter
 	@Basic(optional = true)
 	private String extension;
 
 
-	public String getExtension () {
-		return extension;
-	}
-
-
-	public void setExtension (String extension) {
-		this.extension = extension;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
-	private boolean confirmed = false;
+	private boolean confirmed;
 
 
-	public boolean isConfirmed () {
-		return confirmed;
-	}
-
-
-	public void setConfirmed (boolean confirmed) {
-		this.confirmed = confirmed;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
-	private boolean acceptingVoice = false;
+	private boolean acceptingVoice;
 
 
-	public boolean isAcceptingVoice () {
-		return acceptingVoice;
-	}
-
-
-	public void setAcceptingVoice (boolean acceptingVoice) {
-		this.acceptingVoice = acceptingVoice;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
-	private boolean acceptingSms = false;
+	private boolean acceptingSms ;
 
 
-	public boolean isAcceptingSms () {
-		return acceptingSms;
-	}
-
-
-	public void setAcceptingSms (boolean acceptingSms) {
-		this.acceptingSms = acceptingSms;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private String token;
-
-
-	public String getToken () {
-		return token;
-	}
-
-
-	public void setToken (String token) {
-		this.token = token;
-	}
 
 
 	public String getFormattedToken () {

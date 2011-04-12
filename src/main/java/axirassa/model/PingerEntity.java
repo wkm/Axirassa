@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -35,83 +38,44 @@ public class PingerEntity extends AutoSerializingObject implements Serializable,
 
 	// ID
 	@Id
+	@Getter
+	@Setter
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 
-	public Long getId () {
-		return id;
-	}
-
-
-	public void setId (Long id) {
-		this.id = id;
-	}
-
-
 	// USER
+	@Getter
+	@Setter
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private UserEntity user;
 
 
-	@Override
-	public UserEntity getUser () {
-		return user;
-	}
-
-
-	public void setUser (UserEntity user) {
-		this.user = user;
-	}
-
-
 	// URL
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private String url;
-
-
-	public void setUrl (String url) {
-		this.url = url;
-	}
-
-
-	public String getUrl () {
-		return url;
-	}
 
 
 	/**
 	 * The number of seconds between checks
 	 */
+	@Getter
 	@Basic(optional = false)
-	private int frequency;
+	private int frequency; 
 
-
-	public void setFrequency (int frequency) {
-		this.frequency = frequency;
+	public void setFrequency(int frequency) {
+		this.frequency= frequency;
 	}
-
 
 	public void setFrequency (PingerFrequency frequency) {
 		this.frequency = frequency.getInterval();
 	}
 
 
-	public int getFrequency () {
-		return frequency;
-	}
-
-
+	@Getter
+	@Setter
 	@OneToMany(fetch = FetchType.EAGER)
 	public Set<MonitorTypeEntity> monitorType;
-
-
-	public Set<MonitorTypeEntity> getMonitorType () {
-		return monitorType;
-	}
-
-
-	public void setMonitorType (Set<MonitorTypeEntity> monitorType) {
-		this.monitorType = monitorType;
-	}
 }

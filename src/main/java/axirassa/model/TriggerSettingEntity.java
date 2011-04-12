@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -23,16 +26,25 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class TriggerSettingEntity {
 	@Id
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private String name;
 
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private TriggerSettingType type;
 
+	
+	@Getter
+	@Setter
 	@Basic(optional = true)
 	private String description;
 }
