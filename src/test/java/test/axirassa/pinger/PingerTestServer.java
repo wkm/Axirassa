@@ -66,10 +66,7 @@ class StatusRestlet extends Restlet {
 
 	@Override
 	public void handle (Request request, Response response) {
-		System.out.println("HANDLING RESPONSE");
-
 		Object codeObject = request.getAttributes().get("code");
-		System.out.println("STATUS CODE: " + codeObject);
 		int statuscode;
 
 		if (codeObject == null)
@@ -83,8 +80,6 @@ class StatusRestlet extends Restlet {
 		else
 			statuscode = 200;
 
-		System.out.println("SETTING STATUS: " + statuscode);
 		response.setStatus(new Status(statuscode));
-		System.out.println("STATUS: " + response.getStatus());
 	}
 }
