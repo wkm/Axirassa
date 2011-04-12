@@ -17,6 +17,7 @@ import axirassa.services.pinger.HttpPinger;
 import axirassa.trigger.ProtocolErrorTrigger;
 import axirassa.trigger.StatusCodeTrigger;
 import axirassa.trigger.Trigger;
+import axirassa.trigger.UnknownHostTrigger;
 
 public class TestPingerFailureModes {
 
@@ -61,6 +62,18 @@ public class TestPingerFailureModes {
 
 	@Test
 	public void testUnknownHost () throws ClientProtocolException, IOException, AxirassaServiceException {
+		HttpPinger pinger = new HttpPinger();
+		PingerEntity entity = new PingerEntity();
+		entity.setUrl("http://WhoIsAtThisCrazyFoo.com/");
+
+		pinger.ping(entity);
+
+		assertTriggers(pinger, UnknownHostTrigger.class);
+	}
+
+
+	@Test
+	public void testStatusCodes () throws ClientProtocolException, IOException, AxirassaServiceException {
 		Class<? extends StatusCodeTrigger> codeTrigger = StatusCodeTrigger.class;
 
 		HttpPinger pinger = new HttpPinger();
