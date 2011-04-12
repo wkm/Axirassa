@@ -85,6 +85,7 @@ public class HttpPinger {
 		} catch (ClientProtocolException e) {
 			addTrigger(new ProtocolErrorTrigger(e));
 		} catch (Exception e) {
+			e.printStackTrace(System.err);
 			addTrigger(new PingerErrorTrigger(e));
 		}
 
