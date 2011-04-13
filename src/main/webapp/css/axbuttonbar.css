@@ -1,0 +1,68 @@
+.bb {
+	reset: both;
+	padding-top: 2px;
+}
+
+.bbb {
+	background: #ddd;
+	border: 1px solid #ccc;
+	border-right: 0;
+	float: left;
+
+	margin: 0;
+	font-weight: bold;
+	font-size: 70%;
+	color: #555;
+	text-shadow: #fff 0px 1px 0px;
+	padding: 0;
+	text-align: center;
+	padding-right: 1px;
+	background:	-webkit-gradient(linear, left top, left bottom, from(#eee), to(#fafafa));
+}
+
+.bbb:hover {
+	cursor: pointer;
+	border: 1px solid #666;
+	padding-right: 0;
+	
+	text-shadow: #000 0px 1px 0px;
+	background: rgb(190, 53, 51);
+	color: #fff;
+}
+
+.bbb:hover .bbbi {
+	border-color: #a00;
+}
+
+.bbbr {
+	border-right: 1px solid #ccc;
+	padding-right: 0;
+}
+
+.bbbl, .bbbl > .bbbi {
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+.bbbr, .bbbr > .bbbi {
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.bbbi {
+	border: 1px solid #eee;
+	padding: .2em 1em;
+}
+
+
+.bb > input {
+	display: none;
+}
+/*.active {
+	background: #fc0;
+	background:	-webkit-gradient(linear, left top, left bottom, from(#fc0), to(#f90));
+}*/
+
+.active > .bbbi {
+	border: none;
+}
