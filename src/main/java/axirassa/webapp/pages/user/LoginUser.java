@@ -55,15 +55,8 @@ public class LoginUser {
 	private AxForm form;
 
 
-	public void onActivate (String extra) {
-		System.out.println("W/ EXTRA: " + extra);
-	}
-
-
 	public void onActivate () {
-		System.out.println("ACTIVATING SECURITY");
 		if (security.isUser()) {
-			System.out.println("SECURITY RECOGNIZES USER: " + security.getEmail());
 			email = security.getEmail();
 			isLoggedIn = true;
 		}
