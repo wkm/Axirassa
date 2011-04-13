@@ -34,7 +34,7 @@ public class AxOpener {
 	private String id;
 
 
-	public String getID() {
+	public String getId() {
 		if (id == null)
 			id = generateID();
 
