@@ -121,8 +121,15 @@ h4 {
 }
 
 h5 {
-	font-size: 10pt;
-	margin:0;
+	color: #333;
+	font-size: 12pt;
+	font-weight: normal;
+	margin: 0;
+	padding: 1.5em 0 .5em 0;
+}
+
+h4 + h5 {
+	padding: 0 0 .5em 0;
 }
 
 
@@ -169,6 +176,7 @@ h5 {
 
 .mini {
 	background: rgb(190, 53, 51);
+	background: -webkit-gradient(linear, left top, left bottom, from(rgb(210, 73, 71)), to(rgb(190, 53, 51)));
 	color: #fff;
 	
 	margin: 0;
@@ -307,6 +315,12 @@ emphasis {
 .display {
 	font-size: 36pt;
 	margin: 1em 0 1em 3em;
+}
+
+.statuscodes .ax_field > label {
+	font-size: 10pt;
+	width: 15em;
+	text-align: left;
 }
 
 ul {
