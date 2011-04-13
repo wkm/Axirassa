@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html t:type="Layout" t:pageTitle="Create Monitor Trigger" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<h3>Monitor Triggers</h3>
+	<t:AxForm>
+		<h4>HTTP</h4>
+		<t:AxTextField t:value="latency" t:name="Latency" t:hint="slower than"/>
+		<t:AxFieldDescription>
+			latency is the amount of time it takes from when the request is made to the first-byte
+			of the response is received (also known as network time)
+		</t:AxFieldDescription>
+		
+		<t:AxTextField t:value="responseTime" t:name="Response time" t:hint="slower than"/>
+		<t:AxFieldDescription>
+			response time is the amount of time it takes to finish receiving the response after
+			sending the request
+		</t:AxFieldDescription>
+		<t:AxTextField t:value="responseSize" t:name="Response size" />
+		<t:AxFieldDescription>
+			
+		</t:AxFieldDescription>
+		
+		<t:AxButtonBar t:name="Compression">
+			<input type="radio" name="button" value="require" id="r1" checked="true"/>
+			<label for='r1'>require</label>
+	
+			<input type="radio" name="button" value="don't allow" id="r2" />
+			<label for='r2'>ignore</label>
+	
+			<input type="radio" name="button" value="ignore" id="r3" />
+			<label for='r3'>don't allow</label>
+		</t:AxButtonBar>
+		
+		<div class='reset'></div>
+		<h4>Status Codes</h4>
+		<div class='statuscodes'>
+			<h5>Success &#8212; 200 Series</h5>
+			<t:AxButtonBar t:name="200 - OK">
+				<input type="radio" name="button" value="1" id="r4" checked="true"/>
+				<label for='r4'>error</label>
+				<input type="radio" name="button" value="2" id="r5" />
+				<label for='r5'>warning</label>
+				<input type="radio" name="button" value="3" id="r6" />
+				<label for='r6'>ignore</label>
+			</t:AxButtonBar>
+			
+			<t:AxButtonBar t:name="201 - Created">
+				<input type="radio" name="button" value="1" id="r4" checked="true"/>
+				<label for='r4'>error</label>
+				<input type="radio" name="button" value="2" id="r5" />
+				<label for='r5'>warning</label>
+				<input type="radio" name="button" value="3" id="r6" />
+				<label for='r6'>ignore</label>
+			</t:AxButtonBar>
+			
+			<t:AxButtonBar t:name="202 - Accepted">
+				<input type="radio" name="button" value="1" id="r4" checked="true"/>
+				<label for='r4'>error</label>
+				<input type="radio" name="button" value="2" id="r5" />
+				<label for='r5'>warning</label>
+				<input type="radio" name="button" value="3" id="r6" />
+				<label for='r6'>ignore</label>
+			</t:AxButtonBar>
+			
+			<t:AxButtonBar t:name="203 - Non-Authoritative">
+				<input type="radio" name="button" value="1" id="r4" checked="true"/>
+				<label for='r4'>error</label>
+				<input type="radio" name="button" value="2" id="r5" />
+				<label for='r5'>warning</label>
+				<input type="radio" name="button" value="3" id="r6" />
+				<label for='r6'>ignore</label>
+			</t:AxButtonBar>
+			
+			<h5 class='reset'>Redirection &#8212; 300 Series</h5>
+			
+			<h5 class='reset'>Client Error &#8212; 400 Series</h5>
+			
+			<h5 class='reset'>Server Error &#8212; 500 Series</h5>
+		</div>
+	</t:AxForm>
+</html>
