@@ -25,7 +25,9 @@
                             <b>${email.email}</b>
                             <p:else>
                                 ${email.email}
+                                <!-- 
                                 <t:pagelink t:page="user/MakePrimaryEmailAddress" t:context="${email.id}">(make primary address)</t:pagelink>
+                                -->
                             </p:else>
                         </t:if>
                     </td>
@@ -138,7 +140,7 @@
 	
     <h4 class='divider'>Password</h4>
     <p>We will send an e-mail notifying you of a successful password change.</p>
-    <t:AxForm t:id="passwordForm">
+    <t:AxForm t:id="passwordForm" autofocus="false">
         <t:if test="passwordChanged">
             <t:AxNotification>
 				Your password was successfully changed.
