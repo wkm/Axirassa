@@ -10,9 +10,9 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.Log;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
-import org.apache.tapestry5.corelib.components.Checkbox;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.RequestGlobals;
 import org.apache.tapestry5.services.Response;
@@ -20,7 +20,6 @@ import org.tynamo.security.services.PageService;
 
 import axirassa.model.exception.NoSaltException;
 import axirassa.webapp.components.AxForm;
-import axirassa.webapp.components.AxTextField;
 import axirassa.webapp.pages.MonitorConsole;
 import axirassa.webapp.services.AxirassaSecurityService;
 
@@ -28,6 +27,7 @@ import axirassa.webapp.services.AxirassaSecurityService;
 @RequiresGuest
 public class LoginUser {
 	@Inject
+	@Property
 	private AxirassaSecurityService security;
 
 	@Inject
@@ -48,23 +48,29 @@ public class LoginUser {
 	@Property
 	private boolean rememberme;
 
-	@Component
-	private AxTextField emailField;
-
-	@Component
-	private Checkbox remembermebox;
+	@Property
+	private boolean isLoggedIn;
 
 	@Component
 	private AxForm form;
 
 
+	public void onActivate (String extra) {
+		System.out.println("W/ EXTRA: " + extra);
+	}
+
+
 	public void onActivate () {
+		System.out.println("ACTIVATING SECURITY");
 		if (security.isUser()) {
+			System.out.println("SECURITY RECOGNIZES USER: " + security.getEmail());
 			email = security.getEmail();
+			isLoggedIn = true;
 		}
 	}
 
 
+	@Log
 	public void onValidateFromForm () throws NoSaltException {
 		if (email == null || password == null)
 			return;
@@ -85,6 +91,7 @@ public class LoginUser {
 	}
 
 
+	@Log
 	public Object onSuccessFromForm () {
 		SavedRequest savedRequest = WebUtils.getAndClearSavedRequest(requestGlobals.getHTTPServletRequest());
 
