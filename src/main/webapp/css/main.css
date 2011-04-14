@@ -41,6 +41,10 @@ body {
 	background: url('/media/bg.png');
 }
 
+a img {
+	border: 0;
+}
+
 .connectedWorld {
 	position: absolute;
 	width: 100%;
@@ -317,9 +321,7 @@ emphasis {
 	margin: 1em 0 1em 3em;
 }
 
-.statuscodes .ax_field > label {
-	font-size: 10pt;
-	width: 15em;
+.statuscodes th {
 	text-align: left;
 }
 
@@ -386,8 +388,10 @@ td img {
 
 th {
 	color: #333;
+	font-weight: normal;
 	text-align: center;
 	border-bottom: 2px solid #ddd;
+	padding-top: 1em;
 }
 
 .url {
