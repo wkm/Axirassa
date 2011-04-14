@@ -9,4 +9,9 @@ public class AbstractTrigger implements Trigger {
 	@Getter
 	@Setter
 	private PingerEntity pinger;
+	
+	@Override
+    public String toString() {
+		return getClass().getSimpleName();
+	}
 }
