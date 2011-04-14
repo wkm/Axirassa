@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
-	<div class="ax_field">
+	<t:AxFormField>
 		<p>
 			<t:body/>
 		</p>
-	</div>
+	</t:AxFormField>
 </t:container>
