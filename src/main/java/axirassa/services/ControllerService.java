@@ -8,10 +8,10 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientProducer;
-import org.hornetq.api.core.client.ClientSession;
 
 import axirassa.config.Messaging;
 import axirassa.model.PingerEntity;
+import axirassa.webapp.services.MessagingSession;
 
 /**
  * The ControllerService executes every minute, creating a message for each
@@ -22,7 +22,7 @@ import axirassa.model.PingerEntity;
 public class ControllerService implements Service {
 
 	@Inject
-	private ClientSession messaging;
+	private MessagingSession messaging;
 
 	@Inject
 	private Session database;
