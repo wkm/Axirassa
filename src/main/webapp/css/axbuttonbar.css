@@ -58,10 +58,10 @@
 .bb > input {
 	display: none;
 }
-/*.active {
+.active {
 	background: #fc0;
-	background:	-webkit-gradient(linear, left top, left bottom, from(#fc0), to(#f90));
-}*/
+	background:	-webkit-gradient(linear, left top, left bottom, from(#f00), to(#f90));
+}
 
 .active > .bbbi {
 	border: none;
