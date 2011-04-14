@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html t:type="layout" t:pageTitle="Login" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+<html t:type="layout" t:pageTitle="Login" 
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+	xmlns:p="tapestry:parameter">
 <t:axform t:id="form" t:title="Login">
     <t:security.user>
         <p>
@@ -9,7 +11,14 @@
 
     <t:errors />
 
-    <t:axtextfield t:id="emailField" t:value="email" t:name="E-mail" t:validate="required,email" />
+	<t:if test="security.user">
+   		<t:axtextfield t:value="security.email" t:name="E-mail" t:validate="required,email" disabled="security.user"/>
+   		
+   		<p:else>
+   			<t:axtextfield t:id="emailField" t:value="email" t:name="E-mail" t:validate="required,email"/>
+   		</p:else>
+   	</t:if>
+    
     <t:axpasswordfield t:value="password" t:name="Password" t:validate="required" />
 
     <t:security.guest>
@@ -24,9 +33,8 @@
 
 <t:security.guest>
     <p>
-        <t:pagelink t:page="User/ResetPassword">Forgot your password?</t:pagelink>
-        |
-        <t:pagelink t:page="User/Register">Register for an account</t:pagelink>
+        <t:pagelink t:mixins="AxButton" t:page="User/ResetPassword">Forgot your password?</t:pagelink>
+        <t:pagelink  t:mixins="AxButton" t:page="User/Register">Register for an account</t:pagelink>
     </p>
 </t:security.guest>
 </html> 

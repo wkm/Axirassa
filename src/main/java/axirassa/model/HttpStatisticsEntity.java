@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -25,108 +28,50 @@ import axirassa.util.AutoSerializingObject;
 public class HttpStatisticsEntity extends AutoSerializingObject implements Serializable {
 	private static final long serialVersionUID = 8808442777520544095L;
 
+	@Getter
+	@Setter
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@Getter
+	@Setter
 	@Basic
 	@Temporal(TemporalType.TIMESTAMP)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Date timestamp;
 
+	@Getter
+	@Setter
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private PingerEntity pinger;
 
 
-	public void setPinger (PingerEntity pinger) {
-		this.pinger = pinger;
-	}
-
-
-	public PingerEntity getPinger () {
-		return pinger;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private int statusCode;
 
-
-	public void setStatusCode (int statusCode) {
-		this.statusCode = statusCode;
-	}
-
-
-	public int getStatusCode () {
-		return statusCode;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private int latency;
 
-
-	public void setLatency (int latency) {
-		this.latency = latency;
-	}
-
-
-	public int getLatency () {
-		return latency;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private int responseTime;
 
 
-	public void setResponseTime (int responseTime) {
-		this.responseTime = responseTime;
-	}
-
-
-	public int getResponseTime () {
-		return responseTime;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = true)
 	private long responseSize;
 
-
-	public void setResponseSize (long responseSize) {
-		this.responseSize = responseSize;
-	}
-
-
-	public long getResponseSize () {
-		return responseSize;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = true)
 	private long uncompressedSize;
-
-
-	public void setUncompressedSize (long uncompressedSize) {
-		this.uncompressedSize = uncompressedSize;
-	}
-
-
-	public long getUncompressedSize () {
-		return uncompressedSize;
-	}
-
-
-	public void setTimestamp (Date timestamp) {
-		this.timestamp = timestamp;
-	}
-
-
-	public Date getTimestamp () {
-		return timestamp;
-	}
-
 
 	public long getTimestampInMillis () {
 		Calendar calendar = Calendar.getInstance();

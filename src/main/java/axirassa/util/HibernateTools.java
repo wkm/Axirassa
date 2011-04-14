@@ -36,6 +36,12 @@ public class HibernateTools {
 		config.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		config.setProperty("hibernate.show_sql", "true");
 
+		// disable c3p0
+		config.setProperty("hibernate.c3p0.min_size", "");
+		config.setProperty("hibernate.c3p0.max_size", "");
+		config.setProperty("hibernate.c3p0.timeout", "");
+		config.setProperty("hibernate.c3p0.max_statements", "");
+
 		return config.buildSessionFactory();
 	}
 

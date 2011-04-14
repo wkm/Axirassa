@@ -4,21 +4,20 @@ package axirassa.overlord;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
+
 public class CommandLine {
 
+	@Getter
 	private String command = null;
+	
+	@Getter
 	private final List<String> arguments = new ArrayList<String>();
 
 
 	public CommandLine(String command) {
 		this.command = command;
 	}
-
-
-	public String getCommand() {
-		return command;
-	}
-
 
 	public void addArgument(String argument) {
 		arguments.add(argument);

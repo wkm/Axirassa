@@ -19,6 +19,7 @@ import axirassa.webapp.components.AxForm;
 import axirassa.webapp.components.AxTextField;
 import axirassa.webapp.services.AxirassaSecurityService;
 import axirassa.webapp.services.EmailNotifyService;
+import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 
 @RequiresUser
 public class AddEmailAddressUser {
@@ -43,12 +44,12 @@ public class AddEmailAddressUser {
 
 	@Property
 	private String email;
-    
+
 	@Property
 	private String emailConfirm;
 
 
-	public void onValidateFromForm() {
+	public void onValidateFromForm () {
 		if (email == null)
 			return;
 		if (emailConfirm == null)
@@ -60,7 +61,7 @@ public class AddEmailAddressUser {
 
 
 	@CommitAfter
-	public Object onSuccessFromForm() throws HornetQException, IOException {
+	public Object onSuccessFromForm () throws HornetQException, IOException, AxirassaSecurityException {
 		UserEntity user = security.getUserEntity();
 
 		UserEmailAddressEntity emailEntity = new UserEmailAddressEntity();

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
-	<div class='ax_field'>
+	<t:AxFormField>
 		<t:submit class='input submit' t:id="submit" value="${label}"/>
-	</div>
+	</t:AxFormField>
 </t:container>

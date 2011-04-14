@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.Collections;
 
+import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.junit.Test;
@@ -30,10 +31,11 @@ public class TestPingerEntity {
 
 
 	@Test
-	public void testPingerSize () throws IOException {
+	@CommitAfter
+	public void testPingerSize() throws IOException {
 		UserEntity user = new UserEntity();
 		user.createPassword("password");
-		database.persist(user);
+		database.save(user);
 
 		MonitorTypeEntity type = new MonitorTypeEntity();
 		type.setType(MonitorType.HTTP);
@@ -44,13 +46,11 @@ public class TestPingerEntity {
 		pinger.setUrl("www.google.com");
 		pinger.setUser(user);
 
-		database.beginTransaction();
 		database.save(user);
 		// create many of these pingers
 		for (int i = 0; i < 100; i++)
 			database.save(pinger);
 		database.save(type);
-		database.getTransaction().commit();
 
 		assertTrue(pinger.toBytes().length < 1500);
 	}

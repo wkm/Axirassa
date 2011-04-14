@@ -4,11 +4,6 @@
 	<head>
 		<title>${pageTitle} :: Axirassa Website &amp; E-Mail Monitoring</title>
 		<link rel="icon" type="image/png" href="/media/axirassa.png" />
-		<!--[if !IE 7]>
-			<style type="text/css">
-				#wrap {display:table; height:100%;}
-			</style>
-		<![endif]-->
 	</head>
 	<body>
 		<div id="wrap">
@@ -39,8 +34,8 @@
 		</div>		
 		<div id="footer">
 			Copyright 2011 &#8212; Axirassa, LLC. 
-			| <t:PageLink t:page="support/privacy">Privacy</t:PageLink> 
-			| <t:PageLink t:page="support/termsOfUse">Terms Of Use</t:PageLink>
+			| <t:PageLink t:mixins="AxButton"  t:page="support/privacy">Privacy</t:PageLink> 
+			| <t:PageLink  t:mixins="AxButton" t:page="support/termsOfUse">Terms Of Use</t:PageLink>
 			| <t:AxFeedbackForm />
 		</div>
 		

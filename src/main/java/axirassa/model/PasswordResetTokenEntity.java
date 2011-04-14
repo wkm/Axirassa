@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -26,62 +29,30 @@ public class PasswordResetTokenEntity implements Serializable, EntityPreSave {
 	private static final long serialVersionUID = -3839405383706605089L;
 
 	@Id
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 
-
-	public void setId (Long id) {
-		this.id = id;
-	}
-
-
-	public Long getId () {
-		return id;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private String token;
 
 
-	public void setToken (String token) {
-		this.token = token;
-	}
-
-
-	public String getToken () {
-		return token;
-	}
-
-
+	@Getter
+	@Setter
 	@ManyToOne(optional = false)
 	private UserEntity user;
 
 
-	public UserEntity getUser () {
-		return user;
-	}
-
-
-	public void setUser (UserEntity user) {
-		this.user = user;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date expiration;
 
-
-	public void setExpiration (Date expiration) {
-		this.expiration = expiration;
-	}
-
-
-	public Date getExpiration () {
-		return expiration;
-	}
 
 
 	private Date createExpiration () {

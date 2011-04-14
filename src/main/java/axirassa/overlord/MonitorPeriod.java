@@ -1,6 +1,8 @@
 
 package axirassa.overlord;
 
+import lombok.Getter;
+
 /**
  * Represents a period of time over which the number of restarts of a process
  * may be watched.
@@ -13,15 +15,11 @@ public enum MonitorPeriod {
 	HOUR(60 * 60 * 1000),
 	DAY(24 * 60 * 60 * 1000);
 
-	private long millis;
+	@Getter
+	private final long millis;
 
 
-	MonitorPeriod(long millis) {
+	MonitorPeriod (long millis) {
 		this.millis = millis;
-	}
-
-
-	public long getMillis() {
-		return millis;
 	}
 }

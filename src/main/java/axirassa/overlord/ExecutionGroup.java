@@ -3,8 +3,8 @@ package axirassa.overlord;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
+import lombok.Getter;
 import axirassa.overlord.exceptions.InvalidOverlordNameException;
 import axirassa.overlord.exceptions.OverlordException;
 
@@ -19,8 +19,11 @@ public class ExecutionGroup {
 	// Class Instances
 	//
 
+	@Getter
 	private final String name;
-	private final ArrayList<ExecutionSpecification> executionspecs = new ArrayList<ExecutionSpecification>();
+	
+	@Getter
+	private final ArrayList<ExecutionSpecification> executionSpecifications = new ArrayList<ExecutionSpecification>();
 
 
 	public ExecutionGroup(String name) throws OverlordException {
@@ -29,12 +32,6 @@ public class ExecutionGroup {
 
 		this.name = name;
 	}
-
-
-	public String getName() {
-		return name;
-	}
-
 
 	public String getCanonicalName() {
 		return name.toLowerCase();
@@ -45,17 +42,11 @@ public class ExecutionGroup {
 		if (spec == null)
 			return;
 
-		executionspecs.add(spec);
+		executionSpecifications.add(spec);
 	}
-
-
-	public List<ExecutionSpecification> getExecutionSpecifications() {
-		return executionspecs;
-	}
-
 
 	public void execute() throws IOException, InterruptedException {
-		for (ExecutionSpecification spec : executionspecs)
+		for (ExecutionSpecification spec : executionSpecifications)
 			spec.execute();
 	}
 

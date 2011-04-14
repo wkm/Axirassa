@@ -9,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -18,34 +21,14 @@ public class AccountEntity implements Serializable {
 	private static final long serialVersionUID = -6937561064726878987L;
 
 	// ID
-	private Long id;
-
-
 	@Id
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long getId () {
-		return id;
-	}
-
-
-	public void setId (Long id) {
-		this.id = id;
-	}
-
+	private Long id;
 
 	// Name
-	private String name;
-
-
 	@Basic(optional = false)
-	public String getName () {
-		return name;
-	}
-
-
-	public void setName (String name) {
-		this.name = name;
-	}
-
+	private String name;
 }

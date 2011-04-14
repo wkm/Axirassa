@@ -1,19 +1,20 @@
+
 package axirassa.webapp.pages.monitor;
 
+import java.util.List;
 
-import axirassa.dao.UserDAO;
-import axirassa.model.MonitorTypeEntity;
-import axirassa.model.PingerEntity;
-import axirassa.model.UserEntity;
-import axirassa.webapp.services.AxirassaSecurityService;
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import java.util.List;
-
+import axirassa.dao.UserDAO;
+import axirassa.model.MonitorTypeEntity;
+import axirassa.model.PingerEntity;
+import axirassa.model.UserEntity;
+import axirassa.webapp.services.AxirassaSecurityService;
+import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 
 @RequiresUser
 public class ListMonitor {
@@ -26,7 +27,6 @@ public class ListMonitor {
 	@Inject
 	private UserDAO userDAO;
 
-
 	@Property
 	private List<PingerEntity> pingers;
 
@@ -37,8 +37,8 @@ public class ListMonitor {
 	private MonitorTypeEntity type;
 
 
-	public void onActivate () {
-		UserEntity user = userDAO.getUserByEmail(security.getEmail());
+	public void onActivate() throws AxirassaSecurityException {
+		UserEntity user = security.getUserEntity();
 
 		Query query = database.createQuery("from PingerEntity where user=:user");
 		query.setEntity("user", user);

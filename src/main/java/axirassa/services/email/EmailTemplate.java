@@ -1,6 +1,7 @@
 
 package axirassa.services.email;
 
+import lombok.Getter;
 import axirassa.services.util.TemplateEnumeration;
 
 public enum EmailTemplate implements TemplateEnumeration {
@@ -13,29 +14,21 @@ public enum EmailTemplate implements TemplateEnumeration {
 
 	public static final String BASE_LOCATION = "/axirassa/webapp/emails/";
 
+	@Getter
 	private final String location;
+
+	@Getter
 	private final String fromAddress;
 
 
-	EmailTemplate(String location, EmailSenderAddress fromAddress) {
+	EmailTemplate (String location, EmailSenderAddress fromAddress) {
 		this.location = location;
 		this.fromAddress = fromAddress.getAddress();
 	}
 
 
 	@Override
-	public String getLocation() {
-		return location;
-	}
-
-
-	public String getFromAddress() {
-		return fromAddress;
-	}
-
-
-	@Override
-	public String getFullLocation() {
+	public String getFullLocation () {
 		return BASE_LOCATION + location;
 	}
 }

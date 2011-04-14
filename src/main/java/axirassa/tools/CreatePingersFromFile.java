@@ -31,7 +31,7 @@ public class CreatePingersFromFile {
 	private String email;
 
 
-	private void insert () throws IOException {
+	private void insert() throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		System.out.println("User's primary e-mail: ");
@@ -62,7 +62,7 @@ public class CreatePingersFromFile {
 			pinger.setUser(user);
 			pinger.setFrequency(3600);
 
-			database.persist(pinger);
+			database.save(pinger);
 		}
 
 		System.out.println("Commiting transaction");
@@ -71,7 +71,7 @@ public class CreatePingersFromFile {
 	}
 
 
-	public static void main (String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
 		CreatePingersFromFile tool = IocStandalone.autobuild(CreatePingersFromFile.class);
 		tool.insert();
 	}

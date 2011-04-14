@@ -6,7 +6,4 @@
     <div class="n">${pingerName}</div>
     <div id="${plotId}_t" class='t'>30<span class='u'>ms</span></div>
     <div id="${plotId}_rz" class='sz'>194<span class='u'>b</span></div>
-    <div style="font-family: monospace; font-size: 9pt;" id="${plotId}_time">time</div>
-    <div style="font-family: monospace; font-size: 9pt;" id="${plotId}_timestamp">timestamp</div>
-    <!-- <div class='sz'>18<span class='u'>kb</span></div> -->
 </div>

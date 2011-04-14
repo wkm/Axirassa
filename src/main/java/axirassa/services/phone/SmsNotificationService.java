@@ -41,7 +41,7 @@ public class SmsNotificationService implements Service {
 					SmsRequestMessage smsRequest = (SmsRequestMessage) rawobject;
 					String text = PhoneTemplateFactory.instance.getText(smsRequest.getTemplate(),
 					                                                    PhoneTemplateType.SMS,
-					                                                    smsRequest.getAttibuteMap());
+					                                                    smsRequest.getAttributeMap());
 
 					SendSMS sender = new SendSMS(smsRequest.getPhoneNumber(), text);
 					sender.send(httpClient);

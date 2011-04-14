@@ -2,12 +2,13 @@
 package axirassa.overlord;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-public class TargetOptions {
+import lombok.Getter;
+
+public class ExecutionTargetOptions {
 
 	public enum JVMOption {
 		XMX("Xmx"),
@@ -34,6 +35,8 @@ public class TargetOptions {
 	//
 
 	private final LinkedHashMap<JVMOption, String> options = new LinkedHashMap<JVMOption, String>();
+	
+	@Getter
 	private final ArrayList<String> libraries = new ArrayList<String>();
 
 
@@ -62,12 +65,6 @@ public class TargetOptions {
 
 		return cli;
 	}
-
-
-	public Collection<String> getLibraries() {
-		return libraries;
-	}
-
 
 	/**
 	 * @return true if this target requires native libraries

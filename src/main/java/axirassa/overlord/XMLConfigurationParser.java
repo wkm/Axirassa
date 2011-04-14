@@ -136,7 +136,7 @@ public class XMLConfigurationParser {
 		}
 
 		// apply any options
-		TargetOptions options = createExecutionTargetOptions(node.getChildNodes());
+		ExecutionTargetOptions options = createExecutionTargetOptions(node.getChildNodes());
 		target.setOptions(options);
 
 		target.setAutoRestart(autorestart);
@@ -145,8 +145,8 @@ public class XMLConfigurationParser {
 	}
 
 
-	private TargetOptions createExecutionTargetOptions(NodeList nodelist) {
-		TargetOptions options = new TargetOptions();
+	private ExecutionTargetOptions createExecutionTargetOptions(NodeList nodelist) {
+		ExecutionTargetOptions options = new ExecutionTargetOptions();
 
 		for (Node node : new IterableNodeList(nodelist)) {
 			String nodename = node.getNodeName().toLowerCase();
@@ -165,7 +165,7 @@ public class XMLConfigurationParser {
 	}
 
 
-	private void createExecutionTargetJVMOption(TargetOptions options, Node node) {
+	private void createExecutionTargetJVMOption(ExecutionTargetOptions options, Node node) {
 		NamedNodeMap attributes = node.getAttributes();
 		Node namenode = attributes.getNamedItem(XMLName.NAME.toString());
 		Node valuenode = attributes.getNamedItem(XMLName.VALUE.toString());
@@ -174,7 +174,7 @@ public class XMLConfigurationParser {
 	}
 
 
-	private void createExecutionTargetLibraryOption(TargetOptions options, Node node) {
+	private void createExecutionTargetLibraryOption(ExecutionTargetOptions options, Node node) {
 		options.addLibrary(node.getTextContent());
 	}
 
