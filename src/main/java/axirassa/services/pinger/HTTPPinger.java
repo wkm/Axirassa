@@ -11,10 +11,12 @@ import java.util.LinkedHashMap;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.HttpHostConnectException;
 
 import axirassa.model.HttpStatisticsEntity;
 import axirassa.model.PingerEntity;
 import axirassa.services.exceptions.AxirassaServiceException;
+import axirassa.trigger.CouldNotConnectTrigger;
 import axirassa.trigger.PingerErrorTrigger;
 import axirassa.trigger.ProtocolErrorTrigger;
 import axirassa.trigger.StatusCodeTrigger;
@@ -30,7 +32,12 @@ public class HttpPinger {
 
 
 	public HttpPinger () {
-		client = new InstrumentedHttpClient();
+		this(new InstrumentedHttpClient());
+	}
+
+
+	public HttpPinger (InstrumentedHttpClient client) {
+		this.client = client;
 	}
 
 
@@ -79,6 +86,8 @@ public class HttpPinger {
 			                  statistic.getResponseTime(), statistic.getStatusCode(), statistic.getPinger().getUrl());
 
 			addTrigger(new StatusCodeTrigger(statistic.getStatusCode()));
+		} catch (HttpHostConnectException e) {
+			addTrigger(new CouldNotConnectTrigger(e));
 		} catch (UnknownHostException e) {
 			addTrigger(new UnknownHostTrigger());
 		} catch (ClientProtocolException e) {
