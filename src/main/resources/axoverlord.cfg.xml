@@ -95,9 +95,10 @@
     	
     	<!-- wait for one second to let the server finish starting -->
     	
-    	<execute target="AxControllerService" initialdelay="1000"  />
-    	<execute target="AxPingerService" instances="32" />
+    	<execute target="AxControllerService" initialdelay="3000"  />
     	<execute target="AxInjectorService" />
+    	
+    	<execute target="AxPingerService" instances="32" />
     	
     	<execute target="AxEmailNotificationService" />
     	<execute target="AxVoiceNotificationService" />
