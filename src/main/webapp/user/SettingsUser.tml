@@ -18,53 +18,49 @@
             <th>E-mail</th>
             <th>Verified</th>
             <th></th>
-            <t:loop source="emails" value="email">
-                <tr>
-                    <td style="width: 20em">
-                        <t:if test="${email.primaryEmail}">
-                            <b>${email.email}</b>
-                            <p:else>
-                                ${email.email}
-                                <!-- 
-                                <t:pagelink t:page="user/MakePrimaryEmailAddress" t:context="${email.id}">(make primary address)</t:pagelink>
-                                -->
-                            </p:else>
-                        </t:if>
-                    </td>
-                    <td class='img tight'>
-                        <t:if test="${email.verified}">
-                            <img src="/media/check.gif" alt="verified" />
+        </tr>
+        
+        <t:loop source="emails" value="email">
+            <tr>
+                <td style="width: 20em">
+                    <t:if test="${email.primaryEmail}">
+                        <b>${email.email}</b>
+                        <p:else>
+                            ${email.email}
+                            <!-- 
+                            <t:pagelink t:page="user/MakePrimaryEmailAddress" t:context="${email.id}">(make primary address)</t:pagelink>
+                            -->
+                        </p:else>
+                    </t:if>
+                </td>
+                <td class='img tight'>
+                    <t:if test="${email.verified}">
+                        <img src="/media/check.gif" alt="verified" />
 
-                            <p:else>
-                                <img src="/media/alert.gif" alt="not-verified"/>
-                            </p:else>
-                        </t:if>
-                    </td>
-                    <td class='img tight'>
-                        <t:if test="${email.primaryEmail}" negate="true">
-                        <t:pagelink t:page="user/DeleteEmailAddress" t:context="${email.id}">
-                            <img src="/media/delete.gif" title="delete e-mail address" alt="delete e-mail address" />
-                        </t:pagelink>
-                        </t:if>
-                    </td>
-                </tr>
-
-                <t:if test="${email.primaryEmail}">
-                    <tr>
-                        <td colspan="3">
-                            <t:AxFieldDescription>
-                                This is the e-mail address you use to identify yourself and at which you will receive billing invoices, if applicable.
-                            </t:AxFieldDescription>
-                        </td>
-                    </tr>
-                </t:if>
-            </t:loop>
+                        <p:else>
+                            <img src="/media/alert.gif" alt="not-verified"/>
+                        </p:else>
+                    </t:if>
+                </td>
+                <td class='img tight'>
+                    <t:if test="${email.primaryEmail}" negate="true">
+                    <t:pagelink t:page="user/DeleteEmailAddress" t:context="${email.id}">
+                        <img src="/media/delete.gif" title="delete e-mail address" alt="delete e-mail address" />
+                    </t:pagelink>
+                    </t:if>
+                </td>
+            </tr>
+        </t:loop>
+        
+        <tr class='tblbuttonpad'><td></td></tr>
+        <tr>
+            <td class='tblbutton' colspan='3'>
+            	 <t:pagelink t:mixins="AxButton" t:page="User/AddEmailAddress">
+			        <img src="/media/add.gif" /> Add E-Mail Address
+			    </t:pagelink>
+            </td>
         </tr>
     </table>
-
-    <t:pagelink t:mixins="AxButton" t:page="User/AddEmailAddress">
-        <img src="/media/add.gif" /> Add E-Mail Address
-    </t:pagelink>
 
 	
 	
@@ -83,6 +79,7 @@
             <th>SMS</th>
             <th></th>
         </tr>
+        
         <t:loop source="phoneNumbers" value="phoneNumber">
             <tr>
                 <td style="width: 10em;">
@@ -122,21 +119,24 @@
                 </td>
             </tr>
         </t:loop>
-        <t:if test="hasPhoneNumbers" negate="true">
-            <td colspan="5" class='img' style="padding: 30px 0;" >
-                (No phone numbers associated yet.
-                <t:pagelink t:page="user/AddPhoneNumber">Add one!</t:pagelink>)
-            </td>
-        </t:if>
+        <tr>
+	        <t:if test="hasPhoneNumbers" negate="true">
+	            <td colspan="5" class='img' style="padding: 30px 0;" >
+	                (No phone numbers associated yet.
+	                <t:pagelink t:page="user/AddPhoneNumber">Add one!</t:pagelink>)
+	            </td>
+	        </t:if>
+        </tr>
+        
+        <tr class='tblbuttonpad'></tr>
+        <tr>
+        	<td class='tblbutton' colspan='5'>
+		        <t:PageLink t:mixins="AxButton" t:page="user/AddPhoneNumber">
+			        <img src="/media/add.gif" /> Add phone number
+			    </t:PageLink>
+		    </td>
+        </tr>
     </table>
-	
-	
-	
-	
-	
-    <t:PageLink t:mixins="AxButton" t:page="user/AddPhoneNumber">
-        <img src="/media/add.gif" /> Add phone number
-    </t:PageLink>
 	
     <h4 class='divider'>Password</h4>
     <p>We will send an e-mail notifying you of a successful password change.</p>
