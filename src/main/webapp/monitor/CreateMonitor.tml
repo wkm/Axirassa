@@ -1,41 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html t:type="layout" t:pageTitle="Create Pinger" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<h3>1. Monitor</h3>
-	<p>URL; type of monitor (HTTP, HTTPS, IMAP, ICMP, etc.); monitor frequency</p>
-	<t:axform t:title="Create Pinger">
+	<t:axform>
+		<h4>Generic Server</h4>
+		<t:AxFormField>
+			<input name='type' class='input radio' type="radio" id="icmp" />
+			<label for="icmp"><abbr>ICMP</abbr> (ping)</label>
+		</t:AxFormField>
+		<t:AxFieldDescription>
+			Monitor response time and status for an arbitrary server. 
+		</t:AxFieldDescription>
+
+		<h4>Web Server</h4>		
+		
+		<t:AxFormField>
+			<input name='type' class='input radio' type="radio" id="http" />
+			<label for="http">
+				<abbr>HTTP</abbr>
+				<input type="checkbox" /> Encrypted (<abbr>HTTPS</abbr>)
+			</label>
+		</t:AxFormField>
+		<t:AxFieldDescription>
+			Monitor status code; response time, size, and latency; page content; and (for <abbr>HTTPS</abbr>)
+			certificate validity and expiration.
+		</t:AxFieldDescription>
+		
+		<h4>E-mail Server</h4>
+		<t:AxFormField>
+			<input name='type' class='input radio' type="radio" id="imap" />
+			<label for="imap">
+				<abbr>IMAP</abbr>
+				<input type='checkbox' /> Encrypted (<abbr>IMAP</abbr> over <abbr>SSL</abbr>)
+			</label>
+		</t:AxFormField>
+		<t:AxFormField>
+			<input name='type' class='input radio' type="radio" id="pop" />
+			<label for="pop">
+				<abbr>POP</abbr> 
+				<input type='checkbox' /> Encrypted (<abbr>POP</abbr> over <abbr>SSL</abbr>)
+			</label>
+		</t:AxFormField>
+		
+		<t:AxFormVSpace />
+		<h4>Address</h4>
 		<t:axtextfield t:value="url" t:name="URL" t:validate="required"/>
-		<t:axformvspace/>
-		<t:AxFormLabel label="Monitors"/>
 		
-		<div class="ax_field">
-			<t:checkbox class='input check' value="httpMonitor" name="monitors" t:id="httpmon"/>
-			<t:label t:for="httpmon">HTTP</t:label>
-			<ul>
-				<li>response time; latency; response code</li>
-			</ul>
-		</div>
-		<div class="ax_field">
-			<t:checkbox class='input check' value="httpsMonitor" name="monitors" t:id="httpsmon"/>
-			<t:label t:for="httpsmon">HTTPS</t:label>
-			<ul>
-				<li>certificate validation</li>
-				<li>response time; latency; response code</li>
-			</ul>
-		</div>
-		<div class="ax_field">
-			<t:checkbox class='input check' value="icmpMonitor" name="monitors" t:id="icmpmon"/>
-			<t:label t:for="icmpmon">ICMP Ping</t:label>
-		</div>
 		
-		<t:AxFormLabel label="Monitor Frequency"/>
-		<t:AxRadioGroup value="monitorFrequency" values="frequencies" encoder="frequencyEncoder"/>
+		<t:AxFormVSpace />
+		
+		<h4>Frequency</h4>
+		<p>
+			Monitor the page every:
+		</p>
+		<t:AxButtonBar>
+			<t:AxRadioGroup value="monitorFrequency" values="frequencies" encoder="frequencyEncoder"/>
+		</t:AxButtonBar>
 		
 		<t:AxSubmit label="Create" />
 	</t:axform>
-	
-	<h3>2. Triggers</h3>
-	<p>Status Code (404); Page Content ("You broke reddit!"); </p>
-	
-	<h3>3. Alert Schedule</h3>
-	<p>E-Mail; SMS; Phonecall</p>
 </html>
