@@ -2,10 +2,8 @@
 <t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<t:radiogroup label="label" value="value" encoder="encoder">
 		<t:loop source="values" value="value" encoder="encoder">
-			<div class="ax_field">
 				<t:radio class='input radio' t:id="radio" value="value"/>
 				<t:label for="radio">${value.label}</t:label>
-			</div>
 		</t:loop>
 	</t:radiogroup>
 </t:container>
