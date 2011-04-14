@@ -3,6 +3,7 @@ syntax: regexp
 ^.refactorings$
 ^src/main/webapp/WEB-INF/classes$
 ^target$
+^logs$
 
 ^data/bindings$
 ^data/journal$
