@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import axirassa.overlord.exceptions.NoOverlordConfigurationException;
 import axirassa.overlord.exceptions.OverlordException;
 import axirassa.overlord.exceptions.UnknownExecutionTargetException;
@@ -26,6 +29,7 @@ import axirassa.overlord.os.OverlordSystemSupport;
  * 
  */
 public class Overlord {
+	public static final Logger logger = LoggerFactory.getLogger(Overlord.class);
 	private static final String CONFIGURATION_FILE = "axoverlord.cfg.xml";
 
 	private Integer execId = 0;
@@ -95,7 +99,7 @@ public class Overlord {
 			if (group != null)
 				groups.add(group);
 			else {
-				System.err.println("Unknown Execution Group: " + group);
+				logger.error("Unknown Execution Group: {}", group);
 				return;
 			}
 		}

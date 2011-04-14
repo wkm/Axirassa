@@ -6,6 +6,10 @@ import java.io.InputStreamReader;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import axirassa.overlord.exceptions.ExceptionInMonitorError;
 
 /**
@@ -14,11 +18,16 @@ import axirassa.overlord.exceptions.ExceptionInMonitorError;
  * @author wiktor
  */
 public class ExecutionMonitor implements Runnable {
+	
+	private static final Logger monitorLogger = LoggerFactory.getLogger(ExecutionMonitor.class);
+	
 	private final ExecutionTarget target;
 
 	private final int id;
 
-	private final boolean limitedRestarts = false;
+	@Setter
+	@Getter
+	private boolean limitedRestarts = false;
 
 	@Setter
 	@Getter
@@ -38,9 +47,11 @@ public class ExecutionMonitor implements Runnable {
 
 	@Override
 	public void run () {
+		Logger logger = LoggerFactory.getLogger(target.getTargetClass());
+		
 		while (remainingRestarts > 0 || limitedRestarts == false) {
 			try {
-				System.out.printf(toString() + " STARTING [%d]: " + builder.command() + "\n", startCount);
+				monitorLogger.info("STARTING [{}]: {}", startCount, builder.command());
 				process = builder.start();
 
 				BufferedReader stdoutstream = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -48,9 +59,9 @@ public class ExecutionMonitor implements Runnable {
 
 				String line;
 				while ((line = stdoutstream.readLine()) != null)
-					System.out.println(getId() + ": " + line);
+					logger.info("{} : {}", getId(), line);
 				while ((line = stderrstream.readLine()) != null)
-					System.err.println(getId() + ": " + line);
+					logger.warn("{} : {}", getId(), line);
 
 				startCount++;
 				remainingRestarts--;
@@ -60,14 +71,14 @@ public class ExecutionMonitor implements Runnable {
 				if (!target.isAutoRestart())
 					return;
 			} catch (InterruptedException e) {
-				System.out.println("ExecutionMonitor interrupted.");
+				monitorLogger.warn("ExecutionMonitor interrupted.");
 				return;
 			} catch (Exception e) {
 				throw new ExceptionInMonitorError(e);
 			}
 		}
 
-		System.out.println(toString() + " finished.");
+		monitorLogger.info("[{}] finished.", startCount);
 	}
 
 
@@ -75,12 +86,12 @@ public class ExecutionMonitor implements Runnable {
 		if (process == null)
 			return;
 
-		System.out.println("  Killing process");
+		monitorLogger.info("  Killing process");
 		process.destroy();
 	}
 
 
 	private String getId () {
-		return target.getName() + '[' + id + ']';
+		return "[" + id + "]";
 	}
 }
