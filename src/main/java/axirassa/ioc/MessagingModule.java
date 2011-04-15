@@ -1,4 +1,11 @@
+
 package axirassa.ioc;
+
+import org.apache.tapestry5.ioc.ScopeConstants;
+import org.apache.tapestry5.ioc.annotations.Scope;
+import org.apache.tapestry5.ioc.services.PerthreadManager;
+import org.apache.tapestry5.ioc.services.PropertyShadowBuilder;
+import org.hornetq.api.core.HornetQException;
 
 import axirassa.webapp.services.EmailNotifyService;
 import axirassa.webapp.services.MessagingSession;
@@ -9,14 +16,9 @@ import axirassa.webapp.services.internal.EmailNotifyServiceImpl;
 import axirassa.webapp.services.internal.MessagingSessionManagerImpl;
 import axirassa.webapp.services.internal.SmsNotifyServiceImpl;
 import axirassa.webapp.services.internal.VoiceNotifyServiceImpl;
-import org.apache.tapestry5.ioc.ScopeConstants;
-import org.apache.tapestry5.ioc.annotations.Scope;
-import org.apache.tapestry5.ioc.services.PerthreadManager;
-import org.apache.tapestry5.ioc.services.PropertyShadowBuilder;
-import org.hornetq.api.core.HornetQException;
 
 /**
- *
+ * 
  * @author wiktor
  */
 public class MessagingModule {
@@ -30,6 +32,7 @@ public class MessagingModule {
 	}
 
 
+	@Scope(ScopeConstants.PERTHREAD)
 	public static MessagingSession buildMessagingSession (MessagingSessionManager sessionManager,
 	        PropertyShadowBuilder propertyShadowBuilder) throws HornetQException {
 		return propertyShadowBuilder.build(sessionManager, "session", MessagingSession.class);
