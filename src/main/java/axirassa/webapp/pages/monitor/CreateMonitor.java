@@ -2,7 +2,6 @@
 package axirassa.webapp.pages.monitor;
 
 import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.apache.shiro.authz.annotation.RequiresUser;
@@ -14,7 +13,7 @@ import org.apache.tapestry5.util.EnumValueEncoder;
 import org.hibernate.Session;
 
 import axirassa.dao.UserDAO;
-import axirassa.model.MonitorTypeEntity;
+import axirassa.model.MonitorType;
 import axirassa.model.PingerEntity;
 import axirassa.model.PingerFrequency;
 import axirassa.webapp.services.AxirassaSecurityService;
@@ -51,13 +50,7 @@ public class CreateMonitor {
 		pinger.setUrl(url);
 		pinger.setFrequency(monitorFrequency);
 		pinger.setUser(security.getUserEntity());
-
-		LinkedHashSet<MonitorTypeEntity> monitortypes = new LinkedHashSet<MonitorTypeEntity>();
-
-		pinger.setMonitorType(monitortypes);
-
-		for (MonitorTypeEntity monitor : monitortypes)
-			session.save(monitor);
+		pinger.setMonitorType(MonitorType.HTTP);
 		session.save(pinger);
 
 		return ListMonitor.class;

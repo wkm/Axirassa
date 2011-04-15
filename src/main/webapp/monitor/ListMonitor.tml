@@ -7,16 +7,13 @@
 		<t:loop source="pingers" value="pinger">
 			<tr>
 				<td class='url'>
+					${pinger.monitorType}
+				
 					<t:pagelink t:page="monitor/statistics" t:context="${pinger.id}">${pinger.url}</t:pagelink>
 					[<t:pagelink t:page="monitor/widget" t:context="${pinger.id}">w</t:pagelink>]
 				</td>
 				<td class='freq'>${pinger.frequency}</td>
 			</tr>
-			<tr><td class='types' colspan='2'>
-				<t:loop source="pinger.monitorType" value="type">
-					${type.type}
-				</t:loop>
-			</td></tr>
 		</t:loop>
 	</table>
 	<p>

@@ -10,7 +10,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import axirassa.dao.UserDAO;
-import axirassa.model.MonitorTypeEntity;
 import axirassa.model.PingerEntity;
 import axirassa.model.UserEntity;
 import axirassa.webapp.services.AxirassaSecurityService;
@@ -33,11 +32,8 @@ public class ListMonitor {
 	@Property
 	private PingerEntity pinger;
 
-	@Property
-	private MonitorTypeEntity type;
 
-
-	public void onActivate() throws AxirassaSecurityException {
+	public void onActivate () throws AxirassaSecurityException {
 		UserEntity user = security.getUserEntity();
 
 		Query query = database.createQuery("from PingerEntity where user=:user");
