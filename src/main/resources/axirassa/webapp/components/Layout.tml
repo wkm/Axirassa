@@ -34,9 +34,10 @@
 		</div>		
 		<div id="footer">
 			Copyright 2011 &#8212; Axirassa, LLC. 
-			| <t:PageLink t:mixins="AxButton"  t:page="support/privacy">Privacy</t:PageLink> 
-			| <t:PageLink  t:mixins="AxButton" t:page="support/termsOfUse">Terms Of Use</t:PageLink>
-			| <t:AxFeedbackForm />
+			<t:PageLink t:mixins="AxButton" t:tight='true' t:page="support/privacy">Privacy</t:PageLink> 
+			<t:PageLink t:mixins="AxButton" t:tight='true' t:page="support/termsOfUse">Terms Of Use</t:PageLink>
+			<t:PageLink t:mixins="AxButton" t:tight='true' t:page="credits">Technology Credits</t:PageLink>
+			<t:AxFeedbackForm />
 		</div>
 		
 		<script type='text/javascript'>
