@@ -23,6 +23,13 @@
 	<t:pagelink t:mixins="AxButton" t:page="monitor/create">
 		<img src="/media/add.gif" /> Add Monitor
 	</t:pagelink>
+	<t:pagelink t:mixins="AxButton" t:page="trigger/create">
+		<img src="/media/add.gif" /> Add Trigger
+	</t:pagelink>
+	<t:pagelink t:mixins="AxButton" t:page="Index">
+		<img src="/media/add.gif" /> Add Alert Schedule
+	</t:pagelink>
+	
 	<div class="reset"></div>
 	
 	<t:loop source="pingers" value="pinger">
