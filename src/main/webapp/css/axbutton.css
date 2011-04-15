@@ -19,12 +19,20 @@
 	text-transform: uppercase;
 }
 
+.tight {
+	width: auto;
+}
+
 .innerbutton {
 	border: 1px solid #eee;
 	border-radius: 4px;
 	padding: 2px;
 	margin: 0;
 	text-align: center;
+}
+
+.tight .innerbutton {
+	padding: 2px 5px;
 }
 
 .button:hover {
