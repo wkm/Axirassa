@@ -6,6 +6,8 @@ import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -76,6 +78,7 @@ public class PingerEntity extends AutoSerializingObject implements Serializable,
 
 	@Getter
 	@Setter
-	@OneToMany(fetch = FetchType.EAGER)
-	public Set<MonitorTypeEntity> monitorType;
+	@Basic(optional = false)
+	@Enumerated(EnumType.STRING)
+	public MonitorType monitorType;
 }
