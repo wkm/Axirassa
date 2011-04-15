@@ -2,12 +2,14 @@
 package axirassa.services.pinger;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.httpclient.NoHttpResponseException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
@@ -16,7 +18,9 @@ import org.apache.http.conn.HttpHostConnectException;
 import axirassa.model.HttpStatisticsEntity;
 import axirassa.model.PingerEntity;
 import axirassa.services.exceptions.AxirassaServiceException;
+import axirassa.trigger.ConnectionTimeOutTrigger;
 import axirassa.trigger.CouldNotConnectTrigger;
+import axirassa.trigger.NoResponseTrigger;
 import axirassa.trigger.PingerErrorTrigger;
 import axirassa.trigger.ProtocolErrorTrigger;
 import axirassa.trigger.StatusCodeTrigger;
@@ -88,6 +92,10 @@ public class HttpPinger {
 			addTrigger(new StatusCodeTrigger(statistic.getStatusCode()));
 		} catch (HttpHostConnectException e) {
 			addTrigger(new CouldNotConnectTrigger(e));
+		} catch (NoHttpResponseException e) {
+			addTrigger(new NoResponseTrigger(e));
+		} catch (SocketException e) {
+			addTrigger(new ConnectionTimeOutTrigger(e));
 		} catch (UnknownHostException e) {
 			addTrigger(new UnknownHostTrigger());
 		} catch (ClientProtocolException e) {
