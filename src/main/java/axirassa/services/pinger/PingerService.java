@@ -74,7 +74,7 @@ public class PingerService implements Service {
 	private void sendResponseMessages (ClientProducer producer, HttpStatisticsEntity statistic) throws IOException,
 	        HornetQException {
 		// send a message to the primary pinger response queue for injection
-		ClientMessage message = session.createMessage(false);
+		ClientMessage message = session.createMessage(true);
 		message.getBodyBuffer().writeBytes(statistic.toBytes());
 		producer.send(message);
 
