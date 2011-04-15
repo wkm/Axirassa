@@ -23,7 +23,7 @@ import axirassa.util.AutoSerializingObject;
  */
 public class InjectorService implements Service {
 
-	public static HttpStatisticsEntity rebuildMessage(ClientMessage message) throws HornetQException, IOException,
+	public static HttpStatisticsEntity rebuildMessage (ClientMessage message) throws HornetQException, IOException,
 	        ClassNotFoundException, InvalidMessageClassException {
 		if (message == null)
 			return null;
@@ -46,14 +46,14 @@ public class InjectorService implements Service {
 	private static final int FLUSH_SIZE = 1000;
 
 
-	public InjectorService(ClientSession messagingSession, Session databaseSession) {
+	public InjectorService (ClientSession messagingSession, Session databaseSession) {
 		this.messagingSession = messagingSession;
 		this.databaseSession = databaseSession;
 	}
 
 
 	@Override
-	public void execute() throws Exception {
+	public void execute () throws Exception {
 		ClientConsumer consumer = messagingSession.createConsumer(Messaging.PINGER_RESPONSE_QUEUE);
 		messagingSession.start();
 
@@ -84,5 +84,7 @@ public class InjectorService implements Service {
 			}
 		}
 		databaseSession.getTransaction().commit();
+		databaseSession.flush();
+		databaseSession.clear();
 	}
 }
