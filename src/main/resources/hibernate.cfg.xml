@@ -33,7 +33,6 @@
   <mapping class="axirassa.model.AccountEntity" />
   <mapping class="axirassa.model.AccountUserEntity" />
   <mapping class="axirassa.model.PingerEntity" />
-  <mapping class="axirassa.model.MonitorTypeEntity" />
   <mapping class="axirassa.model.PasswordResetTokenEntity" />
   <mapping class="axirassa.model.UserPhoneNumberEntity" />
   <mapping class="axirassa.model.UserEmailAddressEntity" />
