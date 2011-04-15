@@ -24,7 +24,7 @@ public class DatabaseMigrateService {
 		        .createDatabaseObject(classloader, config.getProperty("hibernate.connection.url"),
 		                              config.getProperty("hibernate.connection.username"),
 		                              config.getProperty("hibernate.connection.password"),
-		                              config.getProperty("hibernate.connection.driver_class"), null, null);
+		                              config.getProperty("hibernate.connection.driver_class"), null, null, null);
 
 		ResourceAccessor resourceAccessor = new ClassLoaderResourceAccessor(classloader);
 		Liquibase liquibase = new Liquibase(MASTER_CHANGELOG, resourceAccessor, target);

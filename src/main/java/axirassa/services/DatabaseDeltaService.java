@@ -23,10 +23,10 @@ public class DatabaseDeltaService {
 		        .createDatabaseObject(classloader, config.getProperty("hibernate.connection.url"),
 		                              config.getProperty("hibernate.connection.username"),
 		                              config.getProperty("hibernate.connection.password"),
-		                              config.getProperty("hibernate.connection.driver_class"), null, null);
+		                              config.getProperty("hibernate.connection.driver_class"), null, null, null);
 
 		Database reference = CommandLineUtils.createDatabaseObject(classloader, "hibernate:hibernate.cfg.xml", null,
-		                                                           null, null, null, null);
+		                                                           null, null, null, null, null);
 
 		Diff diff = new Diff(reference, target);
 		DiffResult result = diff.compare();
