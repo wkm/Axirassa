@@ -77,9 +77,10 @@ public class JSONResponse implements StreamResponse {
 
 	@Override
 	public void prepareResponse (Response response) {
+		System.out.println("PREPARED RESPONSE W/ GZIP LENGTH: " + dataForSending.length);
 		if (isCompressable) {
 			response.setHeader("Content-Encoding", "gzip");
-			response.setIntHeader("Content-Length", dataForSending.length + 20);
+			response.setIntHeader("Content-Length", dataForSending.length);
 		}
 	}
 }
