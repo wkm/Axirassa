@@ -3,6 +3,59 @@
 	<h3>Monitor Triggers</h3>
 	<t:AxForm>
 		<h4>Network</h4>
+		<p>
+			Network triggers are low-level monitors that work independently of the protocol. They perform
+			the most basic availability test for a machine.
+		</p>
+		
+		<t:AxFormField>
+			<label>Unknown Name</label>
+			<t:AxButtonBar>
+				<input type="radio" value="1" id="r4" checked='checked'/>
+				<label for='r4'>error</label>
+				<input type="radio" value="2" id="r5"/>
+				<label for='r5'>warning</label>
+				<input type="radio" value="3" id="r6"/>
+				<label for='r6'>ignore</label>
+			</t:AxButtonBar>
+		</t:AxFormField>
+		<t:AxFieldDescription>
+			unknown names are typically the result of a DNS failure.
+		</t:AxFieldDescription>
+		
+		<t:AxFormField>
+			<label>No Response</label>
+			<t:AxButtonBar>
+				<input type="radio" value="1" id="r4"  checked='checked'/>
+				<label for='r4'>error</label>
+				<input type="radio" value="2" id="r5" />
+				<label for='r5'>warning</label>
+				<input type="radio" value="3" id="r6"/>
+				<label for='r6'>ignore</label>
+			</t:AxButtonBar>
+		</t:AxFormField>
+		<t:AxFieldDescription>
+			no response typically indicates the server is no longer available, usually
+			because it has shutdown; has lost all network connectivity; or is completely
+			overloaded.
+		</t:AxFieldDescription>
+		
+		
+		<t:AxFormField>
+			<label>Connection Refused</label>
+			<t:AxButtonBar>
+				<input type="radio" value="1" id="r4"  checked='checked'/>
+				<label for='r4'>error</label>
+				<input type="radio" value="2" id="r5" />
+				<label for='r5'>warning</label>
+				<input type="radio" value="3" id="r6"/>
+				<label for='r6'>ignore</label>
+			</t:AxButtonBar>
+		</t:AxFormField>
+		<t:AxFieldDescription>
+			connection refused is typically the result of a firewall or of the web-server not running.
+		</t:AxFieldDescription>
+		
 		<t:AxTextField t:value="latency" t:name="Latency" t:hint="slower than"/>
 		<t:AxFieldDescription>
 			latency is the amount of time it takes from when the request is made to the first-byte
@@ -38,9 +91,6 @@
 		</t:AxFormField>
 		
 		<h4>HTTP - Status Codes</h4>
-		<p>
-			
-		</p>
 		
 		<table class='statuscodes'>
 			<tr><th colspan='1'>Success &#8212; 200 Series</th><th></th></tr>
@@ -53,7 +103,7 @@
 						<input type="radio" value="2" id="r5" />
 						<label for='r5'>warning</label>
 						<input type="radio" value="3" id="r6" checked='checked'/>
-						<label for='r6'>accept</label>
+						<label for='r6'>ignore</label>
 					</t:AxButtonBar>
 				</td>
 			</tr>
@@ -66,7 +116,7 @@
 						<input type="radio" value="2" id="r8" />
 						<label for='r8'>warning</label>
 						<input type="radio" value="3" id="r9" />
-						<label for='r9'>accept</label>
+						<label for='r9'>ignore</label>
 					</t:AxButtonBar>
 				</td>
 			</tr>
@@ -79,7 +129,7 @@
 						<input type="radio" value="2" id="r11" />
 						<label for='r11'>warning</label>
 						<input type="radio" value="3" id="r12" />
-						<label for='r12'>accept</label>
+						<label for='r12'>ignore</label>
 					</t:AxButtonBar>
 				</td>
 			</tr>
@@ -92,7 +142,7 @@
 						<input type="radio" value="2" id="r14" />
 						<label for='r14'>warning</label>
 						<input type="radio" value="3" id="r15" />
-						<label for='r15'>accept</label>
+						<label for='r15'>ignore</label>
 					</t:AxButtonBar>
 				</td>
 			</tr>
