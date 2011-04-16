@@ -13,10 +13,12 @@ import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Local;
 import org.apache.tapestry5.ioc.annotations.SubModule;
+import org.apache.tapestry5.ioc.services.CoercionTuple;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.RequestFilter;
 import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
+import org.apache.tapestry5.util.StringToEnumCoercion;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.tynamo.security.SecuritySymbols;
@@ -25,6 +27,7 @@ import axirassa.dao.UserDAO;
 import axirassa.ioc.DAOModule;
 import axirassa.ioc.FlowsModule;
 import axirassa.ioc.MessagingModule;
+import axirassa.webapp.data.AxButtonStyle;
 import axirassa.webapp.services.internal.AxirassaSecurityServiceImpl;
 
 /**
@@ -64,6 +67,16 @@ public class AppModule {
 		// tapestry-security configuration
 		configuration.add(SecuritySymbols.LOGIN_URL, "/user/login");
 		configuration.add(SecuritySymbols.UNAUTHORIZED_URL, "/index");
+	}
+
+
+	public static void contributeTypeCoercer (Configuration<CoercionTuple> configuration) {
+		add(configuration, AxButtonStyle.class);
+	}
+
+
+	private static <T extends Enum> void add (Configuration<CoercionTuple> configuration, Class<T> enumType) {
+		configuration.add(CoercionTuple.create(String.class, enumType, StringToEnumCoercion.create(enumType)));
 	}
 
 
@@ -141,5 +154,4 @@ public class AppModule {
 		configuration.add("/push/.*");
 		configuration.add("/stream/.*");
 	}
-
 }
