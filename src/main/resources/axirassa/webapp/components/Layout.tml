@@ -21,9 +21,9 @@
 	        </div>
 	        <t:security.user>
 		        <div class="headerbar">
-		        	You are logged in as <strong>${username}</strong> |
-		        	<t:pagelink t:page="user/settings">settings</t:pagelink> |
-		        	<t:pagelink t:page="user/logout">logout</t:pagelink>
+		        	You are logged in as <strong>${username}</strong>
+		        	<t:pagelink t:mixins="AxButton" t:styling="dark" t:tight="true" t:page="user/settings">settings</t:pagelink>
+		        	<t:pagelink t:mixins="AxButton" t:styling="dark" t:tight="true" t:page="user/logout">logout</t:pagelink>
 		        </div>
 	        </t:security.user>
 	        <div class="body">
