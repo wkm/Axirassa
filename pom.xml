@@ -75,7 +75,8 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>${httpcomponents-release-version}</version>
+            <version>4.1.1</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jnetpcap</groupId>
@@ -370,7 +371,6 @@
         <netty-release-version>3.2.2.Final</netty-release-version>
         <bouncycastle-release-version>1.45</bouncycastle-release-version>
         <jms-release-version>1.1</jms-release-version>
-        <httpcomponents-release-version>4.1-beta1</httpcomponents-release-version>
         <tapestry-security-release-version>0.3.1</tapestry-security-release-version>
         <quartz-scheduler-release-version>1.8.4</quartz-scheduler-release-version>
         <jetty-release-version>7.3.1.v20110307</jetty-release-version>
