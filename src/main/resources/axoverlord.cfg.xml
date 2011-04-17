@@ -8,6 +8,13 @@
 	<!-- EXECUTION TARGET CLASSES                                         -->
 	<!-- ################################################################ -->
   
+  	<target name="AxWebServer"
+  	        class="axirassa.services.JettyWebserver"
+  	        autorestart="true">
+  		<jvmoption name="Xmx" value="1024m" />
+  		<jvmoption name="Xms" value="1024m" />        
+	</target>
+  
     <target name="AxMessagingServer" 
             class="axirassa.util.EmbeddedMessagingServer" 
             autorestart="true">
