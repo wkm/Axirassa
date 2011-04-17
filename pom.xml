@@ -204,6 +204,10 @@
             		<artifactId>liquibase-core</artifactId>
             		<groupId>org.liquibase</groupId>
             	</exclusion>
+            	<exclusion>
+            		<artifactId>liquibase-maven-plugin</artifactId>
+            		<groupId>org.liquibase</groupId>
+            	</exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -243,9 +247,15 @@
         <dependency>
         	<groupId>ch.qos.logback</groupId>
         	<artifactId>logback-classic</artifactId>
-        	<version>0.9.28</version>
+        	<version>0.9.27</version>
         	<type>jar</type>
         	<scope>compile</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.eclipse.jetty</groupId>
+        	<artifactId>jetty-distribution</artifactId>
+        	<version>7.3.1.v20110307</version>
+        	<type>pom</type>
         </dependency>
     </dependencies>
     <url>http://axirassa.com</url>
@@ -388,7 +398,7 @@
         <jms-release-version>1.1</jms-release-version>
         <tapestry-security-release-version>0.3.1</tapestry-security-release-version>
         <quartz-scheduler-release-version>1.8.4</quartz-scheduler-release-version>
-        <jetty-release-version>7.3.1.v20110307</jetty-release-version>
+        <jetty-release-version>7.3.0.v20110203</jetty-release-version>
         <cometd-release-version>2.1.0</cometd-release-version>
     </properties>
 </project>
