@@ -28,7 +28,7 @@
 					<Property name="jetty.port" default="8080" />
 				</Set>
 				<Set name="maxIdleTime">300000</Set>
-				<Set name="Acceptors">2</Set>
+				<Set name="Acceptors">8</Set>
 				<Set name="statsOn">false</Set>
 				<Set name="confidentialPort">8443</Set>
 				<Set name="lowResourcesConnections">20000</Set>
@@ -41,27 +41,27 @@
 	<!-- Set handler Collection Structure -->
 	<!-- =========================================================== -->
 	<Set name="handler">
-		<New id="Handlers" class="org.eclipse.jetty.server.handler.HandlerCollection">
-			<Set name="handlers">
-				<Array type="org.eclipse.jetty.server.Handler">
-					<Item>
-						<New id="Contexts"
-							class="org.eclipse.jetty.server.handler.ContextHandlerCollection" />
-					</Item>
-					<Item>
-						<New id="DefaultHandler" class="org.eclipse.jetty.server.handler.DefaultHandler" />
-					</Item>
-				</Array>
-			</Set>
+		<New id="context" class="org.eclipse.jetty.webapp.WebAppContext">
+			<Set name="descriptor">src/main/webapp/WEB-INF/web.xml</Set>
+			<Set name="resourceBase">src/main/webapp/</Set>
+			<Set name="contextPath">/</Set>
+			<Set name="parentLoaderPriority">true</Set>
 		</New>
 	</Set>
+
+
+	<Call name="addLifeCycle">
+		<Arg>
+
+		</Arg>
+	</Call>
 
 	<!-- =========================================================== -->
 	<!-- extra options -->
 	<!-- =========================================================== -->
 	<Set name="stopAtShutdown">true</Set>
-	<Set name="sendServerVersion">true</Set>
-	<Set name="sendDateHeader">true</Set>
+	<Set name="sendServerVersion">false</Set>
+	<Set name="sendDateHeader">false</Set>
 	<Set name="gracefulShutdown">1000</Set>
 	<Set name="dumpAfterStart">false</Set>
 	<Set name="dumpBeforeStop">false</Set>
