@@ -10,7 +10,7 @@
   
   	<target name="AxWebServer"
   	        class="axirassa.services.JettyWebserver"
-  	        autorestart="true">
+  	        autorestart="false">
   		<jvmoption name="Xmx" value="1024m" />
   		<jvmoption name="Xms" value="1024m" />        
 	</target>
