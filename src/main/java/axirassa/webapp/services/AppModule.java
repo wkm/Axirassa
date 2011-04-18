@@ -22,6 +22,7 @@ import org.apache.tapestry5.util.StringToEnumCoercion;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.tynamo.security.SecuritySymbols;
+import org.tynamo.security.services.SecurityModule;
 
 import axirassa.dao.UserDAO;
 import axirassa.ioc.DAOModule;
@@ -35,7 +36,7 @@ import axirassa.webapp.services.internal.AxirassaSecurityServiceImpl;
  * it's a good place to configure and extend Tapestry, or to place your own
  * service definitions.
  */
-@SubModule({ DAOModule.class, FlowsModule.class, MessagingModule.class })
+@SubModule({ DAOModule.class, FlowsModule.class, MessagingModule.class, SecurityModule.class })
 public class AppModule {
 	@Inject
 	private Session database;
