@@ -10,7 +10,7 @@
 <configuration>
   <appender name="A1" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>[%p] -- %c{2} %m%n</pattern>
+      <pattern>[%-5level] -- %logger %message%n</pattern>
     </encoder>
   </appender>
   <appender name="R" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -20,20 +20,21 @@
     <Append>true</Append>
     <prudent>true</prudent>
     <encoder>
-      <pattern>%d{yyyy-MM-dd/HH:mm:ss.SSS/zzz} %c{3} [%p] %m%n</pattern>
+      <pattern>%date{yyyy-MM-dd/HH:mm:ss.SSS/zzz} %logger [%-5level] %message%n</pattern>
     </encoder>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <fileNamePattern>logs/axirassa.log.%d{yyyy-MM-dd}</fileNamePattern>
     </rollingPolicy>
   </appender>
+  <!-- <logger name="org.eclipse.jetty.util.log" level="debug" /> -->
   <logger name="tapestry.render.com.zanoccio.axirassa.webapp.pages.Index" level="info"/>
   <logger name="org.apache.tapestry5.services.TapestryModule.ComponentClassResolver" level="warn"/>
   <logger name="com.zanoccio.axirassa.webapp.services.AppModule.TimingFilter" level="info"/>
   <logger name="com.zanoccio.axirassa.webapp" level="debug"/>
   <logger name="tapestry.events.com.zanoccio.axirassa.webapp.pages.Index" level="info"/>
-  <logger name="org.hibernate.type" level="INFO"/>
-  <logger name="org.hiernate" level="WARN"/>
-  <logger name="org.apache.tapestry5.TapestryFilter" level="info"/>
+  <logger name="org.hibernate.type" level="info"/>
+  <logger name="org.hiernate" level="warn"/>
+  <logger name="org.apache.tapestry5.TapestryFilter" level="warn"/>
   <logger name="tapestry.transformer.com.zanoccio.axirassa.webapp.pages.Index" level="info"/>
   <root level="info">
     <appender-ref ref="A1"/>
