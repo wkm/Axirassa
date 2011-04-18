@@ -13,8 +13,6 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import org.eclipse.jetty.security.HashLoginService;
-import org.eclipse.jetty.security.SecurityHandler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.xml.XmlConfiguration;
@@ -23,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 public class JettyWebserver implements Service {
 	private static final Logger log = LoggerFactory.getLogger(JettyWebserver.class);
-	private static final String BASE_PATH = "WEB-INF/web.xml";
+	private static final String BASE_PATH = "webapp/";
 
 
 	public static void main (String[] args) throws Exception {
@@ -34,39 +32,40 @@ public class JettyWebserver implements Service {
 
 	@Override
 	public void execute () throws Exception {
-		ClassLoader classLoader = getClass().getClassLoader();
-		InputStream jettyConfig = classLoader.getResourceAsStream("jetty.xml");
-
 		Server server = new Server();
+
+		ClassLoader classLoader = getClass().getClassLoader();
+
+		InputStream jettyConfig = classLoader.getResourceAsStream("jetty.xml");
 		XmlConfiguration configuration = new XmlConfiguration(jettyConfig);
 		configuration.configure(server);
 
-		WebAppContext handler = new WebAppContext();
-		URL warUrl = getClass().getClassLoader().getResource(BASE_PATH);
+		URL baseLocation = getClass().getProtectionDomain().getCodeSource().getLocation();
 
-		if (warUrl == null) {
+		if (baseLocation == null) {
 			log.warn("COULD NOT LOCATE RESOURCE: " + BASE_PATH);
 			log.warn("Assuming developmental deployment");
 
+			WebAppContext handler = new WebAppContext();
+
 			handler.setDescriptor("src/main/webapp/WEB-INF/web.xml");
 			handler.setResourceBase("src/main/webapp");
+			handler.setContextPath("/");
+			handler.setParentLoaderPriority(true);
+			handler.setServer(server);
+
+			server.setHandler(handler);
 		} else {
 			log.info("Extracting jar file");
 			String basePath = extractJarContents("/Users/wiktor/PCode/X/target/axir-distribution.jar");
-			handler.setDescriptor(basePath + "/WEB-INF/web.xml");
-			handler.setResourceBase(basePath + "/");
+
+			WebAppContext handler = new WebAppContext();
+			handler.setContextPath("/");
+			handler.setDescriptor(basePath + "/webapp/WEB-INF/web.xml");
+			handler.setResourceBase(basePath + "/webapp");
+			handler.setServer(server);
+			server.setHandler(handler);
 		}
-
-		log.info("descriptor:    {}", handler.getDescriptor());
-		log.info("resource base: {}", handler.getResourceBase());
-
-		handler.setContextPath("/");
-		handler.setParentLoaderPriority(true);
-
-		SecurityHandler securityHandler = handler.getSecurityHandler();
-		securityHandler.setLoginService(new HashLoginService());
-
-		server.setHandler(handler);
 
 		server.start();
 
