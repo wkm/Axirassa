@@ -37,25 +37,8 @@
 		</Arg>
 	</Call>
 
-	<!-- =========================================================== -->
-	<!-- Set handler Collection Structure -->
-	<!-- =========================================================== -->
-	<Set name="handler">
-		<New id="context" class="org.eclipse.jetty.webapp.WebAppContext">
-			<Set name="descriptor">src/main/webapp/WEB-INF/web.xml</Set>
-			<Set name="resourceBase">src/main/webapp/</Set>
-			<Set name="contextPath">/</Set>
-			<Set name="parentLoaderPriority">true</Set>
-		</New>
-	</Set>
-
-
-	<Call name="addLifeCycle">
-		<Arg>
-
-		</Arg>
-	</Call>
-
+	<!-- web app context is defined in JettyWebserver.java -->
+	
 	<!-- =========================================================== -->
 	<!-- extra options -->
 	<!-- =========================================================== -->
