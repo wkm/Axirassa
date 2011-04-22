@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<div class="axwo" id="${plotId}">
-    <div class="axw" id="${plotId}_plot" />
-    <img class='axstat' src="/media/check.gif" />
-    <img class='spinner' id="${plotId}_spin" src="/media/spinner.gif" />
-    <div class="n">${pingerName}</div>
-    <div id="${plotId}_t" class='t'>30<span class='u'>ms</span></div>
-    <div id="${plotId}_rz" class='sz'>194<span class='u'>b</span></div>
-</div>
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<div class="axwo" id="${plotId}">
+	    <div class="axw" id="${plotId}_plot" />
+	    <img class='axstat' src="/media/check.gif" />
+	    <img class='spinner' id="${plotId}_spin" src="/media/spinner.gif" />
+	    <div class="n"><t:pagelink t:page="monitor/statistics" t:context="${pingerId}">${pingerName}</t:pagelink></div>
+	    <div id="${plotId}_t" class='t'>30<span class='u'>ms</span></div>
+	    <div id="${plotId}_rz" class='sz'>194<span class='u'>b</span></div>
+	</div>
+</t:container>
