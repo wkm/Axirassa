@@ -18,7 +18,13 @@ import charvax.swing.JPanel;
 
 public class TestCharva extends JFrame implements ActionListener {
 
-	public TestCharva () {
+	static {
+		System.out.println("LOADING PDCURSES");
+		System.loadLibrary("pdcurses");
+	}
+
+
+	public TestCharva() {
 		setForeground(Color.green);
 		setBackground(Color.black);
 		Container contentPane = getContentPane();
@@ -162,7 +168,7 @@ public class TestCharva extends JFrame implements ActionListener {
 
 
 	@Override
-	public void actionPerformed (ActionEvent ae_) {
+	public void actionPerformed(ActionEvent ae_) {
 		String actionCommand = ae_.getActionCommand();
 		if (actionCommand.equals("Exit")) {
 			System.gc(); // so that HPROF reports only live objects.
@@ -217,7 +223,7 @@ public class TestCharva extends JFrame implements ActionListener {
 	}
 
 
-	static public void main (String[] args) throws InterruptedException {
+	static public void main(String[] args) throws InterruptedException {
 		System.out.println("executing main() process");
 
 		TestCharva test = new TestCharva();
