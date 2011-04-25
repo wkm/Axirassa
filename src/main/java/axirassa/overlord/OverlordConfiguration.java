@@ -9,7 +9,7 @@ import lombok.Setter;
 public class OverlordConfiguration {
 
 	@Getter
-	private final Overlord overlord;
+	private final OverlordMain overlord;
 	
 	private final LinkedHashMap<String, ExecutionTarget> targets = new LinkedHashMap<String, ExecutionTarget>();
 	private final LinkedHashMap<String, ExecutionGroup> groups = new LinkedHashMap<String, ExecutionGroup>();
@@ -27,7 +27,7 @@ public class OverlordConfiguration {
 	private String javaExecutable;
 
 
-	public OverlordConfiguration (Overlord overlord) {
+	public OverlordConfiguration (OverlordMain overlord) {
 		this.overlord = overlord;
 	}
 

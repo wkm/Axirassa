@@ -14,11 +14,11 @@ import java.util.Collection;
  */
 public class OverlordDynamicShutdownHook extends Thread {
 
-	private final Overlord overlord;
+	private final OverlordMain overlord;
 	private int alivethreadcount = 0;
 
 
-	public OverlordDynamicShutdownHook(Overlord overlord) {
+	public OverlordDynamicShutdownHook(OverlordMain overlord) {
 		this.overlord = overlord;
 	}
 

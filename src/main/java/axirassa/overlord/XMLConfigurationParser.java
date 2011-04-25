@@ -34,14 +34,14 @@ public class XMLConfigurationParser {
 	private final InputStream inputstream;
 
 
-	public XMLConfigurationParser(URL configfile, InputStream stream, OverlordConfiguration configuration) {
+	public XMLConfigurationParser (URL configfile, InputStream stream, OverlordConfiguration configuration) {
 		this.configfile = configfile;
 		this.inputstream = stream;
 		this.configuration = configuration;
 	}
 
 
-	public OverlordConfiguration parse() throws OverlordException {
+	public OverlordConfiguration parse () throws OverlordException {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
 		setClassPathAndBaseDirectory();
@@ -63,9 +63,9 @@ public class XMLConfigurationParser {
 	}
 
 
-	private void setClassPathAndBaseDirectory() {
+	private void setClassPathAndBaseDirectory () {
 		// if the configfile is within a JAR, we use it to set the classpath
-		String jarfile = retrieveJarFile(configfile);
+		String jarfile = OverlordUtilities.retrieveJarFile(configfile);
 		if (jarfile != null) {
 			configuration.setClassPath(stripPrefix(jarfile));
 
@@ -76,30 +76,17 @@ public class XMLConfigurationParser {
 	}
 
 
-	private String stripPrefix(String path) {
+	private String stripPrefix (String path) {
 		return path.replaceFirst("^file:", "").replaceFirst("^file:", "");
 	}
 
 
-	private String retrieveJarFile(URL file) {
-		String[] components = file.getPath().split("!", 2);
-
-		if (components.length < 2)
-			return null;
-
-		if (components[0].toLowerCase().endsWith(".jar"))
-			return components[0];
-
-		return null;
-	}
-
-
-	public OverlordConfiguration getConfiguration() {
+	public OverlordConfiguration getConfiguration () {
 		return configuration;
 	}
 
 
-	private void createExecutionTargets() throws OverlordException {
+	private void createExecutionTargets () throws OverlordException {
 		NodeList targetlist = docroot.getElementsByTagName(XMLName.TARGET.toString());
 		if (targetlist.getLength() < 1)
 			throw new NoExecutionTargetsException(dom);
@@ -116,7 +103,7 @@ public class XMLConfigurationParser {
 	}
 
 
-	private ExecutionTarget createExecutionTarget(Node node) throws OverlordException {
+	private ExecutionTarget createExecutionTarget (Node node) throws OverlordException {
 		NamedNodeMap attributes = node.getAttributes();
 
 		Node nameNode = attributes.getNamedItem(XMLName.NAME.toString());
@@ -145,7 +132,7 @@ public class XMLConfigurationParser {
 	}
 
 
-	private ExecutionTargetOptions createExecutionTargetOptions(NodeList nodelist) {
+	private ExecutionTargetOptions createExecutionTargetOptions (NodeList nodelist) {
 		ExecutionTargetOptions options = new ExecutionTargetOptions();
 
 		for (Node node : new IterableNodeList(nodelist)) {
@@ -165,7 +152,7 @@ public class XMLConfigurationParser {
 	}
 
 
-	private void createExecutionTargetJVMOption(ExecutionTargetOptions options, Node node) {
+	private void createExecutionTargetJVMOption (ExecutionTargetOptions options, Node node) {
 		NamedNodeMap attributes = node.getAttributes();
 		Node namenode = attributes.getNamedItem(XMLName.NAME.toString());
 		Node valuenode = attributes.getNamedItem(XMLName.VALUE.toString());
@@ -174,12 +161,12 @@ public class XMLConfigurationParser {
 	}
 
 
-	private void createExecutionTargetLibraryOption(ExecutionTargetOptions options, Node node) {
+	private void createExecutionTargetLibraryOption (ExecutionTargetOptions options, Node node) {
 		options.addLibrary(node.getTextContent());
 	}
 
 
-	private void createExecutionGroups() throws OverlordException {
+	private void createExecutionGroups () throws OverlordException {
 		NodeList grouplist = docroot.getElementsByTagName(XMLName.GROUP.toString());
 		if (grouplist.getLength() < 1)
 			throw new NoGroupsException(dom);
@@ -195,7 +182,7 @@ public class XMLConfigurationParser {
 	}
 
 
-	private ExecutionGroup createExecutionGroup(Node node) throws OverlordException {
+	private ExecutionGroup createExecutionGroup (Node node) throws OverlordException {
 		// create an empty execution group
 		NamedNodeMap attributes = node.getAttributes();
 
@@ -218,7 +205,7 @@ public class XMLConfigurationParser {
 	}
 
 
-	private ExecutionSpecification createExecutionSpecification(Node node) throws OverlordException {
+	private ExecutionSpecification createExecutionSpecification (Node node) throws OverlordException {
 		NamedNodeMap attributes = node.getAttributes();
 
 		String targetNameAttr = attributes.getNamedItem(XMLName.TARGET.toString()).getTextContent();

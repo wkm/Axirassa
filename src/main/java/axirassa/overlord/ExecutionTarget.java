@@ -21,7 +21,6 @@ public class ExecutionTarget {
 	@Getter
 	private boolean autoRestart;
 
-
 	public static String canonicalizeName (String name) {
 		return name.toLowerCase();
 	}
@@ -30,7 +29,7 @@ public class ExecutionTarget {
 	public ExecutionTarget (String name, String classname) throws ClassNotFoundException, OverlordException {
 		if (!OverlordUtilities.isValidName(name))
 			throw new InvalidOverlordNameException(name);
-
+		
 		this.name = name;
 		this.targetClass = Class.forName(classname);
 		this.options = new ExecutionTargetOptions();

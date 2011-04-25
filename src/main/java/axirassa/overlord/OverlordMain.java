@@ -16,6 +16,7 @@ import axirassa.overlord.exceptions.OverlordException;
 import axirassa.overlord.exceptions.UnknownExecutionTargetException;
 import axirassa.overlord.os.AbstractOverlordSystemSupport;
 import axirassa.overlord.os.OverlordSystemSupport;
+import axirassa.overlord.tui.OverlordWindow;
 
 /**
  * A process starting/monitoring daemon and framework.
@@ -28,8 +29,8 @@ import axirassa.overlord.os.OverlordSystemSupport;
  * @author wiktor
  * 
  */
-public class Overlord {
-	public static final Logger logger = LoggerFactory.getLogger(Overlord.class);
+public class OverlordMain {
+	public static final Logger logger = LoggerFactory.getLogger(OverlordMain.class);
 	private static final String CONFIGURATION_FILE = "axoverlord.cfg.xml";
 
 	private Integer execId = 0;
@@ -44,13 +45,16 @@ public class Overlord {
 
 
 	public static void main (String[] parameters) throws OverlordException, IOException, InterruptedException {
-		Overlord overlord = new Overlord();
-		overlord.addShutdownHooks();
+		OverlordWindow window = new OverlordWindow();
+		window.show();
 
-		if (parameters.length <= 0)
-			overlord.execute(new String[] { "master" });
-		else
-			overlord.execute(parameters);
+		// OverlordMain overlord = new OverlordMain();
+		// overlord.addShutdownHooks();
+		//
+		// if (parameters.length <= 0)
+		// overlord.execute(new String[] { "master" });
+		// else
+		// overlord.execute(parameters);
 	}
 
 
@@ -65,10 +69,11 @@ public class Overlord {
 	public void execute (String[] parameters) throws OverlordException, IOException, InterruptedException {
 		OverlordSystemSupport systemsupport = AbstractOverlordSystemSupport.getSystemSupport();
 
-		URL configfile = ClassLoader.getSystemResource(CONFIGURATION_FILE);
+		URL configfile = OverlordUtilities.findResource(CONFIGURATION_FILE);
 		if (configfile == null)
 			throw new NoOverlordConfigurationException(CONFIGURATION_FILE);
-		InputStream configstream = ClassLoader.getSystemResourceAsStream(CONFIGURATION_FILE);
+
+		InputStream configstream = OverlordUtilities.findResourceAsStream(CONFIGURATION_FILE);
 
 		configuration = new OverlordConfiguration(this);
 		configuration.setJavaExecutable(systemsupport.getJavaExecutable());

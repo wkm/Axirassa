@@ -3,10 +3,10 @@ package axirassa.overlord;
 
 
 public class OverlordShutdownHook extends Thread {
-	private final Overlord overlord;
+	private final OverlordMain overlord;
 
 
-	public OverlordShutdownHook(Overlord overlord) {
+	public OverlordShutdownHook(OverlordMain overlord) {
 		this.overlord = overlord;
 	}
 
