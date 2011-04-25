@@ -1,6 +1,7 @@
 
 package axirassa.overlord;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import lombok.Getter;
@@ -45,6 +46,14 @@ public class OverlordConfiguration {
 
 	public ExecutionGroup getExecutionGroup (String name) {
 		return groups.get(ExecutionGroup.canonicalizeName(name));
+	}
+	 
+	public Collection<ExecutionGroup> getExecutionGroups() {
+		return groups.values();
+	}
+	
+	public Collection<ExecutionTarget> getExecutionTargets() {
+		return targets.values();
 	}
 
 

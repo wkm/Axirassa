@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import lombok.Getter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,11 +47,14 @@ public class OverlordMain {
 
 
 	public static void main (String[] parameters) throws OverlordException, IOException, InterruptedException {
-		OverlordWindow window = new OverlordWindow();
+		OverlordMain overlord = new OverlordMain();
+		overlord.addShutdownHooks();
+
+		overlord.init();
+
+		OverlordWindow window = new OverlordWindow(overlord);
 		window.show();
 
-		// OverlordMain overlord = new OverlordMain();
-		// overlord.addShutdownHooks();
 		//
 		// if (parameters.length <= 0)
 		// overlord.execute(new String[] { "master" });
@@ -61,12 +66,14 @@ public class OverlordMain {
 	//
 	// Class Instances
 	//
+
+	@Getter
 	private OverlordConfiguration configuration;
 	private final ArrayList<ExecutionInstance> instances = new ArrayList<ExecutionInstance>();
 	private final NativeLibraryProvider libprovider = new NativeLibraryProvider();
 
 
-	public void execute (String[] parameters) throws OverlordException, IOException, InterruptedException {
+	public void init () throws OverlordException {
 		OverlordSystemSupport systemsupport = AbstractOverlordSystemSupport.getSystemSupport();
 
 		URL configfile = OverlordUtilities.findResource(CONFIGURATION_FILE);
@@ -80,7 +87,10 @@ public class OverlordMain {
 
 		XMLConfigurationParser configparser = new XMLConfigurationParser(configfile, configstream, configuration);
 		configparser.parse();
+	}
 
+
+	public void execute (String[] parameters) throws OverlordException, IOException, InterruptedException {
 		List<ExecutionGroup> groups = new ArrayList<ExecutionGroup>();
 
 		for (String groupname : parameters) {
