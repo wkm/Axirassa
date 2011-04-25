@@ -2,68 +2,39 @@
 package axirassa.overlord;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.ArrayList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import zanoccio.javakit.DirectStreamForwarder;
+import lombok.Getter;
+import lombok.Setter;
+import zanoccio.javakit.LibraryUnpackingClassLoader;
 import axirassa.overlord.exceptions.OverlordException;
-import axirassa.overlord.os.AbstractOverlordSystemSupport;
-import axirassa.overlord.os.OverlordSystemSupport;
 
 public class Overlord {
-	private final static Logger log = LoggerFactory.getLogger(Overlord.class);
+	@Setter
+	@Getter
+	private String[] parameters;
 
 
-	public static void main (String[] parameters) throws IOException, OverlordException, InterruptedException {
-		log.info("Starting Overlord Wrapper");
-		log.info("Locating configuration");
+	public static void main (String[] parameters) throws IOException, OverlordException, InterruptedException,
+	        ClassNotFoundException, SecurityException, NoSuchMethodException, IllegalArgumentException,
+	        IllegalAccessException, InvocationTargetException, InstantiationException {
+		System.out.println("Loading OverlordMain");
+		
+		System.out.println("Testing for load from JAR file");
+		ClassLoader loader = Overlord.class.getClassLoader();
+		URL classUrl = loader.getResource(Overlord.class.getCanonicalName().replace('.', '/')+".class");
+		String jarFile = OverlordUtilities.retrieveJarFile(classUrl);
+		
+		if(jarFile == null)
+			System.out.println("Not running within a JAR file");
+		else
+			System.out.println("SOURCE JAR: "+jarFile);
 
-		URL config = OverlordUtilities.findResource("axoverlord.cfg.xml");
-		if (config == null) {
-			log.error("Could not find axoverlord.cfg.xml");
-			return;
-		}
-
-		NativeLibraryProvider nlp = new NativeLibraryProvider();
-
-		nlp.provideLibrary("/libTerminal.jnilib");
-		nlp.provideLibrary("/libTerminal.so");
-		nlp.provideLibrary("/Terminal.dll");
-
-		OverlordSystemSupport system = AbstractOverlordSystemSupport.getSystemSupport();
-
-		CommandLine cli = new CommandLine(system.getJavaExecutable());
-		String jarFile = OverlordUtilities.retrieveJarFile(config);
-		if (jarFile != null) {
-			cli.addArgument("-cp");
-			cli.addArgument(jarFile);
-		}
-
-		cli.addArgument("-Djava.library.path=" + nlp.getLibraryPath());
-
-		cli.addArgument("axirassa.overlord.OverlordMain");
-
-		ArrayList<String> builtCli = cli.buildCommandLine();
-		log.info("Forking overlord main: " + builtCli);
-		String[] args = new String[builtCli.size()];
-		builtCli.toArray(args);
-
-		ProcessBuilder builder = new ProcessBuilder(builtCli);
-		builder.redirectErrorStream(true);
-		Process process = builder.start();
-
-		DirectStreamForwarder outputForwarder = new DirectStreamForwarder(process.getInputStream(), System.out);
-		DirectStreamForwarder inputForwarder = new DirectStreamForwarder(System.in, process.getOutputStream());
-
-		outputForwarder.start();
-		inputForwarder.start();
-
-		process.waitFor();
-		outputForwarder.destroy();
-		inputForwarder.destroy();
+		Class<?> classObject = Class.forName("axirassa.overlord.OverlordMain", true, new LibraryUnpackingClassLoader(jarFile));
+		Method method = classObject.getMethod("main", String[].class);
+		method.invoke(null, (Object) parameters);
 
 		return;
 	}

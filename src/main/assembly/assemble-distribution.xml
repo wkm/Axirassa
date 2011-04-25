@@ -8,7 +8,7 @@
 	</formats>
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<fileSets>
-		<fileSet>
+ 		<fileSet>
 			<directory>${project.build.outputDirectory}</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
@@ -20,7 +20,7 @@
 			<directory>${project.build.sourceDirectory}/..</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
-				<include>**</include>
+				<include>**/*.*</include>
 			</includes>
 			<excludes>
 				<exclude>**/*.java</exclude>
@@ -28,24 +28,15 @@
 		</fileSet>
 	</fileSets>
 	<dependencySets>
-		<dependencySet>
+ 		<dependencySet>
 			<scope>system</scope>
+			<useProjectArtifact>false</useProjectArtifact>
 			<unpack>true</unpack>
 		</dependencySet>
 		<dependencySet>
 			<scope>runtime</scope>
-			<unpack>true</unpack>
 			<useProjectArtifact>false</useProjectArtifact>
-			<unpackOptions>
-				<excludes>
-					<exclude>
-						META-INF/**
-					</exclude>
-					<exclude>
-						WEB-INF/**
-					</exclude>
-				</excludes>
-			</unpackOptions>
+			<unpack>true</unpack>
 		</dependencySet>
 	</dependencySets>
 </assembly>
