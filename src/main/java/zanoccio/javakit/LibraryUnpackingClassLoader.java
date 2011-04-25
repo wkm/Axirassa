@@ -1,8 +1,10 @@
 
 package zanoccio.javakit;
 
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * A ClassLoader which provides it's own #findLibrary routine (by extracting
@@ -12,59 +14,24 @@ import java.net.URLClassLoader;
  */
 public class LibraryUnpackingClassLoader extends ClassLoader {
 
-	private static class FindClassClassLoader extends ClassLoader {
-		public FindClassClassLoader (ClassLoader parent) {
-			super(parent);
-		}
+	private String jarFileName;
 
 
-		@Override
-		public Class<?> findClass (String name) throws ClassNotFoundException {
-			return super.findClass(name);
-		}
+	public LibraryUnpackingClassLoader (String jarFileName) throws IOException {
+		this.jarFileName = jarFileName;
+
+		init();
 	}
 
 
+	private void init () throws IOException {
+		System.out.println("SEARCHING JAR FILE: " + jarFileName + " FOR LIBRARY JARS");
+		JarFile jarFile = new JarFile(jarFileName);
 
-
-
-	private static class ChildUrlClassLoader extends URLClassLoader {
-		private FindClassClassLoader realParent;
-
-
-		public ChildUrlClassLoader (URL[] urls, FindClassClassLoader realParent) {
-			super(urls, null);
-			this.realParent = realParent;
-		}
-
-
-		@Override
-		public Class<?> findClass (String name) throws ClassNotFoundException {
-			System.out.println("Finding class: " + name);
-			try {
-				return super.findClass(name);
-			} catch (ClassNotFoundException e) {
-				return realParent.loadClass(name);
-			}
-		}
-	}
-
-
-	private ChildUrlClassLoader childClassLoader;
-
-
-	public LibraryUnpackingClassLoader () {
-		super(Thread.currentThread().getContextClassLoader());
-		childClassLoader = new ChildUrlClassLoader(new URL[] {}, new FindClassClassLoader(this.getParent()));
-	}
-
-
-	@Override
-	protected Class<?> loadClass (String name, boolean resolve) throws ClassNotFoundException {
-		try {
-			return childClassLoader.findClass(name);
-		} catch (ClassNotFoundException e) {
-			return super.loadClass(name, resolve);
+		Enumeration<JarEntry> entries = jarFile.entries();
+		while (entries.hasMoreElements()) {
+			JarEntry entry = entries.nextElement();
+			System.out.println("entry: " + entry);
 		}
 	}
 }
