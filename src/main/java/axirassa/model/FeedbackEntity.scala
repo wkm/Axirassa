@@ -26,6 +26,8 @@ import org.hibernate.annotations.NaturalId
 import java.util.Calendar
 import java.text.SimpleDateFormat
 
+@Entity
+@Cache(usage = CacheConcurrencyStrategy.NONE)
 class FeedbackEntity extends Serializable with EntityPreSave {
     @Id
     @BeanProperty

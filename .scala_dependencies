@@ -4,5 +4,3 @@
 /Users/wiktor/PCode/X/src/main/java/axirassa/model/exception/NoSaltException.scala -> /Users/wiktor/PCode/X/src/main/java/axirassa/model/exception/NoSaltException.scala
 /Users/wiktor/PCode/X/src/main/java/axirassa/model/EntityWithUser.scala -> /Users/wiktor/PCode/X/src/main/java/axirassa/model/UserEntity.scala
 -------
-/Users/wiktor/PCode/X/src/main/java/axirassa/model/exception/NoSaltException.scala -> /Users/wiktor/PCode/X/target/classes/axirassa/model/exception/NoSaltException.class
-/Users/wiktor/PCode/X/src/main/java/axirassa/model/EntityWithUser.scala -> /Users/wiktor/PCode/X/target/classes/axirassa/model/EntityWithUser.class

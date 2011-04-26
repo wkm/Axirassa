@@ -3,7 +3,6 @@ package axirassa.services.pinger
 import org.hornetq.api.core.client.ClientSession
 import org.hornetq.api.core.client.ClientProducer
 import axirassa.config.Messaging
-import axirassa.services.pinger.HttpPinger
 import axirassa.model.PingerEntity
 import axirassa.util.AutoSerializingObject
 import axirassa.services.exceptions.InvalidMessageClassException

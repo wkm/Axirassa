@@ -1,6 +1,7 @@
 
 package axirassa.model.flows;
 
+import scala.reflect.BeanProperty
 import java.io.IOException;
 
 import lombok.Getter;
@@ -20,39 +21,36 @@ import axirassa.services.email.EmailTemplate;
 import axirassa.webapp.pages.user.VerifyEmailUser;
 import axirassa.webapp.services.EmailNotifyService;
 
-public class CreateUserFlowImpl implements CreateUserFlow {
+class CreateUserFlowImpl extends CreateUserFlow {
 
 	@InjectResource
-	private Logger logger;
+	var logger : Logger = _
 
 	@Inject
-	private Session database;
+	var database : Session = _
 
 	@Inject
-	private PageRenderLinkSource linkSource;
+	var linkSource : PageRenderLinkSource = _
 
 	@Inject
-	private EmailNotifyService emailer;
+	var emailer : EmailNotifyService = _
 
-	@Getter
-	@Setter
-	private String email;
+	@BeanProperty
+	var email : String = _
 
-	@Getter
-	private UserEntity userEntity;
+	@BeanProperty
+	var userEntity : UserEntity = _
 
-	@Getter
-	private UserEmailAddressEntity primaryEmailEntity;
+	@BeanProperty
+	var primaryEmailEntity : UserEmailAddressEntity = _
 
-	@Getter
-	@Setter
-	private String password;
+	@BeanProperty
+	var password: String = _
 
-
-	@Override
 	@CommitAfter
-	public void execute() {
-		System.out.println("PERSISTING USER");
+	override
+	def execute() = {
+		println("PERSISTING USER");
 
 		userEntity = new UserEntity();
 		userEntity.createPassword(password);
@@ -65,7 +63,7 @@ public class CreateUserFlowImpl implements CreateUserFlow {
 		database.save(userEntity);
 		database.save(primaryEmailEntity);
 
-		String link = linkSource.createPageRenderLinkWithContext(VerifyEmailUser.class, primaryEmailEntity.getToken())
+		val link = linkSource.createPageRenderLinkWithContext(classOf[VerifyEmailUser], primaryEmailEntity.getToken())
 		        .toAbsoluteURI(true);
 
 		emailer.startMessage(EmailTemplate.USER_VERIFY_ACCOUNT);
@@ -73,10 +71,9 @@ public class CreateUserFlowImpl implements CreateUserFlow {
 		emailer.addAttribute("axlink", link);
 		try {
 			emailer.send();
-		} catch (HornetQException e) {
-			logger.error("Fatal messaging error", e);
-		} catch (IOException e) {
-			logger.error("Fatal I/O error", e);
+		} catch {
+		    case e : HornetQException => logger.error("Fatal messaging error", e)
+		    case e : IOException => logger.error("Fatal I/O error", e)
 		}
 	}
 }
