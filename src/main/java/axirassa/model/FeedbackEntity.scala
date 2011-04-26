@@ -27,40 +27,40 @@ import java.util.Calendar
 import java.text.SimpleDateFormat
 
 class FeedbackEntity extends Serializable with EntityPreSave {
-	@Id
-	@BeanProperty
-	@Basic(optional = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	var id: Long = _
+    @Id
+    @BeanProperty
+    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    var id : Long = _
 
-	@BeanProperty
-	@Basic(optional = false)
-	var comment: String = _
+    @BeanProperty
+    @Basic(optional = false)
+    var comment : String = _
 
-	@BeanProperty
-	@Basic(optional = false)
-	var useragent: String = _
+    @BeanProperty
+    @Basic(optional = false)
+    var useragent : String = _
 
-	@BeanProperty
-	@ManyToOne(optional = true)
-	var user: UserEntity = _
+    @BeanProperty
+    @ManyToOne(optional = true)
+    var user : UserEntity = _
 
-	@BeanProperty
-	@Basic(optional = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	var date: Date = _
+    @BeanProperty
+    @Basic(optional = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    var date : Date = _
 
-	def getFormattedDate() = {
-		val format = new SimpleDateFormat("h:m:s a")
-		format.format(getDate())
-	}
+    def getFormattedDate() = {
+        val format = new SimpleDateFormat("h:m:s a")
+        format.format(getDate())
+    }
 
-	@BeanProperty
-	@Basic(optional = false)
-	var posted: Boolean = _
+    @BeanProperty
+    @Basic(optional = false)
+    var posted : Boolean = _
 
-	override def preSave() {
-		if (date == null)
-			date = new Date()
-	}
+    override def preSave() {
+        if (date == null)
+            date = new Date()
+    }
 }

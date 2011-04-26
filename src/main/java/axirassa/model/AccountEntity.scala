@@ -22,15 +22,14 @@ import org.hibernate.annotations.CacheConcurrencyStrategy
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 class AccountEntity extends Serializable {
-	
-	@Id
-	@BeanProperty
-	@Basic(optional = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	protected var id : Long = _
+    @Id
+    @BeanProperty
+    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    protected var id : Long = _
 
-	// Name
-	@BeanProperty
-	@Basic(optional = false)
-	protected var name : String = _
+    // Name
+    @BeanProperty
+    @Basic(optional = false)
+    protected var name : String = _
 }

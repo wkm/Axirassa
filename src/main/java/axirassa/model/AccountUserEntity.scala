@@ -31,25 +31,25 @@ import org.hibernate.annotations.CascadeType
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 class AccountUserEntity {
-	
-	@Id
-	@BeanProperty
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	var id: Long = _
-	
-	@BeanProperty
-	@OneToOne(targetEntity = classOf[AccountEntity], fetch = FetchType.LAZY)
-	@Cascade(Array(CascadeType.PERSIST)) 
-	var account: AccountEntity = _ 
-	
-	@BeanProperty
-	@OneToOne(targetEntity = classOf[UserEntity], fetch= FetchType.LAZY)
-	@Cascade(Array(CascadeType.PERSIST))
-	var user: UserEntity = _
-	
-	@BeanProperty
-	@Basic(optional = false)
-	@Enumerated(EnumType.STRING) 
-	var role: UserRole = _
+
+    @Id
+    @BeanProperty
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    var id : Long = _
+
+    @BeanProperty
+    @OneToOne(targetEntity = classOf[AccountEntity], fetch = FetchType.LAZY)
+    @Cascade(Array(CascadeType.PERSIST))
+    var account : AccountEntity = _
+
+    @BeanProperty
+    @OneToOne(targetEntity = classOf[UserEntity], fetch = FetchType.LAZY)
+    @Cascade(Array(CascadeType.PERSIST))
+    var user : UserEntity = _
+
+    @BeanProperty
+    @Basic(optional = false)
+    @Enumerated(EnumType.STRING)
+    var role : UserRole = _
 
 }
