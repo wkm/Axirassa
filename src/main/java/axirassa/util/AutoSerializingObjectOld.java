@@ -10,11 +10,11 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-abstract public class AutoSerializingObject implements Serializable {
+abstract public class AutoSerializingObjectOld implements Serializable {
 	private static final long serialVersionUID = -6381035456256744960L;
 
 
-	static public Object fromBytes(byte[] bytes) throws IOException, ClassNotFoundException {
+	static public Object fromBytes (byte[] bytes) throws IOException, ClassNotFoundException {
 		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
 		ObjectInput in = new ObjectInputStream(bais);
 		Object object = in.readObject();
@@ -24,7 +24,7 @@ abstract public class AutoSerializingObject implements Serializable {
 	}
 
 
-	public byte[] toBytes() throws IOException {
+	public byte[] toBytes () throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ObjectOutput out = new ObjectOutputStream(baos);
 		out.writeObject(this);

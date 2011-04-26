@@ -28,6 +28,7 @@ import axirassa.util.AutoSerializingObject
 import axirassa.util.MessageDigestProvider
 import axirassa.util.RandomStringGenerator
 
+
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 class UserEntity extends AutoSerializingObject with Serializable with EntityPreSave {

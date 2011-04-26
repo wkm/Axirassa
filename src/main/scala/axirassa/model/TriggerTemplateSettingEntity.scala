@@ -1,5 +1,6 @@
+package axirassa.model
 
-package axirassa.model;
+import scala.reflect.BeanProperty
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -19,22 +20,18 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-abstract public class TriggerTemplateSettingEntity {
-	@Id	
-	@Getter
-	@Setter
+abstract class TriggerTemplateSettingEntity {
+	@Id
+	@BeanProperty
 	@Basic(optional = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
-	@Getter
-	@Setter
-	@OneToOne
-	private TriggerSettingEntity setting;
-	
-	@Getter
-	@Setter
-	@OneToOne
-	private TriggerTemplateEntity template;
+	var id: Long = _
 
+	@BeanProperty
+	@OneToOne
+	var setting: TriggerSettingEntity = _
+
+	@BeanProperty
+	@OneToOne
+	var template: TriggerTemplateEntity = _
 }

@@ -11,7 +11,7 @@ import org.hibernate.type.Type;
 
 import axirassa.util.HibernateTools;
 
-public class DatabaseValidationService {
+public class DatabaseValidationServiceOld {
 	public static void main (String[] args) {
 		Map<String, ClassMetadata> classes = HibernateTools.getSessionFactory().getAllClassMetadata();
 
