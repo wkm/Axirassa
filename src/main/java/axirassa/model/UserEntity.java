@@ -61,9 +61,13 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	@Id
 	@Basic(optional = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Getter
 	@Setter
 	private Long id;
+
+
+	public Long getId () {
+    	return id;
+    }
 
 
 	// SALT

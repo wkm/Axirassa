@@ -41,10 +41,14 @@ public class HttpStatisticsEntity extends AutoSerializingObject implements Seria
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Date timestamp;
 
-	@Getter
 	@Setter
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private PingerEntity pinger;
+
+
+	public PingerEntity getPinger () {
+		return pinger;
+	}
 
 
 	@Getter
@@ -62,7 +66,6 @@ public class HttpStatisticsEntity extends AutoSerializingObject implements Seria
 	@Basic(optional = false)
 	private int responseTime;
 
-
 	@Getter
 	@Setter
 	@Basic(optional = true)
@@ -72,6 +75,7 @@ public class HttpStatisticsEntity extends AutoSerializingObject implements Seria
 	@Setter
 	@Basic(optional = true)
 	private long uncompressedSize;
+
 
 	public long getTimestampInMillis () {
 		Calendar calendar = Calendar.getInstance();

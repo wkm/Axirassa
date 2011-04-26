@@ -17,13 +17,13 @@ import axirassa.services.exceptions.AxirassaServiceException;
 import axirassa.services.exceptions.InvalidMessageClassException;
 import axirassa.util.AutoSerializingObject;
 
-public class PingerService implements Service {
+public class PingerServiceOld implements Service {
 
 	private final ClientSession session;
 	private final HttpPinger pinger;
 
 
-	public PingerService (ClientSession consumeSession) {
+	public PingerServiceOld (ClientSession consumeSession) {
 		this.session = consumeSession;
 
 		pinger = new HttpPinger();

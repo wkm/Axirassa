@@ -40,10 +40,14 @@ public class PingerEntity extends AutoSerializingObject implements Serializable,
 
 	// ID
 	@Id
-	@Getter
 	@Setter
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+
+
+	public Long getId () {
+    	return id;
+    }
 
 
 	// USER
@@ -53,8 +57,12 @@ public class PingerEntity extends AutoSerializingObject implements Serializable,
 	private UserEntity user;
 
 
+	public String getUrl () {
+    	return url;
+    }
+
+
 	// URL
-	@Getter
 	@Setter
 	@Basic(optional = false)
 	private String url;
