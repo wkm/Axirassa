@@ -18,6 +18,8 @@ import charvax.swing.JMenuItem;
  * 
  */
 public class OverlordGroupsMenu extends JMenu implements ActionListener {
+	@Getter
+	private OverlordWindow window;
 
 	@Getter
 	private OverlordMain overlord;
@@ -26,11 +28,12 @@ public class OverlordGroupsMenu extends JMenu implements ActionListener {
 	private OverlordConfiguration configuration;
 
 
-	public OverlordGroupsMenu (OverlordMain overlord) {
+	public OverlordGroupsMenu (OverlordWindow window) {
 		super();
 		addActionListener(this);
 
-		this.overlord = overlord;
+		this.window = window;
+		this.overlord = window.getOverlord();
 		this.configuration = overlord.getConfiguration();
 
 		initGroups();

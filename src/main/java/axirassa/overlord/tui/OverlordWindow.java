@@ -1,23 +1,32 @@
 
 package axirassa.overlord.tui;
 
+
+import lombok.Getter;
 import axirassa.overlord.OverlordMain;
+import charva.awt.BorderLayout;
+import charva.awt.Color;
 import charva.awt.Container;
 import charva.awt.Insets;
+import charva.awt.Toolkit;
 import charva.awt.event.ActionEvent;
 import charva.awt.event.ActionListener;
-import charvax.swing.BorderFactory;
-import charvax.swing.BoxLayout;
 import charvax.swing.JFrame;
 import charvax.swing.JMenu;
 import charvax.swing.JMenuBar;
 import charvax.swing.JMenuItem;
+import charvax.swing.JPanel;
+import charvax.swing.JScrollPane;
 import charvax.swing.JTable;
 import charvax.swing.JTextArea;
+import charvax.swing.border.LineBorder;
+import charvax.swing.border.TitledBorder;
 import charvax.swing.table.DefaultTableModel;
 import charvax.swing.table.TableModel;
 
 public class OverlordWindow extends JFrame implements ActionListener {
+
+@Getter
 	private OverlordMain overlord;
 
 
@@ -28,20 +37,48 @@ public class OverlordWindow extends JFrame implements ActionListener {
 		this.overlord = overlord;
 
 		Container contentPane = getContentPane();
-		contentPane.setLayout(new BoxLayout(null, BoxLayout.Y_AXIS));
+		BorderLayout gridLayout = new BorderLayout();
+		
+		contentPane.setLayout(gridLayout);
 
 		JTable table = new JTable();
-		TableModel tableModel = new DefaultTableModel(5, 3);
+		TableModel tableModel = new DefaultTableModel(1, 3);
 		table.setModel(tableModel);
-		contentPane.add(table);
+		contentPane.add(table, BorderLayout.NORTH);
+
 
 		JTextArea textArea = new JTextArea();
 		textArea.setText("wut wut wut");
-		textArea.setBorder(BorderFactory.createTitledBorder("Output"));
 		textArea.setEditable(false);
+		
+		textArea.setColumns(150);
+		textArea.setRows(30);
+		
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		TitledBorder textBorder = new TitledBorder(new LineBorder(Color.cyan));
+		textBorder.setTitle("Output");
+		scrollPane.setViewportBorder(textBorder);
 
-		contentPane.add(textArea);
+		scrollPane.setSize(100,30);
+		
+		JPanel textPanel = new JPanel();
+		textPanel.add(scrollPane);
+		
+		textPanel.setSize(100, 30);
+		
+		contentPane.add(textPanel, BorderLayout.SOUTH);
 
+		setJMenuBar(buildMenu());		
+		
+		
+
+		setLocation(0, 0);
+		setSize(Toolkit.getDefaultToolkit().getScreenSize());
+		validate();
+	}
+
+
+	private JMenuBar buildMenu () {
 		JMenuBar menubar = new JMenuBar();
 
 		JMenu jMenuFile = new JMenu("Ax|Overlord");
@@ -52,24 +89,20 @@ public class OverlordWindow extends JFrame implements ActionListener {
 		jMenuItemFileExit.addActionListener(this);
 		jMenuFile.add(jMenuItemFileExit);
 
-		JMenu jMenuGroups = new OverlordGroupsMenu(overlord);
+		JMenu jMenuGroups = new OverlordGroupsMenu(this);
 		jMenuGroups.setText("+ Group");
 		jMenuGroups.setMnemonic('G');
 
-		JMenu jMenuTargets = new OverlordTargetsMenu(overlord);
+		JMenu jMenuTargets = new OverlordTargetsMenu(this);
 		jMenuTargets.setText("+ Target");
 		jMenuTargets.setMnemonic('T');
 
 		menubar.add(jMenuFile);
 		menubar.add(jMenuGroups);
 		menubar.add(jMenuTargets);
-
-		setJMenuBar(menubar);
-
-		setLocation(0, 0);
-		setSize(150, 50);
-		validate();
-	}
+		
+		return menubar;
+    }
 
 
 	@Override
@@ -77,6 +110,11 @@ public class OverlordWindow extends JFrame implements ActionListener {
 		String command = event.getActionCommand();
 		if (command.equals("Exit")) {
 			System.exit(0);
+		} else {
 		}
+	}
+	
+	public synchronized void executeTarget (String targetName) {
+		
 	}
 }

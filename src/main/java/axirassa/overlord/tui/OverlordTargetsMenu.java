@@ -9,8 +9,12 @@ import charva.awt.event.ActionEvent;
 import charva.awt.event.ActionListener;
 import charvax.swing.JMenu;
 import charvax.swing.JMenuItem;
+import charvax.swing.JOptionPane;
 
 public class OverlordTargetsMenu extends JMenu implements ActionListener {
+	@Getter
+	private OverlordWindow window;
+
 	@Getter
 	private OverlordMain overlord;
 
@@ -18,11 +22,12 @@ public class OverlordTargetsMenu extends JMenu implements ActionListener {
 	private OverlordConfiguration configuration;
 
 
-	public OverlordTargetsMenu (OverlordMain overlord) {
+	public OverlordTargetsMenu (OverlordWindow window) {
 		super();
 		addActionListener(this);
 
-		this.overlord = overlord;
+		this.window = window;
+		this.overlord = window.getOverlord();
 		this.configuration = overlord.getConfiguration();
 
 		initTargets();
@@ -50,7 +55,7 @@ public class OverlordTargetsMenu extends JMenu implements ActionListener {
 				groupItem.setMnemonic(mnemonic);
 
 			groupItem.addActionListener(this);
-			groupItem.setActionCommand("Target:" + target.getCanonicalName());
+			groupItem.setActionCommand(target.getCanonicalName());
 
 			add(groupItem);
 			index++;
@@ -60,6 +65,10 @@ public class OverlordTargetsMenu extends JMenu implements ActionListener {
 
 	@Override
 	public void actionPerformed (ActionEvent event) {
-
+		if (event.getActionCommand() != null) {
+			window.executeTarget(event.getActionCommand());
+			JOptionPane.showConfirmDialog(getAncestorWindow(), event.getActionCommand(), "Action Command",
+			                              JOptionPane.YES_NO_CANCEL_OPTION);
+		}
 	}
 }
