@@ -1,5 +1,6 @@
 package axirassa.model
 
+import org.hibernate.annotations.Type
 import java.io.Serializable
 import java.security.MessageDigest
 import java.util.Collections
@@ -43,7 +44,7 @@ class PingerEntity extends EntityWithUser {
 
 	@BeanProperty
 	@Basic(optional = false)
-	@Enumerated(EnumType.STRING)
+	@Type(`type` = "axirassa.model.MonitorType")
 	var monitorType: MonitorType = _
 }
 
