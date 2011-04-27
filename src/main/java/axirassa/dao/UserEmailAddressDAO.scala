@@ -11,7 +11,7 @@ trait UserEmailAddressDAO {
      *         <tt>user</tt> property, or null if no e-mail with the given id
      *         exists.
      */
-    def getByIdWithUser(id : Long) : UserEmailAddressEntity
+    def getByIdWithUser(id : Long) : Option[UserEmailAddressEntity]
 
     /**
      * @return all email addresses associated with a user
@@ -22,7 +22,7 @@ trait UserEmailAddressDAO {
      * @return the email address associated with the given token, or null if no
      *         such e-mail exists.
      */
-    def getByToken(token : String) : UserEmailAddressEntity
+    def getByToken(token : String) : Option[UserEmailAddressEntity]
 
     /**
      * @return true if the e-mail is taken.
@@ -32,13 +32,13 @@ trait UserEmailAddressDAO {
     /**
      * @return the user associated with this e-mail.
      */
-    def getUserByEmail(email : String) : UserEntity
+    def getUserByEmail(email : String) : Option[UserEntity]
 
     /**
      * @return the primary e-mail address entity associated with this user
      *         (their authentication e-mail)
      */
-    def getPrimaryEmail(user : UserEntity) : UserEmailAddressEntity
+    def getPrimaryEmail(user : UserEntity) : Option[UserEmailAddressEntity]
 }
 
 class UserEmailAddressDAOImpl extends UserEmailAddressDAO {
@@ -61,47 +61,47 @@ class UserEmailAddressDAOImpl extends UserEmailAddressDAO {
 
         val emails = query.list
         if (emails.isEmpty)
-            null
+            None
         else
-            emails.get(0).asInstanceOf[UserEntity]
+            Some(emails.get(0).asInstanceOf[UserEntity])
     }
 
-    override def getByIdWithUser(id : Long) {
+    override def getByIdWithUser(id : Long) = {
         val query = database.getNamedQuery("email_by_id")
         query.setLong("id", id)
 
         val emails = query.list
         if (emails.isEmpty)
-            null
+            None
         else
-            emails.get(0).asInstanceOf[UserEmailAddressEntity]
+            Some(emails.get(0).asInstanceOf[UserEmailAddressEntity])
     }
 
-    override def getEmailsByUser(user : UserEntity) {
+    override def getEmailsByUser(user : UserEntity) = {
         val query = database.getNamedQuery("user_emails")
         query.setEntity("user", user)
         query.list.asInstanceOf[List[UserEmailAddressEntity]]
     }
 
-    override def getPrimaryEmail(user : UserEntity) {
+    override def getPrimaryEmail(user : UserEntity) = {
         val query = database.getNamedQuery("user_primary_email")
         query.setEntity("user", user)
 
         val emails = query.list
         if (emails.isEmpty)
-            null
+            None
         else
-            emails.get(0).asInstanceOf[UserEmailAddressEntity]
+            Some(emails.get(0).asInstanceOf[UserEmailAddressEntity])
     }
 
-    override def getByToken(token : String) {
+    override def getByToken(token : String) = {
         val query = database.getNamedQuery("email_by_token")
         query.setString("token", token)
 
         val email = query.list
         if (email.isEmpty)
-            null
+            None
         else
-            email.get(0).asInstanceOf[UserEmailAddressEntity]
+            Some(email.get(0).asInstanceOf[UserEmailAddressEntity])
     }
 }

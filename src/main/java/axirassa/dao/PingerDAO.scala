@@ -7,7 +7,7 @@ import axirassa.model.HttpStatisticsEntity
 import axirassa.model.PingerEntity
 
 trait PingerDAO {
-    def findPingerById(id : Long) : PingerEntity
+    def findPingerById(id : Long) : Option[PingerEntity]
     def findStatistics(pinger : PingerEntity) : List[HttpStatisticsEntity]
     def getDataPoints(pinger : PingerEntity, minutes : Int) : List[HttpStatisticsEntity]
 }
@@ -22,9 +22,9 @@ class PingerDAOImpl extends PingerDAO {
 
         val pingers = query.list
         if (pingers.size < 1)
-            null
+            None
         else
-            pingers.get(0).asInstanceOf[PingerEntity]
+            Some(pingers.get(0).asInstanceOf[PingerEntity])
     }
 
     override def findStatistics(pinger : PingerEntity) = {
@@ -34,7 +34,7 @@ class PingerDAOImpl extends PingerDAO {
         query.list.asInstanceOf[List[HttpStatisticsEntity]]
     }
 
-    override def getDataPoints(pinger : PingerEntity, minutes : Int) {
+    override def getDataPoints(pinger : PingerEntity, minutes : Int) = {
         val cal = Calendar.getInstance
         cal.add(Calendar.MINUTE, -minutes)
 

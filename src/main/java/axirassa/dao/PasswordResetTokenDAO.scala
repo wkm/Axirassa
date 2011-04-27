@@ -6,7 +6,7 @@ import org.apache.tapestry5.ioc.annotations.Inject
 import axirassa.model.PasswordResetTokenEntity
 
 trait PasswordResetTokenDAO {
-    def getByToken(token : String) : PasswordResetTokenEntity
+    def getByToken(token : String) : Option[PasswordResetTokenEntity]
     def removeExpiredTokens : Int
 }
 
@@ -21,8 +21,15 @@ class PasswordResetTokenDAOImpl extends PasswordResetTokenDAO {
 
         val results = query.list
         if (results.size < 1)
-            null
+            None
         else
-            results.get(0).asInstanceOf[PasswordResetTokenEntity]
+            Some(results.get(0).asInstanceOf[PasswordResetTokenEntity])
+    }
+
+    override def removeExpiredTokens = {
+        val query = database.getNamedQuery("remove_expired_tokens")
+        query.setTimestamp("date", new Date)
+
+        query.executeUpdate
     }
 }

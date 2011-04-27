@@ -7,14 +7,14 @@ import axirassa.model.UserEntity
 
 trait UserPhoneNumberDAO {
     def getPhoneNumbersByUser(user : UserEntity) : List[UserPhoneNumberEntity]
-    def getByIdWithUser(id : Long) : UserPhoneNumberEntity
+    def getByIdWithUser(id : Long) : Option[UserPhoneNumberEntity]
 }
 
 class UserPhoneNumberDAOImpl extends UserPhoneNumberDAO {
     @Inject
     var database : Session = _
 
-    override def getPhoneNumbersByUser(user : UserEntity) {
+    override def getPhoneNumbersByUser(user : UserEntity) = {
         val query = database.getNamedQuery("user_phonenumbers")
         query.setEntity("user", user)
 
@@ -27,8 +27,8 @@ class UserPhoneNumberDAOImpl extends UserPhoneNumberDAO {
 
         val list = query.list
         if (list.size < 1)
-            null
+            None
         else
-            list.get(0).asInstanceOf[UserPhoneNumberEntity]
+            Some(list.get(0).asInstanceOf[UserPhoneNumberEntity])
     }
 }

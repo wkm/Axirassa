@@ -6,7 +6,7 @@ import axirassa.model.UserEntity
 
 trait UserDAO {
     def isEmailRegistered(email : String) : Boolean
-    def getUserByEmail(email : String) : UserEntity
+    def getUserByEmail(email : String) : Option[UserEntity]
 }
 
 class UserDAOImpl extends UserDAO {
@@ -30,8 +30,8 @@ class UserDAOImpl extends UserDAO {
 
         val users = query.list
         if (users.size < 0)
-            null
+            None
         else
-            users.get(0).asInstanceOf[UserEntity]
+            Some(users.get(0).asInstanceOf[UserEntity])
     }
 }
