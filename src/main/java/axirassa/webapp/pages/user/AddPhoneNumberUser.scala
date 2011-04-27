@@ -26,66 +26,64 @@ import axirassa.webapp.services.AxirassaSecurityException
 @Secure
 @RequiresUser
 class AddPhoneNumberUser {
-	@Inject
-	var security : AxirassaSecurityService = _
+    @Inject
+    var security : AxirassaSecurityService = _
 
-	@Inject
-	var database : Session = _
+    @Inject
+    var database : Session = _
 
-	@Inject
-	var userDAO : UserDAO = _
+    @Inject
+    var userDAO : UserDAO = _
 
-	@Inject
-	var linkSource : PageRenderLinkSource =_
+    @Inject
+    var linkSource : PageRenderLinkSource = _
 
-	@Property
-	@Validate("required,regexp=[-+*#0-9a-zA-Z.\\, ()]+,minlength=10")
-	var phoneNumber : String =_
+    @Property
+    @Validate("required,regexp=[-+*#0-9a-zA-Z.\\, ()]+,minlength=10")
+    var phoneNumber : String = _
 
-	@Property
-	@Validate("regexp=[-*#0-9]+")
-	var extension: String =_
+    @Property
+    @Validate("regexp=[-*#0-9]+")
+    var extension : String = _
 
-	@Property
-	var acceptsVoice : Boolean =_
+    @Property
+    var acceptsVoice : Boolean = _
 
-	@Property
-	var acceptsText : Boolean =_
+    @Property
+    var acceptsText : Boolean = _
 
-	@Component
-	var acceptsTextField : AxCheckbox =_
+    @Component
+    var acceptsTextField : AxCheckbox = _
 
-	@Component
-	var acceptsVoiceField : AxCheckbox =_
+    @Component
+    var acceptsVoiceField : AxCheckbox = _
 
-	@Component
-	var form :AxForm = _
+    @Component
+    var form : AxForm = _
 
-	var token : String
+    var token : String = _
 
+    def onValidateFromForm {
+        if (extension != null && acceptsText == true)
+            form.recordError(acceptsTextField, "Text messages may not be sent to phone numbers with extensions")
 
-	def onValidateFromForm {
-		if (extension != null && acceptsText == true)
-			form.recordError(acceptsTextField, "Text messages may not be sent to phone numbers with extensions")
+        if (!acceptsText && !acceptsVoice)
+            form.recordError("Please specify your notification method preference")
+    }
 
-		if (!acceptsText && !acceptsVoice)
-			form.recordError("Please specify your notification method preference")
-	}
+    @CommitAfter
+    def onSuccess() {
+        val user = security.getUserEntity
 
+        val phoneNumberEntity = new UserPhoneNumberEntity()
+        phoneNumberEntity.setUser(user)
+        phoneNumberEntity.setPhoneNumber(phoneNumber)
+        phoneNumberEntity.setExtension(extension)
+        phoneNumberEntity.setAcceptingSms(acceptsText)
+        phoneNumberEntity.setAcceptingVoice(acceptsVoice)
+        phoneNumberEntity.setConfirmed(false)
+        database.save(phoneNumberEntity)
 
-	@CommitAfter
-	def onSuccess (){
-		val user = security.getUserEntity
-
-		val phoneNumberEntity = new UserPhoneNumberEntity()
-		phoneNumberEntity.setUser(user)
-		phoneNumberEntity.setPhoneNumber(phoneNumber)
-		phoneNumberEntity.setExtension(extension)
-		phoneNumberEntity.setAcceptingSms(acceptsText)
-		phoneNumberEntity.setAcceptingVoice(acceptsVoice)
-		phoneNumberEntity.setConfirmed(false)
-		database.save(phoneNumberEntity)
-
-		linkSource.createPageRenderLinkWithContext(classOf[VerifyPhoneNumberUser], phoneNumberEntity.getId())
-	}
+        linkSource.createPageRenderLinkWithContext(classOf[VerifyPhoneNumberUser], phoneNumberEntity.getId().asInstanceOf[Object])
+    }
 }

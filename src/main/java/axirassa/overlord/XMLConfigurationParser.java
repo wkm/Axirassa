@@ -15,15 +15,15 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import zanoccio.javakit.ClassPathEntityResolver;
-import axirassa.overlord.exceptions.DuplicateGroupException;
-import axirassa.overlord.exceptions.DuplicateTargetException;
-import axirassa.overlord.exceptions.EmptyExecutionGroupException;
-import axirassa.overlord.exceptions.NoExecutionTargetsException;
-import axirassa.overlord.exceptions.NoGroupsException;
-import axirassa.overlord.exceptions.OverlordException;
-import axirassa.overlord.exceptions.OverlordParsingException;
-import axirassa.overlord.exceptions.OverlordTargetClassNotFoundException;
-import axirassa.overlord.exceptions.UnknownExecutionTargetException;
+import axirassa.overlord.DuplicateGroupException;
+import axirassa.overlord.DuplicateTargetException;
+import axirassa.overlord.EmptyExecutionGroupException;
+import axirassa.overlord.NoExecutionTargetsException;
+import axirassa.overlord.NoGroupsException;
+import axirassa.overlord.OverlordException;
+import axirassa.overlord.OverlordParsingException;
+import axirassa.overlord.OverlordTargetClassNotFoundException;
+import axirassa.overlord.UnknownExecutionTargetException;
 
 public class XMLConfigurationParser {
 

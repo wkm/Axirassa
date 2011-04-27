@@ -22,7 +22,6 @@ import lombok.Setter
 import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
 
-import axirassa.model.exception.NoSaltException
 import axirassa.model.interceptor.EntityPreSave
 import axirassa.util.AutoSerializingObject
 import axirassa.util.MessageDigestProvider
@@ -108,3 +107,7 @@ object UserEntity {
 		msgdigest.digest()
 	}
 }
+
+
+
+class NoSaltException(user: UserEntity) extends Exception("Cannot hash password without a salt for " + user)

@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import lombok.Getter;
-import axirassa.overlord.exceptions.InvalidOverlordNameException;
-import axirassa.overlord.exceptions.OverlordException;
+import axirassa.overlord.InvalidOverlordNameException;
+import axirassa.overlord.OverlordException;
 
 public class ExecutionGroup {
 

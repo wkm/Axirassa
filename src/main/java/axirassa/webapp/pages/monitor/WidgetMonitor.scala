@@ -24,7 +24,7 @@ class WidgetMonitor {
     var jssupport : JavaScriptSupport = _
 
     def setupRender() {
-        jssupport.addScript("axplot = new AxPlot('%s', [[10,20],[20,30],[30,10]])", "plot");
+        jssupport.addScript("axplot = new AxPlot('%s', [[10,20],[20,30],[30,10]])", "plot")
     }
 
     @Inject
@@ -36,10 +36,10 @@ class WidgetMonitor {
     var pinger : PingerEntity = _
 
     @Property
-    var id : Long
+    var id : Long = _
 
     @Property
-    var pingerName : String
+    var pingerName : String = _
 
     @Property
     var responseTime = 32
@@ -49,29 +49,29 @@ class WidgetMonitor {
 
     def onActivate(id : Long) = {
         if (id == null)
-            false;
+            false
         else {
 
-            this.id = id;
+            this.id = id
 
-            val entity = pingerDAO.findPingerById(id);
-            security.verifyOwnership(entity);
+            val entity = pingerDAO.findPingerById(id)
+            security.verifyOwnership(entity.get)
             if (entity == null)
-                "Index";
+                "Index"
             else {
-                setPinger(entity);
-                true;
+                setPinger(entity.get)
+                true
             }
         }
     }
 
     def beginRender() {
-        jssupport.addScript("PingerLevelDataStream.subscribe(%d, null)", id.asInstanceOf[Object]);
+        jssupport.addScript("PingerLevelDataStream.subscribe(%d, null)", id.asInstanceOf[Object])
     }
 
     def setPinger(pingerEntity : PingerEntity) {
-        pinger = pingerEntity;
-        pingerName = pinger.getUrl().replace("http://", "");
+        pinger = pingerEntity
+        pingerName = pinger.getUrl().replace("http://", "")
     }
 
 }

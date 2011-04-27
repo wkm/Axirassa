@@ -18,7 +18,7 @@ import axirassa.dao.UserPhoneNumberDAO
 import axirassa.model.UserEmailAddressEntity
 import axirassa.model.UserEntity
 import axirassa.model.UserPhoneNumberEntity
-import axirassa.model.exception.NoSaltException
+import axirassa.model.NoSaltException
 import axirassa.services.email.EmailTemplate
 import axirassa.webapp.components.AxForm
 import axirassa.webapp.components.AxPasswordField

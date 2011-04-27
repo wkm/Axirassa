@@ -23,10 +23,9 @@ class ListMonitor {
     var pingers : List[PingerEntity] = _
 
     @Property
-    var pinger : PingerEntity
+    var pinger : PingerEntity = _
 
-
-    def onActivate () {
+    def onActivate() {
         val user = security.getUserEntity;
 
         val query = database.createQuery("from PingerEntity where user=:user");

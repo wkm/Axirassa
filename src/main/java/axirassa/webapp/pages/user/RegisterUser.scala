@@ -20,10 +20,10 @@ import axirassa.webapp.components.AxTextField
 @RequiresGuest
 class RegisterUser {
     @Inject
-    var request : Request
+    var request : Request = _
 
     @Inject
-    var userDAO : UserDAO
+    var userDAO : UserDAO = _
 
     @Inject
     var createUserFlow : CreateUserFlow = _

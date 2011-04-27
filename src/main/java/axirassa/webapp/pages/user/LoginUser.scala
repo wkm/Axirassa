@@ -18,7 +18,7 @@ import org.apache.tapestry5.services.RequestGlobals
 import org.apache.tapestry5.services.Response
 import org.tynamo.security.services.PageService
 
-import axirassa.model.exception.NoSaltException
+import axirassa.model.NoSaltException
 import axirassa.webapp.components.AxForm
 import axirassa.webapp.pages.MonitorConsole
 import axirassa.webapp.services.AxirassaSecurityService

@@ -1,8 +1,8 @@
 
 package axirassa.overlord.os;
 
-import axirassa.overlord.exceptions.OverlordException;
-import axirassa.overlord.exceptions.UnsupportedPlatformException;
+import axirassa.overlord.OverlordException;
+import axirassa.overlord.UnsupportedPlatformException;
 
 public abstract class AbstractOverlordSystemSupport implements OverlordSystemSupport {
 	public static OverlordSystemSupport getSystemSupport() throws OverlordException {

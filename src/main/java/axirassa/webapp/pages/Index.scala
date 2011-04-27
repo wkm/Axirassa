@@ -12,7 +12,7 @@ class Index {
 	var security : AxirassaSecurityService = _
 
 	def onActivate() : Object = {
-		if (security.isUser())
+		if (security.isUser)
 			return classOf[MonitorConsole]
 		else
 			return true.asInstanceOf[Object]

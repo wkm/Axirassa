@@ -23,7 +23,7 @@ import javax.persistence.EnumType
 
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-class PingerEntity {
+class PingerEntity extends EntityWithUser {
 	@Id
 	@BeanProperty
 	@GeneratedValue(strategy = GenerationType.AUTO)

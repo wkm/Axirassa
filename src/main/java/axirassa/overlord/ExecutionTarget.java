@@ -3,8 +3,8 @@ package axirassa.overlord;
 
 import lombok.Getter;
 import lombok.Setter;
-import axirassa.overlord.exceptions.InvalidOverlordNameException;
-import axirassa.overlord.exceptions.OverlordException;
+import axirassa.overlord.InvalidOverlordNameException;
+import axirassa.overlord.OverlordException;
 
 public class ExecutionTarget {
 	@Getter

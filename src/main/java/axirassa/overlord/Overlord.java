@@ -11,9 +11,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import axirassa.overlord.exceptions.NoOverlordConfigurationException;
-import axirassa.overlord.exceptions.OverlordException;
-import axirassa.overlord.exceptions.UnknownExecutionTargetException;
+import axirassa.overlord.NoOverlordConfigurationException;
+import axirassa.overlord.OverlordException;
+import axirassa.overlord.UnknownExecutionTargetException;
 import axirassa.overlord.os.AbstractOverlordSystemSupport;
 import axirassa.overlord.os.OverlordSystemSupport;
 
