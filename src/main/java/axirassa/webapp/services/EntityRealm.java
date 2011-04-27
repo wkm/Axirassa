@@ -2,7 +2,7 @@ package axirassa.webapp.services;
 
 
 import axirassa.dao.UserDAO;
-import axirassa.model.UserEntity;
+import axirassa.model.UserEntity; 
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;

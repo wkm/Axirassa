@@ -16,7 +16,7 @@ import axirassa.dao.PingerDAO;
 import axirassa.model.HttpStatisticsEntity;
 import axirassa.model.PingerEntity;
 import axirassa.util.JSONResponse;
-import axirassa.webapp.services.AxirassaSecurityService;
+import axirassa.webapp.services.AxirassaSecurityServiceOld;
 import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 
 @Import(
@@ -34,7 +34,7 @@ public class AxMonitorWidget {
 	private PingerDAO pingerDAO;
 
 	@Inject
-	private AxirassaSecurityService security;
+	private AxirassaSecurityServiceOld security;
 
 	@Parameter(required = true, defaultPrefix = "literal")
 	@Property
