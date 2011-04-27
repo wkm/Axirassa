@@ -8,7 +8,7 @@ import axirassa.webapp.components.AxTextField
 import axirassa.webapp.services.AxirassaSecurityService
 import axirassa.webapp.services.SmsNotifyService
 import axirassa.webapp.services.VoiceNotifyService
-import axirassa.webapp.services.exceptions.AxirassaSecurityException
+import axirassa.webapp.services.AxirassaSecurityException
 import org.apache.shiro.authz.annotation.RequiresAuthentication
 import org.apache.tapestry5.annotations.Component
 import org.apache.tapestry5.annotations.Persist

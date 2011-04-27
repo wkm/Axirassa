@@ -13,8 +13,8 @@ import org.hibernate.Session;
 import axirassa.dao.UserDAO;
 import axirassa.model.FeedbackEntity;
 import axirassa.model.UserEntity;
-import axirassa.webapp.services.AxirassaSecurityServiceOld;
-import axirassa.webapp.services.exceptions.AxirassaSecurityException;
+import axirassa.webapp.services.AxirassaSecurityService;
+import axirassa.webapp.services.AxirassaSecurityException;
 
 public class AxFeedbackForm {
 	@Inject
@@ -27,7 +27,7 @@ public class AxFeedbackForm {
 	private UserDAO userDAO;
 
 	@Inject
-	private AxirassaSecurityServiceOld security;
+	private AxirassaSecurityService security;
 
 	@Component
 	private TextField feedbackField;

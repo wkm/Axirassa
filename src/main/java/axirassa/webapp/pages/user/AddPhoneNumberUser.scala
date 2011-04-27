@@ -21,7 +21,7 @@ import axirassa.model.UserPhoneNumberEntity
 import axirassa.webapp.components.AxCheckbox
 import axirassa.webapp.components.AxForm
 import axirassa.webapp.services.AxirassaSecurityService
-import axirassa.webapp.services.exceptions.AxirassaSecurityException
+import axirassa.webapp.services.AxirassaSecurityException
 
 @Secure
 @RequiresUser

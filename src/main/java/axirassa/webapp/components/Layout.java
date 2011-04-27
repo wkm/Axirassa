@@ -8,13 +8,13 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
 import axirassa.webapp.pages.SecurityViolation;
-import axirassa.webapp.services.AxirassaSecurityServiceOld;
-import axirassa.webapp.services.exceptions.AxirassaSecurityException;
+import axirassa.webapp.services.AxirassaSecurityService;
+import axirassa.webapp.services.AxirassaSecurityException;
 
 @Import(stylesheet = { "context:/css/form.css" })
 public class Layout {
 	@Inject
-	private AxirassaSecurityServiceOld security;
+	private AxirassaSecurityService security;
 
 	@Parameter(required = true, defaultPrefix = BindingConstants.LITERAL)
 	private String pageTitle;

@@ -24,7 +24,7 @@ import axirassa.webapp.components.AxForm
 import axirassa.webapp.components.AxPasswordField
 import axirassa.webapp.services.AxirassaSecurityService
 import axirassa.webapp.services.EmailNotifyService
-import axirassa.webapp.services.exceptions.AxirassaSecurityException
+import axirassa.webapp.services.AxirassaSecurityException
 
 @Secure
 @RequiresAuthentication
