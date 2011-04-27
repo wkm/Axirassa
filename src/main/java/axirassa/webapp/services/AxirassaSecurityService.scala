@@ -1,6 +1,5 @@
 package axirassa.webapp.services
 
-import axirassa.webapp.services.exceptions.AxirassaSecurityException
 import axirassa.dao.UserEmailAddressDAO
 import axirassa.dao.UserDAO
 import org.hibernate.Session
@@ -9,6 +8,10 @@ import org.apache.tapestry5.ioc.annotations.Inject
 import axirassa.model.EntityWithUser
 import org.apache.shiro.subject.Subject
 import axirassa.model.UserEntity
+
+
+class AxirassaSecurityException extends Exception("Unauthorized access attempt")
+
 
 trait AxirassaSecurityService {
     def getEmail : String
@@ -19,8 +22,6 @@ trait AxirassaSecurityService {
     def getSubject : Subject
     def verifyOwnership(entity : EntityWithUser)
 }
-
-class AxirassaSecurityException extends Exception("Unauthorized access attempt")
 
 class AxirassaSecurityServiceImpl extends AxirassaSecurityService {
     @Inject
