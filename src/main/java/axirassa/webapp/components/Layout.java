@@ -7,7 +7,7 @@ import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
-import axirassa.webapp.page.SecurityViolation;
+import axirassa.webapp.pages.SecurityViolation;
 import axirassa.webapp.services.AxirassaSecurityService;
 import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 

@@ -1,5 +1,5 @@
 
-package axirassa.webapp.page;
+package axirassa.webapp.pages;
 
 public class SecurityViolation {
 	// no actual content
