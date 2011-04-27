@@ -1,5 +1,6 @@
 package axirassa.model
 
+import scala.reflect.BooleanBeanProperty
 import java.io.Serializable
 import java.security.MessageDigest
 import java.util.Collections
@@ -61,15 +62,15 @@ class UserPhoneNumberEntity extends AutoSerializingObject with Serializable with
 	@Basic(optional = true)
 	var extension: String = _
 
-	@BeanProperty
+	@BooleanBeanProperty
 	@Basic(optional = false)
 	var confirmed: Boolean = _
 
-	@BeanProperty
+	@BooleanBeanProperty
 	@Basic(optional = false)
 	var acceptingVoice: Boolean = _
 
-	@BeanProperty
+	@BooleanBeanProperty
 	@Basic(optional = false)
 	var acceptingSms: Boolean = _
 
