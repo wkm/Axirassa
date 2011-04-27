@@ -10,3 +10,4 @@ syntax: regexp
 ^.*/\.DS_Store$
 ^.*\.class$
 ^.*\.orig$
+^.scala_dependencies$
