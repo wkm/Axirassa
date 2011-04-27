@@ -15,7 +15,7 @@ class MonitorConsole {
 	var session : Session = _
 
 	@Inject
-	var security : AxirassaSecurityServiceOld = _
+	var security : AxirassaSecurityService = _
 
 	@Inject
 	var userDAO : UserDAO = _
@@ -28,11 +28,11 @@ class MonitorConsole {
 
 
 	def onActivate () {
-		val user = security.getUserEntity();
+		val user = security.getUserEntity
 
-		val  query = session.createQuery("from PingerEntity where user=:user");
-		// query.setMaxResults(1);
-		query.setEntity("user", user);
+		val  query = session.createQuery("from PingerEntity where user=:user")
+		// query.setMaxResults(1)
+		query.setEntity("user", user)
 
 		pingers = query.list().asInstanceOf[List[PingerEntity]]
 	}
