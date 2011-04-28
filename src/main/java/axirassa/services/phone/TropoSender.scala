@@ -16,41 +16,34 @@ import org.apache.tapestry5.json.JSONObject;
 
 import axirassa.services.pinger.InstrumentedHttpClient;
 
-public abstract class TropoSender {
-	public static final String TROPO_API_URL = "https://api.tropo.com/1.0/sessions";
+object TropoSender {
+    var TROPO_API_URL : String = "https://api.tropo.com/1.0/sessions"
+}
 
-	@Getter
-	@Setter
-	private String phoneNumber;
+abstract class TropoSender {
+    var phoneNumber : String = _
+    var message : String = _
 
-	@Getter
-	@Setter
-	private String message;
+    def getToken : String
 
+    def send(httpClient : HttpClient) {
+        val request = new HttpPost(TropoSender.TROPO_API_URL);
+        request.addHeader("Accept", "application/json");
 
-	public abstract String getToken ();
+        val json = new JSONObject();
+        json.put("token", getToken);
+        json.put("phoneNumber", phoneNumber);
+        json.put("messageBody", message);
 
+        System.out.println("REQUEST: "+json);
 
-	public void send (HttpClient httpClient) throws ClientProtocolException, IOException {
-		HttpPost request = new HttpPost(TROPO_API_URL);
+        val requestBody = new InputStreamEntity(new ByteArrayInputStream(json.toCompactString().getBytes("UTF-8")), -1);
 
-		request.addHeader("Accept", "application/json");
+        requestBody.setContentType("application/json");
+        request.setEntity(requestBody);
 
-		JSONObject json = new JSONObject();
-		json.put("token", getToken());
-		json.put("phoneNumber", phoneNumber);
-		json.put("messageBody", message);
-
-		System.out.println("REQUEST: " + json);
-
-		InputStreamEntity requestBody = new InputStreamEntity(new ByteArrayInputStream(json.toCompactString()
-		        .getBytes("UTF-8")), -1);
-		requestBody.setContentType("application/json");
-
-		request.setEntity(requestBody);
-
-		HttpResponse response = httpClient.execute(request);
-		System.out.println("RESPONSE:");
-		System.out.println(InstrumentedHttpClient.readInputStreamBuffer(response.getEntity().getContent()));
-	}
+        val response = httpClient.execute(request);
+        System.out.println("RESPONSE:");
+        System.out.println(InstrumentedHttpClient.readInputStreamBuffer(response.getEntity().getContent()));
+    }
 }

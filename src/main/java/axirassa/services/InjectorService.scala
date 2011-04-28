@@ -1,19 +1,21 @@
 
-package axirassa.services;
+package axirassa.services
 
-import java.io.IOException;
-import java.util.ArrayList;
+import java.io.IOException
+import java.util.ArrayList
 
-import org.hibernate.Session;
-import org.hornetq.api.core.HornetQException;
-import org.hornetq.api.core.client.ClientConsumer;
-import org.hornetq.api.core.client.ClientMessage;
-import org.hornetq.api.core.client.ClientSession;
+import org.hibernate.Session
+import org.hornetq.api.core.HornetQException
+import org.hornetq.api.core.client.ClientConsumer
+import org.hornetq.api.core.client.ClientMessage
+import org.hornetq.api.core.client.ClientSession
 
-import axirassa.config.Messaging;
-import axirassa.model.HttpStatisticsEntity;
-import axirassa.services.exceptions.InvalidMessageClassException;
-import axirassa.util.AutoSerializingObject;
+import axirassa.config.Messaging
+import axirassa.model.HttpStatisticsEntity
+import axirassa.services.exceptions.InvalidMessageClassException
+import axirassa.util.AutoSerializingObject
+
+import scala.collection.JavaConversions._
 
 /**
  * The InjectorService relatively frequently. It is designed to insert responses
@@ -21,70 +23,63 @@ import axirassa.util.AutoSerializingObject;
  * 
  * @author wiktor
  */
-class InjectorService implements Service {
 
-	public static HttpStatisticsEntity rebuildMessage (ClientMessage message) throws HornetQException, IOException,
-	        ClassNotFoundException, InvalidMessageClassException {
+object InjectorService {
+	var FLUSH_SIZE = 1000
+	
+	def rebuildMessage (message : ClientMessage ) = {
 		if (message == null)
-			return null;
+			null
+		else {
+		val buffer = new Array[Byte](message.getBodyBuffer().readableBytes())
+		message.getBodyBuffer().readBytes(buffer)
+		message.acknowledge()
 
-		byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
-		message.getBodyBuffer().readBytes(buffer);
-		message.acknowledge();
-
-		Object rawobject = AutoSerializingObject.fromBytes(buffer);
-		if (rawobject instanceof HttpStatisticsEntity) {
-			return (HttpStatisticsEntity) rawobject;
-		} else
-			throw new InvalidMessageClassException(HttpStatisticsEntity.class, rawobject);
-	}
-
-
-	private final ClientSession messagingSession;
-	private final Session databaseSession;
-
-	private static final int FLUSH_SIZE = 1000;
-
-
-	public InjectorService (ClientSession messagingSession, Session databaseSession) {
-		this.messagingSession = messagingSession;
-		this.databaseSession = databaseSession;
-	}
-
-
-	@Override
-	public void execute () throws Exception {
-		ClientConsumer consumer = messagingSession.createConsumer(Messaging.PINGER_RESPONSE_QUEUE);
-		messagingSession.start();
-
-		ArrayList<HttpStatisticsEntity> entities = new ArrayList<HttpStatisticsEntity>();
-
-		while (true) {
-			ClientMessage message = consumer.receiveImmediate();
-			if (message == null)
-				break;
-
-			entities.add(rebuildMessage(message));
+		val rawobject = AutoSerializingObject.fromBytes(buffer)
+		rawobject match {
+			case e : HttpStatisticsEntity => e
+			case _ => throw new InvalidMessageClassException(classOf[HttpStatisticsEntity], rawobject)
 		}
+		}
+	}
+}
 
-		consumer.close();
-		messagingSession.stop();
 
-		databaseSession.beginTransaction();
-		int entityCounter = 0;
-		for (HttpStatisticsEntity entity : entities) {
-			databaseSession.save(entity);
-			entityCounter++;
+class InjectorService(messagingSession : ClientSession, databaseSession : Session) extends Service {
+	override
+	def execute {
+		val consumer = messagingSession.createConsumer(Messaging.PINGER_RESPONSE_QUEUE)
+		messagingSession.start()
+
+		val entities = new ArrayList[HttpStatisticsEntity]
+		var message = null
+		
+		do {
+			message = consumer.receiveImmediate()
+			if (message != null)
+				entities.add(InjectorService.rebuildMessage(message))
+		} while(message != null)
+
+		consumer.close()
+		messagingSession.stop()
+
+		databaseSession.beginTransaction()
+		
+		var entityCounter = 0
+		for (entity <- entities) {
+			databaseSession.save(entity)
+			entityCounter++
 
 			// it's necessary to flush the session frequently to prevent the
 			// memory-cache of entities to use up the heap
 			if ((entityCounter % FLUSH_SIZE) == 0) {
-				databaseSession.flush();
-				databaseSession.clear();
+				databaseSession.flush()
+				databaseSession.clear()
 			}
 		}
-		databaseSession.getTransaction().commit();
-		databaseSession.flush();
-		databaseSession.clear();
+		
+		databaseSession.getTransaction().commit()
+		databaseSession.flush()
+		databaseSession.clear()
 	}
 }
