@@ -19,25 +19,25 @@ import axirassa.webapp.services.MessagingSession;
  * 
  * @author wiktor
  */
-public class ControllerService implements Service {
+class ControllerService extends Service {
 
 	@Inject
-	private MessagingSession messaging;
+	var messaging: MessagingSession = _
 
 	@Inject
-	private Session database;
+	var database: Session = _
 
 
 	@Override
-	public void execute () throws Exception {
-		ClientProducer producer = messaging.createProducer(Messaging.PINGER_REQUEST_QUEUE);
+	def execute () {
+		val producer = messaging.createProducer(Messaging.PINGER_REQUEST_QUEUE);
 
-		Query query = database.getNamedQuery("pingers_by_frequency");
+		val query = database.getNamedQuery("pingers_by_frequency");
 		query.setInteger("frequency", 3600);
 
-		List<PingerEntity> pingers = query.list();
-		for (PingerEntity pinger : pingers) {
-			ClientMessage message = messaging.createMessage(false);
+		val pingers = query.list();
+		for (pinger <- pingers) {
+			val message = messaging.createMessage(false);
 			message.getBodyBuffer().writeBytes(pinger.toBytes());
 			producer.send(message);
 		}

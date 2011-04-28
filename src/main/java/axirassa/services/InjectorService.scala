@@ -21,7 +21,7 @@ import axirassa.util.AutoSerializingObject;
  * 
  * @author wiktor
  */
-public class InjectorService implements Service {
+class InjectorService implements Service {
 
 	public static HttpStatisticsEntity rebuildMessage (ClientMessage message) throws HornetQException, IOException,
 	        ClassNotFoundException, InvalidMessageClassException {

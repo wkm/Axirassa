@@ -1,6 +1,7 @@
 
 package axirassa.services.pinger;
 
+import axirassa.services.AxirassaServiceException
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,7 +20,10 @@ import org.apache.http.protocol.HttpContext;
 import axirassa.services.exceptions.ExecutedWithoutInstrumentationException;
 import axirassa.services.exceptions.PingerServiceException;
 
-public class InstrumentedHttpClient extends DefaultHttpClient {
+class ExecutedWithoutInstrumentationException 
+	extends AxirassaServiceException("InstrumentedHttpClient executed without instrumentation")
+
+class InstrumentedHttpClient extends DefaultHttpClient {
 
 	private static final long NANOS_PER_MILLI = 1000000;
 
