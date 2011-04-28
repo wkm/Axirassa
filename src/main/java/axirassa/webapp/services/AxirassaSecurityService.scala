@@ -36,25 +36,11 @@ class AxirassaSecurityServiceImpl extends AxirassaSecurityService {
     @Inject
     var userEmailAddressDAO : UserEmailAddressDAO = _
 
-    override def isAuthenticated = {
-        security.isAuthenticated
-    }
-
-    override def isGuest = {
-        security.isGuest
-    }
-
-    override def isUser = {
-        security.isUser
-    }
-
-    override def getEmail = {
-        security.getSubject.getPrincipal.asInstanceOf[String]
-    }
-
-    override def getSubject = {
-        security.getSubject
-    }
+    override def isAuthenticated = security.isAuthenticated
+    override def isGuest = security.isGuest
+    override def isUser = security.isUser
+    override def getEmail = security.getSubject.getPrincipal.asInstanceOf[String]
+    override def getSubject = security.getSubject
 
     override def verifyOwnership(entity : EntityWithUser) {
         if (entity.getUser == null)

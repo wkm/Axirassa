@@ -1,5 +1,8 @@
 package axirassa.webapp.services
 
+import org.apache.shiro.authc.AccountException
+import org.apache.shiro.authc.UsernamePasswordToken
+import org.apache.shiro.authc.AuthenticationToken
 
 import axirassa.dao.UserDAO
 import axirassa.model.UserEntity 
@@ -10,33 +13,30 @@ import org.apache.shiro.realm.AuthorizingRealm
 import org.apache.shiro.subject.PrincipalCollection
 
 
+object EntityRealm {
+    val REALM_NAME = "axirassarealm"
+}
+
 /**
  * Based on suggestion from http://permalink.gmane.org/gmane.comp.java.tynamo.user/155
  *
  * @author wiktor
  */
-class EntityRealm extends AuthorizingRealm(new MemoryConstrainedCacheManager()) {
-	val REALM_NAME = "axirassarealm"
-
-	var userDAO : UserDAO = _
-
-	 def this (userDAO : UserDAO ) {
-		this.userDAO = userDAO
-		setName(REALM_NAME)
-		setAuthenticationTokenClass classOf[UsernamePasswordToken]
-	}
+class EntityRealm(userDAO : UserDAO) extends AuthorizingRealm(new MemoryConstrainedCacheManager()) {	    
+	setName(EntityRealm.REALM_NAME)
+	setAuthenticationTokenClass(classOf[UsernamePasswordToken])
 
 
-	override
-	protected def doGetAuthorizationInfo (principals : PrincipalCollection ) {
+	override protected
+	def doGetAuthorizationInfo (principals : PrincipalCollection ) {
 		if (principals.isEmpty())
 			return null
 
 		// make sure we have some authorization info from this realm
-		if (principals.fromRealm(REALM_NAME).size() <= 0)
+		if (principals.fromRealm(EntityRealm.REALM_NAME).size() <= 0)
 			return null
 
-		val email = principals.fromRealm(REALM_NAME).iterator().next().asInstanceOf[String]
+		val email = principals.fromRealm(EntityRealm.REALM_NAME).iterator().next().asInstanceOf[String]
 
 		// no e-mail, no credentials
 		if (email == null)
@@ -50,23 +50,23 @@ class EntityRealm extends AuthorizingRealm(new MemoryConstrainedCacheManager()) 
 	}
 
 
-	override
-	protected def doGetAuthenticationInfo ( token : AuthenticationToken) {
-		UsernamePasswordToken uptoken = ( UsernamePasswordToken ) token
+	protected override
+	def doGetAuthenticationInfo ( token : AuthenticationToken) = {
+		val uptoken = token.asInstanceOf[UsernamePasswordToken] 
 
-		String email = uptoken.getUsername()
+		val email = uptoken.getUsername()
 
 		if (email == null)
-			throw new AccountException("empty username for realm: " + REALM_NAME)
+			throw new AccountException("empty username for realm: " + EntityRealm.REALM_NAME)
 
 		// verify account exists
-		UserEntity user = userDAO.getUserByEmail(email)
+		val user = userDAO.getUserByEmail(email)
 
 		// retrieve the password and salt
-		byte[] password = user.getPassword()
-		String salt = user.getSalt()
+		val password = user.get.getPassword()
+		val salt = user.get.getSalt()
 
-		return new UserAuthenticationInfo(email, password, salt)
+	  new UserAuthenticationInfo(email, password, salt)
 	}
 
 }

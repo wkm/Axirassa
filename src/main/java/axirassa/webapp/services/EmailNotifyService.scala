@@ -1,6 +1,9 @@
 
 package axirassa.webapp.services
 
+import axirassa.config.Messaging
+import axirassa.messaging.EmailRequestMessage
+import org.hornetq.api.core.client.ClientProducer
 import java.io.IOException
 
 import org.hornetq.api.core.HornetQException
@@ -8,47 +11,35 @@ import org.hornetq.api.core.HornetQException
 import axirassa.services.email.EmailTemplate
 
 trait EmailNotifyService {
-	def startMessage(template : EmailTemplate )
-	def addAttribute(key : String , value : Object )
-	def send()
-	def setToAddress(email : String )
+    def startMessage(template : EmailTemplate)
+    def addAttribute(key : String, value : Object)
+    def send()
+    def setToAddress(email : String)
 }
 
-class EmailNotifyServiceImpl extends  EmailNotifyService {
-	var messagingSession : MessagingSession = _ 
-	var producer :  ClientProducer = _ 
-	var  request : EmailRequestMessage = _
+class EmailNotifyServiceImpl(messagingSession : MessagingSession, producer : ClientProducer) extends EmailNotifyService {
+    var request : EmailRequestMessage = _
 
+    def this(messagingSession : MessagingSession) {
+        this(messagingSession, messagingSession.createProducer(Messaging.NOTIFY_EMAIL_REQUEST))
+    }
 
-	def this (messagingSession : MessagingSession)  {
-		this.messagingSession = messagingSession
-		producer = messagingSession.createProducer(Messaging.NOTIFY_EMAIL_REQUEST)
-	}
+    override def startMessage(template : EmailTemplate) {
+        request = new EmailRequestMessage(template)
+    }
 
+    override def addAttribute(key : String, value : Object) {
+        request.addAttribute(key, value)
+    }
 
-	override
-	def startMessage(template : EmailTemplate ) {
-		request = new EmailRequestMessage(template)
-	}
+    override def send() {
+        val message = messagingSession.createMessage(true)
+        message.getBodyBuffer().writeBytes(request.toBytes())
+        producer.send(message)
+        request = null
+    }
 
-
-	override
-	def addAttribute(key : String , value: Object ) {
-		request.addAttribute(key, value)
-	}
-
-
-	override
-	def send() {
-		val message = messagingSession.createMessage(true)
-		message.getBodyBuffer().writeBytes(request.toBytes())
-		producer.send(message)
-		request = null
-	}
-
-
-	override
-	def setToAddress(email : String ) {
-		request.setToAddress(email)
-	}
+    override def setToAddress(email : String) {
+        request.setToAddress(email)
+    }
 }
