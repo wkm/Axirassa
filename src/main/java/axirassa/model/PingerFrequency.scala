@@ -1,6 +1,8 @@
 package axirassa.model
 
 class PingerFrequency(interval : Int) {
+	def getInterval = interval
+	
     def getLabel {
         interval match {
             case 1            => "second"

@@ -1,7 +1,7 @@
 package axirassa.model
 
 import scalakit.Enumv
-import scalakit.EnumvType
+import scalakit.EnumvType 
 
 object TriggerSetting extends Enumv {
 	val TIME = Value("TI")
@@ -10,4 +10,4 @@ object TriggerSetting extends Enumv {
 	val REQUIRE_IGNORE_DONTALLOW = Value("RID")
 }
 
-class TriggerSettingType extends EnuvType(TriggerSetting)
+class TriggerSettingType extends EnumvType(TriggerSetting)
