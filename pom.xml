@@ -316,6 +316,13 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.scala-tools.testing</groupId>
+			<artifactId>specs_2.8.1</artifactId>
+			<version>1.6.7.2</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	<url>http://axirassa.com</url>
 	<issueManagement>

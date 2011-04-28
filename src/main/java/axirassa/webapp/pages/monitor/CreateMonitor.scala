@@ -25,16 +25,10 @@ class CreateMonitor {
 	var userDAO : UserDAO = _
 	
 	@Property
-	var frequencyEncoder = new EnumValueEncoder(classOf[PingerFrequency])
-	
-	@Property
 	var url : String = _
 	
 	@Property
 	var monitorFrequency : PingerFrequency = _
-	
-	@Property
-	var frequencies = Arrays.asList(PingerFrequency.values())
 	
 	@CommitAfter
 	def onSuccess = {
@@ -43,7 +37,7 @@ class CreateMonitor {
 	    pinger.setUrl(url)
 	    pinger.setFrequency(monitorFrequency.getInterval)
 	    pinger.setUser(security.getUserEntity)
-	    pinger.setMonitorType(MonitorType.HTTP)
+//	    pinger.setMonitorType(MonitorType.HTTP)
 	    
 	    database.save(pinger)
 	    

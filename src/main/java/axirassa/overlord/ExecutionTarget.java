@@ -1,10 +1,10 @@
 
 package axirassa.overlord;
 
+import test.axirassa.overlord.InvalidOverlordNameException;
+import test.axirassa.overlord.OverlordException;
 import lombok.Getter;
 import lombok.Setter;
-import axirassa.overlord.InvalidOverlordNameException;
-import axirassa.overlord.OverlordException;
 
 public class ExecutionTarget {
 	@Getter

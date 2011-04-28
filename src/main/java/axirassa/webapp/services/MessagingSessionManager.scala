@@ -1,5 +1,7 @@
 
-package axirassa.webapp.services
+package axirassa.webapp.services
+import axirassa.util.MessagingTools
+
 import org.hornetq.api.core.HornetQException
 
 import org.apache.tapestry5.ioc.services.ThreadCleanupListener

@@ -5,8 +5,7 @@ import axirassa.util.HibernateTools
 
 import scala.collection.JavaConversions._
 
-object DatabaseValidationService extends App {
-    override
+object DatabaseValidationService {
     def main(args : Array[String]) = {
         val classes = HibernateTools.getSessionFactory().getAllClassMetadata()
         val database = HibernateTools.getLightweightSession()

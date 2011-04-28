@@ -8,7 +8,7 @@ import org.apache.tapestry5.annotations.Parameter
 import org.apache.tapestry5.annotations.Property
 import org.apache.tapestry5.ioc.annotations.Inject
 
-class AxAbstractTextInput extends Field() {
+abstract class AxAbstractTextInput extends Field() {
 
     @Inject
     var resources : ComponentResources = _

@@ -97,7 +97,7 @@ class AppModule {
      */
     def buildTimingFilter(log : Logger) = {
         new RequestFilter() {
-            override def service(request : Request, response : Response, handler : RequestHandler) {
+            override def service(request : Request, response : Response, handler : RequestHandler) = {
                 val startTime = System.currentTimeMillis()
 
                 try {

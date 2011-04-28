@@ -29,7 +29,7 @@ class AxForm extends FormValidationControl {
     def getTitle = title
 
     @Parameter
-    var hasTitle : Boolean
+    var hasTitle : Boolean = _
 
     def getHasTitle = {
         if (title != null)

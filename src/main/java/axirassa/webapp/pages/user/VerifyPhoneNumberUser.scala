@@ -115,7 +115,7 @@ class VerifyPhoneNumberUser {
         voice.setExtension(phoneNumberEntity.getExtension())
         voice.addAttribute("code", token)
         voice.addAttribute("user", security.getEmail)
-        voice.send()
+        voice.send
     }
 
     private def sendCodeBySms(token : String) {
@@ -123,6 +123,6 @@ class VerifyPhoneNumberUser {
         sms.setPhoneNumber(phoneNumberEntity.getPhoneNumber())
         sms.addAttribute("code", token)
         sms.addAttribute("user", security.getEmail)
-        sms.send()
+        sms.send
     }
 }

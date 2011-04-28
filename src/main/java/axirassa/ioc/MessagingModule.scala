@@ -12,10 +12,10 @@ import axirassa.webapp.services.MessagingSession
 import axirassa.webapp.services.MessagingSessionManager
 import axirassa.webapp.services.SmsNotifyService
 import axirassa.webapp.services.VoiceNotifyService
-import axirassa.webapp.services.internal.EmailNotifyServiceImpl
-import axirassa.webapp.services.internal.MessagingSessionManagerImpl
-import axirassa.webapp.services.internal.SmsNotifyServiceImpl
-import axirassa.webapp.services.internal.VoiceNotifyServiceImpl
+import axirassa.webapp.services.EmailNotifyServiceImpl
+import axirassa.webapp.services.MessagingSessionManagerImpl
+import axirassa.webapp.services.SmsNotifyServiceImpl
+import axirassa.webapp.services.VoiceNotifyServiceImpl
 
 /**
  *

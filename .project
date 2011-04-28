@@ -2,23 +2,18 @@
 <projectDescription>
 	<name>X</name>
 	<comment></comment>
-<projects>
-    </projects>
-    <buildSpec>
-    <buildCommand>
-        <name>org.scala-ide.sdt.core.scalabuilder</name>
-        <arguments>
-        </arguments>
-    </buildCommand>
+	<projects>
+	</projects>
+	<buildSpec>
 		<buildCommand>
-			<name>org.maven.ide.eclipse.maven2Builder</name>
+			<name>org.scala-ide.sdt.core.scalabuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
-</buildSpec>
-<natures>
- <nature>org.scala-ide.sdt.core.scalanature</nature>
-    <nature>org.eclipse.jdt.core.javanature</nature>
-    <nature>org.maven.ide.eclipse.maven2Nature</nature>
-</natures>
+	</buildSpec>
+	<natures>
+		<nature>org.scala-ide.sdt.core.scalanature</nature>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.maven.ide.eclipse.maven2Nature</nature>
+	</natures>
 </projectDescription>

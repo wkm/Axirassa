@@ -28,7 +28,7 @@ class EntityRealm(userDAO : UserDAO) extends AuthorizingRealm(new MemoryConstrai
 
 
 	override protected
-	def doGetAuthorizationInfo (principals : PrincipalCollection ) {
+	def doGetAuthorizationInfo (principals : PrincipalCollection ) : SimpleAuthorizationInfo = {
 		if (principals.isEmpty())
 			return null
 

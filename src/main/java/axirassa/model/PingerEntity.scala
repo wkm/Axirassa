@@ -25,31 +25,31 @@ import javax.persistence.EnumType
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 class PingerEntity extends EntityWithUser {
-	@Id
-	@BeanProperty
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	var id: Long = _
+    @Id
+    @BeanProperty
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    var id : Long = _
 
-	@BeanProperty
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	var user: UserEntity = _
+    @BeanProperty
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    var user : UserEntity = _
 
-	@BeanProperty
-	@Basic(optional = false)
-	var url: String = _
+    @BeanProperty
+    @Basic(optional = false)
+    var url : String = _
 
-	@BeanProperty
-	@Basic(optional = false)
-	var frequency: Int = _
+    @BeanProperty
+    @Basic(optional = false)
+    var frequency : Int = _
 
-	@BeanProperty
-	@Basic(optional = false)
-	@Type(`type` = "axirassa.model.MonitorType")
-	var monitorType: MonitorType = _
+    @BeanProperty
+    @Basic(optional = false)
+    @Type(`type` = "axirassa.model.MonitorType")
+    var monitorType : Enumeration = _
 }
 
 object PingerEntity {
-	def createBroadcastQueueName(userId: Long, pingerId: Long) = {
-		"ax.account." + userId + ".pinger." + pingerId
-	}
+    def createBroadcastQueueName(userId : Long, pingerId : Long) = {
+        "ax.account."+userId+".pinger."+pingerId
+    }
 }

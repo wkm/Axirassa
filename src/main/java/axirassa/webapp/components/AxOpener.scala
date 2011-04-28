@@ -62,14 +62,8 @@ class AxOpener {
      * defaults to false.
      */
     @Parameter
-    var open : Boolean = _
-
-    def isOpen() = {
-        if (open == null)
-            open = false
-
-        open
-    }
+    var open = false
+    def isOpen() = open
 
     def getInitialDisplay() = {
         if (isOpen)

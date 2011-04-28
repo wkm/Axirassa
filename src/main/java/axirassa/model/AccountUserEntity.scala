@@ -1,11 +1,5 @@
 package axirassa.model
 
-import axirassa.model.UserRole
-import java.io.Serializable
-import java.security.MessageDigest
-import java.util.Collections
-import java.util.Date
-import java.util.Set
 import javax.persistence.Basic
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -51,6 +45,6 @@ class AccountUserEntity {
     @BeanProperty
     @Basic(optional = false)
     @Enumerated(EnumType.STRING)
-    var role : UserRoleType = _
+    var role : Enumeration = _
 
 }

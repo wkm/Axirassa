@@ -47,7 +47,7 @@ class TriggerSettingEntity {
     @BeanProperty
     @Basic(optional = false)
     @Column(name = "type")
-    var triggerType : TriggerSettingType = _
+    var triggerType : Enumeration = _
 
     @BeanProperty
     @Basic(optional = true)

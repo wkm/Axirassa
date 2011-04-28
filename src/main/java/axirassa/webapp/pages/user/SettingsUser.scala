@@ -46,7 +46,7 @@ class SettingsUser {
     @Persist
     var user : UserEntity = _
 
-    def onActivate() {
+    def onActivate() = {
         user = security.getUserEntity
 
         val phoneNumberRecords = 
@@ -62,7 +62,7 @@ class SettingsUser {
         else
             hasAlternateEmails = false
 
-        return true
+        true
     }
 
     //
@@ -129,7 +129,7 @@ class SettingsUser {
     }
 
     @CommitAfter
-    def onSuccessFromPasswordForm() {
+    def onSuccessFromPasswordForm() = {
         user.createPassword(newPassword)
         passwordChanged = true
 
@@ -137,7 +137,7 @@ class SettingsUser {
         emailNotify.setToAddress(userEmailAddressDAO.getPrimaryEmail(user).get.getEmail())
         emailNotify.send()
 
-        return this
+        this
     }
 
 }

@@ -50,7 +50,7 @@ class AxPlot {
      * the action specified by the tapestry id of this component.
      */
     @Parameter(defaultPrefix = BindingConstants.LITERAL)
-    var source : String
+    var source : String = _
 
     def getSource = {
         if (source == null)

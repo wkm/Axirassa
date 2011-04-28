@@ -11,7 +11,7 @@ class AxDebugFooter {
 
     @Inject
     @Property
-    var request: Request 
+    var request : Request = _
 
     @Property
     var headers : List[String] = _
@@ -22,10 +22,9 @@ class AxDebugFooter {
     @Property
     var session : Session = _
 
-    def setupRender () {
+    def setupRender() {
         session = request.getSession(false)
         headers = request.getHeaderNames()
     }
-
 
 }

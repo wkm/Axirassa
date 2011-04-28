@@ -48,20 +48,15 @@ class WidgetMonitor {
     var responseSize = 25
 
     def onActivate(id : Long) = {
-        if (id == null)
-            false
+        this.id = id
+
+        val entity = pingerDAO.findPingerById(id)
+        security.verifyOwnership(entity.get)
+        if (entity == null)
+            "Index"
         else {
-
-            this.id = id
-
-            val entity = pingerDAO.findPingerById(id)
-            security.verifyOwnership(entity.get)
-            if (entity == null)
-                "Index"
-            else {
-                setPinger(entity.get)
-                true
-            }
+            setPinger(entity.get)
+            true
         }
     }
 

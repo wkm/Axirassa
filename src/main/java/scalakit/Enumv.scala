@@ -1,22 +1,25 @@
 package scalakit
 
+import java.io.Serializable
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.Types
 import org.hibernate.usertype.UserType
-trait Enumv extends Enumeration {
-    private var valueMap = scala.collection.mutable.Map[String, Value]()
 
-    def Value(name : String) = {
-        valueMap.put(name, new Val(name))
-        new Val(name)
-    }
-
-    def valueOf(name : String) =
-        valueMap.get(name)
+trait Enumv {
+    this : Enumeration =>
+        private var valueMap = scala.collection.mutable.Map[String, Value]()
+    
+        def Value(name : String) = {
+            valueMap.put(name, new Val(name))
+            new Val(name)
+        }
+    
+        def valueOf(name : String) =
+            valueMap.get(name)
 }
 
-class EnumvType(val et : Enumv) extends UserType {
+abstract class EnumvType(val et : Enumeration with Enumv) extends UserType {
     override def sqlTypes =
         Array(Types.VARCHAR)
 

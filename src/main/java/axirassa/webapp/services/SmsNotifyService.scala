@@ -21,7 +21,7 @@ class SmsNotifyServiceImpl(messagingSession : MessagingSession) extends SmsNotif
 
 	var template : PhoneTemplate = _
 	var attributes : HashMap[String, Object] = _
-	var phoneNumber : String
+	var phoneNumber : String = _
 
 	def startMessage(template : PhoneTemplate) {
 		reset()
