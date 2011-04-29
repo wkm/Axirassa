@@ -1,5 +1,9 @@
-package axirassa.overlord
+package test.axirassa.overlord
 
+import axirassa.overlord.LinuxSystemSupport
+import axirassa.overlord.MacSystemSupport
+import axirassa.overlord.WindowsSystemSupport
+import axirassa.overlord.OverlordSystemSupport
 import org.junit.runner.RunWith
 import org.specs._
 import org.specs.matcher._
