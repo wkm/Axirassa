@@ -1,8 +1,6 @@
 
-package axirasa.overlord
+package axirassa.overlord
 
-import axirassa.overlord.ExecutionTarget
-import axirassa.overlord.ExecutionGroup
 import org.w3c.dom.Document
 
 abstract class OverlordException(msg : String, cause : Exception = null) extends Exception(msg, cause)

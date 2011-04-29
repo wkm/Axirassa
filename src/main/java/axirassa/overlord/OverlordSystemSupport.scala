@@ -1,6 +1,5 @@
 package axirassa.overlord;
 
-import axirasa.overlord.UnsupportedPlatformException
 import scalakit.RegexpPattern
 
 trait OverlordSystemSupport {
