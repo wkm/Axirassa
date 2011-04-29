@@ -27,8 +27,10 @@ object JettyWebserver {
 class JettyWebserver extends Service {
     def main(args : Array[String]) {
         val service = new JettyWebserver()
-        service.execute()
+        service.execute
     }
+
+    val log = JettyWebserver.log
 
     override def execute {
         val server = new Server()
@@ -42,7 +44,7 @@ class JettyWebserver extends Service {
         val baseLocation = getClass().getProtectionDomain().getCodeSource().getLocation()
 
         if (baseLocation == null) {
-            log.warn("COULD NOT LOCATE RESOURCE: "+BASE_PATH)
+            log.warn("COULD NOT LOCATE RESOURCE: "+JettyWebserver.BASE_PATH)
             log.warn("Assuming developmental deployment")
 
             val handler = new WebAppContext()
@@ -71,7 +73,7 @@ class JettyWebserver extends Service {
     }
 
     private def extractJarContents(jarFile : String) {
-        val dir = getTemporaryDirectory()
+        val dir = getTemporaryDirectory
         val jar = new JarFile(jarFile)
 
         val entries = jar.entries()
@@ -96,7 +98,7 @@ class JettyWebserver extends Service {
                         if (bytesRead > 0)
                             break
                         else
-                        out.write(buffer, 0, bytesRead)
+                            out.write(buffer, 0, bytesRead)
                     }
 
                     out.flush()

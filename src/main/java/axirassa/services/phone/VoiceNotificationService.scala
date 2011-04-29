@@ -1,58 +1,49 @@
 
-package axirassa.services.phone;
+package axirassa.services.phone
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.hornetq.api.core.client.ClientConsumer;
-import org.hornetq.api.core.client.ClientMessage;
-import org.hornetq.api.core.client.ClientSession;
+import org.apache.http.client.HttpClient
+import org.apache.http.impl.client.DefaultHttpClient
+import org.hornetq.api.core.client.ClientConsumer
+import org.hornetq.api.core.client.ClientMessage
+import org.hornetq.api.core.client.ClientSession
 
-import axirassa.config.Messaging;
-import axirassa.messaging.VoiceRequestMessage;
-import axirassa.services.Service;
-import axirassa.util.AutoSerializingObject;
+import axirassa.config.Messaging
+import axirassa.messaging.VoiceRequestMessage
+import axirassa.services.Service
+import axirassa.util.AutoSerializingObject
 
-public class VoiceNotificationService implements Service {
-	private final ClientSession messaging;
-	private final HttpClient httpClient;
+class VoiceNotificationService(messaging : ClientSession) extends Service {
+    val httpClient = new DefaultHttpClient()
 
+    override def execute {
+        val consumer = messaging.createConsumer(Messaging.NOTIFY_VOICE_REQUEST)
+        while (true) {
+            try {
+                val message = consumer.receive()
+                println("####\n####\n####\n####\n####\n####\n")
+                println("RECIEVED MESSAGE: "+message)
 
-	public VoiceNotificationService(ClientSession messagingSession) {
-		this.messaging = messagingSession;
-		this.httpClient = new DefaultHttpClient();
-	}
+                val buffer = new Array[Byte](message.getBodyBuffer().readableBytes())
+                message.getBodyBuffer().readBytes(buffer)
 
+                val rawobject = AutoSerializingObject.fromBytes(buffer)
+                rawobject match {
+                    case msg : VoiceRequestMessage => {
+                        val text = PhoneTemplateFactory.instance.getText(
+                            msg.getTemplate,
+                            PhoneTemplateType.VOICE,
+                            msg.getAttributeMap)
 
-	@Override
-	public void execute() throws Exception {
-		messaging.start();
+                        val sender = new SendVoice(msg.getPhoneNumber(), msg.getExtension(), text)
+                        sender.send(httpClient)
+                    }
+                }
 
-		ClientConsumer consumer = messaging.createConsumer(Messaging.NOTIFY_VOICE_REQUEST);
-		while (true) {
-			try {
-				ClientMessage message = consumer.receive();
-				System.out.println("####\n####\n####\n####\n####\n####\n");
-				System.out.println("RECIEVED MESSAGE: " + message);
-
-				byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
-				message.getBodyBuffer().readBytes(buffer);
-
-				Object rawobject = AutoSerializingObject.fromBytes(buffer);
-				if (rawobject instanceof VoiceRequestMessage) {
-					VoiceRequestMessage voiceRequest = (VoiceRequestMessage) rawobject;
-					String text = PhoneTemplateFactory.instance.getText(voiceRequest.getTemplate(),
-					                                                    PhoneTemplateType.VOICE,
-					                                                    voiceRequest.getAttributeMap());
-
-					SendVoice sender = new SendVoice(voiceRequest.getPhoneNumber(), voiceRequest.getExtension(), text);
-					sender.send(httpClient);
-				}
-
-				message.acknowledge();
-				messaging.commit();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+                message.acknowledge()
+                messaging.commit()
+            } catch {
+                case e : ClassNotFoundException => e.printStackTrace()
+            }
+        }
+    }
 }

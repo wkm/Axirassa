@@ -11,7 +11,7 @@ import axirassa.util.MessagingTools
 object DatabaseCleanerService {
 	def main (args : Array[String]) {
 		val service = IocStandalone.autobuild(classOf[DatabaseCleanerService])
-		service.execute()
+		service.execute
 	}
 }
 
@@ -40,7 +40,7 @@ class DatabaseCleanerService extends Service {
 	private def removeExpiredTokens {
 		database.beginTransaction()
 
-		val removed = passwordTokens.removeExpiredTokens()
+		val removed = passwordTokens.removeExpiredTokens
 		System.out.println("Removed " + removed + " expired password tokens")
 
 		database.getTransaction().commit()

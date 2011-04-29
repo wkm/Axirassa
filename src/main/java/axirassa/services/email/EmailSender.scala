@@ -1,63 +1,58 @@
 
-package axirassa.services.email;
+package axirassa.services.email
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.io.ByteArrayInputStream
+import java.io.IOException
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.InputStreamEntity;
-import org.hornetq.utils.json.JSONException;
-import org.hornetq.utils.json.JSONObject;
+import org.apache.http.HttpResponse
+import org.apache.http.client.ClientProtocolException
+import org.apache.http.client.HttpClient
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.entity.InputStreamEntity
+import org.hornetq.utils.json.JSONException
+import org.hornetq.utils.json.JSONObject
 
-import zanoccio.javakit.StringUtilities;
-import freemarker.template.TemplateException;
+import zanoccio.javakit.StringUtilities
+import freemarker.template.TemplateException
 
-public class EmailSender {
-	public static final String EMAIL_WEBAPP = "http://api.postmarkapp.com/email";
-	public static final String EMAIL_WEBAPP_TOKEN = "b0ee8591-9e0e-45b6-a7ed-ff1ec9586725";
+object EmailSender {
+    val EMAIL_WEBAPP = "http://api.postmarkapp.com/email"
+    val EMAIL_WEBAPP_TOKEN = "b0ee8591-9e0e-45b6-a7ed-ff1ec9586725"
+}
 
-	private final Object toAddress;
-	private final EmailTemplateComposer composer;
+class EmailSender(
+    composer : EmailTemplateComposer,
+    toAddress : String) {
 
+    def send(client : HttpClient) {    	
+        val request = new HttpPost(EmailSender.EMAIL_WEBAPP)
 
-	public EmailSender(EmailTemplateComposer composer, String toAddress) {
-		this.toAddress = toAddress;
-		this.composer = composer;
-	}
+        request.addHeader("Accept", "application/json")
+        request.addHeader("X-Postmark-Server-Token", EmailSender.EMAIL_WEBAPP_TOKEN)
 
+        val json = new JSONObject()
 
-	public void send(HttpClient client) throws JSONException, ClientProtocolException, IOException, TemplateException {
-		HttpPost request = new HttpPost(EMAIL_WEBAPP);
+        json.put("From", composer.getEmailTemplate.fromAddress)
+        json.put("To", toAddress)
 
-		request.addHeader("Accept", "application/json");
-		request.addHeader("X-Postmark-Server-Token", EMAIL_WEBAPP_TOKEN);
+        composer.addAttribute("recipient", toAddress)
 
-		JSONObject json = new JSONObject();
+        val html = composer.composeHtml()
+        val text = composer.composeText()
+        val subject = composer.composeSubject()
 
-		json.put("From", composer.getEmailTemplate().getFromAddress());
-		json.put("To", toAddress);
+        json.put("Subject", subject)
+        json.put("HtmlBody", html)
+        json.put("TextBody", text)
 
-		composer.addAttribute("recipient", toAddress);
+        val requestBody = new InputStreamEntity(new ByteArrayInputStream(json.toString()
+            .getBytes("UTF-8")), -1)
 
-		String html = composer.composeHtml();
-		String text = composer.composeText();
-		String subject = composer.composeSubject();
+        requestBody.setContentType("application/json")
 
-		json.put("Subject", subject);
-		json.put("HtmlBody", html);
-		json.put("TextBody", text);
+        request.setEntity(requestBody)
 
-		InputStreamEntity requestBody = new InputStreamEntity(new ByteArrayInputStream(json.toString()
-		        .getBytes("UTF-8")), -1);
-
-		requestBody.setContentType("application/json");
-
-		request.setEntity(requestBody);
-
-		HttpResponse response = client.execute(request);
-		System.out.println(StringUtilities.stringFromStream(response.getEntity().getContent()));
-	}
+        val response = client.execute(request)
+        System.out.println(StringUtilities.stringFromStream(response.getEntity().getContent()))
+    }
 }

@@ -13,6 +13,8 @@ import liquibase.resource.ResourceAccessor
 import org.hibernate.cfg.Configuration
 
 
+class DatabaseMigrateService
+
 object DatabaseMigrateService {
 	val MASTER_CHANGELOG = "axirassa/model/changelog/db.changelog-master.xml"
 		

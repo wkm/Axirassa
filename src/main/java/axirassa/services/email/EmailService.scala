@@ -16,52 +16,41 @@ import axirassa.services.Service;
 import axirassa.util.AutoSerializingObject;
 import freemarker.template.TemplateException;
 
-public class EmailService implements Service {
-	private final ClientSession messagingSession;
-	private final DefaultHttpClient httpClient = new DefaultHttpClient();
+class EmailService(messagingSession : ClientSession) extends Service {
+    val httpClient = new DefaultHttpClient();
 
+    override def execute() {
+        messagingSession.start();
 
-	public EmailService(ClientSession messagingSession) {
-		this.messagingSession = messagingSession;
-	}
+        val consumer = messagingSession.createConsumer(Messaging.NOTIFY_EMAIL_REQUEST);
 
+        while (true) {
+            try {
+                val message = consumer.receive();
 
-	@Override
-	public void execute() throws IllegalStateException, IOException, HornetQException {
-		messagingSession.start();
+                System.out.println("Received message: "+message);
 
-		ClientConsumer consumer = messagingSession.createConsumer(Messaging.NOTIFY_EMAIL_REQUEST);
+                val buffer = new Array[Byte](message.getBodyBuffer.readableBytes());
+                message.getBodyBuffer().readBytes(buffer);
 
-		while (true) {
-			try {
-				ClientMessage message = consumer.receive();
+                val rawobject = AutoSerializingObject.fromBytes(buffer);
+                rawobject match {
+                    case emailRequest : EmailRequestMessage => {
+                        val composer = new EmailTemplateComposer(emailRequest.getTemplate);
+                        composer.setAttributes(emailRequest.getAttributeMap);
 
-				System.out.println("Received message: " + message);
+                        val sender = new EmailSender(composer, emailRequest.getToAddress());
+                        sender.send(httpClient);
+                    }
+                }
 
-				byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
-				message.getBodyBuffer().readBytes(buffer);
-
-				Object rawobject = AutoSerializingObject.fromBytes(buffer);
-
-				if (rawobject instanceof EmailRequestMessage) {
-					EmailRequestMessage emailRequest = (EmailRequestMessage) rawobject;
-
-					EmailTemplateComposer composer = new EmailTemplateComposer(emailRequest.getTemplate());
-					composer.setAttributes(emailRequest.getAttributeMap());
-
-					EmailSender sender = new EmailSender(composer, emailRequest.getToAddress());
-					sender.send(httpClient);
-				}
-
-				message.acknowledge();
-				messagingSession.commit();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (JSONException e) {
-				e.printStackTrace();
-			} catch (TemplateException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+                message.acknowledge();
+                messagingSession.commit();
+            } catch {
+                case e : ClassNotFoundException =>
+                case e : JSONException =>
+                case e : TemplateException =>
+            }
+        }
+    }
 }

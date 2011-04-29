@@ -20,11 +20,8 @@ object TropoSender {
     var TROPO_API_URL : String = "https://api.tropo.com/1.0/sessions"
 }
 
-abstract class TropoSender {
-    var phoneNumber : String = _
-    var message : String = _
-
-    def getToken : String
+abstract class TropoSender(phoneNumber : String, message : String) {
+	def getToken : String
 
     def send(httpClient : HttpClient) {
         val request = new HttpPost(TropoSender.TROPO_API_URL);

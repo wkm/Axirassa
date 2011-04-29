@@ -38,14 +38,14 @@ class FeedbackAggregationService extends Service {
     @CommitAfter
     override def execute() {
         // get feedback
-        val feedback = feedbackDAO.getAllFeedback()
+        val feedback = feedbackDAO.getAllFeedback
 
-        if (feedback.size() > 0) {
+        if (feedback.size > 0) {
             // try to send it
             notifyService.startMessage(EmailTemplate.AGGREGATED_FEEDBACK)
             notifyService.setToAddress("feedback@axirassa.com")
             notifyService.addAttribute("feedback", feedback)
-            notifyService.addAttribute("feedbackCount", feedback.size())
+            notifyService.addAttribute("feedbackCount", feedback.size.asInstanceOf[AnyRef])
             notifyService.send()
 
             // delete feedback

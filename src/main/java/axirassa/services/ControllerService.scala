@@ -13,40 +13,41 @@ import axirassa.config.Messaging;
 import axirassa.model.PingerEntity;
 import axirassa.webapp.services.MessagingSession;
 
+import scala.collection.JavaConversions._
+
 /**
  * The ControllerService executes every minute, creating a message for each
  * triggered pinger.
- * 
+ *
  * @author wiktor
  */
 class ControllerService extends Service {
 
-	@Inject
-	var messaging: MessagingSession = _
+    @Inject
+    var messaging : MessagingSession = _
 
-	@Inject
-	var database: Session = _
+    @Inject
+    var database : Session = _
 
+    @Override
+    def execute() {
+        val producer = messaging.createProducer(Messaging.PINGER_REQUEST_QUEUE);
 
-	@Override
-	def execute () {
-		val producer = messaging.createProducer(Messaging.PINGER_REQUEST_QUEUE);
+        val query = database.getNamedQuery("pingers_by_frequency");
+        query.setInteger("frequency", 3600);
 
-		val query = database.getNamedQuery("pingers_by_frequency");
-		query.setInteger("frequency", 3600);
+        val pingers = query.list.asInstanceOf[List[PingerEntity]];
+        for (pinger <- pingers) {
+            val message = messaging.createMessage(false);
+            message.getBodyBuffer().writeBytes(pinger.toBytes);
+            producer.send(message);
+        }
 
-		val pingers = query.list();
-		for (pinger <- pingers) {
-			val message = messaging.createMessage(false);
-			message.getBodyBuffer().writeBytes(pinger.toBytes());
-			producer.send(message);
-		}
+        database.flush();
+        database.clear();
 
-		database.flush();
-		database.clear();
+        System.out.println("Populated "+pingers.size()+" pingers");
 
-		System.out.println("Populated " + pingers.size() + " pingers");
-
-		producer.close();
-	}
+        producer.close();
+    }
 }

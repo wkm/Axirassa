@@ -1,5 +1,6 @@
 package axirassa.model
 
+import axirassa.util.AutoSerializingObject
 import org.hibernate.annotations.Type
 import java.io.Serializable
 import java.security.MessageDigest
@@ -20,11 +21,12 @@ import org.hibernate.annotations.CacheConcurrencyStrategy
 import javax.persistence.ManyToOne
 import javax.persistence.FetchType
 import javax.persistence.Enumerated
+
 import javax.persistence.EnumType
 
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-class PingerEntity extends EntityWithUser {
+class PingerEntity extends EntityWithUser with AutoSerializingObject {
     @Id
     @BeanProperty
     @GeneratedValue(strategy = GenerationType.AUTO)

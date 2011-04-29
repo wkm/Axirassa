@@ -1,41 +1,55 @@
 
-package axirassa.services.util;
+package axirassa.services.util
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.Map;
+import java.util.HashMap
+import axirassa.util.AutoSerializingObject
+import java.io.IOException
+import java.io.StringWriter
+import java.util.Map
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
+import freemarker.template.Configuration
+import freemarker.template.Template
+import freemarker.template.TemplateException
 
-public abstract class TemplateFactory<T extends TemplateEnumeration, TType extends TemplateTypeEnumeration> {
+trait Template {
+    def getLocation : String
+    def getFullLocation : String
+}
 
-	public final static String TEMPLATE_ENCODING = "UTF-8";
+trait TemplateType {
+    def getExtension : String
+}
 
-	private final Configuration configuration = new Configuration();
+object TemplateFactory {
+    val TEMPLATE_ENCODING = "UTF-8"
+}
 
+abstract class TemplateFactory[T <: Template, TType <: TemplateType](baseDirectory : String) {
+    val configuration = new Configuration()
+    configuration.setWhitespaceStripping(true)
+    configuration.setClassForTemplateLoading(classOf[TemplateFactory[_, _]], baseDirectory)
 
-	public TemplateFactory(String baseDirectory) throws IOException {
-		configuration.setWhitespaceStripping(true);
-		configuration.setClassForTemplateLoading(TemplateFactory.class, baseDirectory);
-	}
+    def getTemplate(template : T, templateType : TType) =
+        configuration.getTemplate(getTemplateLocation(template, templateType), TemplateFactory.TEMPLATE_ENCODING)
 
+    private def getTemplateLocation(template : T, templateType : TType) =
+        template.getLocation+"_"+templateType.getExtension+".ftl"
 
-	public Template getTemplate(T template, TType type) throws IOException {
-		return configuration.getTemplate(getTemplateLocation(template, type), TEMPLATE_ENCODING);
-	}
+    def getText(template : T, templateType : TType, attributes : Map[String, Object]) = {
+        val writer = new StringWriter()
+        getTemplate(template, templateType).process(attributes, writer)
+        writer.toString()
+    }
+} 
 
+class TemplateFillingMessage extends AutoSerializingObject {
+    val attributeMap = new HashMap[String, AnyRef]
 
-	private String getTemplateLocation(T template, TType type) {
-		return template.getLocation() + "_" + type.getExtension() + ".ftl";
-	}
+    def addAttribute(key : String, value : AnyRef) {
+        attributeMap.put(key, value)
+    }
 
-
-	public String getText(T template, TType type, Map<String, Object> attributes) throws TemplateException, IOException {
-		StringWriter writer = new StringWriter();
-		getTemplate(template, type).process(attributes, writer);
-		return writer.toString();
-	}
-
+    def addAttributes(attributes : Map[String, Object]) {
+        attributeMap.putAll(attributes)
+    }
 }

@@ -13,6 +13,8 @@ import liquibase.integration.commandline.CommandLineUtils
 
 import org.hibernate.cfg.Configuration
 
+class DatabaseDeltaService
+
 object DatabaseDeltaService {
     def main(args : Array[String]) {
         // pull the database configuration from hibernate

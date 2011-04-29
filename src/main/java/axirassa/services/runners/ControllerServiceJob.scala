@@ -1,22 +1,22 @@
 
-package axirassa.services.runners;
+package axirassa.services.runners
 
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import org.quartz.Job
+import org.quartz.JobExecutionContext
+import org.quartz.JobExecutionException
 
-import axirassa.ioc.IocStandalone;
-import axirassa.services.ControllerService;
-import axirassa.services.Service;
+import axirassa.ioc.IocStandalone
+import axirassa.services.ControllerService
+import axirassa.services.Service
 
-public class ControllerServiceJob implements Job {
-	@Override
-	public void execute (JobExecutionContext context) throws JobExecutionException {
+class ControllerServiceJob extends Job {
+	override
+	def execute (context : JobExecutionContext) {
 		try {
-			Service service = IocStandalone.autobuild(ControllerService.class);
-			service.execute();
-		} catch (Exception e) {
-			throw new JobExecutionException(e);
+			val service = IocStandalone.autobuild(classOf[ControllerService])
+			service.execute
+		} catch {
+			case ex => throw new JobExecutionException(ex)
 		}
 	}
 }

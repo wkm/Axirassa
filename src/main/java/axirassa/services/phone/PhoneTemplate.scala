@@ -1,25 +1,33 @@
+package axirassa.services.phone
 
-package axirassa.services.phone;
+import axirassa.services.util.TemplateFactory
+import axirassa.services.util.Template
+import axirassa.services.util.TemplateType
 
-import lombok.Getter;
-import axirassa.services.util.TemplateEnumeration;
+object PhoneTemplateType {
+	val VOICE = new PhoneTemplateType("voice")
+	val SMS = new PhoneTemplateType("sms")
+}
+class PhoneTemplateType(extension: String) extends TemplateType
 
-public enum PhoneTemplate implements TemplateEnumeration {
-	USER_VERIFY_PHONE_NUMBER("account/VerifyPhoneNumber");
+ 
+object PhoneTemplate {
+    val BASE_LOCATION = "/axirassa/webapp/messages/"
 
-	public static final String BASE_LOCATION = "/axirassa/webapp/messages/";
+    val USER_VERIFY_PHONE_NUMBER = new PhoneTemplate("account/VerifyPhoneNumber")
+}
 
-	@Getter
-	private final String location;
+class PhoneTemplate(location : String) extends Template {
+    override def getFullLocation =
+        PhoneTemplate.BASE_LOCATION + location
+}
 
+class PhoneTemplateFactory
+    extends TemplateFactory[PhoneTemplate, PhoneTemplateType](PhoneTemplate.BASE_LOCATION);
 
-	PhoneTemplate (String location) {
-		this.location = location;
-	}
+object PhoneTemplateFactory {
+    val instance = new PhoneTemplateFactory
 
-
-	@Override
-	public String getFullLocation () {
-		return BASE_LOCATION + location;
-	}
+    def getTemplateInstance(template : PhoneTemplate, templateType : PhoneTemplateType) =
+        instance.getTemplate(template, templateType)
 }

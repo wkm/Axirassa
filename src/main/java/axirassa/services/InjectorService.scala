@@ -12,7 +12,6 @@ import org.hornetq.api.core.client.ClientSession
 
 import axirassa.config.Messaging
 import axirassa.model.HttpStatisticsEntity
-import axirassa.services.exceptions.InvalidMessageClassException
 import axirassa.util.AutoSerializingObject
 
 import scala.collection.JavaConversions._
@@ -52,7 +51,7 @@ class InjectorService(messagingSession : ClientSession, databaseSession : Sessio
 		messagingSession.start()
 
 		val entities = new ArrayList[HttpStatisticsEntity]
-		var message = null
+		var message : ClientMessage = null
 		
 		do {
 			message = consumer.receiveImmediate()
@@ -68,11 +67,11 @@ class InjectorService(messagingSession : ClientSession, databaseSession : Sessio
 		var entityCounter = 0
 		for (entity <- entities) {
 			databaseSession.save(entity)
-			entityCounter++
+			entityCounter += 1
 
 			// it's necessary to flush the session frequently to prevent the
 			// memory-cache of entities to use up the heap
-			if ((entityCounter % FLUSH_SIZE) == 0) {
+			if ((entityCounter % InjectorService.FLUSH_SIZE) == 0) {
 				databaseSession.flush()
 				databaseSession.clear()
 			}

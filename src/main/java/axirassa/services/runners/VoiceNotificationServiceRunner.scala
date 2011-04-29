@@ -1,17 +1,17 @@
 
-package axirassa.services.runners;
+package axirassa.services.runners
 
-import org.hornetq.api.core.client.ClientSession;
+import org.hornetq.api.core.client.ClientSession
 
-import axirassa.services.Service;
-import axirassa.services.phone.VoiceNotificationService;
-import axirassa.util.MessagingTools;
+import axirassa.services.Service
+import axirassa.services.phone.VoiceNotificationService
+import axirassa.util.MessagingTools
 
-public class VoiceNotificationServiceRunner {
-	public static void main(String[] args) throws Exception {
-		ClientSession session = MessagingTools.getEmbeddedSession();
-		Service service = new VoiceNotificationService(session);
+object VoiceNotificationServiceRunner {
+	def main(args : Array[String]) {
+		val session = MessagingTools.getEmbeddedSession()
+		val service = new VoiceNotificationService(session)
 
-		service.execute();
+		service.execute
 	}
 }

@@ -1,34 +1,37 @@
+package axirassa.services.email
 
-package axirassa.services.email;
+import axirassa.services.util.TemplateType
+import axirassa.services.util.TemplateFactory
 
-import lombok.Getter;
-import axirassa.services.util.TemplateEnumeration;
+import scala.reflect.BeanProperty
 
-public enum EmailTemplate implements TemplateEnumeration {
+object EmailTemplateType {
+    val HTML = new EmailTemplateType("html")
+    val TEXT = new EmailTemplateType("text")
+    val SUBJECT = new EmailTemplateType("subject")
+}
+class EmailTemplateType(extension : String) extends TemplateType
 
-	USER_VERIFY_ACCOUNT("account/VerifyAccountEmail", EmailSenderAddress.ACCOUNT),
-	USER_RESET_PASSWORD("account/ResetPasswordEmail", EmailSenderAddress.ACCOUNT),
-	USER_CHANGE_PASSWORD("account/PasswordChangeEmail", EmailSenderAddress.ACCOUNT),
-	USER_PRIMARY_EMAIL_CHANGED("account/PrimaryEmailChangedEmail", EmailSenderAddress.ACCOUNT),
-	AGGREGATED_FEEDBACK("support/AggregatedFeedbackEmail", EmailSenderAddress.INTERNAL);
+object EmailTemplate {
+    val USER_VERIFY_ACCOUNT = new EmailTemplate("account/VerifyAccountEmail", EmailSenderAddress.ACCOUNT)
+    val USER_RESET_PASSWORD = new EmailTemplate("account/ResetPasswordEmail", EmailSenderAddress.ACCOUNT)
+    val USER_CHANGE_PASSWORD = new EmailTemplate("account/PasswordChangeEmail", EmailSenderAddress.ACCOUNT)
+    val USER_PRIMARY_EMAIL_CHANGED = new EmailTemplate("account/PrimaryEmailChangedEmail", EmailSenderAddress.ACCOUNT)
+    val AGGREGATED_FEEDBACK = new EmailTemplate("support/AggregatedFeedbackEmail", EmailSenderAddress.INTERNAL)
 
-	public static final String BASE_LOCATION = "/axirassa/webapp/emails/";
+    val BASE_LOCATION = "/axirassa/webapp/emails/"
 
-	@Getter
-	private final String location;
+}
+class EmailTemplate(location : String, @BeanProperty fromAddress : String) extends {
+    override def getFullLocation = EmailTemplate.BASE_LOCATION + location
+}
 
-	@Getter
-	private final String fromAddress;
+class EmailTemplateFactory
+    extends TemplateFactory[EmailTemplate, EmailTemplateType](EmailTemplate.BASE_LOCATION)
 
+object EmailTemplateFactory {
+    val instance = new EmailTemplateFactory
 
-	EmailTemplate (String location, EmailSenderAddress fromAddress) {
-		this.location = location;
-		this.fromAddress = fromAddress.getAddress();
-	}
-
-
-	@Override
-	public String getFullLocation () {
-		return BASE_LOCATION + location;
-	}
+    def getTemplateInstance(template : EmailTemplate, templateType : EmailTemplateType) =
+        instance.getTemplate(template, templateType)
 }

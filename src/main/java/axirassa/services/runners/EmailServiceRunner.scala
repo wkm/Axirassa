@@ -1,17 +1,16 @@
 
-package axirassa.services.runners;
+package axirassa.services.runners
 
-import org.hornetq.api.core.client.ClientSession;
+import org.hornetq.api.core.client.ClientSession
 
-import axirassa.services.Service;
-import axirassa.services.email.EmailService;
-import axirassa.util.MessagingTools;
+import axirassa.services.Service
+import axirassa.services.email.EmailService
+import axirassa.util.MessagingTools
 
-public class EmailServiceRunner {
-	public static void main(String[] args) throws Exception {
-		ClientSession session = MessagingTools.getEmbeddedSession();
-		Service service = new EmailService(session);
-
-		service.execute();
-	}
+object EmailServiceRunner {
+    def main(context : Array[String]) {
+        val session = MessagingTools.getEmbeddedSession()
+        val service = new EmailService(session)
+        service.execute()
+    }
 }
