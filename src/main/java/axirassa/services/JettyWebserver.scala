@@ -29,7 +29,7 @@ class JettyWebserver extends Service {
         val service = new JettyWebserver()
         service.execute
     }
-
+    
     val log = JettyWebserver.log
 
     override def execute {
@@ -73,7 +73,7 @@ class JettyWebserver extends Service {
     }
 
     private def extractJarContents(jarFile : String) {
-        val dir = getTemporaryDirectory
+        val dir = getTemporaryDirectory()
         val jar = new JarFile(jarFile)
 
         val entries = jar.entries()
@@ -93,13 +93,12 @@ class JettyWebserver extends Service {
                     val out = new BufferedOutputStream(new FileOutputStream(outFile))
 
                     val buffer = new Array[Byte](4096)
-                    while (true) {
-                        val bytesRead = in.read(buffer)
+                    var bytesRead = 0
+                    do {
+                        bytesRead = in.read(buffer)
                         if (bytesRead > 0)
-                            break
-                        else
-                            out.write(buffer, 0, bytesRead)
-                    }
+                        	out.write(buffer, 0, bytesRead)
+                    } while(bytesRead > 0)
 
                     out.flush()
                     out.close()
@@ -115,7 +114,7 @@ class JettyWebserver extends Service {
         dir.getPath()
     }
 
-    private def getTemporaryDirectory = {
+    private def getTemporaryDirectory() = {
         val tempfile = File.createTempFile("axoverlord", "")
         tempfile.delete()
         tempfile.mkdir()

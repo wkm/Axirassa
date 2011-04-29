@@ -30,11 +30,11 @@ class VoiceNotificationService(messaging : ClientSession) extends Service {
                 rawobject match {
                     case msg : VoiceRequestMessage => {
                         val text = PhoneTemplateFactory.instance.getText(
-                            msg.getTemplate,
+                            msg.template,
                             PhoneTemplateType.VOICE,
-                            msg.getAttributeMap)
+                            msg.attributeMap)
 
-                        val sender = new SendVoice(msg.getPhoneNumber(), msg.getExtension(), text)
+                        val sender = new SendVoice(msg.phoneNumber, msg.extension, text)
                         sender.send(httpClient)
                     }
                 }

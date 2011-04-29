@@ -7,7 +7,6 @@ import java.io.Serializable;
 import axirassa.services.email.EmailTemplate;
 import axirassa.services.util.TemplateFillingMessage;
 
-class EmailRequestMessage(template : EmailTemplate) extends TemplateFillingMessage {
-	@BeanProperty
-	var toAddress : String = _
-} 
+class EmailRequestMessage(
+  var template : EmailTemplate,
+  var toAddress : String = null) extends TemplateFillingMessage

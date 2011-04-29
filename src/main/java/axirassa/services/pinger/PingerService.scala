@@ -6,7 +6,7 @@ import org.hornetq.api.core.client.ClientProducer
 import axirassa.config.Messaging
 import axirassa.model.PingerEntity
 import axirassa.util.AutoSerializingObject
-import axirassa.services.exceptions.InvalidMessageClassException
+import axirassa.services.InvalidMessageClassException
 import axirassa.model.HttpStatisticsEntity
 import axirassa.services.Service
 
@@ -34,7 +34,7 @@ class PingerService(val messaging: ClientSession) extends Service {
 						if(statistic != null)
 							sendResponseMessages(producer, statistic)
 							
-						println(request.getUrl() + " TRIGGERS: " + pinger.getTriggers())
+						println(request.getUrl() + " TRIGGERS: " + pinger.triggers)
 					}
 					
 					case _ =>

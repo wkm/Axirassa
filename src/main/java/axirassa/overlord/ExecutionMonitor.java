@@ -10,8 +10,6 @@ import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import test.axirassa.overlord.ExceptionInMonitorError;
-
 
 /**
  * A lightweight thread that monitors a process, restarting it if crashes.

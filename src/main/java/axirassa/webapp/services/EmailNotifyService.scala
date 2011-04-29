@@ -11,35 +11,36 @@ import org.hornetq.api.core.HornetQException
 import axirassa.services.email.EmailTemplate
 
 trait EmailNotifyService {
-    def startMessage(template : EmailTemplate)
-    def addAttribute(key : String, value : Object)
-    def send()
-    def setToAddress(email : String)
+  def startMessage(template: EmailTemplate)
+  def addAttribute(key: String, value: Object)
+  def send()
+  def setToAddress(email: String)
 }
 
-class EmailNotifyServiceImpl(messagingSession : MessagingSession, producer : ClientProducer) extends EmailNotifyService {
-    var request : EmailRequestMessage = _
+class EmailNotifyServiceImpl(
+  messagingSession: MessagingSession,
+  var producer: ClientProducer,
+  var request: EmailRequestMessage = null) extends EmailNotifyService {
+  def this(messagingSession: MessagingSession) {
+    this(messagingSession, messagingSession.createProducer(Messaging.NOTIFY_EMAIL_REQUEST))
+  }
 
-    def this(messagingSession : MessagingSession) {
-        this(messagingSession, messagingSession.createProducer(Messaging.NOTIFY_EMAIL_REQUEST))
-    }
+  override def startMessage(template: EmailTemplate) {
+    request = new EmailRequestMessage(template)
+  }
 
-    override def startMessage(template : EmailTemplate) {
-        request = new EmailRequestMessage(template)
-    }
+  override def addAttribute(key: String, value: Object) {
+    request.addAttribute(key, value)
+  }
 
-    override def addAttribute(key : String, value : Object) {
-        request.addAttribute(key, value)
-    }
+  override def send() {
+    val message = messagingSession.createMessage(true)
+    message.getBodyBuffer().writeBytes(request.toBytes())
+    producer.send(message)
+    request = null
+  }
 
-    override def send() {
-        val message = messagingSession.createMessage(true)
-        message.getBodyBuffer().writeBytes(request.toBytes())
-        producer.send(message)
-        request = null
-    }
-
-    override def setToAddress(email : String) {
-        request.setToAddress(email)
-    }
+  override def setToAddress(email: String) {
+    request.toAddress = email
+  }
 }

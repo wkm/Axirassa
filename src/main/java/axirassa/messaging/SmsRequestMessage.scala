@@ -1,11 +1,7 @@
 
-package axirassa.messaging;
+package axirassa.messaging
 
-import lombok.Getter;
-import axirassa.services.phone.PhoneTemplate;
-import axirassa.services.util.TemplateFillingMessage;
+import axirassa.services.phone.PhoneTemplate
+import axirassa.services.util.TemplateFillingMessage
 
-class SmsRequestMessage extends TemplateFillingMessage {
-	var phoneNumber : String = _
-	var template : PhoneTemplate = _
-}
+class SmsRequestMessage(var phoneNumber : String, var template : PhoneTemplate) extends TemplateFillingMessage

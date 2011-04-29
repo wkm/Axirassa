@@ -12,12 +12,12 @@ import freemarker.template.Template
 import freemarker.template.TemplateException
 
 trait Template {
-    def getLocation : String
-    def getFullLocation : String
+    def location : String
+    def fullLocation : String
 }
 
 trait TemplateType {
-    def getExtension : String
+    def extension : String
 }
 
 object TemplateFactory {
@@ -33,7 +33,7 @@ abstract class TemplateFactory[T <: Template, TType <: TemplateType](baseDirecto
         configuration.getTemplate(getTemplateLocation(template, templateType), TemplateFactory.TEMPLATE_ENCODING)
 
     private def getTemplateLocation(template : T, templateType : TType) =
-        template.getLocation+"_"+templateType.getExtension+".ftl"
+        template.location+"_"+templateType.extension+".ftl"
 
     def getText(template : T, templateType : TType, attributes : Map[String, Object]) = {
         val writer = new StringWriter()
