@@ -1,114 +1,110 @@
 
-package axirassa.util;
+package axirassa.util
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.Collection
+import java.util.Iterator
 
-import org.apache.tapestry5.json.JSONLiteral;
+import org.apache.tapestry5.json.JSONLiteral
 
-public class JSONConstructor {
-	public static final int BUFFER_SIZE = 1024 * 1024;
+class JSONConstructor {
+  val BUFFER_SIZE = 1024 * 1024
 
+  /**
+   * TODO (BugzID:83)
+   */
+  def format(value : Double, precision : Int, granularity : Double) : String = {
+    if (value < granularity)
+      return "0"
 
-	/**
-	 * TODO (BugzID:83)
-	 */
-	public static String format(double value, int precision, double granularity) {
-		if (value < granularity)
-			return "0";
+    // one less than the number of digits
+    val magnitude = Math.log10(value).asInstanceOf[Int]
 
-		// one less than the number of digits
-		int magnitude = (int) Math.log10(value);
+    // apply the granularity
+    value = (value * granularity).asInstanceOf[Long] / granularity
 
-		// apply the granularity
-		value = ((long) value * granularity) / granularity;
+    // compute the amount of extra characters
+    var extra = 0
+    if (value % 1 > 0)
+      extra = 2
+    else
+      extra = 1
 
-		// compute the amount of extra characters
-		int extra;
-		if (value % 1 > 0)
-			extra = 2;
-		else
-			extra = 1;
+    var cursor = precision + extra
+    val result = new Array[Char](precision + extra)
 
-		int cursor = precision + extra;
-		char[] result = new char[precision + extra];
+    // from the end, copy the result
+    val start = Math.pow(10, magnitude - precision)
+    while (cursor >= 0) {
+      cursor -= 1
+    }
 
-		// from the end, copy the result
-		double start = Math.pow(10, magnitude - precision);
-		while (cursor >= 0) {
-			cursor--;
-		}
+    return new String(result)
+  }
 
-		return new String(result);
-	}
+  def generate(array : Array[Array[Array[Double]]]) = {
+    val sb = new StringBuilder(BUFFER_SIZE)
 
+    sb.append('[');
+    for (i <- 0 until array.length) {
+      sb.append('[');
+      for (j <- 0 until array(i).length) {
+        sb.append('[');
+        for (k <- 0 until array(i)(j).length) {
+          sb.append(array(i)(j)(k));
 
-	public static JSONLiteral generate(Double[][][] array) {
-		StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-		sb.append('[');
-		for (int i = 0; i < array.length; i++) {
-			sb.append('[');
-			for (int j = 0; j < array[i].length; j++) {
+          if (k < array(i)(j).length - 1)
+            sb.append(',');
+        }
+        sb.append(']');
 
-				sb.append('[');
-				for (int k = 0; k < array[i][j].length; k++) {
-					sb.append(array[i][j][k]);
+        if (j < array(i).length - 1)
+          sb.append(',');
+      }
+      sb.append(']');
 
-					if (k < array[i][j].length - 1)
-						sb.append(',');
-				}
-				sb.append(']');
+      if (i < array.length - 1)
+        sb.append(',');
+    }
+    sb.append(']');
 
-				if (j < array[i].length - 1)
-					sb.append(',');
-			}
-			sb.append(']');
+    new JSONLiteral(sb.toString())
+  }
 
-			if (i < array.length - 1)
-				sb.append(',');
-		}
-		sb.append(']');
+  def generate[T](data : Collection[T]) = {
+    val sb = new StringBuilder(BUFFER_SIZE)
+    val iter = data.iterator()
 
-		return new JSONLiteral(sb.toString());
-	}
+    sb.append('[')
+    while (iter.hasNext()) {
+      sb.append(iter.next())
 
+      if (iter.hasNext())
+        sb.append(',')
+    }
+    sb.append(']')
 
-	public static <T> JSONLiteral generate(Collection<T> data) {
-		StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-		Iterator<T> iter = data.iterator();
+    new JSONLiteral(sb.toString())
+  }
 
-		sb.append('[');
-		while (iter.hasNext()) {
-			sb.append(iter.next());
+  def generateStrings(data : Collection[String]) = {
+    val sb = new StringBuilder(BUFFER_SIZE)
+    val iter = data.iterator()
 
-			if (iter.hasNext())
-				sb.append(',');
-		}
-		sb.append(']');
+    sb.append('[')
+    while (iter.hasNext()) {
+      var v = iter.next()
+      v = v.replace("\\", "\\\\")
+      v = v.replace("'", "\\")
 
-		return new JSONLiteral(sb.toString());
-	}
+      sb.append('\'')
+      sb.append(v)
+      sb.append('\'')
 
+      if (iter.hasNext())
+        sb.append(',')
+    }
+    sb.append(']')
 
-	public static JSONLiteral generateStrings(Collection<String> data) {
-		StringBuilder sb = new StringBuilder(BUFFER_SIZE);
-		Iterator<String> iter = data.iterator();
-
-		sb.append('[');
-		while (iter.hasNext()) {
-			String val = iter.next();
-			val = val.replace("\\", "\\\\");
-			val = val.replace("'", "\\;");
-
-			sb.append('\'');
-			sb.append(val);
-			sb.append('\'');
-
-			if (iter.hasNext())
-				sb.append(',');
-		}
-		sb.append(']');
-
-		return new JSONLiteral(sb.toString());
-	}
+    new JSONLiteral(sb.toString())
+  }
 }

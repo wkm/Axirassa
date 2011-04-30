@@ -1,78 +1,70 @@
 
-package axirassa.util;
+package axirassa.util
 
-import java.security.SecureRandom;
+import java.security.SecureRandom
 
 /**
- * Lightweight singleton class for generating random strings of a given length;
+ * Lightweight singleton class for generating random strings of a given length
  * powered by {@link SecureRandom}.
- * 
+ *
  * @author wiktor
- * 
+ *
  */
-public class RandomStringGenerator {
-	public static RandomStringGenerator getInstance () {
-		if (instance == null)
-			instance = new RandomStringGenerator();
-		return instance;
-	}
+object RandomStringGenerator {
+  private val generatorInstance : RandomStringGenerator = null
+  def instance = {
+    if (generatorInstance == null)
+      generatorInstance = new RandomStringGenerator
 
+    generatorInstance
+  }
 
-	private static RandomStringGenerator instance;
-	private final SecureRandom random = new SecureRandom();
+  def makeRandomString(length : Int) =
+    instance.randomString(length)
 
+  def makeRandomStringToken(length : Int) =
+    instance.randomStringToken(length)
+}
 
-	private RandomStringGenerator () {
-	}
+private class RandomStringGenerator {
+  val random = new SecureRandom()
 
+  /**
+   * @return a string of the given length containing random bytes (except
+   *         0x00)
+   */
+  def randomString(length : Int) = {
+    val buffer = new Array[Byte](length)
 
-	public static String makeRandomString (int length) {
-		return getInstance().randomString(length);
-	}
+    for (i <- 0 until buffer.length)
+      if (buffer(i) == 0)
+        buffer(i) = randomNonZeroByte
 
+    random.nextBytes(buffer)
 
-	public static String makeRandomStringToken (int length) {
-		return getInstance().randomStringToken(length);
-	}
+    new String(buffer)
+  }
 
+  def randomNonZeroByte = (random.nextInt(254) + 1).asInstanceOf[Byte]
 
-	/**
-	 * @return a string of the given length containing random bytes (except
-	 *         0x00)
-	 */
-	public String randomString (int length) {
-		byte[] buffer = new byte[length];
+  def randomStringToken(length : Int) = {
+    val buffer = new Array[Byte](length)
+    val index = 0
+    while (index < length) {
+      var value = random.nextLong()
 
-		for (int i = 0; i < buffer.length; i++)
-			if (buffer[i] == 0)
-				buffer[i] = randomNonZeroByte();
+      if (value < 0)
+        value = -value
 
-		random.nextBytes(buffer);
-		return new String(buffer);
-	}
+      val str = Long.toString(value, 32)
+      val byteString = str.getBytes()
 
+      for (i <- 0 until byteString.length if index < length) {
+        buffer(index) = byteString(i)
+        index++
+      }
+    }
 
-	public byte randomNonZeroByte () {
-		return (byte) (random.nextInt(254) + 1);
-	}
-
-
-	public String randomStringToken (int length) {
-		byte[] buffer = new byte[length];
-		int index = 0;
-		while (index < length) {
-			long value = random.nextLong();
-
-			if (value < 0)
-				value = -value;
-
-			String str = Long.toString(value, 32);
-			byte[] byteString = str.getBytes();
-
-			for (int i = 0; i < byteString.length && index < length; i++, index++)
-				buffer[index] = byteString[i];
-		}
-
-		return new String(buffer);
-	}
+    new String(buffer)
+  }
 }

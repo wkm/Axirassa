@@ -1,13 +1,11 @@
 
 package axirassa.util.test;
 
-public enum FixtureXmlName {
-	FIXTURES,
-	FIXTURE,
-	NAME;
-
-	@Override
-	public String toString() {
-		return super.toString().toLowerCase();
-	}
+object FixtureXmlName {
+  val FIXTURES = new FixtureXmlName("fixtures")
+  val FIXTURE = new FixtureXmlName("fixture")
+  val NAME = new FixtureXmlName("name")
+}
+class FixtureXmlName(name : String) {
+  def toString = name
 }

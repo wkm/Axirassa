@@ -10,53 +10,39 @@ import org.slf4j.LoggerFactory;
 /**
  * A gentle wrapper around creating a temporary queue subscribed to a given
  * address.
- * 
+ *
  * This effectively emulates JMS topics, but with the distinct benefit that
  * topics may be created programmatically.
- * 
+ *
  * @author wiktor
  */
-public class MessagingTopic {
-	private static final Logger log = LoggerFactory.getLogger(MessagingTopic.class);
+class MessagingTopic(session : ClientSession, topicName : String) {
+  private val log = LoggerFactory.getLogger(classOf[MessagingTopic]);
 
-	private final ClientSession session;
-	private String topicQueue;
-	private final String topicName;
+  var topicQueueName : String = _
+  session.createTemporaryQueue(topicName, topicQueueName);
 
+  log.debug("Created queue: "+topicQueueName);
+  log.debug("\tsubscribed to: "+topicName);
 
-	public MessagingTopic (ClientSession session, String topicName) throws HornetQException {
-		this.session = session;
-		this.topicName = topicName;
-		session.createTemporaryQueue(topicName, getTopicQueueName());
+  private def getTopicQueueName() = {
+    if (topicQueueName == null)
+      createTopicQueueName();
 
-		log.debug("Created queue: " + topicQueue);
-		log.debug("\tsubscribed to: " + topicName);
-	}
+    topicQueueName
+  }
 
+  private def createTopicQueueName() {
+    topicQueueName = "topic_"+RandomStringGenerator.makeRandomStringToken(30)+"_"+topicName;
+  }
 
-	private String getTopicQueueName () {
-		if (topicQueue == null)
-			createTopicQueueName();
+  def createConsumer() = session.createConsumer(topicQueueName)
 
-		return topicQueue;
-	}
-
-
-	private void createTopicQueueName () {
-		topicQueue = "topic_" + RandomStringGenerator.makeRandomStringToken(30) + "_" + topicName;
-	}
-
-
-	public ClientConsumer createConsumer () throws HornetQException {
-		return session.createConsumer(topicQueue);
-	}
-
-
-	/**
-	 * Explicitly deletes the temporary queue created when a MessagingTopic was
-	 * instantiated.
-	 */
-	public void unsubscribe () throws HornetQException {
-		session.deleteQueue(topicQueue);
-	}
+  /**
+   * Explicitly deletes the temporary queue created when a MessagingTopic was
+   * instantiated.
+   */
+  def unsubscribe() {
+    session.deleteQueue(topicQueueName);
+  }
 }

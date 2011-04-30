@@ -1,58 +1,52 @@
 
-package zanoccio.javakit;
+package zanoccio.javakit
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.io.Reader
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
-public class StringUtilities {
-	/**
-	 * Read in an entire InputStream as a UTF-8 encoded String.
-	 * 
-	 * @throws IOException
-	 */
-	public static String stringFromStream(InputStream is) throws IOException {
-		return stringFromStream(is, 4096);
-	}
+class StringUtilities {
+  /**
+   * Read in an entire InputStream as a UTF-8 encoded String.
+   *
+   * @throws IOException
+   */
+  def stringFromStream(is : InputStream, bufferSize : Int = 4096) : String = {
+    if (is == null)
+      return ""
 
+    val sb = new StringBuffer()
+    val buffer = new Array[Char](bufferSize)
 
-	public static String stringFromStream(InputStream is, int bufferSize) throws IOException {
-		if (is == null)
-			return "";
+    try {
+      val reader = new BufferedReader(new InputStreamReader(is, "UTF-8"), bufferSize)
+      val bytesRead = 0
 
-		StringBuffer sb = new StringBuffer();
-		char[] buffer = new char[bufferSize];
+      while ((bytesRead = reader.read(buffer)) != -1) {
+        sb.append(buffer, 0, bytesRead)
+      }
+    } finally {
+      is.close()
+    }
 
-		try {
-			Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"), bufferSize);
-			int bytesRead = 0;
+    return sb.toString()
+  }
 
-			while ((bytesRead = reader.read(buffer)) != -1) {
-				sb.append(buffer, 0, bytesRead);
-			}
-		} finally {
-			is.close();
-		}
+  def removeLeadingWhitespace(content : String) = {
+    val pattern = Pattern.compile("(?m)^([ \t]*)(.*)$")
+    val matcher = pattern.matcher(content)
 
-		return sb.toString();
-	}
+    val stripped = new StringBuilder()
 
+    while (matcher.find()) {
+      stripped.append(matcher.group(2))
+      stripped.append('\n')
+    }
 
-	public static String removeLeadingWhitespace(String content) {
-		Pattern pattern = Pattern.compile("(?m)^([ \t]*)(.*)$");
-		Matcher matcher = pattern.matcher(content);
-
-		StringBuilder stripped = new StringBuilder();
-
-		while (matcher.find()) {
-			stripped.append(matcher.group(2));
-			stripped.append('\n');
-		}
-
-		return stripped.toString().trim();
-	}
+    stripped.toString().trim()
+  }
 }

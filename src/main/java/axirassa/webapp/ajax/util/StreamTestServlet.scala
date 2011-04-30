@@ -1,36 +1,28 @@
 
-package axirassa.webapp.ajax.util;
+package axirassa.webapp.ajax.util
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Date;
+import java.io.IOException
+import java.io.PrintWriter
+import java.util.Date
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServlet
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
-public class StreamTestServlet extends HttpServlet {
-	private static final long serialVersionUID = -7813273099595566041L;
+class StreamTestServlet extends HttpServlet {
+  override def doGet(request : HttpServletRequest, response : HttpServletResponse) {
+    response.setContentType("application/json")
 
+    val writer = response.getWriter()
 
-	@Override
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.setContentType("application/json");
+    for (i <- 0 until 5) {
+      writer.printf("\"%s\"\n", new Date().toString())
+      writer.flush()
+      response.flushBuffer()
 
-		PrintWriter writer = response.getWriter();
+      Thread.sleep(1000)
+    }
 
-		for (int i = 0; i < 5; i++) {
-			writer.printf("\"%s\"\n", new Date().toString());
-			writer.flush();
-			response.flushBuffer();
-
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-
-			}
-		}
-
-		writer.close();
-	}
+    writer.close()
+  }
 }

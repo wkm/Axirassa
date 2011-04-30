@@ -1,78 +1,80 @@
 
-package axirassa.tools;
+package axirassa.tools
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.BufferedReader
+import java.io.FileInputStream
+import java.io.IOException
+import java.io.InputStreamReader
 
-import org.apache.tapestry5.ioc.annotations.Inject;
-import org.hibernate.Session;
+import org.apache.tapestry5.ioc.annotations.Inject
+import org.hibernate.Session
 
-import axirassa.dao.PingerDAO;
-import axirassa.dao.UserDAO;
-import axirassa.ioc.IocStandalone;
-import axirassa.model.PingerEntity;
-import axirassa.model.UserEntity;
+import axirassa.dao.PingerDAO
+import axirassa.dao.UserDAO
+import axirassa.ioc.IocStandalone
+import axirassa.model.PingerEntity
+import axirassa.model.UserEntity
 
-public class CreatePingersFromFile {
+object CreatePingersFromFile {
+  	def main(args : Array[String]){
+		val tool = IocStandalone.autobuild(classOf[CreatePingersFromFile])
+		tool.insert()
+	}
+}
+
+class CreatePingersFromFile {
 
 	@Inject
-	private Session database;
+	var database : Session = _ 
 
 	@Inject
-	private PingerDAO pingerDAO;
+	var pingerDAO: PingerDAO = _ 
 
 	@Inject
-	private UserDAO userDAO;
+	var userDAO : UserDAO = _ 
 
-	private String filename;
+	var filename: String = _
 
-	private String email;
+	var email : String = _ 
 
 
-	private void insert() throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	private def insert()  {
+		val br = new BufferedReader(new InputStreamReader(System.in))
 
-		System.out.println("User's primary e-mail: ");
-		email = br.readLine().trim();
+		System.out.println("User's primary e-mail: ")
+		email = br.readLine().trim()
 
-		UserEntity user = userDAO.getUserByEmail(email);
+		val user = userDAO.getUserByEmail(email)
 
-		if (user == null) {
-			System.err.println("No user with primary e-mail: " + email);
-			return;
+		if (user.isEmpty) {
+			System.err.println("No user with primary e-mail: " + email)
+			return
 		}
 
-		System.out.println("CSV containing addresses: ");
-		filename = br.readLine().trim();
+		System.out.println("CSV containing addresses: ")
+		filename = br.readLine().trim()
 
-		System.out.println("Creating pingers for user w/ ID: " + user.getId());
+		System.out.println("Creating pingers for user w/ ID: " + user.get.getId())
 
-		BufferedReader fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
-		String line = null;
+		val fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(filename)))
+		var line = null
 		while ((line = fileReader.readLine()) != null) {
 			if (line.contains(","))
-				line = line.split(",", 2)[1].trim();
+				line = line.split(",", 2)(1).trim()
 
-			line = "http://www." + line;
-			System.out.println("\t" + line);
-			PingerEntity pinger = new PingerEntity();
-			pinger.setUrl(line);
-			pinger.setUser(user);
-			pinger.setFrequency(3600);
+			line = "http://www." + line
+			println("\t" + line)
+			
+			val pinger = new PingerEntity()
+			pinger.setUrl(line)
+			pinger.setUser(user.get)
+			pinger.setFrequency(3600)
 
-			database.save(pinger);
+			database.save(pinger)
 		}
 
-		System.out.println("Commiting transaction");
-		database.getTransaction().commit();
-		System.out.println("Done.");
-	}
-
-
-	public static void main(String[] args) throws IOException {
-		CreatePingersFromFile tool = IocStandalone.autobuild(CreatePingersFromFile.class);
-		tool.insert();
+		println("Commiting transaction")
+		database.getTransaction().commit()
+		println("Done.")
 	}
 }

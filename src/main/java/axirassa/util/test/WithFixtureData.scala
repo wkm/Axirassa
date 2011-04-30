@@ -1,72 +1,53 @@
 
-package axirassa.util.test;
+package axirassa.util.test
 
-import static org.junit.Assert.assertEquals;
+import java.util.HashMap
+import org.junit.Assert.assertEquals
 
-import java.io.InputStream;
-import java.util.Map;
+import java.io.InputStream
+import java.util.Map
 
-import zanoccio.javakit.StringUtilities;
-import axirassa.util.test.exception.XmlFixtureParsingException;
+import zanoccio.javakit.StringUtilities
+import axirassa.util.test.exception.XmlFixtureParsingException
 
-public class WithFixtureData {
+object WithFixtureData {
+  val NO_FIXTURE_FILE = "<<no fixture file>>"
+  val NO_FIXTURE = "<<no fixture with that name>>"
+}
 
-	public final static String NO_FIXTURE_FILE = "<<no fixture file>>";
-	public final static String NO_FIXTURE = "<<no fixture with that name>>";
+class WithFixtureData(val classObject : Class[_] = getClass()) {
+  var fixtureMap = new HashMap[String, String]
+  loadFixture()
 
-	private final Class<? extends Object> classObject;
+  def loadFixture() {
+    val resourceName = makeFixtureResourceName
 
-	private Map<String, String> fixtureMap;
+    val stream = classObject.getResourceAsStream(resourceName)
 
+    if (stream == null)
+      return
 
-	public WithFixtureData() {
-		try {
-			this.classObject = getClass();
-			loadFixture();
-		} catch (XmlFixtureParsingException e) {
-			throw new ExceptionInInitializerError(e);
-		}
-	}
+    val parser = new XmlFixtureParser(stream)
+    fixtureMap = parser.parse()
+  }
 
+  def makeFixtureResourceName = "/"+classObject.getCanonicalName().replace(".", "/")+"_fixtures.xml"
 
-	public WithFixtureData(Class<? extends Object> classObject) throws XmlFixtureParsingException {
-		this.classObject = classObject;
-		loadFixture();
-	}
+  def getFixture(name : String) = {
+    if (fixtureMap == null)
+      WithFixtureData.NO_FIXTURE_FILE
+    else {
 
+      val fixture = fixtureMap.get(name)
 
-	public void loadFixture() throws XmlFixtureParsingException {
-		String resourceName = makeFixtureResourceName();
+      if (fixture == null)
+        WithFixtureData.NO_FIXTURE
+      else 
+        fixture
+    }
+  }
 
-		InputStream stream = classObject.getResourceAsStream(resourceName);
-
-		if (stream == null)
-			return;
-
-		XmlFixtureParser parser = new XmlFixtureParser(stream);
-		fixtureMap = parser.parse();
-	}
-
-
-	private String makeFixtureResourceName() {
-		return "/" + classObject.getCanonicalName().replace(".", "/") + "_fixtures.xml";
-	}
-
-
-	public String getFixture(String name) {
-		if (fixtureMap == null)
-			return NO_FIXTURE_FILE;
-
-		String fixture = fixtureMap.get(name);
-
-		if (fixture == null)
-			return NO_FIXTURE;
-
-		return fixture;
-	}
-
-
-	public void assertFixtureEquals(String fixture, String actual) {
-		assertEquals(getFixture(fixture), StringUtilities.removeLeadingWhitespace(actual));
-	}
+  def assertFixtureEquals(fixture : String, actual : String) {
+    assertEquals(getFixture(fixture), StringUtilities.removeLeadingWhitespace(actual))
+  }
 }

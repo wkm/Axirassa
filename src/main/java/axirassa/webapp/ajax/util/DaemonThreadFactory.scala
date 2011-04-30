@@ -1,13 +1,12 @@
 
-package axirassa.webapp.ajax.util;
+package axirassa.webapp.ajax.util
 
-import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadFactory
 
-public class DaemonThreadFactory implements ThreadFactory {
-	@Override
-	public Thread newThread(Runnable r) {
-		Thread t = new Thread(r);
-		t.setDaemon(true);
-		return t;
-	}
+class DaemonThreadFactory extends ThreadFactory {
+  override def newThread(r : Runnable) : Thread = {
+    val thread = new Thread(r)
+    thread.setDaemon(true)
+    thread
+  }
 }

@@ -1,79 +1,64 @@
 
-package axirassa.util;
+package axirassa.util
 
-import java.util.HashSet;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.HashSet
+import java.util.concurrent.ScheduledThreadPoolExecutor
+import java.util.concurrent.TimeUnit
 
-import org.hornetq.api.core.TransportConfiguration;
-import org.hornetq.core.config.impl.FileConfiguration;
-import org.hornetq.core.remoting.impl.invm.InVMAcceptorFactory;
-import org.hornetq.core.remoting.impl.netty.NettyAcceptorFactory;
-import org.hornetq.core.server.HornetQServer;
-import org.hornetq.core.server.HornetQServers;
-import org.hornetq.core.server.JournalType;
+import org.hornetq.api.core.TransportConfiguration
+import org.hornetq.core.config.impl.FileConfiguration
+import org.hornetq.core.remoting.impl.invm.InVMAcceptorFactory
+import org.hornetq.core.remoting.impl.netty.NettyAcceptorFactory
+import org.hornetq.core.server.HornetQServer
+import org.hornetq.core.server.HornetQServers
+import org.hornetq.core.server.JournalType
 
 /**
  * Starts HornetQ as an embedded messaging server.
- * 
+ *
  * @author wiktor
  */
-public class EmbeddedMessagingServer {
-	private static HornetQServer server;
+object EmbeddedMessagingServer {
+  var server : HornetQServer = null
+  def start() {
+    val config = new FileConfiguration()
 
+    config.setConfigurationUrl("hornetq-configuration.xml")
 
-	static public void start () throws Exception {
-		FileConfiguration config = new FileConfiguration();
+    val transports = new HashSet[TransportConfiguration]
+    transports.add(new TransportConfiguration(classOf[NettyAcceptorFactory].getName()))
+    transports.add(new TransportConfiguration(classOf[InVMAcceptorFactory].getName()))
 
-		config.setConfigurationUrl("hornetq-configuration.xml");
+    config.setJournalType(JournalType.NIO)
+    config.setAcceptorConfigurations(transports)
+    config.setSecurityEnabled(false)
 
-		HashSet<TransportConfiguration> transports = new HashSet<TransportConfiguration>();
-		transports.add(new TransportConfiguration(NettyAcceptorFactory.class.getName()));
-		transports.add(new TransportConfiguration(InVMAcceptorFactory.class.getName()));
+    config.start()
 
-		config.setJournalType(JournalType.NIO);
-		config.setAcceptorConfigurations(transports);
-		config.setSecurityEnabled(false);
+    server = HornetQServers.newHornetQServer(config)
+    server.start()
 
-		config.start();
+    println("Axirassa Embedded HornetQ server started.")
 
-		server = HornetQServers.newHornetQServer(config);
-		server.start();
+    val lister = new ServerQueueLister(server)
+    val executor = new ScheduledThreadPoolExecutor(1)
+    executor.scheduleAtFixedRate(lister, 1, 1, TimeUnit.MINUTES)
+  }
 
-		System.out.println("Axirassa Embedded HornetQ server started.");
+  def stop() {
+    server.stop()
+  }
 
-		ServerQueueLister lister = new ServerQueueLister(server);
-
-		ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
-		executor.scheduleAtFixedRate(lister, 1, 1, TimeUnit.MINUTES);
-	}
-
-
-	static public void stop () throws Exception {
-		server.stop();
-	}
-
-
-	static public void main (String[] args) throws Exception {
-		start();
-	}
+  def main(args : Array[String]) {
+    start()
+  }
 }
 
-class ServerQueueLister implements Runnable {
-
-	private final HornetQServer server;
-
-
-	public ServerQueueLister (final HornetQServer server) {
-		this.server = server;
-	}
-
-
-	@Override
-	public void run () {
-		String[] queues = server.getHornetQServerControl().getQueueNames();
-		System.out.println("QUEUES:");
-		for (String queue : queues)
-			System.out.println("\t" + queue);
-	}
+class ServerQueueLister(val server : HornetQServer) extends Runnable {
+  override def run() {
+    val queues = server.getHornetQServerControl().getQueueNames()
+    println("QUEUES:")
+    for (queue <- queues)
+      println("\t"+queue)
+  }
 }

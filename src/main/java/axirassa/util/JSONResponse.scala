@@ -1,86 +1,64 @@
 
-package axirassa.util;
+package axirassa.util
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.zip.GZIPOutputStream;
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.UnsupportedEncodingException
+import java.util.zip.GZIPOutputStream
 
-import org.apache.tapestry5.StreamResponse;
-import org.apache.tapestry5.json.JSONCollection;
-import org.apache.tapestry5.services.Response;
+import org.apache.tapestry5.StreamResponse
+import org.apache.tapestry5.json.JSONCollection
+import org.apache.tapestry5.services.Response
 
 /**
  * Based on:
  * http://tapestry.1045711.n5.nabble.com/JSON-GZip-compression-td2845041.html
  * http://tapestry.1045711.n5.nabble.com/T5-2-Tapestry-IoC-Configuration-remove-
  * td2840319.html
- * 
+ *
  * @author wiktor
  */
-public class JSONResponse implements StreamResponse {
+object JSONResponse {
+  val CHARSET = "UTF-8"
+  val MIN_DATA_SIZE = 512
+}
 
-	private static final String CHARSET = "UTF-8";
-	private static final int MIN_DATA_SIZE = 512;
+class JSONResponse(json : JSONCollection) extends StreamResponse {
 
-	private byte[] data;
-	private byte[] dataForSending;
-	private boolean isCompressable;
+  val data = json.toCompactString().getBytes(CHARSET)
+  var isCompressable = false
+  if (data.length >= MIN_DATA_SIZE)
+    isCompressable = true
 
+  if (!isCompressable) {
+    val dataForSending = data
+  }
 
-	public JSONResponse (JSONCollection json) throws IOException {
-		try {
-			data = json.toCompactString().getBytes(CHARSET);
+  compressData()
+  data = null
 
-			if (data.length >= MIN_DATA_SIZE)
-				isCompressable = true;
-			else
-				isCompressable = false;
+  private def compressData() {
+    val outStream = new ByteArrayOutputStream(data.length)
+    val gzip = new GZIPOutputStream(outStream)
+    gzip.write(data)
+    gzip.close()
 
-			if (!isCompressable) {
-				dataForSending = data;
-				return;
-			}
+    dataForSending = outStream.toByteArray()
+  }
 
-			compressData();
-			data = null;
+  override def getContentType = "application/json charset="+CHARSET
 
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace(System.err);
-		}
-	}
+  override def getStream() {
+    return new ByteArrayInputStream(dataForSending)
+  }
 
-
-	private void compressData () throws IOException {
-		ByteArrayOutputStream outStream = new ByteArrayOutputStream(data.length);
-		GZIPOutputStream gzip = new GZIPOutputStream(outStream);
-		gzip.write(data);
-		gzip.close();
-
-		dataForSending = outStream.toByteArray();
-	}
-
-
-	@Override
-	public String getContentType () {
-		return "application/json; charset=" + CHARSET;
-	}
-
-
-	@Override
-	public InputStream getStream () throws IOException {
-		return new ByteArrayInputStream(dataForSending);
-	}
-
-
-	@Override
-	public void prepareResponse (Response response) {
-		System.out.println("PREPARED RESPONSE W/ GZIP LENGTH: " + dataForSending.length);
-		if (isCompressable) {
-			response.setHeader("Content-Encoding", "gzip");
-			response.setIntHeader("Content-Length", dataForSending.length);
-		}
-	}
+  override def prepareResponse(response : Response) {
+    println("PREPARED RESPONSE W/ GZIP LENGTH: "+dataForSending.length)
+    if (isCompressable) {
+      response.setHeader("Content-Encoding", "gzip")
+      response.setIntHeader("Content-Length", dataForSending.length)
+    }
+  }
 }

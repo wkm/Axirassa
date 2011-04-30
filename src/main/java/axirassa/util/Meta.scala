@@ -4,116 +4,114 @@ package axirassa.util;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 
-public class Meta {
-	public static HashSet<Class<? extends Object>> primitives = new HashSet<Class<? extends Object>>();
-	static {
-		primitives.add(Long.class);
-		primitives.add(Integer.class);
-		primitives.add(String.class);
-		primitives.add(Boolean.class);
-	}
+object Meta {
+  private val primitives = new HashSet[Class[AnyRef]]
 
+  primitives << classOf[Long]
+  primitives << classOf[Int]
+  primitives << classOf[String]
+  primitives << classOf[Boolean]
 
-	public static void inspect (Object obj) {
-		StringBuilder buff = new StringBuilder();
-		inspect(obj, 0, new HashSet<Object>(), buff);
+  def inspect(obj : AnyRef) {
+    val sb = new StringBuilder
+    inspect(obj, 0, new HashSet[AnyRef], sb)
 
-		System.out.println(buff.toString());
-	}
+    println(sb.toString())
+  }
 
+  private def inspect(obj : AnyRef, indentlevel : Int, displayed : HashSet[AnyRef], buff : StringBuilder) {
+    if (obj == null) {
+      indent(buff, indentlevel);
+      buff.append("null");
+      return ;
+    }
 
-	private static void inspect (Object obj, int indentlevel, HashSet<Object> displayed, StringBuilder buff) {
-		if (obj == null) {
-			indent(buff, indentlevel);
-			buff.append("null");
-			return;
-		}
+    val classObject = obj.getClass();
+    if (primitives.contains(classObject)) {
+      if (classObject == classOf[String]) {
+        buff.append("\"");
+        buff.append(obj);
+        buff.append("\"");
+      } else
+        buff.append(obj);
 
-		Class<? extends Object> classObject = obj.getClass();
-		if (primitives.contains(classObject)) {
-			if (classObject == String.class) {
-				buff.append("\"");
-				buff.append(obj);
-				buff.append("\"");
-			} else
-				buff.append(obj);
+      buff.append(' ');
+      buff.append('(');
+      buff.append(classObject.getCanonicalName()).append('@');
+      buff.append(Integer.toHexString(obj.hashCode()));
+      buff.append(')');
 
-			buff.append(' ');
-			buff.append('(');
-			buff.append(classObject.getCanonicalName()).append('@');
-			buff.append(Integer.toHexString(obj.hashCode()));
-			buff.append(')');
+      return ;
+    }
 
-			return;
-		}
+    val fields = classObject.getDeclaredFields();
 
-		Field[] fields = classObject.getDeclaredFields();
+    buff.append(classObject.getCanonicalName());
+    buff.append('@');
+    buff.append(Integer.toHexString(obj.hashCode()));
 
-		buff.append(classObject.getCanonicalName());
-		buff.append('@');
-		buff.append(Integer.toHexString(obj.hashCode()));
+    if (displayed.contains(obj))
+      return ;
 
-		if (displayed.contains(obj))
-			return;
+    if (classObject.isArray()) {
+      val array = obj.asInstanceOf[Array[AnyRef]]
 
-		if (classObject.isArray()) {
-			Object[] array = (Object[]) obj;
+      buff.append('[');
+      for (obj <- array) {
+        buff.append('\n');
+        inspect(obj, indentlevel + 1, displayed, buff);
+      }
 
-			buff.append('[');
-			for (Object object : array) {
-				buff.append('\n');
-				inspect(object, indentlevel + 1, displayed, buff);
-			}
+      if (array.length > 0) {
+        buff.append('\n');
+        indent(buff, indentlevel);
+      }
+      buff.append(']');
+    }
 
-			if (array.length > 0) {
-				buff.append('\n');
-				indent(buff, indentlevel);
-			}
-			buff.append(']');
-		}
+    if (fields.length > 0) {
+      displayed.add(obj);
 
-		if (fields.length > 0) {
-			displayed.add(obj);
+      buff.append("{");
 
-			buff.append("{");
+      for (i <- 0 until fields.length) {
+        buff.append('\n');
+        indent(buff, indentlevel + 1);
+        try {
+          boolean previousaccessibility = fields[i].isAccessible();
 
-			for (int i = 0; i < fields.length; i++) {
-				buff.append('\n');
-				indent(buff, indentlevel + 1);
-				try {
-					boolean previousaccessibility = fields[i].isAccessible();
+          if (previousaccessibility == false)
+            buff.append("      ");
+          else
+            buff.append("[pub] ");
 
-					if (previousaccessibility == false)
-						buff.append("      ");
-					else
-						buff.append("[pub] ");
+          buff.append(fields[i].getName());
+          buff.append(" = ");
 
-					buff.append(fields[i].getName());
-					buff.append(" = ");
+          fields[i].setAccessible(true);
 
-					fields[i].setAccessible(true);
+          inspect(fields[i].get(obj), indentlevel + 1, displayed, buff);
 
-					inspect(fields[i].get(obj), indentlevel + 1, displayed, buff);
+          fields[i].setAccessible(previousaccessibility);
+        } catch {
+          case e : Exception =>
+            buff.append("<exception: "+e.getClass().getCanonicalName()+">");
+        }
+      }
 
-					fields[i].setAccessible(previousaccessibility);
-				} catch (Exception e) {
-					buff.append("<exception: " + e.getClass().getCanonicalName() + ">");
-				}
-			}
+      if (fields.length > 0) {
+        buff.append('\n');
+        indent(buff, indentlevel);
+      }
 
-			if (fields.length > 0) {
-				buff.append('\n');
-				indent(buff, indentlevel);
-			}
+      buff.append("}");
 
-			buff.append("}");
+    }
+  }
 
-		}
-	}
-
-
-	private static void indent (StringBuilder buff, int level) {
-		for (int i = 0; i < level; i++)
-			buff.append("  ");
-	}
+  private def indent(sb : StringBuilder, level : Int) {
+    for (i <- 0 until level) {
+      sb.append("  ")
+    }
+  }
 }

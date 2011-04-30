@@ -1,42 +1,33 @@
 
-package axirassa.util;
+package axirassa.util
 
-import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.Security;
+import java.io.Serializable
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+import java.security.Security
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 
-public class MessageDigestProvider implements Serializable {
-	private static final long serialVersionUID = -6652194924404625896L;
-	private static boolean initialized = false;
-
-
-	public static byte[] salt() {
-		return Long.toBinaryString(serialVersionUID).getBytes();
+object MessageDigestProvider {
+	private val serialVersionUID = -6652194924404625896L
+	
+	def salt = Long.toBinaryString(serialVersionUID).getBytes
+	
+	def generate() = {
+	  initialize()
+	  MessageDigest.getInstance("SHA512")
 	}
-
-
-	public static MessageDigest generate() {
-		initialize();
-
-		try {
-			MessageDigest msgdigest;
-			msgdigest = MessageDigest.getInstance("SHA512");
-			return msgdigest;
-		} catch (NoSuchAlgorithmException e) {
-			throw new ExceptionInInitializerError(e);
-		}
+	
+	def initialize() = {
+	  Security.addProvider(new BouncyCastleProvider())
 	}
-
-
+	
 	public static void initialize() {
 		if (initialized)
-			return;
+			return
 
-		Security.addProvider(new BouncyCastleProvider());
-		initialized = true;
+		Security.addProvider(new BouncyCastleProvider())
+		initialized = true
 	}
 
 }

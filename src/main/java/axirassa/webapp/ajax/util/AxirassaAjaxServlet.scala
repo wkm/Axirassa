@@ -20,93 +20,71 @@ import axirassa.webapp.ajax.PingerStreamingService;
 import axirassa.webapp.ajax.TimeService;
 import axirassa.webapp.ajax.httpstream.HttpStreamingTransport;
 
-public class AxirassaAjaxServlet extends CometdServlet {
-	private static final long serialVersionUID = -4248590754241578096L;
+class AxirassaAjaxServlet extends CometdServlet {
+  @Override
+  def init() {
+    super.init();
 
+    new Monitor(getBayeux());
+    try {
+      new TimeService(getBayeux());
+      new PingerStreamingService(getBayeux());
+    } catch {
+      case e : InterruptedException =>
+        e.printStackTrace();
+    }
 
-	public AxirassaAjaxServlet () {
-		super();
-	}
+    System.err.println(getBayeux().dump());
+    System.err.println(getBayeux().getCurrentTransport());
+  }
 
+  @Override
+  protected def newBayeuxServer() = {
+    val server = new BayeuxServerImpl();
 
-	@Override
-	public void init () throws ServletException {
-		super.init();
+    server.addTransport(new HttpStreamingTransport(server, HttpStreamingTransport.PREFIX));
 
-		new Monitor(getBayeux());
-		try {
-			new TimeService(getBayeux());
-			new PingerStreamingService(getBayeux());
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+    val allowedTransports = new ArrayList[String](server.getAllowedTransports());
+    allowedTransports.add(0, HttpStreamingTransport.PREFIX);
+    server.setAllowedTransports(allowedTransports);
 
-		System.err.println(getBayeux().dump());
-		System.err.println(getBayeux().getCurrentTransport());
-	}
+    server;
+  }
 
+  @Override
+  protected def service(request : HttpServletRequest, response : HttpServletResponse) {
+    try {
+      super.service(request, response);
+    } catch {
+      case e : IllegalStateException =>
+        System.err.println("IGNORING EXCEPTION:");
+        e.printStackTrace();
+    }
+  }
 
-	@Override
-	protected BayeuxServerImpl newBayeuxServer () {
-		BayeuxServerImpl server = new BayeuxServerImpl();
+  class Monitor(server : BayeuxServer) extends AbstractService(server, "monitor") {
+    addService("/meta/subscribe", "monitorSubscribe");
+    addService("/meta/unsubscribe", "monitorUnsubscribe");
+    addService("/meta/*", "monitorMeta");
 
-		server.addTransport(new HttpStreamingTransport(server, HttpStreamingTransport.PREFIX));
+    addService("/*", "monitorAll");
 
-		ArrayList<String> allowedTransports = new ArrayList<String>(server.getAllowedTransports());
-		allowedTransports.add(0, HttpStreamingTransport.PREFIX);
-		server.setAllowedTransports(allowedTransports);
+    def monitorSubscribe(session : ServerSession, message : ServerMessage) {
+      System.out.println("AXMONITOR Subscribe from "+session+" for "+message.get(Message.SUBSCRIPTION_FIELD));
+    }
 
-		return server;
-	}
+    def monitorUnsubscribe(session : ServerSession, message : ServerMessage) {
+      System.out.println("AXMONITOR Unsubscribe from "+session+" for "+message.get(Message.SUBSCRIPTION_FIELD));
+    }
 
+    def monitorMeta(session : ServerSession, message : ServerMessage) {
+      // if (Log.isDebugEnabled())
+      System.out.println("AXMONITOR META: "+message.toString());
+      System.out.println("AXMONITOR DATA: "+message.getDataAsMap());
+    }
 
-	@Override
-	protected void service (HttpServletRequest request, HttpServletResponse response) throws ServletException,
-	        IOException {
-		try {
-			super.service(request, response);
-		} catch (IllegalStateException e) {
-			System.err.println("IGNORING EXCEPTION:");
-			e.printStackTrace();
-		}
-	}
-
-
-
-
-
-	public static class Monitor extends AbstractService {
-		public Monitor (BayeuxServer server) {
-			super(server, "monitor");
-			addService("/meta/subscribe", "monitorSubscribe");
-			addService("/meta/unsubscribe", "monitorUnsubscribe");
-			addService("/meta/*", "monitorMeta");
-
-			addService("/*", "monitorAll");
-		}
-
-
-		public void monitorSubscribe (ServerSession session, ServerMessage message) {
-			System.out.println("AXMONITOR Subscribe from " + session + " for "
-			        + message.get(Message.SUBSCRIPTION_FIELD));
-		}
-
-
-		public void monitorUnsubscribe (ServerSession session, ServerMessage message) {
-			System.out.println("AXMONITOR Unsubscribe from " + session + " for "
-			        + message.get(Message.SUBSCRIPTION_FIELD));
-		}
-
-
-		public void monitorMeta (ServerSession session, ServerMessage message) {
-			// if (Log.isDebugEnabled())
-			System.out.println("AXMONITOR META: " + message.toString());
-			System.out.println("AXMONITOR DATA: " + message.getDataAsMap());
-		}
-
-
-		public void monitorAll (ServerSession session, ServerMessage message) {
-			System.out.println("AXMONITOR BLAST: " + message.toString());
-		}
-	}
+    def monitorAll(session : ServerSession, message : ServerMessage) {
+      System.out.println("AXMONITOR BLAST: "+message.toString());
+    }
+  }
 }

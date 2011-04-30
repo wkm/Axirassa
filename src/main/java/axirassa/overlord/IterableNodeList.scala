@@ -21,26 +21,26 @@ import org.w3c.dom.NodeList
  * @author wiktor
  */
 class IterableNodeList(nodelist : NodeList) extends Iterable[Node] {
-	override def iterator() : Iterator[Node] = new NodeListIterator(nodelist)
+  override def iterator() : Iterator[Node] = new NodeListIterator(nodelist)
 }
 
 class NodeListIterator(nodelist : NodeList) extends Iterator[Node] {
-	private var index = 0
+  private var index = 0
 
-	override def hasNext() = {
-		if (index < nodelist.getLength())
-			true
-		else
-			false
-	}
+  override def hasNext() = {
+    if (index < nodelist.getLength())
+      true
+    else
+      false
+  }
 
-	override def next() = {
-		index += 1
-		nodelist.item(index - 1)
-	}
+  override def next() = {
+    index += 1
+    nodelist.item(index - 1)
+  }
 
-	override def remove() {
-		throw new UnsupportedOperationException()
-	}
+  override def remove() {
+    throw new UnsupportedOperationException()
+  }
 
 }
