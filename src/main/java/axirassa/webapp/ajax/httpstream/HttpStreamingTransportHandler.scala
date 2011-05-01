@@ -65,7 +65,7 @@ class HttpStreamingTransportHandler(
       handleNewSession()
     } else {
       info("HANDLING RESUME")
-      if (!(schedulerAttribute instanceof HttpStreamingScheduler)) {
+      if (!schedulerAttribute.isInstanceOf[HttpStreamingScheduler]) {
         info("DANGER DANGER: scheduler attribute not a HttpStreamingScheduler")
         return
       }
@@ -79,14 +79,14 @@ class HttpStreamingTransportHandler(
         return
       } else {
         if (tick.isInstanceOf[Long])
-          requestStartTick = (Long) tick
+          requestStartTick = tick.asInstanceOf[Long]
         else {
           info("REQUEST TICK OF WRONG TYPE")
           requestStartTick = 0
         }
       }
 
-      val scheduler = (HttpStreamingScheduler) schedulerAttribute
+      val scheduler = schedulerAttribute.asInstanceOf[HttpStreamingScheduler]
         handleResumedSession(scheduler)
     }
   }
@@ -176,7 +176,7 @@ class HttpStreamingTransportHandler(
 
     if (timeout > 0) {
       val continuation = ContinuationSupport.getContinuation(request)
-      continuation.setTimeout(timeout + JETTY_TIMEOUT_BUFFER)
+      continuation.setTimeout(timeout + HttpStreamingTransportHandler.JETTY_TIMEOUT_BUFFER)
 
       var scheduler = serverSession.getAttribute("SCHEDULER").asInstanceOf[HttpStreamingScheduler]
       if (scheduler == null) {

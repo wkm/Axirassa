@@ -26,10 +26,10 @@ object JSONResponse {
 }
 
 class JSONResponse(json : JSONCollection) extends StreamResponse {
-
-  val data = json.toCompactString().getBytes(CHARSET)
+  var dataForSending : Array[Byte] = _
+  var data = json.toCompactString().getBytes(JSONResponse.CHARSET)
   var isCompressable = false
-  if (data.length >= MIN_DATA_SIZE)
+  if (data.length >= JSONResponse.MIN_DATA_SIZE)
     isCompressable = true
 
   if (!isCompressable) {
@@ -48,7 +48,7 @@ class JSONResponse(json : JSONCollection) extends StreamResponse {
     dataForSending = outStream.toByteArray()
   }
 
-  override def getContentType = "application/json charset="+CHARSET
+  override def getContentType = "application/json charset="+JSONResponse.CHARSET
 
   override def getStream() {
     return new ByteArrayInputStream(dataForSending)

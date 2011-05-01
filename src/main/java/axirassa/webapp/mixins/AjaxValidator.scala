@@ -1,42 +1,41 @@
 
-package axirassa.webapp.mixins;
+package axirassa.webapp.mixins
 
-import org.apache.tapestry5.ClientElement;
-import org.apache.tapestry5.ComponentResources;
-import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.Import;
-import org.apache.tapestry5.annotations.InjectContainer;
-import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.services.javascript.JavaScriptSupport;
-import org.hornetq.utils.json.JSONException;
-import org.hornetq.utils.json.JSONObject;
+import org.apache.tapestry5.ClientElement
+import org.apache.tapestry5.ComponentResources
+import org.apache.tapestry5.annotations.Environmental
+import org.apache.tapestry5.annotations.Import
+import org.apache.tapestry5.annotations.InjectContainer
+import org.apache.tapestry5.ioc.annotations.Inject
+import org.apache.tapestry5.services.javascript.JavaScriptSupport
+import org.hornetq.utils.json.JSONException
+import org.hornetq.utils.json.JSONObject
 
 /**
  * Based on: http://jumpstart.doublenegative.com.au/jumpstart/examples/input/
  * ajaxvalidators1
- * 
+ *
  * @author wiktor
  */
-@Import(library = { "context:/js/ax_ajaxvalidator.js" })
-public class AjaxValidator {
-	@Inject
-	private ComponentResources resources;
+@Import(library = Array("context:/js/ax_ajaxvalidator.js"))
+class AjaxValidator {
+  @Inject
+  var resources : ComponentResources = _
 
-	@Environmental
-	private JavaScriptSupport jssupport;
+  @Environmental
+  var jssupport : JavaScriptSupport = _
 
-	@InjectContainer
-	private ClientElement element;
+  @InjectContainer
+  var element : ClientElement = _
 
+  def afterRender() {
+    val listenerURI = resources.createEventLink("ajaxValidate").toAbsoluteURI()
+    val elementId = element.getClientId()
 
-	void afterRender() throws JSONException {
-		String listenerURI = resources.createEventLink("ajaxValidate").toAbsoluteURI();
-		String elementId = element.getClientId();
+    val spec = new JSONObject()
+    spec.put("uri", listenerURI)
+    spec.put("elementId", elementId)
 
-		JSONObject spec = new JSONObject();
-		spec.put("uri", listenerURI);
-		spec.put("elementId", elementId);
-
-		jssupport.addScript("new AjaxValidator(%s);", spec.toString());
-	}
+    jssupport.addScript("new AjaxValidator(%s)", spec.toString())
+  }
 }

@@ -1,7 +1,9 @@
 
-package axirassa.webapp.data;
+package axirassa.webapp.data
 
-public enum AxButtonStyle {
-	DEFAULT,
-	DARK;
+object AxButtonStyle extends Enumeration {
+  type AxButtonStyle = Value
+
+  val Default = VALUE("Default")
+  val Dark = VALUE("Dark")
 }

@@ -5,12 +5,12 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 
 object Meta {
-  private val primitives = new HashSet[Class[AnyRef]]
+  private val primitives = new HashSet[Class[_]]
 
-  primitives << classOf[Long]
-  primitives << classOf[Int]
-  primitives << classOf[String]
-  primitives << classOf[Boolean]
+  primitives.add(classOf[Long])
+  primitives.add(classOf[Int])
+  primitives.add(classOf[String])
+  primitives.add(classOf[Boolean])
 
   def inspect(obj : AnyRef) {
     val sb = new StringBuilder
@@ -78,21 +78,21 @@ object Meta {
         buff.append('\n');
         indent(buff, indentlevel + 1);
         try {
-          boolean previousaccessibility = fields[i].isAccessible();
+          val previousaccessibility = fields(i).isAccessible();
 
           if (previousaccessibility == false)
             buff.append("      ");
           else
             buff.append("[pub] ");
 
-          buff.append(fields[i].getName());
+          buff.append(fields(i).getName());
           buff.append(" = ");
 
-          fields[i].setAccessible(true);
+          fields(i).setAccessible(true);
 
-          inspect(fields[i].get(obj), indentlevel + 1, displayed, buff);
+          inspect(fields(i).get(obj), indentlevel + 1, displayed, buff);
 
-          fields[i].setAccessible(previousaccessibility);
+          fields(i).setAccessible(previousaccessibility);
         } catch {
           case e : Exception =>
             buff.append("<exception: "+e.getClass().getCanonicalName()+">");

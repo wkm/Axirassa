@@ -1,55 +1,45 @@
 
-package axirassa.webapp.mixins;
+package axirassa.webapp.mixins
 
-import lombok.Getter;
-import lombok.Setter;
+import scala.reflect.BeanProperty
 
-import org.apache.tapestry5.BindingConstants;
-import org.apache.tapestry5.MarkupWriter;
-import org.apache.tapestry5.annotations.Import;
-import org.apache.tapestry5.annotations.MixinAfter;
-import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.BindingConstants
+import org.apache.tapestry5.MarkupWriter
+import org.apache.tapestry5.annotations.Import
+import org.apache.tapestry5.annotations.MixinAfter
+import org.apache.tapestry5.annotations.Parameter
 
-import axirassa.webapp.data.AxButtonStyle;
+import axirassa.webapp.data.AxButtonStyle
 
-@Import(stylesheet = { "context:/css/axbutton.css" })
+@Import(stylesheet = Array("context:/css/axbutton.css"))
 @MixinAfter
-public class AxButton {
+class AxButton {
 
-	@Getter
-	@Setter
-	private boolean tight;
+  @BeanProperty
+  var tight : Boolean = _
 
-	@Parameter(value = "default", defaultPrefix=BindingConstants.LITERAL)
-	@Getter 
-	@Setter
-	private AxButtonStyle styling;
+  @Parameter(value = "default", defaultPrefix = BindingConstants.LITERAL)
+  var styling : AxButtonStyle = _
 
+  def beginRender(writer : MarkupWriter) {
+    val sb = new StringBuilder("button")
 
-	void beginRender (MarkupWriter writer) {
-		StringBuilder sb = new StringBuilder("button");
-		
-		if(tight) {
-			System.out.println("TIGHT");
-			sb.append(" axbtight");
-		}
-		
-		switch(styling) {
-		case DEFAULT:
-			break;
-			
-		case DARK:
-			sb.append(" axbdark");
-			break;
-		}
-		
-		writer.element("div", "class", sb.toString());
-		writer.element("div", "class", "innerbutton");
-	}
+    if (tight) {
+      System.out.println("TIGHT")
+      sb.append(" axbtight")
+    }
 
+    styling match {
+      case AxButtonStyle.Default =>
+      case AxButtonStyle.Dark => sb.append(" axbdark")
+    }
 
-	void afterRender (MarkupWriter writer) {
-		writer.end(); // innerbutton
-		writer.end(); // button
-	}
+    writer.element("div", "class", sb.toString())
+    writer.element("div", "class", "innerbutton")
+  }
+
+  def afterRender(writer : MarkupWriter) {
+    writer.end() // innerbutton
+    writer.end() // button
+  }
 }

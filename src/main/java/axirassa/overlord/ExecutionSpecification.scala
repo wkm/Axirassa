@@ -21,7 +21,7 @@ class ExecutionSpecification(
 		}
 
 		for (i <- 0 until instances) {
-			val execId = configuration.getOverlord().getNextExecID()
+			val execId = configuration.overlord.getNextExecID()
 			printf("  %s %d -- %s\n", target.getName(), execId, target.getTargetClass().getCanonicalName())
 			executeInstance(execId)
 		}
@@ -46,7 +46,7 @@ class ExecutionSpecification(
 
 		// set the library path, if applicable
 		if (target.getOptions().needsLibraries()) {
-			val libprovider = configuration.getOverlord().getNativeLibraryProvider()
+			val libprovider = configuration.overlord.getNativeLibraryProvider()
 
 			val path = libprovider.getLibraryPath()
 			if (path != null)
@@ -64,13 +64,13 @@ class ExecutionSpecification(
 		monitor.remainingRestarts = -1
 
 		val thread = new Thread(monitor, "overlord-monitor "+target+"["+id+"]")
-		configuration.getOverlord().addExecutionInstance(thread, monitor)
+		configuration.overlord.addExecutionInstance(thread, monitor)
 		thread.start()
 	}
 
 	private def provideLibraries() {
 		val libraries = target.getOptions().getLibraries()
-		val libprovider = configuration.getOverlord().getNativeLibraryProvider()
+		val libprovider = configuration.overlord.getNativeLibraryProvider()
 
 		libraries.map(library => libprovider.provideLibrary(library))
 	}
