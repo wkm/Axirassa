@@ -25,100 +25,100 @@ import scala.collection.JavaConversions._
  *
  */
 object Overlord {
-	val CONFIGURATION_FILE = "axoverlord.cfg.xml"
+  val CONFIGURATION_FILE = "axoverlord.cfg.xml"
 
-	def main(arg : Array[String]) {
-		val overlord = new Overlord()
-		overlord.addShutdownHooks()
+  def main(arg : Array[String]) {
+    val overlord = new Overlord()
+    overlord.addShutdownHooks()
 
-		if (arg.length <= 0)
-			overlord.execute(Array("master"))
-		else
-			overlord.execute(arg)
-	}
+    if (arg.length <= 0)
+      overlord.execute(Array("master"))
+    else
+      overlord.execute(arg)
+  }
 
-	var execId = 0
+  var execId = 0
 
-	def getNextExecID() = {
-		synchronized {
-			execId += 1
-			execId
-		}
-	}
+  def getNextExecID() = {
+    synchronized {
+      execId += 1
+      execId
+    }
+  }
 }
 
 class Overlord {
-	val logger = LoggerFactory.getLogger(classOf[Overlord])
+  val logger = LoggerFactory.getLogger(classOf[Overlord])
 
-	//
-	// Class Instances
-	//
+  //
+  // Class Instances
+  //
 
-	var configuration : OverlordConfiguration = _
-	var instances = new ArrayList[ExecutionInstance]
-	var libraryProvider = new NativeLibraryProvider
+  var configuration : OverlordConfiguration = _
+  var instances = new ArrayList[ExecutionInstance]
+  var libraryProvider = new NativeLibraryProvider
 
-	def execute(parameters : Array[String]) {
-		val systemsupport = OverlordSystemSupport.getSystemSupport
+  def execute(parameters : Array[String]) {
+    val systemsupport = OverlordSystemSupport.getSystemSupport
 
-		val configfile = ClassLoader.getSystemResource(Overlord.CONFIGURATION_FILE)
-		if (configfile == null)
-			throw new NoOverlordConfigurationException(Overlord.CONFIGURATION_FILE)
-		val configstream = ClassLoader.getSystemResourceAsStream(Overlord.CONFIGURATION_FILE)
+    val configfile = ClassLoader.getSystemResource(Overlord.CONFIGURATION_FILE)
+    if (configfile == null)
+      throw new NoOverlordConfigurationException(Overlord.CONFIGURATION_FILE)
+    val configstream = ClassLoader.getSystemResourceAsStream(Overlord.CONFIGURATION_FILE)
 
-		configuration = new OverlordConfiguration(this)
-		configuration.javaExecutable = systemsupport.javaExecutable
+    configuration = new OverlordConfiguration(this)
+    configuration.javaExecutable = systemsupport.javaExecutable
 
-		val configparser = new XMLConfigurationParser(configfile, configstream, configuration)
-		configparser.parse()
+    val configparser = new XMLConfigurationParser(configfile, configstream, configuration)
+    configparser.parse()
 
-		val groups = new ArrayList[ExecutionGroup]()
+    val groups = new ArrayList[ExecutionGroup]()
 
-		for (groupname <- parameters) {
-			var group : ExecutionGroup = null
-			if (groupname.matches("t:.*")) {
-				val targetName = groupname.substring(2)
+    for (groupname <- parameters) {
+      var group : ExecutionGroup = null
+      if (groupname.matches("t:.*")) {
+        val targetName = groupname.substring(2)
 
-				val target = configuration.getExecutionTarget(targetName)
-				if (target == null)
-					throw new UnknownExecutionTargetException(targetName, null)
+        val target = configuration.getExecutionTarget(targetName)
+        if (target == null)
+          throw new UnknownExecutionTargetException(targetName, null)
 
-				val spec = new ExecutionSpecification(configuration, target)
-				spec.instances = 1
+        val spec = new ExecutionSpecification(configuration, target)
+        spec.instances = 1
 
-				group = new ExecutionGroup("target_"+targetName)
-				group.addExecutionSpecification(spec)
-			} else {
-				group = configuration.getExecutionGroup(groupname)
-			}
+        group = new ExecutionGroup("target_"+targetName)
+        group.addExecutionSpecification(spec)
+      } else {
+        group = configuration.getExecutionGroup(groupname)
+      }
 
-			if (group != null)
-				groups.add(group)
-			else {
-				logger.error("Unknown Execution Group: {}", group)
-				return
-			}
-		}
+      if (group != null)
+        groups.add(group)
+      else {
+        logger.error("Unknown Execution Group: {}", group)
+        return
+      }
+    }
 
-		for (group <- groups)
-			group.execute()
-	}
+    for (group <- groups)
+      group.execute()
+  }
 
-	def addShutdownHooks() {
-		Runtime.getRuntime().addShutdownHook(new OverlordDynamicShutdownHook(this))
-	}
+  def addShutdownHooks() {
+    Runtime.getRuntime().addShutdownHook(new OverlordDynamicShutdownHook(this))
+  }
 
-	def addExecutionInstance(thread : Thread, monitor : ExecutionMonitor) {
-		instances.add(new ExecutionInstance(thread, monitor))
-	}
+  def addExecutionInstance(thread : Thread, monitor : ExecutionMonitor) {
+    instances.add(new ExecutionInstance(thread, monitor))
+  }
 
-	def killInstances() {
-		for (instance <- instances)
-			if (instance.thread.isAlive()) {
-				instance.thread.interrupt()
-				instance.monitor.killProcess()
-			}
-	}
+  def killInstances() {
+    for (instance <- instances)
+      if (instance.thread.isAlive()) {
+        instance.thread.interrupt()
+        instance.monitor.killProcess()
+      }
+  }
 }
 
 class ExecutionInstance(val thread : Thread, val monitor : ExecutionMonitor)

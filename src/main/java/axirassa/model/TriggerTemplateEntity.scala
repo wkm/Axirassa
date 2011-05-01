@@ -18,17 +18,17 @@ import org.hibernate.annotations.CacheConcurrencyStrategy
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 class TriggerTemplateEntity {
-	@Id
-	@BeanProperty
-	@Basic(optional = false)
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	var id: Long = _
+  @Id
+  @BeanProperty
+  @Basic(optional = false)
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  var id : Long = _
 
-	@BeanProperty
-	@Basic(optional = false)
-	var name: String = _
+  @BeanProperty
+  @Basic(optional = false)
+  var name : String = _
 
-	@BeanProperty
-	@ManyToOne(optional = false)
-	var user: UserEntity = _
+  @BeanProperty
+  @ManyToOne(optional = false)
+  var user : UserEntity = _
 }

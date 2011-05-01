@@ -21,7 +21,7 @@ import axirassa.webapp.ajax.TimeService;
 import axirassa.webapp.ajax.httpstream.HttpStreamingTransport;
 
 class AxirassaAjaxServlet extends CometdServlet {
-  @Override
+  override
   def init() {
     super.init();
 
@@ -38,7 +38,7 @@ class AxirassaAjaxServlet extends CometdServlet {
     System.err.println(getBayeux().getCurrentTransport());
   }
 
-  @Override
+  override
   protected def newBayeuxServer() = {
     val server = new BayeuxServerImpl();
 
@@ -51,7 +51,7 @@ class AxirassaAjaxServlet extends CometdServlet {
     server;
   }
 
-  @Override
+  override
   protected def service(request : HttpServletRequest, response : HttpServletResponse) {
     try {
       super.service(request, response);

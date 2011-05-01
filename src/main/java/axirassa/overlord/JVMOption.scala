@@ -1,12 +1,9 @@
 package axirassa.overlord
 
-object JVMOption {
-  val XMX = new JVMOption("Xmx")
-  val XMS = new JVMOption("Xms")
-  val XSS = new JVMOption("Xss")
-}
-class JVMOption(val name : String) {
-  override def toString = name
-}
+object JVMOption extends Enumeration {
+  type JVMOption = Value
 
-
+  val XMX = Value("Xmx")
+  val XMS = Value("Xms")
+  val XSS = Value("Xss")
+}

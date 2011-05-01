@@ -38,7 +38,7 @@ class HttpStreamingTransport(bayeux : BayeuxServerImpl, name : String) extends H
   def parseRequestMessages(request : HttpServletRequest) =
     parseMessages(request)
 
-  override def getMaxInternal = 120000L
+  override def getMaxInterval = 120000L
 
   override def getInterval = 55000L
 

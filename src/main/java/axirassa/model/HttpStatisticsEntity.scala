@@ -28,44 +28,44 @@ import java.util.Calendar
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONE)
 class HttpStatisticsEntity extends AutoSerializingObject with Serializable {
-	@Id
-	@BeanProperty
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	var id: Long = _
+  @Id
+  @BeanProperty
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  var id : Long = _
 
-	@Basic
-	@BeanProperty
-	@Temporal(TemporalType.TIMESTAMP)
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	var timestamp: Date = _
+  @Basic
+  @BeanProperty
+  @Temporal(TemporalType.TIMESTAMP)
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  var timestamp : Date = _
 
-	@BeanProperty
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	var pinger: PingerEntity = _
+  @BeanProperty
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  var pinger : PingerEntity = _
 
-	@BeanProperty
-	@Basic(optional = false)
-	var statusCode: Int = _
+  @BeanProperty
+  @Basic(optional = false)
+  var statusCode : Int = _
 
-	@BeanProperty
-	@Basic(optional = false)
-	var latency: Int = _
+  @BeanProperty
+  @Basic(optional = false)
+  var latency : Int = _
 
-	@BeanProperty
-	@Basic(optional = false)
-	var responseTime: Int = _
+  @BeanProperty
+  @Basic(optional = false)
+  var responseTime : Int = _
 
-	@BeanProperty
-	@Basic(optional = true)
-	var responseSize: Long = _
+  @BeanProperty
+  @Basic(optional = true)
+  var responseSize : Long = _
 
-	@BeanProperty
-	@Basic(optional = true)
-	var uncompressedSize: Long = _
+  @BeanProperty
+  @Basic(optional = true)
+  var uncompressedSize : Long = _
 
-	def getTimestampInMillis() = {
-		val calendar = Calendar.getInstance()
-		calendar.setTime(getTimestamp())
-		calendar.getTimeInMillis()
-	}
+  def getTimestampInMillis() = {
+    val calendar = Calendar.getInstance()
+    calendar.setTime(getTimestamp())
+    calendar.getTimeInMillis()
+  }
 }

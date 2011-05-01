@@ -12,22 +12,22 @@ import axirassa.services.InjectorService
 import axirassa.services.Service
 
 object InjectorServiceJob {
-    val DATABASE_SESSION = "session.database"
-    val MESSAGING_SESSION = "session.messaging"
+  val DATABASE_SESSION = "session.database"
+  val MESSAGING_SESSION = "session.messaging"
 }
 
 class InjectorServiceJob extends Job {
-    override def execute(context : JobExecutionContext) {
-        try {
-            val datamap = context.getJobDetail().getJobDataMap()
+  override def execute(context : JobExecutionContext) {
+    try {
+      val datamap = context.getJobDetail().getJobDataMap()
 
-            val messagingSession = datamap.get(InjectorServiceJob.MESSAGING_SESSION).asInstanceOf[ClientSession]
-            val databaseSession = datamap.get(InjectorServiceJob.DATABASE_SESSION).asInstanceOf[Session]
+      val messagingSession = datamap.get(InjectorServiceJob.MESSAGING_SESSION).asInstanceOf[ClientSession]
+      val databaseSession = datamap.get(InjectorServiceJob.DATABASE_SESSION).asInstanceOf[Session]
 
-            val service = new InjectorService(messagingSession, databaseSession)
-            service.execute
-        } catch {
-            case e => throw new JobExecutionException(e)
-        }
+      val service = new InjectorService(messagingSession, databaseSession)
+      service.execute
+    } catch {
+      case e => throw new JobExecutionException(e)
     }
+  }
 }

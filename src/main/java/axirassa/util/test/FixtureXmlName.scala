@@ -7,5 +7,6 @@ object FixtureXmlName {
   val NAME = new FixtureXmlName("name")
 }
 class FixtureXmlName(name : String) {
+  override
   def toString = name
 }

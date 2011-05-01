@@ -4,6 +4,8 @@ package axirassa.util
 import java.util.Collection
 import java.util.Iterator
 
+import java.lang.Math.log10
+
 import org.apache.tapestry5.json.JSONLiteral
 
 class JSONConstructor {
@@ -17,7 +19,7 @@ class JSONConstructor {
       return "0"
 
     // one less than the number of digits
-    val magnitude = Math.log10(value).asInstanceOf[Int]
+    val magnitude = log10(value).asInstanceOf[Int]
 
     // apply the granularity
     val valueWithGranularity = (value * granularity).asInstanceOf[Long] / granularity

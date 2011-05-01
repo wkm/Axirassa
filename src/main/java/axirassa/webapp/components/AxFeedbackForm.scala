@@ -17,40 +17,40 @@ import axirassa.webapp.services.AxirassaSecurityService
 import axirassa.webapp.services.AxirassaSecurityException
 
 class AxFeedbackForm {
-    @Inject
-    var request : Request = _
+  @Inject
+  var request : Request = _
 
-    @Inject
-    var session : Session = _
+  @Inject
+  var session : Session = _
 
-    @Inject
-    var userDAO : UserDAO = _
+  @Inject
+  var userDAO : UserDAO = _
 
-    @Inject
-    var security : AxirassaSecurityService = _
+  @Inject
+  var security : AxirassaSecurityService = _
 
-    @Component
-    var feedbackField : TextField = _
+  @Component
+  var feedbackField : TextField = _
 
-    @Component
-    var feedbackForm : Form = _
+  @Component
+  var feedbackForm : Form = _
 
-    @Property
-    var feedback : String = _
+  @Property
+  var feedback : String = _
 
-    @CommitAfter
-    def onSuccessFromFeedbackForm() = {
-        val feedbackEntity = new FeedbackEntity()
-        feedbackEntity.setComment(feedback)
+  @CommitAfter
+  def onSuccessFromFeedbackForm() = {
+    val feedbackEntity = new FeedbackEntity()
+    feedbackEntity.setComment(feedback)
 
-        if (security.isUser) {
-            val user = security.getUserEntity
-            feedbackEntity.setUser(user)
-        }
-
-        feedbackEntity.setUseragent(request.getHeader("User-Agent"))
-        session.save(feedbackEntity)
-
-        true
+    if (security.isUser) {
+      val user = security.getUserEntity
+      feedbackEntity.setUser(user)
     }
+
+    feedbackEntity.setUseragent(request.getHeader("User-Agent"))
+    session.save(feedbackEntity)
+
+    true
+  }
 }

@@ -19,7 +19,7 @@ class TimeService(server : BayeuxServer) extends AbstractService(server, "timeSe
   var channel : ServerChannel = _
   var subscribers = new HashSet[ServerSession]
 
-  val initalizer = new ServerChannel#Initializer() {
+  val initalizer = new ConfigurableServerChannel.Initializer() {
     override def configureChannel(channel : ConfigurableServerChannel) {
       println("Configuring channel")
       channel.setPersistent(true)

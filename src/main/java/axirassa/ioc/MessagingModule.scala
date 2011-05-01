@@ -23,28 +23,28 @@ import axirassa.webapp.services.VoiceNotifyServiceImpl
  */
 class MessagingModule {
 
-    @Scope(ScopeConstants.PERTHREAD)
-    def buildMessagingSessionManager(perthreadManager : PerthreadManager) {
-        val sessionManager = new MessagingSessionManagerImpl()
-        perthreadManager.addThreadCleanupListener(sessionManager)
+  @Scope(ScopeConstants.PERTHREAD)
+  def buildMessagingSessionManager(perthreadManager : PerthreadManager) {
+    val sessionManager = new MessagingSessionManagerImpl()
+    perthreadManager.addThreadCleanupListener(sessionManager)
 
-        sessionManager
-    }
+    sessionManager
+  }
 
-    @Scope(ScopeConstants.PERTHREAD)
-    def buildMessagingSession(sessionManager : MessagingSessionManager, propertyShadowBuilder : PropertyShadowBuilder) =
-        propertyShadowBuilder.build(sessionManager, "session", classOf[MessagingSession])
+  @Scope(ScopeConstants.PERTHREAD)
+  def buildMessagingSession(sessionManager : MessagingSessionManager, propertyShadowBuilder : PropertyShadowBuilder) =
+    propertyShadowBuilder.build(sessionManager, "session", classOf[MessagingSession])
 
-    @Scope(ScopeConstants.PERTHREAD)
-    def buildEmailNotifyService(messagingSession : MessagingSession) =
-        new EmailNotifyServiceImpl(messagingSession)
+  @Scope(ScopeConstants.PERTHREAD)
+  def buildEmailNotifyService(messagingSession : MessagingSession) =
+    new EmailNotifyServiceImpl(messagingSession)
 
-    @Scope(ScopeConstants.PERTHREAD)
-    def buildSmsNotifyService(messagingSession : MessagingSession) =
-        new SmsNotifyServiceImpl(messagingSession)
+  @Scope(ScopeConstants.PERTHREAD)
+  def buildSmsNotifyService(messagingSession : MessagingSession) =
+    new SmsNotifyServiceImpl(messagingSession)
 
-    @Scope(ScopeConstants.PERTHREAD)
-    def buildVoiceNotifyService(messagingSession : MessagingSession) =
-        new VoiceNotifyServiceImpl(messagingSession)
+  @Scope(ScopeConstants.PERTHREAD)
+  def buildVoiceNotifyService(messagingSession : MessagingSession) =
+    new VoiceNotifyServiceImpl(messagingSession)
 
 }

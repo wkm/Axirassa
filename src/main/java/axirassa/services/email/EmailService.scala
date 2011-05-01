@@ -17,40 +17,40 @@ import axirassa.util.AutoSerializingObject
 import freemarker.template.TemplateException
 
 class EmailService(messagingSession : ClientSession) extends Service {
-    val httpClient = new DefaultHttpClient()
+  val httpClient = new DefaultHttpClient()
 
-    override def execute() {
-        messagingSession.start()
+  override def execute() {
+    messagingSession.start()
 
-        val consumer = messagingSession.createConsumer(Messaging.NOTIFY_EMAIL_REQUEST)
+    val consumer = messagingSession.createConsumer(Messaging.NOTIFY_EMAIL_REQUEST)
 
-        while (true) {
-            try {
-                val message = consumer.receive()
+    while (true) {
+      try {
+        val message = consumer.receive()
 
-                System.out.println("Received message: "+message)
+        System.out.println("Received message: "+message)
 
-                val buffer = new Array[Byte](message.getBodyBuffer.readableBytes())
-                message.getBodyBuffer().readBytes(buffer)
+        val buffer = new Array[Byte](message.getBodyBuffer.readableBytes())
+        message.getBodyBuffer().readBytes(buffer)
 
-                val rawobject = AutoSerializingObject.fromBytes(buffer)
-                rawobject match {
-                    case emailRequest : EmailRequestMessage => {
-                        val composer = new EmailTemplateComposer(emailRequest.template)
-                        composer.setAttributes(emailRequest.attributeMap)
+        val rawobject = AutoSerializingObject.fromBytes(buffer)
+        rawobject match {
+          case emailRequest : EmailRequestMessage => {
+            val composer = new EmailTemplateComposer(emailRequest.template)
+            composer.setAttributes(emailRequest.attributeMap)
 
-                        val sender = new EmailSender(composer, emailRequest.toAddress)
-                        sender.send(httpClient)
-                    }
-                }
-
-                message.acknowledge()
-                messagingSession.commit()
-            } catch {
-                case e : ClassNotFoundException =>
-                case e : JSONException =>
-                case e : TemplateException =>
-            }
+            val sender = new EmailSender(composer, emailRequest.toAddress)
+            sender.send(httpClient)
+          }
         }
+
+        message.acknowledge()
+        messagingSession.commit()
+      } catch {
+        case e : ClassNotFoundException =>
+        case e : JSONException          =>
+        case e : TemplateException      =>
+      }
     }
+  }
 }

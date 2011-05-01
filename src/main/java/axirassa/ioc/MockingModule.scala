@@ -19,27 +19,27 @@ import axirassa.webapp.services.VoiceNotifyService
 
 /**
  * Provides mock implementations of common services
- * 
+ *
  * @author wiktor
  */
 class MockingModule {
 
-	def contributeServiceOverride (configuration : MappedConfiguration[Class[_], Object] ) {
-		configuration.add(classOf[Session], mock(classOf[Session]))
-		configuration.add(classOf[MessagingSessionManager], mock(classOf[MessagingSessionManager]))
-		configuration.add(classOf[MessagingSession], mock(classOf[MessagingSession]))
-		configuration.add(classOf[EmailNotifyService], mock(classOf[EmailNotifyService]))
-		configuration.add(classOf[SmsNotifyService], mock(classOf[SmsNotifyService]))
-		configuration.add(classOf[VoiceNotifyService], mock(classOf[VoiceNotifyService]))
+  def contributeServiceOverride(configuration : MappedConfiguration[Class[_], Object]) {
+    configuration.add(classOf[Session], mock(classOf[Session]))
+    configuration.add(classOf[MessagingSessionManager], mock(classOf[MessagingSessionManager]))
+    configuration.add(classOf[MessagingSession], mock(classOf[MessagingSession]))
+    configuration.add(classOf[EmailNotifyService], mock(classOf[EmailNotifyService]))
+    configuration.add(classOf[SmsNotifyService], mock(classOf[SmsNotifyService]))
+    configuration.add(classOf[VoiceNotifyService], mock(classOf[VoiceNotifyService]))
 
-		val mockLink = mock(classOf[Link])
-		when(mockLink.toAbsoluteURI()).thenReturn("http://axirassa/")
-		when(mockLink.toAbsoluteURI(true)).thenReturn("https://axirassa/")
-		when(mockLink.toAbsoluteURI(false)).thenReturn("http://axirassa/")
+    val mockLink = mock(classOf[Link])
+    when(mockLink.toAbsoluteURI()).thenReturn("http://axirassa/")
+    when(mockLink.toAbsoluteURI(true)).thenReturn("https://axirassa/")
+    when(mockLink.toAbsoluteURI(false)).thenReturn("http://axirassa/")
 
-		val mockPrls = mock(classOf[PageRenderLinkSource])
-		when(mockPrls.createPageRenderLinkWithContext(any(classOf[Class[_]]), anyObject())).thenReturn(mockLink)
-		configuration.add(classOf[PageRenderLinkSource], mockPrls)
-	}
+    val mockPrls = mock(classOf[PageRenderLinkSource])
+    when(mockPrls.createPageRenderLinkWithContext(any(classOf[Class[_]]), anyObject())).thenReturn(mockLink)
+    configuration.add(classOf[PageRenderLinkSource], mockPrls)
+  }
 
 }

@@ -6,31 +6,31 @@ import java.net.SocketException
 import axirassa.model.PingerEntity
 
 trait Trigger {
-    var pinger : PingerEntity = _
+  var pinger : PingerEntity = _
 
-    override def toString = getClass.getSimpleName
+  override def toString = getClass.getSimpleName
 }
 
 case class ConnectionTimeOutTrigger(cause : SocketException)
-    extends Trigger
+  extends Trigger
 
 case class CouldNotConnectTrigger(cause : ConnectException)
-    extends Trigger
+  extends Trigger
 
 case class NoResponseTrigger(cause : NoHttpResponseException)
-    extends Trigger
+  extends Trigger
 
 case class PingerErrorTrigger(cause : Throwable)
-    extends Trigger
+  extends Trigger
 
 case class ProtocolErrorTrigger(cause : Throwable)
-    extends Trigger
+  extends Trigger
 
 case class StatusCodeTrigger(code : Int)
-    extends Trigger
+  extends Trigger
 
 case class TimeoutTrigger()
-    extends Trigger
+  extends Trigger
 
 case class UnknownHostTrigger()
-    extends Trigger
+  extends Trigger

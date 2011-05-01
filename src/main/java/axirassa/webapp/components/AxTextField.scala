@@ -7,23 +7,23 @@ import org.apache.tapestry5.annotations.Property
 import org.apache.tapestry5.corelib.components.TextField
 
 class AxTextField extends AxAbstractTextInput {
-    @Component(
-        publishParameters = "annotationProvider,clientId,disabled,nulls,translate,value",
-        parameters = Array("validate=inherit:validate"))
-    var txtfield : TextField = _
+  @Component(
+    publishParameters = "annotationProvider,clientId,disabled,nulls,translate,value",
+    parameters = Array("validate=inherit:validate"))
+  var txtfield : TextField = _
 
-    @Parameter(defaultPrefix = "validate")
-    @Property
-    var validate : String = _
+  @Parameter(defaultPrefix = "validate")
+  @Property
+  var validate : String = _
 
-    def getTextField = txtfield
+  def getTextField = txtfield
 
-    override def getControlName = txtfield.getControlName
+  override def getControlName = txtfield.getControlName
 
-    override def isDisabled = txtfield.isDisabled
+  override def isDisabled = txtfield.isDisabled
 
-    override def isRequired = txtfield.isRequired
+  override def isRequired = txtfield.isRequired
 
-    override def getClientId = txtfield.getClientId
+  override def getClientId = txtfield.getClientId
 
 }

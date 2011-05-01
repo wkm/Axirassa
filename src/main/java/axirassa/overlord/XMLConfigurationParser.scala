@@ -16,6 +16,7 @@ import org.w3c.dom.NodeList
 import java.lang.Boolean.parseBoolean
 
 import zanoccio.javakit.ClassPathEntityResolver
+import scala.collection.JavaConversions._
 
 class XMLConfigurationParser(
   configfile : URL,

@@ -14,51 +14,51 @@ import org.hibernate.Session;
 
 @RequiresAuthentication
 class DeletePhoneNumberUser {
-    @Inject
-    var session : Session = _
+  @Inject
+  var session : Session = _
 
-    @Inject
-    var userPhoneNumberDAO : UserPhoneNumberDAO = _
+  @Inject
+  var userPhoneNumberDAO : UserPhoneNumberDAO = _
 
-    @Inject
-    var security : AxirassaSecurityService = _
+  @Inject
+  var security : AxirassaSecurityService = _
 
-    @Property
-    var phoneNumber : UserPhoneNumberEntity = _
+  @Property
+  var phoneNumber : UserPhoneNumberEntity = _
 
-    @Component
-    var cancelChanges : AxSubmit = _
+  @Component
+  var cancelChanges : AxSubmit = _
 
-    @Component
-    var delete : AxSubmit = _
+  @Component
+  var delete : AxSubmit = _
 
-    def onActivate() {
-        classOf[SettingsUser]
+  def onActivate() {
+    classOf[SettingsUser]
+  }
+
+  def onActivate(phoneNumberId : Long) {
+    val phoneRecord = userPhoneNumberDAO.getByIdWithUser(phoneNumberId)
+    if (phoneRecord.isEmpty)
+      classOf[SettingsUser]
+    else {
+      phoneNumber = phoneRecord.get
+      security.verifyOwnership(phoneNumber)
+      true
     }
 
-    def onActivate(phoneNumberId : Long) {
-        val phoneRecord = userPhoneNumberDAO.getByIdWithUser(phoneNumberId)
-        if (phoneRecord.isEmpty)
-            classOf[SettingsUser]
-        else {
-            phoneNumber = phoneRecord.get
-            security.verifyOwnership(phoneNumber)
-            true
-        }
+  }
 
-    }
+  def onPassivate() {
+    phoneNumber.getId()
+  }
 
-    def onPassivate() {
-        phoneNumber.getId()
-    }
+  def onSelectedFromCancelChanges() {
+    classOf[SettingsUser]
+  }
 
-    def onSelectedFromCancelChanges() {
-        classOf[SettingsUser]
-    }
-
-    @CommitAfter
-    def onSelectedFromDelete() {
-        session.delete(phoneNumber)
-        classOf[SettingsUser]
-    }
+  @CommitAfter
+  def onSelectedFromDelete() {
+    session.delete(phoneNumber)
+    classOf[SettingsUser]
+  }
 }

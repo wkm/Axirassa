@@ -19,6 +19,8 @@ import zanoccio.javakit.ClassPathEntityResolver
 import zanoccio.javakit.StringUtilities
 import axirassa.overlord.IterableNodeList
 
+import scala.collection.JavaConversions._
+
 class XmlFixtureParsingException(e : Exception)
   extends Exception(e)
 

@@ -17,7 +17,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy
 
 @Entity
 class TriggerTemplateEnumerationSettingEntity extends TriggerTemplateSettingEntity {
-	@BeanProperty
-	@Basic(optional = false)
-	var value: String = _
+  @BeanProperty
+  @Basic(optional = false)
+  var value : String = _
 }

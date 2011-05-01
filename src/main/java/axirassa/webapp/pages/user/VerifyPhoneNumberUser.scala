@@ -22,107 +22,107 @@ import java.io.IOException
 
 @RequiresAuthentication
 class VerifyPhoneNumberUser {
-    @Inject
-    var database : Session = _
+  @Inject
+  var database : Session = _
 
-    @Inject
-    var userPhoneNumberDAO : UserPhoneNumberDAO = _
+  @Inject
+  var userPhoneNumberDAO : UserPhoneNumberDAO = _
 
-    @Inject
-    var security : AxirassaSecurityService = _
+  @Inject
+  var security : AxirassaSecurityService = _
 
-    @Inject
-    var voice : VoiceNotifyService = _
+  @Inject
+  var voice : VoiceNotifyService = _
 
-    @Inject
-    var sms : SmsNotifyService = _
+  @Inject
+  var sms : SmsNotifyService = _
 
-    @Property
-    @Persist
-    var token : String = _
+  @Property
+  @Persist
+  var token : String = _
 
-    @Property
-    var phoneNumberEntity : UserPhoneNumberEntity = _
+  @Property
+  var phoneNumberEntity : UserPhoneNumberEntity = _
 
-    @Component
-    var form : AxForm = _
+  @Component
+  var form : AxForm = _
 
-    @Component
-    var verificationCodeField : AxTextField = _
+  @Component
+  var verificationCodeField : AxTextField = _
 
-    @Property
-    var verificationCode : String = _
+  @Property
+  var verificationCode : String = _
 
-    var phoneNumberId : Long = _
+  var phoneNumberId : Long = _
 
-    def onActivate(phoneNumberId : Long) = {
-        this.phoneNumberId = phoneNumberId
-        val phoneNumberRecord = userPhoneNumberDAO.getByIdWithUser(phoneNumberId)
-        if(phoneNumberRecord.isEmpty)
-            throw new AxirassaSecurityException
-          
-        phoneNumberEntity = phoneNumberRecord.get
-        security.verifyOwnership(phoneNumberEntity)
+  def onActivate(phoneNumberId : Long) = {
+    this.phoneNumberId = phoneNumberId
+    val phoneNumberRecord = userPhoneNumberDAO.getByIdWithUser(phoneNumberId)
+    if (phoneNumberRecord.isEmpty)
+      throw new AxirassaSecurityException
 
-        if (phoneNumberEntity.isConfirmed())
-            classOf[SettingsUser]
-        else
-            true
+    phoneNumberEntity = phoneNumberRecord.get
+    security.verifyOwnership(phoneNumberEntity)
+
+    if (phoneNumberEntity.isConfirmed())
+      classOf[SettingsUser]
+    else
+      true
+  }
+
+  def onPassivate() = {
+    phoneNumberId
+  }
+
+  def onActionFromSendSMS(phoneNumberId : Long) = {
+    phoneNumberEntity = userPhoneNumberDAO.getByIdWithUser(phoneNumberId).get
+    security.verifyOwnership(phoneNumberEntity)
+
+    if (!phoneNumberEntity.isAcceptingSms())
+      false
+    else {
+      sendCodeBySms(phoneNumberEntity.getFormattedToken())
+      true
     }
+  }
 
-    def onPassivate() = {
-        phoneNumberId
+  def onActionFromSendVoice(phoneNumberId : Long) = {
+    phoneNumberEntity = userPhoneNumberDAO.getByIdWithUser(phoneNumberId).get
+    security.verifyOwnership(phoneNumberEntity)
+
+    if (!phoneNumberEntity.isAcceptingVoice())
+      false
+    else {
+      sendCodeByVoice(phoneNumberEntity.getFormattedToken())
+      true
     }
+  }
 
-    def onActionFromSendSMS(phoneNumberId : Long) = {
-        phoneNumberEntity = userPhoneNumberDAO.getByIdWithUser(phoneNumberId).get
-        security.verifyOwnership(phoneNumberEntity)
+  def onValidateFromForm() {
+    if (!verificationCode.equals(phoneNumberEntity.getToken()))
+      form.recordError(verificationCodeField, "Verification code not matched")
+  }
 
-        if (!phoneNumberEntity.isAcceptingSms())
-            false
-        else {
-            sendCodeBySms(phoneNumberEntity.getFormattedToken())
-            true
-        }
-    }
+  @CommitAfter
+  def onSuccessFromForm() = {
+    phoneNumberEntity.setConfirmed(true)
+    classOf[SettingsUser]
+  }
 
-    def onActionFromSendVoice(phoneNumberId : Long) = {
-        phoneNumberEntity = userPhoneNumberDAO.getByIdWithUser(phoneNumberId).get
-        security.verifyOwnership(phoneNumberEntity)
+  private def sendCodeByVoice(token : String) {
+    voice.startMessage(PhoneTemplate.USER_VERIFY_PHONE_NUMBER)
+    voice.setPhoneNumber(phoneNumberEntity.getPhoneNumber())
+    voice.setExtension(phoneNumberEntity.getExtension())
+    voice.addAttribute("code", token)
+    voice.addAttribute("user", security.getEmail)
+    voice.send
+  }
 
-        if (!phoneNumberEntity.isAcceptingVoice())
-            false
-        else {
-            sendCodeByVoice(phoneNumberEntity.getFormattedToken())
-            true
-        }
-    }
-
-    def onValidateFromForm() {
-        if (!verificationCode.equals(phoneNumberEntity.getToken()))
-            form.recordError(verificationCodeField, "Verification code not matched")
-    }
-
-    @CommitAfter
-    def onSuccessFromForm() = {
-        phoneNumberEntity.setConfirmed(true)
-        classOf[SettingsUser]
-    }
-
-    private def sendCodeByVoice(token : String) {
-        voice.startMessage(PhoneTemplate.USER_VERIFY_PHONE_NUMBER)
-        voice.setPhoneNumber(phoneNumberEntity.getPhoneNumber())
-        voice.setExtension(phoneNumberEntity.getExtension())
-        voice.addAttribute("code", token)
-        voice.addAttribute("user", security.getEmail)
-        voice.send
-    }
-
-    private def sendCodeBySms(token : String) {
-        sms.startMessage(PhoneTemplate.USER_VERIFY_PHONE_NUMBER)
-        sms.setPhoneNumber(phoneNumberEntity.getPhoneNumber())
-        sms.addAttribute("code", token)
-        sms.addAttribute("user", security.getEmail)
-        sms.send
-    }
+  private def sendCodeBySms(token : String) {
+    sms.startMessage(PhoneTemplate.USER_VERIFY_PHONE_NUMBER)
+    sms.setPhoneNumber(phoneNumberEntity.getPhoneNumber())
+    sms.addAttribute("code", token)
+    sms.addAttribute("user", security.getEmail)
+    sms.send
+  }
 }

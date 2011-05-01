@@ -11,7 +11,7 @@ object EmailTemplateType {
   val TEXT = new EmailTemplateType("text")
   val SUBJECT = new EmailTemplateType("subject")
 }
-class EmailTemplateType(val extension: String) extends TemplateType
+class EmailTemplateType(val extension : String) extends TemplateType
 
 object EmailTemplate {
   val USER_VERIFY_ACCOUNT = new EmailTemplate("account/VerifyAccountEmail", EmailSenderAddress.ACCOUNT)
@@ -23,7 +23,7 @@ object EmailTemplate {
   val BASE_LOCATION = "/axirassa/webapp/emails/"
 
 }
-class EmailTemplate(var location: String, var fromAddress: String) extends TemplateReference {
+class EmailTemplate(var location : String, var fromAddress : String) extends TemplateReference {
   override def fullLocation = EmailTemplate.BASE_LOCATION + location
 }
 
@@ -33,6 +33,6 @@ class EmailTemplateFactory
 object EmailTemplateFactory {
   val instance = new EmailTemplateFactory
 
-  def getTemplateInstance(template: EmailTemplate, templateType: EmailTemplateType) =
+  def getTemplateInstance(template : EmailTemplate, templateType : EmailTemplateType) =
     instance.getTemplate(template, templateType)
 }

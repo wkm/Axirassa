@@ -34,23 +34,23 @@ import javax.persistence.EnumType
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 class TriggerSettingEntity {
 
-    @Id
-    @BeanProperty
-    @Basic(optional = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    var id : Long = _
+  @Id
+  @BeanProperty
+  @Basic(optional = false)
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  var id : Long = _
 
-    @BeanProperty
-    @Basic(optional = false)
-    var name : String = _
+  @BeanProperty
+  @Basic(optional = false)
+  var name : String = _
 
-    @BeanProperty
-    @Basic(optional = false)
-    @Column(name = "type")
-    var triggerType : Enumeration = _
+  @BeanProperty
+  @Basic(optional = false)
+  @Column(name = "type")
+  var triggerType : Enumeration = _
 
-    @BeanProperty
-    @Basic(optional = true)
-    var description : String = _
+  @BeanProperty
+  @Basic(optional = true)
+  var description : String = _
 
 }
