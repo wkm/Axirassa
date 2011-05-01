@@ -6,13 +6,15 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.security.Security
 
+import java.lang.Long.toBinaryString
+
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 
 object MessageDigestProvider {
   private val serialVersionUID = -6652194924404625896L
   private var initialized = false
 
-  def salt = Long.toBinaryString(serialVersionUID).getBytes
+  def salt = toBinaryString(serialVersionUID).getBytes
 
   def generate() = {
     initialize()

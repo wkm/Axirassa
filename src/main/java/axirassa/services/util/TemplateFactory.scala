@@ -11,7 +11,7 @@ import freemarker.template.Configuration
 import freemarker.template.Template
 import freemarker.template.TemplateException
 
-trait Template {
+trait TemplateReference {
     def location : String
     def fullLocation : String
 }
@@ -24,7 +24,7 @@ object TemplateFactory {
     val TEMPLATE_ENCODING = "UTF-8"
 }
 
-abstract class TemplateFactory[T <: Template, TType <: TemplateType](baseDirectory : String) {
+abstract class TemplateFactory[T <: TemplateReference, TType <: TemplateType](baseDirectory : String) {
     val configuration = new Configuration()
     configuration.setWhitespaceStripping(true)
     configuration.setClassForTemplateLoading(classOf[TemplateFactory[_, _]], baseDirectory)

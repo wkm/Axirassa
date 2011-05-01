@@ -1,10 +1,10 @@
 
 package axirassa.webapp.ajax.httpstream
 
-import axirassa.webapp.ajax.httpstream.HttpStreamingTransportHandler
 import java.io.IOException
 import java.text.ParseException
 import java.util.List
+import java.lang.Long.toHexString
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -18,14 +18,17 @@ import org.eclipse.jetty.continuation.ContinuationSupport
 
 import scala.collection.JavaConversions._
 
-class HttpStreamingTransportHandler(
-  transport : HttpStreamingTransport,
-  request : HttpServletRequest,
-  response : HttpServletResponse) {
+object HttpStreamingTransportHandler {
   val USER_AGENT_HEADER = "User-Agent"
   val SCHEDULER_ATTRIBUTE = "cometd.httpstreaming.scheduler"
   val REQUEST_TICK_ATTRIBUTE = "cometd.httpstreaming.requesttick"
   val JETTY_TIMEOUT_BUFFER = 30 * 1000
+}
+
+class HttpStreamingTransportHandler(
+  transport : HttpStreamingTransport,
+  request : HttpServletRequest,
+  response : HttpServletResponse) {
 
   var serverSession : ServerSessionImpl = _
   var writer : JSONStreamPrintWriter = _
@@ -33,7 +36,7 @@ class HttpStreamingTransportHandler(
 
   private def info(args : Any*) {
     val withPrefix = new Array[Any](args.length + 2)
-    withPrefix(0) = Long.toHexString(hashCode())
+    withPrefix(0) = toHexString(hashCode())
     withPrefix(1) = "   "
 
     for (i <- 0 until args.length)
@@ -45,7 +48,7 @@ class HttpStreamingTransportHandler(
   private def getBayeux() = transport.getBayeux()
 
   def handle() {
-    val schedulerAttribute = request.getAttribute(SCHEDULER_ATTRIBUTE)
+    val schedulerAttribute = request.getAttribute(HttpStreamingTransportHandler.SCHEDULER_ATTRIBUTE)
     info("schdulerAttribute: ", schedulerAttribute)
 
     val continuation = ContinuationSupport.getContinuation(request)
@@ -73,7 +76,7 @@ class HttpStreamingTransportHandler(
         return
       }
 
-      val tick = request.getAttribute(REQUEST_TICK_ATTRIBUTE)
+      val tick = request.getAttribute(HttpStreamingTransportHandler.REQUEST_TICK_ATTRIBUTE)
       if (tick == null) {
         info("NO REQUEST TICK")
 
@@ -90,12 +93,12 @@ class HttpStreamingTransportHandler(
       }
 
       val scheduler = schedulerAttribute.asInstanceOf[HttpStreamingScheduler]
-        handleResumedSession(scheduler)
+      handleResumedSession(scheduler)
     }
   }
 
   def handleResumedSession(scheduler : HttpStreamingScheduler) {
-    serverSession = scheduler.getServerSession()
+    serverSession = scheduler.serverSession
 
     if (serverSession.isConnected())
       serverSession.startIntervalTimeout()
@@ -142,7 +145,7 @@ class HttpStreamingTransportHandler(
       serverSession = null
     }
 
-    val reply = getBayeux().handle(serverSession, message)
+    var reply = getBayeux().handle(serverSession, message)
     if (reply != null) {
       var isHandshake = false
       if (serverSession == null) {
@@ -194,8 +197,8 @@ class HttpStreamingTransportHandler(
         serverSession.setTimeout(timeout)
       }
 
-      request.setAttribute(SCHEDULER_ATTRIBUTE, scheduler)
-      request.setAttribute(REQUEST_TICK_ATTRIBUTE, requestStartTick)
+      request.setAttribute(HttpStreamingTransportHandler.SCHEDULER_ATTRIBUTE, scheduler)
+      request.setAttribute(HttpStreamingTransportHandler.REQUEST_TICK_ATTRIBUTE, requestStartTick)
 
       continuation.suspend(response)
 
@@ -210,11 +213,11 @@ class HttpStreamingTransportHandler(
   private def computeTimeout() : Long = {
     val baseTimeout = transport.getTimeout()
 
-    val delta : Long = (System.nanoTime() - requestStartTick) / 1000000
-    match {
+    val delta : Long = (System.nanoTime() - requestStartTick) / 1000000 
+    delta match {
       case _ if delta > baseTimeout => 0
-      case _ if delta < 0 => 0
-      case _ => baseTimeout - delta
+      case _ if delta < 0           => 0
+      case _                        => baseTimeout - delta
     }
   }
 
@@ -227,8 +230,8 @@ class HttpStreamingTransportHandler(
     }
   }
 
-  private def isMetaConnectDeliveryOnly() {
-    return transport.isMetaConnectDeliveryOnly() || serverSession.isMetaConnectDeliveryOnly()
+  private def isMetaConnectDeliveryOnly() = {
+    transport.isMetaConnectDeliveryOnly() || serverSession.isMetaConnectDeliveryOnly()
   }
 
   private def sendReply(reply : ServerMessage) {
@@ -305,7 +308,7 @@ class HttpStreamingTransportHandler(
 
     // get the user agent
     if (serverSession != null)
-      serverSession.setUserAgent(request.getHeader(USER_AGENT_HEADER))
+      serverSession.setUserAgent(request.getHeader(HttpStreamingTransportHandler.USER_AGENT_HEADER))
   }
 
   /**

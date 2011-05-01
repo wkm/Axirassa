@@ -7,7 +7,7 @@ import org.eclipse.jetty.continuation.Continuation
 import org.eclipse.jetty.continuation.ContinuationListener
 
 class HttpStreamingScheduler(
-  serverSession : ServerSessionImpl,
+  val serverSession : ServerSessionImpl,
   continuation : Continuation,
   handler : HttpStreamingTransportHandler) extends ContinuationListener with Scheduler {
 

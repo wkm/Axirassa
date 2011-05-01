@@ -1,7 +1,7 @@
 
 package axirassa.webapp.mixins
 
-import axirassa.data.AxButtonStyle
+import axirassa.webapp.data.AxButtonStyle
 import scala.reflect.BeanProperty
 
 import org.apache.tapestry5.BindingConstants

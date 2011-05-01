@@ -1,6 +1,6 @@
 package axirassa.services.email
 
-import axirassa.services.util.Template
+import axirassa.services.util.TemplateReference
 import axirassa.services.util.TemplateType
 import axirassa.services.util.TemplateFactory
 
@@ -23,7 +23,7 @@ object EmailTemplate {
   val BASE_LOCATION = "/axirassa/webapp/emails/"
 
 }
-class EmailTemplate(var location: String, var fromAddress: String) extends Template {
+class EmailTemplate(var location: String, var fromAddress: String) extends TemplateReference {
   override def fullLocation = EmailTemplate.BASE_LOCATION + location
 }
 

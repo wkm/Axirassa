@@ -1,6 +1,5 @@
 package axirassa.services.pinger
 
-import axirassa.services.pinger.HttpPinger
 import org.hornetq.api.core.client.ClientSession
 import org.hornetq.api.core.client.ClientProducer
 import axirassa.config.Messaging

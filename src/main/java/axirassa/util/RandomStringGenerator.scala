@@ -26,7 +26,7 @@ object RandomStringGenerator {
     instance.randomStringToken(length)
 }
 
-private class RandomStringGenerator {
+class RandomStringGenerator {
   val random = new SecureRandom()
 
   /**
@@ -56,7 +56,7 @@ private class RandomStringGenerator {
       if (value < 0)
         value = -value
 
-      val str = value.toString(32)
+      val str = java.lang.Long.toString(value, 32)
       val byteString = str.getBytes()
 
       for (i <- 0 until byteString.length if index < length) {

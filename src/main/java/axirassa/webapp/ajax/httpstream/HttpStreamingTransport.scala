@@ -24,7 +24,7 @@ class HttpStreamingTransport(bayeux : BayeuxServerImpl, name : String) extends H
 
   protected def getLogger() = getBayeux().getLogger()
 
-  protected def info(args : Object*) {
+  def info(args : Any*) {
     val sb = new StringBuffer("#### HTTP STREAMING: ")
     for (arg <- args)
       if (arg == null)

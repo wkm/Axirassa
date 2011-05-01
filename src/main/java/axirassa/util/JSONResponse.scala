@@ -50,9 +50,8 @@ class JSONResponse(json : JSONCollection) extends StreamResponse {
 
   override def getContentType = "application/json charset="+JSONResponse.CHARSET
 
-  override def getStream() {
-    return new ByteArrayInputStream(dataForSending)
-  }
+  override def getStream() =
+    new ByteArrayInputStream(dataForSending)
 
   override def prepareResponse(response : Response) {
     println("PREPARED RESPONSE W/ GZIP LENGTH: "+dataForSending.length)

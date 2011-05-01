@@ -9,7 +9,7 @@ import java.io.Reader
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class StringUtilities {
+object StringUtilities {
   /**
    * Read in an entire InputStream as a UTF-8 encoded String.
    *

@@ -1,7 +1,7 @@
 package axirassa.services.phone
 
 import axirassa.services.util.TemplateFactory
-import axirassa.services.util.Template
+import axirassa.services.util.TemplateReference
 import axirassa.services.util.TemplateType
 
 object PhoneTemplateType {
@@ -16,7 +16,7 @@ object PhoneTemplate {
   val USER_VERIFY_PHONE_NUMBER = new PhoneTemplate("account/VerifyPhoneNumber")
 }
 
-class PhoneTemplate(val location: String) extends Template {
+class PhoneTemplate(val location: String) extends TemplateReference {
   override def fullLocation =
     PhoneTemplate.BASE_LOCATION + location
 }

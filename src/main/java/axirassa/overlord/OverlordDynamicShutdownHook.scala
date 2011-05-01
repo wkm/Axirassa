@@ -6,6 +6,8 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.util.Collection
 
+import scala.collection.JavaConversions._
+
 /**
  * Shutdown hook which asks the user via the CLI whether to terminate child
  * processes. (TODO add a timeout and a default behavior)
@@ -13,12 +15,12 @@ import java.util.Collection
  * @author wiktor
  */
 class OverlordDynamicShutdownHook(val overlord : Overlord) extends Thread {
-	val alivethreadcount = 0
+	var alivethreadcount = 0
 
 	override def run() {
-		val instances = overlord.getExecutionInstances()
+		val instances = overlord.instances
 		for (instance <- instances)
-			if (instance.getThread().isAlive())
+			if (instance.thread.isAlive())
 				alivethreadcount += 1
 
 		if (alivethreadcount > 0)

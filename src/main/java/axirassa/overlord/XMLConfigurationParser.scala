@@ -13,6 +13,7 @@ import org.w3c.dom.Element
 import org.w3c.dom.NamedNodeMap
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
+import java.lang.Boolean.parseBoolean
 
 import zanoccio.javakit.ClassPathEntityResolver
 
@@ -77,14 +78,14 @@ class XMLConfigurationParser(
       val target = createExecutionTarget(targetnode)
 
       // check that this execution target doesn't already exist
-      if (configuration.hasExecutionTarget(target.getCanonicalName()))
+      if (configuration.hasExecutionTarget(target.getCanonicalName))
         throw new DuplicateTargetException(target, dom)
 
       configuration.addExecutionTarget(target)
     }
   }
 
-  private def createExecutionTarget(node : Node) {
+  private def createExecutionTarget(node : Node) = {
     val attributes = node.getAttributes()
 
     val nameNode = attributes.getNamedItem(XMLName.NAME.toString())
@@ -93,7 +94,7 @@ class XMLConfigurationParser(
 
     val name = nameNode.getTextContent()
     val classname = classNode.getTextContent()
-    val autorestart = Boolean.parseBoolean(autorestartNode.getTextContent())
+    val autorestart = parseBoolean(autorestartNode.getTextContent())
 
     try {
       var target = new ExecutionTarget(name, classname)
@@ -144,7 +145,7 @@ class XMLConfigurationParser(
     for (groupnode <- new IterableNodeList(grouplist)) {
       val group = createExecutionGroup(groupnode)
 
-      if (configuration.hasExecutionGroup(group.getCanonicalName()))
+      if (configuration.hasExecutionGroup(group.getCanonicalName))
         throw new DuplicateGroupException(group, dom)
 
       configuration.addExecutionGroup(group)
