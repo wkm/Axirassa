@@ -5,8 +5,7 @@ import java.io.File
 import java.io.IOException
 import java.util.Collection
 
-import lombok.Getter
-import lombok.Setter
+import scala.collection.JavaConversions._
 
 class ExecutionSpecification(
 	var configuration : OverlordConfiguration,
@@ -21,8 +20,8 @@ class ExecutionSpecification(
 		}
 
 		for (i <- 0 until instances) {
-			val execId = configuration.overlord.getNextExecID()
-			printf("  %s %d -- %s\n", target.getName(), execId, target.getTargetClass().getCanonicalName())
+			val execId = Overlord.getNextExecID()
+			printf("  %s %d -- %s\n", target.name, execId, target.targetClass.getCanonicalName())
 			executeInstance(execId)
 		}
 	}
@@ -30,23 +29,23 @@ class ExecutionSpecification(
 	private def executeInstance(id : Int) {
 		provideLibraries()
 
-		val cli = new CommandLine(configuration.getJavaExecutable())
+		val cli = new CommandLine(configuration.javaExecutable)
 
 		// add classpath if applicable
-		if (configuration.getClassPath() != null) {
+		if (configuration.classPath != null) {
 			cli.addArgument("-cp")
-			cli.addArgument(configuration.getClassPath())
+			cli.addArgument(configuration.classPath)
 		} else {
 			cli.addArgument("-cp")
 			cli.addArgument(System.getProperty("java.class.path"))
 		}
 
 		// add jvm options
-		cli.addArguments(target.getOptions().getCommandLine())
+		cli.addArguments(target.options.getCommandLine)
 
 		// set the library path, if applicable
-		if (target.getOptions().needsLibraries()) {
-			val libprovider = configuration.overlord.getNativeLibraryProvider()
+		if (target.options.needsLibraries) {
+			val libprovider = configuration.overlord.libraryProvider
 
 			val path = libprovider.getLibraryPath()
 			if (path != null)
@@ -54,11 +53,11 @@ class ExecutionSpecification(
 		}
 
 		// add class name
-		cli.addArgument(target.getTargetClass().getCanonicalName())
+		cli.addArgument(target.targetClass.getCanonicalName())
 
 		val processbuilder = new ProcessBuilder(cli.buildCommandLine)
 		processbuilder.redirectErrorStream(true)
-		processbuilder.directory(new File(configuration.getBaseDirectory()))
+		processbuilder.directory(new File(configuration.baseDirectory))
 
 		val monitor = new ExecutionMonitor(target, id, processbuilder)
 		monitor.remainingRestarts = -1
@@ -69,8 +68,8 @@ class ExecutionSpecification(
 	}
 
 	private def provideLibraries() {
-		val libraries = target.getOptions().getLibraries()
-		val libprovider = configuration.overlord.getNativeLibraryProvider()
+		val libraries = target.options.libraries
+		val libprovider = configuration.overlord.libraryProvider
 
 		libraries.map(library => libprovider.provideLibrary(library))
 	}

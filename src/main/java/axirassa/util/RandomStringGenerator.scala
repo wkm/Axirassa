@@ -11,7 +11,7 @@ import java.security.SecureRandom
  *
  */
 object RandomStringGenerator {
-  private val generatorInstance : RandomStringGenerator = null
+  private var generatorInstance : RandomStringGenerator = null
   def instance = {
     if (generatorInstance == null)
       generatorInstance = new RandomStringGenerator
@@ -49,19 +49,19 @@ private class RandomStringGenerator {
 
   def randomStringToken(length : Int) = {
     val buffer = new Array[Byte](length)
-    val index = 0
+    var index = 0
     while (index < length) {
       var value = random.nextLong()
 
       if (value < 0)
         value = -value
 
-      val str = Long.toString(value, 32)
+      val str = value.toString(32)
       val byteString = str.getBytes()
 
       for (i <- 0 until byteString.length if index < length) {
         buffer(index) = byteString(i)
-        index++
+        index += 1
       }
     }
 

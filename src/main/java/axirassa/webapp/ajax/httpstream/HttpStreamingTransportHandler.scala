@@ -1,6 +1,7 @@
 
 package axirassa.webapp.ajax.httpstream
 
+import axirassa.webapp.ajax.httpstream.HttpStreamingTransportHandler
 import java.io.IOException
 import java.text.ParseException
 import java.util.List
@@ -15,6 +16,8 @@ import org.cometd.server.ServerSessionImpl
 import org.eclipse.jetty.continuation.Continuation
 import org.eclipse.jetty.continuation.ContinuationSupport
 
+import scala.collection.JavaConversions._
+
 class HttpStreamingTransportHandler(
   transport : HttpStreamingTransport,
   request : HttpServletRequest,
@@ -28,8 +31,8 @@ class HttpStreamingTransportHandler(
   var writer : JSONStreamPrintWriter = _
   var requestStartTick = System.nanoTime()
 
-  private def info(args : Object*) {
-    val withPrefix = new Array[Object](args.length + 2)
+  private def info(args : Any*) {
+    val withPrefix = new Array[Any](args.length + 2)
     withPrefix(0) = Long.toHexString(hashCode())
     withPrefix(1) = "   "
 
@@ -141,7 +144,7 @@ class HttpStreamingTransportHandler(
 
     val reply = getBayeux().handle(serverSession, message)
     if (reply != null) {
-      val isHandshake = false
+      var isHandshake = false
       if (serverSession == null) {
         isHandshake = true
         handleHandshake(reply)
@@ -204,17 +207,15 @@ class HttpStreamingTransportHandler(
     }
   }
 
-  private def computeTimeout() {
+  private def computeTimeout() : Long = {
     val baseTimeout = transport.getTimeout()
 
-    val delta = (System.nanoTime() - requestStartTick) / 1000000
-    if (delta > baseTimeout)
-      return 0
-
-    if (delta < 0)
-      return baseTimeout
-
-    return baseTimeout - delta
+    val delta : Long = (System.nanoTime() - requestStartTick) / 1000000
+    match {
+      case _ if delta > baseTimeout => 0
+      case _ if delta < 0 => 0
+      case _ => baseTimeout - delta
+    }
   }
 
   private def sendQueuedMessages() {

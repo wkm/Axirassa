@@ -43,7 +43,7 @@ class UserEntity extends AutoSerializingObject with Serializable with EntityPreS
 	protected var salt: String = _
 	
 	private def createSalt() = {
-		RandomStringGenerator.getInstance().randomString(32)
+		RandomStringGenerator.instance.randomString(32)
 	}
 	
 	@BeanProperty

@@ -13,7 +13,7 @@ import axirassa.util.RandomStringGenerator
 
 object AxSimplePlot {
     def generateId =
-        "plot_"+RandomStringGenerator.getInstance().randomString(15)
+        "plot_"+RandomStringGenerator.instance.randomString(15)
 }
 
 @Import(

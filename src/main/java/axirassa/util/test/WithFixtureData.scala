@@ -1,6 +1,8 @@
 
 package axirassa.util.test
 
+import zanoccio.javakit.StringUtilities
+import zanoccio.javakit.StringUtilities
 import java.util.HashMap
 import org.junit.Assert.assertEquals
 
@@ -8,7 +10,6 @@ import java.io.InputStream
 import java.util.Map
 
 import zanoccio.javakit.StringUtilities
-import axirassa.util.test.exception.XmlFixtureParsingException
 
 object WithFixtureData {
   val NO_FIXTURE_FILE = "<<no fixture file>>"

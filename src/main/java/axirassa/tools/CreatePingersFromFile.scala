@@ -57,7 +57,7 @@ class CreatePingersFromFile {
 		System.out.println("Creating pingers for user w/ ID: " + user.get.getId())
 
 		val fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(filename)))
-		var line = null
+		var line : String = null
 		while ((line = fileReader.readLine()) != null) {
 			if (line.contains(","))
 				line = line.split(",", 2)(1).trim()

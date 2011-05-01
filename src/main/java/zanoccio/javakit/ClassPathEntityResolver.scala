@@ -8,11 +8,8 @@ import org.xml.sax.EntityResolver
 import org.xml.sax.InputSource
 import org.xml.sax.SAXException
 
-import zanoccio.javakit.exception.UnknownResourceException
-
-
 class UnknownResourceException(path : String)
-	extends Exception("Could not find the resource " +path)
+  extends Exception("Could not find the resource "+path)
 
 /**
  * Based on http://www.ibm.com/developerworks/xml/library/x-tipentres.html
@@ -53,7 +50,7 @@ class ClassPathEntityResolver extends EntityResolver {
   def usesClassPathProtocol(address : String) = {
     val components = splitAddress(address)
     if (components.length < 1)
-      return false
+      false
     else
       components(0) == "classpath"
   }

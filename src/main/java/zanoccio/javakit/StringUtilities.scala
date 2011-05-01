@@ -24,8 +24,7 @@ class StringUtilities {
 
     try {
       val reader = new BufferedReader(new InputStreamReader(is, "UTF-8"), bufferSize)
-      val bytesRead = 0
-
+      var bytesRead = 0
       while ((bytesRead = reader.read(buffer)) != -1) {
         sb.append(buffer, 0, bytesRead)
       }

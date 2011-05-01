@@ -15,7 +15,7 @@ import org.hornetq.api.core.client.ClientSession
 import axirassa.model.HttpStatisticsEntity
 import axirassa.model.PingerEntity
 import axirassa.services.InjectorService
-import axirassa.services.exceptions.InvalidMessageClassException
+import axirassa.services.InvalidMessageClassException
 import axirassa.util.MessagingTools
 import axirassa.util.MessagingTopic
 
@@ -39,9 +39,8 @@ class PingerStreamingService(server : BayeuxServer) extends AbstractService(serv
 
   private def pingerService() {
     val messagingSession = MessagingTools.getEmbeddedSession()
-    val consumer = null
     val topic = new MessagingTopic(messagingSession, "ax.account.#")
-    consumer = topic.createConsumer()
+    val consumer = topic.createConsumer
 
     messagingSession.start()
     // System.out.println("Starting pinger service")

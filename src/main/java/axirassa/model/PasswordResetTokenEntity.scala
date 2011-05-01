@@ -55,7 +55,7 @@ class PasswordResetTokenEntity extends Serializable with EntityPreSave {
 
 	override def preSave() {
 		if (token == null)
-			token = RandomStringGenerator.getInstance().randomStringToken(64)
+			token = RandomStringGenerator.instance.randomStringToken(64)
 
 		if (expiration == null)
 			expiration = createExpiration()

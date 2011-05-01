@@ -1,6 +1,7 @@
 
 package axirassa.util.test
 
+import zanoccio.javakit.StringUtilities
 import java.io.InputStream
 import java.util.HashMap
 import java.util.Map
@@ -19,7 +20,7 @@ import zanoccio.javakit.StringUtilities
 import axirassa.overlord.IterableNodeList
 
 class XmlFixtureParsingException(e : Exception)
-	extends Exception(e)
+  extends Exception(e)
 
 class XmlFixtureParser(inputStream : InputStream) {
   var dom : Document = _
@@ -27,7 +28,7 @@ class XmlFixtureParser(inputStream : InputStream) {
 
   val fixtures = new HashMap[String, String]
 
-  def parse() {
+  def parse() = {
     val dbf = DocumentBuilderFactory.newInstance()
 
     try {
@@ -43,7 +44,7 @@ class XmlFixtureParser(inputStream : InputStream) {
     fixtures.clear()
     createFixtures()
 
-    return fixtures
+    fixtures
   }
 
   private def createFixtures() {
@@ -57,7 +58,7 @@ class XmlFixtureParser(inputStream : InputStream) {
     val nameAttribute = attributes.getNamedItem(FixtureXmlName.NAME.toString())
 
     val name = nameAttribute.getTextContent()
-     
+
     var content = fixtureNode.getTextContent()
     content = StringUtilities.removeLeadingWhitespace(content).trim()
 

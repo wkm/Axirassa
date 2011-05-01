@@ -29,7 +29,7 @@ class ExecutionMonitor(
 	var process : Process = null
 
 	override def run() {
-		val logger = LoggerFactory.getLogger(target.getTargetClass())
+		val logger = LoggerFactory.getLogger(target.targetClass)
 
 		while (remainingRestarts > 0 || limitedRestarts == false) {
 			try {
@@ -41,16 +41,16 @@ class ExecutionMonitor(
 
 				var line : String = null
 				while ((line = stdoutstream.readLine()) != null)
-					logger.info("{} : {}", getId(), line)
+					logger.info("{} : {}", getId, line)
 				while ((line = stderrstream.readLine()) != null)
-					logger.warn("{} : {}", getId(), line)
+					logger.warn("{} : {}", getId, line)
 
 				startCount += 1
 				remainingRestarts -= 1
 
 				process.waitFor()
 
-				if (!target.isAutoRestart())
+				if (!target.autoRestart)
 					return
 			} catch {
 				case e : InterruptedException => {

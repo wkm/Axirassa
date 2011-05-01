@@ -3,7 +3,7 @@ package axirassa.overlord;
 import scalakit.RegexpPattern
 
 trait OverlordSystemSupport {
-    def getJavaExecutable : String
+    def javaExecutable : String
 }
 
 object OverlordSystemSupport {
@@ -21,15 +21,15 @@ object OverlordSystemSupport {
 
 case class WindowsSystemSupport() extends OverlordSystemSupport {
     override
-    def getJavaExecutable = "java.exe"
+    def javaExecutable = "java.exe"
 }
 
 case class MacSystemSupport() extends OverlordSystemSupport {
     override
-    def getJavaExecutable = "java"
+    def javaExecutable = "java"
 }
 
 case class LinuxSystemSupport() extends OverlordSystemSupport {
     override
-    def getJavaExecutable = "java"
+    def javaExecutable = "java"
 }

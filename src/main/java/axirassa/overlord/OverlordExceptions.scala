@@ -24,7 +24,7 @@ class DuplicateTargetException(target : ExecutionTarget, doc : Document)
 class EmptyExecutionGroupException(name : String, doc : Document)
     extends OverlordException(name+" execution group is empty in "+doc.getBaseURI)
 
-class InvalidOverlordNameExcepion(name : String, pattern : String)
+class InvalidOverlordNameException(name : String, pattern : String)
     extends OverlordException("Names must match pattern "+pattern+" name given: "+name)
 
 class NoExecutionTargetsException(doc : Document)

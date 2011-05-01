@@ -31,10 +31,10 @@ object Overlord {
 		val overlord = new Overlord()
 		overlord.addShutdownHooks()
 
-		if (parameters.length <= 0)
+		if (arg.length <= 0)
 			overlord.execute(Array("master"))
 		else
-			overlord.execute(parameters)
+			overlord.execute(arg)
 	}
 
 	var execId = 0
@@ -67,7 +67,7 @@ class Overlord {
 		val configstream = ClassLoader.getSystemResourceAsStream(Overlord.CONFIGURATION_FILE)
 
 		configuration = new OverlordConfiguration(this)
-		configuration.setJavaExecutable(systemsupport.getJavaExecutable())
+		configuration.javaExecutable = systemsupport.javaExecutable
 
 		val configparser = new XMLConfigurationParser(configfile, configstream, configuration)
 		configparser.parse()

@@ -4,7 +4,7 @@ package axirassa.overlord
 import java.io.IOException
 import java.util.ArrayList
 
-import lombok.Getter
+import scala.collection.JavaConversions._
 
 object ExecutionGroup {
 	def canonicalizeName(name : String) = name.toLowerCase

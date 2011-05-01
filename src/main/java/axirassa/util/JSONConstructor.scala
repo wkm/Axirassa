@@ -20,11 +20,11 @@ class JSONConstructor {
     val magnitude = Math.log10(value).asInstanceOf[Int]
 
     // apply the granularity
-    value = (value * granularity).asInstanceOf[Long] / granularity
+    val valueWithGranularity = (value * granularity).asInstanceOf[Long] / granularity
 
     // compute the amount of extra characters
     var extra = 0
-    if (value % 1 > 0)
+    if (valueWithGranularity % 1 > 0)
       extra = 2
     else
       extra = 1

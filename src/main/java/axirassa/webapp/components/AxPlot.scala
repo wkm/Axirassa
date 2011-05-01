@@ -12,7 +12,7 @@ import org.apache.tapestry5.services.javascript.JavaScriptSupport
 import axirassa.util.RandomStringGenerator
 
 object AxPlot {
-    def generateID = "plot_"+RandomStringGenerator.getInstance().randomString(5)
+    def generateID = "plot_"+RandomStringGenerator.instance.randomString(5)
 }
 
 @Import(library = Array(
