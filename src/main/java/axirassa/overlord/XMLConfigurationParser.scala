@@ -1,16 +1,13 @@
-
 package axirassa.overlord
 
 import java.io.File
 import java.io.InputStream
 import java.net.URL
 
-import javax.xml.parsers.DocumentBuilder
 import javax.xml.parsers.DocumentBuilderFactory
 
 import org.w3c.dom.Document
 import org.w3c.dom.Element
-import org.w3c.dom.NamedNodeMap
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 import java.lang.Boolean.parseBoolean
@@ -19,12 +16,13 @@ import zanoccio.javakit.ClassPathEntityResolver
 import scala.collection.JavaConversions._
 
 class XMLConfigurationParser(
-  configfile : URL,
-  stream : InputStream,
-  configuration : OverlordConfiguration) {
+                              configfile: URL,
+                              stream: InputStream,
+                              configuration: OverlordConfiguration
+                              ) {
 
-  var dom : Document = null
-  var docroot : Element = null
+  var dom: Document = null
+  var docroot: Element = null
 
   def parse() = {
     val dbf = DocumentBuilderFactory.newInstance()
@@ -36,7 +34,7 @@ class XMLConfigurationParser(
       db.setEntityResolver(new ClassPathEntityResolver())
       dom = db.parse(stream)
     } catch {
-      case e : Exception =>
+      case e: Exception =>
         throw new OverlordParsingException(dom, e)
     }
 
@@ -59,9 +57,9 @@ class XMLConfigurationParser(
     }
   }
 
-  private def stripPrefix(path : String) = path.replaceFirst("^file:", "").replaceFirst("^file:", "")
+  private def stripPrefix(path: String) = path.replaceFirst("^file:", "").replaceFirst("^file:", "")
 
-  private def retrieveJarFile(file : URL) = {
+  private def retrieveJarFile(file: URL) = {
     val components = file.getPath().split("!", 2)
     if (components.length < 2)
       null
@@ -71,12 +69,13 @@ class XMLConfigurationParser(
   }
 
   private def createExecutionTargets() {
-    val targetlist = docroot.getElementsByTagName(XMLName.TARGET.toString())
-    if (targetlist.getLength() < 1)
+    println("GETTING TARGET BY NAME: "+XMLName.TARGET.toString)
+    val targetList = docroot.getElementsByTagName(XMLName.TARGET.toString())
+    if (targetList.getLength() < 1)
       throw new NoExecutionTargetsException(dom)
 
-    for (targetnode <- new IterableNodeList(targetlist)) {
-      val target = createExecutionTarget(targetnode)
+    for (targetNode <- new IterableNodeList(targetList)) {
+      val target = createExecutionTarget(targetNode)
 
       // check that this execution target doesn't already exist
       if (configuration.hasExecutionTarget(target.getCanonicalName))
@@ -86,32 +85,33 @@ class XMLConfigurationParser(
     }
   }
 
-  private def createExecutionTarget(node : Node) = {
+  private def createExecutionTarget(node: Node) = {
     val attributes = node.getAttributes()
 
     val nameNode = attributes.getNamedItem(XMLName.NAME.toString())
     val classNode = attributes.getNamedItem(XMLName.CLASS.toString())
-    val autorestartNode = attributes.getNamedItem(XMLName.AUTORESTART.toString())
+    val autoRestartNode = attributes.getNamedItem(XMLName.AUTORESTART.toString())
 
     val name = nameNode.getTextContent()
-    val classname = classNode.getTextContent()
-    val autorestart = parseBoolean(autorestartNode.getTextContent())
+    val className = classNode.getTextContent()
+    val autoRestart = parseBoolean(autoRestartNode.getTextContent())
 
     try {
-      var target = new ExecutionTarget(name, classname)
+      val target = new ExecutionTarget(name, className)
+
       // apply any options
       val options = createExecutionTargetOptions(node.getChildNodes())
       target.options = options
 
-      target.autoRestart = autorestart
+      target.autoRestart = autoRestart
       target
     } catch {
-      case e : ClassNotFoundException =>
+      case e: ClassNotFoundException =>
         throw new OverlordTargetClassNotFoundException(name, node.getOwnerDocument(), e)
     }
   }
 
-  private def createExecutionTargetOptions(nodelist : NodeList) = {
+  private def createExecutionTargetOptions(nodelist: NodeList) = {
     val options = new ExecutionTargetOptions()
 
     for (node <- new IterableNodeList(nodelist)) {
@@ -126,7 +126,7 @@ class XMLConfigurationParser(
     options
   }
 
-  private def createExecutionTargetJVMOption(options : ExecutionTargetOptions, node : Node) {
+  private def createExecutionTargetJVMOption(options: ExecutionTargetOptions, node: Node) {
     val attributes = node.getAttributes()
     val namenode = attributes.getNamedItem(XMLName.NAME.toString())
     val valuenode = attributes.getNamedItem(XMLName.VALUE.toString())
@@ -134,7 +134,7 @@ class XMLConfigurationParser(
     options.addJVMOption(namenode.getTextContent(), valuenode.getTextContent())
   }
 
-  private def createExecutionTargetLibraryOption(options : ExecutionTargetOptions, node : Node) {
+  private def createExecutionTargetLibraryOption(options: ExecutionTargetOptions, node: Node) {
     options.addLibrary(node.getTextContent())
   }
 
@@ -153,7 +153,7 @@ class XMLConfigurationParser(
     }
   }
 
-  private def createExecutionGroup(node : Node) = {
+  private def createExecutionGroup(node: Node) = {
     // create an empty execution group
     val attributes = node.getAttributes()
 
@@ -175,7 +175,7 @@ class XMLConfigurationParser(
     group
   }
 
-  private def createExecutionSpecification(node : Node) = {
+  private def createExecutionSpecification(node: Node) = {
     val attributes = node.getAttributes()
 
     val targetNameAttr = attributes.getNamedItem(XMLName.TARGET.toString()).getTextContent()

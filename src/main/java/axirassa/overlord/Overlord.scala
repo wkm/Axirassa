@@ -1,14 +1,7 @@
 
 package axirassa.overlord
 
-import java.io.IOException
-import java.io.InputStream
-import java.net.URL
 import java.util.ArrayList
-import java.util.Collection
-import java.util.List
-
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConversions._
@@ -59,25 +52,28 @@ class Overlord {
   var libraryProvider = new NativeLibraryProvider
 
   def execute(parameters : Array[String]) {
-    val systemsupport = OverlordSystemSupport.getSystemSupport
+    val systemSupport = OverlordSystemSupport.getSystemSupport
 
-    val configfile = ClassLoader.getSystemResource(Overlord.CONFIGURATION_FILE)
-    if (configfile == null)
+    val configFile = ClassLoader.getSystemResource(Overlord.CONFIGURATION_FILE)
+    if (configFile == null)
       throw new NoOverlordConfigurationException(Overlord.CONFIGURATION_FILE)
-    val configstream = ClassLoader.getSystemResourceAsStream(Overlord.CONFIGURATION_FILE)
+    val configStream = ClassLoader.getSystemResourceAsStream(Overlord.CONFIGURATION_FILE)
+
+    println("CONFIGURATION FILE: "+configFile)
+    println("CONFIGURATION STREAM: "+configStream)
 
     configuration = new OverlordConfiguration(this)
-    configuration.javaExecutable = systemsupport.javaExecutable
+    configuration.javaExecutable = systemSupport.javaExecutable
 
-    val configparser = new XMLConfigurationParser(configfile, configstream, configuration)
-    configparser.parse()
+    val configParser = new XMLConfigurationParser(configFile, configStream, configuration)
+    configParser.parse()
 
     val groups = new ArrayList[ExecutionGroup]()
 
-    for (groupname <- parameters) {
+    for (groupName <- parameters) {
       var group : ExecutionGroup = null
-      if (groupname.matches("t:.*")) {
-        val targetName = groupname.substring(2)
+      if (groupName.matches("t:.*")) {
+        val targetName = groupName.substring(2)
 
         val target = configuration.getExecutionTarget(targetName)
         if (target == null)
@@ -89,7 +85,7 @@ class Overlord {
         group = new ExecutionGroup("target_"+targetName)
         group.addExecutionSpecification(spec)
       } else {
-        group = configuration.getExecutionGroup(groupname)
+        group = configuration.getExecutionGroup(groupName)
       }
 
       if (group != null)

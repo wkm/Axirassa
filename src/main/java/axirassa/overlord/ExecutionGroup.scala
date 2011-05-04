@@ -1,7 +1,6 @@
 
 package axirassa.overlord
 
-import java.io.IOException
 import java.util.ArrayList
 
 import scala.collection.JavaConversions._

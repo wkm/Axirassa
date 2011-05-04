@@ -3,9 +3,6 @@ package axirassa.overlord
 
 import java.util.LinkedHashMap
 
-import lombok.Getter
-import lombok.Setter
-
 class OverlordConfiguration(var overlord : Overlord) {
 	val targets = new LinkedHashMap[String, ExecutionTarget]
 	val groups = new LinkedHashMap[String, ExecutionGroup]

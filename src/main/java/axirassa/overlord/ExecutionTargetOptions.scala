@@ -3,9 +3,6 @@ package axirassa.overlord
 
 import java.util.ArrayList
 import java.util.LinkedHashMap
-import java.util.List
-import java.util.Map.Entry
-
 import scala.collection.JavaConversions._
 
 class ExecutionTargetOptions {

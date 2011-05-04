@@ -2,9 +2,6 @@
 package axirassa.overlord
 
 import java.io.File
-import java.io.IOException
-import java.util.Collection
-
 import scala.collection.JavaConversions._
 
 class ExecutionSpecification(

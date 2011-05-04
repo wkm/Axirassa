@@ -1,11 +1,8 @@
 package axirassa.model
 
 import java.io.Serializable
-import java.security.MessageDigest
 import java.util.Collections
 import java.util.Date
-import java.util.Set
-
 import javax.persistence.Basic
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -16,9 +13,6 @@ import javax.persistence.TemporalType
 
 import scala.reflect.BeanProperty
 
-import lombok.Getter
-import lombok.Setter
-
 import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
 
@@ -28,7 +22,7 @@ import axirassa.util.MessageDigestProvider
 import axirassa.util.RandomStringGenerator
 
 object UserEntity {
-  def hashPasswordWithSalt(password : String, salt : Array[Byte]) = {
+  def hashPasswordWithSalt(password: String, salt: Array[Byte]) = {
     val msgdigest = MessageDigestProvider.generate()
 
     for (i <- 0 until 4096) {
@@ -49,11 +43,11 @@ class UserEntity extends AutoSerializingObject with Serializable with EntityPreS
   @BeanProperty
   @Basic(optional = false)
   @GeneratedValue(strategy = GenerationType.AUTO)
-  protected var id : Long = _
+  protected var id: Long = _
 
   @BeanProperty
   @Basic(optional = false)
-  protected var salt : String = _
+  protected var salt: String = _
 
   private def createSalt() = {
     RandomStringGenerator.instance.randomString(32)
@@ -61,23 +55,23 @@ class UserEntity extends AutoSerializingObject with Serializable with EntityPreS
 
   @BeanProperty
   @Basic(optional = false)
-  protected var password : Array[Byte] = _
+  protected var password: Array[Byte] = _
 
-  def createPassword(password : String) {
+  def createPassword(password: String) {
     if (salt == null)
       salt = createSalt();
 
     this.password = hashPassword(password)
   }
 
-  def hashPassword(password : String) = {
+  def hashPassword(password: String) = {
     if (salt == null)
       throw new NoSaltException(this)
 
     UserEntity.hashPasswordWithSalt(password, salt.getBytes())
   }
 
-  def matchPassword(password : String) : Boolean = {
+  def matchPassword(password: String): Boolean = {
     val hashed = hashPassword(password)
 
     if (hashed.length != this.password.length)
@@ -92,7 +86,7 @@ class UserEntity extends AutoSerializingObject with Serializable with EntityPreS
 
   @BeanProperty
   @Temporal(TemporalType.TIMESTAMP)
-  protected var signUpDate : Date = _
+  protected var signUpDate: Date = _
 
   def roles() = {
     Collections.singleton("user")
@@ -104,5 +98,5 @@ class UserEntity extends AutoSerializingObject with Serializable with EntityPreS
   }
 }
 
-class NoSaltException(user : UserEntity)
-  extends Exception("Cannot hash password without a salt for "+user)
+class NoSaltException(user: UserEntity)
+  extends Exception("Cannot hash password without a salt for " + user)

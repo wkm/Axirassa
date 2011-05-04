@@ -4,8 +4,6 @@ package axirassa.overlord
 import java.io.BufferedInputStream
 import java.io.IOException
 import java.io.InputStreamReader
-import java.util.Collection
-
 import scala.collection.JavaConversions._
 
 /**

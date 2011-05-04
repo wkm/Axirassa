@@ -7,8 +7,6 @@ import java.lang.Iterable
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 
-import scala.collection.JavaConversions._
-
 /**
  * Convenience class for wrapping a {@link NodeList} when iterating over it
  * within a for-loop.

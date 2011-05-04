@@ -3,21 +3,21 @@ package axirassa.overlord
 
 object XMLName {
   // elements
-  val TARGET = new XMLName("TARGET")
-  val GROUP = new XMLName("GROUP")
-  val EXECUTE = new XMLName("EXECUTE")
-  val JVMOPTION = new XMLName("JVMOPTION")
-  val LIBRARY = new XMLName("LIBRARY")
+  val TARGET = new XMLName("target")
+  val GROUP = new XMLName("group")
+  val EXECUTE = new XMLName("execute")
+  val JVMOPTION = new XMLName("jvmoption")
+  val LIBRARY = new XMLName("library")
 
   // attributes
-  val INSTANCES = new XMLName("INSTANCES")
-  val NAME = new XMLName("NAME")
-  val CLASS = new XMLName("CLASS")
-  val VALUE = new XMLName("VALUE")
-  val INITIALDELAY = new XMLName("INITIALDELAY")
-  val AUTORESTART = new XMLName("AUTORESTART")
+  val INSTANCES = new XMLName("instances")
+  val NAME = new XMLName("name")
+  val CLASS = new XMLName("class")
+  val VALUE = new XMLName("value")
+  val INITIALDELAY = new XMLName("initialdelay")
+  val AUTORESTART = new XMLName("autorestart")
 }
 
-class XMLName(var string : String) {
+class XMLName(string : String) {
   override def toString = string
 }
