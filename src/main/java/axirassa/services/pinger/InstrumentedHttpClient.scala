@@ -16,6 +16,8 @@ import org.apache.http.client.ClientProtocolException
 import org.apache.http.client.methods.HttpUriRequest
 import org.apache.http.impl.client.DefaultHttpClient
 import org.apache.http.protocol.HttpContext
+import io.Source
+
 
 class ExecutedWithoutInstrumentationException(client: InstrumentedHttpClient)
   extends AxirassaServiceException("InstrumentedHttpClient executed without instrumentation")
@@ -24,19 +26,7 @@ object InstrumentedHttpClient {
   val NANOS_PER_MILLI = 1000000
 
   def readInputStreamBuffer(input: InputStream) = {
-    val reader = new InputStreamReader(input)
-    val sb = new StringBuilder(input.available())
-
-    val buffer = new Array[Char](4096)
-    var length = 0
-
-    while ((length = reader.read(buffer)) != -1)
-      sb.append(buffer, 0, length)
-
-    reader.close()
-    input.close()
-
-    sb.toString()
+    Source.fromInputStream(input, "UTF-8").mkString
   }
 }
 
@@ -86,7 +76,7 @@ class InstrumentedHttpClient extends DefaultHttpClient {
       val entity = response.getEntity()
 
       if (entity != null) {
-        responseContent = InstrumentedHttpClient.readInputStreamBuffer(entity.getContent())
+        responseContent = Source.fromInputStream(entity.getContent, entity.getContentEncoding.getValue).mkString
       }
 
       responseTick = System.nanoTime()

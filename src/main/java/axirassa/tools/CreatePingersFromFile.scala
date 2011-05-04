@@ -14,6 +14,8 @@ import axirassa.dao.UserDAO
 import axirassa.ioc.IocStandalone
 import axirassa.model.PingerEntity
 import axirassa.model.UserEntity
+import io.Source
+
 
 object CreatePingersFromFile {
   	def main(args : Array[String]){
@@ -57,21 +59,26 @@ class CreatePingersFromFile {
 		System.out.println("Creating pingers for user w/ ID: " + user.get.getId())
 
 		val fileReader = new BufferedReader(new InputStreamReader(new FileInputStream(filename)))
-		var line : String = null
-		while ((line = fileReader.readLine()) != null) {
-			if (line.contains(","))
-				line = line.split(",", 2)(1).trim()
 
-			line = "http://www." + line
-			println("\t" + line)
-			
-			val pinger = new PingerEntity()
-			pinger.setUrl(line)
-			pinger.setUser(user.get)
-			pinger.setFrequency(3600)
+    Source.fromFile(filename, "UTF-8").getLines.foreach {
+      line => {
+        var actual : String = null
+        if(line.contains(","))
+          actual = line.split(",", 2)(1).trim()
+        else
+          actual = line
 
-			database.save(pinger)
-		}
+        actual = "http://www." + actual
+        println("\t"+actual)
+
+        val pinger = new PingerEntity()
+        pinger.setUrl(actual)
+        pinger.setUser(user.get)
+        pinger.setFrequency(3600)
+
+        database.save(pinger)
+      }
+    }
 
 		println("Commiting transaction")
 		database.getTransaction().commit()

@@ -5,10 +5,10 @@ class PingerFrequency(interval : Int) {
 
   def getLabel {
     interval match {
-      case 1            => "second"
-      case e if e < 60  => interval+"seconds"
+      case 1 => "second"
+      case e if e < 60 => interval+"seconds"
       case e if e == 60 => "minute"
-      case e            => (interval / 60)+" minutes"
+      case e => (interval / 60)+" minutes"
     }
   }
 }

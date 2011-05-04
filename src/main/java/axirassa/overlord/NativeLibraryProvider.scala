@@ -49,7 +49,7 @@ class NativeLibraryProvider {
    *         if necessary, or null if the libraries may be directly accessed
    *         by the OS.
    */
-  def getLibraryPath() {
+  def getLibraryPath() = {
     if (tempdir == null)
       null
     else

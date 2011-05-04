@@ -1,73 +1,81 @@
-
 package axirassa.overlord
+
 
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
 import org.slf4j.LoggerFactory
+import io.Source
+
 
 /**
  * A lightweight thread that monitors a process, restarting it if crashes.
  *
  * @author wiktor
  */
-class ExecutionMonitor(
-	var target : ExecutionTarget,
-	val id : Int,
-	val builder : ProcessBuilder) extends Runnable {
+class ExecutionMonitor (
+                         var target: ExecutionTarget,
+                         val id: Int,
+                         val builder: ProcessBuilder) extends Runnable {
 
-	val monitorLogger = LoggerFactory.getLogger(classOf[ExecutionMonitor])
+  val monitorLogger = LoggerFactory.getLogger(classOf[ExecutionMonitor])
 
-	var limitedRestarts = false
+  var limitedRestarts = false
 
-	var remainingRestarts = 0
-	var startCount = 0
-	var process : Process = null
+  var remainingRestarts = 0
+  var startCount        = 0
+  var process: Process  = null
 
-	override def run() {
-		val logger = LoggerFactory.getLogger(target.targetClass)
 
-		while (remainingRestarts > 0 || limitedRestarts == false) {
-			try {
-				monitorLogger.info("STARTING [{}]: {}", startCount, builder.command())
-				process = builder.start()
+  override def run () {
+    val logger = LoggerFactory.getLogger(target.targetClass)
 
-				val stdoutstream = new BufferedReader(new InputStreamReader(process.getInputStream()))
-				val stderrstream = new BufferedReader(new InputStreamReader(process.getErrorStream()))
+    while (remainingRestarts > 0 || limitedRestarts == false) {
+      try { {
+        monitorLogger.info("STARTING [{}]: {}", startCount, builder.command())
+        process = builder.start()
 
-				var line : String = null
-				while ((line = stdoutstream.readLine()) != null)
-					logger.info("{} : {}", getId, line)
-				while ((line = stderrstream.readLine()) != null)
-					logger.warn("{} : {}", getId, line)
+        val stdinLines = Source.fromInputStream(process.getInputStream, "UTF-8").getLines
+        stdinLines.foreach {
+          line => logger.info("{} : {}", getId, line)
+        }
 
-				startCount += 1
-				remainingRestarts -= 1
+        val stderrLines = Source.fromInputStream(process.getErrorStream, "UTF-8").getLines
+        stderrLines.foreach {
+          line => logger.warn("{} : {}", getId, line)
+        }
 
-				process.waitFor()
+        startCount += 1
+        remainingRestarts -= 1
 
-				if (!target.autoRestart)
-					return
-			} catch {
-				case e : InterruptedException => {
-					monitorLogger.warn("ExecutionMonitor interrupted.")
-					return
-				}
-				case e : Exception =>
-					throw new ExceptionInMonitorError(e)
-			}
-		}
+        process.waitFor()
 
-		monitorLogger.info("[{}] finished.", startCount)
-	}
+        if (!target.autoRestart)
+          return
+      }
+      } catch {
+        case e: InterruptedException => {
+          monitorLogger.warn("ExecutionMonitor interrupted.")
+          return
+        }
+        case e: Exception => {
+          throw new ExceptionInMonitorError(e)
+        }
+      }
+    }
 
-	def killProcess() {
-		if (process == null)
-			return
+    monitorLogger.info("[{}] finished.", startCount)
+  }
 
-		monitorLogger.info("  Killing process")
-		process.destroy()
-	}
 
-	private def getId = "["+id+"]"
+  def killProcess () {
+    if (process == null)
+      return
+
+    monitorLogger.info("  Killing process")
+    process.destroy()
+  }
+
+
+  private def getId = "[" + id + "]"
 }

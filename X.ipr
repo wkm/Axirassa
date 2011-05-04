@@ -77,6 +77,18 @@
     <option name="TYPE_AWARE_HIGHLIGHTING_ENABLED" value="true" />
   </component>
   <component name="IdProvider" IDEtalkID="E306E677D88778EC6C7DDBD72F8BDAEF" />
+  <component name="InspectionProjectProfileManager">
+    <profiles>
+      <profile version="1.0" is_locked="false">
+        <option name="myName" value="Project Default" />
+        <option name="myLocal" value="false" />
+        <inspection_tool class="MapReplaceableByEnumMap" enabled="true" level="WARNING" enabled_by_default="true" />
+      </profile>
+    </profiles>
+    <option name="PROJECT_PROFILE" value="Project Default" />
+    <option name="USE_PROJECT_PROFILE" value="true" />
+    <version value="1.0" />
+  </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_STRING" value="-target 1.6" />
   </component>
@@ -104,6 +116,14 @@
       </list>
     </option>
   </component>
+  <component name="ProjectDictionaryState">
+    <dictionary name="wiktor">
+      <words>
+        <w>stderr</w>
+        <w>stdin</w>
+      </words>
+    </dictionary>
+  </component>
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/X.iml" filepath="$PROJECT_DIR$/X.iml" />
@@ -118,6 +138,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="hg4idea" />
   </component>
+  <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
     <library name="Maven: antlr:antlr:2.7.6">
       <CLASSES>

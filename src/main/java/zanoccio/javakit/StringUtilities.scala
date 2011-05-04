@@ -8,6 +8,8 @@ import java.io.InputStreamReader
 import java.io.Reader
 import java.util.regex.Matcher
 import java.util.regex.Pattern
+import io.Source
+
 
 object StringUtilities {
   /**
@@ -16,23 +18,7 @@ object StringUtilities {
    * @throws IOException
    */
   def stringFromStream(is : InputStream, bufferSize : Int = 4096) : String = {
-    if (is == null)
-      return ""
-
-    val sb = new StringBuffer()
-    val buffer = new Array[Char](bufferSize)
-
-    try {
-      val reader = new BufferedReader(new InputStreamReader(is, "UTF-8"), bufferSize)
-      var bytesRead = 0
-      while ((bytesRead = reader.read(buffer)) != -1) {
-        sb.append(buffer, 0, bytesRead)
-      }
-    } finally {
-      is.close()
-    }
-
-    return sb.toString()
+    Source.fromInputStream(is, "UTF-8").mkString
   }
 
   def removeLeadingWhitespace(content : String) = {

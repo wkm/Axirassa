@@ -5,6 +5,7 @@ import java.util.Collection
 import java.util.Iterator
 
 import java.lang.Math.log10
+import java.lang.Math.pow
 
 import org.apache.tapestry5.json.JSONLiteral
 
@@ -35,7 +36,7 @@ class JSONConstructor {
     val result = new Array[Char](precision + extra)
 
     // from the end, copy the result
-    val start = Math.pow(10, magnitude - precision)
+    val start = pow(10, magnitude - precision)
     while (cursor >= 0) {
       cursor -= 1
     }
