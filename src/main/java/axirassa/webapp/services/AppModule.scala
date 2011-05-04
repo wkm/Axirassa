@@ -1,9 +1,6 @@
 
 package axirassa.webapp.services
 
-import axirassa.webapp.data.AxButtonStyle
-import java.io.IOException
-
 import org.apache.shiro.realm.AuthorizingRealm
 import org.apache.shiro.realm.Realm
 import org.apache.tapestry5.SymbolConstants
@@ -14,12 +11,10 @@ import org.apache.tapestry5.ioc.ServiceBinder
 import org.apache.tapestry5.ioc.annotations.Inject
 import org.apache.tapestry5.ioc.annotations.Local
 import org.apache.tapestry5.ioc.annotations.SubModule
-import org.apache.tapestry5.ioc.services.CoercionTuple
 import org.apache.tapestry5.services.Request
 import org.apache.tapestry5.services.RequestFilter
 import org.apache.tapestry5.services.RequestHandler
 import org.apache.tapestry5.services.Response
-import org.apache.tapestry5.util.StringToEnumCoercion
 import org.hibernate.Session
 import org.slf4j.Logger
 import org.tynamo.security.SecuritySymbols
@@ -29,8 +24,6 @@ import axirassa.dao.UserDAO
 import axirassa.ioc.DAOModule
 import axirassa.ioc.FlowsModule
 import axirassa.ioc.MessagingModule
-import axirassa.webapp.data.AxButtonStyle
-
 /**
  * This module is automatically included as part of the Tapestry IoC Registry,
  * it's a good place to configure and extend Tapestry, or to place your own

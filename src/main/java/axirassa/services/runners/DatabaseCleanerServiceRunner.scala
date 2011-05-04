@@ -4,8 +4,6 @@ package axirassa.services.runners
 import org.quartz.CronTrigger
 import org.quartz.JobDataMap
 import org.quartz.JobDetail
-import org.quartz.Scheduler
-import org.quartz.Trigger
 import org.quartz.impl.StdSchedulerFactory
 
 import axirassa.util.HibernateTools

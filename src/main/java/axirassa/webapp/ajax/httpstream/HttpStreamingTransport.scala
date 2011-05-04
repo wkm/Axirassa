@@ -1,18 +1,11 @@
 
 package axirassa.webapp.ajax.httpstream
 
-import java.io.IOException
-import java.text.ParseException
-
-import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-import org.cometd.bayeux.server.ServerMessage
 import org.cometd.server.BayeuxServerImpl
 import org.cometd.server.transport.HttpTransport
-import org.eclipse.jetty.util.log.Logger
-
 object HttpStreamingTransport {
   val PREFIX = "http-streaming"
 }

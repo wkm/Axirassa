@@ -6,8 +6,6 @@ import org.hibernate.Session
 
 import axirassa.dao.PasswordResetTokenDAO
 import axirassa.ioc.IocStandalone
-import axirassa.util.MessagingTools
-
 object DatabaseCleanerService {
 	def main (args : Array[String]) {
 		val service = IocStandalone.autobuild(classOf[DatabaseCleanerService])

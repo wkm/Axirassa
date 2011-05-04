@@ -1,13 +1,9 @@
 
 package axirassa.services.runners
 
-import org.hibernate.Session
-import org.hornetq.api.core.client.ClientSession
 import org.quartz.CronTrigger
 import org.quartz.JobDataMap
 import org.quartz.JobDetail
-import org.quartz.Scheduler
-import org.quartz.Trigger
 import org.quartz.impl.StdSchedulerFactory
 
 import axirassa.util.HibernateTools

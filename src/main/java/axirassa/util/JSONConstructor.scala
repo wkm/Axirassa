@@ -2,8 +2,6 @@
 package axirassa.util
 
 import java.util.Collection
-import java.util.Iterator
-
 import java.lang.Math.log10
 import java.lang.Math.pow
 

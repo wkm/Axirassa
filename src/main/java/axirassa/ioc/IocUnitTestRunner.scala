@@ -1,9 +1,7 @@
 package axirassa.ioc
 
 import org.apache.tapestry5.ioc.Registry
-import org.apache.tapestry5.ioc.RegistryBuilder
 import org.junit.runners.BlockJUnit4ClassRunner
-import org.junit.runners.model.InitializationError
 import org.mockito.MockitoAnnotations
 
 /**

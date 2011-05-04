@@ -1,7 +1,6 @@
 package axirassa.webapp.pages.user
 
 import axirassa.dao.UserEmailAddressDAO
-import axirassa.model.UserEmailAddressEntity
 import org.apache.tapestry5.annotations.Property
 import org.apache.tapestry5.hibernate.annotations.CommitAfter
 import org.apache.tapestry5.ioc.annotations.Inject

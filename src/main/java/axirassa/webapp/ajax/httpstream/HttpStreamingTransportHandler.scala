@@ -3,7 +3,6 @@ package axirassa.webapp.ajax.httpstream
 
 import java.io.IOException
 import java.text.ParseException
-import java.util.List
 import java.lang.Long.toHexString
 
 import javax.servlet.http.HttpServletRequest
@@ -11,9 +10,7 @@ import javax.servlet.http.HttpServletResponse
 
 import org.cometd.bayeux.Channel
 import org.cometd.bayeux.server.ServerMessage
-import org.cometd.server.BayeuxServerImpl
 import org.cometd.server.ServerSessionImpl
-import org.eclipse.jetty.continuation.Continuation
 import org.eclipse.jetty.continuation.ContinuationSupport
 
 import scala.collection.JavaConversions._

@@ -5,13 +5,8 @@ import org.apache.tapestry5.ioc.ScopeConstants
 import org.apache.tapestry5.ioc.annotations.Scope
 import org.apache.tapestry5.ioc.services.PerthreadManager
 import org.apache.tapestry5.ioc.services.PropertyShadowBuilder
-import org.hornetq.api.core.HornetQException
-
-import axirassa.webapp.services.EmailNotifyService
 import axirassa.webapp.services.MessagingSession
 import axirassa.webapp.services.MessagingSessionManager
-import axirassa.webapp.services.SmsNotifyService
-import axirassa.webapp.services.VoiceNotifyService
 import axirassa.webapp.services.EmailNotifyServiceImpl
 import axirassa.webapp.services.MessagingSessionManagerImpl
 import axirassa.webapp.services.SmsNotifyServiceImpl

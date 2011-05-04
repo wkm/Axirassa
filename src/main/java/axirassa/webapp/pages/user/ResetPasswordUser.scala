@@ -2,7 +2,6 @@ package axirassa.webapp.pages.user
 
 import axirassa.dao.UserDAO
 import axirassa.model.PasswordResetTokenEntity
-import axirassa.model.UserEntity
 import axirassa.services.email.EmailTemplate
 import axirassa.webapp.components.AxForm
 import axirassa.webapp.services.EmailNotifyService
@@ -14,10 +13,6 @@ import org.apache.tapestry5.hibernate.annotations.CommitAfter
 import org.apache.tapestry5.ioc.annotations.Inject
 import org.apache.tapestry5.services.PageRenderLinkSource
 import org.hibernate.Session
-import org.hornetq.api.core.HornetQException
-
-import java.io.IOException
-
 @Secure
 @RequiresGuest
 class ResetPasswordUser {

@@ -4,8 +4,8 @@ package axirassa.model.flows;
 import scala.reflect.BeanProperty
 import java.io.IOException;
 
-import lombok.Getter;
-import lombok.Setter;
+
+
 
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;

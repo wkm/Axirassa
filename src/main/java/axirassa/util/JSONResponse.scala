@@ -3,9 +3,6 @@ package axirassa.util
 
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.UnsupportedEncodingException
 import java.util.zip.GZIPOutputStream
 
 import org.apache.tapestry5.StreamResponse

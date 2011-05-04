@@ -6,17 +6,11 @@ import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
-import java.net.URL
-import java.util.Enumeration
-import java.util.jar.JarEntry
 import java.util.jar.JarFile
 
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.webapp.WebAppContext
 import org.eclipse.jetty.xml.XmlConfiguration
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 object JettyWebserver {

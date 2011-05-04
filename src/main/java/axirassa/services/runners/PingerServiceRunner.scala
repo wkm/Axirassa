@@ -1,9 +1,6 @@
 
 package axirassa.services.runners
 
-import org.hornetq.api.core.client.ClientSession
-
-import axirassa.services.Service
 import axirassa.services.pinger.PingerService
 import axirassa.util.MessagingTools
 

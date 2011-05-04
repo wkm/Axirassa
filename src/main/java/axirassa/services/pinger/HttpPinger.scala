@@ -1,15 +1,10 @@
 
 package axirassa.services.pinger
 
-import java.io.IOException
 import java.net.SocketException
 import java.net.UnknownHostException
-import java.util.Collection
 import java.util.Date
 import java.util.HashMap
-import java.util.LinkedHashMap
-
-import org.apache.http.HttpResponse
 import org.apache.http.NoHttpResponseException
 import org.apache.http.client.ClientProtocolException
 import org.apache.http.client.methods.HttpGet

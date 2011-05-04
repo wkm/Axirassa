@@ -12,10 +12,7 @@ import org.hibernate.Session
 
 import axirassa.dao.UserDAO
 import axirassa.model.FeedbackEntity
-import axirassa.model.UserEntity
 import axirassa.webapp.services.AxirassaSecurityService
-import axirassa.webapp.services.AxirassaSecurityException
-
 class AxFeedbackForm {
   @Inject
   var request : Request = _

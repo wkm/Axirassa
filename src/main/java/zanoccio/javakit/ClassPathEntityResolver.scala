@@ -1,13 +1,8 @@
 
 package zanoccio.javakit
 
-import java.io.IOException
-import java.io.InputStream
-
 import org.xml.sax.EntityResolver
 import org.xml.sax.InputSource
-import org.xml.sax.SAXException
-
 class UnknownResourceException(path : String)
   extends Exception("Could not find the resource "+path)
 

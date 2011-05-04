@@ -4,11 +4,6 @@ package axirassa.webapp.services
 import axirassa.messaging.VoiceRequestMessage
 import axirassa.config.Messaging
 import java.util.HashMap
-import org.hornetq.api.core.client.ClientProducer
-import java.io.IOException
-
-import org.hornetq.api.core.HornetQException
-
 import axirassa.services.phone.PhoneTemplate
 
 trait VoiceNotifyService {

@@ -1,10 +1,7 @@
 
 package axirassa.webapp.pages.user
 
-import java.io.IOException
-
 import org.apache.shiro.authz.annotation.RequiresUser
-import org.apache.tapestry5.Link
 import org.apache.tapestry5.annotations.Component
 import org.apache.tapestry5.annotations.Property
 import org.apache.tapestry5.annotations.Secure
@@ -13,16 +10,11 @@ import org.apache.tapestry5.hibernate.annotations.CommitAfter
 import org.apache.tapestry5.ioc.annotations.Inject
 import org.apache.tapestry5.services.PageRenderLinkSource
 import org.hibernate.Session
-import org.hornetq.api.core.HornetQException
-
 import axirassa.dao.UserDAO
-import axirassa.model.UserEntity
 import axirassa.model.UserPhoneNumberEntity
 import axirassa.webapp.components.AxCheckbox
 import axirassa.webapp.components.AxForm
 import axirassa.webapp.services.AxirassaSecurityService
-import axirassa.webapp.services.AxirassaSecurityException
-
 @Secure
 @RequiresUser
 class AddPhoneNumberUser {

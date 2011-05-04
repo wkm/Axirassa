@@ -16,10 +16,6 @@ import org.apache.tapestry5.annotations.Property
 import org.apache.tapestry5.hibernate.annotations.CommitAfter
 import org.apache.tapestry5.ioc.annotations.Inject
 import org.hibernate.Session
-import org.hornetq.api.core.HornetQException
-
-import java.io.IOException
-
 @RequiresAuthentication
 class VerifyPhoneNumberUser {
   @Inject

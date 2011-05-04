@@ -1,10 +1,10 @@
 
 package axirassa.util;
 
-import org.hornetq.api.core.HornetQException;
-import org.hornetq.api.core.client.ClientConsumer;
+
+
 import org.hornetq.api.core.client.ClientSession;
-import org.slf4j.Logger;
+
 import org.slf4j.LoggerFactory;
 
 /**

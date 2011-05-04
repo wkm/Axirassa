@@ -1,8 +1,6 @@
 
 package axirassa.webapp.pages.user
 
-import java.io.IOException
-
 import org.apache.shiro.authz.annotation.RequiresAuthentication
 import org.apache.tapestry5.PersistenceConstants
 import org.apache.tapestry5.annotations.Component
@@ -11,21 +9,16 @@ import org.apache.tapestry5.annotations.Property
 import org.apache.tapestry5.annotations.Secure
 import org.apache.tapestry5.hibernate.annotations.CommitAfter
 import org.apache.tapestry5.ioc.annotations.Inject
-import org.hornetq.api.core.HornetQException
-
 import axirassa.dao.UserEmailAddressDAO
 import axirassa.dao.UserPhoneNumberDAO
 import axirassa.model.UserEmailAddressEntity
 import axirassa.model.UserEntity
 import axirassa.model.UserPhoneNumberEntity
-import axirassa.model.NoSaltException
 import axirassa.services.email.EmailTemplate
 import axirassa.webapp.components.AxForm
 import axirassa.webapp.components.AxPasswordField
 import axirassa.webapp.services.AxirassaSecurityService
 import axirassa.webapp.services.EmailNotifyService
-import axirassa.webapp.services.AxirassaSecurityException
-
 @Secure
 @RequiresAuthentication
 class SettingsUser {

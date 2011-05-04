@@ -1,11 +1,8 @@
 
 package axirassa.services.email
 
-import java.io.IOException
 import java.util.HashMap
 import java.util.Map
-
-import freemarker.template.TemplateException
 
 class EmailTemplateComposer(template : EmailTemplate) {
   val attributes = new HashMap[String, Object]

@@ -5,8 +5,6 @@ import org.apache.shiro.authc.UsernamePasswordToken
 import org.apache.shiro.authc.AuthenticationToken
 
 import axirassa.dao.UserDAO
-import axirassa.model.UserEntity 
-import org.apache.shiro.authz.AuthorizationInfo
 import org.apache.shiro.authz.SimpleAuthorizationInfo
 import org.apache.shiro.cache.MemoryConstrainedCacheManager
 import org.apache.shiro.realm.AuthorizingRealm

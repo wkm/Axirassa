@@ -1,7 +1,7 @@
 
 package axirassa.services.email;
 
-import lombok.Getter;
+
 
 object EmailSenderAddress {
     val ACCOUNT = "account@axirassa.com"

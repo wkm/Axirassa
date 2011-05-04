@@ -7,8 +7,6 @@ import org.quartz.JobExecutionException
 
 import axirassa.ioc.IocStandalone
 import axirassa.services.ControllerService
-import axirassa.services.Service
-
 class ControllerServiceJob extends Job {
 	override
 	def execute (context : JobExecutionContext) {

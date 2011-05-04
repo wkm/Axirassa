@@ -1,14 +1,7 @@
 
 package axirassa.services
 
-import java.io.IOException
-
-import javax.xml.parsers.ParserConfigurationException
-
-import liquibase.database.Database
 import liquibase.diff.Diff
-import liquibase.diff.DiffResult
-import liquibase.exception.DatabaseException
 import liquibase.integration.commandline.CommandLineUtils
 
 import org.hibernate.cfg.Configuration

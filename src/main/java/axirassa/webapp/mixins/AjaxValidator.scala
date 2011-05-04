@@ -8,7 +8,6 @@ import org.apache.tapestry5.annotations.Import
 import org.apache.tapestry5.annotations.InjectContainer
 import org.apache.tapestry5.ioc.annotations.Inject
 import org.apache.tapestry5.services.javascript.JavaScriptSupport
-import org.hornetq.utils.json.JSONException
 import org.hornetq.utils.json.JSONObject
 
 /**

@@ -1,12 +1,7 @@
 
 package axirassa.services.email
 
-import java.io.IOException
-
 import org.apache.http.impl.client.DefaultHttpClient
-import org.hornetq.api.core.HornetQException
-import org.hornetq.api.core.client.ClientConsumer
-import org.hornetq.api.core.client.ClientMessage
 import org.hornetq.api.core.client.ClientSession
 import org.hornetq.utils.json.JSONException
 

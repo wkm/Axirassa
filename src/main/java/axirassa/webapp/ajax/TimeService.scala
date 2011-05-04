@@ -1,13 +1,11 @@
 
 package axirassa.webapp.ajax
 
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.HashSet
 import java.util.Random
 
-import org.cometd.bayeux.client.ClientSessionChannel
 import org.cometd.bayeux.server.BayeuxServer
 import org.cometd.bayeux.server.ConfigurableServerChannel
 import org.cometd.bayeux.server.ServerChannel

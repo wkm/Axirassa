@@ -1,13 +1,9 @@
 
 package axirassa.webapp.pages.user
 
-import java.io.IOException
-
 import org.apache.shiro.authc.AuthenticationException
 import org.apache.shiro.authc.UsernamePasswordToken
 import org.apache.shiro.authz.annotation.RequiresGuest
-import org.apache.shiro.subject.Subject
-import org.apache.shiro.web.util.SavedRequest
 import org.apache.shiro.web.util.WebUtils
 import org.apache.tapestry5.annotations.Component
 import org.apache.tapestry5.annotations.Log
@@ -18,7 +14,6 @@ import org.apache.tapestry5.services.RequestGlobals
 import org.apache.tapestry5.services.Response
 import org.tynamo.security.services.PageService
 
-import axirassa.model.NoSaltException
 import axirassa.webapp.components.AxForm
 import axirassa.webapp.pages.MonitorConsole
 import axirassa.webapp.services.AxirassaSecurityService

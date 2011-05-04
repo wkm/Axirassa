@@ -1,12 +1,9 @@
 
 package axirassa.services
 
-import java.io.IOException
 import java.util.ArrayList
 
 import org.hibernate.Session
-import org.hornetq.api.core.HornetQException
-import org.hornetq.api.core.client.ClientConsumer
 import org.hornetq.api.core.client.ClientMessage
 import org.hornetq.api.core.client.ClientSession
 

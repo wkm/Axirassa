@@ -3,14 +3,10 @@ package axirassa.services.util
 
 import java.util.HashMap
 import axirassa.util.AutoSerializingObject
-import java.io.IOException
 import java.io.StringWriter
 import java.util.Map
 
 import freemarker.template.Configuration
-import freemarker.template.Template
-import freemarker.template.TemplateException
-
 trait TemplateReference {
     def location : String
     def fullLocation : String

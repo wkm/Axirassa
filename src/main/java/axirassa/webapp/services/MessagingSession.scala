@@ -1,7 +1,6 @@
 
 package axirassa.webapp.services
 
-import org.hornetq.api.core.HornetQException
 import org.hornetq.api.core.client.ClientMessage
 import org.hornetq.api.core.client.ClientProducer
 import org.hornetq.api.core.client.ClientSession

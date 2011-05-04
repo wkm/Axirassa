@@ -1,10 +1,7 @@
 
 package axirassa.services.phone
 
-import org.apache.http.client.HttpClient
 import org.apache.http.impl.client.DefaultHttpClient
-import org.hornetq.api.core.client.ClientConsumer
-import org.hornetq.api.core.client.ClientMessage
 import org.hornetq.api.core.client.ClientSession
 
 import axirassa.config.Messaging

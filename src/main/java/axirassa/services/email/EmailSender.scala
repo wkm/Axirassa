@@ -1,22 +1,13 @@
 
 package axirassa.services.email
 
-import zanoccio.javakit.StringUtilities
-import zanoccio.javakit.StringUtilities
 import java.io.ByteArrayInputStream
-import java.io.IOException
-
-import org.apache.http.HttpResponse
-import org.apache.http.client.ClientProtocolException
 import org.apache.http.client.HttpClient
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.entity.InputStreamEntity
-import org.hornetq.utils.json.JSONException
 import org.hornetq.utils.json.JSONObject
 
 import zanoccio.javakit.StringUtilities
-import freemarker.template.TemplateException
-
 object EmailSender {
     val EMAIL_WEBAPP = "http://api.postmarkapp.com/email"
     val EMAIL_WEBAPP_TOKEN = "b0ee8591-9e0e-45b6-a7ed-ff1ec9586725"

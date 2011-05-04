@@ -7,8 +7,6 @@ import org.quartz.JobExecutionException
 
 import axirassa.ioc.IocStandalone
 import axirassa.services.DatabaseCleanerService
-import axirassa.services.Service
-
 class DatabaseCleanerServiceJob extends Job {
     override def execute(context : JobExecutionContext) {
         try {

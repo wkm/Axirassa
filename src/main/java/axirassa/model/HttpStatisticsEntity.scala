@@ -1,10 +1,7 @@
 package axirassa.model
 
 import java.io.Serializable
-import java.security.MessageDigest
-import java.util.Collections
 import java.util.Date
-import java.util.Set
 import javax.persistence.Basic
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -17,12 +14,7 @@ import org.hibernate.annotations.Cache
 import org.hibernate.annotations.CacheConcurrencyStrategy
 import javax.persistence.ManyToOne
 import javax.persistence.FetchType
-import javax.persistence.Enumerated
-import javax.persistence.EnumType
 import axirassa.util.AutoSerializingObject
-import axirassa.model.interceptor.EntityPreSave
-import axirassa.util.RandomStringGenerator
-import org.hibernate.annotations.NaturalId
 import java.util.Calendar
 
 @Entity

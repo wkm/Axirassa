@@ -1,15 +1,12 @@
 
 package axirassa.services
 
-import java.util.List
-
 import org.apache.tapestry5.hibernate.annotations.CommitAfter
 import org.apache.tapestry5.ioc.annotations.Inject
 import org.hibernate.Session
 
 import axirassa.dao.FeedbackDAO
 import axirassa.ioc.IocStandalone
-import axirassa.model.FeedbackEntity
 import axirassa.services.email.EmailTemplate
 import axirassa.webapp.services.EmailNotifyService
 import axirassa.webapp.services.MessagingSession

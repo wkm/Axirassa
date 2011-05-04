@@ -1,7 +1,6 @@
 
 package axirassa.webapp.components
 
-import org.apache.shiro.subject.Subject
 import org.apache.tapestry5.BindingConstants
 import org.apache.tapestry5.annotations.Import
 import org.apache.tapestry5.annotations.Parameter

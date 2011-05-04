@@ -1,8 +1,6 @@
 
 package axirassa.webapp.ajax.util
 
-import java.io.IOException
-import java.io.PrintWriter
 import java.util.Date
 
 import javax.servlet.http.HttpServlet

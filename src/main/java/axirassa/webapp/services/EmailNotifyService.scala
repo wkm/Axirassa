@@ -4,10 +4,6 @@ package axirassa.webapp.services
 import axirassa.config.Messaging
 import axirassa.messaging.EmailRequestMessage
 import org.hornetq.api.core.client.ClientProducer
-import java.io.IOException
-
-import org.hornetq.api.core.HornetQException
-
 import axirassa.services.email.EmailTemplate
 
 trait EmailNotifyService {

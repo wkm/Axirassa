@@ -1,9 +1,7 @@
 
 package axirassa.util
 
-import java.io.Serializable
 import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import java.security.Security
 
 import java.lang.Long.toBinaryString

@@ -3,8 +3,6 @@ package axirassa.webapp.ajax.httpstream
 
 import java.io.PrintWriter
 
-import javax.servlet.http.HttpServletResponse
-
 /**
  * A utility class for writing JSON onto a streaming HTTP servlet print writer.
  * The class will place repeated calls to {@link #write(String)} into a JSON

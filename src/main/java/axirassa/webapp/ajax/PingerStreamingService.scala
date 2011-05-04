@@ -1,21 +1,11 @@
 
 package axirassa.webapp.ajax
 
-import java.io.IOException
-
 import org.apache.tapestry5.json.JSONObject
-import org.cometd.bayeux.client.ClientSessionChannel
 import org.cometd.bayeux.server.BayeuxServer
 import org.cometd.server.AbstractService
 import org.hornetq.api.core.HornetQException
-import org.hornetq.api.core.client.ClientConsumer
-import org.hornetq.api.core.client.ClientMessage
-import org.hornetq.api.core.client.ClientSession
-
-import axirassa.model.HttpStatisticsEntity
-import axirassa.model.PingerEntity
 import axirassa.services.InjectorService
-import axirassa.services.InvalidMessageClassException
 import axirassa.util.MessagingTools
 import axirassa.util.MessagingTopic
 

@@ -1,11 +1,8 @@
 package axirassa.webapp.pages.monitor
 
-import axirassa.model.MonitorType
 import axirassa.model.PingerEntity
 import org.apache.tapestry5.hibernate.annotations.CommitAfter
-import java.util.Arrays
 import axirassa.model.PingerFrequency
-import org.apache.tapestry5.util.EnumValueEncoder
 import org.apache.tapestry5.annotations.Property
 import axirassa.dao.UserDAO
 import axirassa.webapp.services.AxirassaSecurityService

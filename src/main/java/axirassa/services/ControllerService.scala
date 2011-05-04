@@ -4,10 +4,10 @@ package axirassa.services;
 import java.util.List;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.hibernate.Query;
+
 import org.hibernate.Session;
-import org.hornetq.api.core.client.ClientMessage;
-import org.hornetq.api.core.client.ClientProducer;
+
+
 
 import axirassa.config.Messaging;
 import axirassa.model.PingerEntity;

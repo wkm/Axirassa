@@ -2,17 +2,11 @@
 package axirassa.services.pinger
 
 import axirassa.services.AxirassaServiceException
-import java.io.IOException
 import java.io.InputStream
-import java.io.InputStreamReader
-
-import org.apache.http.HttpEntity
-import org.apache.http.HttpException
 import org.apache.http.HttpRequest
 import org.apache.http.HttpRequestInterceptor
 import org.apache.http.HttpResponse
 import org.apache.http.HttpResponseInterceptor
-import org.apache.http.client.ClientProtocolException
 import org.apache.http.client.methods.HttpUriRequest
 import org.apache.http.impl.client.DefaultHttpClient
 import org.apache.http.protocol.HttpContext

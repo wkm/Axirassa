@@ -4,8 +4,6 @@ import axirassa.services.util.TemplateReference
 import axirassa.services.util.TemplateType
 import axirassa.services.util.TemplateFactory
 
-import scala.reflect.BeanProperty
-
 object EmailTemplateType {
   val HTML = new EmailTemplateType("html")
   val TEXT = new EmailTemplateType("text")

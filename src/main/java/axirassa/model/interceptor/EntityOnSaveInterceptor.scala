@@ -1,6 +1,6 @@
 package axirassa.model.interceptor
 
-import org.hibernate.HibernateException;
+
 import org.hibernate.event.SaveOrUpdateEvent;
 import org.hibernate.event.SaveOrUpdateEventListener;
 

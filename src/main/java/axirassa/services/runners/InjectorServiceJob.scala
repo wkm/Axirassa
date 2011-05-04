@@ -4,13 +4,10 @@ package axirassa.services.runners
 import org.hibernate.Session
 import org.hornetq.api.core.client.ClientSession
 import org.quartz.Job
-import org.quartz.JobDataMap
 import org.quartz.JobExecutionContext
 import org.quartz.JobExecutionException
 
 import axirassa.services.InjectorService
-import axirassa.services.Service
-
 object InjectorServiceJob {
   val DATABASE_SESSION = "session.database"
   val MESSAGING_SESSION = "session.messaging"

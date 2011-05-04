@@ -1,9 +1,6 @@
 
 package axirassa.webapp.components
 
-import java.io.IOException
-import java.util.List
-
 import org.apache.tapestry5.annotations.Import
 import org.apache.tapestry5.annotations.Parameter
 import org.apache.tapestry5.annotations.Property
@@ -13,12 +10,9 @@ import org.apache.tapestry5.services.javascript.JavaScriptSupport
 import org.hibernate.Session
 
 import axirassa.dao.PingerDAO
-import axirassa.model.HttpStatisticsEntity
 import axirassa.model.PingerEntity
 import axirassa.util.JSONResponse
 import axirassa.webapp.services.AxirassaSecurityService
-import axirassa.webapp.services.AxirassaSecurityException
-
 @Import(
     stylesheet = Array("context:/css/axwidget.css"),
     library = Array("context:/js/dojo/dojo.js", "context:/js/axwidget.js"))

@@ -6,9 +6,6 @@ import axirassa.webapp.services.AxirassaSecurityService
 import axirassa.dao.UserDAO
 import org.hibernate.Session
 import org.apache.tapestry5.ioc.annotations.Inject
-import org.apache.shiro.authz.annotation.RequiresUser
-
-
 class MonitorConsole {
     
 	@Inject
