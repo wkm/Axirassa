@@ -3,7 +3,7 @@ package axirassa.model
 import scalakit.EnumvType
 import scalakit.Enumv
 
-object MonitorType extends Enumeration {
+object MonitorType extends Enumeration with Enumv {
 	val ICMP_PING = Value("ICMP_PING")
 	
 	val HTTP = Value("HTTP")
@@ -18,3 +18,4 @@ object MonitorType extends Enumeration {
 	val SMTP = Value("SMTP")
 	val SMTPS = Value("SMTPS")
 }
+class MonitorType extends EnumvType(MonitorType)

@@ -119,6 +119,7 @@
   <component name="ProjectDictionaryState">
     <dictionary name="wiktor">
       <words>
+        <w>scala's</w>
         <w>stderr</w>
         <w>stdin</w>
       </words>
@@ -1093,10 +1094,26 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/restlet/jee/org.restlet/2.0.0/org.restlet-2.0.0-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Maven: org.scala-lang:scala-compiler-bundle:WrappedArray(2.8.1)">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.8.1/scala-compiler-2.8.1.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.8.1/scala-library-2.8.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
     <library name="Maven: org.scala-lang:scala-compiler-bundle:WrappedArray(2.9.0.RC2)">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.9.0.RC2/scala-compiler-2.9.0.RC2.jar!/" />
         <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.9.0.RC2/scala-library-2.9.0.RC2.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="Maven: org.scala-lang:scala-compiler-bundle:WrappedArray(2.9.0.RC3)">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.9.0.RC3/scala-compiler-2.9.0.RC3.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.9.0.RC3/scala-library-2.9.0.RC3.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
@@ -1112,15 +1129,15 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-compiler/2.8.1/scala-compiler-2.8.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.scala-lang:scala-library:2.9.0.RC2">
+    <library name="Maven: org.scala-lang:scala-library:2.8.1">
       <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.9.0.RC2/scala-library-2.9.0.RC2.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.8.1/scala-library-2.8.1.jar!/" />
       </CLASSES>
       <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.9.0.RC2/scala-library-2.9.0.RC2-javadoc.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.8.1/scala-library-2.8.1-javadoc.jar!/" />
       </JAVADOC>
       <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.9.0.RC2/scala-library-2.9.0.RC2-sources.jar!/" />
+        <root url="jar://$MAVEN_REPOSITORY$/org/scala-lang/scala-library/2.8.1/scala-library-2.8.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.scala-tools.testing:specs_2.8.1:1.6.7.2">

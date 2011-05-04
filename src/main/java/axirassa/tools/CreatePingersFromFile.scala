@@ -3,7 +3,6 @@ package axirassa.tools
 
 import java.io.BufferedReader
 import java.io.FileInputStream
-import java.io.IOException
 import java.io.InputStreamReader
 
 import org.apache.tapestry5.ioc.annotations.Inject
@@ -13,7 +12,6 @@ import axirassa.dao.PingerDAO
 import axirassa.dao.UserDAO
 import axirassa.ioc.IocStandalone
 import axirassa.model.PingerEntity
-import axirassa.model.UserEntity
 import io.Source
 
 
