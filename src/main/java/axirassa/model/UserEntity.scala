@@ -23,15 +23,15 @@ import axirassa.util.RandomStringGenerator
 
 object UserEntity {
   def hashPasswordWithSalt(password: String, salt: Array[Byte]) = {
-    val msgdigest = MessageDigestProvider.generate()
+    val messageDigest = MessageDigestProvider.generate()
 
     for (i <- 0 until 4096) {
-      msgdigest.update(MessageDigestProvider.salt)
-      msgdigest.update(salt)
-      msgdigest.update(password.getBytes())
+      messageDigest.update(MessageDigestProvider.salt)
+      messageDigest.update(salt)
+      messageDigest.update(password.getBytes())
     }
 
-    msgdigest.digest()
+    messageDigest.digest()
   }
 }
 
