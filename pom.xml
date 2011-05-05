@@ -384,7 +384,7 @@
 						<id>default-jar</id>
 						<phase>none</phase>
 					</execution>
-				</executions>
+		    	</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.scala-tools</groupId>
