@@ -457,7 +457,7 @@
 		<project.build.sourceEncoding>ASCII</project.build.sourceEncoding>
 
 		<tapestry-release-version>5.2.5</tapestry-release-version>
-		<hornetq-release-version>2.1.2.Final</hornetq-release-version>
+		<hornetq-release-version>2.2.2.Final</hornetq-release-version>
 		<hibernate-release-version>3.6.1.Final</hibernate-release-version>
 		<netty-release-version>3.2.4.Final</netty-release-version>
 		<bouncycastle-release-version>1.45</bouncycastle-release-version>
