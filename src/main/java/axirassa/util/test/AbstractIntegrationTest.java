@@ -9,9 +9,9 @@ import org.hibernate.Transaction;
 import org.junit.After;
 import org.junit.runner.RunWith;
 
-import axirassa.ioc.IocIntegrationTestRunner;
+import axirassa.ioc.IocDatabaseIntegrationTestRunner;
 
-@RunWith(IocIntegrationTestRunner.class)
+@RunWith(IocDatabaseIntegrationTestRunner.class)
 public class AbstractIntegrationTest {
 
 	@Inject
