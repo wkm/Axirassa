@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.PageRenderLinkSource;
-import org.hibernate.classic.Session;
+import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
 
 import lombok.Setter;

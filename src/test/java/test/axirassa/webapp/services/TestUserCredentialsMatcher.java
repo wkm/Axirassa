@@ -34,7 +34,7 @@ public class TestUserCredentialsMatcher extends AbstractIntegrationTest {
 
 
 	@Test
-	public void createUsers() {
+	public void createUsers() throws Exception {
 		database.beginTransaction();
 		createUser.setEmail("who1@foo.com");
 		createUser.setPassword("password");
