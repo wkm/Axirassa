@@ -11,7 +11,7 @@ import java.security.SecureRandom;
  * 
  */
 public class RandomStringGenerator {
-	public static RandomStringGenerator getInstance () {
+	public static RandomStringGenerator getInstance() {
 		if (instance == null)
 			instance = new RandomStringGenerator();
 		return instance;
@@ -22,16 +22,16 @@ public class RandomStringGenerator {
 	private final SecureRandom random = new SecureRandom();
 
 
-	private RandomStringGenerator () {
+	private RandomStringGenerator() {
 	}
 
 
-	public static String makeRandomString (int length) {
+	public static String makeRandomString(int length) {
 		return getInstance().randomString(length);
 	}
 
 
-	public static String makeRandomStringToken (int length) {
+	public static String makeRandomStringToken(int length) {
 		return getInstance().randomStringToken(length);
 	}
 
@@ -40,24 +40,24 @@ public class RandomStringGenerator {
 	 * @return a string of the given length containing random bytes (except
 	 *         0x00)
 	 */
-	public String randomString (int length) {
+	public String randomString(int length) {
 		byte[] buffer = new byte[length];
 
+		random.nextBytes(buffer);
 		for (int i = 0; i < buffer.length; i++)
 			if (buffer[i] == 0)
 				buffer[i] = randomNonZeroByte();
 
-		random.nextBytes(buffer);
 		return new String(buffer);
 	}
 
 
-	public byte randomNonZeroByte () {
+	public byte randomNonZeroByte() {
 		return (byte) (random.nextInt(254) + 1);
 	}
 
 
-	public String randomStringToken (int length) {
+	public String randomStringToken(int length) {
 		byte[] buffer = new byte[length];
 		int index = 0;
 		while (index < length) {
