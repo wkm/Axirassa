@@ -49,6 +49,9 @@ public class UserCredentialsMatcher implements CredentialsMatcher {
 		byte[] hashedpass = UserEntity.hashPasswordWithSalt(new String(uptoken.getPassword()), authinfo
 		        .getCredentialsSalt().getBytes());
 
+		System.err.println("UCM: PASSWORD: " + new String(uptoken.getPassword()));
+		System.err.println("UCM: SALT: " + new String(authinfo.getCredentialsSalt().getBytes()));
+
 		return Arrays.equals(hashedpass, authinfo.getCredentials());
 	}
 }

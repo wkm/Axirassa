@@ -14,22 +14,27 @@ import org.hornetq.api.core.client.ClientSession;
 import org.hornetq.api.core.client.ClientSessionFactory;
 import org.hornetq.api.core.client.HornetQClient;
 import org.hornetq.core.remoting.impl.netty.NettyConnectorFactory;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import axirassa.util.EmbeddedMessagingServer;
 
 public class TestHornet {
-	static {
-		try {
-			EmbeddedMessagingServer.start();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	@BeforeClass
+	public static void startServer() throws Exception {
+		EmbeddedMessagingServer.start();
+	}
+
+
+	@AfterClass
+	public static void stopServer() throws Exception {
+		EmbeddedMessagingServer.stop();
 	}
 
 
 	@Test
-	public void test () throws JMSException, HornetQException {
+	public void test() throws JMSException, HornetQException {
 		ClientSessionFactory factory = HornetQClient.createClientSessionFactory(new TransportConfiguration(
 		        NettyConnectorFactory.class.getName()));
 

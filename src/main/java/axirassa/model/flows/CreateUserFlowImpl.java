@@ -51,7 +51,7 @@ public class CreateUserFlowImpl implements CreateUserFlow {
 
 	@Override
 	@CommitAfter
-	public void execute() {
+	public void execute() throws HornetQException, IOException {
 		System.out.println("PERSISTING USER");
 
 		userEntity = new UserEntity();
@@ -71,12 +71,6 @@ public class CreateUserFlowImpl implements CreateUserFlow {
 		emailer.startMessage(EmailTemplate.USER_VERIFY_ACCOUNT);
 		emailer.setToAddress(email);
 		emailer.addAttribute("axlink", link);
-		try {
-			emailer.send();
-		} catch (HornetQException e) {
-			logger.error("Fatal messaging error", e);
-		} catch (IOException e) {
-			logger.error("Fatal I/O error", e);
-		}
+		emailer.send();
 	}
 }

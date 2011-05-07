@@ -1,39 +1,41 @@
+
 package test.axirassa.mock;
 
-import axirassa.webapp.services.EmailNotifyService;
-import axirassa.ioc.IocUnitTestRunner;
-import axirassa.services.email.EmailTemplate;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import static org.mockito.Mockito.*;
+import axirassa.services.email.EmailTemplate;
+import axirassa.util.test.AbstractUnitTest;
+import axirassa.webapp.services.EmailNotifyService;
 
 /**
- *
+ * 
  * @author wiktor
  */
-@RunWith(IocUnitTestRunner.class)
-public class TestIocMocking {
 
-    @Inject
-    private Session database;
+public class TestIocMocking extends AbstractUnitTest {
 
-    @Inject
-    private EmailNotifyService emailer;
+	@Inject
+	private Session database;
 
-    @Test
-    public void testMocking () {
-        // test
-        database.beginTransaction();
-        database.beginTransaction();
-        emailer.startMessage(EmailTemplate.AGGREGATED_FEEDBACK);
+	@Inject
+	private EmailNotifyService emailer;
 
-        // verify
-        verify(database, times(2)).beginTransaction();
-        verify(emailer).startMessage(EmailTemplate.AGGREGATED_FEEDBACK);
-    }
 
+	@Test
+	public void testMocking() {
+		// test
+		database.beginTransaction();
+		database.beginTransaction();
+		emailer.startMessage(EmailTemplate.AGGREGATED_FEEDBACK);
+
+		// verify
+		verify(database, times(2)).beginTransaction();
+		verify(emailer).startMessage(EmailTemplate.AGGREGATED_FEEDBACK);
+	}
 
 }
