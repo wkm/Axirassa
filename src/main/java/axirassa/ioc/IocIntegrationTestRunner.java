@@ -11,7 +11,7 @@ public class IocIntegrationTestRunner extends BlockJUnit4ClassRunner {
 	private final Registry registry;
 
 
-	public IocIntegrationTestRunner (Class<?> classObject) throws InitializationError {
+	public IocIntegrationTestRunner(Class<?> classObject) throws InitializationError {
 		super(classObject);
 
 		RegistryBuilder builder = IocStandalone.initRegistryBuilder();
@@ -23,8 +23,9 @@ public class IocIntegrationTestRunner extends BlockJUnit4ClassRunner {
 
 
 	@Override
-	public Object createTest () {
+	public Object createTest() {
 		Object test = registry.autobuild(getTestClass().getJavaClass());
 		return test;
 	}
+
 }

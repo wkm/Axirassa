@@ -110,6 +110,7 @@
 					<groupId>org.testng</groupId>
 					<artifactId>testng</artifactId>
 				</exclusion>
+				<!--
 				<exclusion>
 					<artifactId>jetty-server</artifactId>
 					<groupId>org.eclipse.jetty</groupId>
@@ -130,6 +131,7 @@
 					<artifactId>org.mortbay.jetty</artifactId>
 					<groupId>jetty</groupId>
 				</exclusion>
+				-->
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -199,6 +201,7 @@
 			<type>jar</type>
 			<scope>compile</scope>
 			<exclusions>
+				<!--
 				<exclusion>
 					<artifactId>jetty-util</artifactId>
 					<groupId>org.eclipse.jetty</groupId>
@@ -211,6 +214,7 @@
 					<artifactId>jetty-jmx</artifactId>
 					<groupId>org.eclipse.jetty</groupId>
 				</exclusion>
+				-->
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -220,6 +224,7 @@
 			<type>jar</type>
 			<scope>compile</scope>
 			<exclusions>
+				<!--
 				<exclusion>
 					<artifactId>jetty-util</artifactId>
 					<groupId>org.eclipse.jetty</groupId>
@@ -236,6 +241,7 @@
 					<artifactId>jetty-client</artifactId>
 					<groupId>org.eclipse.jetty</groupId>
 				</exclusion>
+				-->
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -303,12 +309,20 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<!--
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-distribution</artifactId>
 			<version>7.3.1.v20110307</version>
 			<type>pom</type>
 		</dependency>
+		-->
+		<dependency>
+    <groupId>com.formos.tapestry</groupId>
+    <artifactId>tapestry-testify</artifactId>
+    <version>1.0.3</version>
+    <scope>test</scope>
+</dependency>
 	</dependencies>
 	<url>http://axirassa.com</url>
 	<issueManagement>
@@ -434,6 +448,10 @@
 		<repository>
 			<id>maven-restlet</id>
 			<url>http://maven.restlet.org/</url>
+		</repository>
+		<repository>
+		    <id>tapestry</id>
+		    <url>http://tapestry.formos.com/maven-repository</url>
 		</repository>
 	</repositories>
 

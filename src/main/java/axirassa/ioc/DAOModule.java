@@ -23,7 +23,7 @@ import axirassa.dao.UserPhoneNumberDAOImpl;
 
 @SubModule({ HibernateCoreModule.class })
 public class DAOModule {
-	public static void bind (ServiceBinder binder) {
+	public static void bind(ServiceBinder binder) {
 		binder.bind(UserDAO.class, UserDAOImpl.class);
 		binder.bind(FeedbackDAO.class, FeedbackDAOImpl.class);
 		binder.bind(PasswordResetTokenDAO.class, PasswordResetTokenDAOImpl.class);
@@ -34,7 +34,7 @@ public class DAOModule {
 
 
 	@Match("*DAO")
-	public static void adviseTransactions (HibernateTransactionAdvisor advisor, MethodAdviceReceiver receiver) {
+	public static void adviseTransactions(HibernateTransactionAdvisor advisor, MethodAdviceReceiver receiver) {
 		advisor.addTransactionCommitAdvice(receiver);
 	}
 

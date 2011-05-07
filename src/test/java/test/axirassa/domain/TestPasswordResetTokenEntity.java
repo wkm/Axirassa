@@ -5,16 +5,14 @@ import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import axirassa.dao.PasswordResetTokenDAO;
-import axirassa.ioc.IocIntegrationTestRunner;
 import axirassa.model.PasswordResetTokenEntity;
 import axirassa.model.UserEmailAddressEntity;
 import axirassa.model.UserEntity;
+import axirassa.util.test.AbstractIntegrationTest;
 
-@RunWith(IocIntegrationTestRunner.class)
-public class TestPasswordResetTokenEntity {
+public class TestPasswordResetTokenEntity extends AbstractIntegrationTest {
 
 	@Inject
 	private PasswordResetTokenDAO passwordResetTokenDAO;

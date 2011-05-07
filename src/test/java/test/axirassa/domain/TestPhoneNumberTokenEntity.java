@@ -8,21 +8,19 @@ import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import axirassa.ioc.IocIntegrationTestRunner;
 import axirassa.model.UserEmailAddressEntity;
 import axirassa.model.UserEntity;
 import axirassa.model.UserPhoneNumberEntity;
 import axirassa.model.flows.CreateUserFlow;
+import axirassa.util.test.AbstractIntegrationTest;
 
-@RunWith(IocIntegrationTestRunner.class)
-public class TestPhoneNumberTokenEntity {
+public class TestPhoneNumberTokenEntity extends AbstractIntegrationTest {
 	@Inject
-	CreateUserFlow createUserFlow;
+	private CreateUserFlow createUserFlow;
 
 	@Inject
-	Session database;
+	private Session database;
 
 
 	@Test
