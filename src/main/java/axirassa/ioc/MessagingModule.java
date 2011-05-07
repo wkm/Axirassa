@@ -24,8 +24,8 @@ import axirassa.webapp.services.internal.VoiceNotifyServiceImpl;
 public class MessagingModule {
 
 	@Scope(ScopeConstants.PERTHREAD)
-	public static MessagingSessionManager buildMessagingSessionManager (PerthreadManager perthreadManager)
-	        throws HornetQException {
+	public static MessagingSessionManager buildMessagingSessionManager(PerthreadManager perthreadManager)
+	        throws Exception {
 		MessagingSessionManagerImpl sessionManager = new MessagingSessionManagerImpl();
 		perthreadManager.addThreadCleanupListener(sessionManager);
 		return sessionManager;
@@ -33,26 +33,26 @@ public class MessagingModule {
 
 
 	@Scope(ScopeConstants.PERTHREAD)
-	public static MessagingSession buildMessagingSession (MessagingSessionManager sessionManager,
+	public static MessagingSession buildMessagingSession(MessagingSessionManager sessionManager,
 	        PropertyShadowBuilder propertyShadowBuilder) throws HornetQException {
 		return propertyShadowBuilder.build(sessionManager, "session", MessagingSession.class);
 	}
 
 
 	@Scope(ScopeConstants.PERTHREAD)
-	public EmailNotifyService buildEmailNotifyService (MessagingSession messagingSession) throws HornetQException {
+	public EmailNotifyService buildEmailNotifyService(MessagingSession messagingSession) throws HornetQException {
 		return new EmailNotifyServiceImpl(messagingSession);
 	}
 
 
 	@Scope(ScopeConstants.PERTHREAD)
-	public SmsNotifyService buildSmsNotifyService (MessagingSession messagingSession) throws HornetQException {
+	public SmsNotifyService buildSmsNotifyService(MessagingSession messagingSession) throws HornetQException {
 		return new SmsNotifyServiceImpl(messagingSession);
 	}
 
 
 	@Scope(ScopeConstants.PERTHREAD)
-	public VoiceNotifyService buildVoiceNotifyService (MessagingSession messagingSession) throws HornetQException {
+	public VoiceNotifyService buildVoiceNotifyService(MessagingSession messagingSession) throws HornetQException {
 		return new VoiceNotifyServiceImpl(messagingSession);
 	}
 

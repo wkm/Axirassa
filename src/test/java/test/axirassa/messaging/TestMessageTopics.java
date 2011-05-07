@@ -15,7 +15,8 @@ import org.hornetq.api.core.client.ClientProducer;
 import org.hornetq.api.core.client.ClientSession;
 import org.hornetq.api.core.client.ClientSessionFactory;
 import org.hornetq.api.core.client.HornetQClient;
-import org.hornetq.core.remoting.impl.netty.NettyConnectorFactory;
+import org.hornetq.api.core.client.ServerLocator;
+import org.hornetq.core.remoting.impl.netty.NettyConnector;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -55,9 +56,10 @@ public class TestMessageTopics {
 
 	@Test
 	@Ignore
-	public void test() throws HornetQException {
-		ClientSessionFactory factory = HornetQClient.createClientSessionFactory(new TransportConfiguration(
-		        NettyConnectorFactory.class.getName()));
+	public void test() throws Exception {
+		TransportConfiguration config = new TransportConfiguration(NettyConnector.class.getName());
+		ServerLocator locator = HornetQClient.createServerLocatorWithoutHA(config);
+		ClientSessionFactory factory = locator.createSessionFactory();
 		ClientSession session = factory.createSession();
 
 		String topic1 = "ax.account.1.pinger.12";

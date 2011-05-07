@@ -12,7 +12,7 @@ public class MessagingSessionManagerImpl implements MessagingSessionManager {
 	private final MessagingSession session;
 
 
-	public MessagingSessionManagerImpl() throws HornetQException {
+	public MessagingSessionManagerImpl() throws Exception {
 		System.err.println("CREATING SESSION MANAGER AND SESSION");
 		session = new MessagingSessionImpl(MessagingTools.getEmbeddedSession());
 	}
