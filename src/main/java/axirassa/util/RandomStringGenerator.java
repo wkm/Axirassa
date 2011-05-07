@@ -23,6 +23,7 @@ public class RandomStringGenerator {
 
 
 	private RandomStringGenerator() {
+		// private constructor
 	}
 
 
@@ -36,14 +37,19 @@ public class RandomStringGenerator {
 	}
 
 
+	public byte[] randomBytes(int length) {
+		byte[] buffer = new byte[length];
+		random.nextBytes(buffer);
+		return buffer;
+	}
+
+
 	/**
 	 * @return a string of the given length containing random bytes (except
 	 *         0x00)
 	 */
 	public String randomString(int length) {
-		byte[] buffer = new byte[length];
-
-		random.nextBytes(buffer);
+		byte[] buffer = randomBytes(length);
 		for (int i = 0; i < buffer.length; i++)
 			if (buffer[i] == 0)
 				buffer[i] = randomNonZeroByte();
