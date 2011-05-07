@@ -3,7 +3,7 @@
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<title>axirassa e-mail &amp; web server infrastructure monitoring</title>
+	<title>monitro e-mail &amp; web server infrastructure monitoring</title>
 	<link rel="icon" type="image/png" href="/media/axirassa.png" />
 </head>
 <body>
@@ -13,7 +13,7 @@
 
 	<div class="header">
 		<a href="/">
-			<h1>axirassa</h1>
+			<h1>monitro</h1>
 			<h2>website and e&#8209;mail monitoring</h2>
 		</a>
 	</div>
