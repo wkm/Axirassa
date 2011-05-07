@@ -54,7 +54,7 @@ public class RegisterUser {
 
 
 	@Log
-	public JSONObject onAJAXValidateFromEmailField () {
+	public JSONObject onAJAXValidateFromEmailField() {
 		String emailvalue = request.getParameter("param");
 
 		if (userDAO.isEmailRegistered(emailvalue))
@@ -64,12 +64,12 @@ public class RegisterUser {
 	}
 
 
-	private String emailTakenMessage (String email) {
+	private String emailTakenMessage(String email) {
 		return "The email '" + email + "' is taken";
 	}
 
 
-	public void onValidateFromForm () {
+	public void onValidateFromForm() {
 		if (password != null && confirmemail != null && !password.equals(confirmpassword))
 			form.recordError(confirmPasswordField, "Passwords do not match");
 
@@ -81,7 +81,7 @@ public class RegisterUser {
 	}
 
 
-	public Object onSuccessFromForm () {
+	public Object onSuccessFromForm() throws Exception {
 		createUserFlow.setEmail(email);
 		createUserFlow.setPassword(password);
 		createUserFlow.execute();
