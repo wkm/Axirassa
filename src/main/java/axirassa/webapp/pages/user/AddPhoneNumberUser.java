@@ -1,8 +1,6 @@
 
 package axirassa.webapp.pages.user;
 
-import java.io.IOException;
-
 import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.tapestry5.Link;
 import org.apache.tapestry5.annotations.Component;
@@ -13,7 +11,6 @@ import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.hibernate.Session;
-import org.hornetq.api.core.HornetQException;
 
 import axirassa.dao.UserDAO;
 import axirassa.model.UserEntity;
@@ -64,7 +61,7 @@ public class AddPhoneNumberUser {
 	private String token;
 
 
-	public void onValidateFromForm () {
+	public void onValidateFromForm() {
 		if (extension != null && acceptsText == true)
 			form.recordError(acceptsTextField, "Text messages may not be sent to phone numbers with extensions");
 
@@ -74,7 +71,7 @@ public class AddPhoneNumberUser {
 
 
 	@CommitAfter
-	public Object onSuccess () throws HornetQException, IOException, AxirassaSecurityException {
+	public Object onSuccess() throws AxirassaSecurityException {
 		UserEntity user = security.getUserEntity();
 
 		UserPhoneNumberEntity phoneNumberEntity = new UserPhoneNumberEntity();
