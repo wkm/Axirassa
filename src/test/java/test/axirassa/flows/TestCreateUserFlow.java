@@ -5,15 +5,13 @@ import static org.mockito.Mockito.verify;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import axirassa.ioc.IocUnitTestRunner;
 import axirassa.model.flows.CreateUserFlow;
 import axirassa.services.email.EmailTemplate;
+import axirassa.util.test.AbstractUnitTest;
 import axirassa.webapp.services.EmailNotifyService;
 
-@RunWith(IocUnitTestRunner.class)
-public class TestCreateUserFlow {
+public class TestCreateUserFlow extends AbstractUnitTest {
 
 	@Inject
 	private CreateUserFlow createUserFlow;
