@@ -3,14 +3,10 @@ package axirassa.webapp.services;
 
 import java.io.IOException;
 
-import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.realm.Realm;
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
-import org.apache.tapestry5.ioc.ServiceBinder;
-import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Local;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.apache.tapestry5.ioc.services.CoercionTuple;
@@ -19,40 +15,25 @@ import org.apache.tapestry5.services.RequestFilter;
 import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
 import org.apache.tapestry5.util.StringToEnumCoercion;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.tynamo.security.SecuritySymbols;
 import org.tynamo.security.services.SecurityModule;
 
-import axirassa.dao.UserDAO;
+import axirassa.ioc.AxirassaSecurityModule;
 import axirassa.ioc.DAOModule;
 import axirassa.ioc.FlowsModule;
 import axirassa.ioc.MessagingModule;
 import axirassa.webapp.data.AxButtonStyle;
-import axirassa.webapp.services.internal.AxirassaSecurityServiceImpl;
 
 /**
  * This module is automatically included as part of the Tapestry IoC Registry,
  * it's a good place to configure and extend Tapestry, or to place your own
  * service definitions.
  */
-@SubModule({ DAOModule.class, FlowsModule.class, MessagingModule.class, SecurityModule.class })
+@SubModule({
+        DAOModule.class, FlowsModule.class, MessagingModule.class, SecurityModule.class, AxirassaSecurityModule.class })
 public class AppModule {
-	@Inject
-	private Session database;
-
-	@Inject
-	private UserDAO userDAO;
-
-
-	public static void bind (ServiceBinder binder) {
-		binder.bind(AuthorizingRealm.class, EntityRealm.class);
-
-		binder.bind(AxirassaSecurityService.class, AxirassaSecurityServiceImpl.class);
-	}
-
-
-	public static void contributeApplicationDefaults (MappedConfiguration<String, String> configuration) {
+	public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration) {
 		// As you add localised message catalogs and other assets, you can
 		// extend this list of locales (it's a comma separated series of locale
 		// names;
@@ -71,12 +52,12 @@ public class AppModule {
 	}
 
 
-	public static void contributeTypeCoercer (Configuration<CoercionTuple> configuration) {
+	public static void contributeTypeCoercer(Configuration<CoercionTuple> configuration) {
 		add(configuration, AxButtonStyle.class);
 	}
 
 
-	private static <T extends Enum> void add (Configuration<CoercionTuple> configuration, Class<T> enumType) {
+	private static <T extends Enum> void add(Configuration<CoercionTuple> configuration, Class<T> enumType) {
 		configuration.add(CoercionTuple.create(String.class, enumType, StringToEnumCoercion.create(enumType)));
 	}
 
@@ -100,10 +81,10 @@ public class AppModule {
 	 * already defines a service named "RequestFilter" we use an explicit
 	 * service id that we can reference inside the contribution method.
 	 */
-	public RequestFilter buildTimingFilter (final Logger log) {
+	public RequestFilter buildTimingFilter(final Logger log) {
 		return new RequestFilter() {
 			@Override
-			public boolean service (Request request, Response response, RequestHandler handler) throws IOException {
+			public boolean service(Request request, Response response, RequestHandler handler) throws IOException {
 				long startTime = System.currentTimeMillis();
 
 				try {
@@ -133,7 +114,7 @@ public class AppModule {
 	 * module. Without @Local, there would be an error due to the other
 	 * service(s) that implement RequestFilter (defined in other modules).
 	 */
-	public void contributeRequestHandler (OrderedConfiguration<RequestFilter> configuration, @Local RequestFilter filter) {
+	public void contributeRequestHandler(OrderedConfiguration<RequestFilter> configuration, @Local RequestFilter filter) {
 		// Each contribution to an ordered configuration has a name, When
 		// necessary, you may
 		// set constraints to precisely control the invocation order of the
@@ -144,14 +125,7 @@ public class AppModule {
 	}
 
 
-	public void contributeWebSecurityManager (Configuration<Realm> configuration) {
-		EntityRealm realm = new EntityRealm(userDAO);
-		realm.setCredentialsMatcher(new UserCredentialsMatcher(database));
-		configuration.add(realm);
-	}
-
-
-	public void contributeIgnoredPathsFilter (Configuration<String> configuration) {
+	public void contributeIgnoredPathsFilter(Configuration<String> configuration) {
 		configuration.add("/push/.*");
 		configuration.add("/stream/.*");
 	}
