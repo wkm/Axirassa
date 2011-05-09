@@ -280,12 +280,12 @@
 			<version>1.0.3</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>com.formos.tapestry</groupId>
 			<artifactId>tapestry-xpath</artifactId>
 			<version>1.0.1</version>
 			<scope>test</scope>
-		</dependency> -->
+		</dependency>
 	</dependencies>
 	<url>http://axirassa.com</url>
 	<issueManagement>

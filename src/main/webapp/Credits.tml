@@ -5,6 +5,7 @@
 	<p>A selection of products and companies which make Axirassa possible.</p>
 	<h4>Apache Tapestry 5</h4>
 	<p>Extremely efficient Java web-development framework, both for the developer and the server.</p>
+	<p>Components: tapestry-hibernate; tapestry-security; tapestry-testify; tapestry-xpath</p>
 	
 	<h4>PostgreSQL</h4>
 	<p>Powerful, flexible, and fast open-source database.</p>
