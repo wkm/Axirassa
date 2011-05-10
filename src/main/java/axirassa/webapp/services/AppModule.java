@@ -52,12 +52,12 @@ public class AppModule {
 	}
 
 
-	public static void contributeTypeCoercer(Configuration<CoercionTuple> configuration) {
+	public static void contributeTypeCoercer(Configuration<CoercionTuple<?, ?>> configuration) {
 		add(configuration, AxButtonStyle.class);
 	}
 
 
-	private static <T extends Enum> void add(Configuration<CoercionTuple> configuration, Class<T> enumType) {
+	private static <T extends Enum<?>> void add(Configuration<CoercionTuple<?, ?>> configuration, Class<T> enumType) {
 		configuration.add(CoercionTuple.create(String.class, enumType, StringToEnumCoercion.create(enumType)));
 	}
 
