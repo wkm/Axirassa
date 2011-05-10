@@ -14,8 +14,7 @@ import org.hibernate.Session;
  */
 @SubModule({ ExternalServicesMockingModule.class, MockPageRenderLinkSourceModule.class })
 public class MockingModule {
-	public static void contributeServiceOverride(MappedConfiguration<Class, Object> configuration) {
+	public static void contributeServiceOverride(MappedConfiguration<Class<?>, Object> configuration) {
 		configuration.add(Session.class, mock(Session.class));
 	}
-
 }

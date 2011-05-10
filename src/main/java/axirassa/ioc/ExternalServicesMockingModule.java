@@ -12,7 +12,7 @@ import axirassa.webapp.services.SmsNotifyService;
 import axirassa.webapp.services.VoiceNotifyService;
 
 public class ExternalServicesMockingModule {
-	public static void contributeServiceOverride(MappedConfiguration<Class, Object> configuration) {
+	public static void contributeServiceOverride(MappedConfiguration<Class<?>, Object> configuration) {
 		configuration.add(MessagingSessionManager.class, mock(MessagingSessionManager.class));
 		configuration.add(MessagingSession.class, mock(MessagingSession.class));
 		configuration.add(EmailNotifyService.class, mock(EmailNotifyService.class));
