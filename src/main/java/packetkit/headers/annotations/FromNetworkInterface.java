@@ -8,7 +8,6 @@ import java.lang.annotation.Target;
 
 import packetkit.NetworkInterface;
 
-
 /**
  * The {@link FromNetworkInterface} annotation indicates that this field should
  * be automatically populated by the {@link NetworkInterface} object through
@@ -19,4 +18,5 @@ import packetkit.NetworkInterface;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface FromNetworkInterface {
+	// empty annotation
 }

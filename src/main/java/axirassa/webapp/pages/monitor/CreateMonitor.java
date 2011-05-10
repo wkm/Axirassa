@@ -44,7 +44,7 @@ public class CreateMonitor {
 
 
 	@CommitAfter
-	public Object onSuccess () throws AxirassaSecurityException {
+	public Object onSuccess() throws AxirassaSecurityException {
 		// save the pinger
 		PingerEntity pinger = new PingerEntity();
 		pinger.setUrl(url);
