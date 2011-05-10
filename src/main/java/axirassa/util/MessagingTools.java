@@ -11,7 +11,7 @@ import org.hornetq.core.remoting.impl.netty.NettyConnectorFactory;
 public class MessagingTools {
 	public static ClientSession getEmbeddedSession() throws Exception {
 		TransportConfiguration configuration = new TransportConfiguration(NettyConnectorFactory.class.getName());
-		ServerLocator locator = HornetQClient.createServerLocatorWithHA(configuration);
+		ServerLocator locator = HornetQClient.createServerLocatorWithoutHA(configuration);
 		ClientSessionFactory factory = locator.createSessionFactory();
 		ClientSession session = factory.createSession();
 		return session;
