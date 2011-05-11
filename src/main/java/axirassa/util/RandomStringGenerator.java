@@ -8,7 +8,6 @@ import java.security.SecureRandom;
  * powered by {@link SecureRandom}.
  * 
  * @author wiktor
- * 
  */
 public class RandomStringGenerator {
 	public static RandomStringGenerator getInstance() {

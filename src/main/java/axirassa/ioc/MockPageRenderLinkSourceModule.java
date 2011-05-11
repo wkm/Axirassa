@@ -15,7 +15,7 @@ public class MockPageRenderLinkSourceModule {
 		Link mockLink = mock(Link.class);
 		when(mockLink.toAbsoluteURI()).thenReturn("http://axirassa/");
 		when(mockLink.toAbsoluteURI(true)).thenReturn("https://axirassa/");
-		when(mockLink.toAbsoluteURI(false)).thenReturn("http://axirassa/");
+		when(mockLink.toAbsoluteURI()).thenReturn("http://axirassa/");
 
 		PageRenderLinkSource mockPrls = mock(PageRenderLinkSource.class);
 		when(mockPrls.createPageRenderLinkWithContext(any(Class.class), anyObject())).thenReturn(mockLink);
