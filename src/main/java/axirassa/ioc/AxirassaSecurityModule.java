@@ -26,7 +26,6 @@ public class AxirassaSecurityModule {
 
 	public static void bind(ServiceBinder binder) {
 		binder.bind(AuthorizingRealm.class, EntityRealm.class);
-
 		binder.bind(AxirassaSecurityService.class, AxirassaSecurityServiceImpl.class);
 	}
 
