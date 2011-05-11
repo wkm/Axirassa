@@ -49,7 +49,7 @@
     <logger name="axirassa.webapp" level="debug"/>
     
     <!-- <logger name="org.hibernate.type" level="info"/> -->
-    <logger name="org.hibernate" level="warn"/>
+    <logger name="org.hibernate" level="info"/>
 	
 	<logger name="org.quartz" level="warn" />
     
