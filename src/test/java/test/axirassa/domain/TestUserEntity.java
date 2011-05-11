@@ -20,7 +20,6 @@ public class TestUserEntity extends AbstractIntegrationTest {
 
 
 	@Test
-	@CommitAfter
 	public void userPassword() throws NoSaltException {
 		UserEntity user = new UserEntity();
 		user.createPassword("blah");
@@ -33,7 +32,6 @@ public class TestUserEntity extends AbstractIntegrationTest {
 
 
 	@Test
-	@CommitAfter
 	public void userAutomaticSalting() {
 		UserEntity user = new UserEntity();
 		long start = System.currentTimeMillis();
