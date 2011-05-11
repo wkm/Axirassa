@@ -11,6 +11,7 @@ import org.tynamo.security.services.TapestryRealmSecurityManager;
 import axirassa.ioc.AxirassaSecurityModule;
 import axirassa.ioc.ExternalServicesMockingModule;
 import axirassa.ioc.FlowsModule;
+import axirassa.ioc.HibernateTestingModule;
 import axirassa.ioc.LoggingModule;
 import axirassa.ioc.MessagingModule;
 
@@ -20,7 +21,7 @@ import com.formos.tapestry.testify.junit4.TapestryTest;
 public class TapestryPageTest extends TapestryTest {
 	private static final TapestryTester SHARED_TESTER = new TapestryTester("axirassa.webapp", FlowsModule.class,
 	        MessagingModule.class, LoggingModule.class, ExternalServicesMockingModule.class,
-	        AxirassaSecurityModule.class);
+	        HibernateTestingModule.class, AxirassaSecurityModule.class);
 
 
 	public TapestryPageTest() {
