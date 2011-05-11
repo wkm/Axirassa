@@ -33,7 +33,6 @@ public class AddEmailAddressFlowImpl implements AddEmailAddressFlow {
 	private PageRenderLinkSource linkSource; 
 	
 	@Override
-	@CommitAfter
 	public void execute() throws HornetQException, IOException {
 		UserEmailAddressEntity emailAddressEntity = new UserEmailAddressEntity();
 		emailAddressEntity.setUser(userEntity);

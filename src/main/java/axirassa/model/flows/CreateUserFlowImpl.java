@@ -50,10 +50,7 @@ public class CreateUserFlowImpl implements CreateUserFlow {
 
 
 	@Override
-	@CommitAfter
 	public void execute() throws HornetQException, IOException {
-		System.out.println("PERSISTING USER");
-
 		userEntity = new UserEntity();
 		userEntity.createPassword(password);
 
