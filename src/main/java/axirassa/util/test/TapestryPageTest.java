@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.realm.Realm;
+import org.junit.After;
 import org.tynamo.security.services.TapestryRealmSecurityManager;
 
 import axirassa.ioc.AxirassaSecurityModule;
@@ -38,5 +39,12 @@ public class TapestryPageTest extends TapestryTest {
 
 		org.apache.shiro.mgt.SecurityManager manager = new TapestryRealmSecurityManager(realms);
 		SecurityUtils.setSecurityManager(manager);
+	}
+
+
+	@After
+	public void stopSessions() {
+		HibernateCleanupService cleanupService = SHARED_TESTER.autobuild(HibernateCleanupService.class);
+		cleanupService.cleanup();
 	}
 }
