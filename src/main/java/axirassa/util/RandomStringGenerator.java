@@ -1,6 +1,7 @@
 
 package axirassa.util;
 
+import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 
 /**
@@ -53,9 +54,17 @@ public class RandomStringGenerator {
 			if (buffer[i] == 0)
 				buffer[i] = randomNonZeroByte();
 
-		return new String(buffer);
+		return toStringFromAsciiBytes(buffer);
 	}
 
+	private String toStringFromAsciiBytes(byte[] bytes) {
+		try {
+			return new String(bytes, "ASCII");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace(System.err);
+			return null;
+		}
+	}
 
 	public byte randomNonZeroByte() {
 		return (byte) (random.nextInt(254) + 1);
