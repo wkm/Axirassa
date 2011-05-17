@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import packetkit.AbstractPacketTest;
@@ -107,6 +108,7 @@ public class TestICMPFrame extends AbstractPacketTest {
 
 
 	@Test
+	@Ignore
 	public void speedtest() {
 		Frame frame = new Frame();
 		List<PacketHeader> headers = new ArrayList<PacketHeader>(3);
