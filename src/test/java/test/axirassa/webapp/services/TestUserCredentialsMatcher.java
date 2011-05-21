@@ -35,7 +35,6 @@ public class TestUserCredentialsMatcher extends AbstractIntegrationTest {
 
 	@Test
 	public void createUsers() throws Exception {
-		database.beginTransaction();
 		createUser.setEmail("who1@foo.com");
 		createUser.setPassword("password");
 		createUser.execute();
@@ -43,7 +42,6 @@ public class TestUserCredentialsMatcher extends AbstractIntegrationTest {
 		createUser.setEmail("who2@foo.com");
 		createUser.setPassword("password");
 		createUser.execute();
-		database.getTransaction().commit();
 
 		Query q = database.createQuery("from UserEntity");
 		assertEquals(2, q.list().size());
