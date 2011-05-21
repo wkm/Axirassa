@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.tapestry5.dom.Document;
@@ -17,7 +18,6 @@ import org.junit.Test;
 import axirassa.dao.UserDAO;
 import axirassa.model.UserEntity;
 import axirassa.model.flows.CreateUserFlow;
-import axirassa.util.test.MapUtility;
 import axirassa.util.test.TapestryPageTest;
 
 import com.formos.tapestry.xpath.TapestryXPath;
@@ -44,15 +44,16 @@ public class TestRegisterPage extends TapestryPageTest {
 		assertEquals(2, passwordNodes.size());
 
 		Element registerButton = TapestryXPath.xpath("//input[@value='Register']").selectSingleElement(page);
-		Document resultPage = tester.clickSubmit(registerButton,
-		                                         new MapUtility().p("txtfield", "who@foo.com")
-		                                                 .p("txtfield_0", "who@foo.com").p("txtfield_1", "123")
-		                                                 .p("txtfield_2", "123").getValueMap());
+		Document resultPage = tester.clickSubmit(registerButton, new LinkedHashMap<String, String>() {
+			{
+				put("txtfield", "who@foo.com");
+				put("txtfield_0", "who@foo.com");
+				put("txtfield_1", "123");
+				put("txtfield_2", "123");
+			}
+		});
 
-		// ensure we have no errors
-		List<Element> errorNodes = TapestryXPath.xpath("//*[@class='t-error']").selectElements(resultPage);
-		System.out.println(resultPage);
-		assertEquals(0, errorNodes.size());
+		ensureNoErrors(resultPage);
 
 		// did we save this user?
 		UserEntity user = userDAO.getUserByEmail("who@foo.com");
@@ -60,7 +61,5 @@ public class TestRegisterPage extends TapestryPageTest {
 
 		// password should match
 		assertTrue(user.matchPassword("123"));
-
-		System.out.println(resultPage);
 	}
 }
