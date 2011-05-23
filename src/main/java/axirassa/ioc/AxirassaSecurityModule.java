@@ -8,6 +8,7 @@ import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.hibernate.Session;
+import org.tynamo.security.services.SecurityModule;
 
 import axirassa.dao.UserDAO;
 import axirassa.webapp.services.AxirassaSecurityService;
@@ -15,7 +16,7 @@ import axirassa.webapp.services.EntityRealm;
 import axirassa.webapp.services.UserCredentialsMatcher;
 import axirassa.webapp.services.internal.AxirassaSecurityServiceImpl;
 
-@SubModule({ DAOModule.class })
+@SubModule({ SecurityModule.class, DAOModule.class })
 public class AxirassaSecurityModule {
 	@Inject
 	private Session database;

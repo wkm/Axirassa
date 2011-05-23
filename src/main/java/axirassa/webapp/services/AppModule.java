@@ -17,7 +17,6 @@ import org.apache.tapestry5.services.Response;
 import org.apache.tapestry5.util.StringToEnumCoercion;
 import org.slf4j.Logger;
 import org.tynamo.security.SecuritySymbols;
-import org.tynamo.security.services.SecurityModule;
 
 import axirassa.ioc.AxirassaSecurityModule;
 import axirassa.ioc.DAOModule;
@@ -30,8 +29,7 @@ import axirassa.webapp.data.AxButtonStyle;
  * it's a good place to configure and extend Tapestry, or to place your own
  * service definitions.
  */
-@SubModule({
-        DAOModule.class, FlowsModule.class, MessagingModule.class, SecurityModule.class, AxirassaSecurityModule.class })
+@SubModule({ DAOModule.class, FlowsModule.class, MessagingModule.class, AxirassaSecurityModule.class })
 public class AppModule {
 	public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration) {
 		// As you add localised message catalogs and other assets, you can
