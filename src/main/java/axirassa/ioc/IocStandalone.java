@@ -40,4 +40,11 @@ public class IocStandalone {
 		return registry.autobuild(classObject);
 	}
 
+
+	public static void shutdown() {
+		if (registry != null) {
+			registry.shutdown();
+			registry = null;
+		}
+	}
 }
