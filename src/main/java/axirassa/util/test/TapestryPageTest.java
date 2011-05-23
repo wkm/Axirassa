@@ -51,10 +51,10 @@ public class TapestryPageTest extends TapestryTest {
 	public void ensureNoErrors(Document page) throws JaxenException {
 		// ensure no errors
 		List<Element> errorNodes = TapestryXPath.xpath("//*[@class='t-error']").selectElements(page);
-		assertEquals("tapestry error elements found", 0, errorNodes.size());
+		assertEquals("tapestry error elements found: " + errorNodes, 0, errorNodes.size());
 
 		// ensure no stack trace
 		List<Element> stacktraceNodes = TapestryXPath.xpath("//*[@class='t-stack-trace']").selectElements(page);
-		assertEquals("stack trace elements found", 0, stacktraceNodes.size());
+		assertEquals("stack trace elements found: " + stacktraceNodes, 0, stacktraceNodes.size());
 	}
 }
