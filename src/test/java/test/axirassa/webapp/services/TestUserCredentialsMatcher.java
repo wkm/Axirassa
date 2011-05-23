@@ -46,11 +46,18 @@ public class TestUserCredentialsMatcher extends AbstractIntegrationTest {
 		Query q = database.createQuery("from UserEntity");
 		assertEquals(2, q.list().size());
 
+		ensureCredentialsMatch("who1@foo.com", "password");
+		ensureCredentialsMatch("who2@foo.com", "password");
+	}
+
+
+	private void ensureCredentialsMatch(String email, String password) {
 		UserCredentialsMatcher matcher = new UserCredentialsMatcher(database);
-		UserEmailAddressEntity email = addressDAO.getPrimaryEmail(userDAO.getUserByEmail("who1@foo.com"));
-		UserAuthenticationInfo authinfo = UserAuthenticationInfo.createInfoFromEntity(email);
-		UsernamePasswordToken token1 = new UsernamePasswordToken("who1@foo.com", "password");
-		assertTrue(matcher.doCredentialsMatch(token1, authinfo));
+		UserEmailAddressEntity emailEntity = addressDAO.getPrimaryEmail(userDAO.getUserByEmail(email));
+		UserAuthenticationInfo authinfo = UserAuthenticationInfo.createInfoFromEntity(emailEntity);
+		UsernamePasswordToken token = new UsernamePasswordToken(email, password);
+
+		assertTrue(matcher.doCredentialsMatch(token, authinfo));
 	}
 
 }
