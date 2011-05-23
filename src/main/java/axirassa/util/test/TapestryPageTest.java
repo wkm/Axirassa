@@ -10,6 +10,7 @@ import org.apache.tapestry5.dom.Document;
 import org.apache.tapestry5.dom.Element;
 import org.jaxen.JaxenException;
 import org.junit.After;
+import org.junit.Before;
 
 import axirassa.ioc.AxirassaSecurityModule;
 import axirassa.ioc.ExternalServicesMockingModule;
@@ -38,6 +39,13 @@ public class TapestryPageTest extends TapestryTest {
 	private void setSecurityManager() {
 		CustomSecurityManagerFactory factory = SHARED_TESTER.autobuild(CustomSecurityManagerFactory.class);
 		SecurityUtils.setSecurityManager(factory.getWebSecurityManager());
+	}
+
+
+	@Before
+	public void wipeAndCreate() {
+		HibernateCleanupService cleanupService = SHARED_TESTER.autobuild(HibernateCleanupService.class);
+		cleanupService.wipeAndCreateDB();
 	}
 
 
