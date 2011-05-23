@@ -3,17 +3,13 @@ package axirassa.util.test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.realm.Realm;
 import org.apache.tapestry5.dom.Document;
 import org.apache.tapestry5.dom.Element;
 import org.jaxen.JaxenException;
 import org.junit.After;
-import org.tynamo.security.services.TapestryRealmSecurityManager;
 
 import axirassa.ioc.AxirassaSecurityModule;
 import axirassa.ioc.ExternalServicesMockingModule;
@@ -21,6 +17,7 @@ import axirassa.ioc.FlowsModule;
 import axirassa.ioc.HibernateTestingModule;
 import axirassa.ioc.LoggingModule;
 import axirassa.ioc.MessagingModule;
+import axirassa.ioc.PageTestingModule;
 
 import com.formos.tapestry.testify.core.TapestryTester;
 import com.formos.tapestry.testify.junit4.TapestryTest;
@@ -29,7 +26,7 @@ import com.formos.tapestry.xpath.TapestryXPath;
 public class TapestryPageTest extends TapestryTest {
 	private static final TapestryTester SHARED_TESTER = new TapestryTester("axirassa.webapp", FlowsModule.class,
 	        MessagingModule.class, LoggingModule.class, ExternalServicesMockingModule.class,
-	        HibernateTestingModule.class, AxirassaSecurityModule.class);
+	        HibernateTestingModule.class, AxirassaSecurityModule.class, PageTestingModule.class);
 
 
 	public TapestryPageTest() {
@@ -40,12 +37,7 @@ public class TapestryPageTest extends TapestryTest {
 
 	private void setSecurityManager() {
 		CustomSecurityManagerFactory factory = SHARED_TESTER.autobuild(CustomSecurityManagerFactory.class);
-
-		Collection<Realm> realms = new ArrayList<Realm>();
-		realms.add(factory.getEntityRealm());
-
-		org.apache.shiro.mgt.SecurityManager manager = new TapestryRealmSecurityManager(realms);
-		SecurityUtils.setSecurityManager(manager);
+		SecurityUtils.setSecurityManager(factory.getWebSecurityManager());
 	}
 
 
@@ -57,7 +49,12 @@ public class TapestryPageTest extends TapestryTest {
 
 
 	public void ensureNoErrors(Document page) throws JaxenException {
+		// ensure no errors
 		List<Element> errorNodes = TapestryXPath.xpath("//*[@class='t-error']").selectElements(page);
-		assertEquals(0, errorNodes.size());
+		assertEquals("tapestry error elements found", 0, errorNodes.size());
+
+		// ensure no stack trace
+		List<Element> stacktraceNodes = TapestryXPath.xpath("//*[@class='t-stack-trace']").selectElements(page);
+		assertEquals("stack trace elements found", 0, stacktraceNodes.size());
 	}
 }
