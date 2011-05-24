@@ -1,40 +1,26 @@
 
 package axirassa.webapp.pages.user;
 
-import java.io.IOException;
-
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.services.PageRenderLinkSource;
-import org.hibernate.Session;
-import org.hornetq.api.core.HornetQException;
 
 import axirassa.dao.UserEmailAddressDAO;
-import axirassa.model.PasswordResetTokenEntity;
 import axirassa.model.UserEntity;
-import axirassa.services.email.EmailTemplate;
+import axirassa.model.flows.ResetPasswordFlow;
 import axirassa.webapp.components.AxForm;
-import axirassa.webapp.services.EmailNotifyService;
 
 @Secure
 @RequiresGuest
 public class ResetPasswordUser {
-
-	@Inject
-	private Session database;
-
 	@Inject
 	private UserEmailAddressDAO emailDAO;
 
 	@Inject
-	private PageRenderLinkSource linkSource;
-
-	@Inject
-	private EmailNotifyService emailNotify;
+	private ResetPasswordFlow resetFlow;
 
 	@Property
 	private String email;
@@ -61,19 +47,10 @@ public class ResetPasswordUser {
 
 
 	@CommitAfter
-	public Object onSuccessFromForm() throws HornetQException, IOException {
+	public Object onSuccessFromForm() throws Exception {
 		UserEntity user = emailDAO.getUserByEmail(email);
-		PasswordResetTokenEntity token = new PasswordResetTokenEntity();
-		token.setUser(user);
-		database.save(token);
-
-		String link = linkSource.createPageRenderLinkWithContext(ChangePasswordByTokenUser.class, token.getToken())
-		        .toAbsoluteURI(true);
-
-		emailNotify.startMessage(EmailTemplate.USER_RESET_PASSWORD);
-		emailNotify.setToAddress(email);
-		emailNotify.addAttribute("axlink", link);
-		emailNotify.send();
+		resetFlow.setUserEntity(user);
+		resetFlow.execute();
 
 		return PasswordResetSentUser.class;
 	}
