@@ -4,15 +4,18 @@ package axirassa.util.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.reset;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.tapestry5.dom.Document;
 import org.apache.tapestry5.dom.Element;
+import org.apache.tapestry5.ioc.annotations.Inject;
 import org.jaxen.JaxenException;
 import org.junit.After;
 import org.junit.Before;
@@ -24,7 +27,9 @@ import axirassa.ioc.HibernateTestingModule;
 import axirassa.ioc.LoggingModule;
 import axirassa.ioc.MessagingModule;
 import axirassa.ioc.PageTestingModule;
+import axirassa.model.flows.CreateUserFlow;
 import axirassa.util.ElementUtil;
+import axirassa.webapp.services.EmailNotifyService;
 
 import com.formos.tapestry.testify.core.TapestryTester;
 import com.formos.tapestry.testify.junit4.TapestryTest;
@@ -34,6 +39,12 @@ public class TapestryPageTest extends TapestryTest {
 	private static final TapestryTester SHARED_TESTER = new TapestryTester("axirassa.webapp", FlowsModule.class,
 	        MessagingModule.class, LoggingModule.class, ExternalServicesMockingModule.class,
 	        HibernateTestingModule.class, AxirassaSecurityModule.class, PageTestingModule.class);
+
+	@Inject
+	private CreateUserFlow createUser;
+
+	@Inject
+	private EmailNotifyService emailNotifier;
 
 
 	public TapestryPageTest() {
@@ -74,6 +85,10 @@ public class TapestryPageTest extends TapestryTest {
 	}
 
 
+	/**
+	 * Retrieves a label element with a <tt>for</tt> attribute of the given
+	 * value.
+	 */
 	public Element getLabelFor(Document page, String text) throws JaxenException {
 		return TapestryXPath.xpath("//*[@for='" + text + "']").selectSingleElement(page);
 	}
@@ -81,6 +96,40 @@ public class TapestryPageTest extends TapestryTest {
 
 	public Element getElementById(Document page, String id) throws JaxenException {
 		return TapestryXPath.xpath("//*[@id='" + id + "']").selectSingleElement(page);
+	}
+
+
+	/**
+	 * Creates a user using {@link CreateUserFlow}; resets the email notifier
+	 * mock for testing.
+	 */
+	public void createUser(String email, String password) throws Exception {
+		createUser.setEmail(email);
+		createUser.setPassword(password);
+		createUser.execute();
+		reset(emailNotifier);
+	}
+
+
+	/**
+	 * Login a user through the web interface (and so starting a session)
+	 */
+	public void loginUser(final String email, final String password) throws JaxenException {
+		Document page = tester.renderPage("user/login");
+		clickSubmitByValue(page, "Login", new LinkedHashMap<String, String>() {
+			{
+				put("txtfield", email);
+				put("txtfield_0", password);
+			}
+		});
+	}
+
+
+	/**
+	 * Logs out a user through the web interface
+	 */
+	public void logoutUser() {
+		tester.renderPage("user/logout");
 	}
 
 
@@ -99,8 +148,10 @@ public class TapestryPageTest extends TapestryTest {
 
 
 	public Document clickSubmitByValue(Document page, String value, Map<String, String> values) throws JaxenException {
-		Element button = TapestryXPath.xpath("//input[@value='" + value + "']").selectSingleElement(page);
-		assertNotNull("could not find button with value: '" + value + "'", button);
+		String normValue = value;// .replace(" ", "#x20");
+		Element button = TapestryXPath.xpath("//input[@value='" + normValue + "']").selectSingleElement(page);
+		System.out.println(page);
+		assertNotNull("could not find button with value: '" + normValue + "'", button);
 		return tester.clickSubmit(button, values);
 	}
 
