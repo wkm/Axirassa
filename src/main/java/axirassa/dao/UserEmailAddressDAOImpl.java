@@ -35,10 +35,10 @@ public class UserEmailAddressDAOImpl implements UserEmailAddressDAO {
 		query.setString("email", email.toLowerCase());
 
 		List<UserEntity> emails = query.list();
-		if (emails.size() > 0)
-			return emails.iterator().next();
-		else
+		if (emails.isEmpty())
 			return null;
+		else
+			return emails.iterator().next();
 	}
 
 
