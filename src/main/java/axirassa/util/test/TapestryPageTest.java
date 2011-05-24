@@ -2,7 +2,11 @@
 package axirassa.util.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +24,7 @@ import axirassa.ioc.HibernateTestingModule;
 import axirassa.ioc.LoggingModule;
 import axirassa.ioc.MessagingModule;
 import axirassa.ioc.PageTestingModule;
+import axirassa.util.ElementUtil;
 
 import com.formos.tapestry.testify.core.TapestryTester;
 import com.formos.tapestry.testify.junit4.TapestryTest;
@@ -78,5 +83,34 @@ public class TapestryPageTest extends TapestryTest {
 		// ensure no stack trace
 		List<Element> stacktraceNodes = TapestryXPath.xpath("//*[@class='t-stack-trace']").selectElements(page);
 		assertEquals("stack trace elements found: " + stacktraceNodes, 0, stacktraceNodes.size());
+	}
+
+
+	public void ensureErrorOnField(Document page, String id) throws JaxenException {
+		// get the actual field
+		Element fieldNode = TapestryXPath.xpath("//input[@id='" + id + "']").selectSingleElement(page);
+		ensureElementHasClass(fieldNode, "t-error");
+
+		// now try and find the error message somewhere
+		Element previousNode = ElementUtil.getElementBefore(fieldNode);
+		System.err.println("ERROR TEXT NODE: " + previousNode);
+		ensureElementHasClass(previousNode, "errorMsg");
+	}
+
+
+	public void ensureElementHasClass(Element element, String className) {
+		String classesString = element.getAttribute("class");
+		assertNotNull("no class attribute for element: " + element, classesString);
+
+		String[] classes = classesString.split(" +");
+
+		for (String individualClass : classes)
+			if (individualClass.equalsIgnoreCase(className))
+				return;
+
+		List<String> classesList = new ArrayList<String>();
+		Collections.addAll(classesList, classes);
+
+		fail("Missing " + className + " from classes: " + classesList);
 	}
 }
