@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.shiro.SecurityUtils;
 import org.apache.tapestry5.dom.Document;
 import org.apache.tapestry5.dom.Element;
+import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.jaxen.JaxenException;
 import org.junit.After;
 import org.junit.Before;
@@ -42,17 +43,22 @@ public class TapestryPageTest extends TapestryTest {
 	}
 
 
+	private HibernateCleanupService cleanupService;
+
+
 	@Before
 	public void wipeAndCreate() {
-		HibernateCleanupService cleanupService = SHARED_TESTER.autobuild(HibernateCleanupService.class);
+		System.err.println("\n\n\n\n\n\n\n\n\n");
+		System.err.println("@@@@@ STARTING TEST: " + getClass());
+		cleanupService = SHARED_TESTER.autobuild(HibernateCleanupService.class);
 		cleanupService.wipeAndCreateDB();
 	}
 
 
 	@After
 	public void stopSessions() {
-		HibernateCleanupService cleanupService = SHARED_TESTER.autobuild(HibernateCleanupService.class);
 		cleanupService.cleanup();
+		cleanupService = null;
 	}
 
 
