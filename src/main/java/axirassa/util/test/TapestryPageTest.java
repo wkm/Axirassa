@@ -4,11 +4,11 @@ package axirassa.util.test;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.tapestry5.dom.Document;
 import org.apache.tapestry5.dom.Element;
-import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.jaxen.JaxenException;
 import org.junit.After;
 import org.junit.Before;
@@ -59,6 +59,16 @@ public class TapestryPageTest extends TapestryTest {
 	public void stopSessions() {
 		cleanupService.cleanup();
 		cleanupService = null;
+	}
+
+
+	//
+	// Test Helpers
+	//
+
+	public Document clickSubmitByValue(Document page, String value, Map<String, String> values) throws JaxenException {
+		Element button = TapestryXPath.xpath("//input[@value='" + value + "']").selectSingleElement(page);
+		return tester.clickSubmit(button, values);
 	}
 
 

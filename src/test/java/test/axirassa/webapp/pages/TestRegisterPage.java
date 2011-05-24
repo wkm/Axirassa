@@ -9,7 +9,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.tapestry5.dom.Document;
-import org.apache.tapestry5.dom.Element;
 import org.apache.tapestry5.dom.Node;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
@@ -43,8 +42,7 @@ public class TestRegisterPage extends TapestryPageTest {
 		List<Node> passwordNodes = TapestryXPath.xpath("//input[@type='password']").selectNodes(page);
 		assertEquals(2, passwordNodes.size());
 
-		Element registerButton = TapestryXPath.xpath("//input[@value='Register']").selectSingleElement(page);
-		Document resultPage = tester.clickSubmit(registerButton, new LinkedHashMap<String, String>() {
+		Document resultPage = clickSubmitByValue(page, "Register", new LinkedHashMap<String, String>() {
 			{
 				put("txtfield", "who@foo.com");
 				put("txtfield_0", "who@foo.com");
@@ -61,5 +59,12 @@ public class TestRegisterPage extends TapestryPageTest {
 
 		// password should match
 		assertTrue(user.matchPassword("123"));
+	}
+
+
+	@Test
+	public void emptyPage() {
+		Document page = tester.renderPage("user/register");
+
 	}
 }
