@@ -8,13 +8,15 @@ import static org.junit.Assert.assertTrue;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
+import org.junit.Before;
 import org.junit.Test;
 
 import axirassa.dao.UserEmailAddressDAO;
 import axirassa.model.UserEmailAddressEntity;
 import axirassa.model.UserEntity;
+import axirassa.util.test.AbstractIntegrationTest;
 
-public class TestUserEmailAddressDAO {
+public class TestUserEmailAddressDAO extends AbstractIntegrationTest {
 	@Inject
 	private Session database;
 
@@ -22,8 +24,8 @@ public class TestUserEmailAddressDAO {
 	private UserEmailAddressDAO emailDAO;
 
 
-	@Test
-	public void isEmailRegistered() {
+	@Before
+	public void init() {
 		database.beginTransaction();
 		UserEmailAddressEntity email;
 		UserEntity user = new UserEntity();
@@ -40,6 +42,11 @@ public class TestUserEmailAddressDAO {
 		email.setEmail("WHO+1@FOO.com");
 		database.save(email);
 		database.getTransaction().commit();
+	}
+
+
+	@Test
+	public void isEmailRegistered() {
 
 		assertTrue(emailDAO.isEmailRegistered("who@foo.com"));
 		assertTrue(emailDAO.isEmailRegistered("who+1@foo.com"));
