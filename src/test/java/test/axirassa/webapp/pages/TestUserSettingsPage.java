@@ -33,8 +33,7 @@ public class TestUserSettingsPage extends TapestryPageTest {
 		createUser("who@foo.com", "123");
 		loginUser("who@foo.com", "123");
 
-		Document page = tester.renderPage("user/settings");
-		Document result = clickSubmitByValue(page, "Change password", new LinkedHashMap<String, String>() {
+		Document result = clickSubmitByValue("user/settings", "Change password", new LinkedHashMap<String, String>() {
 			{
 				put("txtfield", "123");
 				put("txtfield_0", "1234");
