@@ -18,21 +18,21 @@ public class UserEmailAddressDAOImpl implements UserEmailAddressDAO {
 
 	@Override
 	public boolean isEmailRegistered(String email) {
-		Query query = database.getNamedQuery("get_email");
-		query.setString("email", email);
+		Query query = database.getNamedQuery("email_by_email");
+		query.setString("email", email.toLowerCase());
 
 		List<UserEmailAddressEntity> results = query.list();
-		if (results.size() > 0)
-			return true;
-		else
+		if (results.isEmpty())
 			return false;
+		else
+			return true;
 	}
 
 
 	@Override
 	public UserEntity getUserByEmail(String email) {
 		Query query = database.getNamedQuery("user_by_email");
-		query.setString("email", email);
+		query.setString("email", email.toLowerCase());
 
 		List<UserEntity> emails = query.list();
 		if (emails.size() > 0)
@@ -92,7 +92,7 @@ public class UserEmailAddressDAOImpl implements UserEmailAddressDAO {
 	@Override
 	public UserEmailAddressEntity getByEmail(String email) {
 		Query query = database.getNamedQuery("email_by_email");
-		query.setString("email", email);
+		query.setString("email", email.toLowerCase());
 
 		List<UserEmailAddressEntity> emailEntity = query.list();
 		if (emailEntity.isEmpty())
