@@ -10,7 +10,6 @@
         select email.user
         from UserEmailAddressEntity as email
         where
-        email.email = :email and
-        email.primaryEmail = true
+        email.email = :email
     </query>
 </hibernate-mapping>
