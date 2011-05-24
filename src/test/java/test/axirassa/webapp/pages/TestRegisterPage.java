@@ -34,9 +34,14 @@ public class TestRegisterPage extends TapestryPageTest {
 	CreateUserFlow createUser;
 
 
+	private Document registerPage() {
+		return tester.renderPage("user/register");
+	}
+
+
 	@Test
-	public void registerPage() throws Exception {
-		Document page = tester.renderPage("user/register");
+	public void register() throws Exception {
+		Document page = registerPage();
 
 		List<Node> textNodes = TapestryXPath.xpath("//input[@type='text']").selectNodes(page);
 		assertEquals(3, textNodes.size()); // an extra node for feedback
@@ -66,13 +71,43 @@ public class TestRegisterPage extends TapestryPageTest {
 
 	@Test
 	public void emptyFields() throws JaxenException {
-		Document page = tester.renderPage("user/register");
-
-		Document result = clickSubmitByValue(page, "Register", Collections.<String, String> emptyMap());
+		Document result = clickSubmitByValue(registerPage(), "Register", Collections.<String, String> emptyMap());
 
 		ensureErrorOnField(result, "txtfield");
 		ensureErrorOnField(result, "txtfield_0");
 		ensureErrorOnField(result, "txtfield_1");
 		ensureErrorOnField(result, "txtfield_2");
+	}
+
+
+	@Test
+	public void differentEmailsAndPasswords() throws JaxenException {
+		Document result = clickSubmitByValue(registerPage(), "Register", new LinkedHashMap<String, String>() {
+			{
+				put("txtfield", "what@foo.com");
+				put("txtfield_0", "where@foo.com");
+
+				put("txtfield_1", "123");
+				put("txtfield_2", "abc");
+			}
+		});
+
+		ensureNoErrorOnField(result, "txtfield");
+		ensureNoErrorOnField(result, "txtfield_1");
+
+		ensureErrorOnField(result, "txtfield_0");
+		ensureErrorOnField(result, "txtfield_2");
+	}
+
+
+	@Test
+	public void invalidEmail() throws JaxenException {
+		Document result = clickSubmitByValue(registerPage(), "Register", new LinkedHashMap<String, String>() {
+			{
+				put("txtfield", "notAnEmail");
+			}
+		});
+
+		ensureErrorOnField(result, "txtfield_0");
 	}
 }
