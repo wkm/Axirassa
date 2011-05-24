@@ -11,7 +11,6 @@ import java.util.List;
 import org.apache.tapestry5.dom.Document;
 import org.apache.tapestry5.dom.Node;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.hibernate.Session;
 import org.jaxen.JaxenException;
 import org.junit.Test;
 
@@ -23,9 +22,6 @@ import axirassa.util.test.TapestryPageTest;
 import com.formos.tapestry.xpath.TapestryXPath;
 
 public class TestRegisterPage extends TapestryPageTest {
-	@Inject
-	Session session;
-
 	@Inject
 	UserDAO userDAO;
 
