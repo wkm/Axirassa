@@ -22,27 +22,30 @@ public class AddEmailAddressFlowImpl implements AddEmailAddressFlow {
 
 	@Setter
 	private String emailAddress;
-	
+
 	@Inject
 	private Session session;
-	
+
 	@Inject
 	private EmailNotifyService emailer;
-	
+
 	@Inject
-	private PageRenderLinkSource linkSource; 
-	
+	private PageRenderLinkSource linkSource;
+
+
 	@Override
 	public void execute() throws HornetQException, IOException {
 		UserEmailAddressEntity emailAddressEntity = new UserEmailAddressEntity();
 		emailAddressEntity.setUser(userEntity);
 		emailAddressEntity.setEmail(emailAddress);
 		emailAddressEntity.setPrimaryEmail(false);
-		
+
 		session.save(emailAddressEntity);
-		
-		String axlink = linkSource.createPageRenderLinkWithContext(VerifyEmailUser.class, emailAddressEntity.getToken()).toAbsoluteURI(true);
-		
+
+		String axlink = linkSource
+		        .createPageRenderLinkWithContext(VerifyEmailUser.class, emailAddressEntity.getToken())
+		        .toAbsoluteURI(true);
+
 		emailer.startMessage(EmailTemplate.USER_ADD_EMAIL);
 		emailer.setToAddress(emailAddress);
 		emailer.addAttribute("axlink", axlink);
