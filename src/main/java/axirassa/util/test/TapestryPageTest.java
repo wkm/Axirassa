@@ -69,13 +69,38 @@ public class TapestryPageTest extends TapestryTest {
 	// Test Helpers
 	//
 
+	public Document renderComponentTestPage(Class<?> componentClass) {
+		return tester.renderPage("test/" + componentClass.getSimpleName().toLowerCase() + "testpage");
+	}
+
+
+	public Element getLabelFor(Document page, String text) throws JaxenException {
+		return TapestryXPath.xpath("//*[@for='" + text + "']").selectSingleElement(page);
+	}
+
+
 	public Element getElementById(Document page, String id) throws JaxenException {
 		return TapestryXPath.xpath("//*[@id='" + id + "']").selectSingleElement(page);
 	}
 
 
+	/**
+	 * Calls {@link Element#getChildMarkup()} but trims leading and trailing
+	 * whitespace.
+	 */
+	public String getElementText(Element element) {
+		return element.getChildMarkup().trim();
+	}
+
+
+	public Document clickSubmitByValue(Document page, String value) throws JaxenException {
+		return clickSubmitByValue(page, value, Collections.<String, String> emptyMap());
+	}
+
+
 	public Document clickSubmitByValue(Document page, String value, Map<String, String> values) throws JaxenException {
 		Element button = TapestryXPath.xpath("//input[@value='" + value + "']").selectSingleElement(page);
+		assertNotNull("could not find button with value: '" + value + "'", button);
 		return tester.clickSubmit(button, values);
 	}
 
@@ -101,8 +126,16 @@ public class TapestryPageTest extends TapestryTest {
 	}
 
 
+	public Element getErrorOnField(Document page, String id) throws JaxenException {
+		Element fieldNode = getElementById(page, id);
+		Element previousNode = ElementUtil.getElementBefore(fieldNode);
+		return previousNode;
+	}
+
+
 	public void ensureNoErrorOnField(Document page, String id) throws JaxenException {
 		Element fieldNode = getElementById(page, id);
+		assertNotNull("could not find element with id: " + id, fieldNode);
 		ensureElementDoesntHaveClass(fieldNode, "t-error");
 	}
 

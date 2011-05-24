@@ -15,7 +15,7 @@ import org.apache.tapestry5.services.Environment;
 
 import axirassa.webapp.services.validation.CustomValidationDecorator;
 
-@Import(library = { "context:js/error.js" })
+@Import(library = { "context:js/error.js" }, stylesheet = { "context:/css/form.css" })
 public class AxForm implements FormValidationControl {
 
 	@Inject
@@ -28,7 +28,7 @@ public class AxForm implements FormValidationControl {
 	private String title;
 
 
-	public String getTitle () {
+	public String getTitle() {
 		return title;
 	}
 
@@ -37,7 +37,7 @@ public class AxForm implements FormValidationControl {
 	private boolean hasTitle;
 
 
-	public boolean hasTitle () {
+	public boolean hasTitle() {
 		if (title != null)
 			return true;
 		else
@@ -45,43 +45,43 @@ public class AxForm implements FormValidationControl {
 	}
 
 
-	void beginRender (MarkupWriter writer) {
+	void beginRender(MarkupWriter writer) {
 		environment.push(ValidationDecorator.class, new CustomValidationDecorator(environment, writer));
 	}
 
 
-	void afterRender (MarkupWriter writer) {
+	void afterRender(MarkupWriter writer) {
 		environment.pop(ValidationDecorator.class);
 	}
 
 
 	@Override
-	public void recordError (String errorMessage) {
+	public void recordError(String errorMessage) {
 		form.recordError(errorMessage);
 
 	}
 
 
 	@Override
-	public void recordError (Field field, String errorMessage) {
+	public void recordError(Field field, String errorMessage) {
 		form.recordError(field, errorMessage);
 	}
 
 
 	@Override
-	public boolean getHasErrors () {
+	public boolean getHasErrors() {
 		return form.getHasErrors();
 	}
 
 
 	@Override
-	public boolean isValid () {
+	public boolean isValid() {
 		return form.isValid();
 	}
 
 
 	@Override
-	public void clearErrors () {
+	public void clearErrors() {
 		form.clearErrors();
 	}
 

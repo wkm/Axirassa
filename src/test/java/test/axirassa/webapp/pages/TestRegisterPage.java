@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -71,7 +70,7 @@ public class TestRegisterPage extends TapestryPageTest {
 
 	@Test
 	public void emptyFields() throws JaxenException {
-		Document result = clickSubmitByValue(registerPage(), "Register", Collections.<String, String> emptyMap());
+		Document result = clickSubmitByValue(registerPage(), "Register");
 
 		ensureErrorOnField(result, "txtfield");
 		ensureErrorOnField(result, "txtfield_0");

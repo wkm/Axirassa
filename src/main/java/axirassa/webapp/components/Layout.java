@@ -3,7 +3,6 @@ package axirassa.webapp.components;
 
 import org.apache.shiro.subject.Subject;
 import org.apache.tapestry5.BindingConstants;
-import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
@@ -11,7 +10,6 @@ import axirassa.webapp.page.SecurityViolation;
 import axirassa.webapp.services.AxirassaSecurityService;
 import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 
-@Import(stylesheet = { "context:/css/form.css" })
 public class Layout {
 	@Inject
 	private AxirassaSecurityService security;
