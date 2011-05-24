@@ -147,6 +147,11 @@ public class TapestryPageTest extends TapestryTest {
 	}
 
 
+	public Document clickSubmitByValue(String page, String value, Map<String, String> values) throws JaxenException {
+		return clickSubmitByValue(tester.renderPage(page), value, values);
+	}
+
+
 	public Document clickSubmitByValue(Document page, String value, Map<String, String> values) throws JaxenException {
 		String normValue = value;// .replace(" ", "#x20");
 		Element button = TapestryXPath.xpath("//input[@value='" + normValue + "']").selectSingleElement(page);
