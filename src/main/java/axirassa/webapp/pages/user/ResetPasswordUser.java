@@ -13,7 +13,7 @@ import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.hibernate.Session;
 import org.hornetq.api.core.HornetQException;
 
-import axirassa.dao.UserDAO;
+import axirassa.dao.UserEmailAddressDAO;
 import axirassa.model.PasswordResetTokenEntity;
 import axirassa.model.UserEntity;
 import axirassa.services.email.EmailTemplate;
@@ -28,7 +28,7 @@ public class ResetPasswordUser {
 	private Session database;
 
 	@Inject
-	private UserDAO userDAO;
+	private UserEmailAddressDAO emailDAO;
 
 	@Inject
 	private PageRenderLinkSource linkSource;
@@ -49,7 +49,7 @@ public class ResetPasswordUser {
 			return;
 		}
 
-		UserEntity entity = userDAO.getUserByEmail(email);
+		UserEntity entity = emailDAO.getUserByEmail(email);
 		if (entity == null)
 			showInvalidEmailMessage();
 	}
@@ -62,7 +62,7 @@ public class ResetPasswordUser {
 
 	@CommitAfter
 	public Object onSuccessFromForm() throws HornetQException, IOException {
-		UserEntity user = userDAO.getUserByEmail(email);
+		UserEntity user = emailDAO.getUserByEmail(email);
 		PasswordResetTokenEntity token = new PasswordResetTokenEntity();
 		token.setUser(user);
 		database.save(token);

@@ -12,7 +12,6 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.hibernate.Session;
 
-import axirassa.dao.UserDAO;
 import axirassa.model.UserEntity;
 import axirassa.model.UserPhoneNumberEntity;
 import axirassa.webapp.components.AxCheckbox;
@@ -28,9 +27,6 @@ public class AddPhoneNumberUser {
 
 	@Inject
 	private Session database;
-
-	@Inject
-	private UserDAO userDAO;
 
 	@Inject
 	private PageRenderLinkSource linkSource;

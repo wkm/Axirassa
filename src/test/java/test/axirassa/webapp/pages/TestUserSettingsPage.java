@@ -13,7 +13,7 @@ import org.apache.tapestry5.dom.Element;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.junit.Test;
 
-import axirassa.dao.UserDAO;
+import axirassa.dao.UserEmailAddressDAO;
 import axirassa.model.UserEntity;
 import axirassa.util.test.TapestryPageTest;
 import axirassa.webapp.services.EmailNotifyService;
@@ -22,7 +22,7 @@ import com.formos.tapestry.xpath.TapestryXPath;
 
 public class TestUserSettingsPage extends TapestryPageTest {
 	@Inject
-	UserDAO userDAO;
+	UserEmailAddressDAO emailDAO;
 
 	@Inject
 	EmailNotifyService emailNotifier;
@@ -45,7 +45,7 @@ public class TestUserSettingsPage extends TapestryPageTest {
 		assertEquals("Your password was successfully changed.", getElementText(notification));
 
 		// ensure the password was changed in the database
-		UserEntity userEntity = userDAO.getUserByEmail("who@foo.com");
+		UserEntity userEntity = emailDAO.getUserByEmail("who@foo.com");
 		assertFalse(userEntity.matchPassword("123"));
 		assertTrue(userEntity.matchPassword("1234"));
 

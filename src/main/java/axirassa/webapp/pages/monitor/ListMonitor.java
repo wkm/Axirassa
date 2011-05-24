@@ -9,7 +9,6 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import axirassa.dao.UserDAO;
 import axirassa.model.PingerEntity;
 import axirassa.model.UserEntity;
 import axirassa.webapp.services.AxirassaSecurityService;
@@ -23,9 +22,6 @@ public class ListMonitor {
 	@Inject
 	private AxirassaSecurityService security;
 
-	@Inject
-	private UserDAO userDAO;
-
 	@Property
 	private List<PingerEntity> pingers;
 
@@ -33,7 +29,7 @@ public class ListMonitor {
 	private PingerEntity pinger;
 
 
-	public void onActivate () throws AxirassaSecurityException {
+	public void onActivate() throws AxirassaSecurityException {
 		UserEntity user = security.getUserEntity();
 
 		Query query = database.createQuery("from PingerEntity where user=:user");

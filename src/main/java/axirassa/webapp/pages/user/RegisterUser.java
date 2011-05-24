@@ -10,7 +10,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONObject;
 import org.apache.tapestry5.services.Request;
 
-import axirassa.dao.UserDAO;
+import axirassa.dao.UserEmailAddressDAO;
 import axirassa.model.flows.CreateUserFlow;
 import axirassa.webapp.components.AxForm;
 import axirassa.webapp.components.AxPasswordField;
@@ -23,7 +23,7 @@ public class RegisterUser {
 	private Request request;
 
 	@Inject
-	private UserDAO userDAO;
+	private UserEmailAddressDAO emailDAO;
 
 	@Inject
 	private CreateUserFlow createUserFlow;
@@ -57,7 +57,7 @@ public class RegisterUser {
 	public JSONObject onAJAXValidateFromEmailField() {
 		String emailvalue = request.getParameter("param");
 
-		if (userDAO.isEmailRegistered(emailvalue))
+		if (emailDAO.isEmailRegistered(emailvalue))
 			return new JSONObject().put("error", emailTakenMessage(emailvalue));
 
 		return new JSONObject();
@@ -76,7 +76,7 @@ public class RegisterUser {
 		if (email != null && confirmemail != null && !email.equals(confirmemail))
 			form.recordError(confirmEmailField, "E-mails do not match");
 
-		if (email != null && userDAO.isEmailRegistered(email))
+		if (email != null && emailDAO.isEmailRegistered(email))
 			form.recordError(emailField, emailTakenMessage(email));
 	}
 

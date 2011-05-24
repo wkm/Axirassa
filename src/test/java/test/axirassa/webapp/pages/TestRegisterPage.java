@@ -14,7 +14,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.jaxen.JaxenException;
 import org.junit.Test;
 
-import axirassa.dao.UserDAO;
+import axirassa.dao.UserEmailAddressDAO;
 import axirassa.model.UserEntity;
 import axirassa.model.flows.CreateUserFlow;
 import axirassa.util.test.TapestryPageTest;
@@ -23,7 +23,7 @@ import com.formos.tapestry.xpath.TapestryXPath;
 
 public class TestRegisterPage extends TapestryPageTest {
 	@Inject
-	UserDAO userDAO;
+	UserEmailAddressDAO emailDAO;
 
 	@Inject
 	CreateUserFlow createUser;
@@ -56,7 +56,7 @@ public class TestRegisterPage extends TapestryPageTest {
 		ensureNoErrors(resultPage);
 
 		// did we save this user?
-		UserEntity user = userDAO.getUserByEmail("who@foo.com");
+		UserEntity user = emailDAO.getUserByEmail("who@foo.com");
 		assertNotNull(user);
 
 		// password should match

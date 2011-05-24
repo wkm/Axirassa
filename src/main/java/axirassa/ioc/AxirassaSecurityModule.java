@@ -10,7 +10,7 @@ import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.hibernate.Session;
 import org.tynamo.security.services.SecurityModule;
 
-import axirassa.dao.UserDAO;
+import axirassa.dao.UserEmailAddressDAO;
 import axirassa.webapp.services.AxirassaSecurityService;
 import axirassa.webapp.services.EntityRealm;
 import axirassa.webapp.services.UserCredentialsMatcher;
@@ -22,7 +22,7 @@ public class AxirassaSecurityModule {
 	private Session database;
 
 	@Inject
-	private UserDAO userDAO;
+	private UserEmailAddressDAO userDAO;
 
 
 	public static void bind(ServiceBinder binder) {

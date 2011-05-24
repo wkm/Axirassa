@@ -14,8 +14,6 @@ import axirassa.dao.PasswordResetTokenDAO;
 import axirassa.dao.PasswordResetTokenDAOImpl;
 import axirassa.dao.PingerDAO;
 import axirassa.dao.PingerDAOImpl;
-import axirassa.dao.UserDAO;
-import axirassa.dao.UserDAOImpl;
 import axirassa.dao.UserEmailAddressDAO;
 import axirassa.dao.UserEmailAddressDAOImpl;
 import axirassa.dao.UserPhoneNumberDAO;
@@ -24,7 +22,6 @@ import axirassa.dao.UserPhoneNumberDAOImpl;
 @SubModule({ HibernateCoreModule.class })
 public class DAOModule {
 	public static void bind(ServiceBinder binder) {
-		binder.bind(UserDAO.class, UserDAOImpl.class);
 		binder.bind(FeedbackDAO.class, FeedbackDAOImpl.class);
 		binder.bind(PasswordResetTokenDAO.class, PasswordResetTokenDAOImpl.class);
 		binder.bind(PingerDAO.class, PingerDAOImpl.class);

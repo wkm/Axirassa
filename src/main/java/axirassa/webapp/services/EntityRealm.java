@@ -12,7 +12,7 @@ import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
-import axirassa.dao.UserDAO;
+import axirassa.dao.UserEmailAddressDAO;
 import axirassa.model.UserEntity;
 
 /**
@@ -24,13 +24,13 @@ import axirassa.model.UserEntity;
 public class EntityRealm extends AuthorizingRealm {
 	public static final String REALM_NAME = "axirassarealm";
 
-	private final UserDAO userDAO;
+	private final UserEmailAddressDAO emailDAO;
 
 
-	public EntityRealm(UserDAO userDAO) {
+	public EntityRealm(UserEmailAddressDAO emailDAO) {
 		super(new MemoryConstrainedCacheManager());
 
-		this.userDAO = userDAO;
+		this.emailDAO = emailDAO;
 		setName(REALM_NAME);
 		setAuthenticationTokenClass(UsernamePasswordToken.class);
 	}
@@ -51,7 +51,7 @@ public class EntityRealm extends AuthorizingRealm {
 		if (email == null)
 			return null;
 
-		UserEntity user = userDAO.getUserByEmail(email);
+		UserEntity user = emailDAO.getUserByEmail(email);
 		if (user == null)
 			return null;
 
@@ -69,7 +69,7 @@ public class EntityRealm extends AuthorizingRealm {
 			throw new AccountException("empty username for realm: " + REALM_NAME);
 
 		// verify account exists
-		UserEntity user = userDAO.getUserByEmail(email);
+		UserEntity user = emailDAO.getUserByEmail(email);
 
 		// retrieve the password and salt
 		byte[] password = user.getPassword();

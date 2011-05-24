@@ -10,7 +10,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.junit.Test;
 
-import axirassa.dao.UserDAO;
 import axirassa.dao.UserEmailAddressDAO;
 import axirassa.model.UserEmailAddressEntity;
 import axirassa.model.flows.CreateUserFlow;
@@ -24,7 +23,7 @@ public class TestUserCredentialsMatcher extends AbstractIntegrationTest {
 	private Session database;
 
 	@Inject
-	private UserDAO userDAO;
+	private UserEmailAddressDAO emailDAO;
 
 	@Inject
 	private UserEmailAddressDAO addressDAO;
@@ -53,7 +52,7 @@ public class TestUserCredentialsMatcher extends AbstractIntegrationTest {
 
 	private void ensureCredentialsMatch(String email, String password) {
 		UserCredentialsMatcher matcher = new UserCredentialsMatcher(database);
-		UserEmailAddressEntity emailEntity = addressDAO.getPrimaryEmail(userDAO.getUserByEmail(email));
+		UserEmailAddressEntity emailEntity = addressDAO.getPrimaryEmail(emailDAO.getUserByEmail(email));
 		UserAuthenticationInfo authinfo = UserAuthenticationInfo.createInfoFromEntity(emailEntity);
 		UsernamePasswordToken token = new UsernamePasswordToken(email, password);
 
