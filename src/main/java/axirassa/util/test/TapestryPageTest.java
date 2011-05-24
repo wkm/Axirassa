@@ -48,8 +48,6 @@ public class TapestryPageTest extends TapestryTest {
 
 	@Before
 	public void wipeAndCreate() {
-		System.err.println("\n\n\n\n\n\n\n\n\n");
-		System.err.println("@@@@@ STARTING TEST: " + getClass());
 		cleanupService = SHARED_TESTER.autobuild(HibernateCleanupService.class);
 		cleanupService.wipeAndCreateDB();
 	}

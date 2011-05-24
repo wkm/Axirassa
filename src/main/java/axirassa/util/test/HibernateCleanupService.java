@@ -46,17 +46,13 @@ public class HibernateCleanupService {
 
 		session.beginTransaction();
 
-		System.err.println("PURGING TABLES");
 		for (String sql : dropSQL)
 			session.createSQLQuery(sql).executeUpdate();
 
-		System.err.println("CREATING TABLES");
 		for (String sql : createSQL)
 			session.createSQLQuery(sql).executeUpdate();
-		System.err.println("DONE\n\n\n\n");
 
 		if (session.getTransaction().isActive()) {
-			System.err.println("@@@@@ TRANSACTION ACTIVE; COMMITTING");
 			session.getTransaction().commit();
 			session.getTransaction().begin();
 		}
