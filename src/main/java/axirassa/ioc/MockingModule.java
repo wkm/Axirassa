@@ -14,7 +14,7 @@ import org.hibernate.Session;
  * 
  * @author wiktor
  */
-@SubModule({ ExternalServicesMockingModule.class, MockPageRenderLinkSourceModule.class })
+@SubModule({ ExternalServicesMockingModule.class, MockPageRenderLinkSourceModule.class, DAOMockingModule.class })
 public class MockingModule {
 	public static void contributeServiceOverride(MappedConfiguration<Class<?>, Object> configuration) {
 		configuration.add(HibernateSessionSource.class, mock(HibernateSessionSource.class));
