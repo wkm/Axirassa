@@ -5,6 +5,11 @@
 			${name}
 		</t:label>
 		<div class="ax_input">
+			<t:error
+				class='literal:errorMsg'
+				id="${txtfield}-msg"
+				for="txtfield"
+			/>
 			<t:textfield 
 				class='input txtinput' 
 				t:label="${label}" 
