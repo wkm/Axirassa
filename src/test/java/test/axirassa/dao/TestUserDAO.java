@@ -38,7 +38,7 @@ public class TestUserDAO extends AbstractIntegrationTest {
 
 		email = new UserEmailAddressEntity();
 		email.setUser(user);
-		email.setEmail("who+1@foo.com");
+		email.setEmail("WHO+1@FOO.com");
 		database.save(email);
 		database.getTransaction().commit();
 
@@ -46,8 +46,8 @@ public class TestUserDAO extends AbstractIntegrationTest {
 		assertTrue(userDAO.isEmailRegistered("who+1@foo.com"));
 		assertFalse(userDAO.isEmailRegistered("who+2@foo.com"));
 
-		// assertTrue(userDAO.isEmailRegistered("WHO@FOO.COM"));
-		// assertTrue(userDAO.isEmailRegistered("WHO+1@FOO.COM"));
+		assertTrue(userDAO.isEmailRegistered("WHO@FOO.COM"));
+		assertTrue(userDAO.isEmailRegistered("WHO+1@FOO.COM"));
 	}
 
 
@@ -55,11 +55,12 @@ public class TestUserDAO extends AbstractIntegrationTest {
 	public void getUserByEmail() {
 		assertNotNull(userDAO.getUserByEmail("who@foo.com"));
 		assertNotNull(userDAO.getUserByEmail("who+1@foo.com"));
-		// assertNotNull(userDAO.getUserByEmail("WHO@FOO.COM"));
-		// assertNotNull(userDAO.getUserByEmail("WHAT@FOO.COM"));
+		assertNotNull(userDAO.getUserByEmail("WHO@FOO.COM"));
+		assertNotNull(userDAO.getUserByEmail("WHO+1@FOO.COM"));
 
 		assertNull(userDAO.getUserByEmail("who"));
 		assertNull(userDAO.getUserByEmail("who@foocom"));
 		assertNull(userDAO.getUserByEmail("who1@foo.com"));
+		assertNull(userDAO.getUserByEmail("what@foo.com"));
 	}
 }
