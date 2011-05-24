@@ -25,15 +25,8 @@ public class UserDAOImpl implements UserDAO {
 
 
 	@Override
+	@Deprecated
 	public UserEntity getUserByEmail(String email) {
-		Query query = database.getNamedQuery("user_by_email");
-		query.setString("email", email.toLowerCase());
-
-		List<UserEntity> users = query.list();
-
-		if (users.size() <= 0)
-			return null;
-
-		return users.iterator().next();
+		return emailAddressDAO.getUserByEmail(email);
 	}
 }
