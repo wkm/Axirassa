@@ -65,5 +65,8 @@ public class UserEmailAddressEntity extends AutoSerializingObject implements Ent
 	public void preSave() {
 		if (token == null)
 			token = RandomStringGenerator.makeRandomStringToken(36);
+
+		if (email != null)
+			email = email.toLowerCase();
 	}
 }
