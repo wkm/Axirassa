@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.apache.tapestry5.dom.Document;
 import org.apache.tapestry5.dom.Node;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
+import org.jaxen.JaxenException;
 import org.junit.Test;
 
 import axirassa.dao.UserDAO;
@@ -63,8 +65,14 @@ public class TestRegisterPage extends TapestryPageTest {
 
 
 	@Test
-	public void emptyPage() {
+	public void emptyFields() throws JaxenException {
 		Document page = tester.renderPage("user/register");
 
+		Document result = clickSubmitByValue(page, "Register", Collections.<String, String> emptyMap());
+
+		ensureErrorOnField(result, "txtfield");
+		ensureErrorOnField(result, "txtfield_0");
+		ensureErrorOnField(result, "txtfield_1");
+		ensureErrorOnField(result, "txtfield_2");
 	}
 }
