@@ -69,6 +69,11 @@ public class TapestryPageTest extends TapestryTest {
 	// Test Helpers
 	//
 
+	public Element getElementById(Document page, String id) throws JaxenException {
+		return TapestryXPath.xpath("//*[@id='" + id + "']").selectSingleElement(page);
+	}
+
+
 	public Document clickSubmitByValue(Document page, String value, Map<String, String> values) throws JaxenException {
 		Element button = TapestryXPath.xpath("//input[@value='" + value + "']").selectSingleElement(page);
 		return tester.clickSubmit(button, values);
@@ -87,29 +92,55 @@ public class TapestryPageTest extends TapestryTest {
 
 
 	public void ensureErrorOnField(Document page, String id) throws JaxenException {
-		// get the actual field
-		Element fieldNode = TapestryXPath.xpath("//input[@id='" + id + "']").selectSingleElement(page);
+		Element fieldNode = getElementById(page, id);
 		ensureElementHasClass(fieldNode, "t-error");
 
-		// now try and find the error message somewhere
+		// now try and find the error message
 		Element previousNode = ElementUtil.getElementBefore(fieldNode);
-		System.err.println("ERROR TEXT NODE: " + previousNode);
 		ensureElementHasClass(previousNode, "errorMsg");
 	}
 
 
-	public void ensureElementHasClass(Element element, String className) {
+	public void ensureNoErrorOnField(Document page, String id) throws JaxenException {
+		Element fieldNode = getElementById(page, id);
+		ensureElementDoesntHaveClass(fieldNode, "t-error");
+	}
+
+
+	public List<String> getElementClasses(Element element) {
 		String classesString = element.getAttribute("class");
-		assertNotNull("no class attribute for element: " + element, classesString);
+		if (classesString == null)
+			return null;
 
 		String[] classes = classesString.split(" +");
 
-		for (String individualClass : classes)
-			if (individualClass.equalsIgnoreCase(className))
-				return;
-
 		List<String> classesList = new ArrayList<String>();
 		Collections.addAll(classesList, classes);
+		return classesList;
+	}
+
+
+	public void ensureElementDoesntHaveClass(Element element, String className) {
+		List<String> classesList = getElementClasses(element);
+
+		if (classesList == null)
+			return;
+
+		for (String individualClass : classesList)
+			if (individualClass.equalsIgnoreCase(className))
+				fail("Found " + className + " as class for: " + element);
+
+		return;
+	}
+
+
+	public void ensureElementHasClass(Element element, String className) {
+		List<String> classesList = getElementClasses(element);
+		assertNotNull("no class attribute for element: " + element, classesList);
+
+		for (String individualClass : classesList)
+			if (individualClass.equalsIgnoreCase(className))
+				return;
 
 		fail("Missing " + className + " from classes: " + classesList);
 	}
