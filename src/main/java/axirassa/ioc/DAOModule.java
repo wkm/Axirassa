@@ -21,6 +21,10 @@ import axirassa.dao.UserPhoneNumberDAOImpl;
 
 @SubModule({ HibernateCoreModule.class })
 public class DAOModule {
+
+	/**
+	 * DAO bindings listed here should also be added to {@link DAOMockingModule}
+	 */
 	public static void bind(ServiceBinder binder) {
 		binder.bind(FeedbackDAO.class, FeedbackDAOImpl.class);
 		binder.bind(PasswordResetTokenDAO.class, PasswordResetTokenDAOImpl.class);
