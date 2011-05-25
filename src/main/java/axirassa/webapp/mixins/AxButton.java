@@ -16,7 +16,7 @@ import axirassa.webapp.data.AxButtonStyle;
 @MixinAfter
 public class AxButton {
 
-	@Getter
+	@Getter 
 	@Setter
 	private boolean tight;
 
@@ -30,7 +30,6 @@ public class AxButton {
 		StringBuilder sb = new StringBuilder("button");
 		
 		if(tight) {
-			System.out.println("TIGHT");
 			sb.append(" axbtight");
 		}
 		
