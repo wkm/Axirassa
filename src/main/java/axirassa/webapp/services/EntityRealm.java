@@ -42,7 +42,7 @@ public class EntityRealm extends AuthorizingRealm {
 			return null;
 
 		// make sure we have some authorization info from this realm
-		if (principals.fromRealm(REALM_NAME).size() <= 0)
+		if (principals.fromRealm(REALM_NAME).isEmpty())
 			return null;
 
 		String email = (String) principals.fromRealm(REALM_NAME).iterator().next();

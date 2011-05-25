@@ -70,7 +70,10 @@ public class ExecutionTargetOptions {
 	 * @return true if this target requires native libraries
 	 */
 	public boolean needsLibraries() {
-		return libraries.size() > 0;
+		if(libraries.isEmpty())
+			return false;
+		else
+			return true;
 	}
 
 

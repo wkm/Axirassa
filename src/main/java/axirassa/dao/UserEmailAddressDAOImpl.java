@@ -48,10 +48,10 @@ public class UserEmailAddressDAOImpl implements UserEmailAddressDAO {
 		query.setLong("id", id);
 
 		List<UserEmailAddressEntity> emails = query.list();
-		if (emails.size() > 0)
-			return emails.iterator().next();
-		else
+		if (emails.isEmpty())
 			return null;
+		else
+			return emails.iterator().next();
 	}
 
 
@@ -69,10 +69,10 @@ public class UserEmailAddressDAOImpl implements UserEmailAddressDAO {
 		query.setEntity("user", user);
 
 		List<UserEmailAddressEntity> emails = query.list();
-		if (emails.size() > 0)
-			return emails.iterator().next();
-		else
+		if (emails.isEmpty())
 			return null;
+		else
+			return emails.iterator().next();
 	}
 
 

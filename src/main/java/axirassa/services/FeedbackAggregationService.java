@@ -35,7 +35,7 @@ public class FeedbackAggregationService implements Service {
 		// get feedback
 		List<FeedbackEntity> feedback = feedbackDAO.getAllFeedback();
 
-		if (feedback.size() > 0) {
+		if (!feedback.isEmpty()) {
 			// try to send it
 			notifyService.startMessage(EmailTemplate.AGGREGATED_FEEDBACK);
 			notifyService.setToAddress("feedback@axirassa.com");

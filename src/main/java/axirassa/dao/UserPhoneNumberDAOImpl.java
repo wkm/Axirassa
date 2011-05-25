@@ -15,11 +15,15 @@ public class UserPhoneNumberDAOImpl implements UserPhoneNumberDAO {
 	private Session database;
 
 
-	/* (non-Javadoc)
-     * @see axirassa.dao.UserPhoneNumberDAO#getPhoneNumbersByUser(axirassa.model.UserEntity)
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * axirassa.dao.UserPhoneNumberDAO#getPhoneNumbersByUser(axirassa.model.
+	 * UserEntity)
+	 */
 	@Override
-    public List<UserPhoneNumberEntity> getPhoneNumbersByUser(UserEntity user) {
+	public List<UserPhoneNumberEntity> getPhoneNumbersByUser(UserEntity user) {
 		Query query = database.getNamedQuery("user_phonenumbers");
 		query.setEntity("user", user);
 
@@ -27,16 +31,18 @@ public class UserPhoneNumberDAOImpl implements UserPhoneNumberDAO {
 	}
 
 
-	/* (non-Javadoc)
-     * @see axirassa.dao.UserPhoneNumberDAO#getByIdWithUser(long)
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see axirassa.dao.UserPhoneNumberDAO#getByIdWithUser(long)
+	 */
 	@Override
-    public UserPhoneNumberEntity getByIdWithUser(long id) {
+	public UserPhoneNumberEntity getByIdWithUser(long id) {
 		Query query = database.getNamedQuery("phonenumber_by_id");
 		query.setLong("id", id);
 
 		List<UserPhoneNumberEntity> list = query.list();
-		if (list.size() == 0)
+		if (list.isEmpty())
 			return null;
 		else
 			return list.iterator().next();
