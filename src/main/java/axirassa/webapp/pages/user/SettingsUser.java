@@ -58,10 +58,10 @@ public class SettingsUser {
 			hasPhoneNumbers = true;
 
 		emails = userEmailAddressDAO.getEmailsByUser(user);
-		if (emails.size() > 0)
-			hasAlternateEmails = true;
-		else
+		if (emails.isEmpty())
 			hasAlternateEmails = false;
+		else
+			hasAlternateEmails = true;
 
 		return true;
 	}
