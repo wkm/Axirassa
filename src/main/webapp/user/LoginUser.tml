@@ -32,7 +32,7 @@
     <t:AxPasswordField
     	t:id="passwordField" 
     	t:value="password" 
-    	t:name="Password" 
+    	t:label="Password" 
     	t:validate="required"
     />
 
