@@ -20,6 +20,7 @@ import org.tynamo.security.services.PageService;
 
 import axirassa.model.exception.NoSaltException;
 import axirassa.webapp.components.AxForm;
+import axirassa.webapp.components.AxTextField;
 import axirassa.webapp.pages.MonitorConsole;
 import axirassa.webapp.services.AxirassaSecurityService;
 
@@ -54,8 +55,11 @@ public class LoginUser {
 	@Component
 	private AxForm form;
 
+	@Component
+	private AxTextField emailField;
 
-	public void onActivate () {
+
+	public void onActivate() {
 		if (security.isUser()) {
 			email = security.getEmail();
 			isLoggedIn = true;
@@ -64,7 +68,7 @@ public class LoginUser {
 
 
 	@Log
-	public void onValidateFromForm () throws NoSaltException {
+	public void onValidateFromForm() throws NoSaltException {
 		if (email == null || password == null)
 			return;
 
@@ -79,13 +83,13 @@ public class LoginUser {
 	}
 
 
-	private void showInvalidLoginMessage () {
-		form.recordError("E-mail, password combination was not found in records");
+	private void showInvalidLoginMessage() {
+		form.recordError(emailField, "E-mail, password combination was not found in records");
 	}
 
 
 	@Log
-	public Object onSuccessFromForm () {
+	public Object onSuccessFromForm() {
 		SavedRequest savedRequest = WebUtils.getAndClearSavedRequest(requestGlobals.getHTTPServletRequest());
 
 		if (savedRequest == null)
