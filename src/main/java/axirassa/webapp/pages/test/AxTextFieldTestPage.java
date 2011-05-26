@@ -8,5 +8,8 @@ public class AxTextFieldTestPage {
 	private String text;
 
 	@Property
+	private String text1;
+
+	@Property
 	private String text2;
 }
