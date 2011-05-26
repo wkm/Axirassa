@@ -6,10 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.apache.tapestry5.dom.Document;
-import org.apache.tapestry5.dom.Node;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.jaxen.JaxenException;
 import org.junit.Test;
@@ -18,8 +16,6 @@ import axirassa.dao.UserEmailAddressDAO;
 import axirassa.model.UserEntity;
 import axirassa.model.flows.CreateUserFlow;
 import axirassa.util.test.TapestryPageTest;
-
-import com.formos.tapestry.xpath.TapestryXPath;
 
 public class TestRegisterPage extends TapestryPageTest {
 	@Inject
@@ -35,16 +31,24 @@ public class TestRegisterPage extends TapestryPageTest {
 
 
 	@Test
-	public void register() throws Exception {
+	public void pageStructure() throws JaxenException {
 		Document page = registerPage();
 
-		List<Node> textNodes = TapestryXPath.xpath("//input[@type='text']").selectNodes(page);
-		assertEquals(3, textNodes.size()); // an extra node for feedback
+		ensureHasElementById(page, "emailField");
+		ensureHasElementById(page, "confirmEmailField");
+		ensureHasElementById(page, "passwordField");
+		ensureHasElementById(page, "confirmPasswordField");
 
-		List<Node> passwordNodes = TapestryXPath.xpath("//input[@type='password']").selectNodes(page);
-		assertEquals(2, passwordNodes.size());
+		assertEquals("E-mail", getLabelTextFor(page, "emailField"));
+		assertEquals("Confirm e-mail", getLabelTextFor(page, "confirmEmailField"));
+		assertEquals("Password", getLabelTextFor(page, "passwordField"));
+		assertEquals("Confirm password", getLabelTextFor(page, "confirmPasswordField"));
+	}
 
-		Document resultPage = clickSubmitByValue(page, "Register", new LinkedHashMap<String, String>() {
+
+	@Test
+	public void register() throws Exception {
+		Document resultPage = clickSubmitByValue(registerPage(), "Register", new LinkedHashMap<String, String>() {
 			{
 				put("emailField", "who@foo.com");
 				put("confirmEmailField", "who@foo.com");
