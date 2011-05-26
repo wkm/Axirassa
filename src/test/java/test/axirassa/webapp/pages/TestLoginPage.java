@@ -26,11 +26,73 @@ public class TestLoginPage extends TapestryPageTest {
 	public void structure() throws JaxenException {
 		Document page = tester.renderPage("user/login");
 
+		ensureNoErrors(page);
 		ensureHasElementById(page, "emailField");
 		ensureHasElementById(page, "passwordField");
+		ensureHasElementById(page, "remembermebox");
 
 		assertEquals("E-mail", getLabelTextFor(page, "emailField"));
 		assertEquals("Password", getLabelTextFor(page, "passwordField"));
+		assertEquals("Stay logged in?", getLabelTextFor(page, "remembermebox"));
+	}
+
+
+	@Test
+	public void validateRequiredFields() throws JaxenException {
+		Document result = clickSubmitByValue("user/login", "Login");
+
+		ensureErrorOnField(result, "emailField");
+		ensureErrorOnField(result, "passwordField");
+
+		assertEquals("Just who are you? You forgot your e-mail.", getErrorTextOnField(result, "emailField"));
+		assertEquals("We keep your account safe by requiring a password.", getErrorTextOnField(result, "passwordField"));
+	}
+
+
+	@Test
+	public void validateEmailField() throws JaxenException {
+		Document result = clickSubmitByValue("user/login", "Login", new LinkedHashMap<String, String>() {
+			{
+				put("emailField", "who");
+				put("passwordField", "123");
+			}
+		});
+
+		ensureErrorOnField(result, "emailField");
+
+		assertEquals("This doesn't look like an e-mail...", getErrorTextOnField(result, "emailField"));
+	}
+
+
+	@Test
+	public void invalidPassword() throws JaxenException {
+		Document result = clickSubmitByValue("user/login", "Login", new LinkedHashMap<String, String>() {
+			{
+				put("emailField", "who@foo.com");
+				put("passwordField", "123");
+			}
+		});
+
+		ensureErrorOnField(result, "emailField");
+		assertEquals("E-mail, password combination was not found in records", getErrorTextOnField(result, "emailField"));
+	}
+
+
+	@Test
+	public void testLoginEmailWithPlusses() throws Exception {
+		createUser.setEmail("who+123@foo.com");
+		createUser.setPassword("123");
+		createUser.execute();
+
+		Document result = clickSubmitByValue("user/login", "Login", new LinkedHashMap<String, String>() {
+			{
+				put("emailField", "who+123@foo.com");
+				put("passwordField", "123");
+			}
+		});
+
+		ensureNoErrors(result);
+		logoutUser();
 	}
 
 
@@ -48,7 +110,7 @@ public class TestLoginPage extends TapestryPageTest {
 			}
 		});
 
-		// System.out.println(result);
 		ensureNoErrors(result);
+		logoutUser();
 	}
 }
