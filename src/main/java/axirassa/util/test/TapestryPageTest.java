@@ -71,6 +71,8 @@ public class TapestryPageTest extends TapestryTest {
 
 	@After
 	public void stopSessions() {
+		logoutUser();
+
 		cleanupService.cleanup();
 		cleanupService = null;
 	}
@@ -116,6 +118,7 @@ public class TapestryPageTest extends TapestryTest {
 	public void createUser(String email, String password) throws Exception {
 		createUser.setEmail(email);
 		createUser.setPassword(password);
+		System.err.println("EXECUTING");
 		createUser.execute();
 		reset(emailNotifier);
 	}
