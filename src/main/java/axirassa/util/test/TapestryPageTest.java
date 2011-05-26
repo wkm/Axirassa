@@ -94,8 +94,18 @@ public class TapestryPageTest extends TapestryTest {
 	}
 
 
+	public String getLabelTextFor(Document page, String text) throws JaxenException {
+		return getElementText(getLabelFor(page, text));
+	}
+
+
 	public Element getElementById(Document page, String id) throws JaxenException {
 		return TapestryXPath.xpath("//*[@id='" + id + "']").selectSingleElement(page);
+	}
+
+
+	public void ensureHasElementById(Document page, String id) throws JaxenException {
+		assertNotNull("No element with id: " + id, getElementById(page, id));
 	}
 
 
@@ -139,6 +149,11 @@ public class TapestryPageTest extends TapestryTest {
 	 */
 	public String getElementText(Element element) {
 		return element.getChildMarkup().trim();
+	}
+
+
+	public Document clickSubmitByValue(String page, String value) throws JaxenException {
+		return clickSubmitByValue(tester.renderPage(page), value);
 	}
 
 
@@ -186,6 +201,11 @@ public class TapestryPageTest extends TapestryTest {
 		Element fieldNode = getElementById(page, id);
 		Element previousNode = ElementUtil.getElementBefore(fieldNode);
 		return previousNode;
+	}
+
+
+	public String getErrorTextOnField(Document page, String id) throws JaxenException {
+		return getElementText(getErrorOnField(page, id));
 	}
 
 
