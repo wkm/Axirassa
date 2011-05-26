@@ -43,7 +43,11 @@
 		
 		<t:AxFormVSpace />
 		<h4>Address</h4>
-		<t:axtextfield t:value="url" t:name="URL" t:validate="required"/>
+		<t:AxTextField 
+			t:value="url" 
+			t:label="URL" 
+			t:validate="required"
+		/>
 		
 		
 		<t:AxFormVSpace />

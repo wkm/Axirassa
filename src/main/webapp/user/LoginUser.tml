@@ -12,10 +12,20 @@
     <t:errors />
 
 	<t:if test="security.user">
-   		<t:axtextfield t:value="security.email" t:name="E-mail" t:validate="required,email" disabled="security.user"/>
+   		<t:AxTextField 
+   			t:value="security.email" 
+   			t:label="E-mail" 
+   			t:validate="required,email" 
+   			disabled="security.user"
+   		/>
    		
    		<p:else>
-   			<t:axtextfield t:id="emailField" t:value="email" t:name="E-mail" t:validate="required,email"/>
+   			<t:AxTextField
+   				t:id="emailField" 
+   				t:value="email" 
+   				t:label="E-mail" 
+   				t:validate="required,email"
+   			/>
    		</p:else>
    	</t:if>
     
