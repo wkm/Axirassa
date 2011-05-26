@@ -158,6 +158,7 @@
         <t:AxFormVSpace />
 		
         <t:AxPasswordField
+        	t:id="passwordField"
 			t:name="New password" 
 			t:validate="required" 
 			t:value="newPassword" 

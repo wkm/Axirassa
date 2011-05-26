@@ -28,13 +28,12 @@ public class TestLoginPage extends TapestryPageTest {
 		createUser.execute();
 
 		Query users = session.createQuery("from UserEntity");
-		System.out.println("USER LIST: " + users.list());
 
 		Document page = tester.renderPage("user/login");
 		Document result = clickSubmitByValue(page, "Login", new LinkedHashMap<String, String>() {
 			{
-				put("txtfield", "who@foo.com");
-				put("txtfield_0", "123");
+				put("emailField", "who@foo.com");
+				put("passwordField", "123");
 			}
 		});
 

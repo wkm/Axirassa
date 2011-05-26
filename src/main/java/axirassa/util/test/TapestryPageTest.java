@@ -118,8 +118,8 @@ public class TapestryPageTest extends TapestryTest {
 		Document page = tester.renderPage("user/login");
 		clickSubmitByValue(page, "Login", new LinkedHashMap<String, String>() {
 			{
-				put("txtfield", email);
-				put("txtfield_0", password);
+				put("emailField", email);
+				put("passwordField", password);
 			}
 		});
 	}

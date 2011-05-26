@@ -34,11 +34,12 @@ public class TestAddEmailAddressPage extends TapestryPageTest {
 		Document result = clickSubmitByValue("user/addemailaddress", "Add e-mail address",
 		                                     new LinkedHashMap<String, String>() {
 			                                     {
-				                                     put("txtfield", "what@foo.com");
-				                                     put("txtfield", "what@foo.com");
+				                                     put("emailField", "what@foo.com");
+				                                     put("emailConfirmField", "what@foo.com");
 			                                     }
 		                                     });
 
+		System.out.println("RESULT: " + result);
 		verify(emailNotifier).send();
 
 		UserEntity user = emailDAO.getUserByEmail("what@foo.com");

@@ -18,19 +18,19 @@ public class TestAxTextField extends TapestryPageTest {
 	public void structureTest() throws JaxenException {
 		Document page = renderComponentTestPage(AxTextField.class);
 
-		Element txtfield = getElementById(page, "txtfield");
+		Element txtfield = getElementById(page, "textfield");
 		assertNotNull(txtfield);
 		assertNull(txtfield.getAttribute("disabled"));
 
-		Element txtfieldLabel = getLabelFor(page, "txtfield");
+		Element txtfieldLabel = getLabelFor(page, "textfield");
 		assertNotNull(txtfieldLabel);
 		assertEquals("Textfield", getElementText(txtfieldLabel));
 
-		Element txtfieldDisabled = getElementById(page, "txtfield_0");
+		Element txtfieldDisabled = getElementById(page, "textfieldDisabled");
 		assertNotNull(txtfieldDisabled);
 		assertNotNull(txtfieldDisabled.getAttribute("disabled"));
 
-		Element txtfieldDisabledLabel = getLabelFor(page, "txtfield_0");
+		Element txtfieldDisabledLabel = getLabelFor(page, "textfieldDisabled");
 		assertNotNull(txtfieldDisabledLabel);
 		assertEquals("Disabled", getElementText(txtfieldDisabledLabel));
 	}
@@ -41,11 +41,11 @@ public class TestAxTextField extends TapestryPageTest {
 		Document page = renderComponentTestPage(AxTextField.class);
 		Document result = clickSubmitByValue(page, "submit");
 
-		ensureErrorOnField(result, "txtfield");
-		Element error = getErrorOnField(result, "txtfield");
-		assertEquals("You must provide a value for textfield.", getElementText(error));
+		ensureErrorOnField(result, "textfield");
+		Element error = getErrorOnField(result, "textfield");
+		assertEquals("You must provide a value for Textfield.", getElementText(error));
 
 		// disabled field should be fine
-		ensureNoErrorOnField(result, "txtfield_0");
+		ensureNoErrorOnField(result, "textfieldDisabled");
 	}
 }

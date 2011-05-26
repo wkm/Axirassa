@@ -7,15 +7,37 @@
 	
 		<t:errors/>
 	
-		<t:AxTextField t:id="emailField" t:value="email" t:name="E-mail" t:mixins="ajaxValidator" t:validate='required,email'/>
-		<t:AxTextField t:id="confirmEmailField" t:value="confirmemail" t:name="Confirm e-mail" t:validate='required'/>
+		<t:AxTextField
+			t:label="E-mail" 
+			t:id="emailField" 
+			t:value="email" 
+			t:mixins="ajaxValidator" 
+			t:validate='required,email'
+		/>
+		<t:AxTextField
+			t:label="Confirm e-mail" 
+			t:id="confirmEmailField" 
+			t:value="confirmemail" 
+			t:validate='required'
+		/>
 		<t:AxFieldDescription>
 			We will send an e-mail to verify your e-mail address.
 		</t:AxFieldDescription>
 		
 		<t:AxFormVSpace/>
-		<t:AxPasswordField t:value="password" t:name="Password" t:validate='required' />
-		<t:AxPasswordField t:id="confirmPasswordField" t:value="confirmpassword" t:name="Confirm password" t:validate='required'/>
+		<t:AxPasswordField
+			t:label="Password"  
+			t:value="password" 
+			t:id="passwordField"
+			t:validate='required'
+		/>
+		<t:AxPasswordField 
+			t:label="Confirm password" 
+		
+			t:id="confirmPasswordField" 
+			t:value="confirmpassword" 
+			t:validate='required'
+		/>
 		<t:AxFieldDescription>
 			While we do not place any special limitations on your choice of password, we recommend you use 
 			more than six characters and a mixture of numbers, letters, symbols, uppercase and lowercase.

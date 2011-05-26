@@ -35,9 +35,9 @@ public class TestUserSettingsPage extends TapestryPageTest {
 
 		Document result = clickSubmitByValue("user/settings", "Change password", new LinkedHashMap<String, String>() {
 			{
-				put("txtfield", "123");
-				put("txtfield_0", "1234");
-				put("txtfield_1", "1234");
+				put("currentPasswordField", "123");
+				put("passwordField", "1234");
+				put("confirmPasswordField", "1234");
 			}
 		});
 

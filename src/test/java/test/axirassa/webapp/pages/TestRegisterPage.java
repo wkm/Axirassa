@@ -46,10 +46,10 @@ public class TestRegisterPage extends TapestryPageTest {
 
 		Document resultPage = clickSubmitByValue(page, "Register", new LinkedHashMap<String, String>() {
 			{
-				put("txtfield", "who@foo.com");
-				put("txtfield_0", "who@foo.com");
-				put("txtfield_1", "123");
-				put("txtfield_2", "123");
+				put("emailField", "who@foo.com");
+				put("confirmEmailField", "who@foo.com");
+				put("passwordField", "123");
+				put("confirmPasswordField", "123");
 			}
 		});
 
@@ -68,10 +68,10 @@ public class TestRegisterPage extends TapestryPageTest {
 	public void emptyFields() throws JaxenException {
 		Document result = clickSubmitByValue(registerPage(), "Register");
 
-		ensureErrorOnField(result, "txtfield");
-		ensureErrorOnField(result, "txtfield_0");
-		ensureErrorOnField(result, "txtfield_1");
-		ensureErrorOnField(result, "txtfield_2");
+		ensureErrorOnField(result, "emailField");
+		ensureErrorOnField(result, "confirmEmailField");
+		ensureErrorOnField(result, "passwordField");
+		ensureErrorOnField(result, "confirmPasswordField");
 	}
 
 
@@ -79,19 +79,19 @@ public class TestRegisterPage extends TapestryPageTest {
 	public void differentEmailsAndPasswords() throws JaxenException {
 		Document result = clickSubmitByValue(registerPage(), "Register", new LinkedHashMap<String, String>() {
 			{
-				put("txtfield", "what@foo.com");
-				put("txtfield_0", "where@foo.com");
+				put("emailField", "what@foo.com");
+				put("confirmEmailField", "where@foo.com");
 
-				put("txtfield_1", "123");
-				put("txtfield_2", "abc");
+				put("passwordField", "123");
+				put("confirmPasswordField", "abc");
 			}
 		});
 
-		ensureNoErrorOnField(result, "txtfield");
-		ensureNoErrorOnField(result, "txtfield_1");
+		ensureNoErrorOnField(result, "emailField");
+		ensureNoErrorOnField(result, "passwordField");
 
-		ensureErrorOnField(result, "txtfield_0");
-		ensureErrorOnField(result, "txtfield_2");
+		ensureErrorOnField(result, "confirmEmailField");
+		ensureErrorOnField(result, "confirmPasswordField");
 	}
 
 
@@ -99,10 +99,10 @@ public class TestRegisterPage extends TapestryPageTest {
 	public void invalidEmail() throws JaxenException {
 		Document result = clickSubmitByValue(registerPage(), "Register", new LinkedHashMap<String, String>() {
 			{
-				put("txtfield", "notAnEmail");
+				put("emailField", "notAnEmail");
 			}
 		});
 
-		ensureErrorOnField(result, "txtfield_0");
+		ensureErrorOnField(result, "emailField");
 	}
 }

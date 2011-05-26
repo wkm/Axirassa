@@ -29,7 +29,12 @@
    		</p:else>
    	</t:if>
     
-    <t:axpasswordfield t:value="password" t:name="Password" t:validate="required" />
+    <t:AxPasswordField
+    	t:id="passwordField" 
+    	t:value="password" 
+    	t:name="Password" 
+    	t:validate="required"
+    />
 
     <t:security.guest>
         <div class="ax_field">
