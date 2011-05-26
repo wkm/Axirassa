@@ -31,6 +31,8 @@ public class HibernateCleanupService {
 		}
 
 		threadManager.cleanup();
+
+		session.close();
 	}
 
 
@@ -54,7 +56,8 @@ public class HibernateCleanupService {
 
 		if (session.getTransaction().isActive()) {
 			session.getTransaction().commit();
-			session.getTransaction().begin();
 		}
+
+		session.close();
 	}
 }
