@@ -24,7 +24,7 @@ public class AxPasswordField implements Field {
 
 
 	public void setupRender() {
-		clientId = jsSupport.allocateClientId(componentResources);
+		clientId = componentResources.getId();
 	}
 
 

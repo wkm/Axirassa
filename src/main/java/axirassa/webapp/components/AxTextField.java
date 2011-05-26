@@ -7,14 +7,10 @@ import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.TextField;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 public class AxTextField implements Field {
 	@Inject
 	private ComponentResources componentResources;
-
-	@Inject
-	private JavaScriptSupport jsSupport;
 
 	@Component(publishParameters = "label,annotationProvider,clientId,disabled,nulls,translate,value,id,validate")
 	@Property
@@ -24,7 +20,7 @@ public class AxTextField implements Field {
 
 
 	public void setupRender() {
-		clientId = jsSupport.allocateClientId(componentResources);
+		clientId = componentResources.getId();
 	}
 
 
