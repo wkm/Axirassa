@@ -6,17 +6,22 @@
 
 	<body>
 		<t:AxForm>
-			<t:Textfield
-				t:mixins="AxField"
-				t:label="Textfield"
+			<t:AxTextfield
+				t:label="literal:Textfield"
 				t:id="textfield"
 				t:validate="required"
 				t:value="text" 
 			/>
 
-			<t:Textfield
-				t:mixins="AxField"
-				t:label="Disabled"
+			<t:AxTextfield
+				t:label="literal:Custom Message"
+				t:id="custom"
+				t:validate="required"
+				t:value="text1"
+			/>
+
+			<t:AxTextfield
+				t:label="literal:Disabled"
 				t:id="textfieldDisabled"
 				disabled="true"
 				t:value="text2" 
