@@ -9,7 +9,7 @@
         </p>
     </t:security.user>
 
-    <t:errors />
+    <t:AxFormErrors />
 
 	<t:if test="security.user">
    		<t:AxTextField 
