@@ -157,7 +157,12 @@ public class TapestryPageTest extends TapestryTest {
 	 * whitespace.
 	 */
 	public String getElementText(Element element) {
-		return element.getChildMarkup().trim();
+		String rawText = element.getChildMarkup();
+
+		if (rawText == null)
+			return rawText;
+		else
+			return rawText.trim();
 	}
 
 
@@ -209,6 +214,7 @@ public class TapestryPageTest extends TapestryTest {
 	public Element getErrorOnField(Document page, String id) throws JaxenException {
 		Element fieldNode = getElementById(page, id);
 		Element previousNode = ElementUtil.getElementBefore(fieldNode);
+		assertNotNull("could not find error node for: " + fieldNode, previousNode);
 		return previousNode;
 	}
 
