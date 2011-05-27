@@ -45,6 +45,9 @@ public class TestAxTextField extends TapestryPageTest {
 		Element error = getErrorOnField(result, "textfield");
 		assertEquals("You must provide a value for Textfield.", getElementText(error));
 
+		ensureErrorOnField(result, "custom");
+		assertEquals("You accidently a field", getErrorTextOnField(page, "custom"));
+
 		// disabled field should be fine
 		ensureNoErrorOnField(result, "textfieldDisabled");
 	}
