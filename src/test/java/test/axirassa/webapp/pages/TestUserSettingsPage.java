@@ -29,9 +29,25 @@ public class TestUserSettingsPage extends TapestryPageTest {
 
 
 	@Test
+	public void structure() throws Exception {
+		createUserAndLogin("who@foo.com", "123");
+
+		Document page = tester.renderPage("user/settings");
+
+		ensureNoErrors(page);
+		ensureHasElementById(page, "currentPasswordField");
+		ensureHasElementById(page, "passwordField");
+		ensureHasElementById(page, "confirmPasswordField");
+
+		assertEquals("Current password", getLabelTextFor(page, "currentPasswordField"));
+		assertEquals("New password", getLabelTextFor(page, "passwordField"));
+		assertEquals("Confirm password", getLabelTextFor(page, "confirmPasswordField"));
+	}
+
+
+	@Test
 	public void changePassword() throws Exception {
-		createUser("who@foo.com", "123");
-		loginUser("who@foo.com", "123");
+		createUserAndLogin("who@foo.com", "123");
 
 		Document result = clickSubmitByValue("user/settings", "Change password", new LinkedHashMap<String, String>() {
 			{
