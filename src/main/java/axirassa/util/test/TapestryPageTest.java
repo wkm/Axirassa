@@ -138,6 +138,12 @@ public class TapestryPageTest extends TapestryTest {
 	}
 
 
+	public void createUserAndLogin(String email, String password) throws Exception {
+		createUser(email, password);
+		loginUser(email, password);
+	}
+
+
 	/**
 	 * Logs out a user through the web interface
 	 */
