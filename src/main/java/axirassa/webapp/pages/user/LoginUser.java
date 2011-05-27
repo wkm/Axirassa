@@ -11,6 +11,7 @@ import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Log;
+import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -56,7 +57,13 @@ public class LoginUser {
 	private AxForm form;
 
 	@Component
+	private AxTextField completedEmailField;
+
+	@Component
 	private AxTextField emailField;
+
+	@Parameter("message:invalid-login")
+	private String errorMessage;
 
 
 	public void onActivate() {
@@ -84,7 +91,10 @@ public class LoginUser {
 
 
 	private void showInvalidLoginMessage() {
-		form.recordError(emailField, "E-mail, password combination was not found in records");
+		if (security.isUser())
+			form.recordError(completedEmailField, errorMessage);
+		else
+			form.recordError(emailField, errorMessage);
 	}
 
 

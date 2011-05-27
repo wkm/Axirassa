@@ -13,6 +13,7 @@
 
 	<t:if test="security.user">
    		<t:AxTextField 
+   			t:id="completedEmailField"
    			t:value="security.email" 
    			t:label="E-mail" 
    			t:validate="required,email" 
