@@ -28,8 +28,7 @@ public class TestAddEmailAddressPage extends TapestryPageTest {
 
 	@Test
 	public void addEmailAddress() throws Exception {
-		createUser("who@foo.com", "123");
-		loginUser("who@foo.com", "123");
+		createUserAndLogin("who@foo.com", "123");
 
 		Document result = clickSubmitByValue("user/addemailaddress", "Add e-mail address",
 		                                     new LinkedHashMap<String, String>() {
