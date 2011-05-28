@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.LinkedHashMap;
+
 import org.apache.tapestry5.dom.Document;
 import org.apache.tapestry5.dom.Element;
 import org.jaxen.JaxenException;
@@ -50,5 +52,27 @@ public class TestAxTextField extends TapestryPageTest {
 
 		// disabled field should be fine
 		ensureNoErrorOnField(result, "textfieldDisabled");
+	}
+
+
+	@Test
+	public void regexpValidation() throws JaxenException {
+		Document testPage = renderComponentTestPage(AxTextField.class);
+		Document result = clickSubmitByValue(testPage, "submit", new LinkedHashMap<String, String>() {
+			{
+				put("regexp", "123-45");
+			}
+		});
+
+		ensureErrorOnField(result, "regexp");
+		assertEquals("Invalid format", getErrorTextOnField(result, "regexp"));
+
+		result = clickSubmitByValue(testPage, "submit", new LinkedHashMap<String, String>() {
+			{
+				put("regexp", "123-45-6789");
+			}
+		});
+
+		ensureNoErrorOnField(result, "regexp");
 	}
 }
