@@ -32,7 +32,7 @@ public class TestUserSettingsPage extends TapestryPageTest {
 	public void structure() throws Exception {
 		createUserAndLogin("who@foo.com", "123");
 
-		Document page = tester.renderPage("user/settings");
+		Document page = renderPage("user/settings");
 
 		ensureNoErrors(page);
 		ensureHasElementById(page, "currentPasswordField");

@@ -26,7 +26,7 @@ public class TestRegisterPage extends TapestryPageTest {
 
 
 	private Document registerPage() {
-		return tester.renderPage("user/register");
+		return renderPage("user/register");
 	}
 
 

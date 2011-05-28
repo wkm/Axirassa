@@ -24,7 +24,7 @@ public class TestUserLoginPage extends TapestryPageTest {
 
 	@Test
 	public void structure() throws JaxenException {
-		Document page = tester.renderPage("user/login");
+		Document page = renderPage("user/login");
 
 		ensureNoErrors(page);
 		ensureHasElementById(page, "emailField");

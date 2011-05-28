@@ -82,8 +82,13 @@ public class TapestryPageTest extends TapestryTest {
 	// Test Helpers
 	//
 
+	public Document renderPage(String name) {
+		return tester.renderPage(name);
+	}
+
+
 	public Document renderComponentTestPage(Class<?> componentClass) {
-		return tester.renderPage("test/" + componentClass.getSimpleName().toLowerCase() + "testpage");
+		return renderPage("test/" + componentClass.getSimpleName().toLowerCase() + "testpage");
 	}
 
 
@@ -128,7 +133,7 @@ public class TapestryPageTest extends TapestryTest {
 	 * Login a user through the web interface (and so starting a session)
 	 */
 	public void loginUser(final String email, final String password) throws JaxenException {
-		Document page = tester.renderPage("user/login");
+		Document page = renderPage("user/login");
 		clickSubmitByValue(page, "Login", new LinkedHashMap<String, String>() {
 			{
 				put("emailField", email);
@@ -148,7 +153,7 @@ public class TapestryPageTest extends TapestryTest {
 	 * Logs out a user through the web interface
 	 */
 	public void logoutUser() {
-		tester.renderPage("user/logout");
+		renderPage("user/logout");
 	}
 
 
@@ -167,7 +172,7 @@ public class TapestryPageTest extends TapestryTest {
 
 
 	public Document clickSubmitByValue(String page, String value) throws JaxenException {
-		return clickSubmitByValue(tester.renderPage(page), value);
+		return clickSubmitByValue(renderPage(page), value);
 	}
 
 
@@ -177,7 +182,7 @@ public class TapestryPageTest extends TapestryTest {
 
 
 	public Document clickSubmitByValue(String page, String value, Map<String, String> values) throws JaxenException {
-		return clickSubmitByValue(tester.renderPage(page), value, values);
+		return clickSubmitByValue(renderPage(page), value, values);
 	}
 
 
