@@ -25,6 +25,7 @@ public class TestAxTextField extends TapestryPageTest {
 		Element txtfieldLabel = getLabelFor(page, "textfield");
 		assertNotNull(txtfieldLabel);
 		assertEquals("Textfield", getElementText(txtfieldLabel));
+		assertEquals("text", txtfield.getAttribute("type"));
 
 		Element txtfieldDisabled = getElementById(page, "textfieldDisabled");
 		assertNotNull(txtfieldDisabled);
