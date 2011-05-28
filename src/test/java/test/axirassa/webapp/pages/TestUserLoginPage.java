@@ -14,7 +14,7 @@ import org.junit.Test;
 import axirassa.model.flows.CreateUserFlow;
 import axirassa.util.test.TapestryPageTest;
 
-public class TestLoginPage extends TapestryPageTest {
+public class TestUserLoginPage extends TapestryPageTest {
 	@Inject
 	CreateUserFlow createUser;
 
