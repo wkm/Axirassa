@@ -38,10 +38,8 @@ public class ResetPasswordUser {
 
 
 	public void onValidateFromForm() {
-		if (email == null) {
-			showInvalidEmailMessage();
+		if (email == null)
 			return;
-		}
 
 		UserEntity entity = emailDAO.getUserByEmail(email);
 		if (entity == null)
