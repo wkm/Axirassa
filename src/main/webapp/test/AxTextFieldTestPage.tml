@@ -27,6 +27,12 @@
 				t:value="literal:"
 			/>
 			
+			<t:AxTextField
+				t:label="literal:Regexp"
+				t:id="regexp"
+				t:validate="regexp"
+				t:value="regexpValue"
+			/>
 			<t:AxSubmit label="submit" />
 		</t:AxForm>
 	</body>
