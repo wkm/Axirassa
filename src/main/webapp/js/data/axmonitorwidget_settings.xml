@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+	<data_type>csv</data_type>
+	<plot_area>
+		<margins>
+			<left>45</left>
+			<right>0</right>
+			<top>5</top>
+			<bottom>10</bottom>
+		</margins>
+	</plot_area>
+	<graphs>
+		<graph gid="1">
+			<axis>left</axis>
+			<title>latency</title>
+			<color>#999999</color>
+		</graph>
+		<graph gid="2">
+			<axis>left</axis>
+			<title>response time</title>
+			<color>#FFCC00</color>
+		</graph>
+	</graphs>
+</settings>
