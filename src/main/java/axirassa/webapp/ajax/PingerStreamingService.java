@@ -63,11 +63,11 @@ public class PingerStreamingService extends AbstractService {
 				ClientMessage message = consumer.receive();
 				HttpStatisticsEntity stat = InjectorService.rebuildMessage(message);
 				if (stat == null) {
-					System.err.println("received null message");
+					LOGGER.warn("received null message");
 					continue;
 				}
 
-				System.out.println("RECEIVED MESSAGE: " + stat);
+				LOGGER.trace("received message: {}", stat);
 
 				PingerEntity pinger = stat.getPinger();
 
@@ -82,7 +82,6 @@ public class PingerStreamingService extends AbstractService {
 				jsonMessage.put("ResponseSize", stat.getResponseSize());
 
 				channel.publish(jsonMessage.toCompactString());
-				System.out.println("\t >>>> [ published ]");
 			} catch (InvalidMessageClassException e) {
 				LOGGER.error("Exception", e);
 			} catch (IOException e) {
