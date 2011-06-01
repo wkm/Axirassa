@@ -9,17 +9,33 @@
         </p>
     </t:security.user>
 
-    <t:errors />
+    <t:AxFormErrors />
 
 	<t:if test="security.user">
-   		<t:axtextfield t:value="security.email" t:name="E-mail" t:validate="required,email" disabled="security.user"/>
+   		<t:AxTextField 
+   			t:id="completedEmailField"
+   			t:value="security.email" 
+   			t:label="E-mail" 
+   			t:validate="required,email" 
+   			disabled="security.user"
+   		/>
    		
    		<p:else>
-   			<t:axtextfield t:id="emailField" t:value="email" t:name="E-mail" t:validate="required,email"/>
+   			<t:AxTextField
+   				t:id="emailField" 
+   				t:value="email" 
+   				t:label="E-mail" 
+   				t:validate="required,email"
+   			/>
    		</p:else>
    	</t:if>
     
-    <t:axpasswordfield t:value="password" t:name="Password" t:validate="required" />
+    <t:AxPasswordField
+    	t:id="passwordField" 
+    	t:value="password" 
+    	t:label="Password" 
+    	t:validate="required"
+    />
 
     <t:security.guest>
         <div class="ax_field">

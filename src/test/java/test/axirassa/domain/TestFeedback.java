@@ -10,16 +10,14 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import axirassa.dao.FeedbackDAO;
-import axirassa.ioc.IocIntegrationTestRunner;
 import axirassa.model.FeedbackEntity;
 import axirassa.model.UserEmailAddressEntity;
 import axirassa.model.UserEntity;
+import axirassa.util.test.AbstractIntegrationTest;
 
-@RunWith(IocIntegrationTestRunner.class)
-public class TestFeedback {
+public class TestFeedback extends AbstractIntegrationTest {
 
 	@Inject
 	private Session database;
@@ -29,7 +27,7 @@ public class TestFeedback {
 
 
 	@Test
-	public void feedback () throws HibernateException, SQLException {
+	public void feedback() throws HibernateException, SQLException {
 		database.beginTransaction();
 
 		UserEntity user = new UserEntity();

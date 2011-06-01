@@ -12,7 +12,6 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.util.EnumValueEncoder;
 import org.hibernate.Session;
 
-import axirassa.dao.UserDAO;
 import axirassa.model.MonitorType;
 import axirassa.model.PingerEntity;
 import axirassa.model.PingerFrequency;
@@ -26,9 +25,6 @@ public class CreateMonitor {
 
 	@Inject
 	private AxirassaSecurityService security;
-
-	@Inject
-	private UserDAO userDAO;
 
 	@Property
 	private final ValueEncoder<PingerFrequency> frequencyEncoder = new EnumValueEncoder(PingerFrequency.class);
@@ -44,7 +40,7 @@ public class CreateMonitor {
 
 
 	@CommitAfter
-	public Object onSuccess () throws AxirassaSecurityException {
+	public Object onSuccess() throws AxirassaSecurityException {
 		// save the pinger
 		PingerEntity pinger = new PingerEntity();
 		pinger.setUrl(url);

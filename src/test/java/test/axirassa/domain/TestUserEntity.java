@@ -8,21 +8,18 @@ import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import axirassa.ioc.IocIntegrationTestRunner;
 import axirassa.model.UserEntity;
 import axirassa.model.exception.NoSaltException;
+import axirassa.util.test.AbstractIntegrationTest;
 
-@RunWith(IocIntegrationTestRunner.class)
-public class TestUserEntity {
+public class TestUserEntity extends AbstractIntegrationTest {
 
 	@Inject
 	private Session database;
 
 
 	@Test
-	@CommitAfter
 	public void userPassword() throws NoSaltException {
 		UserEntity user = new UserEntity();
 		user.createPassword("blah");
@@ -35,7 +32,6 @@ public class TestUserEntity {
 
 
 	@Test
-	@CommitAfter
 	public void userAutomaticSalting() {
 		UserEntity user = new UserEntity();
 		long start = System.currentTimeMillis();

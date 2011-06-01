@@ -11,6 +11,7 @@ import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Log;
+import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -20,6 +21,7 @@ import org.tynamo.security.services.PageService;
 
 import axirassa.model.exception.NoSaltException;
 import axirassa.webapp.components.AxForm;
+import axirassa.webapp.components.AxTextField;
 import axirassa.webapp.pages.MonitorConsole;
 import axirassa.webapp.services.AxirassaSecurityService;
 
@@ -54,8 +56,17 @@ public class LoginUser {
 	@Component
 	private AxForm form;
 
+	@Component
+	private AxTextField completedEmailField;
 
-	public void onActivate () {
+	@Component
+	private AxTextField emailField;
+
+	@Parameter("message:invalid-login")
+	private String errorMessage;
+
+
+	public void onActivate() {
 		if (security.isUser()) {
 			email = security.getEmail();
 			isLoggedIn = true;
@@ -64,7 +75,7 @@ public class LoginUser {
 
 
 	@Log
-	public void onValidateFromForm () throws NoSaltException {
+	public void onValidateFromForm() throws NoSaltException {
 		if (email == null || password == null)
 			return;
 
@@ -79,13 +90,16 @@ public class LoginUser {
 	}
 
 
-	private void showInvalidLoginMessage () {
-		form.recordError("E-mail, password combination was not found in records");
+	private void showInvalidLoginMessage() {
+		if (security.isUser())
+			form.recordError(completedEmailField, errorMessage);
+		else
+			form.recordError(emailField, errorMessage);
 	}
 
 
 	@Log
-	public Object onSuccessFromForm () {
+	public Object onSuccessFromForm() {
 		SavedRequest savedRequest = WebUtils.getAndClearSavedRequest(requestGlobals.getHTTPServletRequest());
 
 		if (savedRequest == null)

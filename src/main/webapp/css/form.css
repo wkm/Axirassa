@@ -8,6 +8,10 @@ input {
 	clear: both;
 }
 
+form {
+	margin: 2em 0;
+}
+
 label {
 	display: block;
 	float: left;

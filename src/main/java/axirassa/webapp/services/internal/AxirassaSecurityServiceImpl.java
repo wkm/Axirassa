@@ -3,10 +3,8 @@ package axirassa.webapp.services.internal;
 
 import org.apache.shiro.subject.Subject;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.hibernate.Session;
 import org.tynamo.security.services.SecurityService;
 
-import axirassa.dao.UserDAO;
 import axirassa.dao.UserEmailAddressDAO;
 import axirassa.model.EntityWithUser;
 import axirassa.model.UserEmailAddressEntity;
@@ -20,10 +18,7 @@ public class AxirassaSecurityServiceImpl implements AxirassaSecurityService {
 	private SecurityService security;
 
 	@Inject
-	private Session database;
-
-	@Inject
-	private UserDAO userDAO;
+	private UserEmailAddressDAO emailDAO;
 
 	@Inject
 	private UserEmailAddressDAO userEmailAddressDAO;
@@ -78,7 +73,7 @@ public class AxirassaSecurityServiceImpl implements AxirassaSecurityService {
 		if (email == null)
 			return null;
 
-		UserEntity user = userDAO.getUserByEmail(getEmail());
+		UserEntity user = emailDAO.getUserByEmail(getEmail());
 
 		if (user == null)
 			throw new AxirassaSecurityException();

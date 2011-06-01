@@ -19,7 +19,7 @@ public class TestQuartz {
 		Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
 		scheduler.start();
 
-		JobDetail job = new JobDetail("job1", "group1", TestQuartzJobClass.class);
+		JobDetail job = new JobDetail("job1", "group1", QuartzTestJobClass.class);
 		Trigger trigger = new CronTrigger("trigger1", "group1", "0/1 * * * * ?");
 
 		scheduler.scheduleJob(job, trigger);
@@ -27,6 +27,6 @@ public class TestQuartz {
 		Thread.sleep(50);
 		scheduler.shutdown(true);
 
-		assertTrue(TestQuartzJobClass.flipped);
+		assertTrue(QuartzTestJobClass.flipped);
 	}
 }

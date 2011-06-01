@@ -1,3 +1,4 @@
+
 package axirassa.ioc;
 
 import org.apache.tapestry5.ioc.Registry;
@@ -7,31 +8,31 @@ import org.junit.runners.model.InitializationError;
 import org.mockito.MockitoAnnotations;
 
 /**
- *
+ * 
  * @author wiktor
  */
 public class IocUnitTestRunner extends BlockJUnit4ClassRunner {
 
-    private final Registry registry;
-
-    public IocUnitTestRunner (Class<?> classObject) throws InitializationError {
-        super(classObject);
-
-        RegistryBuilder builder = IocStandalone.initRegistryBuilder();
-        builder.add(MockingModule.class);
-
-        registry = builder.build();
-        registry.performRegistryStartup();
-    }
+	private final Registry registry;
 
 
-    @Override
-    public Object createTest () {
-        Object test = registry.autobuild(getTestClass().getJavaClass());
-        MockitoAnnotations.initMocks(test);
+	public IocUnitTestRunner(Class<?> classObject) throws InitializationError {
+		super(classObject);
 
-        return test;
-    }
+		RegistryBuilder builder = IocStandalone.initRegistryBuilder();
+		builder.add(MockingModule.class);
 
+		registry = builder.build();
+		registry.performRegistryStartup();
+	}
+
+
+	@Override
+	public Object createTest() {
+		Object test = registry.autobuild(getTestClass().getJavaClass());
+		MockitoAnnotations.initMocks(test);
+
+		return test;
+	}
 
 }

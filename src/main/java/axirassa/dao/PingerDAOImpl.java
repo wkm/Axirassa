@@ -22,15 +22,15 @@ public class PingerDAOImpl implements PingerDAO {
 	 * @see axirassa.dao.PingerDAO#findPingerById(long)
 	 */
 	@Override
-	public PingerEntity findPingerById (long id) {
+	public PingerEntity findPingerById(long id) {
 		Query query = database.getNamedQuery("pinger_and_user_by_id");
 		query.setLong("id", id);
 
 		List<PingerEntity> pingers = query.list();
-		if (pingers.size() < 1)
+		if (pingers.isEmpty())
 			return null;
-
-		return pingers.iterator().next();
+		else
+			return pingers.iterator().next();
 	}
 
 
@@ -40,7 +40,7 @@ public class PingerDAOImpl implements PingerDAO {
 	 * @see axirassa.dao.PingerDAO#findStatistics(axirassa.model.PingerEntity)
 	 */
 	@Override
-	public List<HttpStatisticsEntity> findStatistics (PingerEntity pinger) {
+	public List<HttpStatisticsEntity> findStatistics(PingerEntity pinger) {
 		Query query = database.getNamedQuery("pinger_statistics");
 		query.setEntity("pinger", pinger);
 
@@ -49,7 +49,7 @@ public class PingerDAOImpl implements PingerDAO {
 
 
 	@Override
-	public List<HttpStatisticsEntity> getDataPoints (PingerEntity pinger, int minutes) {
+	public List<HttpStatisticsEntity> getDataPoints(PingerEntity pinger, int minutes) {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MINUTE, -minutes);
 

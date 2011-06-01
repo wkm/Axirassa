@@ -33,7 +33,7 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	private static final long serialVersionUID = 1375674968928774909L;
 
 
-	public static byte[] hashPasswordWithSalt (String password, byte[] salt) {
+	public static byte[] hashPasswordWithSalt(String password, byte[] salt) {
 		MessageDigest msgdigest = MessageDigestProvider.generate();
 
 		for (int i = 0; i < 4096; i++) {
@@ -65,17 +65,16 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	@Setter
 	private Long id;
 
-
 	// SALT
 	@Getter
 	@Setter
 	@Basic(optional = false)
-	private String salt;
+	private byte[] salt;
 
 
-	private String createSalt () {
+	private byte[] createSalt() {
 		// 32 * 8 = 256 bits
-		return RandomStringGenerator.getInstance().randomString(32);
+		return RandomStringGenerator.getInstance().randomBytes(32);
 	}
 
 
@@ -85,10 +84,11 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	@Basic(optional = false)
 	private byte[] password;
 
+
 	/**
 	 * Sets the password for this UserEntity by salting and encrypting it
 	 */
-	public void createPassword (String password) {
+	public void createPassword(String password) {
 		if (salt == null)
 			salt = createSalt();
 
@@ -100,11 +100,11 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	}
 
 
-	public byte[] hashPassword (String password) throws NoSaltException {
+	public byte[] hashPassword(String password) throws NoSaltException {
 		if (salt == null)
 			throw new NoSaltException(this);
 
-		return hashPasswordWithSalt(password, salt.getBytes());
+		return hashPasswordWithSalt(password, salt);
 	}
 
 
@@ -112,7 +112,7 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	 * @return gives true if the given password matches the recorded password
 	 *         for this user when salted and encrypted.
 	 */
-	public boolean matchPassword (String password) throws NoSaltException {
+	public boolean matchPassword(String password) throws NoSaltException {
 		byte[] hashed = hashPassword(password);
 
 		if (hashed.length != this.password.length)
@@ -140,13 +140,13 @@ public class UserEntity extends AutoSerializingObject implements Serializable, E
 	 * a placeholder function which just returns <"user"> until we have a need
 	 * for actual roles
 	 */
-	public Set<String> roles () {
+	public Set<String> roles() {
 		return Collections.singleton("user");
 	}
 
 
 	@Override
-	public void preSave () {
+	public void preSave() {
 		if (signUpDate == null)
 			signUpDate = new Date();
 	}

@@ -10,7 +10,6 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
 import org.hibernate.Session;
 
-import axirassa.dao.UserDAO;
 import axirassa.model.FeedbackEntity;
 import axirassa.model.UserEntity;
 import axirassa.webapp.services.AxirassaSecurityService;
@@ -22,9 +21,6 @@ public class AxFeedbackForm {
 
 	@Inject
 	private Session session;
-
-	@Inject
-	private UserDAO userDAO;
 
 	@Inject
 	private AxirassaSecurityService security;

@@ -151,20 +151,21 @@
 	
         <t:AxPasswordField
 			t:id="currentPasswordField"
-			t:name="Current password" 
+			t:label="Current password" 
 			t:validate="required" 
 			t:value="currentPassword"
 		/>
         <t:AxFormVSpace />
 		
         <t:AxPasswordField
-			t:name="New password" 
+        	t:id="passwordField"
+			t:label="New password" 
 			t:validate="required" 
 			t:value="newPassword" 
 		/>
         <t:AxPasswordField
 			t:id="confirmPasswordField"
-			t:name="Confirm password" 
+			t:label="Confirm password" 
 			t:validate="required" 
 			t:value="confirmPassword"
 		/>

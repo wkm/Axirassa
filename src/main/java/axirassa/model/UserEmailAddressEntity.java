@@ -29,30 +29,26 @@ public class UserEmailAddressEntity extends AutoSerializingObject implements Ent
 	//
 	@Id
 	@Getter
-	@Setter 
+	@Setter
 	@Basic(optional = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
 
 	@Getter
 	@Setter
 	@Basic(optional = false)
 	private boolean primaryEmail;
 
-
 	@Getter
 	@Setter
 	@ManyToOne(optional = false)
 	private UserEntity user;
 
-
-
-	@NaturalId 	@Getter
+	@NaturalId
+	@Getter
 	@Setter
 	@Basic(optional = false)
 	private String email;
-
 
 	@Getter
 	@Setter
@@ -66,8 +62,11 @@ public class UserEmailAddressEntity extends AutoSerializingObject implements Ent
 
 
 	@Override
-	public void preSave () {
+	public void preSave() {
 		if (token == null)
 			token = RandomStringGenerator.makeRandomStringToken(36);
+
+		if (email != null)
+			email = email.toLowerCase();
 	}
 }

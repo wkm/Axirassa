@@ -9,17 +9,15 @@ import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import axirassa.ioc.IocIntegrationTestRunner;
 import axirassa.model.MonitorType;
 import axirassa.model.PingerEntity;
 import axirassa.model.PingerFrequency;
 import axirassa.model.UserEntity;
 import axirassa.model.flows.CreateUserFlow;
+import axirassa.util.test.AbstractIntegrationTest;
 
-@RunWith(IocIntegrationTestRunner.class)
-public class TestPingerEntity {
+public class TestPingerEntity extends AbstractIntegrationTest {
 
 	@Inject
 	private CreateUserFlow createUserFlow;
@@ -30,7 +28,7 @@ public class TestPingerEntity {
 
 	@Test
 	@CommitAfter
-	public void testPingerSize () throws IOException {
+	public void testPingerSize() throws IOException {
 		UserEntity user = new UserEntity();
 		user.createPassword("password");
 		database.save(user);

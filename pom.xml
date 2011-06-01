@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.zanoccio</groupId>
 	<artifactId>axirassa</artifactId>
@@ -96,7 +98,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
+			<version>4.8.2</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -110,39 +112,25 @@
 					<groupId>org.testng</groupId>
 					<artifactId>testng</artifactId>
 				</exclusion>
-				<exclusion>
-					<artifactId>jetty-server</artifactId>
-					<groupId>org.eclipse.jetty</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jetty-webapp</artifactId>
-					<groupId>org.eclipse.jetty</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jetty-jndi</artifactId>
-					<groupId>org.eclipse.jetty</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jetty-plus</artifactId>
-					<groupId>org.eclipse.jetty</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>org.mortbay.jetty</artifactId>
-					<groupId>jetty</groupId>
-				</exclusion>
+				<!-- <exclusion> <artifactId>jetty-server</artifactId> <groupId>org.eclipse.jetty</groupId> 
+					</exclusion> <exclusion> <artifactId>jetty-webapp</artifactId> <groupId>org.eclipse.jetty</groupId> 
+					</exclusion> <exclusion> <artifactId>jetty-jndi</artifactId> <groupId>org.eclipse.jetty</groupId> 
+					</exclusion> <exclusion> <artifactId>jetty-plus</artifactId> <groupId>org.eclipse.jetty</groupId> 
+					</exclusion> <exclusion> <artifactId>org.mortbay.jetty</artifactId> <groupId>jetty</groupId> 
+					</exclusion> -->
 			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.annotation</artifactId>
-			<version>3.1-b21</version>
+			<version>10.0-b28</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-plugin-api</artifactId>
-			<version>2.2.1</version>
+			<version>3.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tapestry</groupId>
@@ -199,18 +187,10 @@
 			<type>jar</type>
 			<scope>compile</scope>
 			<exclusions>
-				<exclusion>
-					<artifactId>jetty-util</artifactId>
-					<groupId>org.eclipse.jetty</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jetty-continuation</artifactId>
-					<groupId>org.eclipse.jetty</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jetty-jmx</artifactId>
-					<groupId>org.eclipse.jetty</groupId>
-				</exclusion>
+				<!-- <exclusion> <artifactId>jetty-util</artifactId> <groupId>org.eclipse.jetty</groupId> 
+					</exclusion> <exclusion> <artifactId>jetty-continuation</artifactId> <groupId>org.eclipse.jetty</groupId> 
+					</exclusion> <exclusion> <artifactId>jetty-jmx</artifactId> <groupId>org.eclipse.jetty</groupId> 
+					</exclusion> -->
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -220,28 +200,17 @@
 			<type>jar</type>
 			<scope>compile</scope>
 			<exclusions>
-				<exclusion>
-					<artifactId>jetty-util</artifactId>
-					<groupId>org.eclipse.jetty</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jetty-io</artifactId>
-					<groupId>org.eclipse.jetty</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jetty-http</artifactId>
-					<groupId>org.eclipse.jetty</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jetty-client</artifactId>
-					<groupId>org.eclipse.jetty</groupId>
-				</exclusion>
+				<!-- <exclusion> <artifactId>jetty-util</artifactId> <groupId>org.eclipse.jetty</groupId> 
+					</exclusion> <exclusion> <artifactId>jetty-io</artifactId> <groupId>org.eclipse.jetty</groupId> 
+					</exclusion> <exclusion> <artifactId>jetty-http</artifactId> <groupId>org.eclipse.jetty</groupId> 
+					</exclusion> <exclusion> <artifactId>jetty-client</artifactId> <groupId>org.eclipse.jetty</groupId> 
+					</exclusion> -->
 			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
-			<version>2.3.16</version>
+			<version>2.3.18</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -267,13 +236,6 @@
 			<artifactId>mockito-all</artifactId>
 			<version>1.8.5</version>
 			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache</artifactId>
-			<version>2.3.2</version>
-			<type>pom</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
@@ -303,11 +265,24 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<!-- <dependency> <groupId>org.eclipse.jetty</groupId> <artifactId>jetty-distribution</artifactId> 
+			<version>7.3.1.v20110307</version> <type>pom</type> </dependency> -->
 		<dependency>
-			<groupId>org.eclipse.jetty</groupId>
-			<artifactId>jetty-distribution</artifactId>
-			<version>7.3.1.v20110307</version>
-			<type>pom</type>
+			<groupId>com.formos.tapestry</groupId>
+			<artifactId>tapestry-testify</artifactId>
+			<version>1.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.formos.tapestry</groupId>
+			<artifactId>tapestry-xpath</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>opensymphony</groupId>
+			<artifactId>oscache</artifactId>
+			<version>2.4.1</version>
+			<type>jar</type>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 	<url>http://axirassa.com</url>
@@ -384,12 +359,14 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>${jetty-release-version}</version>
 
-				<configuration> 
+				<configuration>
 					<jettyConfig>src/main/resources/jetty.xml</jettyConfig>
 					<useDirectBuffers>false</useDirectBuffers>
 					<statsOn>true</statsOn>
 					<connectors>
-						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+						<connector
+							implementation="org.eclipse.jetty.server.nio.SelectChannelConnector"
+						>
 							<host>0.0.0.0</host>
 							<port>8080</port>
 							<maxIdleTime>300000</maxIdleTime>
@@ -397,11 +374,25 @@
 							<statsOn>true</statsOn>
 						</connector>
 					</connectors>
-					<requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
+					<requestLog
+						implementation="org.eclipse.jetty.server.NCSARequestLog"
+					>
 						<append>true</append>
 					</requestLog>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<configuration>
+					<formats>
+						<format>html</format>
+						<format>xml</format>
+					</formats>
+				</configuration>
+			</plugin>
+
 		</plugins>
 		<resources>
 		</resources>
@@ -409,44 +400,36 @@
 
 	<repositories>
 		<repository>
-			<id>Maven Central</id>
-			<url>http://repo1.maven.org/maven2/</url>
-		</repository>
-		<repository>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>JBoss Repo</id>
-			<url>http://repository.jboss.com/maven2</url>
-		</repository>
-		<repository>
-			<id>repository.jboss.org</id>
-			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>maven-restlet</id>
-			<url>http://maven.restlet.org/</url>
+			<id>axirassa-nexus</id>
+			<url>http://50.19.97.218/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
 		</repository>
 	</repositories>
 
 	<pluginRepositories>
+		<pluginRepository>
+			<id>axirassa-nexus</id>
+			<url>http://50.19.97.218/nexus/content/groups/public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
 	</pluginRepositories>
 
 	<properties>
 		<project.build.sourceEncoding>ASCII</project.build.sourceEncoding>
 
 		<tapestry-release-version>5.2.5</tapestry-release-version>
-		<hornetq-release-version>2.1.2.Final</hornetq-release-version>
+		<hornetq-release-version>2.2.2.Final</hornetq-release-version>
 		<hibernate-release-version>3.6.1.Final</hibernate-release-version>
-		<netty-release-version>3.2.2.Final</netty-release-version>
+		<netty-release-version>3.2.4.Final</netty-release-version>
 		<bouncycastle-release-version>1.45</bouncycastle-release-version>
 		<jms-release-version>1.1</jms-release-version>
 		<tapestry-security-release-version>0.3.1</tapestry-security-release-version>
 		<quartz-scheduler-release-version>1.8.4</quartz-scheduler-release-version>
 		<jetty-release-version>7.3.0.v20110203</jetty-release-version>
-		<cometd-release-version>2.1.0</cometd-release-version>
+		<cometd-release-version>2.2.0</cometd-release-version>
 	</properties>
 </project>

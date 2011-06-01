@@ -24,11 +24,11 @@ public class UserAuthenticationInfo implements SaltedAuthenticationInfo {
 
 	private final String email;
 	private final byte[] password;
-	private final String salt;
+	private final byte[] salt;
 
 
-	public UserAuthenticationInfo(String email, byte[] password, String salt) {
-		System.out.println("CREATING USER AUTH INFO FOR: " + email + " w/ salt: " + salt);
+	public UserAuthenticationInfo(String email, byte[] password, byte[] salt) {
+		System.out.println("CREATING USER AUTH INFO FOR: " + email + " w/ password: " + password + " w/ salt: " + salt);
 
 		this.email = email;
 		this.password = password;

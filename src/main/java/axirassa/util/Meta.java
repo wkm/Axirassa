@@ -14,7 +14,7 @@ public class Meta {
 	}
 
 
-	public static void inspect (Object obj) {
+	public static void inspect(Object obj) {
 		StringBuilder buff = new StringBuilder();
 		inspect(obj, 0, new HashSet<Object>(), buff);
 
@@ -22,7 +22,7 @@ public class Meta {
 	}
 
 
-	private static void inspect (Object obj, int indentlevel, HashSet<Object> displayed, StringBuilder buff) {
+	private static void inspect(Object obj, int indentlevel, HashSet<Object> displayed, StringBuilder buff) {
 		if (obj == null) {
 			indent(buff, indentlevel);
 			buff.append("null");
@@ -112,8 +112,15 @@ public class Meta {
 	}
 
 
-	private static void indent (StringBuilder buff, int level) {
+	private static void indent(StringBuilder buff, int level) {
 		for (int i = 0; i < level; i++)
 			buff.append("  ");
+	}
+
+
+	public static void announce() {
+		StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+		System.err.println("### ANNOUNCE: " + trace[2].getMethodName() + "(...) AT: " + trace[2].getFileName() + ":"
+		        + trace[2].getLineNumber());
 	}
 }

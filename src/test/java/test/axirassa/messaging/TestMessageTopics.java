@@ -15,8 +15,10 @@ import org.hornetq.api.core.client.ClientProducer;
 import org.hornetq.api.core.client.ClientSession;
 import org.hornetq.api.core.client.ClientSessionFactory;
 import org.hornetq.api.core.client.HornetQClient;
-import org.hornetq.core.remoting.impl.netty.NettyConnectorFactory;
+import org.hornetq.api.core.client.ServerLocator;
+import org.hornetq.core.remoting.impl.netty.NettyConnector;
 import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -24,23 +26,27 @@ import axirassa.util.EmbeddedMessagingServer;
 import axirassa.util.MessagingTopic;
 
 public class TestMessageTopics {
-	static {
-		try {
-			EmbeddedMessagingServer.start();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
+	@BeforeClass
+	public static void startServer() throws Exception {
+		EmbeddedMessagingServer.start();
 	}
 
 
-	private ClientMessage textMessage (ClientSession session, String txt) {
+	@AfterClass
+	public static void stopServer() throws Exception {
+		EmbeddedMessagingServer.stop();
+	}
+
+
+	private ClientMessage textMessage(ClientSession session, String txt) {
 		ClientMessage msg = session.createMessage(false);
 		msg.getBodyBuffer().writeString(txt);
 		return msg;
 	}
 
 
-	private String getMessageText (ClientMessage msg) {
+	private String getMessageText(ClientMessage msg) {
 		if (msg == null)
 			return null;
 		System.out.println("Disassembling message: " + msg + " buff: " + msg.getBodyBuffer().capacity());
@@ -50,9 +56,10 @@ public class TestMessageTopics {
 
 	@Test
 	@Ignore
-	public void test () throws HornetQException {
-		ClientSessionFactory factory = HornetQClient.createClientSessionFactory(new TransportConfiguration(
-		        NettyConnectorFactory.class.getName()));
+	public void test() throws Exception {
+		TransportConfiguration config = new TransportConfiguration(NettyConnector.class.getName());
+		ServerLocator locator = HornetQClient.createServerLocatorWithoutHA(config);
+		ClientSessionFactory factory = locator.createSessionFactory();
 		ClientSession session = factory.createSession();
 
 		String topic1 = "ax.account.1.pinger.12";
@@ -131,7 +138,7 @@ public class TestMessageTopics {
 	}
 
 
-	public void speedTest (ClientSession session, ClientProducer producer, String topic) throws HornetQException {
+	public void speedTest(ClientSession session, ClientProducer producer, String topic) throws HornetQException {
 		long start = System.currentTimeMillis();
 		for (int i = 0; i < 50000; i++)
 			producer.send(topic, textMessage(session, "hello topic1"));
@@ -140,7 +147,7 @@ public class TestMessageTopics {
 
 
 	@AfterClass
-	public static void shutdownServer () throws Exception {
+	public static void shutdownServer() throws Exception {
 		EmbeddedMessagingServer.stop();
 	}
 }

@@ -1,6 +1,7 @@
 
 package axirassa.util;
 
+import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 
 /**
@@ -8,10 +9,9 @@ import java.security.SecureRandom;
  * powered by {@link SecureRandom}.
  * 
  * @author wiktor
- * 
  */
 public class RandomStringGenerator {
-	public static RandomStringGenerator getInstance () {
+	public static RandomStringGenerator getInstance() {
 		if (instance == null)
 			instance = new RandomStringGenerator();
 		return instance;
@@ -22,17 +22,25 @@ public class RandomStringGenerator {
 	private final SecureRandom random = new SecureRandom();
 
 
-	private RandomStringGenerator () {
+	private RandomStringGenerator() {
+		// private constructor
 	}
 
 
-	public static String makeRandomString (int length) {
+	public static String makeRandomString(int length) {
 		return getInstance().randomString(length);
 	}
 
 
-	public static String makeRandomStringToken (int length) {
+	public static String makeRandomStringToken(int length) {
 		return getInstance().randomStringToken(length);
+	}
+
+
+	public byte[] randomBytes(int length) {
+		byte[] buffer = new byte[length];
+		random.nextBytes(buffer);
+		return buffer;
 	}
 
 
@@ -40,24 +48,30 @@ public class RandomStringGenerator {
 	 * @return a string of the given length containing random bytes (except
 	 *         0x00)
 	 */
-	public String randomString (int length) {
-		byte[] buffer = new byte[length];
-
+	public String randomString(int length) {
+		byte[] buffer = randomBytes(length);
 		for (int i = 0; i < buffer.length; i++)
 			if (buffer[i] == 0)
 				buffer[i] = randomNonZeroByte();
 
-		random.nextBytes(buffer);
-		return new String(buffer);
+		return toStringFromAsciiBytes(buffer);
 	}
 
+	private String toStringFromAsciiBytes(byte[] bytes) {
+		try {
+			return new String(bytes, "ASCII");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace(System.err);
+			return null;
+		}
+	}
 
-	public byte randomNonZeroByte () {
+	public byte randomNonZeroByte() {
 		return (byte) (random.nextInt(254) + 1);
 	}
 
 
-	public String randomStringToken (int length) {
+	public String randomStringToken(int length) {
 		byte[] buffer = new byte[length];
 		int index = 0;
 		while (index < length) {

@@ -3,11 +3,6 @@
 	<div class="debugfooter">
 		<t:AxOpener open="false" header="Debugging Data">
 			<dl>
-                <t:if test="session">
-                    <dt>Session Max Inactive Interval</dt>
-                    <dd>${session.maxInactiveInterval}</dd>
-                </t:if>
-
 				<t:loop source="headers" value="header">
 					<dt>${header}</dt>
 					<dd>${request.getHeader(header)}</dd>

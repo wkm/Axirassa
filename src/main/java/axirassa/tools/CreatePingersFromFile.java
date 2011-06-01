@@ -10,7 +10,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 
 import axirassa.dao.PingerDAO;
-import axirassa.dao.UserDAO;
+import axirassa.dao.UserEmailAddressDAO;
 import axirassa.ioc.IocStandalone;
 import axirassa.model.PingerEntity;
 import axirassa.model.UserEntity;
@@ -24,7 +24,7 @@ public class CreatePingersFromFile {
 	private PingerDAO pingerDAO;
 
 	@Inject
-	private UserDAO userDAO;
+	private UserEmailAddressDAO emailDAO;
 
 	private String filename;
 
@@ -37,7 +37,7 @@ public class CreatePingersFromFile {
 		System.out.println("User's primary e-mail: ");
 		email = br.readLine().trim();
 
-		UserEntity user = userDAO.getUserByEmail(email);
+		UserEntity user = emailDAO.getUserByEmail(email);
 
 		if (user == null) {
 			System.err.println("No user with primary e-mail: " + email);

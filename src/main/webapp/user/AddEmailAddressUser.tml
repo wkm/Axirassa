@@ -8,13 +8,13 @@
 		<t:AxTextField
 			t:id="emailField"
 			t:value="email" 
-			t:name="E-mail address"
+			t:label="E-mail address"
 		/>
 		
 		<t:AxTextField
 			t:id="emailConfirmField"
 			t:value="emailConfirm"
-			t:name="Confirm"
+			t:label="Confirm"
 		/>	
 		
 		<t:AxSubmit label="Add e-mail address" />

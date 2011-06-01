@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	<head>
-		<title>${pageTitle} :: Axirassa Website &amp; E-Mail Monitoring</title>
+		<title>${pageTitle} :: Monitro Website &amp; E-Mail Monitoring</title>
 		<link rel="icon" type="image/png" href="/media/axirassa.png" />
 	</head>
 	<body>
@@ -10,12 +10,12 @@
 			<div class='header mini'>
 				<t:security.user>
 					<t:pagelink t:page="MonitorConsole">
-						<h1>axirassa <span class="title">${pageTitle}</span></h1>
+						<h1>monitro <span class="title">${pageTitle}</span></h1>
 					</t:pagelink>
 				</t:security.user>
 				<t:security.guest>
 					<t:pagelink t:page="Index">
-						<h1>axirassa</h1>
+						<h1>monitro</h1>
 					</t:pagelink>
 				</t:security.guest>
 	        </div>

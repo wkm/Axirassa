@@ -48,20 +48,20 @@ public class SettingsUser {
 	private UserEntity user;
 
 
-	public Object onActivate () throws AxirassaSecurityException {
+	public Object onActivate() throws AxirassaSecurityException {
 		user = security.getUserEntity();
 
 		phoneNumbers = userPhoneNumberDAO.getPhoneNumbersByUser(user);
-		if (phoneNumbers.size() > 0)
-			hasPhoneNumbers = true;
-		else
+		if (phoneNumbers.isEmpty())
 			hasPhoneNumbers = false;
+		else
+			hasPhoneNumbers = true;
 
 		emails = userEmailAddressDAO.getEmailsByUser(user);
-		if (emails.size() > 0)
-			hasAlternateEmails = true;
-		else
+		if (emails.isEmpty())
 			hasAlternateEmails = false;
+		else
+			hasAlternateEmails = true;
 
 		return true;
 	}
@@ -118,7 +118,7 @@ public class SettingsUser {
 	private boolean passwordChanged;
 
 
-	public void onValidateFromPasswordForm () throws NoSaltException {
+	public void onValidateFromPasswordForm() throws NoSaltException {
 		if (currentPassword != null)
 			validateCurrentPassword();
 
@@ -127,14 +127,14 @@ public class SettingsUser {
 	}
 
 
-	private void validateCurrentPassword () throws NoSaltException {
+	private void validateCurrentPassword() throws NoSaltException {
 		if (!user.matchPassword(currentPassword))
 			passwordForm.recordError(currentPasswordField, "Incorrect password");
 	}
 
 
 	@CommitAfter
-	public Object onSuccessFromPasswordForm () throws IOException, HornetQException {
+	public Object onSuccessFromPasswordForm() throws IOException, HornetQException {
 		user.createPassword(newPassword);
 		passwordChanged = true;
 
