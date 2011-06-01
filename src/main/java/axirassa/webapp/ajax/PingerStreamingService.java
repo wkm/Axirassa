@@ -7,9 +7,12 @@ import org.apache.tapestry5.json.JSONObject;
 import org.cometd.bayeux.client.ClientSessionChannel;
 import org.cometd.bayeux.server.BayeuxServer;
 import org.cometd.server.AbstractService;
+import org.hornetq.api.core.HornetQException;
 import org.hornetq.api.core.client.ClientConsumer;
 import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import axirassa.model.HttpStatisticsEntity;
 import axirassa.model.PingerEntity;
@@ -19,6 +22,9 @@ import axirassa.util.MessagingTools;
 import axirassa.util.MessagingTopic;
 
 public class PingerStreamingService extends AbstractService {
+	private static final Logger LOGGER = LoggerFactory.getLogger(PingerStreamingService.class);
+
+
 	public PingerStreamingService(BayeuxServer server) {
 		super(server, "pingerService", 5);
 		spawnPingerService();
@@ -52,6 +58,8 @@ public class PingerStreamingService extends AbstractService {
 
 		while (true) {
 			try {
+				consumer = reopenConsumerIfClosed(topic, consumer);
+
 				ClientMessage message = consumer.receive();
 				HttpStatisticsEntity stat = InjectorService.rebuildMessage(message);
 				if (stat == null) {
@@ -76,17 +84,26 @@ public class PingerStreamingService extends AbstractService {
 				channel.publish(jsonMessage.toCompactString());
 				System.out.println("\t >>>> [ published ]");
 			} catch (InvalidMessageClassException e) {
-				System.err.println(e);
+				LOGGER.error("Exception", e);
 			} catch (IOException e) {
-				System.err.println(e);
+				LOGGER.error("Exception", e);
 			} catch (ClassNotFoundException e) {
-				System.err.println(e);
+				LOGGER.error("Exception", e);
 			} catch (IllegalStateException e) {
-				System.err.println("IGNORING EXCEPTION FROM PINGER STREAMING SERVICE: ");
-				e.printStackTrace(System.err);
+				LOGGER.error("IGNORING EXCEPTION FROM PINGER STREAMING SERVICE: ", e);
 			} catch (Exception e) {
-				System.err.println(e);
+				LOGGER.error("Exception", e);
 			}
 		}
+	}
+
+
+	private ClientConsumer reopenConsumerIfClosed(MessagingTopic topic, ClientConsumer consumer)
+	        throws HornetQException {
+		if (consumer.isClosed()) {
+			LOGGER.warn("Consumer is closed, re-opening");
+			return topic.createConsumer();
+		} else
+			return consumer;
 	}
 }
