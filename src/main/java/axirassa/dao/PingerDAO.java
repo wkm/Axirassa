@@ -11,12 +11,15 @@ public interface PingerDAO {
 	public int SIX_HOURS = 360;
 
 
-	public abstract PingerEntity findPingerById (long id);
+	public abstract PingerEntity findPingerById(long id);
 
 
-	public abstract List<HttpStatisticsEntity> findStatistics (PingerEntity pinger);
+	public abstract List<HttpStatisticsEntity> findStatistics(PingerEntity pinger);
 
 
-	public abstract List<HttpStatisticsEntity> getDataPoints (PingerEntity pinger, int minutes);
+	public abstract List<HttpStatisticsEntity> getDataPoints(PingerEntity pinger, int minutes);
+
+
+	public abstract List<HttpStatisticsEntity> getDataPoints(PingerEntity pinger);
 
 }

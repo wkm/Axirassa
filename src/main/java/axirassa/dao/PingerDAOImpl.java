@@ -59,4 +59,12 @@ public class PingerDAOImpl implements PingerDAO {
 
 		return query.list();
 	}
+
+
+	@Override
+	public List<HttpStatisticsEntity> getDataPoints(PingerEntity pinger) {
+		Query query = database.getNamedQuery("all_pinger_data_points");
+		query.setEntity("pinger", pinger);
+		return query.list();
+	}
 }
