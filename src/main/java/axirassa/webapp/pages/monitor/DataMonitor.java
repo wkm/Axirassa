@@ -26,7 +26,7 @@ public class DataMonitor {
 		PingerEntity pinger = pingerDAO.findPingerById(pingerId);
 		security.verifyOwnership(pinger);
 
-		List<HttpStatisticsEntity> dataPoints = pingerDAO.getDataPoints(pinger, PingerDAO.SIX_HOURS);
+		List<HttpStatisticsEntity> dataPoints = pingerDAO.getDataPoints(pinger);
 		CSVResponse response = new CSVResponse();
 
 		response.setResponseData(dataPoints, new SimpleCSVRowWriter<HttpStatisticsEntity>() {
