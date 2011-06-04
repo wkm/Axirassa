@@ -32,7 +32,7 @@ public class DataMonitor {
 		response.setResponseData(dataPoints, new SimpleCSVRowWriter<HttpStatisticsEntity>() {
 			@Override
 			public void writeRow(HttpStatisticsEntity row, StringBuilder sb) {
-				writeCell(sb, row.getTimestampInMillis());
+				writeCell(sb, row.getTimestamp());
 				writeCell(sb, row.getLatency());
 				writeCell(sb, row.getResponseTime());
 			}
