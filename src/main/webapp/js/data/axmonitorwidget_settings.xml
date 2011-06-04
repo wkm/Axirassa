@@ -13,12 +13,12 @@
 		<graph gid="1">
 			<axis>left</axis>
 			<title>latency</title>
-			<color>#999999</color>
+			<color>#333333</color>
 		</graph>
 		<graph gid="2">
 			<axis>left</axis>
 			<title>response time</title>
-			<color>#FFCC00</color>
+			<color>#ae0000</color>
 		</graph>
 	</graphs>
 </settings>
