@@ -50,7 +50,7 @@ public class AxMonitorWidget {
 	private String pingerName;
 
 
-	void setupRender () {
+	void setupRender() {
 		jssupport.addScript("AxPlot(%d)", pingerId);
 
 		pinger = pingerDAO.findPingerById(pingerId);
@@ -61,11 +61,10 @@ public class AxMonitorWidget {
 
 		// temporary hack to fix
 		pingerName = pinger.getUrl().replace("http://", "");
-
 	}
 
 
-	public JSONResponse onAction (long pingerId) throws AxirassaSecurityException, IOException {
+	public JSONResponse onAction(long pingerId) throws AxirassaSecurityException, IOException {
 		System.err.println("ATTEMPTING TO HANDLE ACTION");
 
 		pinger = pingerDAO.findPingerById(pingerId);
@@ -85,12 +84,12 @@ public class AxMonitorWidget {
 	}
 
 
-	public void setPlotId (String plotId) {
+	public void setPlotId(String plotId) {
 		this.plotId = plotId;
 	}
 
 
-	public String getPlotId () {
+	public String getPlotId() {
 		return pingerId.toString();
 	}
 
