@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<div id="${clientId}">
+		[[ stock chart ]]
+	</div>
+	<script type="text/javascript">
+		var so = new SWFObject("${swfObjectPath}", "amstock", "800", "300", "8", "#FFFFFF");
+		so.addVariable("path", "${dataUrl}");
+		so.addVariable("settings_file", encodeURIComponent("${settingsPath}"));
+		so.addVariable("additional_chart_settings", "<settings><data_sets><data_set><file_name>file.csv</file_name></data_set></data_sets></settings>");
+		so.write("${clientId}"); 
+	</script>
+</t:container>

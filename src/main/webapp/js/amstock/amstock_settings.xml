@@ -146,7 +146,7 @@
        
        <!-- [] (file name) file name of your data file. You can use any extension, generate this 
        data dynamicaly. The output of this file should be data in CSV format -->
-       <file_name>data.csv</file_name>
+       <file_name>#data.csv</file_name>
        
        <!-- [] (file name) Using events you can have custom bullets with descriptions on your charts.
        Event properties are defined separately for every chart. Check examples/events/ example. 
@@ -202,7 +202,7 @@
          and separators can be used, for example: DD-MM-YYYY, YYYY-MM, YYYY-DD-MM hh, 
          DD-MM-YY hh:mm:ss, etc. fff means milliseconds. In case you use miliseconds, you must provide the
          3 digit number -->
-         <date_format>YYYY-MM-DD</date_format>
+         <date_format>YYYYMMDDhhmm</date_format>
          
          <!-- [.] (separator) Decimal separator in your csv file -->
          <decimal_separator>.</decimal_separator>
