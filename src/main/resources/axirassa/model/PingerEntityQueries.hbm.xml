@@ -28,4 +28,9 @@
 			stat.pinger = :pinger AND
 			stat.timestamp >= :timestamp
 	</query>
+	<query name="all_pinger_data_points">
+		from HttpStatisticsEntity as stat
+		where
+			stat.pinger = :pinger
+	</query>
 </hibernate-mapping>

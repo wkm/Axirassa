@@ -26,13 +26,13 @@ public class DataMonitor {
 		PingerEntity pinger = pingerDAO.findPingerById(pingerId);
 		security.verifyOwnership(pinger);
 
-		List<HttpStatisticsEntity> dataPoints = pingerDAO.getDataPoints(pinger, PingerDAO.SIX_HOURS);
+		List<HttpStatisticsEntity> dataPoints = pingerDAO.getDataPoints(pinger);
 		CSVResponse response = new CSVResponse();
 
 		response.setResponseData(dataPoints, new SimpleCSVRowWriter<HttpStatisticsEntity>() {
 			@Override
 			public void writeRow(HttpStatisticsEntity row, StringBuilder sb) {
-				writeCell(sb, row.getTimestampInMillis());
+				writeCell(sb, row.getTimestamp());
 				writeCell(sb, row.getLatency());
 				writeCell(sb, row.getResponseTime());
 			}

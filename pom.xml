@@ -401,7 +401,7 @@
 	<repositories>
 		<repository>
 			<id>axirassa-nexus</id>
-			<url>http://50.19.97.218/nexus/content/groups/public/</url>
+			<url>http://build.axirassa.com/nexus/content/groups/public/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
