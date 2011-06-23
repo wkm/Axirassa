@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8" ?> 
 <t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
-	<div class='flashmonitor'>
-		<script type="text/javascript">
-			swfobject.embedSWF(
-				"${swfObjectPath}", 
-				"chart", 
-				800, 200, 
-				"8.0.0", 
-				"${swfExpressInstall}",
-				{
-					path: "${path}",
-					settings_file: "${settingsXml}",
-					data_file: "${dataUrl}"
-				},
-				{}
-			)
-		</script>
-		<div id="chart" style="background:#eee">
-			widget body
+	<script type="text/javascript">
+		swfobject.embedSWF(
+			"${swfObjectPath}", 
+			"${clientId}", 
+			400, 150, 
+			"8.0.0", 
+			"${swfExpressInstall}",
+			{
+				path: "${path}",
+				settings_file: "${settingsXml}",
+				data_file: "${dataUrl}"
+			},
+			{}
+		)
+	</script>
+
+	<div class='axwo'>
+		<div class='n'>
+			<t:PageLink 
+				t:page="monitor/statistics" 
+				t:context="${pingerId}"
+			>
+				${pingerName}
+			</t:PageLink>
 		</div>
+		<div class='axw' id="${clientId}" />
 	</div>
 </t:container>
