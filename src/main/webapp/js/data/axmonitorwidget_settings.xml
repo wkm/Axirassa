@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <settings>
 	<data_type>csv</data_type>
+	<js_enabled>false</js_enabled>
 	<plot_area>
 		<margins>
 			<left>45</left>
 			<right>0</right>
 			<top>5</top>
-			<bottom>10</bottom>
+			<bottom>30</bottom>
 		</margins>
 	</plot_area>
 	<graphs>
@@ -21,4 +22,7 @@
 			<color>#ae0000</color>
 		</graph>
 	</graphs>
+	<legend>
+		<enabled>false</enabled>
+	</legend>
 </settings>
