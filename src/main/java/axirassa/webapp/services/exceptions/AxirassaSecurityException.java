@@ -8,4 +8,9 @@ public class AxirassaSecurityException extends Exception {
 	public AxirassaSecurityException() {
 		super("Unauthorized access attempt");
 	}
+
+
+	public AxirassaSecurityException(String msg) {
+		super(msg);
+	}
 }

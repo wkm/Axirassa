@@ -29,7 +29,9 @@
 	        <div class="body">
 				<t:body/>
 				
+				<!-- 
 				<t:AxDebugFooter />
+				-->
 			</div>
 		</div>		
 		<div id="footer">

@@ -4,6 +4,7 @@ package axirassa.webapp.pages.monitor;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
 import axirassa.dao.PingerDAO;
@@ -14,6 +15,7 @@ import axirassa.util.SimpleCSVRowWriter;
 import axirassa.webapp.services.AxirassaSecurityService;
 import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 
+@RequiresUser
 public class DataMonitor {
 	@Inject
 	private PingerDAO pingerDAO;

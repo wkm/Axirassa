@@ -19,7 +19,6 @@ import org.apache.tapestry5.services.RequestGlobals;
 import org.apache.tapestry5.services.Response;
 import org.tynamo.security.services.PageService;
 
-import axirassa.model.exception.NoSaltException;
 import axirassa.webapp.components.AxForm;
 import axirassa.webapp.components.AxTextField;
 import axirassa.webapp.pages.MonitorConsole;
@@ -75,7 +74,7 @@ public class LoginUser {
 
 
 	@Log
-	public void onValidateFromForm() throws NoSaltException {
+	public void onValidateFromForm() {
 		if (email == null || password == null)
 			return;
 

@@ -15,8 +15,8 @@ import axirassa.dao.PingerDAO;
 import axirassa.model.PingerEntity;
 import axirassa.webapp.pages.monitor.DataMonitor;
 
-@Import(library = { "context:/js/amcharts/flash/swfobject.js" })
-public class AxFlashMonitorWidget {
+@Import(library = { "context:/js/amstock/swfobject.js" })
+public class AxFlashMonitorInspector {
 	@Inject
 	private PageRenderLinkSource linkSource;
 
@@ -33,20 +33,12 @@ public class AxFlashMonitorWidget {
 	private Long pingerId;
 
 	@Property
-	@Parameter("context:/js/amcharts/flash/")
-	private String path;
-
-	@Property
-	@Parameter("context:/js/amcharts/flash/amline.swf")
+	@Parameter("context:/js/amstock/amstock.swf")
 	private String swfObjectPath;
 
 	@Property
-	@Parameter("context:/js/amcharts/flash/expressInstall.swf")
-	private String swfExpressInstall;
-
-	@Property
-	@Parameter("context:/js/data/axmonitorwidget_settings.xml")
-	private String settingsXml;
+	@Parameter("context:/js/amstock/amstock_settings.xml")
+	private String settingsPath;
 
 	@Property
 	private String dataUrl;
@@ -54,21 +46,19 @@ public class AxFlashMonitorWidget {
 	@Property
 	private String clientId;
 
-	@Property
-	private String pingerName;
-
 	@Environmental
 	private JavaScriptSupport jssupport;
+
+	@Property
+	private String pingerName;
 
 
 	private void setupRender() {
 		Link link = linkSource.createPageRenderLinkWithContext(DataMonitor.class);
 		dataUrl = link.toAbsoluteURI() + ":csv/" + pingerId;
+		clientId = jssupport.allocateClientId("mon");
 
-		clientId = jssupport.allocateClientId(resources);
-
-		// temporary hack to fix
 		pinger = pingerDAO.findPingerById(pingerId);
-		pingerName = pinger.getUrl().replace("http://", "");
+		pingerName = pinger.getUrl();
 	}
 }

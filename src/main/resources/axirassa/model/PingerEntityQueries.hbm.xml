@@ -27,10 +27,14 @@
 		where
 			stat.pinger = :pinger AND
 			stat.timestamp >= :timestamp
+		order by 
+			stat.timestamp desc
 	</query>
 	<query name="all_pinger_data_points">
 		from HttpStatisticsEntity as stat
 		where
 			stat.pinger = :pinger
+		order by 
+			stat.timestamp desc
 	</query>
 </hibernate-mapping>

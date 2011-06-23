@@ -3,19 +3,6 @@
 	<h3>${pinger.url}</h3>
 	<p>Back to <t:pagelink t:page="monitor/list">monitor listing</t:pagelink>.</p>
 	
-	<t:AxFlashMonitorWidget t:pingerId="${pinger.id}" />
-	
-	<!-- <table class="data">
-		<tr><th></th><th>code</th><th>latency</th><th>total time</th><th>response size</th></tr>
-		<t:loop source="statistics" value="statistic">
-			<tr>
-				<td>${statistic.timestamp}</td>
-				<td>${statistic.statusCode}</td>
-				<td>${statistic.latency} ms</td>
-				<td>${statistic.responseTime} ms</td>
-				<td>${statistic.responseSize} bytes</td>
-			</tr>
-		</t:loop>
-	</table> -->
+	<t:AxFlashMonitorInspector t:pingerId="${pinger.id}" />
 	<p><t:pagelink t:page="monitor/statistics" t:context="${id}">Refresh</t:pagelink></p>
 </html>

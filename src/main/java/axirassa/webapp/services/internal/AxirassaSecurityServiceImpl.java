@@ -62,8 +62,15 @@ public class AxirassaSecurityServiceImpl implements AxirassaSecurityService {
 		UserEntity user = entity.getUser();
 		UserEmailAddressEntity emailEntity = userEmailAddressDAO.getPrimaryEmail(user);
 
+		if (emailEntity == null)
+			throw new AxirassaSecurityException("Unknown user associated with entity [internal error]");
+
+		String email = getEmail();
+		if (email == null)
+			throw new AxirassaSecurityException("Cannot derive e-mail from session.");
+
 		if (!getEmail().equals(emailEntity.getEmail()))
-			throw new AxirassaSecurityException();
+			throw new AxirassaSecurityException("Unauthorized user for entity");
 	}
 
 
