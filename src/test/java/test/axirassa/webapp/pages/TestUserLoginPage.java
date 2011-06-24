@@ -91,6 +91,8 @@ public class TestUserLoginPage extends TapestryPageTest {
 			}
 		});
 
+		System.err.println(result);
+
 		ensureNoErrors(result);
 		logoutUser();
 	}
