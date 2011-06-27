@@ -436,7 +436,7 @@
 		<netty-release-version>3.2.4.Final</netty-release-version>
 		<bouncycastle-release-version>1.45</bouncycastle-release-version>
 		<jms-release-version>1.1</jms-release-version>
-		<tapestry-security-release-version>0.3.1</tapestry-security-release-version>
+		<tapestry-security-release-version>0.4.0</tapestry-security-release-version>
 		<quartz-scheduler-release-version>1.8.4</quartz-scheduler-release-version>
 		<jetty-release-version>7.3.0.v20110203</jetty-release-version>
 		<cometd-release-version>2.2.0</cometd-release-version>
