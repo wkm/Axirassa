@@ -11,8 +11,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.HashSet;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * {@link NativeLibraryProvider} extracts native libraries from JAR files into a
@@ -25,9 +24,8 @@ import org.slf4j.LoggerFactory;
  * @author wiktor
  * 
  */
+@Slf4j
 public class NativeLibraryProvider {
-
-	private static final Logger logger = LoggerFactory.getLogger(NativeLibraryProvider.class);
 
 	private static final int BUFFER_SIZE = 65536;
 	private static final int BYTE_BUFFER_SIZE = 4096;
@@ -86,7 +84,7 @@ public class NativeLibraryProvider {
 		File directory = getTemporaryDirectory();
 		File newfile = new File(directory.getPath() + File.separator + source.getName());
 
-		logger.info("COPYING {} TO {}", source.getPath(), directory.getPath());
+		log.info("COPYING {} TO {}", source.getPath(), directory.getPath());
 
 		InputStream in = new BufferedInputStream(instream, BUFFER_SIZE);
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(newfile), BUFFER_SIZE);

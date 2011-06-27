@@ -1,11 +1,11 @@
 
 package axirassa.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.hornetq.api.core.HornetQException;
 import org.hornetq.api.core.client.ClientConsumer;
 import org.hornetq.api.core.client.ClientSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A gentle wrapper around creating a temporary queue subscribed to a given
@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
  * 
  * @author wiktor
  */
+@Slf4j
 public class MessagingTopic {
-	private static final Logger log = LoggerFactory.getLogger(MessagingTopic.class);
 
 	private final ClientSession session;
 	private String topicQueue;

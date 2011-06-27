@@ -3,6 +3,8 @@ package axirassa.webapp.ajax;
 
 import java.io.IOException;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.apache.tapestry5.json.JSONObject;
 import org.cometd.bayeux.client.ClientSessionChannel;
 import org.cometd.bayeux.server.BayeuxServer;
@@ -11,8 +13,6 @@ import org.hornetq.api.core.HornetQException;
 import org.hornetq.api.core.client.ClientConsumer;
 import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import axirassa.model.HttpStatisticsEntity;
 import axirassa.model.PingerEntity;
@@ -21,9 +21,8 @@ import axirassa.services.exceptions.InvalidMessageClassException;
 import axirassa.util.MessagingTools;
 import axirassa.util.MessagingTopic;
 
+@Slf4j
 public class PingerStreamingService extends AbstractService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(PingerStreamingService.class);
-
 
 	public PingerStreamingService(BayeuxServer server) {
 		super(server, "pingerService", 5);
@@ -63,11 +62,11 @@ public class PingerStreamingService extends AbstractService {
 				ClientMessage message = consumer.receive();
 				HttpStatisticsEntity stat = InjectorService.rebuildMessage(message);
 				if (stat == null) {
-					LOGGER.warn("received null message");
+					log.warn("received null message");
 					continue;
 				}
 
-				LOGGER.trace("received message: {}", stat);
+				log.trace("received message: {}", stat);
 
 				PingerEntity pinger = stat.getPinger();
 
@@ -83,15 +82,15 @@ public class PingerStreamingService extends AbstractService {
 
 				channel.publish(jsonMessage.toCompactString());
 			} catch (InvalidMessageClassException e) {
-				LOGGER.error("Exception", e);
+				log.error("Exception", e);
 			} catch (IOException e) {
-				LOGGER.error("Exception", e);
+				log.error("Exception", e);
 			} catch (ClassNotFoundException e) {
-				LOGGER.error("Exception", e);
+				log.error("Exception", e);
 			} catch (IllegalStateException e) {
-				LOGGER.error("IGNORING EXCEPTION FROM PINGER STREAMING SERVICE: ", e);
+				log.error("IGNORING EXCEPTION FROM PINGER STREAMING SERVICE: ", e);
 			} catch (Exception e) {
-				LOGGER.error("Exception", e);
+				log.error("Exception", e);
 			}
 		}
 	}
@@ -100,7 +99,7 @@ public class PingerStreamingService extends AbstractService {
 	private ClientConsumer reopenConsumerIfClosed(MessagingTopic topic, ClientConsumer consumer)
 	        throws HornetQException {
 		if (consumer.isClosed()) {
-			LOGGER.warn("Consumer is closed, re-opening");
+			log.warn("Consumer is closed, re-opening");
 			return topic.createConsumer();
 		} else
 			return consumer;

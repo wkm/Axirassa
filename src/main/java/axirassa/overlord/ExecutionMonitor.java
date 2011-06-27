@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +18,8 @@ import axirassa.overlord.exceptions.ExceptionInMonitorError;
  * 
  * @author wiktor
  */
+@Slf4j
 public class ExecutionMonitor implements Runnable {
-	
-	private static final Logger monitorLogger = LoggerFactory.getLogger(ExecutionMonitor.class);
 	
 	private final ExecutionTarget target;
 
@@ -51,7 +51,7 @@ public class ExecutionMonitor implements Runnable {
 		
 		while (remainingRestarts > 0 || limitedRestarts == false) {
 			try {
-				monitorLogger.info("STARTING [{}]: {}", startCount, builder.command());
+				log.info("STARTING [{}]: {}", startCount, builder.command());
 				process = builder.start();
 
 				BufferedReader stdoutstream = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -71,14 +71,14 @@ public class ExecutionMonitor implements Runnable {
 				if (!target.isAutoRestart())
 					return;
 			} catch (InterruptedException e) {
-				monitorLogger.warn("ExecutionMonitor interrupted.");
+				log.warn("ExecutionMonitor interrupted.");
 				return;
 			} catch (Exception e) {
 				throw new ExceptionInMonitorError(e);
 			}
 		}
 
-		monitorLogger.info("[{}] finished.", startCount);
+		log.info("[{}] finished.", startCount);
 	}
 
 
@@ -86,7 +86,7 @@ public class ExecutionMonitor implements Runnable {
 		if (process == null)
 			return;
 
-		monitorLogger.info("  Killing process");
+		log.info("  Killing process");
 		process.destroy();
 	}
 
