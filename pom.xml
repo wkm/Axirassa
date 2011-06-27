@@ -284,6 +284,11 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>${hibernate-release-version}</version>
+		</dependency>
 	</dependencies>
 	<url>http://axirassa.com</url>
 	<issueManagement>
@@ -421,7 +426,7 @@
 	<properties>
 		<project.build.sourceEncoding>ASCII</project.build.sourceEncoding>
 
-		<tapestry-release-version>5.2.5</tapestry-release-version>
+		<tapestry-release-version>5.3.0</tapestry-release-version>
 		<hornetq-release-version>2.2.2.Final</hornetq-release-version>
 		<hibernate-release-version>3.6.1.Final</hibernate-release-version>
 		<netty-release-version>3.2.4.Final</netty-release-version>
