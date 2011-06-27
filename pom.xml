@@ -32,10 +32,6 @@
 					<artifactId>testng</artifactId>
 					<groupId>org.testng</groupId>
 				</exclusion>
-				<exclusion>
-					<artifactId>tapestry-ioc</artifactId>
-					<groupId>org.apache.tapestry</groupId>
-				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -146,12 +142,6 @@
 			<version>${tapestry-release-version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>tapestry-ioc</artifactId>
-					<groupId>org.apache.tapestry</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>postgresql</groupId>
