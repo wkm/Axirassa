@@ -28,6 +28,14 @@
 					<artifactId>slf4j-log4j12</artifactId>
 					<groupId>org.slf4j</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>testng</artifactId>
+					<groupId>org.testng</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>tapestry-ioc</artifactId>
+					<groupId>org.apache.tapestry</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -138,6 +146,12 @@
 			<version>${tapestry-release-version}</version>
 			<type>jar</type>
 			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>tapestry-ioc</artifactId>
+					<groupId>org.apache.tapestry</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>postgresql</groupId>
