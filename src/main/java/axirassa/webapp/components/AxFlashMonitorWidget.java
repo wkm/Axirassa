@@ -33,10 +33,6 @@ public class AxFlashMonitorWidget {
 	private Long pingerId;
 
 	@Property
-	@Parameter("context:/js/amcharts/flash/")
-	private String path;
-
-	@Property
 	@Parameter("context:/js/amcharts/flash/amline.swf")
 	private String swfObjectPath;
 

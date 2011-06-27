@@ -8,7 +8,6 @@
 			"8.0.0", 
 			"${swfExpressInstall}",
 			{
-				path: "${path}",
 				settings_file: "${settingsXml}",
 				data_file: "${dataUrl}"
 			},
