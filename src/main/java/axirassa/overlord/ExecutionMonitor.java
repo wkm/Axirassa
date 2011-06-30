@@ -71,9 +71,9 @@ public class ExecutionMonitor implements Runnable {
 				if (!target.isAutoRestart())
 					return;
 			} catch (InterruptedException e) {
-				log.warn("ExecutionMonitor interrupted.");
-				return;
+				killProcess();
 			} catch (Exception e) {
+				killProcess(); 
 				throw new ExceptionInMonitorError(e);
 			}
 		}
