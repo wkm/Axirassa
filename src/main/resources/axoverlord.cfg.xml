@@ -105,7 +105,7 @@
     	<execute target="AxControllerService" initialdelay="3000"  />
     	<execute target="AxInjectorService" />
     	
-    	<execute target="AxPingerService" instances="32" />
+    	<execute target="AxPingerService" instances="1" />
     	
     	<execute target="AxEmailNotificationService" />
     	<execute target="AxVoiceNotificationService" />
