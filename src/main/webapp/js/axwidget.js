@@ -77,9 +77,7 @@ function AxInspector(id) {
 		{
 			rollPeriod: 10,
 			width: 800,
-			height: 300,
-			colors: ["#666", "#444"],
-			valueRange: [0, 5000]
+			height: 300
 		}
 	);
 }
@@ -89,10 +87,10 @@ function AxWidget(id) {
 		document.getElementById(id+"_plot"),
 		"/monitor/data:recent/"+id,
 		{
-			rollPeriod: 10,
+			interactionModel: {},
+			showLabelsOnHighlight: false,
 			width: 400,
-			height: 150,
-			colors: ['#666', '#444']
+			height: 150
 		}
 	);
 }
