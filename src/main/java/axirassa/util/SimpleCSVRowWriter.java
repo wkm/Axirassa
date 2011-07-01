@@ -7,7 +7,7 @@ import java.util.Date;
 
 abstract public class SimpleCSVRowWriter<T> implements CSVRowWriter<T> {
 	private int columnId = 0;
-	private final DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
+	private final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd/ HH:mm:ss");
 
 
 	public void writeCell(StringBuilder sb, Date date) {
