@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html  t:type="layout" t:pageTitle="Credits"
-       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
 	<h3>Credits</h3>
 	<p>A selection of products and companies which make Axirassa possible.</p>
 	<h4>Apache Tapestry 5</h4>

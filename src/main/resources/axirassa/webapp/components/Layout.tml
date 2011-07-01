@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
 	<head>
 		<title>${pageTitle} :: Monitro Website &amp; E-Mail Monitoring</title>
 		<link rel="icon" type="image/png" href="/media/axirassa.png" />

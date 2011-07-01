@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title>monitro e-mail &amp; web server infrastructure monitoring</title>

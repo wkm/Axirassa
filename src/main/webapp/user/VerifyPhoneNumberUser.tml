@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html t:type="layout" t:pageTitle="Verify Phone Number" 
-	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd"
 	xmlns:p="tapestry:parameter">
 	<t:AxForm t:id="form" t:title="Verify Phone Number">
 		<p>

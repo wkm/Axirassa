@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?> 
-<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
 	<t:AxFormField>
 		<t:label t:for="textfield" />
 		<div class="ax_input">

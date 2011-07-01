@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
 	<t:radiogroup label="label" value="value" encoder="encoder">
 		<t:loop source="values" value="value" encoder="encoder">
 				<t:radio class='input radio' t:id="radio" value="value"/>
