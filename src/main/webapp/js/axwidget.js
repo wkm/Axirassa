@@ -70,16 +70,29 @@ function createSeries(array) {
 	return maparray;
 }
 
-function AxPlot(id) {
+function AxInspector(id) {
 	new Dygraph(
 		document.getElementById(id+"_plot"),
-		"/monitor/data:csv/"+id,
+		"/monitor/data:all/"+id,
 		{
 			rollPeriod: 10,
 			width: 800,
 			height: 300,
 			colors: ["#666", "#444"],
 			valueRange: [0, 5000]
+		}
+	);
+}
+
+function AxWidget(id) {
+	new Dygraph(
+		document.getElementById(id+"_plot"),
+		"/monitor/data:recent/"+id,
+		{
+			rollPeriod: 10,
+			width: 400,
+			height: 150,
+			colors: ['#666', '#444']
 		}
 	);
 }
