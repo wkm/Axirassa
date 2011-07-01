@@ -38,7 +38,6 @@ body {
 	padding: 0;
 	color: #000;
 	background-color: #fdfdfd;
-	background: url('/media/bg.png');
 }
 
 a img {
@@ -142,7 +141,7 @@ h4 + h5 {
 }
 
 .body {
-	padding-bottom: 150px;
+	padding-bottom: 50px;
 }
 
 .featuread {
@@ -358,7 +357,6 @@ p a:hover {
 
 table {
 	border-collapse: collapse;
-	background: #fff;
 }
 
 table.fixed {
@@ -426,12 +424,12 @@ th {
 #footer {	
 	font-size: 10pt;
 	border-top: 1px solid #ccc;
-	background: #eee;
+	background: #fafafa;
 	
 	clear: both;
 	position: relative;
-	margin-top: -150px;
-	height: 134px;
+	margin-top: -50px;
+	height: 50px;
 	padding: 10px;
 	padding-left: 150px;
 }
