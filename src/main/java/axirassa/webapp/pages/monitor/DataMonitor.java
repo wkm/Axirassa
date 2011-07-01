@@ -24,7 +24,27 @@ public class DataMonitor {
 	private AxirassaSecurityService security;
 
 
-	public CSVResponse onCSV(long pingerId) throws AxirassaSecurityException, IOException {
+	public CSVResponse onRecent(long pingerId) throws AxirassaSecurityException,
+	        IOException {
+		PingerEntity pinger = pingerDAO.findPingerById(pingerId);
+		security.verifyOwnership(pinger);
+
+		List<HttpStatisticsEntity> dataPoints = pingerDAO.getDataPoints(pinger, PingerDAO.SIX_HOURS);
+		CSVResponse response = new CSVResponse();
+
+		response.setResponseData(dataPoints, new SimpleCSVRowWriter<HttpStatisticsEntity>() {
+			@Override
+			public void writeRow(HttpStatisticsEntity row, StringBuilder sb) {
+				writeCell(sb, row.getTimestamp());
+				writeCell(sb, row.getLatency());
+				writeCell(sb, row.getResponseTime());
+			}
+		});
+
+		return response;
+	}
+
+	public CSVResponse onAll(long pingerId) throws AxirassaSecurityException, IOException {
 		PingerEntity pinger = pingerDAO.findPingerById(pingerId);
 		security.verifyOwnership(pinger);
 
