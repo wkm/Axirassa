@@ -3,6 +3,6 @@
 	<h3>${pinger.url}</h3>
 	<p>Back to <t:pagelink t:page="monitor/list">monitor listing</t:pagelink>.</p>
 	
-	<t:AxFlashMonitorInspector t:pingerId="${pinger.id}" />
+	<t:AxMonitorWidget t:pingerId="${pinger.id}" />
 	<p><t:pagelink t:page="monitor/statistics" t:context="${id}">Refresh</t:pagelink></p>
 </html>
