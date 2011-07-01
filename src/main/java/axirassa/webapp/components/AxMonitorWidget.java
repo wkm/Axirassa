@@ -4,11 +4,13 @@ package axirassa.webapp.components;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.tapestry5.Link;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.json.JSONArray;
+import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.hibernate.Session;
 
@@ -16,12 +18,14 @@ import axirassa.dao.PingerDAO;
 import axirassa.model.HttpStatisticsEntity;
 import axirassa.model.PingerEntity;
 import axirassa.util.JSONResponse;
+import axirassa.webapp.pages.monitor.DataMonitor;
 import axirassa.webapp.services.AxirassaSecurityService;
 import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 
 @Import(
         stylesheet = { "context:/css/axwidget.css" },
-        library = { "context:/js/dojo/dojo.js", "context:/js/axwidget.js" })
+ library = {
+        "context:/js/dygraph-combined.js", "context:/js/axwidget.js" })
 public class AxMonitorWidget {
 
 	@Inject
@@ -29,6 +33,9 @@ public class AxMonitorWidget {
 
 	@Inject
 	private JavaScriptSupport jssupport;
+
+	@Inject
+	private PageRenderLinkSource linkSource;
 
 	@Inject
 	private PingerDAO pingerDAO;
@@ -49,6 +56,8 @@ public class AxMonitorWidget {
 	@Property
 	private String pingerName;
 
+	@Property
+	private String dataUrl;
 
 	void setupRender() {
 		jssupport.addScript("AxPlot(%d)", pingerId);
@@ -61,6 +70,9 @@ public class AxMonitorWidget {
 
 		// temporary hack to fix
 		pingerName = pinger.getUrl().replace("http://", "");
+
+		Link link = linkSource.createPageRenderLinkWithContext(DataMonitor.class);
+		dataUrl = link.toAbsoluteURI() + ":csv/" + pingerId;
 	}
 
 
