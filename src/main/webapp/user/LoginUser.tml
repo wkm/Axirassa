@@ -2,8 +2,12 @@
 <html t:type="layout" t:pageTitle="Login" 
 	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
 	xmlns:p="tapestry:parameter">
-<t:axform t:id="form" t:title="Login">
+<t:axform t:id="form">
+	<t:security.guest>
+		<h3>Login</h3>
+	</t:security.guest>
     <t:security.user>
+    	<h3>Enter Password</h3>
         <p>
             Please enter your password again to verify your identity:
         </p>
