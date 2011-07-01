@@ -22,11 +22,9 @@ import axirassa.webapp.pages.monitor.DataMonitor;
 import axirassa.webapp.services.AxirassaSecurityService;
 import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 
-@Import(
-        stylesheet = { "context:/css/axwidget.css" },
- library = {
+@Import(stylesheet = { "context:/css/axwidget.css" }, library = {
         "context:/js/dygraph-combined.js", "context:/js/axwidget.js" })
-public class AxMonitorWidget {
+public class AxMonitorInspector {
 
 	@Inject
 	private Session session;
