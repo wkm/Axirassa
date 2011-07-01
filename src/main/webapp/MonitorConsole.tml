@@ -33,7 +33,7 @@
 	<div class="reset"></div>
 	
 	<t:loop source="pingers" value="pinger">
-		<t:AxFlashMonitorWidget t:pingerId="${pinger.id}"/>
+		<t:AxMonitorWidget t:pingerId="${pinger.id}"/>
 	</t:loop>
 	<div class="reset"></div>
 </html>
