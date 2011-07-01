@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?> 
-<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
-	<div class="ax_field">
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
+	<t:AxFormField>
 		<t:Checkbox 
 			class='input check' 
 			t:id="checkboxField"
@@ -13,5 +13,5 @@
 		>
 			&#8212; ${name}
 		</t:Label>
-	</div>
+	</t:AxFormField>
 </t:container>

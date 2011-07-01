@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html t:type="layout" t:pageTitle="List Monitors" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+<html t:type="layout" t:pageTitle="List Monitors" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
 	<h3>Monitors</h3>
 	
 	<table>
@@ -7,16 +7,13 @@
 		<t:loop source="pingers" value="pinger">
 			<tr>
 				<td class='url'>
+					${pinger.monitorType}
+				
 					<t:pagelink t:page="monitor/statistics" t:context="${pinger.id}">${pinger.url}</t:pagelink>
 					[<t:pagelink t:page="monitor/widget" t:context="${pinger.id}">w</t:pagelink>]
 				</td>
 				<td class='freq'>${pinger.frequency}</td>
 			</tr>
-			<tr><td class='types' colspan='2'>
-				<t:loop source="pinger.monitorType" value="type">
-					${type.type}
-				</t:loop>
-			</td></tr>
 		</t:loop>
 	</table>
 	<p>

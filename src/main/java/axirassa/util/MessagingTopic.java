@@ -1,7 +1,8 @@
 
 package axirassa.util;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
+
 import org.hornetq.api.core.HornetQException;
 import org.hornetq.api.core.client.ClientConsumer;
 import org.hornetq.api.core.client.ClientSession;
@@ -15,15 +16,15 @@ import org.hornetq.api.core.client.ClientSession;
  * 
  * @author wiktor
  */
+@Slf4j
 public class MessagingTopic {
-	private static final Logger log = Logger.getRootLogger();
 
 	private final ClientSession session;
 	private String topicQueue;
 	private final String topicName;
 
 
-	public MessagingTopic(ClientSession session, String topicName) throws HornetQException {
+	public MessagingTopic (ClientSession session, String topicName) throws HornetQException {
 		this.session = session;
 		this.topicName = topicName;
 		session.createTemporaryQueue(topicName, getTopicQueueName());
@@ -33,7 +34,7 @@ public class MessagingTopic {
 	}
 
 
-	private String getTopicQueueName() {
+	private String getTopicQueueName () {
 		if (topicQueue == null)
 			createTopicQueueName();
 
@@ -41,12 +42,12 @@ public class MessagingTopic {
 	}
 
 
-	private void createTopicQueueName() {
+	private void createTopicQueueName () {
 		topicQueue = "topic_" + RandomStringGenerator.makeRandomStringToken(30) + "_" + topicName;
 	}
 
 
-	public ClientConsumer createConsumer() throws HornetQException {
+	public ClientConsumer createConsumer () throws HornetQException {
 		return session.createConsumer(topicQueue);
 	}
 
@@ -55,7 +56,7 @@ public class MessagingTopic {
 	 * Explicitly deletes the temporary queue created when a MessagingTopic was
 	 * instantiated.
 	 */
-	public void unsubscribe() throws HornetQException {
+	public void unsubscribe () throws HornetQException {
 		session.deleteQueue(topicQueue);
 	}
 }

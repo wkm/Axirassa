@@ -18,7 +18,7 @@ public class HttpStreamingScheduler implements ContinuationListener, Scheduler {
 	private final HttpStreamingTransportHandler handler;
 
 
-	public HttpStreamingScheduler(ServerSessionImpl serverSession, Continuation continuation,
+	public HttpStreamingScheduler (ServerSessionImpl serverSession, Continuation continuation,
 	        HttpStreamingTransportHandler handler) {
 		this.serverSession = serverSession;
 		this.continuation = continuation;
@@ -27,7 +27,7 @@ public class HttpStreamingScheduler implements ContinuationListener, Scheduler {
 	}
 
 
-	public ServerSessionImpl getServerSession() {
+	public ServerSessionImpl getServerSession () {
 		return serverSession;
 	}
 
@@ -38,22 +38,23 @@ public class HttpStreamingScheduler implements ContinuationListener, Scheduler {
 	//
 
 	@Override
-	public void onComplete(Continuation continuation) {
+	public void onComplete (Continuation continuation) {
 		// nothing to do
 	}
 
 
 	@Override
-	public void onTimeout(Continuation continuation) {
+	public void onTimeout (Continuation continuation) {
 		// remove the scheduler, the client has to reconnect
+		System.err.println("REMOVING SCHEDULER FROM SERVER SESSION");
 		serverSession.setScheduler(null);
 	}
 
 
 	@Override
-	public void cancel() {
-		if (continuation.isSuspended() && !continuation.isExpired()) {
-			System.out.println("continuation was suspended");
+	public void cancel () {
+		if (continuation != null && continuation.isSuspended() && !continuation.isExpired()) {
+			System.err.println("CANCELLING CONTINUATION");
 
 			try {
 				continuation.complete();
@@ -66,14 +67,12 @@ public class HttpStreamingScheduler implements ContinuationListener, Scheduler {
 
 
 	@Override
-	public void schedule() {
-		if (!continuation.isResumed()) {
-			continuation.resume();
-		}
+	public void schedule () {
+		continuation.resume();
 	}
 
 
-	public Continuation getContinuation() {
+	public Continuation getContinuation () {
 		return continuation;
 	}
 

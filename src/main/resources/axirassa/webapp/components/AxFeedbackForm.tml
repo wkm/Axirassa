@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
 	<strong>Leave a note for the developers: </strong>
 	<t:Form t:id="feedbackForm" class='inline' autofocus="false">
 		<t:TextField t:id="feedbackField" t:value="feedback" />

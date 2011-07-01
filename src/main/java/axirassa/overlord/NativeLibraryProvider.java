@@ -11,6 +11,8 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.HashSet;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * {@link NativeLibraryProvider} extracts native libraries from JAR files into a
  * temporary directory where they may be directly accessed by the operating
@@ -22,6 +24,7 @@ import java.util.HashSet;
  * @author wiktor
  * 
  */
+@Slf4j
 public class NativeLibraryProvider {
 
 	private static final int BUFFER_SIZE = 65536;
@@ -31,7 +34,7 @@ public class NativeLibraryProvider {
 	private final HashSet<String> availableLibraries = new HashSet<String>();
 
 
-	private File getTemporaryDirectory() throws IOException {
+	private File getTemporaryDirectory () throws IOException {
 		if (tempdir == null) {
 			File tempfile = File.createTempFile("OverlordNativeLibrary", "");
 			tempfile.delete();
@@ -49,7 +52,7 @@ public class NativeLibraryProvider {
 	 *         if necessary, or null if the libraries may be directly accessed
 	 *         by the OS.
 	 */
-	public String getLibraryPath() {
+	public String getLibraryPath () {
 		if (tempdir == null)
 			return null;
 
@@ -57,7 +60,7 @@ public class NativeLibraryProvider {
 	}
 
 
-	public void provideLibrary(String name) throws IOException {
+	public void provideLibrary (String name) throws IOException {
 		// check if we already provided the library
 		if (availableLibraries.contains(name))
 			return;
@@ -77,11 +80,11 @@ public class NativeLibraryProvider {
 	}
 
 
-	private void copyToDirectory(File source, InputStream instream) throws IOException {
+	private void copyToDirectory (File source, InputStream instream) throws IOException {
 		File directory = getTemporaryDirectory();
 		File newfile = new File(directory.getPath() + File.separator + source.getName());
 
-		System.out.println("COPYING " + source.getPath() + " TO: " + directory.getPath());
+		log.info("COPYING {} TO {}", source.getPath(), directory.getPath());
 
 		InputStream in = new BufferedInputStream(instream, BUFFER_SIZE);
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(newfile), BUFFER_SIZE);
@@ -98,7 +101,7 @@ public class NativeLibraryProvider {
 	}
 
 
-	private boolean isWithinJar(File file) {
+	private boolean isWithinJar (File file) {
 		String[] components = file.getPath().split("\\!", 2);
 		String filename = components[0];
 

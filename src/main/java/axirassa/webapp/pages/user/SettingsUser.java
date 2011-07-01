@@ -1,3 +1,4 @@
+
 package axirassa.webapp.pages.user;
 
 import java.io.IOException;
@@ -24,123 +25,124 @@ import axirassa.webapp.components.AxForm;
 import axirassa.webapp.components.AxPasswordField;
 import axirassa.webapp.services.AxirassaSecurityService;
 import axirassa.webapp.services.EmailNotifyService;
+import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 
 @Secure
 @RequiresAuthentication
 public class SettingsUser {
 
-    @Inject
-    private AxirassaSecurityService security;
+	@Inject
+	private AxirassaSecurityService security;
 
-    @Inject
-    private UserPhoneNumberDAO userPhoneNumberDAO;
+	@Inject
+	private UserPhoneNumberDAO userPhoneNumberDAO;
 
-    @Inject
-    private UserEmailAddressDAO userEmailAddressDAO;
+	@Inject
+	private UserEmailAddressDAO userEmailAddressDAO;
 
-    @Inject
-    private EmailNotifyService emailNotify;
+	@Inject
+	private EmailNotifyService emailNotify;
 
-    @Property
-    @Persist
-    private UserEntity user;
-
-    public Object onActivate () {
-        user = security.getUserEntity();
-
-        phoneNumbers = userPhoneNumberDAO.getPhoneNumbersByUser(user);
-        if (phoneNumbers.size() > 0)
-            hasPhoneNumbers = true;
-        else
-            hasPhoneNumbers = false;
-
-        emails = userEmailAddressDAO.getEmailsByUser(user);
-        if (emails.size() > 0)
-            hasAlternateEmails = true;
-        else
-            hasAlternateEmails = false;
-
-        return true;
-    }
-
-    //
-    // E-Mails
-    //
-
-    @Property
-    private boolean hasAlternateEmails;
-
-    @Property
-    private List<UserEmailAddressEntity> emails;
-
-    @Property
-    private UserEmailAddressEntity email;
-
-    //
-    // Phone Numbers
-    //
-    @Property
-    private boolean hasPhoneNumbers;
-
-    @Property
-    private List<UserPhoneNumberEntity> phoneNumbers;
-
-    @Property
-    private UserPhoneNumberEntity phoneNumber;
-
-    //
-    // Password
-    //
-    @Property
-    private String currentPassword;
-
-    @Property
-    private String newPassword;
-
-    @Property
-    private String confirmPassword;
-
-    @Component
-    private AxPasswordField currentPasswordField;
-
-    @Component
-    private AxPasswordField confirmPasswordField;
-
-    @Component
-    private AxForm passwordForm;
-
-    @Property
-    @Persist(PersistenceConstants.FLASH)
-    private boolean passwordChanged;
-
-    public void onValidateFromPasswordForm () throws NoSaltException {
-        if (currentPassword != null)
-            validateCurrentPassword();
-
-        if (newPassword != null && confirmPassword != null && !newPassword.
-                equals(confirmPassword))
-            passwordForm.recordError(confirmPasswordField, "Passwords do not match");
-    }
+	@Property
+	@Persist
+	private UserEntity user;
 
 
-    private void validateCurrentPassword () throws NoSaltException {
-        if (!user.matchPassword(currentPassword))
-            passwordForm.recordError(currentPasswordField, "Incorrect password");
-    }
+	public Object onActivate() throws AxirassaSecurityException {
+		user = security.getUserEntity();
+
+		phoneNumbers = userPhoneNumberDAO.getPhoneNumbersByUser(user);
+		if (phoneNumbers.isEmpty())
+			hasPhoneNumbers = false;
+		else
+			hasPhoneNumbers = true;
+
+		emails = userEmailAddressDAO.getEmailsByUser(user);
+		if (emails.isEmpty())
+			hasAlternateEmails = false;
+		else
+			hasAlternateEmails = true;
+
+		return true;
+	}
 
 
-    @CommitAfter
-    public Object onSuccessFromPasswordForm () throws IOException, HornetQException {
-        user.createPassword(newPassword);
-        passwordChanged = true;
+	//
+	// E-Mails
+	//
 
-        emailNotify.startMessage(EmailTemplate.USER_CHANGE_PASSWORD);
-        emailNotify.setToAddress(userEmailAddressDAO.getPrimaryEmail(user).
-                getEmail());
-        emailNotify.send();
+	@Property
+	private boolean hasAlternateEmails;
 
-        return this;
-    }
+	@Property
+	private List<UserEmailAddressEntity> emails;
 
+	@Property
+	private UserEmailAddressEntity email;
+
+	//
+	// Phone Numbers
+	//
+	@Property
+	private boolean hasPhoneNumbers;
+
+	@Property
+	private List<UserPhoneNumberEntity> phoneNumbers;
+
+	@Property
+	private UserPhoneNumberEntity phoneNumber;
+
+	//
+	// Password
+	//
+	@Property
+	private String currentPassword;
+
+	@Property
+	private String newPassword;
+
+	@Property
+	private String confirmPassword;
+
+	@Component
+	private AxPasswordField currentPasswordField;
+
+	@Component
+	private AxPasswordField confirmPasswordField;
+
+	@Component
+	private AxForm passwordForm;
+
+	@Property
+	@Persist(PersistenceConstants.FLASH)
+	private boolean passwordChanged;
+
+
+	public void onValidateFromPasswordForm() throws NoSaltException {
+		if (currentPassword != null)
+			validateCurrentPassword();
+
+		if (newPassword != null && confirmPassword != null && !newPassword.equals(confirmPassword))
+			passwordForm.recordError(confirmPasswordField, "Passwords do not match");
+	}
+
+
+	private void validateCurrentPassword() throws NoSaltException {
+		if (!user.matchPassword(currentPassword))
+			passwordForm.recordError(currentPasswordField, "Incorrect password");
+	}
+
+
+	@CommitAfter
+	public Object onSuccessFromPasswordForm() throws IOException, HornetQException {
+		user.createPassword(newPassword);
+		passwordChanged = true;
+
+		emailNotify.startMessage(EmailTemplate.USER_CHANGE_PASSWORD);
+		emailNotify.setToAddress(userEmailAddressDAO.getPrimaryEmail(user).getEmail());
+		emailNotify.send();
+
+		return this;
+	}
 
 }

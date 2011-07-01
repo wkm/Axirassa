@@ -3,83 +3,62 @@ package axirassa.overlord;
 
 import java.util.LinkedHashMap;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class OverlordConfiguration {
 
+	@Getter
 	private final Overlord overlord;
+	
 	private final LinkedHashMap<String, ExecutionTarget> targets = new LinkedHashMap<String, ExecutionTarget>();
 	private final LinkedHashMap<String, ExecutionGroup> groups = new LinkedHashMap<String, ExecutionGroup>();
 
-	private String basedirectory;
-	private String classpath;
-	private String javaexecutable;
+	@Getter
+	@Setter
+	private String baseDirectory;
+	
+	@Getter
+	@Setter
+	private String classPath;
+	
+	@Getter
+	@Setter
+	private String javaExecutable;
 
 
-	public OverlordConfiguration(Overlord overlord) {
+	public OverlordConfiguration (Overlord overlord) {
 		this.overlord = overlord;
 	}
 
 
-	public Overlord getOverlord() {
-		return overlord;
-	}
 
-
-	public void setBaseDirectory(String basediretory) {
-		this.basedirectory = basediretory;
-	}
-
-
-	public void setClassPath(String classpath) {
-		this.classpath = classpath;
-	}
-
-
-	public void setJavaExecutable(String javaexecutable) {
-		this.javaexecutable = javaexecutable;
-	}
-
-
-	public String getJavaExecutable() {
-		return javaexecutable;
-	}
-
-
-	public String getClassPath() {
-		return classpath;
-	}
-
-
-	public String getBaseDirectory() {
-		return basedirectory;
-	}
-
-
-	public void addExecutionGroup(ExecutionGroup group) {
+	public void addExecutionGroup (ExecutionGroup group) {
 		groups.put(group.getCanonicalName(), group);
 	}
 
 
-	public boolean hasExecutionGroup(String name) {
+	public boolean hasExecutionGroup (String name) {
 		return getExecutionGroup(name) != null;
 	}
 
 
-	public ExecutionGroup getExecutionGroup(String name) {
+	public ExecutionGroup getExecutionGroup (String name) {
 		return groups.get(ExecutionGroup.canonicalizeName(name));
 	}
 
 
-	public void addExecutionTarget(ExecutionTarget target) {
+	public void addExecutionTarget (ExecutionTarget target) {
 		targets.put(target.getCanonicalName(), target);
 	}
 
 
-	public boolean hasExecutionTarget(String name) {
+	public boolean hasExecutionTarget (String name) {
 		return getExecutionTarget(name) != null;
 	}
 
 
-	public ExecutionTarget getExecutionTarget(String name) {
+	public ExecutionTarget getExecutionTarget (String name) {
 		return targets.get(ExecutionTarget.canonicalizeName(name));
 	}
 

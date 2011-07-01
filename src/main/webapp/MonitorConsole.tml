@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html t:type="layout" t:pageTitle="Monitor Console" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+<html t:type="layout" t:pageTitle="Monitor Console" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
 	<head>
 		<style type="text/css">
 			.body { padding-left: 30px; }
@@ -23,6 +23,13 @@
 	<t:pagelink t:mixins="AxButton" t:page="monitor/create">
 		<img src="/media/add.gif" /> Add Monitor
 	</t:pagelink>
+	<t:pagelink t:mixins="AxButton" t:page="trigger/create">
+		<img src="/media/add.gif" /> Add Trigger
+	</t:pagelink>
+	<t:pagelink t:mixins="AxButton" t:page="Index">
+		<img src="/media/add.gif" /> Add Alert Schedule
+	</t:pagelink>
+	
 	<div class="reset"></div>
 	
 	<t:loop source="pingers" value="pinger">

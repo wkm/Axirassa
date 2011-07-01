@@ -3,6 +3,7 @@ package axirassa.services;
 
 import java.util.List;
 
+import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Session;
 
@@ -10,34 +11,31 @@ import axirassa.dao.FeedbackDAO;
 import axirassa.ioc.IocStandalone;
 import axirassa.model.FeedbackEntity;
 import axirassa.services.email.EmailTemplate;
-import axirassa.util.HibernateTools;
-import axirassa.util.MessagingTools;
 import axirassa.webapp.services.EmailNotifyService;
 import axirassa.webapp.services.MessagingSession;
 
 public class FeedbackAggregationService implements Service {
 
-    @Inject
+	@Inject
 	private FeedbackDAO feedbackDAO;
 
-    @Inject
+	@Inject
 	private Session session;
 
-    @Inject
+	@Inject
 	private EmailNotifyService notifyService;
 
-    @Inject
+	@Inject
 	private MessagingSession messagingSession;
 
 
 	@Override
-	public void execute () throws Exception {
-		session.beginTransaction();
-
+	@CommitAfter
+	public void execute() throws Exception {
 		// get feedback
 		List<FeedbackEntity> feedback = feedbackDAO.getAllFeedback();
 
-		if (feedback.size() > 0) {
+		if (!feedback.isEmpty()) {
 			// try to send it
 			notifyService.startMessage(EmailTemplate.AGGREGATED_FEEDBACK);
 			notifyService.setToAddress("feedback@axirassa.com");
@@ -50,15 +48,12 @@ public class FeedbackAggregationService implements Service {
 				entity.setPosted(true);
 				session.update(entity);
 			}
-
-			session.getTransaction().commit();
-		} else
-			session.getTransaction().rollback();
+		}
 	}
 
 
-	public static void main (String[] args) throws Exception {
-        Service service = IocStandalone.autobuild(FeedbackAggregationService.class);
+	public static void main(String[] args) throws Exception {
+		Service service = IocStandalone.autobuild(FeedbackAggregationService.class);
 		service.execute();
 	}
 }

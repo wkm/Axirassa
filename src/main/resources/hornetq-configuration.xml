@@ -21,6 +21,9 @@
     <cluster-user>HORNETQ.CLUSTER.ADMIN.USER</cluster-user>
     <cluster-password>ROZfzM1WxpGVSBVMIesBMFyn</cluster-password>
     
+    <message-counter-enabled>true</message-counter-enabled>
+    <message-counter-max-day-history>30</message-counter-max-day-history>
+    
     <!-- QUEUES -->
     <queues>
     	<!-- PINGER QUEUES: these are very high traffic -->
@@ -31,7 +34,7 @@
     	
     	<queue name="Pinger.Response">
     		<address>Pinger.Response</address>
-    		<durable>false</durable>
+    		<durable>true</durable>
     	</queue>
     	
     	<!-- NOTIFICATION QUEUES; these are quite low traffic -->

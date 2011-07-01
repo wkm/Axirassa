@@ -19,11 +19,8 @@ public class TestEmailTemplateFactory {
 
 	@Test
 	public void testFactory() throws IOException, TemplateException {
-		System.out.println(EmailTemplateFactory.instance);
-
 		Template template = EmailTemplateFactory.instance.getTemplate(EmailTemplate.USER_VERIFY_ACCOUNT,
 		                                                              EmailTemplateType.HTML);
-		System.out.println("INSTANCE");
 		Writer out = new OutputStreamWriter(System.out);
 
 		Map<String, String> attributes = new HashMap<String, String>();

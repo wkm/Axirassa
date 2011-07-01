@@ -1,38 +1,42 @@
 var connected = false;
 
-dojo.require("dojox.charting.widget.Chart2D");
-dojo.require("dojox.charting.Theme");
-dojo.require("dojox.charting.themes.Tom");
 
-var colorTheme = new dojox.charting.Theme({
-	chart: {
-		fill: 'inherit'
-	},
-	plotarea: {
-		fill: 'rgba(255,255,255,0)'
-	},
-	axis: {
-		stroke: {
-			color: '#aaa'
-		},
-		tick: {
-			color: '#333',
-			position: 'center',
-			fontColor: '#333'
-		}
-	},
-	seriesThemes: [
-	    {stroke: {color: '#ddd'}},
-	    {stroke: {color: 'rgb(174,3,0)'}},
-	    {stroke: {color: '#ccc'}}
-	]
-});
+
+function weightedMovingAverage(data, length) {
+    if(data.length < length)
+        return undefined;
+    
+    var averages = new Array(data.length - length + 1);
+
+    var denominator = length * (length + 1) / 2;
+    var numerator = 0, total = 0;
+
+    // compute initial weighting
+    var i;
+    for(i = length - 1; i >= 0; i--) {
+        numerator += (i+1) * data[i][1];
+        total += data[i][1];
+    }
+    averages[0] = [data[i+1][0], numerator / denominator];
+
+    // now the weighted
+    var previousTotal, previousNumerator;
+    for(i = 1; i < averages.length; i++) {
+        previousTotal = total;
+        previousNumerator = numerator;
+
+        total = previousTotal + data[i + length - 1][1] - data[i - 1][1];
+        numerator = previousNumerator + length * data[i + length - 1][1] - previousTotal;
+        averages[i] = [data[i - 1][0], numerator / denominator];
+    }
+    
+    return averages;
+}
 
 function randomData(length) {
 	var data = new Array(length);
-
 	for(var i = 0; i < length; i++)
-		data[i] = Math.floor(Math.random()*1000);
+		data[i] = 500 - 50 * Math.log(100 * Math.random());
 	return data;
 }
 
@@ -57,47 +61,46 @@ function inspect(object, depth) {
 	}
 }
 
-function AxPlot(id, pingerId) {
-	var json = {
-		responseTime: randomData(60),
-		responseSize: randomData(60)
-	};
-	
-	var chart = new dojox.charting.Chart2D(id);
-	chart.setTheme(colorTheme);
-	chart.addPlot('smooth', {
-		type: 'Lines',
-		lines: true,
-		labelOffset: -30,
-        tension: 3
-	});
-    chart.addPlot('raw', {type: 'Lines', lines: true});
-	
-	chart.addAxis('x');
-	chart.addAxis('y', {vertical:true});
-	
-	chart.addSeries('Response Time', json['responseTime'], {plot:'smooth'});
-	chart.addSeries('Response Size', json['responseSize'], {plot:'raw'});
-	
-	chart.render();
-	
-	
-	/*if(!connected) {
-		connectStreaming();
-	} else {
-		console.log("already connected");
+function createSeries(array) {
+	var maparray = [];
+	for(var i = 0; i < array.length; i++) {
+		maparray[i] = {x:array[i][0], y:array[i][1]};
 	}
 	
-	console.log("SUBSCRIBING TO: "+ pingerId);
-	dojox.cometd.subscribe("/ax/pinger/"+pingerId, function(msg){
-		console.log("Received data point: "+msg);
-		dojo.byId(id).innerHTML = "Last data point: "+msg.data;
-	});*/
+	return maparray;
 }
+
+function AxInspector(id) {
+	new Dygraph(
+		document.getElementById(id+"_plot"),
+		"/monitor/data:all/"+id,
+		{
+			rollPeriod: 10,
+			width: 800,
+			height: 300
+		}
+	);
+}
+
+function AxWidget(id) {
+	new Dygraph(
+		document.getElementById(id+"_plot"),
+		"/monitor/data:recent/"+id,
+		{
+			interactionModel: {},
+			showLabelsOnHighlight: false,
+			width: 400,
+			height: 150
+		}
+	);
+}
+
 function connectStreaming() {
-	/*console.log("CONFIGURING AND HANDSHAKING");
-	dojox.cometd.configure({
-		url: "/push"
-	});
-	dojox.cometd.handshake();*/
+	if(!connected) {
+		dojox.cometd.configure({
+			url: "/push"
+		});
+		dojox.cometd.handshake();
+		connected=true;
+	}
 }

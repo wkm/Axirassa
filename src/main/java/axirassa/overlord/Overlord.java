@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import axirassa.overlord.exceptions.NoOverlordConfigurationException;
 import axirassa.overlord.exceptions.OverlordException;
 import axirassa.overlord.exceptions.UnknownExecutionTargetException;
@@ -25,8 +26,19 @@ import axirassa.overlord.os.OverlordSystemSupport;
  * @author wiktor
  * 
  */
+@Slf4j
 public class Overlord {
 	private static final String CONFIGURATION_FILE = "axoverlord.cfg.xml";
+
+	private Integer execId = 0;
+
+
+	public int getNextExecID() {
+		synchronized (execId) {
+			execId++;
+			return execId;
+		}
+	}
 
 
 	public static void main(String[] parameters) throws OverlordException, IOException, InterruptedException {
@@ -85,7 +97,7 @@ public class Overlord {
 			if (group != null)
 				groups.add(group);
 			else {
-				System.err.println("Unknown Execution Group: " + group);
+				log.error("Unknown Execution Group: {}", group);
 				return;
 			}
 		}

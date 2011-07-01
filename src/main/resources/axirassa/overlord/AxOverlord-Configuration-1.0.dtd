@@ -5,7 +5,7 @@
 <!ATTLIST target 
 	name CDATA #REQUIRED
 	class CDATA #REQUIRED
-	autorestart (yes|no) "yes"
+	autorestart (true|false) "true"
 	launchmode (jvm|thread) "jvm"
 >
 

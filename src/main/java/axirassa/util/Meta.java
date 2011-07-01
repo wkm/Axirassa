@@ -24,13 +24,14 @@ public class Meta {
 
 	private static void inspect(Object obj, int indentlevel, HashSet<Object> displayed, StringBuilder buff) {
 		if (obj == null) {
+			indent(buff, indentlevel);
 			buff.append("null");
 			return;
 		}
 
-		Class<? extends Object> clazz = obj.getClass();
-		if (primitives.contains(clazz)) {
-			if (clazz == String.class) {
+		Class<? extends Object> classObject = obj.getClass();
+		if (primitives.contains(classObject)) {
+			if (classObject == String.class) {
 				buff.append("\"");
 				buff.append(obj);
 				buff.append("\"");
@@ -39,20 +40,39 @@ public class Meta {
 
 			buff.append(' ');
 			buff.append('(');
-			buff.append(clazz.getCanonicalName()).append('@');
+			buff.append(classObject.getCanonicalName()).append('@');
 			buff.append(Integer.toHexString(obj.hashCode()));
 			buff.append(')');
 
 			return;
 		}
 
-		Field[] fields = clazz.getDeclaredFields();
+		Field[] fields = classObject.getDeclaredFields();
 
-		buff.append(clazz.getCanonicalName());
+		buff.append(classObject.getCanonicalName());
 		buff.append('@');
 		buff.append(Integer.toHexString(obj.hashCode()));
 
-		if (!displayed.contains(obj)) {
+		if (displayed.contains(obj))
+			return;
+
+		if (classObject.isArray()) {
+			Object[] array = (Object[]) obj;
+
+			buff.append('[');
+			for (Object object : array) {
+				buff.append('\n');
+				inspect(object, indentlevel + 1, displayed, buff);
+			}
+
+			if (array.length > 0) {
+				buff.append('\n');
+				indent(buff, indentlevel);
+			}
+			buff.append(']');
+		}
+
+		if (fields.length > 0) {
 			displayed.add(obj);
 
 			buff.append("{");
@@ -95,5 +115,12 @@ public class Meta {
 	private static void indent(StringBuilder buff, int level) {
 		for (int i = 0; i < level; i++)
 			buff.append("  ");
+	}
+
+
+	public static void announce() {
+		StackTraceElement[] trace = Thread.currentThread().getStackTrace();
+		System.err.println("### ANNOUNCE: " + trace[2].getMethodName() + "(...) AT: " + trace[2].getFileName() + ":"
+		        + trace[2].getLineNumber());
 	}
 }

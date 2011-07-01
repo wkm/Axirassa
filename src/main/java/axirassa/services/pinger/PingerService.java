@@ -23,7 +23,7 @@ public class PingerService implements Service {
 	private final HttpPinger pinger;
 
 
-	public PingerService(ClientSession consumeSession) {
+	public PingerService (ClientSession consumeSession) {
 		this.session = consumeSession;
 
 		pinger = new HttpPinger();
@@ -31,7 +31,7 @@ public class PingerService implements Service {
 
 
 	@Override
-	public void execute() throws HornetQException, IOException, ClassNotFoundException, InterruptedException,
+	public void execute () throws HornetQException, IOException, ClassNotFoundException, InterruptedException,
 	        AxirassaServiceException {
 		// we have to start before reading messages
 		session.start();
@@ -49,20 +49,12 @@ public class PingerService implements Service {
 				Object rawobject = AutoSerializingObject.fromBytes(buffer);
 				if (rawobject instanceof PingerEntity) {
 					PingerEntity request = (PingerEntity) rawobject;
-					try {
-						HttpStatisticsEntity statistic = pinger.ping(request);
-						sendResponseMessages(producer, statistic);
-					} catch (IOException e) {
-						HttpStatisticsEntity statistic = new HttpStatisticsEntity();
-						statistic.setPinger(request);
-						statistic.setLatency(0);
-						statistic.setResponseSize(0);
-						statistic.setResponseTime(0);
-						statistic.setStatusCode(-1);
+					HttpStatisticsEntity statistic = pinger.ping(request);
+
+					if (statistic != null)
 						sendResponseMessages(producer, statistic);
 
-						System.err.println("MESSAGE: " + e.getMessage());
-					}
+					System.out.println(request.getUrl() + " TRIGGERS: " + pinger.getTriggers());
 				} else
 					throw new InvalidMessageClassException(PingerEntity.class, rawobject);
 
@@ -79,10 +71,10 @@ public class PingerService implements Service {
 	}
 
 
-	private void sendResponseMessages(ClientProducer producer, HttpStatisticsEntity statistic) throws IOException,
+	private void sendResponseMessages (ClientProducer producer, HttpStatisticsEntity statistic) throws IOException,
 	        HornetQException {
 		// send a message to the primary pinger response queue for injection
-		ClientMessage message = session.createMessage(false);
+		ClientMessage message = session.createMessage(true);
 		message.getBodyBuffer().writeBytes(statistic.toBytes());
 		producer.send(message);
 
@@ -91,10 +83,9 @@ public class PingerService implements Service {
 	}
 
 
-	private String getBroadcastAddress(HttpStatisticsEntity statistic) {
+	private String getBroadcastAddress (HttpStatisticsEntity statistic) {
 		String address = PingerEntity.createBroadcastQueueName(statistic.getPinger().getUser().getId(), statistic
 		        .getPinger().getId());
-		System.err.println("address: " + address);
 		return address;
 	}
 }

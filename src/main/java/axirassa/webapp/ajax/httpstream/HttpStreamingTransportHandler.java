@@ -1,5 +1,12 @@
+
 package axirassa.webapp.ajax.httpstream;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.cometd.bayeux.Channel;
 import org.cometd.bayeux.server.ServerMessage;
@@ -8,29 +15,23 @@ import org.cometd.server.ServerSessionImpl;
 import org.eclipse.jetty.continuation.Continuation;
 import org.eclipse.jetty.continuation.ContinuationSupport;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.List;
-
-
 public class HttpStreamingTransportHandler {
 
-	private final static String USER_AGENT_HEADER      = "User-Agent";
-	private final static String SCHEDULER_ATTRIBUTE    = "cometd.httpstreaming.scheduler";
+	private final static String USER_AGENT_HEADER = "User-Agent";
+	private final static String SCHEDULER_ATTRIBUTE = "cometd.httpstreaming.scheduler";
 	private static final String REQUEST_TICK_ATTRIBUTE = "cometd.httpstreaming.requesttick";
+	private static final long JETTY_TIMEOUT_BUFFER = 30 * 1000;
 
-	private final HttpServletRequest     request;
-	private final HttpServletResponse    response;
-	private       ServerSessionImpl      serverSession;
+	private final HttpServletRequest request;
+	private final HttpServletResponse response;
+	private ServerSessionImpl serverSession;
 	private final HttpStreamingTransport transport;
-	private       JSONStreamPrintWriter  writer;
+	private JSONStreamPrintWriter writer;
 	private long requestStartTick = System.nanoTime();
 
 
 	public HttpStreamingTransportHandler (HttpStreamingTransport transport, HttpServletRequest request,
-	                                      HttpServletResponse response) {
+	        HttpServletResponse response) {
 		this.transport = transport;
 		this.request = request;
 		this.response = response;
@@ -58,8 +59,23 @@ public class HttpStreamingTransportHandler {
 		Object schedulerAttribute = request.getAttribute(SCHEDULER_ATTRIBUTE);
 		info("schdulerAttribute: ", schedulerAttribute);
 
+		Continuation continuation = ContinuationSupport.getContinuation(request);
+		// continuation states
+		System.err.println("CONTINUATION STATES:");
+		if (continuation.isInitial())
+			System.err.println("\t >>>> initial");
+		if (continuation.isExpired())
+			System.err.println("\t >>>> expired");
+		if (continuation.isResumed())
+			System.err.println("\t >>>> resumed");
+		if (continuation.isSuspended())
+			System.err.println("\t >>>> suspended");
+		System.err.println("\n");
+
 		if (schedulerAttribute == null) {
 			info("NO SCHEDULER");
+			// the session doesn't have any scheduler associated with it, so it
+			// must be new
 			handleNewSession();
 		} else {
 			info("HANDLING RESUME");
@@ -77,14 +93,14 @@ public class HttpStreamingTransportHandler {
 				return;
 			} else {
 				if ((tick instanceof Long))
-					requestStartTick = ( Long ) tick;
+					requestStartTick = (Long) tick;
 				else {
 					info("REQUEST TICK OF WRONG TYPE");
 					requestStartTick = 0;
 				}
 			}
 
-			HttpStreamingScheduler scheduler = ( HttpStreamingScheduler ) schedulerAttribute;
+			HttpStreamingScheduler scheduler = (HttpStreamingScheduler) schedulerAttribute;
 			handleResumedSession(scheduler);
 		}
 	}
@@ -92,10 +108,9 @@ public class HttpStreamingTransportHandler {
 
 	public void handleResumedSession (HttpStreamingScheduler scheduler) {
 		serverSession = scheduler.getServerSession();
-		if (serverSession.isConnected()) {
-			info("starting serverSession interval timeout");
+
+		if (serverSession.isConnected())
 			serverSession.startIntervalTimeout();
-		}
 
 		sendQueuedMessages();
 		suspendSession();
@@ -114,10 +129,14 @@ public class HttpStreamingTransportHandler {
 
 			serverSession = null;
 
+			// padInitialReply();
+
 			// process each message
-			for (ServerMessage.Mutable message : messages) {
+			for (ServerMessage.Mutable message : messages)
 				serverSession = processMessage(message);
-			}
+
+			if (messages.length > 1)
+				suspendSession();
 		} catch (ParseException e) {
 			info("ERROR PARSING JSON: " + e.getMessage(), e.getCause());
 		} catch (IOException e) {
@@ -137,7 +156,7 @@ public class HttpStreamingTransportHandler {
 			serverSession = null;
 		}
 
-		ServerMessage reply = getBayeux().handle(serverSession, message);
+		ServerMessage.Mutable reply = getBayeux().handle(serverSession, message);
 		if (reply != null) {
 			boolean isHandshake = false;
 			if (serverSession == null) {
@@ -159,15 +178,10 @@ public class HttpStreamingTransportHandler {
 				// immediately finish
 				writer.close();
 				info(" >>>> [closed]");
-			} else {
-				suspendSession();
 			}
 
 			message.setAssociated(null);
 		}
-
-		// info("CLOSING WRITER TO FINISH SENDING");
-		// finishResponse();
 
 		return serverSession;
 	}
@@ -180,17 +194,31 @@ public class HttpStreamingTransportHandler {
 
 		if (timeout > 0) {
 			Continuation continuation = ContinuationSupport.getContinuation(request);
-			continuation.setTimeout(timeout);
+			continuation.setTimeout(timeout + JETTY_TIMEOUT_BUFFER);
 
-			HttpStreamingScheduler scheduler = new HttpStreamingScheduler(serverSession, continuation, this);
+			HttpStreamingScheduler scheduler = (HttpStreamingScheduler) serverSession.getAttribute("SCHEDULER");
+			if (scheduler == null) {
+				System.err.println("!!!!! CREATING NEW SCHEDULER");
+				scheduler = new HttpStreamingScheduler(serverSession, continuation, this);
+				serverSession.setTimeout(timeout);
+				serverSession.setScheduler(scheduler);
 
-			serverSession.setScheduler(scheduler);
+				serverSession.setAttribute("SCHEDULER", scheduler);
+			} else {
+				System.err.println("!!!!! SCHEDULER ALREADY EXISTS");
+				serverSession.setTimeout(timeout);
+			}
+
 			request.setAttribute(SCHEDULER_ATTRIBUTE, scheduler);
 			request.setAttribute(REQUEST_TICK_ATTRIBUTE, requestStartTick);
+
 			continuation.suspend(response);
-			serverSession.setInterval(timeout);
-			serverSession.setTimeout(timeout);
+
 			info("serverSession timeout: ", serverSession.getTimeout(), "  interval: ", serverSession.getInterval());
+		} else {
+			Continuation continuation = ContinuationSupport.getContinuation(request);
+			continuation.suspend(response);
+			continuation.complete();
 		}
 	}
 
@@ -238,6 +266,21 @@ public class HttpStreamingTransportHandler {
 	}
 
 
+	/**
+	 * send some white space down the front of the reply to get the continuation
+	 * into a non-inital state.
+	 */
+	private void padInitialReply () {
+		try {
+			info("PADDED INTIAL REPLY");
+			response.getWriter().write("                        ");
+		} catch (IOException e) {
+			System.out.println("Could not write message: ");
+			e.printStackTrace(System.err);
+		}
+	}
+
+
 	private void writeMessage (String message) {
 		if (message == null)
 			return;
@@ -251,7 +294,8 @@ public class HttpStreamingTransportHandler {
 
 			flushResponse();
 		} catch (IOException e) {
-			info("Could not successfully write message: ", e);
+			System.out.println("Could not successfully write message: ");
+			e.printStackTrace(System.err);
 		}
 	}
 
@@ -289,15 +333,17 @@ public class HttpStreamingTransportHandler {
 
 
 	/**
-	 * @return the ServerSession associated with the given clientId, null if no such sesion exists
+	 * @return the ServerSession associated with the given clientId, null if no
+	 *         such sesion exists
 	 */
 	private ServerSessionImpl retrieveSession (String clientId) {
-		return ( ServerSessionImpl ) getBayeux().getSession(clientId);
+		return (ServerSessionImpl) getBayeux().getSession(clientId);
 	}
 
 
 	/**
-	 * @return true if the given clientId does not match the given serverSession.
+	 * @return true if the given clientId does not match the given
+	 *         serverSession.
 	 */
 	private boolean isClientSessionMismatch (String clientId, ServerSessionImpl serverSession) {
 		return clientId != null && !clientId.equals(serverSession.getId());

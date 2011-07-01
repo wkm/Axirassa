@@ -6,8 +6,8 @@ import org.apache.tapestry5.Field;
 import org.apache.tapestry5.FormValidationControl;
 import org.apache.tapestry5.MarkupWriter;
 import org.apache.tapestry5.ValidationDecorator;
+import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Import;
-import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.ioc.annotations.Inject;
@@ -15,13 +15,13 @@ import org.apache.tapestry5.services.Environment;
 
 import axirassa.webapp.services.validation.CustomValidationDecorator;
 
-@Import(library = { "context:js/error.js" })
+@Import(library = { "context:js/error.js" }, stylesheet = { "context:/css/form.css" })
 public class AxForm implements FormValidationControl {
 
 	@Inject
 	private Environment environment;
 
-	@InjectComponent
+	@Component(publishParameters = "autofocus")
 	private Form form;
 
 	@Parameter(defaultPrefix = BindingConstants.LITERAL)

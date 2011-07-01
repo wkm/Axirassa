@@ -17,7 +17,7 @@ public class InjectorServiceJob implements Job {
 
 
 	@Override
-	public void execute(JobExecutionContext context) throws JobExecutionException {
+	public void execute (JobExecutionContext context) throws JobExecutionException {
 		try {
 			JobDataMap datamap = context.getJobDetail().getJobDataMap();
 

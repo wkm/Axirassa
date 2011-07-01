@@ -1,6 +1,7 @@
 
 package axirassa.services.email;
 
+import lombok.Getter;
 import axirassa.services.util.TemplateTypeEnumeration;
 
 public enum EmailTemplateType implements TemplateTypeEnumeration {
@@ -8,16 +9,11 @@ public enum EmailTemplateType implements TemplateTypeEnumeration {
 	TEXT("text"),
 	SUBJECT("subject");
 
+	@Getter
 	private String extension;
 
 
-	EmailTemplateType(String extension) {
+	EmailTemplateType (String extension) {
 		this.extension = extension;
-	}
-
-
-	@Override
-	public String getExtension() {
-		return extension;
 	}
 }

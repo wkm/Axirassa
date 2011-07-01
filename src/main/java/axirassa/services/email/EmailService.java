@@ -47,7 +47,7 @@ public class EmailService implements Service {
 					EmailRequestMessage emailRequest = (EmailRequestMessage) rawobject;
 
 					EmailTemplateComposer composer = new EmailTemplateComposer(emailRequest.getTemplate());
-					composer.setAttributes(emailRequest.getAttibuteMap());
+					composer.setAttributes(emailRequest.getAttributeMap());
 
 					EmailSender sender = new EmailSender(composer, emailRequest.getToAddress());
 					sender.send(httpClient);

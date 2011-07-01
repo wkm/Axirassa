@@ -4,6 +4,13 @@ package axirassa.overlord;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import axirassa.overlord.exceptions.ExceptionInMonitorError;
 
 /**
@@ -11,18 +18,26 @@ import axirassa.overlord.exceptions.ExceptionInMonitorError;
  * 
  * @author wiktor
  */
+@Slf4j
 public class ExecutionMonitor implements Runnable {
+	
 	private final ExecutionTarget target;
+
 	private final int id;
 
-	private final boolean limitedRestarts = false;
+	@Setter
+	@Getter
+	private boolean limitedRestarts = false;
+
+	@Setter
+	@Getter
 	private int remainingRestarts = 0;
 	private int startCount = 0;
 	private final ProcessBuilder builder;
 	private Process process;
 
 
-	public ExecutionMonitor(ExecutionTarget target, int id, ProcessBuilder builder) {
+	public ExecutionMonitor (ExecutionTarget target, int id, ProcessBuilder builder) {
 		this.target = target;
 		this.id = id;
 
@@ -30,21 +45,13 @@ public class ExecutionMonitor implements Runnable {
 	}
 
 
-	public void setRemainingRestarts(int remainingRestarts) {
-		this.remainingRestarts = remainingRestarts;
-	}
-
-
-	public int getRemainingRestarts() {
-		return remainingRestarts;
-	}
-
-
 	@Override
-	public void run() {
+	public void run () {
+		Logger logger = LoggerFactory.getLogger(target.getTargetClass());
+		
 		while (remainingRestarts > 0 || limitedRestarts == false) {
 			try {
-				System.out.printf(toString() + " STARTING [%d]: " + builder.command() + "\n", startCount);
+				log.info("STARTING [{}]: {}", startCount, builder.command());
 				process = builder.start();
 
 				BufferedReader stdoutstream = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -52,9 +59,9 @@ public class ExecutionMonitor implements Runnable {
 
 				String line;
 				while ((line = stdoutstream.readLine()) != null)
-					System.out.println(getId() + ": " + line);
+					logger.info("{} : {}", getId(), line);
 				while ((line = stderrstream.readLine()) != null)
-					System.err.println(getId() + ": " + line);
+					logger.warn("{} : {}", getId(), line);
 
 				startCount++;
 				remainingRestarts--;
@@ -64,27 +71,27 @@ public class ExecutionMonitor implements Runnable {
 				if (!target.isAutoRestart())
 					return;
 			} catch (InterruptedException e) {
-				System.out.println("ExecutionMonitor interrupted.");
+				log.warn("ExecutionMonitor interrupted.");
 				return;
 			} catch (Exception e) {
 				throw new ExceptionInMonitorError(e);
 			}
 		}
 
-		System.out.println(toString() + " finished.");
+		log.info("[{}] finished.", startCount);
 	}
 
 
-	public void killProcess() {
+	public void killProcess () {
 		if (process == null)
 			return;
 
-		System.out.println("  Killing process");
+		log.info("  Killing process");
 		process.destroy();
 	}
 
 
-	private String getId() {
-		return target.getName() + '[' + id + ']';
+	private String getId () {
+		return "[" + id + "]";
 	}
 }

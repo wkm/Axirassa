@@ -33,7 +33,7 @@ of where to look for pages, components and mixins. -->
     </context-param>
 	<context-param>
 		<param-name>tapestry.page-pool.hard-limit</param-name>
-		<param-value>200</param-value>
+		<param-value>1000</param-value>
 	</context-param>
 	<context-param>
 		<param-name>tapestry.omit-generator-meta</param-name>

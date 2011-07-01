@@ -1,3 +1,4 @@
+
 package axirassa.ioc;
 
 import org.apache.tapestry5.ioc.Registry;
@@ -5,27 +6,45 @@ import org.apache.tapestry5.ioc.RegistryBuilder;
 
 public class IocStandalone {
 
-    public static Registry registry = null;
-
-    public static void init () {
-        if (registry == null) {
-            RegistryBuilder builder = new RegistryBuilder();
-            builder.add(DAOModule.class);
-            builder.add(FlowsModule.class);
-            builder.add(MessagingModule.class);
-
-            registry = builder.build();
-            registry.performRegistryStartup();
-        }
-    }
+	public static Registry registry = null;
 
 
-    public static <T> T autobuild (Class<T> classObject) {
-        if (registry == null)
-            init();
+	public static RegistryBuilder initRegistryBuilder() {
+		RegistryBuilder builder = new RegistryBuilder();
+		builder.add(DAOModule.class);
+		builder.add(FlowsModule.class);
+		builder.add(MessagingModule.class);
+		builder.add(LoggingModule.class);
 
-        return registry.autobuild(classObject);
-    }
+		return builder;
+	}
 
 
+	public static void init() {
+		init(initRegistryBuilder());
+	}
+
+
+	public static void init(RegistryBuilder builder) {
+		if (registry == null) {
+			registry = builder.build();
+			registry.performRegistryStartup();
+		}
+	}
+
+
+	public static <T> T autobuild(Class<T> classObject) {
+		if (registry == null)
+			init();
+
+		return registry.autobuild(classObject);
+	}
+
+
+	public static void shutdown() {
+		if (registry != null) {
+			registry.shutdown();
+			registry = null;
+		}
+	}
 }

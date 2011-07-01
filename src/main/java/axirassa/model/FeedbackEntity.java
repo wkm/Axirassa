@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -32,97 +35,46 @@ public class FeedbackEntity implements Serializable, EntityPreSave {
 	//
 
 	@Id
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-
-	public Long getId () {
-		return id;
-	}
-
-
-	public void setId (Long id) {
-		this.id = id;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private String comment;
 
 
-	public String getComment () {
-		return comment;
-	}
-
-
-	public void setComment (String comment) {
-		this.comment = comment;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private String useragent;
 
 
-	public String getUseragent () {
-		return useragent;
-	}
-
-
-	public void setUseragent (String useragent) {
-		this.useragent = useragent;
-	}
-
-
+	@Getter
+	@Setter
 	@ManyToOne(optional = true)
 	private UserEntity user;
 
-
-	public UserEntity getUser () {
-		return user;
-	}
-
-
-	public void setUser (UserEntity user) {
-		this.user = user;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 
 
-	public Date getDate () {
-		return date;
-	}
-
-
-	public void setDate (Date date) {
-		this.date = date;
-	}
-
-
-	public String getFormattedDate () {
+	public String getFormattedDate () { 
 		SimpleDateFormat format = new SimpleDateFormat("h:m:s a");
 		return format.format(getDate());
 	}
 
 
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private boolean posted;
-
-
-	public boolean isPosted () {
-		return posted;
-	}
-
-
-	public void setPosted (boolean posted) {
-		this.posted = posted;
-	}
-
 
 	@Override
 	public void preSave () {

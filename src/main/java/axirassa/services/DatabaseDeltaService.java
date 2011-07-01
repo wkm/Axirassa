@@ -14,19 +14,19 @@ import liquibase.integration.commandline.CommandLineUtils;
 import org.hibernate.cfg.Configuration;
 
 public class DatabaseDeltaService {
-	public static void main(String[] args) throws DatabaseException, ParserConfigurationException, IOException {
+	public static void main (String[] args) throws DatabaseException, ParserConfigurationException, IOException {
 		// pull the database configuration from hibernate
 		Configuration config = new Configuration().configure();
 
 		ClassLoader classloader = DatabaseDeltaService.class.getClassLoader();
-		Database target = CommandLineUtils.createDatabaseObject(classloader, config.getProperty("connection.url"),
-		                                                        config.getProperty("connection.user"),
-		                                                        config.getProperty("connection.password"),
-		                                                        config.getProperty("connection.driver_class"), null,
-		                                                        null);
+		Database target = CommandLineUtils
+		        .createDatabaseObject(classloader, config.getProperty("hibernate.connection.url"),
+		                              config.getProperty("hibernate.connection.username"),
+		                              config.getProperty("hibernate.connection.password"),
+		                              config.getProperty("hibernate.connection.driver_class"), null, null, null);
 
 		Database reference = CommandLineUtils.createDatabaseObject(classloader, "hibernate:hibernate.cfg.xml", null,
-		                                                           null, null, null, null);
+		                                                           null, null, null, null, null);
 
 		Diff diff = new Diff(reference, target);
 		DiffResult result = diff.compare();

@@ -8,6 +8,13 @@
 	<!-- EXECUTION TARGET CLASSES                                         -->
 	<!-- ################################################################ -->
   
+  	<target name="AxWebServer"
+  	        class="axirassa.services.JettyWebserver"
+  	        autorestart="false">
+  		<jvmoption name="Xmx" value="1024m" />
+  		<jvmoption name="Xms" value="1024m" />        
+	</target>
+  
     <target name="AxMessagingServer" 
             class="axirassa.util.EmbeddedMessagingServer" 
             autorestart="true">
@@ -59,6 +66,8 @@
 		<jvmoption name="Xmx" value="16m" />
 	</target>
 	
+		
+	<!-- TOOLS -->
 	<target 
 		name="AxDatabaseMigrate" 
 		class="axirassa.services.DatabaseMigrateService" 
@@ -77,6 +86,11 @@
 		autorestart="false"
 	/>
 	
+	<target
+		name="AxInsertPingers"
+		class="axirassa.tools.CreatePingersFromFile"
+		autorestart="false"
+	/>
 	
 	
 	<!-- ################################################################ -->
@@ -88,9 +102,10 @@
     	
     	<!-- wait for one second to let the server finish starting -->
     	
-    	<execute target="AxControllerService" initialdelay="1000"  />
-    	<execute target="AxPingerService" instances="32" />
+    	<execute target="AxControllerService" initialdelay="3000"  />
     	<execute target="AxInjectorService" />
+    	
+    	<execute target="AxPingerService" instances="32" />
     	
     	<execute target="AxEmailNotificationService" />
     	<execute target="AxVoiceNotificationService" />

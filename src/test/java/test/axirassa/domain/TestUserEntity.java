@@ -1,52 +1,43 @@
+
 package test.axirassa.domain;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.apache.tapestry5.hibernate.annotations.CommitAfter;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.hibernate.Session;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import axirassa.ioc.IocTestRunner;
 import axirassa.model.UserEntity;
 import axirassa.model.exception.NoSaltException;
-import axirassa.model.flows.CreateUserFlow;
-import axirassa.util.AbstractDomainTest;
-import org.apache.tapestry5.ioc.annotations.Inject;
+import axirassa.util.test.AbstractIntegrationTest;
 
-@RunWith(IocTestRunner.class)
-public class TestUserEntity extends AbstractDomainTest {
+public class TestUserEntity extends AbstractIntegrationTest {
 
-    @Inject
-    private CreateUserFlow createUserFlow;
-
-    @Test
-    public void userPassword () throws NoSaltException {
-        session.beginTransaction();
-
-        createUserFlow.setEmail("who@foo.com");
-        createUserFlow.setPassword("password");
-        createUserFlow.execute();
-        UserEntity user = createUserFlow.getUserEntity();
-
-        assertTrue(user.matchPassword("blah"));
-        assertFalse(user.matchPassword("blah "));
-        assertFalse(user.matchPassword("blah123"));
-        assertFalse(user.matchPassword("tweedle"));
-
-        session.getTransaction().commit();
-    }
+	@Inject
+	private Session database;
 
 
-    @Test
-    public void userAutomaticSalting () throws NoSaltException {
-        session.beginTransaction();
-        UserEntity user = new UserEntity();
-        long start = System.currentTimeMillis();
-        user.createPassword("password");
-        System.out.println("PASSWORD IN: " + (System.currentTimeMillis() - start));
-        session.save(user);
-        session.getTransaction().commit();
-    }
+	@Test
+	public void userPassword() throws NoSaltException {
+		UserEntity user = new UserEntity();
+		user.createPassword("blah");
 
+		assertTrue(user.matchPassword("blah"));
+		assertFalse(user.matchPassword("blah "));
+		assertFalse(user.matchPassword("blah123"));
+		assertFalse(user.matchPassword("tweedle"));
+	}
+
+
+	@Test
+	public void userAutomaticSalting() {
+		UserEntity user = new UserEntity();
+		long start = System.currentTimeMillis();
+		user.createPassword("password");
+		System.out.println("PASSWORD IN: " + (System.currentTimeMillis() - start));
+		database.save(user);
+	}
 
 }

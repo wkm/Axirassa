@@ -1,79 +1,62 @@
+
 package axirassa.webapp.pages.user;
 
-
-import axirassa.dao.UserDAO;
-import axirassa.model.PasswordResetTokenEntity;
-import axirassa.model.UserEntity;
-import axirassa.services.email.EmailTemplate;
-import axirassa.webapp.components.AxForm;
-import axirassa.webapp.services.EmailNotifyService;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.Secure;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.services.PageRenderLinkSource;
-import org.hibernate.Session;
-import org.hornetq.api.core.HornetQException;
 
-import java.io.IOException;
-
+import axirassa.dao.UserEmailAddressDAO;
+import axirassa.model.UserEntity;
+import axirassa.model.flows.ResetPasswordFlow;
+import axirassa.webapp.components.AxForm;
+import axirassa.webapp.components.AxTextField;
 
 @Secure
 @RequiresGuest
 public class ResetPasswordUser {
+	@Inject
+	private UserEmailAddressDAO emailDAO;
 
 	@Inject
-	private Session database;
-
-	@Inject
-	private UserDAO userDAO;
-
-	@Inject
-	private PageRenderLinkSource linkSource;
-
-	@Inject
-	private EmailNotifyService emailNotify;
+	private ResetPasswordFlow resetFlow;
 
 	@Property
 	private String email;
 
+	@Parameter("message:unknownEmail-message")
+	private String unknownEmailMessage;
+
 	@Component
 	private AxForm form;
 
+	@Component
+	private AxTextField emailField;
 
-	public void onValidateFromForm () {
-		if (email == null) {
-			showInvalidEmailMessage();
+
+	public void onValidateFromForm() {
+		if (email == null)
 			return;
-		}
 
-		UserEntity entity = userDAO.getUserByEmail(email);
+		UserEntity entity = emailDAO.getUserByEmail(email);
 		if (entity == null)
 			showInvalidEmailMessage();
 	}
 
 
-	private void showInvalidEmailMessage () {
-		form.recordError("No user associated with that e-mail.");
+	private void showInvalidEmailMessage() {
+		form.recordError(emailField, unknownEmailMessage);
 	}
 
 
 	@CommitAfter
-	public Object onSuccessFromForm () throws HornetQException, IOException {
-		UserEntity user = userDAO.getUserByEmail(email);
-		PasswordResetTokenEntity token = new PasswordResetTokenEntity();
-		token.setUser(user);
-		database.save(token);
-
-		String link = linkSource.createPageRenderLinkWithContext(ChangePasswordByTokenUser.class, token.getToken())
-				.toAbsoluteURI(true);
-
-		emailNotify.startMessage(EmailTemplate.USER_RESET_PASSWORD);
-		emailNotify.setToAddress(email);
-		emailNotify.addAttribute("axlink", link);
-		emailNotify.send();
+	public Object onSuccessFromForm() throws Exception {
+		UserEntity user = emailDAO.getUserByEmail(email);
+		resetFlow.setUserEntity(user);
+		resetFlow.execute();
 
 		return PasswordResetSentUser.class;
 	}

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="wiktor (generated)" id="1302583655109-1">
+        <createTable tableName="triggersettingentity">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="TriggerSettinPK"/>
+            </column>
+            <column name="description" type="varchar(255)"/>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="int4">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet author="wiktor (generated)" id="1302583655109-2">
+        <createTable tableName="triggertemplateentity">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="TriggerTemplaPK"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet author="wiktor (generated)" id="1302583655109-3">
+        <createTable tableName="triggertemplatesettingentity">
+            <column name="DTYPE" type="varchar(31)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="TriggerTemplateSettingPK"/>
+            </column>
+            
+            <column name="value" type="varchar(255)"/>
+            <column name="quantity" type="int4"/>
+            
+            <column name="setting_id" type="bigint"/>
+            <column name="template_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="wiktor (generated)" id="1302583655109-6">
+        <addForeignKeyConstraint 
+        	baseColumnNames="user_id" 
+        	baseTableName="triggertemplateentity" 
+        	constraintName="FK7B63E8B5C843EC30" 
+        	deferrable="false" 
+        	initiallyDeferred="false" 
+        	referencedColumnNames="id" 
+        	referencedTableName="userentity" 
+        	referencesUniqueColumn="false"
+        />
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1302583655109-7">
+        <addForeignKeyConstraint 
+	        baseColumnNames="setting_id" 
+	        baseTableName="triggertemplatesettingentity" 
+	        constraintName="FK36362D413DDA73B8" 
+	        deferrable="false" 
+	        initiallyDeferred="false" 
+	        referencedColumnNames="id" 
+	        referencedTableName="triggersettingentity" 
+	        referencesUniqueColumn="false"
+       	/>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1302583655109-8">
+        <addForeignKeyConstraint 
+        	baseColumnNames="template_id" 
+        	baseTableName="triggertemplatesettingentity" 
+        	constraintName="FK36362D4138F4E362" 
+        	deferrable="false" 
+        	initiallyDeferred="false" 
+        	referencedColumnNames="id" 
+        	referencedTableName="triggertemplateentity" 
+        	referencesUniqueColumn="false"
+        />
+    </changeSet>
+</databaseChangeLog>

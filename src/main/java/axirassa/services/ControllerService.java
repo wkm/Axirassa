@@ -3,14 +3,15 @@ package axirassa.services;
 
 import java.util.List;
 
+import org.apache.tapestry5.ioc.annotations.Inject;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientProducer;
-import org.hornetq.api.core.client.ClientSession;
 
 import axirassa.config.Messaging;
 import axirassa.model.PingerEntity;
+import axirassa.webapp.services.MessagingSession;
 
 /**
  * The ControllerService executes every minute, creating a message for each
@@ -20,15 +21,11 @@ import axirassa.model.PingerEntity;
  */
 public class ControllerService implements Service {
 
-	private final ClientSession messaging;
+	@Inject
+	private MessagingSession messaging;
 
-	private final Session database;
-
-
-	public ControllerService (ClientSession messaging, Session database) {
-		this.messaging = messaging;
-		this.database = database;
-	}
+	@Inject
+	private Session database;
 
 
 	@Override
@@ -44,6 +41,9 @@ public class ControllerService implements Service {
 			message.getBodyBuffer().writeBytes(pinger.toBytes());
 			producer.send(message);
 		}
+
+		database.flush();
+		database.clear();
 
 		System.out.println("Populated " + pingers.size() + " pingers");
 

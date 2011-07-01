@@ -12,8 +12,7 @@ public class MessagingSessionManagerImpl implements MessagingSessionManager {
 	private final MessagingSession session;
 
 
-	public MessagingSessionManagerImpl() throws HornetQException {
-		System.err.println("CREATING SESSION MANAGER AND SESSION");
+	public MessagingSessionManagerImpl() throws Exception {
 		session = new MessagingSessionImpl(MessagingTools.getEmbeddedSession());
 	}
 
@@ -37,7 +36,6 @@ public class MessagingSessionManagerImpl implements MessagingSessionManager {
 	@Override
 	public void threadDidCleanup() {
 		try {
-			System.err.println("CLEANING UP AFTER THREAD");
 			session.close();
 		} catch (HornetQException e) {
 			e.printStackTrace();

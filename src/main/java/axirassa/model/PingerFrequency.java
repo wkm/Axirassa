@@ -13,7 +13,7 @@ public enum PingerFrequency implements LabeledObject {
 	private int interval;
 
 
-	PingerFrequency(int interval) {
+	PingerFrequency (int interval) {
 		this.interval = interval;
 	}
 
@@ -21,20 +21,20 @@ public enum PingerFrequency implements LabeledObject {
 	/**
 	 * @return the number of seconds in this interval
 	 */
-	public int getInterval() {
+	public int getInterval () {
 		return interval;
 	}
 
 
 	@Override
-	public String getLabel() {
+	public String getLabel () {
 		if (interval == 1)
-			return "every second";
+			return "second";
 		else if (interval < 60)
-			return "every " + interval + " seconds";
+			return "" + interval + " seconds";
 		else if (interval == 60)
-			return "every minute";
+			return "minute";
 		else
-			return "every " + (interval / 60) + " minutes";
+			return "" + (interval / 60) + " minutes";
 	}
 }

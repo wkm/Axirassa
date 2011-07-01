@@ -8,6 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NaturalId;
@@ -25,96 +28,45 @@ public class UserEmailAddressEntity extends AutoSerializingObject implements Ent
 	// Instance
 	//
 	@Id
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-
-	public Long getId () {
-		return id;
-	}
-
-
-	public void setId (Long id) {
-		this.id = id;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private boolean primaryEmail;
 
-
-	public boolean isPrimaryEmail () {
-		return primaryEmail;
-	}
-
-
-	public void setPrimaryEmail (boolean primaryEmail) {
-		this.primaryEmail = primaryEmail;
-	}
-
-
+	@Getter
+	@Setter
 	@ManyToOne(optional = false)
 	private UserEntity user;
 
-
-	@Override
-	public UserEntity getUser () {
-		return user;
-	}
-
-
-	public void setUser (UserEntity user) {
-		this.user = user;
-	}
-
-
 	@NaturalId
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private String email;
 
-
-	public String getEmail () {
-		return email;
-	}
-
-
-	public void setEmail (String email) {
-		this.email = email;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private String token;
 
-
-	public String getToken () {
-		return token;
-	}
-
-
-	public void setToken (String token) {
-		this.token = token;
-	}
-
-
+	@Getter
+	@Setter
 	@Basic(optional = false)
 	private boolean verified;
 
 
-	public boolean isVerified () {
-		return verified;
-	}
-
-
-	public void setVerified (boolean verified) {
-		this.verified = verified;
-	}
-
-
 	@Override
-	public void preSave () {
+	public void preSave() {
 		if (token == null)
 			token = RandomStringGenerator.makeRandomStringToken(36);
+
+		if (email != null)
+			email = email.toLowerCase();
 	}
 }

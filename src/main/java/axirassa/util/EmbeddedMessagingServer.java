@@ -19,7 +19,10 @@ import org.hornetq.core.server.JournalType;
  * @author wiktor
  */
 public class EmbeddedMessagingServer {
-	static public void start() throws Exception {
+	private static HornetQServer server;
+
+
+	static public void start () throws Exception {
 		FileConfiguration config = new FileConfiguration();
 
 		config.setConfigurationUrl("hornetq-configuration.xml");
@@ -34,7 +37,7 @@ public class EmbeddedMessagingServer {
 
 		config.start();
 
-		HornetQServer server = HornetQServers.newHornetQServer(config);
+		server = HornetQServers.newHornetQServer(config);
 		server.start();
 
 		System.out.println("Axirassa Embedded HornetQ server started.");
@@ -46,7 +49,12 @@ public class EmbeddedMessagingServer {
 	}
 
 
-	static public void main(String[] args) throws Exception {
+	static public void stop () throws Exception {
+		server.stop();
+	}
+
+
+	static public void main (String[] args) throws Exception {
 		start();
 	}
 }
@@ -56,13 +64,13 @@ class ServerQueueLister implements Runnable {
 	private final HornetQServer server;
 
 
-	public ServerQueueLister(final HornetQServer server) {
+	public ServerQueueLister (final HornetQServer server) {
 		this.server = server;
 	}
 
 
 	@Override
-	public void run() {
+	public void run () {
 		String[] queues = server.getHornetQServerControl().getQueueNames();
 		System.out.println("QUEUES:");
 		for (String queue : queues)

@@ -16,15 +16,15 @@ public class DatabaseMigrateService {
 	public static final String MASTER_CHANGELOG = "axirassa/model/changelog/db.changelog-master.xml";
 
 
-	public static void main(String[] args) throws LiquibaseException, IOException {
+	public static void main (String[] args) throws LiquibaseException, IOException {
 		Configuration config = new Configuration().configure();
 		ClassLoader classloader = DatabaseMigrateService.class.getClassLoader();
 
-		Database target = CommandLineUtils.createDatabaseObject(classloader, config.getProperty("connection.url"),
-		                                                        config.getProperty("connection.user"),
-		                                                        config.getProperty("connection.password"),
-		                                                        config.getProperty("connection.driver_class"), null,
-		                                                        null);
+		Database target = CommandLineUtils
+		        .createDatabaseObject(classloader, config.getProperty("hibernate.connection.url"),
+		                              config.getProperty("hibernate.connection.username"),
+		                              config.getProperty("hibernate.connection.password"),
+		                              config.getProperty("hibernate.connection.driver_class"), null, null, null);
 
 		ResourceAccessor resourceAccessor = new ClassLoaderResourceAccessor(classloader);
 		Liquibase liquibase = new Liquibase(MASTER_CHANGELOG, resourceAccessor, target);

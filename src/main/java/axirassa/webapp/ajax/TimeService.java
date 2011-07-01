@@ -21,12 +21,12 @@ public class TimeService extends AbstractService {
 	public static HashSet<ServerSession> subscribers;
 
 
-	public TimeService(BayeuxServer server) throws InterruptedException {
+	public TimeService (BayeuxServer server) throws InterruptedException {
 		super(server, "timeService");
 
 		ServerChannel.Initializer initalizer = new ServerChannel.Initializer() {
 			@Override
-			public void configureChannel(ConfigurableServerChannel channel) {
+			public void configureChannel (ConfigurableServerChannel channel) {
 				System.out.println("Configuring channel");
 				channel.setPersistent(true);
 			}
@@ -37,7 +37,7 @@ public class TimeService extends AbstractService {
 	}
 
 
-	private void startTimeFilter() {
+	private void startTimeFilter () {
 		System.err.println("FORKING TIME FILTER THREAD");
 		final ClientSessionChannel channel1 = getLocalSession().getChannel("/ax/timeplease");
 		final ClientSessionChannel channel2 = getLocalSession().getChannel("/ax/valueplease");
@@ -46,13 +46,13 @@ public class TimeService extends AbstractService {
 		final DateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss.SS z");
 		Thread thread = new Thread(new Runnable() {
 			@Override
-			public void run() {
+			public void run () {
 				while (true) {
 					channel1.publish(format.format(new Date()));
 					channel2.publish(new Random().nextDouble());
 					// channel3.publish(new Random().nextDouble());
 					try {
-						Thread.sleep(200);
+						Thread.sleep(5000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

@@ -1,33 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<html t:type="layout" t:pageTitle="Register" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
-	<t:axform t:id="form" t:title="Register for Monitoring">
+<html t:type="layout" t:pageTitle="Register" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
+	<t:AxForm t:id="form" t:title="Register for Monitoring">
 		<p>
 			Start monitoring your site in less than a minute.
 		</p>
 	
 		<t:errors/>
 	
-		<t:axtextfield t:id="emailField" t:value="email" t:name="E-mail" t:mixins="ajaxValidator" t:validate='required,email'/>
-		<t:axtextfield t:id="confirmEmailField" t:value="confirmemail" t:name="Confirm e-mail" t:validate='required'/>
+		<t:AxTextField
+			t:label="E-mail" 
+			t:id="emailField" 
+			t:value="email" 
+			t:mixins="ajaxValidator" 
+			t:validate='required,email'
+		/>
+		<t:AxTextField
+			t:label="Confirm e-mail" 
+			t:id="confirmEmailField" 
+			t:value="confirmemail" 
+			t:validate='required'
+		/>
 		<t:AxFieldDescription>
 			We will send an e-mail to verify your e-mail address.
 		</t:AxFieldDescription>
 		
-		<t:axformvspace/>
-		<t:axpasswordfield t:value="password" t:name="Password" t:validate='required' />
-		<t:axpasswordfield t:id="confirmPasswordField" t:value="confirmpassword" t:name="Confirm password" t:validate='required'/>
+		<t:AxFormVSpace/>
+		<t:AxPasswordField
+			t:label="Password"  
+			t:value="password" 
+			t:id="passwordField"
+			t:validate='required'
+		/>
+		<t:AxPasswordField 
+			t:label="Confirm password" 
+		
+			t:id="confirmPasswordField" 
+			t:value="confirmpassword" 
+			t:validate='required'
+		/>
 		<t:AxFieldDescription>
 			While we do not place any special limitations on your choice of password, we recommend you use 
-			more than six characters and a mixture of numbers, letters, 
-			symbols, uppercase and lowercase.
+			more than six characters and a mixture of numbers, letters, symbols, uppercase and lowercase.
 		</t:AxFieldDescription>
 		 
-		<t:axsubmit label="Register"/>
-	</t:axform>
+		<t:AxSubmit label="Register"/>
+	</t:AxForm>
 	
 	<p>
 		<strong>Important Note: </strong> by registering for Axirassa you confirm you have read and agreed to our 
-		<t:pageLink page="support/privacy">privacy notice</t:pageLink> and our
-		<t:pageLink page="support/TermsOfUse">terms of use</t:pageLink>.
+		<t:PageLink page="support/privacy">privacy notice</t:PageLink> and our
+		<t:PageLink page="support/TermsOfUse">terms of use</t:PageLink>.
 	</p>
 </html>

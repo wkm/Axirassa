@@ -5,24 +5,32 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class ExecutionSpecification {
 	//
 	// Class Instances
 	//
 
 	private final OverlordConfiguration configuration;
+	
+	@Getter
 	private int instances;
 	private final ExecutionTarget target;
+	
+	@Getter
+	@Setter
 	private int initialDelay = 0;
 
 
-	public ExecutionSpecification(OverlordConfiguration configuraton, ExecutionTarget target) {
+	public ExecutionSpecification (OverlordConfiguration configuraton, ExecutionTarget target) {
 		this.configuration = configuraton;
 		this.target = target;
 	}
 
 
-	public void setInstances(int count) {
+	public void setInstances (int count) {
 		if (count < 1)
 			return;
 
@@ -30,24 +38,20 @@ public class ExecutionSpecification {
 	}
 
 
-	public int getInstances() {
-		return instances;
-	}
-
-
-	public void execute() throws IOException, InterruptedException {
+	public void execute () throws IOException, InterruptedException {
 		if (initialDelay > 0) {
 			Thread.sleep(initialDelay);
 		}
 
 		for (int i = 0; i < instances; i++) {
-			System.out.printf("  %s %d -- %s\n", target.getName(), i, target.getTargetClass().getCanonicalName());
-			executeInstance(i);
+			int execId = configuration.getOverlord().getNextExecID();
+			System.out.printf("  %s %d -- %s\n", target.getName(), execId, target.getTargetClass().getCanonicalName());
+			executeInstance(execId);
 		}
 	}
 
 
-	private void executeInstance(int id) throws IOException {
+	private void executeInstance (int id) throws IOException {
 		provideLibraries();
 
 		CommandLine cli = new CommandLine(configuration.getJavaExecutable());
@@ -89,21 +93,11 @@ public class ExecutionSpecification {
 	}
 
 
-	private void provideLibraries() throws IOException {
+	private void provideLibraries () throws IOException {
 		Collection<String> libraries = target.getOptions().getLibraries();
 		NativeLibraryProvider libprovider = configuration.getOverlord().getNativeLibraryProvider();
 
 		for (String library : libraries)
 			libprovider.provideLibrary(library);
-	}
-
-
-	public void setInitialDelay(int initialDelay) {
-		this.initialDelay = initialDelay;
-	}
-
-
-	public int getInitialDelay() {
-		return initialDelay;
 	}
 }

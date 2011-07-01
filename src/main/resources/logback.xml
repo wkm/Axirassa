@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- For assistance related to logback-translator or configuration  -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user             -->
+<!--                                                                -->
+<!-- For professional support please see                            -->
+<!--    http://www.qos.ch/shop/products/professionalSupport         -->
+<!--                                                                -->
+<configuration>
+    <appender name="A1" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                [%-5level] -- %logger %message%n
+            </pattern>
+        </encoder>
+    </appender>
+    <appender name="R" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--See http://logback.qos.ch/manual/appenders.html#RollingFileAppender-->
+        <!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy-->
+        <!--for further documentation-->
+        <Append>
+            true
+        </Append>
+        <prudent>
+            true
+        </prudent>
+        <encoder>
+            <pattern>
+                %date{yyyy-MM-dd/HH:mm:ss.SSS/zzz} %logger [%-5level] %message%n
+            </pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>
+                logs/axirassa.log.%d{yyyy-MM-dd}
+            </fileNamePattern>
+        </rollingPolicy>
+    </appender>
+	
+    <!-- <logger name="org.eclipse.jetty.util.log" level="debug" /> -->
+    <logger name="tapestry.render.com.zanoccio.axirassa.webapp.pages.Index" level="info"/>
+    <logger name="org.apache.tapestry5.services.TapestryModule.ComponentClassResolver" level="warn"/>
+    <logger name="org.apache.tapestry5.ioc" level="warn"/>
+    <logger name="org.apache.tapestry5.TapestryFilter" level="warn"/>
+    <logger name="tapestry.events.com.zanoccio.axirassa.webapp.pages.Index" level="info"/>
+    <logger name="tapestry.transformer.com.zanoccio.axirassa.webapp.pages.Index" level="info"/>
+    
+    <logger name="axirassa.webapp.services.AppModule.TimingFilter" level="info"/>
+    <logger name="axirassa.webapp" level="debug"/>
+    
+    <!-- <logger name="org.hibernate.type" level="info"/> -->
+    <logger name="org.hibernate" level="warn"/>
+	
+	<logger name="org.quartz" level="warn" />
+    
+    
+    <root level="info">
+        <appender-ref ref="A1"/>
+        <appender-ref ref="R"/>
+    </root>
+</configuration>

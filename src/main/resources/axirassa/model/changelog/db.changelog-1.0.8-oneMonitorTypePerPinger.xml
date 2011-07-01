@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd"
+	>
+    <changeSet author="wiktor (generated)" id="1302844131165-1">
+        <addColumn tableName="pingerentity">
+            <column name="monitortype" type="varchar(255)" defaultValue="HTTP">
+            	<constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+ 
+    <changeSet author="wiktor (generated)" id="1302844131165-2">
+        <dropForeignKeyConstraint baseTableName="pingerentity_monitortypeentity" baseTableSchemaName="public" constraintName="fk1474af2aa8cd846a"/>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1302844131165-3">
+        <dropForeignKeyConstraint baseTableName="pingerentity_monitortypeentity" baseTableSchemaName="public" constraintName="fk1474af2ac13bcebb"/>
+    </changeSet>
+
+    <changeSet author="wiktor (generated)" id="1302844131165-8">
+        <dropTable tableName="monitortypeentity"/>
+    </changeSet>
+    <changeSet author="wiktor (generated)" id="1302844131165-9">
+        <dropTable tableName="pingerentity_monitortypeentity"/>
+    </changeSet>
+    
+    <changeSet author="wiktor" id="1302844131165-10">
+    	<dropDefaultValue tableName="pingerentity" columnName="monitortype"/>
+    </changeSet> 
+</databaseChangeLog>

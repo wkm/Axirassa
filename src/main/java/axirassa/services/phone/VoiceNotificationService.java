@@ -42,7 +42,7 @@ public class VoiceNotificationService implements Service {
 					VoiceRequestMessage voiceRequest = (VoiceRequestMessage) rawobject;
 					String text = PhoneTemplateFactory.instance.getText(voiceRequest.getTemplate(),
 					                                                    PhoneTemplateType.VOICE,
-					                                                    voiceRequest.getAttibuteMap());
+					                                                    voiceRequest.getAttributeMap());
 
 					SendVoice sender = new SendVoice(voiceRequest.getPhoneNumber(), voiceRequest.getExtension(), text);
 					sender.send(httpClient);

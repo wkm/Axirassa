@@ -3,13 +3,13 @@ package axirassa.webapp.components;
 
 import org.apache.shiro.subject.Subject;
 import org.apache.tapestry5.BindingConstants;
-import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
+import axirassa.webapp.page.SecurityViolation;
 import axirassa.webapp.services.AxirassaSecurityService;
+import axirassa.webapp.services.exceptions.AxirassaSecurityException;
 
-@Import(stylesheet = { "context:/css/form.css" })
 public class Layout {
 	@Inject
 	private AxirassaSecurityService security;
@@ -39,5 +39,13 @@ public class Layout {
 			return security.getEmail();
 
 		return null;
+	}
+
+
+	public Object onException(Throwable cause) throws Throwable {
+		if (cause instanceof AxirassaSecurityException)
+			return SecurityViolation.class;
+		else
+			throw cause;
 	}
 }

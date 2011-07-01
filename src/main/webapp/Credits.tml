@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html  t:type="layout" t:pageTitle="Credits"
-       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+       xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
 	<h3>Credits</h3>
 	<p>A selection of products and companies which make Axirassa possible.</p>
 	<h4>Apache Tapestry 5</h4>
 	<p>Extremely efficient Java web-development framework, both for the developer and the server.</p>
+	<p>Components: tapestry-hibernate; tapestry-security; tapestry-testify; tapestry-xpath</p>
 	
 	<h4>PostgreSQL</h4>
 	<p>Powerful, flexible, and fast open-source database.</p>

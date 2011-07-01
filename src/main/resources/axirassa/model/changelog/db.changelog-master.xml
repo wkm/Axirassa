@@ -12,5 +12,9 @@
 	<include file="axirassa/model/changelog/db.changelog-1.0.3-fixHttpStatisticsNullability.xml" />
 	<include file="axirassa/model/changelog/db.changelog-1.0.4-addEmailAddressVerifiedField.xml" />
 	<include file="axirassa/model/changelog/db.changelog-1.0.5-consolidatingEmails.xml" />
-
+	<include file="axirassa/model/changelog/db.changelog-1.0.6-statisticsIndices.xml" />
+	<include file="axirassa/model/changelog/db.changelog-1.0.7-triggerTemplates.xml" />
+	<include file="axirassa/model/changelog/db.changelog-1.0.8-oneMonitorTypePerPinger.xml" />
+	<include file="axirassa/model/changelog/db.changelog-1.0.9-passwordStrings.xml" />
+	<include file="axirassa/model/changelog/db.changelog-1.0.10-uniqueEmails.xml" />
 </databaseChangeLog>
