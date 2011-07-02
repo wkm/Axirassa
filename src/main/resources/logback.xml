@@ -8,14 +8,14 @@
 <!--    http://www.qos.ch/shop/products/professionalSupport         -->
 <!--                                                                -->
 <configuration>
-    <appender name="A1" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>
                 [%-5level] -- %logger %message%n
             </pattern>
         </encoder>
     </appender>
-    <appender name="R" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--See http://logback.qos.ch/manual/appenders.html#RollingFileAppender-->
         <!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy-->
         <!--for further documentation-->
@@ -36,6 +36,12 @@
             </fileNamePattern>
         </rollingPolicy>
     </appender>
+    
+    <appender name="SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
+    	<syslogHost>logs.papertrailapp.com</syslogHost>
+    	<facility>LOCAL3</facility>
+    	<suffixPattern>%logger %message</suffixPattern>
+    </appender>
 	
     <!-- <logger name="org.eclipse.jetty.util.log" level="debug" /> -->
     <logger name="tapestry.render.com.zanoccio.axirassa.webapp.pages.Index" level="info"/>
@@ -53,9 +59,12 @@
 	
 	<logger name="org.quartz" level="warn" />
     
+    <root level="debug">
+    	<appender-ref ref="CONSOLE" />
+    </root>
     
     <root level="info">
-        <appender-ref ref="A1"/>
-        <appender-ref ref="R"/>
+        <appender-ref ref="ROLLING" />
+        <appender-ref ref="SYSLOG" />
     </root>
 </configuration>
