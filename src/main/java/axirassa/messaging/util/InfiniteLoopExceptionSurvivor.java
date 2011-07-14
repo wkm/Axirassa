@@ -18,7 +18,7 @@ public class InfiniteLoopExceptionSurvivor {
 	}
 	
 
-	public void execute() throws Exception {
+	public void execute() throws Throwable {
 		while(true) {
 			try {
 				callable.call();

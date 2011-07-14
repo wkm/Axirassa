@@ -1,5 +1,7 @@
 package axirassa.messaging.util;
 
+
+
 /**
  * Implements a configurable exponential backoff strategy. See
  * {@link ExponentialBackoffStrategy#ExponentialBackoffStrategy(int, int, int)
@@ -16,6 +18,18 @@ public class ExponentialBackoffStrategy implements BackoffStrategy {
 	private final int maximumBackoff;
 	private final int increment;
 	private final int successBackoffReset;
+
+
+	public static ExponentialBackoffStrategy clone(ExponentialBackoffStrategy strategy) {
+		ExponentialBackoffStrategy newStrat = new ExponentialBackoffStrategy(strategy.minimumBackoff,
+		        strategy.maximumBackoff, strategy.backoffActivationIndex, strategy.increment,
+		        strategy.successBackoffReset);
+
+		newStrat.successTicks = strategy.successTicks;
+		newStrat.failureTicks = strategy.failureTicks;
+
+		return newStrat;
+	}
 
 
 	/**
