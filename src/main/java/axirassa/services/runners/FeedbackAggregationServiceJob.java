@@ -1,12 +1,12 @@
 
 package axirassa.services.runners;
 
-import axirassa.ioc.IocStandalone;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import axirassa.ioc.IocStandalone;
 import axirassa.services.FeedbackAggregationService;
 import axirassa.services.Service;
 
@@ -23,7 +23,7 @@ public class FeedbackAggregationServiceJob implements Job {
             // TODO use datamap to populate services for injection
             Service service = IocStandalone.autobuild(FeedbackAggregationService.class);
 			service.execute();
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new JobExecutionException(e);
 		}
 	}

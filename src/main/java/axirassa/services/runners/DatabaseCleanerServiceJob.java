@@ -15,7 +15,7 @@ public class DatabaseCleanerServiceJob implements Job {
 		try {
 			Service service = IocStandalone.autobuild(DatabaseCleanerService.class);
 			service.execute();
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new JobExecutionException(e);
 		}
 	}

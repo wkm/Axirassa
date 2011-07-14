@@ -26,7 +26,7 @@ public class InjectorServiceJob implements Job {
 
 			Service service = new InjectorService(messagingSession, databaseSession);
 			service.execute();
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new JobExecutionException(e);
 		}
 	}
