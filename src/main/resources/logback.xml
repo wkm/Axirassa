@@ -59,11 +59,8 @@
 	
 	<logger name="org.quartz" level="warn" />
     
-    <root level="debug">
-    	<appender-ref ref="CONSOLE" />
-    </root>
-    
     <root level="info">
+    	<appender-ref ref="CONSOLE" />
         <appender-ref ref="ROLLING" />
         <appender-ref ref="SYSLOG" />
     </root>
