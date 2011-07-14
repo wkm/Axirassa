@@ -15,6 +15,7 @@ import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientSession;
 
 import zanoccio.javakit.lambda.Function1;
+import axirassa.messaging.util.CommonBackoffStrategies;
 import axirassa.messaging.util.ExponentialBackoffStrategy;
 import axirassa.messaging.util.InfiniteLoopExceptionSurvivor;
 import axirassa.model.HttpStatisticsEntity;
@@ -38,8 +39,8 @@ public class PingerStreamingService extends AbstractService {
 			public void run() {
 				try {
 					pingerService();
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (Throwable e) {
+					log.error("Exception: ", e);
 				}
 			}
 		});
@@ -48,29 +49,31 @@ public class PingerStreamingService extends AbstractService {
 	}
 
 
-	private void pingerService() throws Exception {
+	private void pingerService() throws Throwable {
 		ClientSession messagingSession = MessagingTools.getEmbeddedSession();
 		
 		final MessagingTopic topic = new MessagingTopic(messagingSession, "ax.account.#");
 
 		messagingSession.start();
 
-		InfiniteLoopExceptionSurvivor executor = new InfiniteLoopExceptionSurvivor(new ExponentialBackoffStrategy(0, 60000, 3, 1000, 60), 
+		InfiniteLoopExceptionSurvivor executor = new InfiniteLoopExceptionSurvivor(ExponentialBackoffStrategy.clone(CommonBackoffStrategies.EXPONENTIAL_BACKOFF_MESSAGING), 
             new Callable<Object>() {
 				ClientConsumer consumer = null;
 				
     			@Override
                 public Object call() throws Exception {
+    				System.out.println("STARTING STREAMING SERVICE");
     				consumer = reopenConsumerIfClosed(topic, consumer);
 
     				ClientMessage message = consumer.receive();
+    				System.out.println("RECEIVED MESSAGE");
     				HttpStatisticsEntity stat = InjectorService.rebuildMessage(message);
     				if (stat == null) {
     					log.warn("received null message");
     					return null;
     				}
 
-    				log.trace("received message: {}", stat);
+    				log.warn("received message: {}", stat);
 
     				PingerEntity pinger = stat.getPinger();
 
@@ -100,6 +103,8 @@ public class PingerStreamingService extends AbstractService {
     			}
     		}
 		);
+		
+		executor.execute();
 	}
 
 

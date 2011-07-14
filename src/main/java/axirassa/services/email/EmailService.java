@@ -32,6 +32,7 @@ public class EmailService implements Service {
 
 		ClientConsumer consumer = messagingSession.createConsumer(Messaging.NOTIFY_EMAIL_REQUEST);
 
+
 		while (true) {
 			try {
 				ClientMessage message = consumer.receive();
