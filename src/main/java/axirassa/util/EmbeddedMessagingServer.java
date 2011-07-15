@@ -5,7 +5,11 @@ import java.util.HashSet;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import lombok.extern.slf4j.Slf4j;
+
+import org.hornetq.api.core.SimpleString;
 import org.hornetq.api.core.TransportConfiguration;
+import org.hornetq.api.core.client.ClientSession.QueueQuery;
 import org.hornetq.core.config.impl.FileConfiguration;
 import org.hornetq.core.remoting.impl.invm.InVMAcceptorFactory;
 import org.hornetq.core.remoting.impl.netty.NettyAcceptorFactory;
@@ -22,7 +26,7 @@ public class EmbeddedMessagingServer {
 	private static HornetQServer server;
 
 
-	static public void start () throws Exception {
+	static public void start() throws Exception {
 		FileConfiguration config = new FileConfiguration();
 
 		config.setConfigurationUrl("hornetq-configuration.xml");
@@ -49,31 +53,40 @@ public class EmbeddedMessagingServer {
 	}
 
 
-	static public void stop () throws Exception {
+	static public void stop() throws Exception {
 		server.stop();
 	}
 
 
-	static public void main (String[] args) throws Exception {
+	static public void main(String[] args) throws Exception {
 		start();
 	}
 }
 
+@Slf4j
 class ServerQueueLister implements Runnable {
 
 	private final HornetQServer server;
 
 
-	public ServerQueueLister (final HornetQServer server) {
+	public ServerQueueLister(final HornetQServer server) {
 		this.server = server;
 	}
 
 
 	@Override
-	public void run () {
-		String[] queues = server.getHornetQServerControl().getQueueNames();
-		System.out.println("QUEUES:");
-		for (String queue : queues)
-			System.out.println("\t" + queue);
+	public void run() {
+		try {
+			String[] queues = server.getHornetQServerControl().getQueueNames();
+			System.out.println("QUEUES:");
+			for (String queue : queues) {	
+				QueueQuery query = MessagingTools.getEmbeddedSession().queueQuery(new SimpleString(queue));
+
+				System.out.printf("\t%40s DURABLE: %b MSGS Q'D: %5d   CONSUMERS: %3d   \n", queue, query.isDurable(),
+				                  query.getMessageCount(), query.getConsumerCount());
+			}
+		} catch (Exception e) {
+			log.error("Exception: ", e);
+		}
 	}
 }
