@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
-	<div class='axwo' id="${pingerId}">
-		<t:pagelink t:page="monitor/statistics" t:context="${pingerId}">
+	<t:pagelink t:page="monitor/statistics" t:context="${pingerId}">
+		<div class='axwo' id="${pingerId}">
 			<div class='n'>${pingerName}</div>
-		</t:pagelink>
-		<div class='axw' id='${pingerId}_plot' />
-	</div>
+			<div class='axw' id='${pingerId}_plot' />
+		</div>
+	</t:pagelink>
 </t:container>

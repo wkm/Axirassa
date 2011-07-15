@@ -1,7 +1,7 @@
 
 package axirassa.webapp.ajax;
 
-import java.io.IOException;
+import java.util.concurrent.Callable;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,10 +14,13 @@ import org.hornetq.api.core.client.ClientConsumer;
 import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientSession;
 
+import zanoccio.javakit.lambda.Function1;
+import axirassa.messaging.util.CommonBackoffStrategies;
+import axirassa.messaging.util.ExponentialBackoffStrategy;
+import axirassa.messaging.util.InfiniteLoopExceptionSurvivor;
 import axirassa.model.HttpStatisticsEntity;
 import axirassa.model.PingerEntity;
 import axirassa.services.InjectorService;
-import axirassa.services.exceptions.InvalidMessageClassException;
 import axirassa.util.MessagingTools;
 import axirassa.util.MessagingTopic;
 
@@ -36,8 +39,8 @@ public class PingerStreamingService extends AbstractService {
 			public void run() {
 				try {
 					pingerService();
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (Throwable e) {
+					log.error("Exception: ", e);
 				}
 			}
 		});
@@ -46,59 +49,71 @@ public class PingerStreamingService extends AbstractService {
 	}
 
 
-	private void pingerService() throws Exception {
+	private void pingerService() throws Throwable {
 		ClientSession messagingSession = MessagingTools.getEmbeddedSession();
-		ClientConsumer consumer = null;
-		MessagingTopic topic = new MessagingTopic(messagingSession, "ax.account.#");
-		consumer = topic.createConsumer();
+		
+		final MessagingTopic topic = new MessagingTopic(messagingSession, "ax.account.#");
 
 		messagingSession.start();
-		// System.out.println("Starting pinger service");
 
-		while (true) {
-			try {
-				consumer = reopenConsumerIfClosed(topic, consumer);
+		InfiniteLoopExceptionSurvivor executor = new InfiniteLoopExceptionSurvivor(ExponentialBackoffStrategy.clone(CommonBackoffStrategies.EXPONENTIAL_BACKOFF_MESSAGING), 
+            new Callable<Object>() {
+				ClientConsumer consumer = null;
+				
+    			@Override
+                public Object call() throws Exception {
+    				System.out.println("STARTING STREAMING SERVICE");
+    				consumer = reopenConsumerIfClosed(topic, consumer);
 
-				ClientMessage message = consumer.receive();
-				HttpStatisticsEntity stat = InjectorService.rebuildMessage(message);
-				if (stat == null) {
-					log.warn("received null message");
-					continue;
-				}
+    				ClientMessage message = consumer.receive();
+    				System.out.println("RECEIVED MESSAGE");
+    				HttpStatisticsEntity stat = InjectorService.rebuildMessage(message);
+    				if (stat == null) {
+    					log.warn("received null message");
+    					return null;
+    				}
 
-				log.trace("received message: {}", stat);
+    				log.warn("received message: {}", stat);
 
-				PingerEntity pinger = stat.getPinger();
+    				PingerEntity pinger = stat.getPinger();
 
-				ClientSessionChannel channel = getLocalSession().getChannel("/ax/pinger/" + pinger.getId());
+    				ClientSessionChannel channel = getLocalSession().getChannel("/ax/pinger/" + pinger.getId());
 
-				JSONObject jsonMessage = new JSONObject();
+    				JSONObject jsonMessage = new JSONObject();
 
-				jsonMessage.put("Date", stat.getTimestamp().toString());
-				jsonMessage.put("StatusCode", stat.getStatusCode());
-				jsonMessage.put("Latency", stat.getLatency());
-				jsonMessage.put("TransferTime", stat.getResponseTime());
-				jsonMessage.put("ResponseSize", stat.getResponseSize());
+    				jsonMessage.put("Date", stat.getTimestamp().toString());
+    				jsonMessage.put("StatusCode", stat.getStatusCode());
+    				jsonMessage.put("Latency", stat.getLatency());
+    				jsonMessage.put("TransferTime", stat.getResponseTime());
+    				jsonMessage.put("ResponseSize", stat.getResponseSize());
 
-				channel.publish(jsonMessage.toCompactString());
-			} catch (InvalidMessageClassException e) {
-				log.error("Exception", e);
-			} catch (IOException e) {
-				log.error("Exception", e);
-			} catch (ClassNotFoundException e) {
-				log.error("Exception", e);
-			} catch (IllegalStateException e) {
-				log.error("IGNORING EXCEPTION FROM PINGER STREAMING SERVICE: ", e);
-			} catch (Exception e) {
-				log.error("Exception", e);
-			}
-		}
+    				channel.publish(jsonMessage.toCompactString());
+    				
+    				return null;
+                }
+			}, 
+			new Function1<Object, Throwable>() {
+    			public Object call(Throwable e) {
+    				if(e instanceof IllegalStateException)
+    					log.error("IGNORING EXCEPTION FROM PINGER STREAMING SERVICE: ", e);
+    				if(e instanceof Exception)
+    					log.error("Exception", e);
+    				
+    				return null;
+    			}
+    		}
+		);
+		
+		executor.execute();
 	}
 
 
 	private ClientConsumer reopenConsumerIfClosed(MessagingTopic topic, ClientConsumer consumer)
 	        throws HornetQException {
-		if (consumer.isClosed()) {
+		if (consumer == null)
+			return topic.createConsumer();
+			
+		if(consumer.isClosed()) {
 			log.warn("Consumer is closed, re-opening");
 			return topic.createConsumer();
 		} else

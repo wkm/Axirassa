@@ -30,7 +30,7 @@ html,body { height: 100%; }
 
 body {
 	font-family: 'helvetica neue', helvetica, tahoma, verdana, sans-serif;
-	font-size: 13pt;
+	font-size: 11pt;
 	
 	text-rendering: optimizeLegibility;
 	
@@ -103,11 +103,11 @@ h1,h3,h4,h5,h6,th {
 h2 {
 	font-family: DINWeb, Times, serif;
 	margin-top: -1.3em;
-	font-size: 20pt;
+	font-size: 18pt;
 }
 
 h3 {
-	font-size: 24pt;
+	font-size: 20pt;
 	text-transform: uppercase;
 	margin-left: -1px;
 	margin-bottom: .5em;
@@ -174,7 +174,7 @@ h4 + h5 {
 	background: #333;
 	color: #fff;
 	border-bottom: 1px solid #000;
-	margin-bottom: 30px;
+	margin-bottom: 5px;
 }
 
 .mini {
@@ -191,7 +191,7 @@ h4 + h5 {
 
 .mini h1 {
 	color: #fff;
-	font-size: 26pt;
+	font-size: 22pt;
 	margin: 0;
 }
 
@@ -388,7 +388,7 @@ th {
 	color: #333;
 	font-weight: normal;
 	text-align: center;
-	border-bottom: 2px solid #ddd;
+	border-bottom: 1px solid #ccc;
 	padding-top: 1em;
 }
 

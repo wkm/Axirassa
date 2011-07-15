@@ -15,7 +15,7 @@ public class ControllerServiceJob implements Job {
 		try {
 			Service service = IocStandalone.autobuild(ControllerService.class);
 			service.execute();
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			throw new JobExecutionException(e);
 		}
 	}

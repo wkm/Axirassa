@@ -90,7 +90,8 @@ function AxWidget(id) {
 			interactionModel: {},
 			showLabelsOnHighlight: false,
 			width: 400,
-			height: 150
+			height: 150,
+			yAxisLabelWidth: 25
 		}
 	);
 }

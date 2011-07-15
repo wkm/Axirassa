@@ -1,9 +1,11 @@
 .axwo {
     float: left;
-    padding: 0 15px 15px 0;
     position: relative;
 
     width: 480px;
+    border: 1px solid #eee;
+    background: #fafafa;
+    margin: 1em 1em 0 0;
 }
 
 .axw {	
@@ -29,13 +31,10 @@
 	height: 80px;
 }
 
-.axwo > .n {
-	font-size: 18pt;
-	margin-top: -11px;
+.axwo .n {
+	font-size: 14pt;
 	z-index: 1;
 	position: absolute;
-	top: 10px;
-	left: 5px;
 }
 
 .axwo > .t, .axwo > .sz {
@@ -66,6 +65,6 @@
 }
 
 .dygraph-axis-label {
-	font-size: 8pt;
+	font-size: 7pt;
 	color: #666;
 }

@@ -56,13 +56,13 @@
 			connection refused is typically the result of a firewall or of the web-server not running.
 		</t:AxFieldDescription>
 		
-		<t:AxTextField t:value="latency" t:name="Latency" t:hint="slower than"/>
+		<t:AxTextField t:value="latency" t:label="Latency" t:hint="slower than"/>
 		<t:AxFieldDescription>
 			latency is the amount of time it takes from when the request is made to the first-byte
 			of the response is received (also known as network time)
 		</t:AxFieldDescription>
 		
-		<t:AxTextField t:value="responseTime" t:name="Response time" t:hint="slower than"/>
+		<t:AxTextField t:value="responseTime" t:label="Response time" t:hint="slower than"/>
 		<t:AxFieldDescription>
 			response time is the amount of time it takes to finish receiving the response after
 			sending the request
@@ -71,7 +71,7 @@
 		<div class='reset'></div>
 		
 		<h4>HTTP - Page Content</h4>
-		<t:AxTextField t:value="responseSize" t:name="Response size" />
+		<t:AxTextField t:value="responseSize" t:label="Response size" />
 		<t:AxFieldDescription>
 			
 		</t:AxFieldDescription>

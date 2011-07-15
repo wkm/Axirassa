@@ -52,7 +52,7 @@ public class FeedbackAggregationService implements Service {
 	}
 
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Throwable {
 		Service service = IocStandalone.autobuild(FeedbackAggregationService.class);
 		service.execute();
 	}

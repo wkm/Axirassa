@@ -5,7 +5,7 @@
 		<t:AxTextField
 			t:id="phoneNumberField"
 			t:value="phoneNumber" 
-			t:name="Phone number"
+			t:label="Phone number"
 		/>
 		<t:AxFieldDescription>
 			You may specify a phone number with any syntax, including using letters
@@ -17,7 +17,7 @@
 			class="short"
 			t:id="extensionField" 
 			t:value="extension" 
-			t:name="Extension" 
+			t:label="Extension" 
 		/>
 		<t:AxFieldDescription>
 			An optional extension to dial. You may use <tt>-</tt> (dash) to
