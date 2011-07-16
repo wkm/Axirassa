@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.hornetq.api.core.HornetQException;
 import org.hornetq.api.core.SimpleString;
 import org.hornetq.api.core.TransportConfiguration;
 import org.hornetq.api.core.client.ClientSession;
@@ -90,11 +89,6 @@ class ServerQueueLister implements Runnable {
 			}
 		} catch (Exception e) {
 			log.error("Exception: ", e);
-		} finally {			if(session != null && !session.isClosed())
-	            try {
-	                session.close();
-                } catch (HornetQException e) {
-	                log.error("Exception", e);
-                }		}
+		}
 	}
 }
