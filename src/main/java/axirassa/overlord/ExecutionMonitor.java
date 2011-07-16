@@ -32,6 +32,10 @@ public class ExecutionMonitor implements Runnable {
 	@Setter
 	@Getter
 	private int remainingRestarts = 0;
+	
+	@Getter
+	private int restartCount = 0;
+	
 	private int startCount = 0;
 	private final ProcessBuilder builder;
 	private Process process;
@@ -62,7 +66,8 @@ public class ExecutionMonitor implements Runnable {
 					logger.info("{} : {}", getId(), line);
 				while ((line = stderrstream.readLine()) != null)
 					logger.warn("{} : {}", getId(), line);
-
+				
+				restartCount++;
 				startCount++;
 				remainingRestarts--;
 
@@ -92,6 +97,6 @@ public class ExecutionMonitor implements Runnable {
 
 
 	private String getId () {
-		return "[" + id + "]";
+		return String.format("[%d-%d]", id, restartCount);
 	}
 }
