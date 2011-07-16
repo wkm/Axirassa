@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hornetq.api.core.SimpleString;
 import org.hornetq.api.core.TransportConfiguration;
 import org.hornetq.api.core.client.ClientSession.QueueQuery;
+import org.hornetq.api.core.management.HornetQServerControl;
 import org.hornetq.core.config.impl.FileConfiguration;
 import org.hornetq.core.remoting.impl.invm.InVMAcceptorFactory;
 import org.hornetq.core.remoting.impl.netty.NettyAcceptorFactory;
@@ -65,19 +66,18 @@ public class EmbeddedMessagingServer {
 
 @Slf4j
 class ServerQueueLister implements Runnable {
-
-	private final HornetQServer server;
+	private final HornetQServerControl serverControl;
 
 
 	public ServerQueueLister(final HornetQServer server) {
-		this.server = server;
+		this.serverControl = server.getHornetQServerControl();
 	}
 
 
 	@Override
 	public void run() {
 		try {
-			String[] queues = server.getHornetQServerControl().getQueueNames();
+			String[] queues = serverControl.getQueueNames();
 			System.out.println("QUEUES:");
 			for (String queue : queues) {	
 				QueueQuery query = MessagingTools.getEmbeddedSession().queueQuery(new SimpleString(queue));
