@@ -17,6 +17,7 @@ import org.restlet.routing.Router;
 
 import axirassa.model.PingerEntity;
 import axirassa.services.pinger.HttpPinger;
+import axirassa.util.RandomStringGenerator;
 
 public class TestPingerServiceLongevity {
 	/**
@@ -79,7 +80,7 @@ class HelloRestlet extends Restlet {
 	@Override
 	public void handle(Request request, Response response) {
 		try {
-			response.setEntity(new StringRepresentation("Hello"));
+			response.setEntity(new StringRepresentation(RandomStringGenerator.makeRandomString(300000)));
 		} catch (Exception e) {
 			log.error("Exception", e);
 		}
