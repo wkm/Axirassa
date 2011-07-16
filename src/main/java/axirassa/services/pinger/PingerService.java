@@ -22,6 +22,8 @@ public class PingerService implements Service {
 	private final ClientSession session;
 	private final HttpPinger pinger;
 
+	private int pingCount = 0;
+
 
 	public PingerService (ClientSession consumeSession) {
 		this.session = consumeSession;
@@ -48,13 +50,14 @@ public class PingerService implements Service {
 
 				Object rawobject = AutoSerializingObject.fromBytes(buffer);
 				if (rawobject instanceof PingerEntity) {
+					pingCount++;
 					PingerEntity request = (PingerEntity) rawobject;
 					HttpStatisticsEntity statistic = pinger.ping(request);
 
 					if (statistic != null)
 						sendResponseMessages(producer, statistic);
 
-					System.out.println(request.getUrl() + " TRIGGERS: " + pinger.getTriggers());
+					System.out.printf("#%07d %50s  TRIGGERS: %s\n", pingCount, request.getUrl(), pinger.getTriggers());
 				} else
 					throw new InvalidMessageClassException(PingerEntity.class, rawobject);
 
