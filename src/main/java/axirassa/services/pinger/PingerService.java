@@ -52,6 +52,9 @@ public class PingerService implements Service {
 				if (rawobject instanceof PingerEntity) {
 					pingCount++;
 					PingerEntity request = (PingerEntity) rawobject;
+
+					System.out.println("PING " + request.getUrl());
+
 					HttpStatisticsEntity statistic = pinger.ping(request);
 
 					if (statistic != null)
