@@ -65,7 +65,7 @@ public class HttpPinger {
 	}
 
 
-	public HttpStatisticsEntity ping (PingerEntity entity) throws IOException, AxirassaServiceException {
+	public HttpStatisticsEntity ping(PingerEntity entity) {
 
 		resetTriggers();
 
