@@ -49,7 +49,7 @@ public class EmbeddedMessagingServer {
 		ServerQueueLister lister = new ServerQueueLister(server);
 
 		ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
-		executor.scheduleAtFixedRate(lister, 1, 1, TimeUnit.MINUTES);
+		executor.scheduleAtFixedRate(lister, 1, 15, TimeUnit.SECONDS);
 	}
 
 
