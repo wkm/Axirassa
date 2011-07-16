@@ -1,4 +1,7 @@
+
 
+
+private Object session;
 package axirassa.util;
 
 import java.util.HashSet;
@@ -9,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.hornetq.api.core.SimpleString;
 import org.hornetq.api.core.TransportConfiguration;
-import org.hornetq.api.core.client.ClientSession.QueueQuery;
+import org.hornetq.api.core.client.ClientSession;import org.hornetq.api.core.client.ClientSession.QueueQuery;
 import org.hornetq.api.core.management.HornetQServerControl;
 import org.hornetq.core.config.impl.FileConfiguration;
 import org.hornetq.core.remoting.impl.invm.InVMAcceptorFactory;
@@ -66,10 +69,11 @@ public class EmbeddedMessagingServer {
 
 @Slf4j
 class ServerQueueLister implements Runnable {
-	private final HornetQServerControl serverControl;
+	private final HornetQServerControl serverControl;	private final ClientSession session;
 
 
 	public ServerQueueLister(final HornetQServer server) {
+		this.session = MessagingTools.getEmbeddedSession();
 		this.serverControl = server.getHornetQServerControl();
 	}
 
@@ -80,13 +84,13 @@ class ServerQueueLister implements Runnable {
 			String[] queues = serverControl.getQueueNames();
 			System.out.println("QUEUES:");
 			for (String queue : queues) {	
-				QueueQuery query = MessagingTools.getEmbeddedSession().queueQuery(new SimpleString(queue));
+				QueueQuery query = session.queueQuery(new SimpleString(queue));
 
 				System.out.printf("\t%40s DURABLE: %b MSGS Q'D: %5d   CONSUMERS: %3d   \n", queue, query.isDurable(),
 				                  query.getMessageCount(), query.getConsumerCount());
 			}
 		} catch (Exception e) {
 			log.error("Exception: ", e);
-		}
+		} finally {			if(session != null && !session.isClosed())				session.close();		}
 	}
 }
