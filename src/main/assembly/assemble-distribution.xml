@@ -17,6 +17,13 @@
 			</includes>
 		</fileSet>
 		<fileSet>
+			<directory>${project.build.testOutputDirectory}</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>**/*.*</include>
+			</includes>
+		</fileSet>
+		<fileSet>
 			<directory>${project.build.sourceDirectory}/..</directory>
 			<outputDirectory>/</outputDirectory>
 			<includes>
@@ -29,7 +36,7 @@
 	</fileSets>
 	<dependencySets>
 		<dependencySet>
-			<scope>runtime</scope>
+			<scope>test</scope>
 			<unpack>true</unpack>
 			<useProjectArtifact>false</useProjectArtifact>
 			<unpackOptions>
