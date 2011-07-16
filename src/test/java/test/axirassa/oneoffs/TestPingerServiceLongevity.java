@@ -3,6 +3,7 @@ package test.axirassa.oneoffs;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.restlet.Application;
 import org.restlet.Component;
@@ -27,6 +28,7 @@ public class TestPingerServiceLongevity {
 	 * 
 	 * @throws Exception
 	 */
+	@Ignore 
 	@Test
 	public void testPingerServiceLongevity() throws Exception {
 		PingerLongevityTestService testService = new PingerLongevityTestService();
@@ -41,6 +43,10 @@ public class TestPingerServiceLongevity {
 			System.out.printf("ping [%d]\n", i);
 			pinger.ping(entity);
 		}
+	}
+	
+	public static void main(String[] args) throws Exception {
+		new TestPingerServiceLongevity().testPingerServiceLongevity();
 	}
 }
 
