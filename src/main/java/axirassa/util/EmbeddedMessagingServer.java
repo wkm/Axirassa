@@ -1,7 +1,4 @@
-
 
-
-private Object session;
 package axirassa.util;
 
 import java.util.HashSet;
@@ -10,9 +7,11 @@ import java.util.concurrent.TimeUnit;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.hornetq.api.core.HornetQException;
 import org.hornetq.api.core.SimpleString;
 import org.hornetq.api.core.TransportConfiguration;
-import org.hornetq.api.core.client.ClientSession;import org.hornetq.api.core.client.ClientSession.QueueQuery;
+import org.hornetq.api.core.client.ClientSession;
+import org.hornetq.api.core.client.ClientSession.QueueQuery;
 import org.hornetq.api.core.management.HornetQServerControl;
 import org.hornetq.core.config.impl.FileConfiguration;
 import org.hornetq.core.remoting.impl.invm.InVMAcceptorFactory;
@@ -72,7 +71,7 @@ class ServerQueueLister implements Runnable {
 	private final HornetQServerControl serverControl;	private final ClientSession session;
 
 
-	public ServerQueueLister(final HornetQServer server) {
+	public ServerQueueLister(final HornetQServer server) throws Exception {
 		this.session = MessagingTools.getEmbeddedSession();
 		this.serverControl = server.getHornetQServerControl();
 	}
@@ -91,6 +90,11 @@ class ServerQueueLister implements Runnable {
 			}
 		} catch (Exception e) {
 			log.error("Exception: ", e);
-		} finally {			if(session != null && !session.isClosed())				session.close();		}
+		} finally {			if(session != null && !session.isClosed())
+	            try {
+	                session.close();
+                } catch (HornetQException e) {
+	                log.error("Exception", e);
+                }		}
 	}
 }
