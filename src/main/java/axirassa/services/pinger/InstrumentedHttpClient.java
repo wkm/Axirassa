@@ -12,6 +12,7 @@ import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpResponseInterceptor;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
@@ -64,6 +65,14 @@ public class InstrumentedHttpClient extends DefaultHttpClient {
 
 				if (latencyTick == 0)
 					latencyTick = System.nanoTime();
+			}
+		});
+
+		// never retry
+		setHttpRequestRetryHandler(new HttpRequestRetryHandler() {
+			@Override
+			public boolean retryRequest(IOException exception, int executionCount, HttpContext context) {
+				return false;
 			}
 		});
 	}
