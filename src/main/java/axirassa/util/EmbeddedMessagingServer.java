@@ -1,24 +1,8 @@
+
 
 package axirassa.util;
 
-import java.util.HashSet;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
-import lombok.extern.slf4j.Slf4j;
-
-import org.hornetq.api.core.SimpleString;
-import org.hornetq.api.core.TransportConfiguration;
-import org.hornetq.api.core.client.ClientSession;
-import org.hornetq.api.core.client.ClientSession.QueueQuery;
-import org.hornetq.api.core.management.HornetQServerControl;
-import org.hornetq.core.config.impl.FileConfiguration;
-import org.hornetq.core.remoting.impl.invm.InVMAcceptorFactory;
-import org.hornetq.core.remoting.impl.netty.NettyAcceptorFactory;
-import org.hornetq.core.server.HornetQServer;
-import org.hornetq.core.server.HornetQServers;
-import org.hornetq.core.server.JournalType;
-
+import java.io.IOException;import java.util.HashSet;import java.util.concurrent.ScheduledThreadPoolExecutor;import java.util.concurrent.TimeUnit;import lombok.extern.slf4j.Slf4j;import org.hornetq.api.core.HornetQException;import org.hornetq.api.core.SimpleString;import org.hornetq.api.core.TransportConfiguration;import org.hornetq.api.core.client.ClientConsumer;import org.hornetq.api.core.client.ClientMessage;import org.hornetq.api.core.client.ClientSession;import org.hornetq.api.core.client.ClientSession.QueueQuery;import org.hornetq.api.core.management.HornetQServerControl;import org.hornetq.core.config.impl.FileConfiguration;import org.hornetq.core.remoting.impl.invm.InVMAcceptorFactory;import org.hornetq.core.remoting.impl.netty.NettyAcceptorFactory;import org.hornetq.core.server.HornetQServer;import org.hornetq.core.server.HornetQServers;import org.hornetq.core.server.JournalType;import axirassa.config.Messaging;import axirassa.model.PingerEntity;
 /**
  * Starts HornetQ as an embedded messaging server.
  * 
@@ -68,6 +52,7 @@ public class EmbeddedMessagingServer {
 @Slf4j
 class ServerQueueLister implements Runnable {
 	private final HornetQServerControl serverControl;	private final ClientSession session;
+	private int printCount;
 
 
 	public ServerQueueLister(final HornetQServer server) throws Exception {
@@ -83,12 +68,42 @@ class ServerQueueLister implements Runnable {
 			System.out.println("QUEUES:");
 			for (String queue : queues) {	
 				QueueQuery query = session.queueQuery(new SimpleString(queue));
-
-				System.out.printf("\t%40s DURABLE: %b MSGS Q'D: %5d   CONSUMERS: %3d   \n", queue, query.isDurable(),
+				System.out.printf("\t%50s MSGS Q'D: %5d   CONSUMERS: %3d   \n", queue,
 				                  query.getMessageCount(), query.getConsumerCount());
+				
+				if(queue.equalsIgnoreCase(Messaging.PINGER_REQUEST_QUEUE))
+					printPingersOnQueue(queue);
 			}
 		} catch (Exception e) {
 			log.error("Exception: ", e);
 		}
+	}
+
+
+	private void printPingersOnQueue(String queue) throws HornetQException, IOException, ClassNotFoundException {
+		printCount = 0;
+		
+		ClientConsumer queueBrowser = session.createConsumer(queue, true);
+		ClientMessage message = null;
+		while((message = queueBrowser.receiveImmediate()) != null) {
+			byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
+			message.getBodyBuffer().readBytes(buffer);
+			Object rawobject = AutoSerializingObject.fromBytes(buffer);
+			
+			if(rawobject instanceof PingerEntity) {				
+				PingerEntity entity = (PingerEntity) rawobject;
+				print(entity.getUrl());
+			} else
+				print("<unknown>");
+		}
+		System.out.printf("\n");
+    }
+	
+	private void print(String msg) {
+		printCount++;
+		if(printCount % 5 == 0)
+			System.out.printf("\n");
+		
+		System.out.printf("%30s  ", msg);
 	}
 }
