@@ -55,7 +55,7 @@ public class ExecutionMonitor implements Runnable {
 		
 		while (remainingRestarts > 0 || limitedRestarts == false) {
 			try {
-				log.info("STARTING [{}]: {}", startCount, builder.command());
+				log.info("STARTING [{}]: {}", getId(), builder.command());
 				process = builder.start();
 
 				BufferedReader stdoutstream = new BufferedReader(new InputStreamReader(process.getInputStream()));
