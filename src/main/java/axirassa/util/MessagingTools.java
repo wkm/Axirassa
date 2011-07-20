@@ -1,7 +1,10 @@
 
 package axirassa.util;
 
+import java.io.IOException;
+
 import org.hornetq.api.core.TransportConfiguration;
+import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientSession;
 import org.hornetq.api.core.client.ClientSessionFactory;
 import org.hornetq.api.core.client.HornetQClient;
@@ -15,5 +18,17 @@ public class MessagingTools {
 		ClientSessionFactory factory = locator.createSessionFactory();
 		ClientSession session = factory.createSession();
 		return session;
+	}
+
+
+	public static byte[] bodyBytes(ClientMessage message) {
+		byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
+		message.getBodyBuffer().readBytes(buffer);
+		return buffer;
+	}
+
+
+	public static Object fromMessageBytes(ClientMessage message) throws IOException, ClassNotFoundException {
+		return AutoSerializingObject.fromBytes(bodyBytes(message));
 	}
 }
