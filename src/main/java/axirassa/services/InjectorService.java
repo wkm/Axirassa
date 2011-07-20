@@ -13,7 +13,7 @@ import org.hornetq.api.core.client.ClientSession;
 import axirassa.config.Messaging;
 import axirassa.model.HttpStatisticsEntity;
 import axirassa.services.exceptions.InvalidMessageClassException;
-import axirassa.util.AutoSerializingObject;
+import axirassa.util.MessagingTools;
 
 /**
  * The InjectorService relatively frequently. It is designed to insert responses
@@ -28,11 +28,9 @@ public class InjectorService implements Service {
 		if (message == null)
 			return null;
 
-		byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
-		message.getBodyBuffer().readBytes(buffer);
+		Object rawobject = MessagingTools.fromMessageBytes(message);
 		message.acknowledge();
 
-		Object rawobject = AutoSerializingObject.fromBytes(buffer);
 		if (rawobject instanceof HttpStatisticsEntity) {
 			return (HttpStatisticsEntity) rawobject;
 		} else

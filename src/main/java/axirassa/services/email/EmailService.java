@@ -13,7 +13,7 @@ import org.hornetq.utils.json.JSONException;
 import axirassa.config.Messaging;
 import axirassa.messaging.EmailRequestMessage;
 import axirassa.services.Service;
-import axirassa.util.AutoSerializingObject;
+import axirassa.util.MessagingTools;
 import freemarker.template.TemplateException;
 
 public class EmailService implements Service {
@@ -38,11 +38,7 @@ public class EmailService implements Service {
 				ClientMessage message = consumer.receive();
 
 				System.out.println("Received message: " + message);
-
-				byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
-				message.getBodyBuffer().readBytes(buffer);
-
-				Object rawobject = AutoSerializingObject.fromBytes(buffer);
+				Object rawobject = MessagingTools.fromMessageBytes(message);
 
 				if (rawobject instanceof EmailRequestMessage) {
 					EmailRequestMessage emailRequest = (EmailRequestMessage) rawobject;

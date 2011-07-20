@@ -18,7 +18,7 @@ import axirassa.messaging.util.CommonBackoffStrategies;
 import axirassa.messaging.util.ExponentialBackoffStrategy;
 import axirassa.messaging.util.InfiniteLoopExceptionSurvivor;
 import axirassa.services.Service;
-import axirassa.util.AutoSerializingObject;
+import axirassa.util.MessagingTools;
 
 @Slf4j
 public class SmsNotificationService implements Service {
@@ -43,11 +43,8 @@ public class SmsNotificationService implements Service {
 		        new Callable<Object>() {
 			        @Override
 			        public Object call() throws Exception {
-						ClientMessage message = consumer.receive();
-						byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
-						message.getBodyBuffer().readBytes(buffer);
-
-						Object rawobject = AutoSerializingObject.fromBytes(buffer);
+			        	ClientMessage message = consumer.receive();
+						Object rawobject = MessagingTools.fromMessageBytes(message);
 
 						if (rawobject instanceof SmsRequestMessage) {
 							SmsRequestMessage smsRequest = (SmsRequestMessage) rawobject;

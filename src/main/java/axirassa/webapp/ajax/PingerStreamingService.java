@@ -58,7 +58,7 @@ public class PingerStreamingService extends AbstractService {
 
 		InfiniteLoopExceptionSurvivor executor = new InfiniteLoopExceptionSurvivor(ExponentialBackoffStrategy.clone(CommonBackoffStrategies.EXPONENTIAL_BACKOFF_MESSAGING), 
             new Callable<Object>() {
-				ClientConsumer consumer = null;
+				ClientConsumer consumer = null; 
 				
     			@Override
                 public Object call() throws Exception {

@@ -18,7 +18,7 @@ import axirassa.messaging.util.CommonBackoffStrategies;
 import axirassa.messaging.util.ExponentialBackoffStrategy;
 import axirassa.messaging.util.InfiniteLoopExceptionSurvivor;
 import axirassa.services.Service;
-import axirassa.util.AutoSerializingObject;
+import axirassa.util.MessagingTools;
 
 @Slf4j
 public class VoiceNotificationService implements Service {
@@ -47,10 +47,7 @@ public class VoiceNotificationService implements Service {
 				        System.out.println("####\n####\n####\n####\n####\n####\n");
 				        System.out.println("RECIEVED MESSAGE: " + message);
 
-				        byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
-				        message.getBodyBuffer().readBytes(buffer);
-
-				        Object rawobject = AutoSerializingObject.fromBytes(buffer);
+				        Object rawobject = MessagingTools.fromMessageBytes(message);
 				        if (rawobject instanceof VoiceRequestMessage) {
 					        VoiceRequestMessage voiceRequest = (VoiceRequestMessage) rawobject;
 					        String text = PhoneTemplateFactory.instance.getText(voiceRequest.getTemplate(),
