@@ -39,7 +39,8 @@
     <target name="AxPingerService"
             class="axirassa.services.runners.PingerServiceRunner"
             autorestart="true">
-		<jvmoption name="Xmx" value="16m"/>
+        <jvmoption name="Xms" value="16m" />
+		<jvmoption name="Xmx" value="200m" />
 	</target>
 	
 	<target name="AxEmailNotificationService"
@@ -105,7 +106,7 @@
     	<execute target="AxControllerService" initialdelay="3000"  />
     	<execute target="AxInjectorService" />
     	
-    	<execute target="AxPingerService" instances="32" />
+    	<execute target="AxPingerService" instances="20" />
     	
     	<execute target="AxEmailNotificationService" />
     	<execute target="AxVoiceNotificationService" />
