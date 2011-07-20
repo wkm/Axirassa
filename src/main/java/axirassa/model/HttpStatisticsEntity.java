@@ -20,6 +20,7 @@ import lombok.Setter;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hornetq.api.core.SimpleString;
 
 import axirassa.util.AutoSerializingObject;
 
@@ -46,7 +47,6 @@ public class HttpStatisticsEntity extends AutoSerializingObject implements Seria
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	private PingerEntity pinger;
 
-
 	@Getter
 	@Setter
 	@Basic(optional = false)
@@ -62,7 +62,6 @@ public class HttpStatisticsEntity extends AutoSerializingObject implements Seria
 	@Basic(optional = false)
 	private int responseTime;
 
-
 	@Getter
 	@Setter
 	@Basic(optional = true)
@@ -73,9 +72,15 @@ public class HttpStatisticsEntity extends AutoSerializingObject implements Seria
 	@Basic(optional = true)
 	private long uncompressedSize;
 
-	public long getTimestampInMillis () {
+
+	public long getTimestampInMillis() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(getTimestamp());
 		return calendar.getTimeInMillis();
+	}
+
+
+	public String getBroadcastAddress() {
+		return PingerEntity.createBroadcastQueueName(getPinger().getUser().getId(), getPinger().getId());
 	}
 }
