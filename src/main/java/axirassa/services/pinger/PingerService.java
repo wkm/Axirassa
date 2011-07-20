@@ -2,6 +2,7 @@
 package axirassa.services.pinger;
 
 import java.io.IOException;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.hornetq.api.core.HornetQException;
 import org.hornetq.api.core.client.ClientConsumer;
@@ -19,6 +20,9 @@ import axirassa.util.AutoSerializingObject;
 
 public class PingerService implements Service {
 
+	private final ConcurrentLinkedQueue<PingerServiceCoordinationMessage> pingRequestQueue = new ConcurrentLinkedQueue<PingerServiceCoordinationMessage>();
+	private final ConcurrentLinkedQueue<PingerServiceCoordinationMessage> pingResponseQueue = new ConcurrentLinkedQueue<PingerServiceCoordinationMessage>();
+
 	private final ClientSession session;
 	private final HttpPinger pinger;
 
@@ -35,6 +39,16 @@ public class PingerService implements Service {
 	@Override
 	public void execute () throws HornetQException, IOException, ClassNotFoundException, InterruptedException,
 	        AxirassaServiceException {
+
+		ClientProducer responseQueueProducer = session.createProducer(Messaging.PINGER_RESPONSE_QUEUE);
+
+		PingerServiceResponseThread responseThread = new PingerServiceResponseThread(session, responseQueueProducer,
+		        pingResponseQueue);
+		PingerServiceRateMonitoringThread rateMonitoringThread = new PingerServiceRateMonitoringThread();
+
+		new Thread(responseThread).start();
+		new Thread(rateMonitoringThread).start();
+
 		// we have to start before reading messages
 		session.start();
 
@@ -47,6 +61,9 @@ public class PingerService implements Service {
 
 				byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
 				message.getBodyBuffer().readBytes(buffer);
+
+				message.acknowledge();
+				session.commit();
 
 				Object rawobject = AutoSerializingObject.fromBytes(buffer);
 				if (rawobject instanceof PingerEntity) {
@@ -63,9 +80,6 @@ public class PingerService implements Service {
 					System.out.printf("#%07d %50s  TRIGGERS: %s\n", pingCount, request.getUrl(), pinger.getTriggers());
 				} else
 					throw new InvalidMessageClassException(PingerEntity.class, rawobject);
-
-				message.acknowledge();
-				session.commit();
 			}
 		} finally {
 			if (consumer != null)
@@ -74,24 +88,5 @@ public class PingerService implements Service {
 			if (session != null)
 				session.stop();
 		}
-	}
-
-
-	private void sendResponseMessages (ClientProducer producer, HttpStatisticsEntity statistic) throws IOException,
-	        HornetQException {
-		// send a message to the primary pinger response queue for injection
-		ClientMessage message = session.createMessage(true);
-		message.getBodyBuffer().writeBytes(statistic.toBytes());
-		producer.send(message);
-
-		// send a message to the broadcast address for this pinger
-		producer.send(getBroadcastAddress(statistic), message);
-	}
-
-
-	private String getBroadcastAddress (HttpStatisticsEntity statistic) {
-		String address = PingerEntity.createBroadcastQueueName(statistic.getPinger().getUser().getId(), statistic
-		        .getPinger().getId());
-		return address;
 	}
 }
