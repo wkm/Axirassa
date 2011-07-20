@@ -37,6 +37,11 @@
     		<durable>true</durable>
     	</queue>
     	
+    	<queue name="Pinger.Throttling">
+    		<address>Pinger.Throttling</address>
+    		<durable>true</durable>
+    	</queue>
+    	
     	<!-- NOTIFICATION QUEUES; these are quite low traffic -->
     	<queue name="Notify.Sms.Request">
     		<address>Notify.Sms.Request</address>

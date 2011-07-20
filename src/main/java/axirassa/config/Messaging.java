@@ -9,6 +9,7 @@ package axirassa.config;
 public class Messaging {
 	public static String PINGER_REQUEST_QUEUE = "Pinger.Request";
 	public static String PINGER_RESPONSE_QUEUE = "Pinger.Response";
+	public static String PINGER_THROTTLING_QUEUE = "Pinger.Throttling";
 
 	public static String NOTIFY_EMAIL_REQUEST = "Notify.Email.Request";
 	public static String NOTIFY_EMAIL_RESPONSE = "Notify.Email.Response";
