@@ -65,7 +65,8 @@ public class SmsNotificationService implements Service {
 						return null;
 			        }
 
-		        }, new Function1<Object, Throwable>() {
+		        }, 
+		        new Function1<Object, Throwable>() {
 			        public Object call(Throwable e) {
 				        if (e instanceof ClassNotFoundException)
 					        log.error("Exception: ", e);
