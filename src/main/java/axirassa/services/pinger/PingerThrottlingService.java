@@ -15,7 +15,6 @@ import org.hornetq.api.core.client.ClientSession;
 import zanoccio.javakit.lambda.Function1;
 import axirassa.config.Messaging;
 import axirassa.messaging.util.CommonBackoffStrategies;
-import axirassa.messaging.util.ExponentialBackoffStrategy;
 import axirassa.messaging.util.InfiniteLoopExceptionSurvivor;
 import axirassa.model.HttpStatisticsEntity;
 import axirassa.services.Service;
@@ -94,8 +93,7 @@ class PingerBandwidthMeasurementPopulatorThread implements Runnable {
 	@Override
 	public void run() {
 		InfiniteLoopExceptionSurvivor executor = new InfiniteLoopExceptionSurvivor(
-		        ExponentialBackoffStrategy.clone(CommonBackoffStrategies.EXPONENTIAL_BACKOFF_MESSAGING),
-		        new Callable<Object>() {
+		        CommonBackoffStrategies.EXPONENTIAL_BACKOFF_MESSAGING(), new Callable<Object>() {
 			        @Override
 			        public Object call() throws Exception {
 				        ClientMessage message = consumer.receive();
