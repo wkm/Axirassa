@@ -43,6 +43,13 @@
 		<jvmoption name="Xmx" value="200m" />
 	</target>
 	
+	<target name="AxPingerThrottlingService"
+			class="axirassa.services.runners.PingerThrottlingServiceRunner"
+			autorestart="true">
+		<jvmoption name="Xms" value="16m" />
+		<jvmoption name="Xmx" value="16m" />		
+	</target>
+	
 	<target name="AxEmailNotificationService"
 	        class="axirassa.services.runners.EmailServiceRunner"
 	        autorestart="true">
