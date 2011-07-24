@@ -15,7 +15,6 @@ import zanoccio.javakit.lambda.Function1;
 import axirassa.config.Messaging;
 import axirassa.messaging.VoiceRequestMessage;
 import axirassa.messaging.util.CommonBackoffStrategies;
-import axirassa.messaging.util.ExponentialBackoffStrategy;
 import axirassa.messaging.util.InfiniteLoopExceptionSurvivor;
 import axirassa.services.Service;
 import axirassa.util.MessagingTools;
@@ -39,7 +38,7 @@ public class VoiceNotificationService implements Service {
 		final ClientConsumer consumer = messaging.createConsumer(Messaging.NOTIFY_VOICE_REQUEST);
 
 		InfiniteLoopExceptionSurvivor executor = new InfiniteLoopExceptionSurvivor(
-		        ExponentialBackoffStrategy.clone(CommonBackoffStrategies.EXPONENTIAL_BACKOFF_MESSAGING),
+		        CommonBackoffStrategies.EXPONENTIAL_BACKOFF_MESSAGING(), 
 		        new Callable<Object>() {
 			        @Override
 			        public Object call() throws Exception {

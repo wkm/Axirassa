@@ -14,7 +14,6 @@ import org.hornetq.api.core.client.ClientSession;
 
 import zanoccio.javakit.lambda.Function1;
 import axirassa.messaging.util.CommonBackoffStrategies;
-import axirassa.messaging.util.ExponentialBackoffStrategy;
 import axirassa.messaging.util.InfiniteLoopExceptionSurvivor;
 
 @Slf4j
@@ -36,7 +35,7 @@ public class PingerServiceResponseThread implements Runnable {
 	@Override
 	public void run() {
 		InfiniteLoopExceptionSurvivor executor = new InfiniteLoopExceptionSurvivor(
-		        ExponentialBackoffStrategy.clone(CommonBackoffStrategies.EXPONENTIAL_BACKOFF_MESSAGING),
+		        CommonBackoffStrategies.EXPONENTIAL_BACKOFF_MESSAGING(),
 		        new Callable<Object>() {
 			        @Override
 			        public Object call() throws Exception {
