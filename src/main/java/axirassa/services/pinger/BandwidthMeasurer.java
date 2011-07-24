@@ -35,7 +35,7 @@ public class BandwidthMeasurer {
 	 * Adds a download entry for bandwidth logging. <tt>currentMs</tt> must be
 	 * greater than or equal to all previous calls to {@link #addDownload}
 	 */
-	public void addDownload(long bytes, int currentMs, int msConsumed) {
+	synchronized public void addDownload(long bytes, long currentMs, int msConsumed) {
 		setMsTick(currentMs);
 
 		BandwidthUsageEntry entry = new BandwidthUsageEntry();
@@ -61,7 +61,7 @@ public class BandwidthMeasurer {
 	 * computes the current bandwidth rate in bytes/second for the specified
 	 * window size (which must be equal to or less than the default window size)
 	 */
-	public long currentRate(int windowSize, long currentMs) {
+	synchronized public long currentRate(int windowSize, long currentMs) {
 		setMsTick(currentMs);
 
 		long windowStart = currentMs - windowSize;
@@ -93,8 +93,8 @@ public class BandwidthMeasurer {
 }
 
 class BandwidthUsageEntry {
-	int startTick;
-	int stopTick;
+	long startTick;
+	long stopTick;
 
 	long bytes;
 

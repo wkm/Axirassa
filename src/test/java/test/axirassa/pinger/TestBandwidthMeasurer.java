@@ -12,6 +12,7 @@ public class TestBandwidthMeasurer {
 		BandwidthMeasurer measurer = new BandwidthMeasurer(100);
 
 		measurer.addDownload(10, 10, 5);
+		
 		assertEquals(10, measurer.currentRate(100));
 		assertEquals(10, measurer.currentRate(100));
 
