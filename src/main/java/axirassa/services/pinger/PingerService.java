@@ -16,7 +16,7 @@ import axirassa.model.PingerEntity;
 import axirassa.services.Service;
 import axirassa.services.exceptions.AxirassaServiceException;
 import axirassa.services.exceptions.InvalidMessageClassException;
-import axirassa.util.AutoSerializingObject;
+import axirassa.util.MessagingTools;
 
 public class PingerService implements Service {
 
@@ -58,14 +58,10 @@ public class PingerService implements Service {
 		try {
 			while (true) {
 				ClientMessage message = consumer.receive();
-
-				byte[] buffer = new byte[message.getBodyBuffer().readableBytes()];
-				message.getBodyBuffer().readBytes(buffer);
-
 				message.acknowledge();
+				Object rawobject = MessagingTools.fromMessageBytes(message);
 				session.commit();
 
-				Object rawobject = AutoSerializingObject.fromBytes(buffer);
 				if (rawobject instanceof PingerEntity) {
 					pingCount++;
 					PingerEntity request = (PingerEntity) rawobject;

@@ -74,7 +74,7 @@ public class VoiceNotificationService implements Service {
 				        return null;
 			        }
 		        });
-		
+
 		executor.execute();
 	}
 }
