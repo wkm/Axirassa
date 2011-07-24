@@ -107,8 +107,8 @@ class PingerBandwidthMeasurementPopulatorThread implements Runnable {
 
 				        return null;
 			        }
-		        }, new Function1<Object, Throwable>() {
-			        public Object call(Throwable e) {
+		        }, new Function1<Boolean, Throwable>() {
+			        public Boolean call(Throwable e) {
 				        log.error("Exception: ", e);
 				        return null;
 			        }

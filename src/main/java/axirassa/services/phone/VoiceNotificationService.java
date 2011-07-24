@@ -63,9 +63,9 @@ public class VoiceNotificationService implements Service {
 				        messaging.commit();
 				        return null;
 			        }
-		        }, new Function1<Object, Throwable>() {
+		        }, new Function1<Boolean, Throwable>() {
 			        @Override
-			        public Object call(Throwable e) throws Throwable {
+			        public Boolean call(Throwable e) throws Throwable {
 				        if (e instanceof ClassNotFoundException)
 					        log.error("Exception: ", e);
 				        else

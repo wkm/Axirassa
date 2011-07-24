@@ -92,8 +92,8 @@ public class PingerStreamingService extends AbstractService {
     				return null;
                 }
 			}, 
-			new Function1<Object, Throwable>() {
-    			public Object call(Throwable e) {
+			new Function1<Boolean, Throwable>() {
+    			public Boolean call(Throwable e) {
     				if(e instanceof IllegalStateException)
     					log.error("IGNORING EXCEPTION FROM PINGER STREAMING SERVICE: ", e);
     				if(e instanceof Exception)
