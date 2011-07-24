@@ -7,11 +7,11 @@ import zanoccio.javakit.lambda.Function1;
 public class InfiniteLoopExceptionSurvivor {
 	private final Callable<?> callable;
 	private final BackoffStrategy strategy;
-	private final Function1<?, Throwable> exceptionCallback;
+	private final Function1<Boolean, Throwable> exceptionCallback;
 
 
 	public InfiniteLoopExceptionSurvivor(BackoffStrategy strategy, final Callable<?> callable,
-	        final Function1<?, Throwable> exceptionCallback) {
+	        final Function1<Boolean, Throwable> exceptionCallback) {
 		this.strategy = strategy;
 		this.callable = callable;
 		this.exceptionCallback = exceptionCallback;
@@ -25,7 +25,8 @@ public class InfiniteLoopExceptionSurvivor {
 				strategy.tickSuccess();
 			} catch (Throwable t) {
 				strategy.tickFailure();
-				exceptionCallback.call(t);
+				if(exceptionCallback.call(t) == false)
+					break;
 			}
 
 			long delay = strategy.computeBackoffDelay();
