@@ -43,27 +43,24 @@ public class SmsNotificationService implements Service {
 		        new Callable<Object>() {
 			        @Override
 			        public Object call() throws Exception {
-			        	ClientMessage message = consumer.receive();
-						Object rawobject = MessagingTools.fromMessageBytes(message);
+				        ClientMessage message = consumer.receive();
+				        SmsRequestMessage smsRequest = MessagingTools
+				                .fromMessageBytes(SmsRequestMessage.class, message);
 
-						if (rawobject instanceof SmsRequestMessage) {
-							SmsRequestMessage smsRequest = (SmsRequestMessage) rawobject;
-							String text = PhoneTemplateFactory.instance.getText(smsRequest.getTemplate(),
-							                                                    PhoneTemplateType.SMS,
-							                                                    smsRequest.getAttributeMap());
+				        String text = PhoneTemplateFactory.instance.getText(smsRequest.getTemplate(),
+				                                                            PhoneTemplateType.SMS,
+				                                                            smsRequest.getAttributeMap());
 
-							SendSMS sender = new SendSMS(smsRequest.getPhoneNumber(), text);
-							sender.send(httpClient);
-						}
+				        SendSMS sender = new SendSMS(smsRequest.getPhoneNumber(), text);
+				        sender.send(httpClient);
 
-						message.acknowledge();
-						messagingSession.commit();
-						
-						return null;
+				        message.acknowledge();
+				        messagingSession.commit();
+
+				        return null;
 			        }
 
-		        }, 
-		        new Function1<Boolean, Throwable>() {
+		        }, new Function1<Boolean, Throwable>() {
 			        public Boolean call(Throwable e) {
 				        if (e instanceof ClassNotFoundException)
 					        log.error("Exception: ", e);

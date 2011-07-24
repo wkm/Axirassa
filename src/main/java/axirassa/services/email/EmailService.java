@@ -13,6 +13,7 @@ import org.hornetq.utils.json.JSONException;
 import axirassa.config.Messaging;
 import axirassa.messaging.EmailRequestMessage;
 import axirassa.services.Service;
+import axirassa.services.exceptions.InvalidMessageClassException;
 import axirassa.util.MessagingTools;
 import freemarker.template.TemplateException;
 
@@ -38,17 +39,13 @@ public class EmailService implements Service {
 				ClientMessage message = consumer.receive();
 
 				System.out.println("Received message: " + message);
-				Object rawobject = MessagingTools.fromMessageBytes(message);
+				EmailRequestMessage emailRequest = MessagingTools.fromMessageBytes(EmailRequestMessage.class, message);
 
-				if (rawobject instanceof EmailRequestMessage) {
-					EmailRequestMessage emailRequest = (EmailRequestMessage) rawobject;
+				EmailTemplateComposer composer = new EmailTemplateComposer(emailRequest.getTemplate());
+				composer.setAttributes(emailRequest.getAttributeMap());
 
-					EmailTemplateComposer composer = new EmailTemplateComposer(emailRequest.getTemplate());
-					composer.setAttributes(emailRequest.getAttributeMap());
-
-					EmailSender sender = new EmailSender(composer, emailRequest.getToAddress());
-					sender.send(httpClient);
-				}
+				EmailSender sender = new EmailSender(composer, emailRequest.getToAddress());
+				sender.send(httpClient);
 
 				message.acknowledge();
 				messagingSession.commit();
@@ -58,7 +55,9 @@ public class EmailService implements Service {
 				e.printStackTrace();
 			} catch (TemplateException e) {
 				e.printStackTrace();
-			}
+			} catch (InvalidMessageClassException e) {
+	            e.printStackTrace();
+            }
 		}
 	}
 }

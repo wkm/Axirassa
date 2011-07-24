@@ -15,7 +15,6 @@ import axirassa.model.HttpStatisticsEntity;
 import axirassa.model.PingerEntity;
 import axirassa.services.Service;
 import axirassa.services.exceptions.AxirassaServiceException;
-import axirassa.services.exceptions.InvalidMessageClassException;
 import axirassa.util.MessagingTools;
 
 public class PingerService implements Service {
@@ -29,7 +28,7 @@ public class PingerService implements Service {
 	private int pingCount = 0;
 
 
-	public PingerService (ClientSession consumeSession) {
+	public PingerService(ClientSession consumeSession) {
 		this.session = consumeSession;
 
 		pinger = new HttpPinger();
@@ -37,7 +36,7 @@ public class PingerService implements Service {
 
 
 	@Override
-	public void execute () throws HornetQException, IOException, ClassNotFoundException, InterruptedException,
+	public void execute() throws HornetQException, IOException, ClassNotFoundException, InterruptedException,
 	        AxirassaServiceException {
 
 		ClientProducer responseQueueProducer = session.createProducer(Messaging.PINGER_RESPONSE_QUEUE);
@@ -59,23 +58,19 @@ public class PingerService implements Service {
 			while (true) {
 				ClientMessage message = consumer.receive();
 				message.acknowledge();
-				Object rawobject = MessagingTools.fromMessageBytes(message);
+				PingerEntity request = MessagingTools.fromMessageBytes(PingerEntity.class, message);
 				session.commit();
 
-				if (rawobject instanceof PingerEntity) {
-					pingCount++;
-					PingerEntity request = (PingerEntity) rawobject;
+				pingCount++;
 
-					System.out.println("PING " + request.getUrl());
+				System.out.println("PING " + request.getUrl());
 
-					HttpStatisticsEntity statistic = pinger.ping(request);
+				HttpStatisticsEntity statistic = pinger.ping(request);
 
-					if (statistic != null)
-						sendResponseMessages(producer, statistic);
+				if (statistic != null)
+					sendResponseMessages(producer, statistic);
 
-					System.out.printf("#%07d %50s  TRIGGERS: %s\n", pingCount, request.getUrl(), pinger.getTriggers());
-				} else
-					throw new InvalidMessageClassException(PingerEntity.class, rawobject);
+				System.out.printf("#%07d %50s  TRIGGERS: %s\n", pingCount, request.getUrl(), pinger.getTriggers());
 			}
 		} finally {
 			if (consumer != null)

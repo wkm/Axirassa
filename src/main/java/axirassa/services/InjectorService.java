@@ -28,13 +28,9 @@ public class InjectorService implements Service {
 		if (message == null)
 			return null;
 
-		Object rawobject = MessagingTools.fromMessageBytes(message);
+		HttpStatisticsEntity statistic = MessagingTools.fromMessageBytes(HttpStatisticsEntity.class, message);
 		message.acknowledge();
-
-		if (rawobject instanceof HttpStatisticsEntity) {
-			return (HttpStatisticsEntity) rawobject;
-		} else
-			throw new InvalidMessageClassException(HttpStatisticsEntity.class, rawobject);
+		return statistic;
 	}
 
 

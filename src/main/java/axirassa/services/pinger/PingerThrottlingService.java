@@ -1,6 +1,4 @@
 
-
-
 package axirassa.services.pinger;
 
 import java.util.concurrent.Callable;
@@ -42,32 +40,36 @@ public class PingerThrottlingService implements Service {
 		ClientConsumer pingerResponseConsumer = pingerResponseTopic.createConsumer();
 
 		new Thread(new PingerBandwidthMeasurementPopulatorThread(pingerResponseConsumer, measurer)).run();
-		
+
 		ScheduledThreadPoolExecutor scheduledExecutor = new ScheduledThreadPoolExecutor(1);
-		scheduledExecutor.scheduleAtFixedRate(new PingerThreadCountAdjusterThread(throttlingProducer, measurer), 0, 100, TimeUnit.MILLISECONDS);
+		scheduledExecutor.scheduleAtFixedRate(new PingerThreadCountAdjusterThread(throttlingProducer, measurer), 0,
+		                                      100, TimeUnit.MILLISECONDS);
 	}
 }
 
 @Slf4j
-class PingerThreadCountAdjusterThread implements Runnable {	
+class PingerThreadCountAdjusterThread implements Runnable {
 	private final int currentThreadCount = 0;
 	private final ClientProducer throttlingProducer;
 	private final BandwidthMeasurer measurer;
-	 
+
+
 	PingerThreadCountAdjusterThread(ClientProducer throttlingProducer, BandwidthMeasurer measurer) {
 		this.measurer = measurer;
-		this.throttlingProducer = throttlingProducer; 
+		this.throttlingProducer = throttlingProducer;
 	}
-	
+
+
 	@Override
-    public void run() {
+	public void run() {
 		printCurrentStatus();
-    }
+	}
+
 
 	private void printCurrentStatus() {
-	    // TODO Auto-generated method stub
-	    
-    }	
+		// TODO Auto-generated method stub
+
+	}
 }
 
 /**
@@ -97,13 +99,11 @@ class PingerBandwidthMeasurementPopulatorThread implements Runnable {
 			        @Override
 			        public Object call() throws Exception {
 				        ClientMessage message = consumer.receive();
-				        Object rawobject = MessagingTools.fromMessageBytes(message);
+				        HttpStatisticsEntity statistic = MessagingTools.fromMessageBytes(HttpStatisticsEntity.class,
+				                                                                         message);
 
-				        if (rawobject instanceof HttpStatisticsEntity) {
-					        HttpStatisticsEntity statistic = (HttpStatisticsEntity) rawobject;
-					        measurer.addDownload(statistic.getResponseSize(), System.currentTimeMillis(),
-					                             statistic.getResponseTime());
-				        }
+				        measurer.addDownload(statistic.getResponseSize(), System.currentTimeMillis(),
+				                             statistic.getResponseTime());
 
 				        return null;
 			        }

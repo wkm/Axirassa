@@ -47,17 +47,15 @@ public class VoiceNotificationService implements Service {
 				        System.out.println("####\n####\n####\n####\n####\n####\n");
 				        System.out.println("RECIEVED MESSAGE: " + message);
 
-				        Object rawobject = MessagingTools.fromMessageBytes(message);
-				        if (rawobject instanceof VoiceRequestMessage) {
-					        VoiceRequestMessage voiceRequest = (VoiceRequestMessage) rawobject;
-					        String text = PhoneTemplateFactory.instance.getText(voiceRequest.getTemplate(),
-					                                                            PhoneTemplateType.VOICE,
-					                                                            voiceRequest.getAttributeMap());
+				        VoiceRequestMessage voiceRequest = MessagingTools.fromMessageBytes(VoiceRequestMessage.class,
+				                                                                           message);
+				        String text = PhoneTemplateFactory.instance.getText(voiceRequest.getTemplate(),
+				                                                            PhoneTemplateType.VOICE,
+				                                                            voiceRequest.getAttributeMap());
 
-					        SendVoice sender = new SendVoice(voiceRequest.getPhoneNumber(),
-					                voiceRequest.getExtension(), text);
-					        sender.send(httpClient);
-				        }
+				        SendVoice sender = new SendVoice(voiceRequest.getPhoneNumber(), voiceRequest.getExtension(),
+				                text);
+				        sender.send(httpClient);
 
 				        message.acknowledge();
 				        messaging.commit();
