@@ -23,6 +23,8 @@ public class InfiniteLoopExceptionSurvivor {
 			try {
 				callable.call();
 				strategy.tickSuccess();
+			} catch(AbortSurvivorMessageException e) {
+				break;
 			} catch (Throwable t) {
 				strategy.tickFailure();
 				if(exceptionCallback.call(t) == false)
