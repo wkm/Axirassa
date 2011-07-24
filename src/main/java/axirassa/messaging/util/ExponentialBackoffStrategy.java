@@ -20,18 +20,6 @@ public class ExponentialBackoffStrategy implements BackoffStrategy {
 	private final int successBackoffReset;
 
 
-	public static ExponentialBackoffStrategy clone(ExponentialBackoffStrategy strategy) {
-		ExponentialBackoffStrategy newStrat = new ExponentialBackoffStrategy(strategy.minimumBackoff,
-		        strategy.maximumBackoff, strategy.backoffActivationIndex, strategy.increment,
-		        strategy.successBackoffReset);
-
-		newStrat.successTicks = strategy.successTicks;
-		newStrat.failureTicks = strategy.failureTicks;
-
-		return newStrat;
-	}
-
-
 	/**
 	 * @param minimumBackoff
 	 *            the minimum backoff computed
