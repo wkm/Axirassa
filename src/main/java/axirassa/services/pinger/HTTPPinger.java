@@ -75,10 +75,11 @@ public class HttpPinger {
 		HttpStatisticsEntity statistic = null;
 
 		try {
+			Date startDate = new Date();
 			HttpResponse response = client.executeWithInstrumentation(get);
 
 			statistic = new HttpStatisticsEntity();
-			statistic.setTimestamp(new Date());
+			statistic.setTimestamp(startDate);
 			statistic.setPinger(entity);
 			statistic.setLatency(client.getLatency());
 			statistic.setResponseTime(client.getResponseTime());
