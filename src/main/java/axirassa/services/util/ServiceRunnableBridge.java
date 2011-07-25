@@ -17,6 +17,7 @@ public class ServiceRunnableBridge implements Runnable {
 	@Override
 	public void run() {
 		try {
+			log.info("Starting service: {}", service);
 			service.execute();
 		} catch (Throwable t) {
 			log.error("Exception ", t);
