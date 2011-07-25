@@ -4,7 +4,6 @@ package axirassa.services.pinger;
 import java.util.LinkedList;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -37,13 +36,31 @@ public class BandwidthThreadAllocator {
 	@Getter
 	private final int initialThreads;
 
-	@Getter
-	@Setter
 	private long targetRate;
 
-	@Getter
-	@Setter
+
+	synchronized public long getTargetRate() {
+		return targetRate;
+	}
+
+
+	synchronized public void setTargetRate(long targetRate) {
+		this.targetRate = targetRate;
+	}
+
+
 	private int currentThreads;
+
+
+	synchronized public int getCurrentThreads() {
+		return currentThreads;
+	}
+
+
+	synchronized public void setCurrentThreads(int currentThreads) {
+		this.currentThreads = currentThreads;
+	}
+
 
 	private final LinkedList<BandwidthMeasurement> measurements = new LinkedList<BandwidthMeasurement>();
 
@@ -54,7 +71,7 @@ public class BandwidthThreadAllocator {
 		this.initialThreads = initialThreads;
 		this.targetRate = targetRate;
 
-		this.currentThreads = initialThreads;
+		this.currentThreads = 0;
 	}
 
 
