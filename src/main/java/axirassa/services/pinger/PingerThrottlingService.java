@@ -27,6 +27,7 @@ import axirassa.messaging.util.CommonBackoffStrategies;
 import axirassa.messaging.util.InfiniteLoopExceptionSurvivor;
 import axirassa.model.HttpStatisticsEntity;
 import axirassa.services.Service;
+import axirassa.services.pinger.BandwidthThreadAllocator.BandwidthThreadAllocatorException;
 import axirassa.util.MessagingTools;
 import axirassa.util.MessagingTopic;
 
@@ -51,19 +52,21 @@ public class PingerThrottlingService implements Service {
 		MessagingTopic pingerResponseTopic = new MessagingTopic(messaging, "ax.account.#");
 		ClientConsumer pingerResponseConsumer = pingerResponseTopic.createConsumer();
 
-		new Thread(new PingerBandwidthMeasurementPopulatorThread(pingerResponseConsumer, measurer)).run();
+		Thread measurementThread = new Thread(new PingerBandwidthMeasurementPopulatorThread(pingerResponseConsumer,
+		        measurer));
+		measurementThread.start();
 
 		ScheduledThreadPoolExecutor scheduledExecutor = new ScheduledThreadPoolExecutor(1);
 		Runnable adjusterThread = new PingerThreadCountAdjusterThread(messaging, throttlingProducer, measurer,
 		        threadAllocator);
-		scheduledExecutor.scheduleAtFixedRate(adjusterThread, 0, 100, TimeUnit.MILLISECONDS);
+		scheduledExecutor.scheduleAtFixedRate(adjusterThread, 100, 100, TimeUnit.MILLISECONDS);
+
+		measurementThread.join();
 	}
 }
 
 @Slf4j
 class PingerThreadCountAdjusterThread implements Runnable {
-	private final int currentThreadCount = 0;
-
 	private final ClientSession messaging;
 	private final ClientProducer throttlingProducer;
 	private final BandwidthMeasurer measurer;
@@ -72,6 +75,8 @@ class PingerThreadCountAdjusterThread implements Runnable {
 
 	PingerThreadCountAdjusterThread(ClientSession messaging, ClientProducer throttlingProducer,
 	        BandwidthMeasurer measurer, BandwidthThreadAllocator bandwidthAllocator) {
+		log.info("Created");
+
 		this.messaging = messaging;
 		this.measurer = measurer;
 		this.throttlingProducer = throttlingProducer;
@@ -82,21 +87,27 @@ class PingerThreadCountAdjusterThread implements Runnable {
 	@Override
 	public void run() {
 		try {
-			bandwidthAllocator.addBandwidthMeasurement(measurer.currentRate(1000, System.currentTimeMillis()));
+			long currentRate = measurer.currentRate(1000, System.currentTimeMillis());
+			bandwidthAllocator.addBandwidthMeasurement(currentRate);
 			int threadDelta = bandwidthAllocator.getTargetThreadCountDelta();
 
 			printCurrentStatus(threadDelta);
 
 			for (AbstractPingerThrottlingMessage messageBody : createMessages(threadDelta)) {
+				System.out.println("\t"+messageBody);
 				ClientMessage message = messaging.createMessage(true);
 				message.getBodyBuffer().writeBytes(messageBody.toBytes());
 				throttlingProducer.send(message);
 			}
+			
+			bandwidthAllocator.applyThreadCountDelta(threadDelta);
 		} catch (HornetQException e) {
 			e.printStackTrace(System.err);
 		} catch (IOException e) {
 			e.printStackTrace(System.err);
-		}
+		} catch (BandwidthThreadAllocatorException e) {
+	        e.printStackTrace();
+        }
 	}
 
 
@@ -118,9 +129,10 @@ class PingerThreadCountAdjusterThread implements Runnable {
 
 
 	private void printCurrentStatus(int threadDelta) {
-		System.out.printf("THREADS: %4d DELTA: %5d BANDWIDTH: %8d  QUEUE LENGTH: %5d\n",
-		                  bandwidthAllocator.getCurrentThreads(), threadDelta,
-		                  measurer.currentRate(1000, System.currentTimeMillis()));
+		String msg = String.format("#### THREADS: %4d DELTA: %5d BANDWIDTH: %8d",
+		                           bandwidthAllocator.getCurrentThreads(), threadDelta,
+		                           measurer.currentRate(1000, System.currentTimeMillis()));
+		log.info(msg);
 	}
 }
 
@@ -140,6 +152,8 @@ class PingerBandwidthMeasurementPopulatorThread implements Runnable {
 	PingerBandwidthMeasurementPopulatorThread(ClientConsumer consumer, BandwidthMeasurer measurer) {
 		this.consumer = consumer;
 		this.measurer = measurer;
+
+		log.info("Created");
 	}
 
 
@@ -152,9 +166,12 @@ class PingerBandwidthMeasurementPopulatorThread implements Runnable {
 				        ClientMessage message = consumer.receive();
 				        HttpStatisticsEntity statistic = MessagingTools.fromMessageBytes(HttpStatisticsEntity.class,
 				                                                                         message);
-				        
-				        if(statistic == null)
-				        	return null;
+
+				        if (statistic == null)
+					        return null;
+
+				        log.info("Adjusting bandwidth measurements with: {} over {} ", statistic.getResponseSize(),
+				                 statistic.getResponseTime());
 
 				        measurer.addDownload(statistic.getResponseSize(), System.currentTimeMillis(),
 				                             statistic.getResponseTime());
