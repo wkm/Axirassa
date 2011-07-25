@@ -65,7 +65,7 @@ public class HttpPinger {
 	}
 
 
-	public HttpStatisticsEntity ping(PingerEntity entity) {
+	public HttpStatisticsEntity ping(PingerEntity entity) { 
 
 		resetTriggers();
 
@@ -87,8 +87,8 @@ public class HttpPinger {
 			statistic.setResponseSize(client.getResponseContent().length());
 			statistic.setUncompressedSize(0);
 
-			System.out.printf("Latency: %dms Response: %dms Status: [%d] URL: %s\n", statistic.getLatency(),
-			                  statistic.getResponseTime(), statistic.getStatusCode(), statistic.getPinger().getUrl());
+			System.out.printf("Latency: %5dms Response: %5dms Size: %9db Status: [%3d] URL: %s\n", statistic.getLatency(),
+			                  statistic.getResponseTime(), statistic.getResponseSize(), statistic.getStatusCode(), statistic.getPinger().getUrl());
 
 			addTrigger(new StatusCodeTrigger(statistic.getStatusCode()));
 		} catch (HttpHostConnectException e) {
