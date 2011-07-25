@@ -30,7 +30,6 @@ public class PingerServiceResponseThread implements Runnable {
 		this.messageProducer = messageProducer;
 
 		log.info("Starting");
-		log.info("RESPONSE QUEUE: " + responseQueue);
 	}
 
 
@@ -41,7 +40,6 @@ public class PingerServiceResponseThread implements Runnable {
 			        @Override
 			        public Object call() throws Exception {
 				        synchronized (responseQueue) {
-					        log.info("\tRESPONSE QUEUE:" + responseQueue);
 					        responseQueue.wait();
 
 					        PingerServiceCoordinationMessage message = responseQueue.pollFirst();
