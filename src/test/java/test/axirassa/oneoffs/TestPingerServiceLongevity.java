@@ -86,7 +86,7 @@ class HelloRestlet extends Restlet {
 	@Override
 	public void handle(Request request, Response response) {
 		try {
-			response.setEntity(new StringRepresentation(RandomStringGenerator.makeRandomString(300000)));
+			response.setEntity(new StringRepresentation(RandomStringGenerator.makeRandomStringToken(300000)));
 		} catch (Exception e) {
 			log.error("Exception", e);
 		}
