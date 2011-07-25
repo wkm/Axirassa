@@ -12,7 +12,7 @@ public class PingerServiceCoordinationMessage {
 		PingerServiceCoordinationMessage message = new PingerServiceCoordinationMessage();
 		message.setShutdownMessage(true);
 		return message;
-	}
+	} 
  
 
 	public static PingerServiceCoordinationMessage pingMessage(ClientMessage clientMessage) {
