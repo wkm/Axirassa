@@ -58,7 +58,7 @@ public class BandwidthThreadAllocator {
 	}
 
 
-	public void addBandwidthMeasurement(long rate) {
+	synchronized public void addBandwidthMeasurement(long rate) {
 		BandwidthMeasurement measurement = new BandwidthMeasurement();
 		measurement.bandwidth = rate;
 		measurement.threadCount = currentThreads;
@@ -69,7 +69,7 @@ public class BandwidthThreadAllocator {
 	}
 
 
-	public int getTargetThreadCount() {
+	synchronized public int getTargetThreadCount() {
 		int target = 0;
 
 		BandwidthMeasurement lastMeasurement = measurements.peekLast();
@@ -97,7 +97,7 @@ public class BandwidthThreadAllocator {
 	}
 
 
-	public void applyThreadCountDelta(int count) throws BandwidthThreadAllocatorException {
+	synchronized public void applyThreadCountDelta(int count) throws BandwidthThreadAllocatorException {
 		currentThreads += count;
 
 		if (currentThreads < 1)
