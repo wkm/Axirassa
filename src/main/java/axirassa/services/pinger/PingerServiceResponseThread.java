@@ -3,7 +3,6 @@ package axirassa.services.pinger;
 
 import java.io.IOException;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,38 +19,43 @@ import axirassa.messaging.util.InfiniteLoopExceptionSurvivor;
 public class PingerServiceResponseThread implements Runnable {
 
 	private final ClientSession messagingSession;
-	private final ConcurrentLinkedQueue<PingerServiceCoordinationMessage> responseQueue;
+	private final PingerServiceCoordinator responseQueue;
 	private final ClientProducer messageProducer;
 
 
 	public PingerServiceResponseThread(ClientSession messagingSession, ClientProducer messageProducer,
-	        ConcurrentLinkedQueue<PingerServiceCoordinationMessage> responseQueue) {
+	        PingerServiceCoordinator responseQueue) {
 		this.messagingSession = messagingSession;
 		this.responseQueue = responseQueue;
 		this.messageProducer = messageProducer;
+
+		log.info("Starting");
+		log.info("RESPONSE QUEUE: " + responseQueue);
 	}
 
 
 	@Override
 	public void run() {
 		InfiniteLoopExceptionSurvivor executor = new InfiniteLoopExceptionSurvivor(
-		        CommonBackoffStrategies.EXPONENTIAL_BACKOFF_MESSAGING(),
-		        new Callable<Object>() {
+		        CommonBackoffStrategies.EXPONENTIAL_BACKOFF_MESSAGING(), new Callable<Object>() {
 			        @Override
 			        public Object call() throws Exception {
-				        responseQueue.wait();
+				        synchronized (responseQueue) {
+					        log.info("\tRESPONSE QUEUE:" + responseQueue);
+					        responseQueue.wait();
 
-				        PingerServiceCoordinationMessage message = responseQueue.poll();
+					        PingerServiceCoordinationMessage message = responseQueue.pollFirst();
 
-				        if (message == null)
-					        return null;
+					        if (message == null)
+						        return null;
 
-				        if (message.getStatistic() == null) {
-					        log.error("Pinger response thread received coordination message without statistic");
-					        return null;
+					        if (message.getStatistic() == null) {
+						        log.error("Pinger response thread received coordination message without statistic");
+						        return null;
+					        }
+
+					        sendResponseMessage(message);
 				        }
-
-				        sendResponseMessage(message);
 				        return null;
 			        }
 		        }, new Function1<Boolean, Throwable>() {

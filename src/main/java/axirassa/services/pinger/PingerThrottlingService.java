@@ -152,6 +152,9 @@ class PingerBandwidthMeasurementPopulatorThread implements Runnable {
 				        ClientMessage message = consumer.receive();
 				        HttpStatisticsEntity statistic = MessagingTools.fromMessageBytes(HttpStatisticsEntity.class,
 				                                                                         message);
+				        
+				        if(statistic == null)
+				        	return null;
 
 				        measurer.addDownload(statistic.getResponseSize(), System.currentTimeMillis(),
 				                             statistic.getResponseTime());
