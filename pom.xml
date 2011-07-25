@@ -295,6 +295,11 @@
 			<artifactId>hibernate-c3p0</artifactId>
 			<version>${hibernate-release-version}</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
 	</dependencies>
 	<url>http://axirassa.com</url>
 	<issueManagement>
