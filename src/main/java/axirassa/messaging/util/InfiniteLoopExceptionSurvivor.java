@@ -27,7 +27,8 @@ public class InfiniteLoopExceptionSurvivor {
 				break;
 			} catch (Throwable t) {
 				strategy.tickFailure();
-				if(exceptionCallback.call(t) == false)
+				Boolean callbackValue = exceptionCallback.call(t);
+				if(callbackValue != null && callbackValue == false)
 					break;
 			}
 
