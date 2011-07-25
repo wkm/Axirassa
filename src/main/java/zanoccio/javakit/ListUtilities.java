@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ListUtilities {
+public class ListUtilities { 
 
 	public interface ListPartitioner<T> {
 		/**
@@ -49,5 +49,19 @@ public class ListUtilities {
 		lists.add(list.subList(previoussplit, index));
 
 		return lists;
+	}
+	
+	public static <T> List<T> padRight(List<T> list, int length, T padding) {
+		if(list.size() <= length)
+			return list;
+		
+		if(length <= 0)
+			return list;
+		
+		int sizeDifference = length - list.size();
+		for(int i = 0; i < sizeDifference; i++)
+			list.add(padding);
+		
+		return list;
 	}
 }
