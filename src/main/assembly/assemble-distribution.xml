@@ -36,7 +36,7 @@
 	</fileSets>
 	<dependencySets>
 		<dependencySet>
-			<scope>test</scope>
+			<scope>compile</scope>
 			<unpack>true</unpack>
 			<useProjectArtifact>false</useProjectArtifact>
 			<unpackOptions>
