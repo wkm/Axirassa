@@ -52,7 +52,7 @@ public class ListUtilities {
 	}
 	
 	public static <T> List<T> padRight(List<T> list, int length, T padding) {
-		if(list.size() <= length)
+		if(list.size() >= length)
 			return list;
 		
 		if(length <= 0)
