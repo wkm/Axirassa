@@ -35,6 +35,9 @@ public class MessagingTools {
 	}
 	
 	public static <T> T fromMessageBytes(Class<? extends T> messageClass, ClientMessage message) throws IOException, ClassNotFoundException, InvalidMessageClassException {
+		if(message == null)
+			return null;
+		
 		Object rawobject = fromMessageBytes(message);
 		if(messageClass.isInstance(rawobject))
 			return (T) rawobject;
