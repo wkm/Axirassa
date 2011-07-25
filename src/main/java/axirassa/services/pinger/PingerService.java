@@ -43,7 +43,7 @@ public class PingerService implements Service {
 				new PingerServiceResponseThread(session, responseQueueProducer, pingResponseQueue);
 
 		PingerServiceRateMonitoringThread rateMonitoringThread = 
-				new PingerServiceRateMonitoringThread(throttlingQueueConsumer, pingRequestQueue);
+				new PingerServiceRateMonitoringThread(throttlingQueueConsumer, pingRequestQueue, pingResponseQueue);
 
 		new Thread(requestThread).start();
 		new Thread(responseThread).start();
