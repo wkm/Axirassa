@@ -4,6 +4,8 @@ package axirassa.util;
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 
+import org.apache.commons.lang.RandomStringUtils;
+
 /**
  * Lightweight singleton class for generating random strings of a given length;
  * powered by {@link SecureRandom}.
@@ -57,6 +59,7 @@ public class RandomStringGenerator {
 		return toStringFromAsciiBytes(buffer);
 	}
 
+
 	private String toStringFromAsciiBytes(byte[] bytes) {
 		try {
 			return new String(bytes, "ASCII");
@@ -66,27 +69,13 @@ public class RandomStringGenerator {
 		}
 	}
 
+
 	public byte randomNonZeroByte() {
 		return (byte) (random.nextInt(254) + 1);
 	}
 
 
 	public String randomStringToken(int length) {
-		byte[] buffer = new byte[length];
-		int index = 0;
-		while (index < length) {
-			long value = random.nextLong();
-
-			if (value < 0)
-				value = -value;
-
-			String str = Long.toString(value, 32);
-			byte[] byteString = str.getBytes();
-
-			for (int i = 0; i < byteString.length && index < length; i++, index++)
-				buffer[index] = byteString[i];
-		}
-
-		return new String(buffer);
+		return RandomStringUtils.randomAlphabetic(length);
 	}
 }
