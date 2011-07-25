@@ -18,7 +18,7 @@ public class TestBandwidthThreadAllocator {
 		assertEquals(5, alloc.getInitialThreads());
 		assertEquals(50000, alloc.getTargetRate());
 		
-		
+		alloc.setCurrentThreads(alloc.getInitialThreads());
 		alloc.addBandwidthMeasurement(1);
 		
 		assertEquals(500, alloc.getTargetThreadCount());
