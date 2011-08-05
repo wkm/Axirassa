@@ -39,7 +39,7 @@
     	
     	<queue name="Pinger.Throttling">
     		<address>Pinger.Throttling</address>
-    		<durable>true</durable>
+    		<durable>false</durable>
     	</queue>
     	
     	<!-- NOTIFICATION QUEUES; these are quite low traffic -->
