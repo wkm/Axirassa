@@ -71,4 +71,4 @@ public class XmlFixtureParser {
 		fixtures.put(name, content);
 	}
 
-};
+}
