@@ -96,7 +96,6 @@ class BandwidthRestlet extends Restlet {
 
 		long delay = System.currentTimeMillis() - startTick;
 		delay = time - delay + PingerTestServer.TIMING_ADJUSTMENT;
-		System.out.printf("EXTRA DELAY: %d   TIME: %d\n", delay, time);
 
 		if (delay > 0)
 			try {

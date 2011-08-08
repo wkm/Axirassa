@@ -20,9 +20,9 @@ import org.hornetq.api.core.client.ClientSession;
 import zanoccio.javakit.ListUtilities;
 import zanoccio.javakit.lambda.Function1;
 import axirassa.config.Messaging;
-import axirassa.messaging.AbstractPingerThrottlingMessage;
+import axirassa.messaging.AbstractPingerThrottleMessage;
 import axirassa.messaging.PingerDownThrottleMessage;
-import axirassa.messaging.PingerUpThrottlingMessage;
+import axirassa.messaging.PingerUpThrottleMessage;
 import axirassa.messaging.util.CommonBackoffStrategies;
 import axirassa.messaging.util.InfiniteLoopExceptionSurvivor;
 import axirassa.model.HttpStatisticsEntity;
@@ -52,8 +52,11 @@ public class PingerThrottlingService implements Service {
 		MessagingTopic pingerResponseTopic = new MessagingTopic(messaging, "ax.account.#");
 		ClientConsumer pingerResponseConsumer = pingerResponseTopic.createConsumer();
 
+		messaging.start();
+
 		Thread measurementThread = new Thread(new PingerBandwidthMeasurementPopulatorThread(pingerResponseConsumer,
-		        measurer));
+		        measurer), "pinger-measurement");
+
 		measurementThread.start();
 
 		ScheduledThreadPoolExecutor scheduledExecutor = new ScheduledThreadPoolExecutor(1);
@@ -93,30 +96,30 @@ class PingerThreadCountAdjusterThread implements Runnable {
 
 			printCurrentStatus(threadDelta);
 
-			for (AbstractPingerThrottlingMessage messageBody : createMessages(threadDelta)) {
-				System.out.println("\t"+messageBody);
-				ClientMessage message = messaging.createMessage(true);
+			for (AbstractPingerThrottleMessage messageBody : createMessages(threadDelta)) {
+				log.info(" posting message {}", messageBody);
+				ClientMessage message = messaging.createMessage(false);
 				message.getBodyBuffer().writeBytes(messageBody.toBytes());
 				throttlingProducer.send(message);
 			}
-			
+
 			bandwidthAllocator.applyThreadCountDelta(threadDelta);
 		} catch (HornetQException e) {
 			e.printStackTrace(System.err);
 		} catch (IOException e) {
 			e.printStackTrace(System.err);
 		} catch (BandwidthThreadAllocatorException e) {
-	        e.printStackTrace();
-        }
+			e.printStackTrace();
+		}
 	}
 
 
 	private PingerDownThrottleMessage downThrottleMessage = new PingerDownThrottleMessage();
-	private PingerUpThrottlingMessage upThrottlingMessage = new PingerUpThrottlingMessage();
+	private PingerUpThrottleMessage upThrottlingMessage = new PingerUpThrottleMessage();
 
 
-	private List<AbstractPingerThrottlingMessage> createMessages(int threadDelta) {
-		ArrayList<AbstractPingerThrottlingMessage> list = new ArrayList<AbstractPingerThrottlingMessage>(threadDelta);
+	private List<AbstractPingerThrottleMessage> createMessages(int threadDelta) {
+		ArrayList<AbstractPingerThrottleMessage> list = new ArrayList<AbstractPingerThrottleMessage>(threadDelta);
 
 		if (threadDelta == 0)
 			return Collections.EMPTY_LIST;
@@ -129,7 +132,7 @@ class PingerThreadCountAdjusterThread implements Runnable {
 
 
 	private void printCurrentStatus(int threadDelta) {
-		String msg = String.format("#### THREADS: %4d DELTA: %5d BANDWIDTH: %8d",
+		String msg = String.format("#### THREADS: %4d DELTA: %+5d BANDWIDTH: %8d",
 		                           bandwidthAllocator.getCurrentThreads(), threadDelta,
 		                           measurer.currentRate(1000, System.currentTimeMillis()));
 		log.info(msg);
@@ -164,6 +167,7 @@ class PingerBandwidthMeasurementPopulatorThread implements Runnable {
 			        @Override
 			        public Object call() throws Exception {
 				        ClientMessage message = consumer.receive();
+				        message.acknowledge();
 				        HttpStatisticsEntity statistic = MessagingTools.fromMessageBytes(HttpStatisticsEntity.class,
 				                                                                         message);
 

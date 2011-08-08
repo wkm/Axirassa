@@ -40,9 +40,11 @@ public class PingerServiceResponseThread implements Runnable {
 			        @Override
 			        public Object call() throws Exception {
 				        synchronized (responseQueue) {
-					        responseQueue.wait();
+					        while (responseQueue.isEmpty())
+						        responseQueue.wait();
 
 					        PingerServiceCoordinationMessage message = responseQueue.pollFirst();
+					        log.info("@@@@ PULLED MESSAGE FROM RESPONSE QUEUE: " + message);
 
 					        if (message == null)
 						        return null;
@@ -78,7 +80,7 @@ public class PingerServiceResponseThread implements Runnable {
 		ClientMessage responseMessage = messagingSession.createMessage(true);
 		responseMessage.getBodyBuffer().writeBytes(message.getStatistic().toBytes());
 
-		log.info("Sending response message");
+		log.info("SENDING PINGER RESPONSE");
 		messageProducer.send(responseMessage);
 		messageProducer.send(message.getStatistic().getBroadcastAddress(), responseMessage);
 

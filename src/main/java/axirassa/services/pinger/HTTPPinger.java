@@ -35,37 +35,37 @@ public class HttpPinger {
 	private HashMap<Class<? extends Trigger>, Trigger> triggers;
 
 
-	public HttpPinger () {
+	public HttpPinger() {
 		this(new InstrumentedHttpClient());
 	}
 
 
-	public HttpPinger (InstrumentedHttpClient client) {
+	public HttpPinger(InstrumentedHttpClient client) {
 		this.client = client;
 	}
 
 
-	public void resetTriggers () {
+	public void resetTriggers() {
 		triggers = new LinkedHashMap<Class<? extends Trigger>, Trigger>();
 	}
 
 
-	public void addTrigger (Trigger trigger) {
+	public void addTrigger(Trigger trigger) {
 		triggers.put(trigger.getClass(), trigger);
 	}
 
 
-	public Collection<Trigger> getTriggers () {
+	public Collection<Trigger> getTriggers() {
 		return triggers.values();
 	}
 
 
-	public <T> T getTrigger (Class<? extends T> classObject) {
+	public <T> T getTrigger(Class<? extends T> classObject) {
 		return (T) triggers.get(classObject);
 	}
 
 
-	public HttpStatisticsEntity ping(PingerEntity entity) { 
+	public HttpStatisticsEntity ping(PingerEntity entity) {
 
 		resetTriggers();
 
@@ -87,8 +87,9 @@ public class HttpPinger {
 			statistic.setResponseSize(client.getResponseContent().length());
 			statistic.setUncompressedSize(0);
 
-			System.out.printf("Latency: %5dms Response: %5dms Size: %9db Status: [%3d] URL: %s\n", statistic.getLatency(),
-			                  statistic.getResponseTime(), statistic.getResponseSize(), statistic.getStatusCode(), statistic.getPinger().getUrl());
+			System.out.printf("[%3d]  Latency: %5dms Response: %5dms Size: %9db URL: %s\n", statistic.getStatusCode(),
+			                  statistic.getLatency(), statistic.getResponseTime(), statistic.getResponseSize(),
+			                  statistic.getPinger().getUrl());
 
 			addTrigger(new StatusCodeTrigger(statistic.getStatusCode()));
 		} catch (HttpHostConnectException e) {
@@ -110,7 +111,7 @@ public class HttpPinger {
 	}
 
 
-	public static void main (String[] args) throws ClientProtocolException, IOException, AxirassaServiceException {
+	public static void main(String[] args) throws ClientProtocolException, IOException, AxirassaServiceException {
 		String url = "http://zanoccio.com/WhoIsAtThisFoo";
 		System.out.println("Pinger URL: " + url);
 

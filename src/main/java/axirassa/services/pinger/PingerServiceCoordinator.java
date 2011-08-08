@@ -28,4 +28,9 @@ public class PingerServiceCoordinator {
 		return queue.pollFirst();
 	}
 
+
+	synchronized public boolean isEmpty() {
+	    return (queue.size() == 0)	;
+    }
+
 }
