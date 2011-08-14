@@ -14,12 +14,15 @@ import org.hornetq.core.remoting.impl.netty.NettyConnectorFactory;
 import axirassa.services.exceptions.InvalidMessageClassException;
 
 public class MessagingTools {
-	public static ClientSession getEmbeddedSession() throws Exception {
+	public static ClientSessionFactory getSessionFactory() throws Exception {
 		TransportConfiguration configuration = new TransportConfiguration(NettyConnectorFactory.class.getName());
 		ServerLocator locator = HornetQClient.createServerLocatorWithoutHA(configuration);
-		ClientSessionFactory factory = locator.createSessionFactory();
-		ClientSession session = factory.createSession();
-		return session;
+		return locator.createSessionFactory();
+	}
+
+
+	public static ClientSession getEmbeddedSession() throws Exception {
+		return getSessionFactory().createSession();
 	}
 
 
@@ -33,13 +36,15 @@ public class MessagingTools {
 	public static Object fromMessageBytes(ClientMessage message) throws IOException, ClassNotFoundException {
 		return AutoSerializingObject.fromBytes(bodyBytes(message));
 	}
-	
-	public static <T> T fromMessageBytes(Class<? extends T> messageClass, ClientMessage message) throws IOException, ClassNotFoundException, InvalidMessageClassException {
-		if(message == null)
+
+
+	public static <T> T fromMessageBytes(Class<? extends T> messageClass, ClientMessage message) throws IOException,
+	        ClassNotFoundException, InvalidMessageClassException {
+		if (message == null)
 			return null;
-		
+
 		Object rawobject = fromMessageBytes(message);
-		if(messageClass.isInstance(rawobject))
+		if (messageClass.isInstance(rawobject))
 			return (T) rawobject;
 		else
 			throw new InvalidMessageClassException(messageClass, rawobject);

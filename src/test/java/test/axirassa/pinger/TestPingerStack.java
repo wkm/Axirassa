@@ -19,8 +19,8 @@ import axirassa.model.UserEntity;
 import axirassa.services.pinger.BandwidthMeasurer;
 import axirassa.services.pinger.BandwidthThreadAllocator;
 import axirassa.services.pinger.HttpPinger;
-import axirassa.services.pinger.PingerService;
 import axirassa.services.pinger.PingerThrottlingService;
+import axirassa.services.pinger_scala.ScalaPingerService;
 import axirassa.services.util.ServiceRunnableBridge;
 import axirassa.util.EmbeddedMessagingServer;
 import axirassa.util.MessagingTools;
@@ -43,19 +43,18 @@ public class TestPingerStack {
 		BandwidthMeasurer bandwidthMeasurer = new BandwidthMeasurer(60000);
 		ClientSession messaging = MessagingTools.getEmbeddedSession();
 
-		throttlingThread = new Thread(new ServiceRunnableBridge(new PingerThrottlingService(messaging,
-		        bandwidthMeasurer, threadAllocator)), "test-throttling");
-		throttlingThread.start();
-
-		pingerService1Thread = new Thread(new ServiceRunnableBridge(new PingerService(
-		        MessagingTools.getEmbeddedSession())), "test-pinger-service");
+		pingerService1Thread = new Thread(new ServiceRunnableBridge(new ScalaPingerService()), "test-pinger-service");
 		pingerService1Thread.start();
+		
+		throttlingThread = new Thread(new ServiceRunnableBridge(new PingerThrottlingService(messaging,
+		                                                                    		        bandwidthMeasurer, threadAllocator)), "test-throttling");
+		                                                                    		throttlingThread.start();
 	}
 
 
 	@AfterClass
 	public static void stopTestServer() throws Exception {
-		server.stop(); 
+		server.stop();
 		throttlingThread.interrupt();
 
 		EmbeddedMessagingServer.stop();

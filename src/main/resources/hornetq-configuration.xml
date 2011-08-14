@@ -29,12 +29,12 @@
     	<!-- PINGER QUEUES: these are very high traffic -->
     	<queue name="Pinger.Request">
     		<address>Pinger.Request</address>
-    		<durable>true</durable>
+    		<durable>false</durable>
     	</queue>
     	
     	<queue name="Pinger.Response">
     		<address>Pinger.Response</address>
-    		<durable>true</durable>
+    		<durable>false</durable>
     	</queue>
     	
     	<queue name="Pinger.Throttling">

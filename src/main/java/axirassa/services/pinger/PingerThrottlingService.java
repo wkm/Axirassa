@@ -95,8 +95,13 @@ class PingerThreadCountAdjusterThread implements Runnable {
 			int threadDelta = bandwidthAllocator.getTargetThreadCountDelta();
 
 			printCurrentStatus(threadDelta);
+			log.info("Posting messages for thread delta");
+			log.info("\t delta: {}", -threadDelta);
 
-			for (AbstractPingerThrottleMessage messageBody : createMessages(threadDelta)) {
+			List<AbstractPingerThrottleMessage> messages = createMessages(threadDelta);
+			log.info("\t {}", messages);
+
+			for (AbstractPingerThrottleMessage messageBody : messages) {
 				log.info(" posting message {}", messageBody);
 				ClientMessage message = messaging.createMessage(false);
 				message.getBodyBuffer().writeBytes(messageBody.toBytes());
@@ -121,13 +126,17 @@ class PingerThreadCountAdjusterThread implements Runnable {
 	private List<AbstractPingerThrottleMessage> createMessages(int threadDelta) {
 		ArrayList<AbstractPingerThrottleMessage> list = new ArrayList<AbstractPingerThrottleMessage>(threadDelta);
 
+		log.info("#create messages {} delta: {}", threadDelta, -threadDelta);
 		if (threadDelta == 0)
 			return Collections.EMPTY_LIST;
 
-		if (threadDelta < 0)
+		if (threadDelta < 0) {
+			log.info(" threadDelta: {}, msg: {}", -threadDelta, downThrottleMessage);
 			return ListUtilities.padRight(list, -threadDelta, downThrottleMessage);
-		else
+		} else {
+			log.info(" threadDelta: {}, msg: {}", threadDelta, upThrottlingMessage);
 			return ListUtilities.padRight(list, threadDelta, upThrottlingMessage);
+		}
 	}
 
 
